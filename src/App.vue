@@ -60,7 +60,7 @@ export default {
       "Content-Type": "application/json",
       Accept: "application/json",
     });
-    fetch("./public/argonautDb.json", {
+    fetch("http://localhost:8080/argonaut.json", {
       headers: myHeaders
     })
       .then((res) => {
