@@ -15,10 +15,12 @@ PouchDB.plugin(pouchdbLiveFind)
 
 Vue.use(PouchVue, {
   pouch: PouchDB, 
-  defaultDB: 'argonautDb'
+  defaultDB: 'argonaut'
 });
 
-
+Vue.prototype.$settings= new PouchDB('settings');
+//Vue.prototype.$currentUser = ''
+//Vue.prototype.$currentNetwork = ''
 Vue.config.productionTip = false
 
 new Vue({

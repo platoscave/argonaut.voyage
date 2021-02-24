@@ -1,4 +1,3 @@
-/* eslint-disable vue/no-unused-components */
 <template>
   <div id="app">
     <div class="el-main">Main</div>
@@ -7,22 +6,25 @@
       <el-select
         class="left-align"
         size="mini"
-        v-model="network"
         placeholder="Select Network"
+        :value="currentNetwork"
+        @input="updateCurrentNetwork"
       >
         <el-option
           v-for="network in networks"
-          :key="network.value"
-          :label="network.label"
-          :value="network.value"
+          :key="network"
+          :label="network"
+          :value="network"
         >
         </el-option>
       </el-select>
+      <el-button @click="test">test</el-button>
       <el-select
         class="left-align"
         size="mini"
-        v-model="user"
         placeholder="Select User"
+        :value="user"
+        @input="updateCurrentUser"
       >
         <el-option
           v-for="user in users"
@@ -39,7 +41,13 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-debugger */
+/* eslint-disable no-unused-vars */
+/* eslint-disable vue/no-unused-components */
+
 import SettingsDlg from "./components/SettingsDlg.vue";
+import networks from "./config/networks.js";
 
 export default {
   name: "App",
@@ -49,28 +57,65 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      networks: Object.keys(networks),
       network: "sandbox",
-      networks: [],
-      user: "demouser1111",
-      users: [],
     };
   },
+  pouch: {
+    users: {
+      /*read user accounts from argonaut*/
+      //return {value: 'aaa', value: 'bbb'}
+    },
+    currentUser: function () {
+      return {
+        database: "settings",
+        selector: { _id: "currentUser" },
+        first: true,
+      };
+    },
+    currentNetwork: function () {
+      return {
+        database: "settings",
+        selector: { _id: "currentNetwork" },
+        first: true,
+      };
+    },
+  },
+  methods: {
+    updateCurrentNetwork(value) {
+      this.$settings.get("currentNetwork").then((doc) => {
+        doc.value = value;
+        return this.$settings.put(doc);
+      });
+    },
+    updateCurrentUser(value) {
+      this.$settings.get("currentUser").then((doc) => {
+        doc.value = value;
+        return this.$settings.put(doc);
+      });
+    },
+  },
   mounted: function () {
-    const myHeaders = new Headers({
+    /* const myHeaders = new Headers({
       "Content-Type": "application/json",
       Accept: "application/json",
-    });
-    fetch("http://localhost:8080/argonaut.json", {
-      headers: myHeaders
+    }); */
+    fetch("public/argonaut.json", {
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => {
+        console.log(res); // The json object is here
+
         return res.json();
       })
       .then((json) => {
         console.log(json); // The json object is here
+        this.$message({ message: "Data Loaded", type: "succes" });
       })
       .catch((err) => {
-        console.log(err);
+        this.$message({ showClose: true, message: err, type: "error" });
       });
     //.then((data) => console.log(data));
     /* this.$pouch.bulkDocs([
