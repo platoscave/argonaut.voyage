@@ -1,41 +1,43 @@
 <template>
   <div v-if="tabs.length > 1">
     <el-tabs
-      v-model="pageSettings.selectedTab"
-      v-for="(tab, n) in tabs"
-      :key="n"
+      :value="pageSettings ? pageSettings.selectedTab : '0'"
+      @input="updateHashWithSelectedTab"
     >
-      <el-tab-pane :label="tab.name" :name="n">
-        <!-- This tab has widgets -->
-        <div v-if="tab.widgets">
-          <ar-widgets
+        <el-tab-pane v-for="(tab, tabNum) in tabs" :key="tabNum.toString()" :label="tab.name" :name="tabNum.toString()">
+          <!-- This tab has widgets -->
+          <div v-if="tab.widgets">
+            <!-- <ar-widgets
             :hash-level="hashLevel"
             :widgets="tab.widgets"
-          ></ar-widgets>
-        </div>
-        <!-- This tab has a sub-page -->
-        <div v-if="tab.pageId">
-          <ar-layout :hash-level="hashLevel + 1"></ar-layout>
-        </div>
-      </el-tab-pane>
+          ></ar-widgets> -->
+          </div>
+          <!-- This tab has a sub-page -->
+          <div v-if="tab.pageId">
+            <!-- <ar-layout :hash-level="hashLevel + 1"></ar-layout> -->
+          </div>
+        </el-tab-pane>
     </el-tabs>
   </div>
   <div v-else-if="tabs.length > 0">
     <!-- This tab has widgets -->
     <div v-if="tabs[0].widgets" class="full-height">
-      <ar-widgets
+      <!-- <ar-widgets
         :hash-level="hashLevel"
         :widgets="tabs[0].widgets"
-      ></ar-widgets>
+      ></ar-widgets> -->
     </div>
     <!-- This tab has a sub-page -->
     <div v-if="tabs[0].pageId">
-      <ar-layout :hash-level="hashLevel + 1"></ar-layout>
+      <!-- <ar-layout :hash-level="hashLevel + 1"></ar-layout> -->
     </div>
   </div>
 </template>
 
 <script>
+
+/* eslint-disable no-unused-vars */
+
 //must be declared globally
 // import EcLayout from "./Layout.vue";
 //import Widgets from "./Widgets.vue";
@@ -63,30 +65,47 @@ export default {
     },
   },
   methods: {
-    paneResizeStop(pane, resizer, size) {
+
+    // Insert tabNum into hash, for our hashLevel
+    updateHashWithSelectedTab(tabNum) {
+      let hashArr = window.location.hash.split("/");
+      let ourPageStateStr = hashArr[this.hashLevel +1];
+      let ourPageStateArr = ourPageStateStr.split(".");
+      if(tabNum === '0' && ourPageStateArr.length === 3) ourPageStateArr.splice(2, 1)
+      else ourPageStateArr[2] = tabNum
+      ourPageStateStr = ourPageStateArr.join('.')
+      hashArr[this.hashLevel +1] = ourPageStateStr
+      let hash  = hashArr.join('/')
+      window.location.hash = hash
+    },
+
+    handleHashChange() {
+      // If the hash provides a tabNum, use it to set pageSettings for this pageId in the settings db
+      // This will then be refected in the pageSettings object under pouch
+      const hash = window.location.hash.split("#/")[1];
+      const ourLevelArr = hash.split("/")[this.hashLevel];
+      let selectedTab = ourLevelArr.split(".")[2];
+      if(!selectedTab) selectedTab = '0'
+
+      // Set the selectedTab in pageSetting for this pageId in the settings db
       this.$settings
         .get(this.pageId)
         .catch((err) => {
           if (err.name === "not_found") {
-            return { _id: this.pageId, paneSize: size };
+            return { _id: this.pageId, selectedTab: selectedTab };
           } else
             this.$message({ showClose: true, message: err, type: "error" });
         })
         .then((doc) => {
-          doc.paneSize = size;
+          doc.selectedTab = selectedTab;
           return this.$settings.put(doc);
         })
         .catch((err) =>
           this.$message({ showClose: true, message: err, type: "error" })
         );
     },
-    handleHashChange: function () {
-      const hash = window.location.hash.split("#/")[1];
-      const ourLevelArr = hash.split("/")[this.hashLevel];
-      const levelStates = ourLevelArr.split(".");
-      this.pageId = levelStates[1];
-    },
   },
+
   mounted() {
     window.addEventListener("hashchange", this.handleHashChange, false);
     this.handleHashChange();
@@ -94,26 +113,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
-  computed: {
-    selectedTab: {
-      get() {
-        let pageStates = this.$store.state.pageStates[this.pageId];
-        if (pageStates && pageStates.selectedTab) return pageStates.selectedTab;
-        return 0;
-      },
-      set(value) {
-        this.$store.commit("SET_PAGE_STATE2", {
-          level: this.level,
-          pageId: this.pageId,
-          selectedTab: value,
-          nextLevel: {
-            pageId: this.tabs[value].pageId,
-          },
-        });
-      },
-    },
-  },
-  created: {},
 };
 </script>
 <style scoped>

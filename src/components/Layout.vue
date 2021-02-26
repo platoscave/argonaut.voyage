@@ -1,36 +1,39 @@
 <template>
-  <div
-    v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
-  >
-    <rs-panes
-      split-to="columns"
-      :allow-resize="true"
-      v-on:update:size="paneResizeStop"
-      :size="pageSettings ? pageSettings.paneSize : 300"
-      :min-size="40"
-      resizerColor="#2196f3"
+  <div v-if="pageObj">
+    <div
+      v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
     >
-      <!-- Master content -->
-      <div slot="firstPane">
-        <!-- <ar-page
-          v-bind:level="level"
-          v-bind:tabs="pageObj.tabs"
-          v-bind:pageId="pageObj.key"
-        ></ar-page> -->
-      </div>
-      <!-- Slave content -->
-      <div slot="secondPane" class="right">
-        <!-- <ar-layout v-bind:level="level + 1"></ar-layout> -->
-      </div>
-    </rs-panes>
-  </div>
-  <div v-else>
-    <!-- Single page content -->
-    <!-- <ar-page
-      v-bind:level="level"
-      v-bind:tabs="pageObj.tabs"
-      v-bind:pageId="pageObj.key"
-    ></ar-page> -->
+      <rs-panes
+        split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'"
+        :allow-resize="true"
+        v-on:update:size="paneResizeStop"
+        :size="pageSettings ? pageSettings.paneSize : 300"
+        :min-size="40"
+        resizerColor="#2196f3"
+      >
+        <!-- Master content -->
+        <div slot="firstPane">
+          <ar-page
+            v-bind:hash-level="hashLevel"
+            v-bind:tabs="pageObj.tabs"
+            v-bind:page-id="pageObj._id"
+          ></ar-page>
+        </div>
+
+        <!-- Slave content -->
+        <div slot="secondPane" class="right">
+          <!-- <ar-layout v-bind:level="level + 1"></ar-layout> -->
+        </div>
+      </rs-panes>
+    </div>
+    <div v-else>
+      <!-- Single page content -->
+      <ar-page
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+        v-bind:page-id="pageObj._id"
+      ></ar-page>
+    </div>
   </div>
 </template>
 
@@ -38,13 +41,13 @@
 /* eslint-disable no-unused-vars */
 
 //import Layout from './Layout.vue'
-//import Tabs from './Page.vue'
+import Page from "./Page.vue";
 import ResSplitPane from "vue-resize-split-pane";
 export default {
   name: "ar-layout",
   components: {
     //Layout,
-    //Page,
+    "ar-page": Page,
     "rs-panes": ResSplitPane,
   },
   props: {
