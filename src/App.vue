@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <div class="ar-parent">
-      <ar-layout class="ar-child" :hash-level="0"></ar-layout>
-    </div>
+
+    <ar-layout class="ar-main" :hash-level="0"></ar-layout>
+
     <div class="ar-footer">
-      <i class="el-icon-setting left-align" @click="dialogVisible = true"></i>
+      <i class="el-icon-setting ar-left-align" @click="dialogVisible = true"></i>
       <el-select
-        class="left-align"
+        class="ar-left-align"
         size="mini"
         placeholder="Select Network"
         :value="currentNetwork ? currentNetwork.value : ''"
@@ -20,10 +20,8 @@
         >
         </el-option>
       </el-select>
-      <el-button @click="test">test</el-button>
-      <!--  :value="currentUser.value" -->
       <el-select
-        class="left-align"
+        class="ar-left-align"
         size="mini"
         placeholder="Select User"
         :value="currentUser ? currentUser.value : ''"
@@ -37,9 +35,11 @@
         >
         </el-option>
       </el-select>
-      <div class="right-align">argonaut.one</div>
+      <div class="ar-right-align">argonaut.one</div>
     </div>
+
     <settings-dlg v-model="dialogVisible"> </settings-dlg>
+    
   </div>
 </template>
 
@@ -126,50 +126,6 @@ export default {
           this.$message({ showClose: true, message: err, type: "error" })
         );
     },
-    test: function () {
-      this.$databases.argonaut.put({
-        _id: "mbatzlqr1qsx",
-        docType: "object",
-        name: "Resources Page",
-        accordionOrTab: "Tabs",
-        classId: "pejdgrwd5qso",
-        divider: "None",
-        ownerId: "eoscommonsio",
-        tabs: [
-          {
-            name: "Details",
-            widgets: [
-              {
-                displayType: "Form",
-                name: "Details",
-                viewId: "mairnfr3iilv",
-              },
-            ],
-          },
-          {
-            name: "Teams",
-            pageId: "kmghbh3qovtq",
-          },
-          {
-            name: "Off Balance Sheet",
-            pageId: "1xiosn5ttuea",
-          },
-          {
-            name: "Balance Sheet",
-            widgets: [
-              {
-                displayType: "Balance Sheet",
-                name: "Balance Sheet",
-              },
-            ],
-          },
-          {
-            name: "Backlog",
-            pageId: "1us2bjzz2i3h",
-          },
-        ],
-      });
-    },
   },
   mounted: function () {
     // fill in default s
@@ -187,17 +143,17 @@ export default {
 body {
   margin: 0px;
 }
+.ar-full-height {
+  height: 100%;
+}
 </style>
 <style scoped>
-.ar-parent {
+.ar-main {
   height: calc(100vh - 40px);
   padding: 0px;
   overflow: auto;
   display: block;
   width: 100%;
-}
-.ar-child {
-  height: 100%;
 }
 .ar-footer {
   background: #ffffff08;
@@ -209,9 +165,9 @@ body {
 .el-select {
   width: 120px;
 }
-.left-align {
+.ar-left-align {
   float: left;
-  margin-right: 10px;
+  margin-left: 10px;
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -219,9 +175,9 @@ body {
   transform: translateY(-50%);
   line-height: 100%;
 }
-.right-align {
+.ar-right-align {
   float: right;
-  margin-left: 10px;
+  margin-right: 10px;
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);

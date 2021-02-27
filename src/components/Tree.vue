@@ -1,6 +1,5 @@
 <template>
-  <div class="tree">
-    Hello
+  <div>
   </div>
 </template>
 
@@ -14,7 +13,5 @@ export default {
 </script>
 
 <style scoped>
-.tree {
-  background-color: pink
-}
+
 </style>

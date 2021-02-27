@@ -6,30 +6,29 @@
     >
         <el-tab-pane v-for="(tab, tabNum) in tabs" :key="tabNum.toString()" :label="tab.name" :name="tabNum.toString()">
           <!-- This tab has widgets -->
-          <div v-if="tab.widgets">
+          <div class="ar-full-height" v-if="tab.widgets">
             <ar-widgets
-            class="ar-child"
             :hash-level="hashLevel"
             :widgets="tab.widgets"
           ></ar-widgets>
           </div>
           <!-- This tab has a sub-page -->
-          <div v-if="tab.pageId"> 
+          <div class="ar-full-height" v-if="tab.pageId"> 
             <ar-layout :hash-level="hashLevel + 1"></ar-layout>
           </div>
         </el-tab-pane>
     </el-tabs>
   </div>
-  <div v-else-if="tabs.length > 0">
+  <div class="ar-full-height" v-else-if="tabs.length > 0">
     <!-- This tab has widgets -->
-    <div v-if="tabs[0].widgets" class="full-height">
+    <div class="ar-full-height" v-if="tabs[0].widgets">
       <ar-widgets
         :hash-level="hashLevel"
         :widgets="tabs[0].widgets"
       ></ar-widgets>
     </div>
     <!-- This tab has a sub-page -->
-    <div v-if="tabs[0].pageId">
+    <div class="ar-full-height" v-if="tabs[0].pageId">
       <ar-layout :hash-level="hashLevel + 1"></ar-layout>
     </div>
   </div>
@@ -116,14 +115,26 @@ export default {
 };
 </script>
 <style scoped>
-.ar-parent {
-  height: calc(100vh - 40px);
+.el-tabs {
+  height: 100%
+}
+.el-tab-pane {
+  height: 100%
+}
+.ar-widgets {
+  height: 100%
+}
+.ar-layout{
+  height: 100%
+}
+.el-tabs >>> .el-tabs__header {
+  margin: 0px;
+}
+.el-tabs >>> .el-tabs__content {
+  height: calc(100% - 40px);
   padding: 0px;
   overflow: auto;
   display: block;
   width: 100%;
-}
-.ar-child {
-  height: 100%;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <div class="table">
-    Hello
+  <div>
   </div>
 </template>
 
@@ -14,7 +13,5 @@ export default {
 </script>
 
 <style scoped>
-.table {
-  background-color: pink
-}
+
 </style>

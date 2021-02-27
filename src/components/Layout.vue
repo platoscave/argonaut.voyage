@@ -1,6 +1,7 @@
 <template>
   <div v-if="pageObj">
     <div
+      class="ar-full-height"
       v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
     >
       <rs-panes
@@ -12,7 +13,7 @@
         resizerColor="#2196f3"
       >
         <!-- Master content -->
-        <div slot="firstPane">
+        <div class="ar-full-height" slot="firstPane">
           <ar-page
             v-bind:hash-level="hashLevel"
             v-bind:tabs="pageObj.tabs"
@@ -21,14 +22,15 @@
         </div>
 
         <!-- Slave content -->
-        <div slot="secondPane" class="right">
+        <div class="ar-full-height right" slot="secondPane">
           <ar-layout v-bind:level="level + 1"></ar-layout>
         </div>
       </rs-panes>
     </div>
-    <div v-else>
+    <div class="ar-full-height" v-else>
       <!-- Single page content -->
       <ar-page
+        class="ar-full-height"
         v-bind:hash-level="hashLevel"
         v-bind:tabs="pageObj.tabs"
         v-bind:page-id="pageObj._id"
@@ -71,7 +73,6 @@ export default {
     },
   },
   methods: {
-
     paneResizeStop(pane, resizer, size) {
       this.$settings
         .get(this.pageId)
@@ -91,8 +92,8 @@ export default {
     },
 
     handleHashChange: function () {
-      const ourLevelArr = window.location.hash.split("/")[this.hashLevel +1];
-      if(!ourLevelArr) return
+      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
+      if (!ourLevelArr) return;
       const levelStates = ourLevelArr.split(".");
       this.pageId = levelStates[1];
     },
@@ -107,6 +108,12 @@ export default {
 };
 </script>
 <style scoped>
+.ar-page {
+  height: 100%
+}
+.ar-layout{
+  height: 100%
+}
 .pane-rs {
   position: unset;
 }
