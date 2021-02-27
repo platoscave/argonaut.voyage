@@ -1,12 +1,12 @@
 <template>
-  <div class="hello">
+  <div class="tree">
     Hello
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'ar-tree',
   props: {
     hashLevel: Number
   }
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped>
-.hello {
+.tree {
   background-color: pink
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div class="el-main">
-      <ar-layout class="el-child" :hash-level="0"></ar-layout>
+    <div class="ar-parent">
+      <ar-layout class="ar-child" :hash-level="0"></ar-layout>
     </div>
-    <div class="el-footer">
+    <div class="ar-footer">
       <i class="el-icon-setting left-align" @click="dialogVisible = true"></i>
       <el-select
         class="left-align"
@@ -189,17 +189,17 @@ body {
 }
 </style>
 <style scoped>
-.el-main {
+.ar-parent {
   height: calc(100vh - 40px);
   padding: 0px;
   overflow: auto;
   display: block;
   width: 100%;
 }
-.el-child {
+.ar-child {
   height: 100%;
 }
-.el-footer {
+.ar-footer {
   background: #ffffff08;
   border-top-color: #00adff66;
   border-top-width: 1px;

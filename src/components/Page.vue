@@ -7,14 +7,15 @@
         <el-tab-pane v-for="(tab, tabNum) in tabs" :key="tabNum.toString()" :label="tab.name" :name="tabNum.toString()">
           <!-- This tab has widgets -->
           <div v-if="tab.widgets">
-            <!-- <ar-widgets
+            <ar-widgets
+            class="ar-child"
             :hash-level="hashLevel"
             :widgets="tab.widgets"
-          ></ar-widgets> -->
+          ></ar-widgets>
           </div>
           <!-- This tab has a sub-page -->
-          <div v-if="tab.pageId">
-            <!-- <ar-layout :hash-level="hashLevel + 1"></ar-layout> -->
+          <div v-if="tab.pageId"> 
+            <ar-layout :hash-level="hashLevel + 1"></ar-layout>
           </div>
         </el-tab-pane>
     </el-tabs>
@@ -22,14 +23,14 @@
   <div v-else-if="tabs.length > 0">
     <!-- This tab has widgets -->
     <div v-if="tabs[0].widgets" class="full-height">
-      <!-- <ar-widgets
+      <ar-widgets
         :hash-level="hashLevel"
         :widgets="tabs[0].widgets"
-      ></ar-widgets> -->
+      ></ar-widgets>
     </div>
     <!-- This tab has a sub-page -->
     <div v-if="tabs[0].pageId">
-      <!-- <ar-layout :hash-level="hashLevel + 1"></ar-layout> -->
+      <ar-layout :hash-level="hashLevel + 1"></ar-layout>
     </div>
   </div>
 </template>
@@ -37,15 +38,14 @@
 <script>
 
 /* eslint-disable no-unused-vars */
+/* eslint-disable vue/no-unused-components */
 
-//must be declared globally
-// import EcLayout from "./Layout.vue";
-//import Widgets from "./Widgets.vue";
+import Widgets from "./Widgets.js";
 
 export default {
   name: "ar-page",
   components: {
-    //Widgets
+    'ar-widgets': Widgets
   },
   props: {
     hashLevel: Number,
@@ -82,8 +82,8 @@ export default {
     handleHashChange() {
       // If the hash provides a tabNum, use it to set pageSettings for this pageId in the settings db
       // This will then be refected in the pageSettings object under pouch
-      const hash = window.location.hash.split("#/")[1];
-      const ourLevelArr = hash.split("/")[this.hashLevel];
+      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
+      if(!ourLevelArr) return
       let selectedTab = ourLevelArr.split(".")[2];
       if(!selectedTab) selectedTab = '0'
 
@@ -116,10 +116,14 @@ export default {
 };
 </script>
 <style scoped>
-/* >>> .v-window {
-  height: calc(100% - 48px);
+.ar-parent {
+  height: calc(100vh - 40px);
+  padding: 0px;
+  overflow: auto;
+  display: block;
+  width: 100%;
 }
->>> .v-window__container {
+.ar-child {
   height: 100%;
-} */
+}
 </style>

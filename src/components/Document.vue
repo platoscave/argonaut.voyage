@@ -1,12 +1,12 @@
 <template>
-  <div class="hello">
+  <div class="document">
     Hello
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'ar-document',
   props: {
     hashLevel: Number
   }
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped>
-.hello {
+.document {
   background-color: pink
 }
 </style>

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'ar-balance-sheet',
   props: {
     hashLevel: Number
   }

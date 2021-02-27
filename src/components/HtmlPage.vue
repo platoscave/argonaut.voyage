@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'ae-html-page',
   props: {
     hashLevel: Number
   }

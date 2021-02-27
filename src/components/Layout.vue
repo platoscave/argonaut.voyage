@@ -22,7 +22,7 @@
 
         <!-- Slave content -->
         <div slot="secondPane" class="right">
-          <!-- <ar-layout v-bind:level="level + 1"></ar-layout> -->
+          <ar-layout v-bind:level="level + 1"></ar-layout>
         </div>
       </rs-panes>
     </div>
@@ -39,15 +39,11 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-
-//import Layout from './Layout.vue'
-import Page from "./Page.vue";
 import ResSplitPane from "vue-resize-split-pane";
+
 export default {
   name: "ar-layout",
   components: {
-    //Layout,
-    "ar-page": Page,
     "rs-panes": ResSplitPane,
   },
   props: {
@@ -75,6 +71,7 @@ export default {
     },
   },
   methods: {
+
     paneResizeStop(pane, resizer, size) {
       this.$settings
         .get(this.pageId)
@@ -92,9 +89,10 @@ export default {
           this.$message({ showClose: true, message: err, type: "error" })
         );
     },
+
     handleHashChange: function () {
-      const hash = window.location.hash.split("#/")[1];
-      const ourLevelArr = hash.split("/")[this.hashLevel];
+      const ourLevelArr = window.location.hash.split("/")[this.hashLevel +1];
+      if(!ourLevelArr) return
       const levelStates = ourLevelArr.split(".");
       this.pageId = levelStates[1];
     },

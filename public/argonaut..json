@@ -1339,16 +1339,16 @@
                     "displayType": {
                       "default": "Form",
                       "enum": [
+                        "Balance Sheet",
+                        "Class Model",
                         "Document",
-                        "Tree",
-                        "Table",
-                        "3D Class Model",
-                        "Process Model",
                         "Form",
                         "HTML Page",
-                        "Balance Sheet",
-                        "Macro Economic Model",
-                        "Mind Palace"
+                        "Navigation Menu",
+                        "Page Editor",
+                        "Process Model",
+                        "Table",
+                        "Tree"
                       ],
                       "title": "Display Type",
                       "type": "string",

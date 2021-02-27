@@ -4,13 +4,19 @@
 import TiptapWrapper from './TiptapWrapper';
 
 export default {
-  name: 'json-schema-form',
+  name: 'ar-json-schema-form',
   components: {
     'tiptap-wrapper': TiptapWrapper
   },
   props: {
-    value: Object,
-    schema: Object,
+    value: {
+      type: Object,
+      default: {},
+    },
+    schema:  {
+      type: Object,
+      default: {},
+    },
     formReadOnly: false,
     omitEmptyFields: false,
   },

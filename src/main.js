@@ -9,6 +9,12 @@ import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
 
+// Defined galobaly due to their recusive nature
+import Layout from './components/Layout.vue';
+import Page from './components/Page.vue'
+Vue.component('ar-layout', Layout)
+Vue.component('ar-page', Page)
+
 Vue.use( ElementUI, { locale })
 PouchDB.plugin(pouchdbFind)
 PouchDB.plugin(pouchdbLiveFind)
