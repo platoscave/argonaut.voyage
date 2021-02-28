@@ -1,6 +1,7 @@
 {
   "name": "argonaut.one",
   "version": "0.1.0",
+  "proxy": "http://localhost:80",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -14,6 +15,7 @@
     "highlight.js": "^9.18.5",
     "pouch-vue": "^0.3.5",
     "pouchdb-browser": "^7.2.2",
+    "pouchdb-upsert": "^2.2.0",
     "tiptap": "^1.32.0",
     "tiptap-extensions": "^1.35.0",
     "vue": "^2.6.11",

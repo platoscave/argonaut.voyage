@@ -27,8 +27,9 @@
         </div>
       </rs-panes>
     </div>
+
+    <!-- Single page content -->
     <div class="ar-full-height" v-else>
-      <!-- Single page content -->
       <ar-page
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
@@ -73,22 +74,11 @@ export default {
     },
   },
   methods: {
-    paneResizeStop(pane, resizer, size) {
-      this.$settings
-        .get(this.pageId)
-        .catch((err) => {
-          if (err.name === "not_found") {
-            return { _id: this.pageId, paneSize: size };
-          } else
-            this.$message({ showClose: true, message: err, type: "error" });
-        })
-        .then((doc) => {
-          doc.paneSize = size;
-          return this.$settings.put(doc);
-        })
-        .catch((err) =>
-          this.$message({ showClose: true, message: err, type: "error" })
-        );
+
+    paneResizeStop(pane, resizer, paneSize) {
+      this.$settings.upsert(this.pageId, (doc) => {
+        return { paneSize: paneSize }
+      });
     },
 
     handleHashChange: function () {
@@ -98,6 +88,7 @@ export default {
       this.pageId = levelStates[1];
     },
   },
+
   mounted() {
     window.addEventListener("hashchange", this.handleHashChange, false);
     this.handleHashChange();

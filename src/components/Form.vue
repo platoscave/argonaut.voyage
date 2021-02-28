@@ -1,5 +1,5 @@
 <template>
-  <div v-if="dataObj && viewObj" class="hello">
+  <div v-if="dataObj && viewObj">
     <ar-json-schema-form
       ref="schemaForm"
       class="json-schema-form"
@@ -81,12 +81,9 @@ export default {
     onChange(newDataObj) {
       this.$refs["schemaForm"].validate().then(
         () => {
-          this.valid = true;
           this.$argonaut
-            .get(this.selectedObjId)
-            .then((doc) => {
-              doc = doc.assign( doc, newDataObj)
-              return this.$settings.put(doc);
+            .upsert(this.selectedObjId, doc => {
+              return doc.assign( doc, newDataObj)
             })
             .catch((err) =>
               this.$message({ showClose: true, message: err, type: "error" })
@@ -99,13 +96,14 @@ export default {
     },
 
     handleHashChange: function () {
-      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
-      if (!ourLevelArr) return;
-      const levelStates = ourLevelArr.split(".");
+      const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
+      if (!ourLevelStr) return;
+      const levelStates = ourLevelStr.split(".");
       this.selectedObjId = levelStates[0];
       this.pageId = levelStates[1];
     },
   },
+
   mounted() {
     window.addEventListener("hashchange", this.handleHashChange, false);
     this.handleHashChange();
@@ -117,7 +115,4 @@ export default {
 </script>
 
 <style scoped>
-.hello {
-  background-color: pink;
-}
 </style>

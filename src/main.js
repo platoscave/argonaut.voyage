@@ -8,6 +8,7 @@ import PouchVue from 'pouch-vue';
 import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
+import pouchdbUpsert from 'pouchdb-upsert'
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
@@ -18,15 +19,15 @@ Vue.component('ar-page', Page)
 Vue.use( ElementUI, { locale })
 PouchDB.plugin(pouchdbFind)
 PouchDB.plugin(pouchdbLiveFind)
+PouchDB.plugin(pouchdbUpsert)
 
 Vue.use(PouchVue, {
   pouch: PouchDB, 
-  defaultDB: 'argonaut'
+  defaultDB: 'argonaut',
+  //debug: '*'
 });
-
 Vue.prototype.$settings= new PouchDB('settings');
-//Vue.prototype.$currentUser = ''
-//Vue.prototype.$currentNetwork = ''
+
 Vue.config.productionTip = false
 
 new Vue({

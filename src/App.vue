@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-
     <ar-layout class="ar-main" :hash-level="0"></ar-layout>
 
     <div class="ar-footer">
-      <i class="el-icon-setting ar-left-align" @click="dialogVisible = true"></i>
+      <i
+        class="el-icon-setting ar-left-align"
+        @click="dialogVisible = true"
+      ></i>
       <el-select
         class="ar-left-align"
         size="mini"
@@ -39,7 +41,6 @@
     </div>
 
     <settings-dlg v-model="dialogVisible"> </settings-dlg>
-    
   </div>
 </template>
 
@@ -91,45 +92,30 @@ export default {
       };
     },
   },
+
   methods: {
     updateCurrentNetwork(value) {
-      this.$settings
-        .get("currentNetwork")
-        .catch((err) => {
-          if (err.name === "not_found") {
-            return { _id: "currentNetwork", value: value };
-          } else
-            this.$message({ showClose: true, message: err, type: "error" });
-        })
-        .then((doc) => {
-          doc.value = value;
-          return this.$settings.put(doc);
-        })
-        .catch((err) =>
-          this.$message({ showClose: true, message: err, type: "error" })
-        );
+      this.$settings.upsert("currentNetwork", (doc) => {
+        return { value: value };
+      });
     },
     updateCurrentUser(value) {
-      this.$settings
-        .get("currentUser")
-        .catch((err) => {
-          if (err.name === "not_found") {
-            return { _id: "currentUser", value: value };
-          } else
-            this.$message({ showClose: true, message: err, type: "error" });
-        })
-        .then((doc) => {
-          doc.value = value;
-          return this.$settings.put(doc);
-        })
-        .catch((err) =>
-          this.$message({ showClose: true, message: err, type: "error" })
-        );
+      this.$settings.upsert("currentUser", (doc) => {
+        return { value: value };
+      });
     },
   },
+
   mounted: function () {
-    // fill in default s
-    // network, user, home page
+    // fill in defaults for new users. Put will fail if record exsits
+    this.$settings
+      .put({ _id: "currentNetwork", value: "sandbox" })
+      .catch();// dont care if this fails
+    this.$settings
+      .put({ _id: "currentUser", value: "demouser1111" })
+      .catch();// dont care if this fails
+
+    if(!window.location.hash) window.location.hash = '#/.mbatzlqr1qsx.3'
   },
 };
 </script>
@@ -145,6 +131,10 @@ body {
 }
 .ar-full-height {
   height: 100%;
+}
+.el-message__content {
+  color: #eee !important;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 </style>
 <style scoped>
