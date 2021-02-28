@@ -30,14 +30,8 @@ export default {
         });
     },
     populateFromStatic() {
-      /* const myHeaders = new Headers({
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    }); */
       fetch("public/argonaut.json", { redirect: "error" })
         .then((res) => {
-          console.log(res); // The json object is here
-
           return res.json();
         })
         .then((json) => {

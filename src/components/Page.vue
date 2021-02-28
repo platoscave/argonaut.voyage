@@ -12,10 +12,10 @@
       >
         <!-- This tab has widgets -->
         <div class="ar-full-height" v-if="tab.widgets">
-          <ar-widgets
+          <ar-widget-selector
             :hash-level="hashLevel"
             :widgets="tab.widgets"
-          ></ar-widgets>
+          ></ar-widget-selector>
         </div>
 
         <!-- This tab has a sub-page -->
@@ -29,10 +29,10 @@
   <div class="ar-full-height" v-else-if="tabs.length === 0">
     <!-- This tab has widgets -->
     <div class="ar-full-height" v-if="tabs[0].widgets">
-      <ar-widgets
+      <ar-widget-selector
         :hash-level="hashLevel"
         :widgets="tabs[0].widgets"
-      ></ar-widgets>
+      ></ar-widget-selector>
     </div>
 
     <!-- This tab has a sub-page -->
@@ -46,12 +46,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable vue/no-unused-components */
 
-import Widgets from "./Widgets.js";
+import WidgetSelector from "./WidgetSelector.js";
 
 export default {
   name: "ar-page",
   components: {
-    "ar-widgets": Widgets,
+    "ar-widget-selector": WidgetSelector,
   },
   props: {
     hashLevel: Number,
@@ -117,7 +117,7 @@ export default {
 .el-tab-pane {
   height: 100%;
 }
-.ar-widgets {
+.ar-widget-selector {
   height: 100%;
 }
 .ar-layout {
