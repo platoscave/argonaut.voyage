@@ -110,10 +110,10 @@ export default {
     // fill in defaults for new users. Put will fail if record exsits
     this.$settings
       .put({ _id: "currentNetwork", value: "sandbox" })
-      .catch();// dont care if this fails
+      .catch(()=>{});// dont care if this fails
     this.$settings
       .put({ _id: "currentUser", value: "demouser1111" })
-      .catch();// dont care if this fails
+      .catch(()=>{});// dont care if this fails
 
     if(!window.location.hash) window.location.hash = '#/.mbatzlqr1qsx.3'
   },

@@ -22,11 +22,14 @@
         <div class="ar-full-height" v-if="tab.pageId">
           <ar-layout :hash-level="hashLevel + 1"></ar-layout>
         </div>
+
       </el-tab-pane>
     </el-tabs>
   </div>
 
-  <div class="ar-full-height" v-else-if="tabs.length === 0">
+  <!-- No tabbar -->
+  <div class="ar-full-height" v-else-if="tabs.length === 1">
+
     <!-- This tab has widgets -->
     <div class="ar-full-height" v-if="tabs[0].widgets">
       <ar-widget-selector
@@ -39,6 +42,7 @@
     <div class="ar-full-height" v-if="tabs[0].pageId">
       <ar-layout :hash-level="hashLevel + 1"></ar-layout>
     </div>
+
   </div>
 </template>
 
@@ -53,6 +57,7 @@ export default {
   components: {
     "ar-widget-selector": WidgetSelector,
   },
+
   props: {
     hashLevel: Number,
     pageId: String,
@@ -61,6 +66,7 @@ export default {
       default: () => [],
     },
   },
+
   pouch: {
     pageSettings: function () {
       return {
@@ -70,23 +76,27 @@ export default {
       };
     },
   },
+
   methods: {
+
     // Insert tabNum into hash, for our hashLevel
     updateHashWithSelectedTab(tabNum) {
       let hashArr = window.location.hash.split("/");
       let ourPageStateStr = hashArr[this.hashLevel + 1];
       let ourPageStateArr = ourPageStateStr.split(".");
+      // if tabNum is '0' remove it of the hash
       if (tabNum === "0" && ourPageStateArr.length === 3)
         ourPageStateArr.splice(2, 1);
       else ourPageStateArr[2] = tabNum;
       ourPageStateStr = ourPageStateArr.join(".");
       hashArr[this.hashLevel + 1] = ourPageStateStr;
+      //TODO remove following levels, fill with defaults
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },
 
+    // If the hash provides a selectedTab, use it to set pageSettings for this pageId in the settings db
     handleHashChange() {
-      // If the hash provides a selectedTab, use it to set pageSettings for this pageId in the settings db
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
       let selectedTab = ourLevelStr.split(".")[2];
@@ -108,11 +118,13 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
+
 };
 </script>
 <style scoped>
 .el-tabs {
   height: 100%;
+  padding-left: 10px;
 }
 .el-tab-pane {
   height: 100%;
@@ -124,7 +136,7 @@ export default {
   height: 100%;
 }
 .el-tabs >>> .el-tabs__header {
-  margin: 0px;
+  margin-bottom: 0px;
 }
 .el-tabs >>> .el-tabs__content {
   height: calc(100% - 40px);

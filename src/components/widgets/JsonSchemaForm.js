@@ -1,12 +1,12 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import TiptapWrapper from './TiptapWrapper';
+import Tiptap from './Tiptap';
 
 export default {
-  name: 'ar-json-schema-form',
+  name: 'ar-jsonschema-form',
   components: {
-    'tiptap-wrapper': TiptapWrapper
+    'tiptap': Tiptap
   },
   props: {
     value: {
@@ -313,7 +313,7 @@ export default {
         }
       }
 
-      return [createElement('tiptap-wrapper', elementProps)]
+      return [createElement('tiptap', elementProps)]
     },
 
     //
@@ -338,7 +338,7 @@ export default {
             const sub = controlData.slice(26) // remove data:image/svg+xml;base64,
             const svgMarkup = window.atob(sub)
 
-            elementsArr.push(createElement('tiptap-wrapper', {
+            elementsArr.push(createElement('tiptap', {
               props: {
                 value: '<pre><code>' + this.escapeHtml(svgMarkup) + '</code></pre>',
               },
@@ -372,7 +372,7 @@ export default {
     //
     createJsonElements(createElement, property, elementProps, controlData) {
 
-      return [createElement('tiptap-wrapper', {
+      return [createElement('tiptap', {
         props: {
           value: '<pre><code>' + this.escapeHtml(controlData) + '</code></pre>',
           readonly: (this.formReadOnly || property.readonly)

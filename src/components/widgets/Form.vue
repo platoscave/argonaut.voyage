@@ -1,6 +1,6 @@
 <template>
   <div v-if="dataObj && viewObj">
-    <ar-json-schema-form
+    <ar-jsonschema-form
       ref="schemaForm"
       class="json-schema-form"
       v-model="dataObj"
@@ -9,7 +9,7 @@
       :omit-empty-fields="omitEmptyFields"
       v-on:change="onChange"
     >
-    </ar-json-schema-form>
+    </ar-jsonschema-form>
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import JsonSchemaForm from './JsonSchemaForm';
 export default {
   name: "ar-form",  
   components: {
-    'ar-json-schema-form': JsonSchemaForm
+    'ar-jsonschema-form': JsonSchemaForm
   },
   props: {
     hashLevel: Number,
@@ -63,7 +63,7 @@ export default {
     viewObj: function () {
       return {
         database: "argonaut",
-        selector: { _id: this.pageObj ? this.viewId : null},
+        selector: { _id: this.viewId},
         first: true,
       };
     },
@@ -74,8 +74,8 @@ export default {
       this.$refs["schemaForm"].validate().then(
         () => {
           this.$argonaut
-            .upsert(this.selectedObjId, doc => {
-              return doc.assign( doc, newDataObj)
+            .upsert(this.selectedObjId, () => {
+              return newDataObj
             })
             .catch((err) =>
               this.$message({ showClose: true, message: err, type: "error" })
