@@ -13,6 +13,12 @@
 </template>
 
 <script>
+
+//import argo from '../../assets/argonaut.json'
+//import argo from './argonaut.js'
+//const argo = require("./argonaut.json")
+
+
 export default {
   name: "settings-dlg",
   props: {
@@ -30,7 +36,9 @@ export default {
         });
     },
     populateFromStatic() {
-      fetch("public/argonaut.json", { redirect: "error" })
+      // cat get fetch to work, webpack server 
+      /* const url = "/argonaut.json"
+      fetch(url)
         .then((res) => {
           return res.json();
         })
@@ -45,7 +53,7 @@ export default {
             type: "error",
             duration: 0,
           });
-        });
+        }); */
       //.then((data) => console.log(data));
       /* this.$pouch.bulkDocs([
       {
@@ -65,7 +73,7 @@ export default {
       },
     ]); */
     },
-  },
+  }
 };
 </script>
 

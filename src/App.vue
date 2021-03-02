@@ -50,6 +50,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable vue/no-unused-components */
 
+import argo from "./config/argonaut.js";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";

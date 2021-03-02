@@ -1,14 +1,6 @@
 /* eslint-disable no-unused-vars */
 //"use strict";
 
-//import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.117.1/build/three.module.js";
-//import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.117.1/examples/jsm/controls/OrbitControls.js";
-//import * as TWEEN  from "https://cdn.jsdelivr.net/npm/es6-tween";
-//import TWEEN from "https://cdn.jsdelivr.net/npm/tween@0.9.0/tween.min.js";
-//import { TWEEN } from "./tween.js/src/Tween.js";
-//import fontJson from 'https://cdn.jsdelivr.net/npm/three@0.117.1/examples/fonts/helvetiker_regular.typeface.json'
-// import fontJson from './fonts/helvetiker_regular.typeface.json' // This is ony allowed if your're working with a built app
-
 
 import TWEEN from '@tweenjs/tween.js'
 import * as THREE from 'three'
