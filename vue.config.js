@@ -1,7 +1,11 @@
 // Need this for relative paths in our build
 module.exports = {
   lintOnSave: 'warning',
-/*  publicPath: '/',
+/*  
+  devServer: {
+    proxy: 'http://localhost:8080'
+  }
+  publicPath: '/',
 
      devServer: {
       historyApiFallback: {

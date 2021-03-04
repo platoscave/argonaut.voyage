@@ -50,10 +50,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable vue/no-unused-components */
 
-import argo from "./config/argonaut.js";
+import argo from "./config/argonautstatic.js";
+import argo2 from "./src/assets/argonaut.json";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
+
+if(argo2) console.log(argo2)
 
 export default {
   name: "App",

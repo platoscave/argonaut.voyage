@@ -1,5 +1,4 @@
-module.exports = 
-  [
+[
     {
       "_id": "gzthjuyjca4s",
       "docType": "class",
@@ -4679,4 +4678,3 @@ module.exports =
       "ownerId": "eoscommonsio"
     }
   ]
-

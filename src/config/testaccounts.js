@@ -1,8 +1,8 @@
 module.exports = {
-    master: {
-      publicKey: 'EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV',
-      privateKey: '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'
-    },
+  master: {
+    publicKey: 'EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV',
+    privateKey: '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'
+  },
   eoscommonsio: {
     publicKey: 'EOS7BAiAoXoyPa1kSSqHoSQGipot2oV58Wa1SrbFrdrLKCqzuJLE3',
     privateKey: '5JRYrfHiLzSxvgRprmFWNYhJhWRVpD2jdpRatMb8i9LmfUnNFHn'

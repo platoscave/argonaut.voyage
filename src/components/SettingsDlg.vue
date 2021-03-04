@@ -13,16 +13,19 @@
 </template>
 
 <script>
-
 //import argo from '../../assets/argonaut.json'
 //import argo from './argonaut.js'
 //const argo = require("./argonaut.json")
-
 
 export default {
   name: "settings-dlg",
   props: {
     value: Boolean,
+  },
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
   },
   methods: {
     clearCache() {
@@ -36,8 +39,16 @@ export default {
         });
     },
     populateFromStatic() {
-      // cat get fetch to work, webpack server 
-      /* const url = "/argonaut.json"
+      function reqListener() {
+        console.log(this.responseText);
+      }
+
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", reqListener);
+      oReq.open("GET", "http://localhost:8080/argonaut.json");
+      oReq.send();
+      // cat get fetch to work, webpack server
+      /* const url = "http://localhost:8080/public/argonaut.json";
       fetch(url)
         .then((res) => {
           return res.json();
@@ -73,7 +84,7 @@ export default {
       },
     ]); */
     },
-  }
+  },
 };
 </script>
 
