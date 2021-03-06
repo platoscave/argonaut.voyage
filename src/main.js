@@ -9,6 +9,7 @@ import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
 import pouchdbUpsert from 'pouchdb-upsert'
+import vClickOutside from 'v-click-outside';
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
@@ -21,8 +22,11 @@ PouchDB.plugin(pouchdbFind)
 PouchDB.plugin(pouchdbLiveFind)
 PouchDB.plugin(pouchdbUpsert)
 
+Vue.use( vClickOutside )
+
+
 Vue.use(PouchVue, {
-  pouch: PouchDB, 
+  pouch: PouchDB,
   defaultDB: 'argonaut',
   //debug: '*'
 });

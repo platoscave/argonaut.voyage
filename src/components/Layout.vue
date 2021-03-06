@@ -1,11 +1,14 @@
 <template>
   <div v-if="pageObj">
+
+    <!-- Master - Detail content -->
     <div
       class="ar-full-height"
       v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
     >
+      <!-- split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'" -->
       <rs-panes
-        split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'"
+        split-to="columns"
         :allow-resize="true"
         v-on:update:size="paneResizeStop"
         :size="pageSettings ? pageSettings.paneSize : 300"
@@ -23,7 +26,7 @@
 
         <!-- Slave content -->
         <div class="ar-full-height right" slot="secondPane">
-          <ar-layout v-bind:level="level + 1"></ar-layout>
+          <ar-layout v-bind:hash-level="hashLevel + 1"></ar-layout>
         </div>
       </rs-panes>
     </div>
@@ -37,6 +40,7 @@
         v-bind:page-id="pageObj._id"
       ></ar-page>
     </div>
+
   </div>
 </template>
 
@@ -74,10 +78,10 @@ export default {
     },
   },
   methods: {
-
-    paneResizeStop(pane, resizer, paneSize) {
+    paneResizeStop(paneSize) {
       this.$settings.upsert(this.pageId, (doc) => {
-        return { paneSize: paneSize }
+        doc.paneSize = paneSize
+        return doc;
       });
     },
 
@@ -96,14 +100,23 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
+  watch: {
+    pageObj: {
+      handler: function (val, oldVal) {
+        console.log(this.pageId);
+        console.log("new: %s, old: %s", val, oldVal);
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 <style scoped>
 .ar-page {
-  height: 100%
+  height: 100%;
 }
-.ar-layout{
-  height: 100%
+.ar-layout {
+  height: 100%;
 }
 .pane-rs {
   position: unset;

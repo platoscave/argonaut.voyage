@@ -28,11 +28,8 @@ export default {
   },
   props: {
     hashLevel: Number,
-    widgets: {
-      type: Array,
-      default: () => []
-    },
-    viewId: String
+    pageId: String,
+    widgets: Array,
   },
 
 
@@ -45,7 +42,8 @@ export default {
         }, 
         props: { 
           'hash-level': this.hashLevel,
-          'view-id': this.viewId
+          'page-id': this.pageId,
+          'view-id': widget.viewId
         }}
 
       if (widget.displayType === 'Balance Sheet') {

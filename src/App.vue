@@ -11,7 +11,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select Network"
-        :value="currentNetwork ? currentNetwork.value : ''"
+        :value="appSettings ? appSettings.currentNetwork : ''"
         @input="updateCurrentNetwork"
       >
         <el-option
@@ -26,7 +26,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select User"
-        :value="currentUser ? currentUser.value : ''"
+        :value="appSettings ? appSettings.currentUser : ''"
         @input="updateCurrentUser"
       >
         <el-option
@@ -50,13 +50,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable vue/no-unused-components */
 
-import argo from "./config/argonautstatic.js";
-import argo2 from "./src/assets/argonaut.json";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
 
-if(argo2) console.log(argo2)
 
 export default {
   name: "App",
@@ -81,17 +78,10 @@ export default {
         sort: [{ name: "asc" }],
       };
     },
-    currentNetwork: function () {
+    appSettings: function () {
       return {
         database: "settings",
-        selector: { _id: "currentNetwork" },
-        first: true,
-      };
-    },
-    currentUser: function () {
-      return {
-        database: "settings",
-        selector: { _id: "currentUser" },
+        selector: { _id: "appSettings" },
         first: true,
       };
     },
@@ -99,13 +89,13 @@ export default {
 
   methods: {
     updateCurrentNetwork(value) {
-      this.$settings.upsert("currentNetwork", (doc) => {
-        return { value: value };
+      this.$settings.upsert("appSettings", (doc) => {
+        return { currentNetwork: value };
       });
     },
     updateCurrentUser(value) {
-      this.$settings.upsert("currentUser", (doc) => {
-        return { value: value };
+      this.$settings.upsert("appSettings", (doc) => {
+        return { currentUser: value };
       });
     },
   },
@@ -113,10 +103,7 @@ export default {
   mounted: function () {
     // fill in defaults for new users. Put will fail if record exsits
     this.$settings
-      .put({ _id: "currentNetwork", value: "sandbox" })
-      .catch(()=>{});// dont care if this fails
-    this.$settings
-      .put({ _id: "currentUser", value: "demouser1111" })
+      .put({ _id: "appSettings", currentNetwork: "sandbox", currentUser: "demouser1111"})
       .catch(()=>{});// dont care if this fails
 
     if(!window.location.hash) window.location.hash = '#/.mbatzlqr1qsx.3'

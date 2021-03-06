@@ -73,11 +73,9 @@ export default {
     onChange(newDataObj) {
       this.$refs["schemaForm"].validate().then(
         () => {
-          this.$argonaut
-            .upsert(this.selectedObjId, () => {
+          this.$argonaut.upsert(this.selectedObjId, () => {
               return newDataObj
-            })
-            .catch((err) =>
+            }).catch((err) =>
               this.$message({ showClose: true, message: err, type: "error" })
             );
         },
