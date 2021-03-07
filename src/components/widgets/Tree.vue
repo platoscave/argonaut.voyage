@@ -6,11 +6,12 @@
       lazy
       node-key="_id"
       :render-content="renderContent"
-      :default-expanded-keys="pageSettings.expandedNodes"
+      :default-expanded-keys="pageSettings ? pageSettings.expandedNodes : []"
+      @node-click="updateNextLevelHashSelectedObjId"
       @node-expand="handleNodeExpand"
       @node-collapse="handleNodeCollapse"
-      draggable
       @node-contextmenu="nodeContextmenu"
+      draggable
       @node-drag-start="handleDragStart"
       @node-drag-enter="handleDragEnter"
       @node-drag-leave="handleDragLeave"
@@ -36,14 +37,14 @@ export default {
   },
   props: {
     hashLevel: Number,
-    pageId: String,
     viewId: String,
   },
   data() {
     return {
       selectedObjId: null,
+      pageId: String,
       props: {
-        label: "name",
+        label: "label",
         children: "zones",
         isLeaf: "leaf",
       },
@@ -100,26 +101,28 @@ export default {
     },
 
     loadNode(node, resolve) {
+      // root level
       if (node.level === 0) {
+        // Get the queryObj associated with this view
         this.$pouch
-          .find({
-            selector: { _id: this.viewObj.subQueryIds },
-          })
+          .find({ selector: { _id: this.viewObj.queryId } })
           .then((results) => {
-            const query = results.docs[0];
-            this.$pouch.find(results.docs[0].queryObj).then((results2) => {
-              const resArr = results2.docs.map((entry) => {
+            const queryObj = results.docs[0];
+            // Execute the mongoQuery in the queryObj
+            this.$pouch.find(queryObj.mongoQuery).then((results2) => {
+              const resArr = results2.docs.map((item) => {
                 return {
-                  _id: entry._id,
-                  name: entry.title,
-                  subQueryIds: query.subQueryIds,
-                  icon: query.icon,
+                  _id: item._id,
+                  label: item.title ? item.title : item.name,
+                  subQueryIds: queryObj.subQueryIds,
+                  icon: queryObj.icon ? queryObj.icon : item.icon, // TODO if there is no icon, ask the object anscestor for an icon
+                  pageId: queryObj.pageId ? queryObj.pageId : item.pageId, // TODO if there is no pageId, ask the object/class (anscestor) for a pageId
                 };
               });
               resolve(resArr);
             });
             /* var liveFeed = this.$pouch
-              .liveFind(results.docs[0].queryObj)
+              .liveFind(results.docs[0].mongoQuery)
 
               // Called every time there is an update to the query
               .on("update", function (update, aggregate) {
@@ -147,21 +150,52 @@ export default {
 
         // Start our live query
       }
-      if (node.level > 1) return resolve([]);
+      if (node.level > 0) {
+        //return resolve([]);
+        let resArr = []
+        node.data.subQueryIds.forEach((queryId) => {
+          // Get the queryObj for this queryId
+          this.$pouch.find({ selector: { _id: queryId } }).then((results) => {
+            const queryObj = results.docs[0];
+            // Replace variables in the mongoQuery
+            let selector = queryObj.mongoQuery.selector;
+            for (var key in selector) {
+              let cond = selector[key];
+              if (cond === '$fk' ) selector[key] = node.data._id
+            }
+            delete queryObj.mongoQuery.sort // temp hack
+            // Execute the mongoQuery in the queryObj
+            this.$pouch.find(queryObj.mongoQuery).then((results2) => {
+              const queryResArr = results2.docs.map((item) => {
+                return {
+                  _id: item._id,
+                  label: item.title ? item.title : item.name,
+                  subQueryIds: queryObj.subQueryIds,
+                  //leaf: !queryObj.subQueryIds,
+                  icon: queryObj.icon ? queryObj.icon : item.icon, // TODO if there is no icon, ask the object anscestor for an icon
+                  pageId: queryObj.pageId ? queryObj.pageId : item.pageId, // TODO if there is no pageId, ask the object/class (anscestor) for a pageId
+                };
+              });
+              resArr = resArr.concat(queryResArr)
+              resolve(resArr);
+            });
+          });
+        });
 
-      setTimeout(() => {
-        const data = [
-          {
-            name: "leaf",
-            leaf: true,
-          },
-          {
-            name: "zone",
-          },
-        ];
+        /* setTimeout(() => {
+          const data = [
+            {
+              name: "leaf",
+              leaf: true,
+            },
+            {
+              name: "zone",
+            },
+          ];
 
-        resolve(data);
-      }, 1000);
+          resolve(data);
+        }, 1000); */
+      }
     },
 
     renderContent(createElement, { node, data, store }) {
@@ -217,11 +251,33 @@ export default {
       }
     },
 
+    // Insert selectObjId and pageId into next level hash
+    updateNextLevelHashSelectedObjId(nodeData) {
+      let hashArr = window.location.hash.split("/");
+      let nextPageStateStr = hashArr[this.hashLevel + 2];
+      if (!nextPageStateStr) nextPageStateStr = "";
+      let nextPageStateArr = nextPageStateStr.split(".");
+      nextPageStateArr[0] = nodeData._id;
+      if (nodeData.pageId && nextPageStateArr[1] !== nodeData.pageId) {
+        nextPageStateArr[1] = nodeData.pageId;
+        // Remove tab if there is one. Page find its own tab
+        nextPageStateArr.splice(2);
+        // Remove erveything that come after the next level as it no longer valid
+        hashArr.splice(this.hashLevel + 3);
+      }
+      nextPageStateStr = nextPageStateArr.join(".");
+      hashArr[this.hashLevel + 2] = nextPageStateStr;
+      //TODO remove following levels, fill with defaults
+      let hash = hashArr.join("/");
+      window.location.hash = hash;
+    },
+
     handleHashChange: function () {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
       const levelStates = ourLevelStr.split(".");
       this.selectedObjId = levelStates[0];
+      this.pageId = levelStates[1];
     },
   },
 
@@ -236,4 +292,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
