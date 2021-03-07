@@ -16,7 +16,6 @@
         <div class="ar-full-height" v-if="tab.widgets">
           <ar-widget-selector
             :hash-level="hashLevel"
-            :page-id="pageId"
             :widgets="tab.widgets"
           ></ar-widget-selector>
         </div>
@@ -37,7 +36,6 @@
     <div class="ar-full-height" v-if="tabs[0].widgets">
       <ar-widget-selector
         :hash-level="hashLevel"
-            :page-id="pageId"
         :widgets="tabs[0].widgets"
       ></ar-widget-selector>
     </div>
@@ -88,7 +86,7 @@ export default {
       let hashArr = window.location.hash.split("/");
       let ourPageStateStr = hashArr[this.hashLevel + 1];
       let ourPageStateArr = ourPageStateStr.split(".");
-      // if tabNum is '0' remove it from the hash
+      // if tabNum is '0' remove it from the hash for esthetic reasons
       if (tabNum === "0" && ourPageStateArr.length === 3)
         ourPageStateArr.splice(2, 1);
       else ourPageStateArr[2] = tabNum;

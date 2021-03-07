@@ -28,7 +28,6 @@ export default {
   },
   props: {
     hashLevel: Number,
-    pageId: String,
     widgets: Array,
   },
 
@@ -36,52 +35,52 @@ export default {
   render(createElement) {
 
     const selectCreateWidget = (widget) => {
-      const elementProps = { 
-        class: { 
-          'ar-full-height': this.widgets.length < 2 
-        }, 
-        props: { 
+      const elementProps = {
+        class: {
+          'ar-full-height': this.widgets.length < 2
+        },
+        props: {
           'hash-level': this.hashLevel,
-          'page-id': this.pageId,
           'view-id': widget.viewId
-        }}
+        }
+      }
 
       if (widget.displayType === 'Balance Sheet') {
-        return createElement('ar-balance-sheet', elementProps )
+        return createElement('ar-balance-sheet', elementProps)
       }
-      else if (widget.displayType === 'Class Model') {
-        return createElement('ar-class-model', elementProps )
+      else if (widget.displayType === '3D Class Model') {
+        return createElement('ar-class-model', elementProps)
       }
       else if (widget.displayType === 'Document') {
-        return createElement('ar-document', elementProps )
+        return createElement('ar-document', elementProps)
       }
       else if (widget.displayType === 'Form') {
-        return createElement('ar-form', elementProps )
+        return createElement('ar-form', elementProps)
       }
       else if (widget.displayType === 'HTML Page') {
-        return createElement('ar-tiptap', elementProps )
+        return createElement('ar-tiptap', elementProps)
       }
       else if (widget.displayType === 'Navigation Menu') {
-        return createElement('ar-naigation-menu', elementProps )
+        return createElement('ar-naigation-menu', elementProps)
       }
       else if (widget.displayType === 'Page Editor') {
-        return createElement('ar-page-editor', elementProps )
+        return createElement('ar-page-editor', elementProps)
       }
       else if (widget.displayType === 'Process Model') {
-        return createElement('ar-process-model', elementProps )
+        return createElement('ar-process-model', elementProps)
       }
       else if (widget.displayType === 'Table') {
-        return createElement('ar-table', elementProps )
+        return createElement('ar-table', elementProps)
       }
       else if (widget.displayType === 'Tree') {
-        return createElement('ar-tree', elementProps )
+        return createElement('ar-tree', elementProps)
       }
 
       else return createElement('div', 'Unknown widget type: ' + widget.displayType)
 
     }
 
-    return createElement('div', { class: 'ar-full-height' }, this.widgets.map(widget => selectCreateWidget(widget)))
+    return createElement('div', { class: 'ar-full-height', style: { overflow: 'auto' } }, this.widgets.map(widget => selectCreateWidget(widget)))
 
 
   }

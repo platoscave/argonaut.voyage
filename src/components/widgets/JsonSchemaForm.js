@@ -158,7 +158,7 @@ export default {
     }
 
     // Create the validation rules array
-    const createValidationRules = (property, propertyName, requiredArr) => {
+    const createValidationRules = (property, propertyName, requiredArr = []) => {
 
       // no rules for readonly
       if ((this.formReadOnly || property.readonly)) return []
@@ -225,7 +225,7 @@ export default {
     //   call generateControlElements
     // returns an array of form item elements
 
-    const generateSubform = (properties, requiredArr, dataObj) => {
+    const generateSubform = (properties, requiredArr, dataObj = {}) => {
       let formItemElements = []
 
       // For each of the properties

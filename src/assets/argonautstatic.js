@@ -2748,10 +2748,10 @@ module.exports = [
         ]
       },
       {
-        "name": "3D Class Model",
+        "name": "Class Model",
         "widgets": [
           {
-            "displayType": "3D Class Model",
+            "displayType": "Class Model",
             "name": "Class Model",
             "viewId": "vzhw2vpaflmw"
           }
@@ -3782,7 +3782,7 @@ module.exports = [
         "readOnly": false
       }
     },
-    "subQueryIds": "lg2seb3lyals",
+    "queryId": "lg2seb3lyals",
     "type": "object"
   },
   {
@@ -3861,7 +3861,7 @@ module.exports = [
     "name": "EC Resources Tree View",
     "classId": "pylvseoljret",
     "ownerId": "eoscommonsio",
-    "subQueryIds": "znn3osz1igvm",
+    "queryId": "znn3osz1igvm",
     "type": "object"
   },
   {
@@ -3908,7 +3908,7 @@ module.exports = [
         "readOnly": false
       }
     },
-    "subQueryIds": "tllcmvjazmz2",
+    "queryId": "tllcmvjazmz2",
     "type": "object"
   },
   {
@@ -4031,7 +4031,7 @@ module.exports = [
         "value": "$fk"
       }
     ],
-    "queryObj": {
+    "mongoQuery": {
       "selector": { "parentId": "$fk" },
       "fields": ["_id", "title"],
       "sort": ["title"]
@@ -4249,7 +4249,7 @@ module.exports = [
         "value": "gzthjuyjca4s"
       }
     ],
-    "queryObj": {
+    "mongoQuery": {
       "selector": { "_id": "gzthjuyjca4s" },
       "fields": ["_id", "title"]
     }
@@ -4310,7 +4310,7 @@ module.exports = [
         "value": "$fk"
       }
     ],
-    "queryObj": {
+    "mongoQuery": {
       "selector": { "classId": "$fk" },
       "fields": ["_id", "name"],
       "sort": ["name"]

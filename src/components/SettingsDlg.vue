@@ -85,6 +85,32 @@ export default {
         .catch((err) => {
           this.$message({ message: err, type: "error" });
         });
+
+      this.$pouch
+        .createIndex({
+          index: {
+            fields: ["name"],
+          },
+        })
+        .then(() => {
+          this.$message({ message: "Index Created: name", type: "succes" });
+        })
+        .catch((err) => {
+          this.$message({ message: err, type: "error" });
+        });
+
+      this.$pouch
+        .createIndex({
+          index: {
+            fields: ["title"],
+          },
+        })
+        .then(() => {
+          this.$message({ message: "Index Created: title", type: "succes" });
+        })
+        .catch((err) => {
+          this.$message({ message: err, type: "error" });
+        });
     },
   },
 };
