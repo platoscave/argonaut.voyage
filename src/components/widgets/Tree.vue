@@ -1,7 +1,7 @@
 <template>
   <div v-if="viewObj">
     <el-tree
-      :props="props"
+      :props="defaultProps"
       :load="loadNode"
       lazy
       node-key="_id"
@@ -43,14 +43,8 @@ export default {
     return {
       selectedObjId: null,
       pageId: String,
-      props: {
-        label: "label",
-        children: "zones",
-        isLeaf: "leaf",
-      },
       defaultProps: {
-        children: "children",
-        label: "label",
+        isLeaf: "isLeaf",
       },
     };
   },
@@ -108,15 +102,25 @@ export default {
           .find({ selector: { _id: this.viewObj.queryId } })
           .then((results) => {
             const queryObj = results.docs[0];
+            // Replace variables in the mongoQuery
+            let selector = queryObj.mongoQuery.selector;
+            for (var key in selector) {
+              let cond = selector[key];
+              if (cond === '$fk' ) selector[key] = this.selectedObjId
+            }
             // Execute the mongoQuery in the queryObj
             this.$pouch.find(queryObj.mongoQuery).then((results2) => {
               const resArr = results2.docs.map((item) => {
+                //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
                 return {
                   _id: item._id,
                   label: item.title ? item.title : item.name,
                   subQueryIds: queryObj.subQueryIds,
-                  icon: queryObj.icon ? queryObj.icon : item.icon, // TODO if there is no icon, ask the object anscestor for an icon
-                  pageId: queryObj.pageId ? queryObj.pageId : item.pageId, // TODO if there is no pageId, ask the object/class (anscestor) for a pageId
+                  isLeaf: !queryObj.subQueryIds,
+                  // If the query reteives an icon, use it. Otherwise use the query icon.
+                  // TODO if the query reteives an empty icon, ask the object anscestors for an icon
+                  icon: item.icon ? item.icon : queryObj.icon, 
+                  pageId: item.pageId ? item.pageId : queryObj.pageId, 
                 };
               });
               resolve(resArr);
@@ -163,17 +167,20 @@ export default {
               let cond = selector[key];
               if (cond === '$fk' ) selector[key] = node.data._id
             }
-            delete queryObj.mongoQuery.sort // temp hack
+            delete queryObj.mongoQuery.sort // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
             // Execute the mongoQuery in the queryObj
             this.$pouch.find(queryObj.mongoQuery).then((results2) => {
               const queryResArr = results2.docs.map((item) => {
+                //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
                 return {
                   _id: item._id,
                   label: item.title ? item.title : item.name,
                   subQueryIds: queryObj.subQueryIds,
-                  //leaf: !queryObj.subQueryIds,
-                  icon: queryObj.icon ? queryObj.icon : item.icon, // TODO if there is no icon, ask the object anscestor for an icon
-                  pageId: queryObj.pageId ? queryObj.pageId : item.pageId, // TODO if there is no pageId, ask the object/class (anscestor) for a pageId
+                  isLeaf: !queryObj.subQueryIds,
+                  // If the query reteives an icon, use it. Otherwise use the query icon.
+                  // TODO if the query reteives an empty icon, ask the object anscestors for an icon
+                  icon: item.icon ? item.icon : queryObj.icon, 
+                  pageId: item.pageId ? item.pageId : queryObj.pageId, 
                 };
               });
               resArr = resArr.concat(queryResArr)
@@ -182,19 +189,6 @@ export default {
           });
         });
 
-        /* setTimeout(() => {
-          const data = [
-            {
-              name: "leaf",
-              leaf: true,
-            },
-            {
-              name: "zone",
-            },
-          ];
-
-          resolve(data);
-        }, 1000); */
       }
     },
 
@@ -275,9 +269,9 @@ export default {
     handleHashChange: function () {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
-      const levelStates = ourLevelStr.split(".");
-      this.selectedObjId = levelStates[0];
-      this.pageId = levelStates[1];
+      const ourLeveArr = ourLevelStr.split(".");
+      this.selectedObjId = ourLeveArr[0];
+      this.pageId = ourLeveArr[1];
     },
   },
 

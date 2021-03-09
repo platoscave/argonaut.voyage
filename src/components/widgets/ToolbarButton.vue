@@ -5,7 +5,7 @@
       type="button"
       class="menubar__button h-button"
       :class="{ 'is-active': this.isActive }"
-      @click="$emit('buttonClicked')"
+      @click="$emit('button-clicked')"
     >
       <svg class="icon bold">
         <use

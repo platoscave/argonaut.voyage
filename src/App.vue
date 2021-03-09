@@ -123,7 +123,7 @@ body {
 .ar-full-height {
   height: 100%;
 }
-.el-message__content {
+.Xel-message__content {
   color: #eee !important;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }

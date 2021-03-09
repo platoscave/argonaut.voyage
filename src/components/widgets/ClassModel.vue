@@ -1,36 +1,32 @@
 <template>
   <div>
-    <i class="el-icon-setting" style="float: right" @click="onOrbit"></i>
-    <div v-resize="onResize" v-on:click="onClick"></div>
+    <!-- orbit ? 'el-icon-video-pause' : 'el-icon-refresh' -->
+    <el-button class="fab" icon="el-icon-refresh" circle  @click="onOrbit"></el-button>
+    <div v-on:click="onClick"></div>
   </div>
 </template>
 
 <script>
-/* eslint-disable no-unused-vars */
 
 import * as THREE from 'three'
-import Scene from '../../lib/scene.js'
+//import * as THREE from 'three/build/three.module.js'
+import Scene from '../../lib/sceneMixin.js'
 import ClassObject3d from '../../lib/classObject3d.js'
 
 const WIDTH = 400
 const HEIGHT = 200
-//const DEPTH = 200
 
 export default {
-  name: "ar-class-model",
+  name: 'classModel',
   mixins: [Scene],
-  props: {
-    hashLevel: Number,
-    viewId: String,
-  },
-    data () {
+  data () {
     return {
       // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
       skyboxArray: ['milkyway/posx.jpg', 'milkyway/negx.jpg', 'milkyway/posy.jpg', 'milkyway/negy.jpg', 'milkyway/posz.jpg', 'milkyway/negz.jpg']
       // skyboxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']
     }
   },
-  mounted: async function () {
+  Xmounted: async function () {
     this.addLoadingText()
 
     // placeholderObj3d holds all of our 3d objects. Mostly used for lookup by key.
@@ -202,8 +198,18 @@ export default {
       })
     }
   }
-};
+}
 </script>
 
 <style scoped>
+    .fab {
+      margin: 10px;
+      float: right;
+          color: #eee;
+      background: #e91e63;
+    }
+    .no-overflow {
+        overflow: hidden;
+        height: 100%;
+    }
 </style>

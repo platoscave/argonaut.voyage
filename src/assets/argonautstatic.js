@@ -31,9 +31,7 @@ module.exports = [
       "description": {
         "placholder": "Add a description",
         "maxLength": 10000,
-        "media": {
-          "mediaType": "text/html"
-        },
+        "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Description",
         "type": "string",
@@ -275,7 +273,7 @@ module.exports = [
   {
     "_id": "ikjyhlqewxs3",
     "docType": "class",
-    "name": "Accounts",
+    "title": "Accounts",
     "parentId": "gzthjuyjca4s",
     "ownerId": "eoscommonsio",
     "properties": {
@@ -837,9 +835,7 @@ module.exports = [
       "how": {
         "placeholder": "<p>[How do you achive your goal?]</p>",
         "maxLength": 10000,
-        "media": {
-          "mediaType": "text/html"
-        },
+        "contentMediaType": "text/html",
         "minLength": 0,
         "title": "How",
         "type": "string",
@@ -848,9 +844,7 @@ module.exports = [
       "why": {
         "placeholder": "<p>[Vision]</p>",
         "maxLength": 10000,
-        "media": {
-          "mediaType": "text/html"
-        },
+        "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Why",
         "type": "string",
@@ -1292,9 +1286,7 @@ module.exports = [
             "description": {
               "placholder": "Add a description",
               "maxLength": 10000,
-              "media": {
-                "mediaType": "text/html"
-              },
+              "contentMediaType": "text/html",
               "title": "Description",
               "type": "string",
               "readOnly": true
@@ -1329,9 +1321,7 @@ module.exports = [
                   "description": {
                     "placholder": "Add a description",
                     "maxLength": 10000,
-                    "media": {
-                      "mediaType": "text/html"
-                    },
+                    "contentMediaType": "text/html",
                     "title": "Description",
                     "type": "string",
                     "readOnly": true
@@ -1491,9 +1481,7 @@ module.exports = [
           "title": "Description",
           "placholder": "Add a description",
           "maxLength": 10000,
-          "media": {
-            "mediaType": "text/html"
-          },
+          "contentMediaType": "text/html",
           "minLength": 0,
           "type": "string",
           "readOnly": true
@@ -1544,7 +1532,7 @@ module.exports = [
           "title": "Media",
           "type": "object",
           "properties": {
-            "mediaType": {
+            "contentMediaType": {
               "title": "Media Type",
               "enum": [
                 "text/html"
@@ -3418,9 +3406,7 @@ module.exports = [
       "description": {
         "placholder": "Add a description",
         "maxLength": 10000,
-        "media": {
-          "mediaType": "text/html"
-        },
+        "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Description",
         "type": "string",
@@ -3887,9 +3873,7 @@ module.exports = [
       "description": {
         "placholder": "Add a description",
         "maxLength": 100000,
-        "media": {
-          "mediaType": "text/html"
-        },
+        "contentMediaType": "text/html",
         "title": "Description",
         "type": "string",
         "readOnly": false
@@ -4294,15 +4278,8 @@ module.exports = [
     "name": "Object Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
-    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAABvSURBVDhPY/j//z9FeNiD/4pAjwIxyQCq0ecYAxgTbxCaRnSM2yACGtExqkEkaETHEEOGgQGDAgBzVTYQewKxGhBLALEIEDMBMSMSBvFVgVgXiEuBOBmmnQmImYGYEQmzQzEHFMPkQepBGMr+zwUAa2Uzpn+czq8AAAAASUVORK5CYII=",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "sortBy": "name",
-    "subQueryIds": [
-      "2vwvbhvflpp1",
-      "5fcag1lt11gj",
-      "itypb41mkq2v",
-      "ndpfqsf454tl",
-      "wxqc53yr1d2f"
-    ],
     "where": [
       {
         "docProp": "classId",

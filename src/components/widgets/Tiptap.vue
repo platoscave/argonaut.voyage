@@ -16,14 +16,14 @@
           <!-- <toolbar-button 
             popup-text="Undo" 
             icon-name="undo"
-            @buttonClicked="false" >
+            @button-clicked="false" >
           </toolbar-button> -->
 
           <!-- redo -->
           <!-- <toolbar-button 
             popup-text="Redo" 
             icon-name="redo"
-            @buttonClicked="commands.redo" >
+            @button-clicked="commands.redo" >
           </toolbar-button> -->
 
           <!-- bold -->
@@ -31,7 +31,7 @@
             popup-text="Bold" 
             icon-name="bold"
             :is-active="isActive.bold()"
-            @buttonClicked="commands.bold" >
+            @button-clicked="commands.bold" >
           </toolbar-button>
 
           <!-- italic -->
@@ -39,7 +39,7 @@
             popup-text="Italic" 
             icon-name="italic"
             :is-active="isActive.italic()"
-            @buttonClicked="commands.italic" >
+            @button-clicked="commands.italic" >
           </toolbar-button>
 
           <!-- strike -->
@@ -47,7 +47,7 @@
             popup-text="Strike Through" 
             icon-name="strike"
             :is-active="isActive.strike()"
-            @buttonClicked="commands.strike" >
+            @button-clicked="commands.strike" >
           </toolbar-button>
 
           <!-- underline -->
@@ -55,7 +55,7 @@
             popup-text="Underline" 
             icon-name="underline"
             :is-active="isActive.underline()"
-            @buttonClicked="commands.underline" >
+            @button-clicked="commands.underline" >
           </toolbar-button>
 
           <!-- code -->
@@ -63,7 +63,7 @@
             popup-text="Code" 
             icon-name="code"
             :is-active="isActive.code()"
-            @buttonClicked="commands.code" >
+            @button-clicked="commands.code" >
           </toolbar-button>
 
           <!-- paragraph -->
@@ -71,7 +71,7 @@
             popup-text="Add Paragraph" 
             icon-name="paragraph"
             :is-active="isActive.paragraph()"
-            @buttonClicked="commands.paragraph" >
+            @button-clicked="commands.paragraph" >
           </toolbar-button>
 
           <!-- header 1 -->
@@ -79,7 +79,7 @@
             popup-text="Header 1" 
             icon-name="h1"
             :is-active="isActive.heading({ level: 1 })"
-            @buttonClicked="commands.heading({ level: 1 })" >
+            @button-clicked="commands.heading({ level: 1 })" >
           </toolbar-button>
 
           <!-- header 2 -->
@@ -87,7 +87,7 @@
             popup-text="Header 2" 
             icon-name="h2"
             :is-active="isActive.heading({ level: 2 }) "
-            @buttonClicked="commands.heading({ level: 2 }) " >
+            @button-clicked="commands.heading({ level: 2 }) " >
           </toolbar-button>
 
           <!-- header 3 -->
@@ -95,7 +95,7 @@
             popup-text="Header 3" 
             icon-name="h3"
             :is-active="isActive.heading({ level: 3 })"
-            @buttonClicked="commands.heading({ level: 3 })" >
+            @button-clicked="commands.heading({ level: 3 })" >
           </toolbar-button>
 
           <!-- ul -->
@@ -103,7 +103,7 @@
             popup-text="Unordered List" 
             icon-name="ul"
             :is-active="isActive.bullet_list()"
-            @buttonClicked="commands.ul" >
+            @button-clicked="commands.ul" >
           </toolbar-button>
 
           <!-- ol -->
@@ -111,7 +111,7 @@
             popup-text="Ordered List" 
             icon-name="ol"
             :is-active="isActive.ordered_list() "
-            @buttonClicked="commands.ol" >
+            @button-clicked="commands.ol" >
           </toolbar-button>
 
           <!-- quote -->
@@ -119,7 +119,7 @@
             popup-text="Quote" 
             icon-name="quotes"
             :is-active="isActive.blockquote()"
-            @buttonClicked="commands.blockquote" >
+            @button-clicked="commands.blockquote" >
           </toolbar-button>
 
           <!-- link -->
@@ -128,7 +128,7 @@
             popup-text="Insert a Link" 
             icon-name="link"
             :is-active="isActive.link()"
-            @buttonClicked="commands.link" >
+            @button-clicked="commands.link" >
           </toolbar-button> -->
 
           <!-- image -->
@@ -136,7 +136,7 @@
             popup-text="Link to Image" 
             icon-name="image"
             :is-active="isActive.image()"
-            @buttonClicked="commands.image" >
+            @button-clicked="commands.image" >
           </toolbar-button>
 
           <!-- code_block -->
@@ -144,7 +144,7 @@
             popup-text="Code Block" 
             icon-name="code"
             :is-active="isActive.code()"
-            @buttonClicked="commands.code" >
+            @button-clicked="commands.code" >
           </toolbar-button>
 
           <!-- table -->
@@ -152,7 +152,7 @@
             popup-text="Add Table" 
             icon-name="table"
             :is-active="isActive.table()"
-            @buttonClicked="
+            @button-clicked="
                 commands.createTable({
                   rowsCount: 3,
                   colsCount: 3,
@@ -166,56 +166,56 @@
           <toolbar-button 
             popup-text="Delete Table" 
             icon-name="delete_table"
-            @buttonClicked="commands.deleteTable" >
+            @button-clicked="commands.deleteTable" >
           </toolbar-button>
 
             <!-- add_col_before -->
           <toolbar-button 
             popup-text="Add Column Before" 
             icon-name="add_col_before"
-            @buttonClicked="commands.addColumnBefore" >
+            @button-clicked="commands.addColumnBefore" >
           </toolbar-button>
 
             <!-- add_col_after -->
           <toolbar-button 
             popup-text="Add Column After" 
             icon-name="add_col_after"
-            @buttonClicked="commands.addColumnAfter" >
+            @button-clicked="commands.addColumnAfter" >
           </toolbar-button>
 
             <!-- delete_col-->
           <toolbar-button 
             popup-text="Delete Column" 
             icon-name="delete_col"
-            @buttonClicked="commands.deleteColumn" >
+            @button-clicked="commands.deleteColumn" >
           </toolbar-button>
 
             <!-- add_row_before-->
           <toolbar-button 
             popup-text="Add Row Before" 
             icon-name="add_row_before"
-            @buttonClicked="commands.addRowBefore" >
+            @button-clicked="commands.addRowBefore" >
           </toolbar-button>
 
             <!-- add_row_after-->
           <toolbar-button 
             popup-text="Add Row After" 
             icon-name="add_row_after"
-            @buttonClicked="commands.addRowAfter" >
+            @button-clicked="commands.addRowAfter" >
           </toolbar-button>
 
             <!-- delete_row-->
           <toolbar-button 
             popup-text="Delete Row" 
             icon-name="delete_row"
-            @buttonClicked="commands.deleteRow" >
+            @button-clicked="commands.deleteRow" >
           </toolbar-button>
 
             <!-- combine_cells-->
           <toolbar-button 
             popup-text="Combine Cells" 
             icon-name="combine_cells"
-            @buttonClicked="commands.toggleCellMerge" >
+            @button-clicked="commands.toggleCellMerge" >
           </toolbar-button>
 
           </span>

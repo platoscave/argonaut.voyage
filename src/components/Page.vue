@@ -62,11 +62,15 @@ export default {
 
   props: {
     hashLevel: Number,
-    pageId: String,
     tabs: {
       type: Array,
       default: () => [],
     },
+  },
+  data() {
+    return {
+      pageId: String
+    }
   },
 
   pouch: {
@@ -101,8 +105,11 @@ export default {
     handleHashChange() {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
-      let selectedTab = ourLevelStr.split(".")[2];
+      const ourLeveArr = ourLevelStr.split(".");
+      let selectedTab = ourLeveArr[2];
       if (!selectedTab) selectedTab = "0";
+      this.selectedObjId = ourLeveArr[0];
+      this.pageId = ourLeveArr[1];
 
       // Set the selectedTab in pageSetting for this pageId in the settings db
       // This will then be refected in the pageSettings object under pouch

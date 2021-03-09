@@ -11,6 +11,8 @@ import pouchdbLiveFind from 'pouchdb-live-find'
 import pouchdbUpsert from 'pouchdb-upsert'
 import vClickOutside from 'v-click-outside';
 
+//global.THREE = require('three')
+
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
 import Page from './components/Page.vue'

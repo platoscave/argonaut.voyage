@@ -20,7 +20,6 @@
           <ar-page
             v-bind:hash-level="hashLevel"
             v-bind:tabs="pageObj.tabs"
-            v-bind:page-id="pageObj._id"
           ></ar-page>
         </div>
 
@@ -37,7 +36,6 @@
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
         v-bind:tabs="pageObj.tabs"
-        v-bind:page-id="pageObj._id"
       ></ar-page>
     </div>
 

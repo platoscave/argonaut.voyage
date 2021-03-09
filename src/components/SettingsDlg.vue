@@ -106,7 +106,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: title", type: "succes" });
+          this.$message({ message: "Index Created: title", type: "succes", duration: 0});
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });

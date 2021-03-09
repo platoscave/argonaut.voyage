@@ -225,7 +225,7 @@ export default {
     //   call generateControlElements
     // returns an array of form item elements
 
-    const generateSubform = (properties, requiredArr, dataObj = {}) => {
+    const generateSubform = (properties, requiredArr, dataObj) => {
       let formItemElements = []
 
       // For each of the properties
@@ -410,7 +410,8 @@ export default {
         else if (property.enum.length === 1) {
 
           // display the value/label
-          this.$set(dataObj, propertyName, property.enum[0])
+          //TODO should we be setting the value to default if there is one only one?
+          //this.$set(dataObj, propertyName, property.enum[0])
           elementsArr.push(createElement('div', { class: 'control-background readonly-class' }, controlData ? controlData : ''))
 
         }

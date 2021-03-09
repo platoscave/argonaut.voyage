@@ -48,7 +48,7 @@ export default {
       if (widget.displayType === 'Balance Sheet') {
         return createElement('ar-balance-sheet', elementProps)
       }
-      else if (widget.displayType === '3D Class Model') {
+      else if (widget.displayType === 'Class Model') {
         return createElement('ar-class-model', elementProps)
       }
       else if (widget.displayType === 'Document') {
