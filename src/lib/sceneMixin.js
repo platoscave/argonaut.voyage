@@ -1,10 +1,32 @@
 import TWEEN from '@tweenjs/tween.js'
-import * as THREE from 'three';
-//import * as THREE from 'three/build/three.module.js'
+import { 
+  Font, 
+  Scene, 
+  Object3D, 
+  PerspectiveCamera, 
+  Vector3, 
+  DirectionalLight, 
+  AmbientLight, 
+  AxesHelper, 
+  Raycaster, 
+  TextureLoader, 
+  BoxGeometry, 
+  MeshBasicMaterial, 
+  BackSide, 
+  Mesh, 
+  MeshLambertMaterial, 
+  TextGeometry, 
+  Shape, 
+  Texture, 
+  PlaneGeometry, 
+  WebGLRenderer,
+  Vector2
+} from 'three';
+//import * as THREE from 'three/build/module.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import fontJson from '../assets/helvetiker_regular.typeface.json'
-const font = new THREE.Font(fontJson)
+const font = new Font(fontJson)
 
 let camera, controls, skyBox, glRenderer, cssRenderer, glScene, cssScene, axesHelper
 
@@ -12,7 +34,7 @@ export default {
 
   name: 'Scene',
   props: {
-    level: Number,
+    hashLevel: Number,
     viewId: String,
     width: {
       type: Number,
@@ -34,7 +56,7 @@ export default {
     }
   },
   methods: {
-    onOrbit(e) {
+    onOrbit() {
       this.orbit = !this.orbit
       controls.autoRotate = this.orbit
     },
@@ -44,6 +66,7 @@ export default {
       if (this.width === undefined || this.height === undefined) {
         // console.log('this.$el', this.$el)
         let rect = this.$el.getBoundingClientRect()
+        console.log(rect)
         camera.aspect = rect.width / rect.height
         camera.updateProjectionMatrix()
         glRenderer.setSize(rect.width, rect.height)
@@ -64,17 +87,17 @@ export default {
     },
     loadScene() {
       // world
-      glScene = new THREE.Scene()
-      this.glModelObject3D = new THREE.Object3D()
-      glScene.add(this.glModelObject3D) 
+      glScene = new Scene()
+      this.glModelObject3D = new Object3D()
+      glScene.add(this.glModelObject3D)
 
-      cssScene = new THREE.Scene();
-      this.cssModelObject3D = new THREE.Object3D()
-      cssScene.add(this.cssModelObject3D) 
+      cssScene = new Scene();
+      this.cssModelObject3D = new Object3D()
+      cssScene.add(this.cssModelObject3D)
 
 
       // camera
-      camera = new THREE.PerspectiveCamera(60, 3 / 2, 1, 100000)
+      camera = new PerspectiveCamera(60, 3 / 2, 1, 100000)
       camera.position.z = 4000
 
       // glRenderer
@@ -91,47 +114,46 @@ export default {
       controls.minPolarAngle = Math.PI / 4
       controls.maxPolarAngle = Math.PI / 1.5
       controls.screenSpacePanning = true;
-/*       controls.enableZoom = false
-
-      this.$el.addEventListener( 'wheel', evnet => {
-        event.preventDefault();
-        event.stopPropagation();
-        let moveCameraVec = new THREE.Vector3()
-        camera.getWorldDirection(moveCameraVec)
-        moveCameraVec.multiplyScalar ( event.deltaY > 0 ? 100 : -100)
-
-        var newCameraPos = camera.position.clone().add( moveCameraVec );
-        controls.object.position.set(newCameraPos.x, newCameraPos.y, newCameraPos.z)
-
-      }, false ); */
-     
+      /*       controls.enableZoom = false
+      
+            this.$el.addEventListener( 'wheel', evnet => {
+              event.preventDefault();
+              event.stopPropagation();
+              let moveCameraVec = new Vector3()
+              camera.getWorldDirection(moveCameraVec)
+              moveCameraVec.multiplyScalar ( event.deltaY > 0 ? 100 : -100)
+      
+              var newCameraPos = camera.position.clone().add( moveCameraVec );
+              controls.object.position.set(newCameraPos.x, newCameraPos.y, newCameraPos.z)
+      
+            }, false ); */
 
       // lights
-      let light1 = new THREE.DirectionalLight(0xffffff)
+      let light1 = new DirectionalLight(0xffffff)
       light1.position.set(-1, 1, 1).normalize()
       glScene.add(light1)
-      let light2 = new THREE.AmbientLight(0x404040)
+      let light2 = new AmbientLight(0x404040)
       glScene.add(light2)
 
       // axesHelper
-      axesHelper =new THREE.AxesHelper(100)
+      axesHelper = new AxesHelper(100)
       glScene.add(axesHelper)
 
       // raycaster
-      this.raycaster = new THREE.Raycaster()
+      this.raycaster = new Raycaster()
 
-      let loader = new THREE.TextureLoader();
-      // See https://stemkoski.github.io/Three.js/Skybox.html
+      let loader = new TextureLoader();
+      // See https://stemkoski.github.io/js/Skybox.html
       if (this.skyboxArray.length === 6) {
-        let skyGeometry = new THREE.CubeGeometry(50000, 50000, 50000)
+        let skyGeometry = new BoxGeometry(50000, 50000, 50000)
         let materialArray = []
         for (let i = 0; i < 6; i++) {
-          materialArray.push(new THREE.MeshBasicMaterial({
+          materialArray.push(new MeshBasicMaterial({
             map: loader.load(this.skyboxArray[i]),
-            side: THREE.BackSide
+            side: BackSide
           }))
         }
-        skyBox = new THREE.Mesh(skyGeometry, materialArray)
+        skyBox = new Mesh(skyGeometry, materialArray)
         glScene.add(skyBox)
       }
 
@@ -166,7 +188,7 @@ export default {
       let box = event.target.getBoundingClientRect()
       let x = (event.offsetX / box.width) * 2 - 1
       let y = -(event.offsetY / box.height) * 2 + 1
-      let mouse = new THREE.Vector2(x, y)
+      let mouse = new Vector2(x, y)
 
       // update the picking ray with the camera and mouse position
       this.raycaster.setFromCamera(mouse, camera)
@@ -175,7 +197,7 @@ export default {
         let selectedMesh = intersects[0].object
         // let normal = intersects[0].face.normal
         // console.log(normal)
-        // let normalMatrix = new THREE.Matrix3().getNormalMatrix(selectedMesh.matrixWorld)
+        // let normalMatrix = new Matrix3().getNormalMatrix(selectedMesh.matrixWorld)
         // console.log(normal.clone().applyMatrix3(normalMatrix).normalize())
         this.$store.commit('SET_PAGE_STATE2', {
           level: this.level,
@@ -184,16 +206,16 @@ export default {
       }
     },
     highlight(newVal, oldVal) {
-      if(!this.heighlight) return
+      if (!this.heighlight) return
       let currentlySelected = this.glModelObject3D.getObjectByProperty('key', oldVal)
       if (currentlySelected) {
         currentlySelected.children[0].material = currentlySelected.getMaterial()
-        currentlySelected.children[1].material = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
+        currentlySelected.children[1].material = new MeshLambertMaterial({ color: 0xEFEFEF })
       }
       let newlySelected = this.glModelObject3D.getObjectByProperty('key', newVal)
       if (newlySelected) {
-        newlySelected.children[0].material = new THREE.MeshLambertMaterial({ color: 0xEEEE00 })
-        newlySelected.children[1].material = new THREE.MeshLambertMaterial({ color: 0x666666 })
+        newlySelected.children[0].material = new MeshLambertMaterial({ color: 0xEEEE00 })
+        newlySelected.children[1].material = new MeshLambertMaterial({ color: 0x666666 })
       }
     },
     moveCameraToPos(key) {
@@ -202,7 +224,7 @@ export default {
       if (!glScene) return
       // console.log('selectedModelObj', selectedModelObj)
       glScene.updateMatrixWorld()
-      let newTargetPos = new THREE.Vector3()
+      let newTargetPos = new Vector3()
       newTargetPos.setFromMatrixPosition(selectedModelObj.matrixWorld)
 
       new TWEEN.Tween(controls.target).easing(TWEEN.Easing.Quadratic.Out).to(newTargetPos, 1500).start()
@@ -223,10 +245,10 @@ export default {
       cameraTween.start()
     },
     addLoadingText(text) {
-      let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
-      let text3d = new THREE.TextGeometry(text || 'Loading...', { size: 200, font: font })
+      let textMaterial = new MeshLambertMaterial({ color: 0xEFEFEF })
+      let text3d = new TextGeometry(text || 'Loading...', { size: 200, font: font })
       text3d.center()
-      let textMesh = new THREE.Mesh(text3d, textMaterial)
+      let textMesh = new Mesh(text3d, textMaterial)
       textMesh.name = 'Loading Message'
       textMesh.position.set(0, 400, 0)
       glScene.add(textMesh)
@@ -251,7 +273,7 @@ export default {
         ctx.quadraticCurveTo(x, y, x, y + radius)
       }
       // Rounded rectangle
-      let roundedRectShape = new THREE.Shape()
+      let roundedRectShape = new Shape()
       roundedRect(roundedRectShape, width, height, radius) // negative numbers not allowed
       return roundedRectShape
     },
@@ -320,15 +342,15 @@ export default {
         y += lineHeight;
       }
 
-      let texture = new THREE.Texture(canvas);
+      let texture = new Texture(canvas);
       texture.needsUpdate = true;
 
-      let material = new THREE.MeshBasicMaterial({
+      let material = new MeshBasicMaterial({
         map: texture,
         transparent: true
       });
-      return new THREE.Mesh(new THREE.PlaneGeometry(canvasWidth, canvasHeight, 10, 10), material);
-
+      return new Mesh(new PlaneGeometry(canvasWidth, canvasHeight, 10, 10), material);
+      
     },
     ///////////////////////////////////////////////////////////////////
     // Creates WebGL Renderer
@@ -336,7 +358,7 @@ export default {
     ///////////////////////////////////////////////////////////////////
     createGlRenderer: function () {
 
-      var glRenderer = new THREE.WebGLRenderer({ alpha: true });
+      var glRenderer = new WebGLRenderer({ alpha: true });
 
       glRenderer.setClearColor(0xECF8FF);
       glRenderer.setPixelRatio(window.devicePixelRatio);
@@ -345,7 +367,7 @@ export default {
       glRenderer.domElement.style.position = 'absolute';
       //glRenderer.domElement.style.zIndex = -1;
       glRenderer.domElement.style.top = 0;
-      glRenderer.domElement.style.pointerEvents	= 'none'
+      glRenderer.domElement.style.pointerEvents = 'none'
       glRenderer.domElement.setAttribute("name", "GLRENDERER");
 
       //window.addEventListener('mousemove', this.mouseMove, false);
@@ -372,23 +394,29 @@ export default {
 
 
       return cssRenderer;
-    }
+    },
+
+    handleHashChange: function () {
+      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
+      if (!ourLevelArr) return;
+      const levelStates = ourLevelArr.split(".");
+      let selectedObjId = levelStates[0]
+      //this.highlight(newVal, oldVal)
+      this.moveCameraToPos(selectedObjId)
+    },
   },
-  created() {
-    //TODO replace with handle hash chabge
-    /* this.$store.watch(state => state.levelIdsArr[this.level].selectedObjId, (newVal, oldVal) => {
-      console.log('selectedObjId Changed!', newVal, oldVal)
-      this.highlight(newVal, oldVal)
-      this.moveCameraToPos(newVal)
-    }, { immediate: false }) */
-  },
+
   mounted() {
     this.loadScene()
 
     window.addEventListener("hashchange", this.handleHashChange, false);
     this.handleHashChange();
+
+    window.addEventListener("resize", this.onResize);
+    this.onResize()
   },
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
+    window.removeEventListener("resize", this.onResize);
   },
 }

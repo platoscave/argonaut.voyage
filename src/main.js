@@ -9,9 +9,7 @@ import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
 import pouchdbUpsert from 'pouchdb-upsert'
-import vClickOutside from 'v-click-outside';
-
-//global.THREE = require('three')
+import vClickOutside from 'v-click-outside'; // needed for context menu
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';

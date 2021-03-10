@@ -91,6 +91,7 @@ pre {
 }
 .json-schema-form {
   max-width: 750px;
+  padding: 10px;
 }
 /* doesnt work */
 .highlight-code >>> code.hljs .json{

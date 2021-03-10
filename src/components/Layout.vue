@@ -98,15 +98,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
-  watch: {
-    pageObj: {
-      handler: function (val, oldVal) {
-        console.log(this.pageId);
-        console.log("new: %s, old: %s", val, oldVal);
-      },
-      immediate: true,
-    },
-  },
+
 };
 </script>
 <style scoped>
@@ -114,6 +106,9 @@ export default {
   height: 100%;
 }
 .ar-layout {
+  height: 100%;
+}
+.right >>> div {
   height: 100%;
 }
 .pane-rs {

@@ -2726,6 +2726,27 @@ module.exports = [
     "ownerId": "eoscommonsio",
     "tabs": [
       {
+        "name": "Class Model",
+        "widgets": [
+          {
+            "displayType": "Class Model",
+            "name": "Class Model",
+            "viewId": "vzhw2vpaflmw"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "24cnex2saye1",
+    "docType": "object",
+    "name": "Class Model Page",
+    "accordionOrTab": "Tabs",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "eoscommonsio",
+    "tabs": [
+      {
         "name": "Properties",
         "widgets": [
           {
@@ -2736,15 +2757,15 @@ module.exports = [
         ]
       },
       {
-        "name": "Class Model",
+        "name": "Raw",
         "widgets": [
           {
-            "displayType": "Class Model",
-            "name": "Class Model",
-            "viewId": "vzhw2vpaflmw"
+            "displayType": "Form",
+            "name": "Class Home Page",
+            "viewId": "5ucwmdby4wox"
           }
         ]
-      }
+      },
     ]
   },
   {
@@ -4007,14 +4028,6 @@ module.exports = [
       "x1lrv2xdq2tu"
     ],
     "pageId": "24cnex2sayeh",
-    "sortBy": "title",
-    "where": [
-      {
-        "docProp": "parentId",
-        "operator": "eq",
-        "value": "$fk"
-      }
-    ],
     "mongoQuery": {
       "selector": { "parentId": "$fk" },
       "fields": ["_id", "title"],
@@ -4045,14 +4058,11 @@ module.exports = [
     "name": "Account Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
-    "sortBy": "name",
-    "where": [
-      {
-        "docProp": "classId",
-        "operator": "eq",
-        "value": "$fk"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "classId": "$fk" },
+      "fields": ["_id", "name"],
+      "sort": ["name"]
+    }
   },
   {
     "_id": "5fcag1lt11gj",
@@ -4128,13 +4138,11 @@ module.exports = [
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
     "pageId": "tet4swafvc2k",
-    "where": [
-      {
-        "docProp": "classId",
-        "operator": "eq",
-        "value": "nlmgc3dmrwxs"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "classId": "nlmgc3dmrwxs" },
+      "fields": ["_id", "name"],
+      "sort": ["name"]
+    }
   },
   {
     "_id": "lg2seb3lyals",
@@ -4167,14 +4175,11 @@ module.exports = [
       "4gnvq2ctvtiw"
     ],
     "pageId": "24cnex2sayeh",
-    "sortBy": "title",
-    "where": [
-      {
-        "docProp": "parentId",
-        "operator": "eq",
-        "value": "$fk"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "parentId": "$fk" },
+      "fields": ["_id", "title"],
+      "sort": ["title"]
+    }
   },
   {
     "_id": "ndpfqsf454tl",
@@ -4204,13 +4209,10 @@ module.exports = [
     "subQueryIds": [
       "2vwvbhvflpp1"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "eq",
-        "value": "xqxkmto5njxi"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "xqxkmto5njxi" },
+      "fields": ["_id", "name", "description"]
+    }
   },
   {
     "_id": "tllcmvjazmz2",
@@ -4224,15 +4226,6 @@ module.exports = [
       "x1lrv2xdq2tu"
     ],
     "pageId": "24cnex2sayeh",
-    "queryName": "standardModel",
-    "select": "title",
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "eq",
-        "value": "gzthjuyjca4s"
-      }
-    ],
     "mongoQuery": {
       "selector": { "_id": "gzthjuyjca4s" },
       "fields": ["_id", "title"]
@@ -4279,14 +4272,6 @@ module.exports = [
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
-    "sortBy": "name",
-    "where": [
-      {
-        "docProp": "classId",
-        "operator": "eq",
-        "value": "$fk"
-      }
-    ],
     "mongoQuery": {
       "selector": { "classId": "$fk" },
       "fields": ["_id", "name"],

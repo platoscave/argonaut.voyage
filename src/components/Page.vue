@@ -1,5 +1,5 @@
 <template>
-
+<!-- <div v-if="pageSettings"> -->
   <!-- Tabbar -->
   <div v-if="tabs.length > 1">
     <el-tabs
@@ -28,6 +28,7 @@
       </el-tab-pane>
     </el-tabs>
   </div>
+  <!-- </div> -->
 
   <!-- No tabbar -->
   <div class="ar-full-height" v-else-if="tabs.length === 1">
@@ -127,13 +128,20 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
-
+  watch: {
+    pageSettings: {
+      handler: function (val, oldVal) {
+        //console.log(this.pageSettings);
+        console.log("new: %s, old: %s", val ? val.selectedTab : false , oldVal ? oldVal.selectedTab : false );
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 <style scoped>
 .el-tabs {
   height: 100%;
-  padding-left: 10px;
 }
 .el-tab-pane {
   height: 100%;
