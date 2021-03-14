@@ -119,6 +119,7 @@ export default {
 }
 body {
   margin: 0px;
+  overflow: hidden;
 }
 .ar-full-height {
   height: 100%;

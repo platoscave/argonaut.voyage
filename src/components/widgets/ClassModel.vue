@@ -1,12 +1,53 @@
 <template>
-  <div class="wapper">
-    <!-- orbit ? 'el-icon-video-pause' : 'el-icon-refresh' -->
-    <div modeldiv v-on:click="onClick"></div>
-    <ar-tree class="left" :hash-level="hashLevel" :view-id="viewId"> </ar-tree
-    ><!-- 
-    <ar-form class="right" :hash-level="hashLevel + 1" view-id="5ucwmdby4wox">
-    </ar-form> -->
-    <ar-layout class="right" :hash-level="hashLevel + 1"> </ar-layout>
+  <div>
+    <div class="drawer-left" v-bind:class="{ 'left-open': leftOpen }">
+      <ar-tree class="drawer-content" :hash-level="hashLevel" :view-id="viewId">
+      </ar-tree>
+      <div class="left-handle" @click="leftOpen = !leftOpen">
+        <svg height="40" width="40" viewBox="-20 0 40 40">
+          <circle cx="0" cy="20" r="50%" fill="#e91e63" />
+          <line
+            x1="2"
+            y1="10"
+            x2="15"
+            y2="20"
+            style="stroke: #eee; stroke-width: 2"
+          />
+          <line
+            x1="2"
+            y1="30"
+            x2="15"
+            y2="20"
+            style="stroke: #eee; stroke-width: 2"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <div class="drawer-right" v-bind:class="{ 'right-open': rightOpen }">
+      <ar-layout class="drawer-content" :hash-level="hashLevel + 1">
+      </ar-layout>
+      <div class="right-handle" @click="rightOpen = !rightOpen">
+        <svg height="40" width="40" viewBox="-20 0 40 40">
+          <circle cx="20" cy="20" r="20" fill="#e91e63" />
+          <line
+            x1="18"
+            y1="10"
+            x2="5"
+            y2="20"
+            style="stroke: #eee; stroke-width: 3"
+          />
+          <line
+            x1="18"
+            y1="30"
+            x2="5"
+            y2="20"
+            style="stroke: #eee; stroke-width: 3"
+          />
+        </svg>
+      </div>
+    </div>
+
     <el-button
       class="fab"
       icon="el-icon-refresh"
@@ -38,6 +79,8 @@ export default {
   mixins: [Scene],
   data() {
     return {
+      leftOpen: true,
+      rightOpen: false,
       // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
       skyboxArray: [
         "milkyway/posx.jpg",
@@ -248,39 +291,55 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
-  position: relative;
-}
-.left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: #232323ab;
+.drawer-left {
   z-index: 10;
+  position: absolute;
+  left: -450px;
+  min-width: 300px;
+  transition-property: left;
+  transition-duration: 1s;
+  max-height: calc(100% - 40px);
 }
-.left >>> .el-tree {
-  background: unset;
-  padding: 10px;
+.left-open {
+  left: 0px;
+}
+.drawer-right {
+  z-index: 10;
+  position: absolute;
+  right: -450px;
+  width: 450px;
+  min-height: 400px;
+  transition-property: right;
+  transition-duration: 1s;
+  max-height: calc(100% - 40px);
+}
+.right-open {
+  right: 0px;
+}
+.drawer-content {
+  background: #232323ab;
   border-radius: 10px;
   border-style: solid;
   border-width: 1px;
   border-color: #524f4f;
+  overflow: auto;
 }
-.right {
+.left-handle {
   position: absolute;
-  top: 0;
-  right: 0;
-  background: #232323ab;
+  top: calc(50% - 20px);
+  left: 100%;
   z-index: 10;
-  border-radius: 10px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #524f4f;
+}
+.right-handle {
+  position: absolute;
+  top: calc(50% - 20px);
+  right: 100%;
+  z-index: 10;
 }
 .fab {
   position: absolute;
   margin: 10px;
-  bottom: 0;
+  bottom: 40px;
   right: 0;
   color: #eee;
   background: #e91e63;

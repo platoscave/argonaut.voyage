@@ -114,6 +114,8 @@ export default {
       controls.minPolarAngle = Math.PI / 4
       controls.maxPolarAngle = Math.PI / 1.5
       controls.screenSpacePanning = true;
+      controls.enableDamping = true;
+
       /*       controls.enableZoom = false
       
             this.$el.addEventListener( 'wheel', evnet => {
@@ -358,7 +360,7 @@ export default {
     ///////////////////////////////////////////////////////////////////
     createGlRenderer: function () {
 
-      var glRenderer = new WebGLRenderer({ alpha: true });
+      var glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
 
       glRenderer.setClearColor(0xECF8FF);
       glRenderer.setPixelRatio(window.devicePixelRatio);
