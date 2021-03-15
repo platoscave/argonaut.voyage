@@ -54,7 +54,6 @@ import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
 
-
 export default {
   name: "App",
   components: {
@@ -103,10 +102,14 @@ export default {
   mounted: function () {
     // fill in defaults for new users. Put will fail if record exsits
     this.$settings
-      .put({ _id: "appSettings", currentNetwork: "sandbox", currentUser: "demouser1111"})
-      .catch(()=>{});// dont care if this fails
+      .put({
+        _id: "appSettings",
+        currentNetwork: "sandbox",
+        currentUser: "demouser1111",
+      })
+      .catch(() => {}); // dont care if this fails
 
-    if(!window.location.hash) window.location.hash = '#/.mbatzlqr1qsx.3'
+    if (!window.location.hash) window.location.hash = "#/.mbatzlqr1qsx.3";
   },
 };
 </script>
@@ -127,6 +130,30 @@ body {
 .Xel-message__content {
   color: #eee !important;
   font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+::-webkit-scrollbar-button {
+  background-color: #666;
+}
+::-webkit-scrollbar-track {
+  background-color: #646464;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #000;
+}
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background-color: #666;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #646464;
+}
+::-webkit-resizer {
+  background-color: #666;
 }
 </style>
 <style scoped>

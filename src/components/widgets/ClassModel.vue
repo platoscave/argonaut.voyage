@@ -62,7 +62,6 @@ import * as THREE from "three";
 import Scene from "../../lib/sceneMixin.js";
 import ClassObject3d from "../../lib/classObject3d.js";
 
-import Form from "./Form.vue";
 import Tree from "./Tree.vue";
 import Layout from "../Layout.vue";
 
@@ -72,7 +71,6 @@ const HEIGHT = 200;
 export default {
   name: "ar-class-model",
   components: {
-    "ar-form": Form,
     "ar-tree": Tree,
     "ar-layout": Layout,
   },
@@ -294,11 +292,10 @@ export default {
 .drawer-left {
   z-index: 10;
   position: absolute;
-  left: -450px;
+  left: -300px;
   min-width: 300px;
   transition-property: left;
   transition-duration: 1s;
-  max-height: calc(100% - 40px);
 }
 .left-open {
   left: 0px;
@@ -311,18 +308,18 @@ export default {
   min-height: 400px;
   transition-property: right;
   transition-duration: 1s;
-  max-height: calc(100% - 40px);
 }
 .right-open {
   right: 0px;
 }
 .drawer-content {
   background: #232323ab;
-  border-radius: 10px;
+  border-radius: 6px;
   border-style: solid;
   border-width: 1px;
   border-color: #524f4f;
   overflow: auto;
+  max-height: calc(100vh - 40px);
 }
 .left-handle {
   position: absolute;
@@ -344,5 +341,9 @@ export default {
   color: #eee;
   background: #e91e63;
   z-index: 20;
+}
+.drawer-content >>> .el-tree {
+  background: unset;
+  padding: 10px;
 }
 </style>
