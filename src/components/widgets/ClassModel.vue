@@ -1,25 +1,15 @@
 <template>
   <div>
+    
     <div class="drawer-left" v-bind:class="{ 'left-open': leftOpen }">
       <ar-tree class="drawer-content" :hash-level="hashLevel" :view-id="viewId">
       </ar-tree>
       <div class="left-handle" @click="leftOpen = !leftOpen">
-        <svg height="40" width="40" viewBox="-20 0 40 40">
-          <circle cx="0" cy="20" r="50%" fill="#e91e63" />
-          <line
-            x1="2"
-            y1="10"
-            x2="15"
-            y2="20"
-            style="stroke: #eee; stroke-width: 2"
-          />
-          <line
-            x1="2"
-            y1="30"
-            x2="15"
-            y2="20"
-            style="stroke: #eee; stroke-width: 2"
-          />
+        <svg class="handle-icon">
+          <use
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            :xlink:href="'toolbar-symbols.svg#handle-left'"
+          ></use>
         </svg>
       </div>
     </div>
@@ -28,22 +18,11 @@
       <ar-layout class="drawer-content" :hash-level="hashLevel + 1">
       </ar-layout>
       <div class="right-handle" @click="rightOpen = !rightOpen">
-        <svg height="40" width="40" viewBox="-20 0 40 40">
-          <circle cx="20" cy="20" r="20" fill="#e91e63" />
-          <line
-            x1="18"
-            y1="10"
-            x2="5"
-            y2="20"
-            style="stroke: #eee; stroke-width: 3"
-          />
-          <line
-            x1="18"
-            y1="30"
-            x2="5"
-            y2="20"
-            style="stroke: #eee; stroke-width: 3"
-          />
+        <svg class="handle-icon">
+          <use
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            :xlink:href="'toolbar-symbols.svg#handle-right'"
+          ></use>
         </svg>
       </div>
     </div>
@@ -341,6 +320,11 @@ export default {
   color: #eee;
   background: #e91e63;
   z-index: 20;
+}
+.handle-icon {
+  width: 20px;
+  height: 40px;
+  fill: #e91e63;
 }
 .drawer-content >>> .el-tree {
   background: unset;

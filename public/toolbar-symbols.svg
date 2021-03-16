@@ -60,6 +60,18 @@
       <text x="-3" y="20" font-size="22" font-weight="bold">H3</text>
     </symbol>
 
+    <symbol id="handle-left" viewBox="0 0 20 40">
+      <path d="M0,40 a1, 1 0 0, 0 0,-40" />
+      <line x1="6" y1="8" x2="6" y2="32" style="stroke: #eee; stroke-width: 2" />
+      <line x1="11" y1="11" x2="11" y2="29" style="stroke: #eee; stroke-width: 2" />
+    </symbol>
+
+    <symbol id="handle-right" viewBox="0 0 20 40">
+      <path d="M20,0 a1, 1 0 0, 0 0,40" />
+      <line x1="14" y1="8" x2="14" y2="32" style="stroke: #eee; stroke-width: 2" />
+      <line x1="9" y1="11" x2="9" y2="29" style="stroke: #eee; stroke-width: 2" />
+    </symbol>
+
     <symbol id="hr" viewBox="0 0 24 24">
       <path d="M5,13 C4.44771525,13 4,12.5522847 4,12 C4,11.4477153 4.44771525,11 5,11 L19,11 C19.5522847,11 20,11.4477153 20,12 C20,12.5522847 19.5522847,13 19,13 L5,13 Z"/>
     </symbol>

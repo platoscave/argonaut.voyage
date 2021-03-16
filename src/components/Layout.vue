@@ -1,7 +1,7 @@
 <template>
   <div v-if="pageObj">
 
-    <!-- Master - Detail content -->
+    <!-- Master - Slave content -->
     <div
       class="ar-full-height"
       v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"

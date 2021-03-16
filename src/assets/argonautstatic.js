@@ -2722,7 +2722,7 @@ module.exports = [
     "name": "Class Model Page",
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "divider": "Studion",
     "ownerId": "eoscommonsio",
     "tabs": [
       {
