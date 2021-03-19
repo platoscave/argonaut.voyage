@@ -2722,7 +2722,7 @@ module.exports = [
     "name": "Class Model Page",
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
-    "divider": "Studion",
+    "divider": "Studio",
     "ownerId": "eoscommonsio",
     "tabs": [
       {
@@ -2921,7 +2921,7 @@ module.exports = [
     "docType": "object",
     "name": "Standard Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Vertical",
+    "divider": "Studio",
     "ownerId": "eoscommonsio",
     "tabs": [
       {

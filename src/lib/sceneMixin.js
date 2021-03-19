@@ -66,7 +66,7 @@ export default {
       if (this.width === undefined || this.height === undefined) {
         // console.log('this.$el', this.$el)
         let rect = this.$el.getBoundingClientRect()
-        console.log(rect)
+        //console.log(rect)
         camera.aspect = rect.width / rect.height
         camera.updateProjectionMatrix()
         glRenderer.setSize(rect.width, rect.height)
@@ -280,80 +280,6 @@ export default {
       return roundedRectShape
     },
 
-    makeCanvasLabel: function (text, maxWidth, size, color, backgroundColor) {
-      let canvas = document.createElement("canvas");
-      let textCtx = canvas.getContext("2d");
-      let lineHeight = size + 10
-      textCtx.font = size + "pt Arial";
-
-      //http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
-      let words = text.split(' ');
-      let line = '';
-      let linesArr = []
-      let canvasHeight = lineHeight + 8 + 20 // add margins
-      let canvasWidth, curWidth
-      for (let n = 0; n < words.length; n++) {
-        let testLine = line + words[n] + ' ';
-        let metrics = textCtx.measureText(testLine);
-        let testWidth = metrics.width;
-        curWidth = testWidth
-        if (testWidth > maxWidth && n > 0) {
-          linesArr.push(line.trim())
-          line = words[n] + ' ';
-          canvasHeight += lineHeight;
-        }
-        else {
-          let width = textCtx.measureText(line.trim());
-          canvasWidth = width > curWidth ? width : curWidth
-          line = testLine;
-        }
-      }
-      linesArr.push(line.trim())
-      canvasWidth += 20 // add margins
-
-      textCtx.canvas.width = canvasWidth;
-      textCtx.canvas.height = canvasHeight;
-
-      // Create a rounded rect background if required
-      if (backgroundColor) {
-        let radius = 20
-        textCtx.fillStyle = backgroundColor;
-        textCtx.beginPath();
-        textCtx.moveTo(canvasWidth - radius, 0); // Create a starting point
-        textCtx.arcTo(canvasWidth, 0, canvasWidth, radius, radius);
-        textCtx.lineTo(canvasWidth, canvasHeight - radius);
-        textCtx.arcTo(canvasWidth, canvasHeight, canvasWidth - radius, canvasHeight, radius);
-        textCtx.lineTo(canvasWidth - radius, canvasHeight);
-        textCtx.arcTo(0, canvasHeight, 0, canvasHeight - radius, radius);
-        textCtx.lineTo(0, canvasHeight - radius);
-        textCtx.arcTo(0, 0, radius, 0, radius);
-        textCtx.closePath(); // Close it
-        textCtx.fillStyle = backgroundColor;
-        textCtx.fill() // Fill it
-        textCtx.strokeStyle = 'grey';
-        textCtx.lineWidth = 3;
-        textCtx.stroke();// Draw it
-      }
-
-      textCtx.font = size + "pt Arial";
-      textCtx.textAlign = "center"; // TODO left aligned
-      textCtx.fillStyle = color;
-      let y = lineHeight
-      for (let n = 0; n < linesArr.length; n++) {
-        textCtx.fillText(linesArr[n], textCtx.canvas.width / 2, y + 10);
-        y += lineHeight;
-      }
-
-      let texture = new Texture(canvas);
-      texture.needsUpdate = true;
-
-      let material = new MeshBasicMaterial({
-        map: texture,
-        transparent: true
-      });
-      return new Mesh(new PlaneGeometry(canvasWidth, canvasHeight, 10, 10), material);
-      
-    },
     ///////////////////////////////////////////////////////////////////
     // Creates WebGL Renderer
     //

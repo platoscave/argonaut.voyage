@@ -4,7 +4,7 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 //import 'element-ui/lib/theme-chalk/index.css'
 import 'element-theme-dark'
-import PouchVue from 'pouch-vue';
+import * as PouchVue from 'pouch-vue';
 import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
