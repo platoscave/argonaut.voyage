@@ -18,6 +18,7 @@ export default class ClassObject3d extends THREE.Object3D {
     this.name = queryResult.name ? queryResult.name : queryResult.title
     this.userData = queryResult
     let mesh = new THREE.Mesh(this.getGeometry(), this.getMaterial())
+    mesh.name = queryResult.title + ' - 3d mesh'
     this.add(mesh)
     let textPosition = this.position.clone()
     textPosition.setZ(textPosition.z + DEPTH / 2 + 10)
@@ -274,10 +275,10 @@ export default class ClassObject3d extends THREE.Object3D {
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
     let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+    geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
-    let buffgeom = new THREE.BufferGeometry()
-    buffgeom.fromGeometry(geometry)
-    return buffgeom
+    //let buffgeom = new THREE.BufferGeometry().fromGeometry(geometry);
+    return geometry
   }
   straightenPoints (points) {
     let newPoints = []
@@ -313,10 +314,15 @@ export default class ClassObject3d extends THREE.Object3D {
   addTextMesh (name, textPosition) {
     if(!name) name = 'unnamed'
     let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
-    let text3d = new THREE.TextGeometry(name, { size: 30, height: 1, font: font })
-    text3d.center()
-    let textMesh = new THREE.Mesh(text3d, textMaterial)
+    const shapes = font.generateShapes( name, 100 );
+    const geometry = new THREE.ShapeGeometry( shapes );
+    geometry.name = name + " - text geometry"
+    geometry.computeBoundingBox();
+    const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+    geometry.translate( xMid, 0, 0 );
+    let textMesh = new THREE.Mesh( geometry, textMaterial );
+    textMesh.name = name + ' - text mesh'
     textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
-    this.add(textMesh)
+    this.add( textMesh );
   }
 }
