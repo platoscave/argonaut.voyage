@@ -11,20 +11,21 @@ const DEPTH = 100
 const RADIUS = 50
 
 export default class ClassObject3d extends THREE.Object3D {
-  constructor (queryResult) {
+  constructor(userData) {
     super()
 
-    this.key = queryResult.key
-    this.name = queryResult.name ? queryResult.name : queryResult.title
-    this.userData = queryResult
+    this.key = userData._id
+    this.name = userData.label
+    this.userData = userData
     let mesh = new THREE.Mesh(this.getGeometry(), this.getMaterial())
-    mesh.name = queryResult.title + ' - 3d mesh'
+    mesh.name = userData.label + ' - 3d mesh'
     this.add(mesh)
     let textPosition = this.position.clone()
     textPosition.setZ(textPosition.z + DEPTH / 2 + 10)
     this.addTextMesh(this.name, textPosition)
+
   }
-  drawClassBeams () {
+  drawClassBeams() {
     if (this.subclassesObj3ds.length > 0) {
       let connectorMaterial = this.mapAssocNameToMaterial()
 
@@ -71,7 +72,7 @@ export default class ClassObject3d extends THREE.Object3D {
       })
     }
   }
-  drawClassAssocs (placeholderObj3d) {
+  drawClassAssocs(placeholderObj3d) {
     const getAssocs = (properties) => {
       let resultsArr = []
       Object.keys(properties).forEach(key => {
@@ -96,14 +97,14 @@ export default class ClassObject3d extends THREE.Object3D {
       else this.drawTubeTopSideToBottom(assocToObj3d, assoc.key)
     })
   }
-  drawObjectToClassBeam (length) {
+  drawObjectToClassBeam(length) {
     let fomPos = new THREE.Vector3(0, -HEIGHT / 4, 0)
     let toPos = fomPos.clone()
     toPos.setZ(length)
     let connectorMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
     this.add(this.drawBeam(fomPos, toPos, connectorMaterial))
   }
-  drawObjectAssocs (placeholderObj3d) {
+  drawObjectAssocs(placeholderObj3d) {
     const getAssocs = (properties) => {
       let resultsArr = []
       Object.keys(properties).forEach(key => {
@@ -129,7 +130,7 @@ export default class ClassObject3d extends THREE.Object3D {
       else this.drawTubeTopSideToBottom(assocToObj3d, assoc.name)
     })
   }
-  drawBeam (p1, p2, material, sceneObject3D, name) {
+  drawBeam(p1, p2, material, sceneObject3D, name) {
     // https://stackoverflow.com/questions/15139649/three-js-two-points-one-cylinder-align-issue/15160850#15160850
     let HALF_PI = Math.PI * 0.5
     let distance = p1.distanceTo(p2)
@@ -146,7 +147,7 @@ export default class ClassObject3d extends THREE.Object3D {
     mesh.position.set(position.x, position.y, position.z)
     return mesh
   }
-  drawTubeTopSideToBottom (toObj3d, name) {
+  drawTubeTopSideToBottom(toObj3d, name) {
     // translate toPosition to our local coordinates
     let toPosition = toObj3d.position.clone()
     toPosition.applyMatrix4(new THREE.Matrix4().getInverse(this.matrix))
@@ -227,23 +228,23 @@ export default class ClassObject3d extends THREE.Object3D {
 
     this.addTextMeshBetween(name, points[1], points[2])
   }
-  mapAssocNameToMaterial (name) {
+  mapAssocNameToMaterial(name) {
     let nameColor = classModelColors.nameColor[name]
     if (nameColor) return new THREE.MeshLambertMaterial({ color: nameColor.color })
     if (name) console.warn('Add color to classModelColors', name)
     return new THREE.MeshLambertMaterial({ color: 0xEFEFEF }) // grey, class connectors
   }
-  mapAssocNameToDepth (name) {
+  mapAssocNameToDepth(name) {
     let nameColor = classModelColors.nameColor[name]
     if (nameColor) return nameColor.depth
     return 0
   }
-  getMaterial () {
+  getMaterial() {
     let nameColor = classModelColors.nameColor[this.userData.docType]
     if (nameColor) return new THREE.MeshLambertMaterial({ color: nameColor.color })
     return new THREE.MeshLambertMaterial({ color: 0x00A300 }) // green
   }
-  getSidePos (side, pos) {
+  getSidePos(side, pos) {
     if (side === 'top') return new THREE.Vector3(pos.x, pos.y + HEIGHT / 2, pos.z)
     if (side === 'right') return new THREE.Vector3(pos.x + WIDTH / 2, pos.y, pos.z)
     if (side === 'bottom') return new THREE.Vector3(pos.x, pos.y - HEIGHT / 2, pos.z)
@@ -252,35 +253,33 @@ export default class ClassObject3d extends THREE.Object3D {
     if (side === 'back') return new THREE.Vector3(pos.x, pos.y, pos.z - DEPTH / 2)
     return pos
   }
-  getGeometry () {
-    const classHexagonal = (ctx, x, y, width, height, radius) => {
-      ctx.moveTo(x, y + height / 3)
-      ctx.moveTo(x, (y + height / 3) * 2)
-      ctx.moveTo(x + width / 2, y + height)
-      ctx.moveTo(x + width, (y + height / 3) * 2)
-      ctx.moveTo(x + width, y + height / 3)
-      ctx.moveTo(x + width / 2, y)
-    }
-    const objectPentagonal = (ctx, x, y, width, height, radius) => {
-      ctx.moveTo(x, y)
-      ctx.moveTo(x, y + height / 2)
-      ctx.moveTo(x + width / 2, y + height)
-      ctx.moveTo(x + width, y + height / 2)
-      ctx.moveTo(x + width, y)
-    }
+  getGeometry() {
+    const x = 0, y = 0
+
     let shape = new THREE.Shape()
-    if (this.userData.docType === 'class') classHexagonal(shape, 0, 0, WIDTH, HEIGHT, 20)
-    else objectPentagonal(shape, 0, 0, WIDTH, HEIGHT, 20)
+    if (this.userData.docType === 'class')
+      shape.moveTo(x, y + HEIGHT / 3)
+        .lineTo(x, (y + HEIGHT / 3) * 2)
+        .lineTo(x + WIDTH / 2, y + HEIGHT)
+        .lineTo(x + WIDTH, (y + HEIGHT / 3) * 2)
+        .lineTo(x + WIDTH, y + HEIGHT / 3)
+        .lineTo(x + WIDTH / 2, y)
+    else
+      shape.moveTo(x, y)
+        .lineTo(x, y + HEIGHT / 2)
+        .lineTo(x + WIDTH / 2, y + HEIGHT)
+        .lineTo(x + WIDTH, y + HEIGHT / 2)
+        .lineTo(x + WIDTH, y)
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
     let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
-    //let buffgeom = new THREE.BufferGeometry().fromGeometry(geometry);
+
     return geometry
   }
-  straightenPoints (points) {
+  straightenPoints(points) {
     let newPoints = []
     points.forEach((point, i) => {
       if (i === 0) newPoints.push(point)
@@ -303,26 +302,24 @@ export default class ClassObject3d extends THREE.Object3D {
     })
     return newPoints
   }
-  addTextMeshBetween (name, pointA, pointB) {
-    if(!name) name = 'unnamed'
+  addTextMeshBetween(name, pointA, pointB) {
+    if (!name) name = 'unnamed'
     let textPosition = new THREE.Vector3()
     textPosition.subVectors(pointB, pointA).divideScalar(2)
     textPosition.add(pointA)
     textPosition.setZ(textPosition.z + 20)
     this.addTextMesh(name, textPosition)
   }
-  addTextMesh (name, textPosition) {
-    if(!name) name = 'unnamed'
+  addTextMesh(name, textPosition) {
+    if (!name) name = 'unnamed'
     let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
-    const shapes = font.generateShapes( name, 100 );
-    const geometry = new THREE.ShapeGeometry( shapes );
+    const shapes = font.generateShapes(name, HEIGHT / 6);
+    const geometry = new THREE.ShapeGeometry(shapes);
     geometry.name = name + " - text geometry"
-    geometry.computeBoundingBox();
-    const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-    geometry.translate( xMid, 0, 0 );
-    let textMesh = new THREE.Mesh( geometry, textMaterial );
+    geometry.center()
+    let textMesh = new THREE.Mesh(geometry, textMaterial);
     textMesh.name = name + ' - text mesh'
     textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
-    this.add( textMesh );
+    this.add(textMesh);
   }
 }

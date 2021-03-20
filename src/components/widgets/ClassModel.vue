@@ -40,8 +40,8 @@ export default {
     };
   },
   methods: {
-    collectAndDrawClasses(placeholderObj3d, classObj) {
-      let rootClassObj3d = new ClassObject3d(classObj, this.font);
+    collectAndDrawClasses(placeholderObj3d, userData) {
+      let rootClassObj3d = new ClassObject3d(userData, this.font);
       placeholderObj3d.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
       return rootClassObj3d;
@@ -204,7 +204,6 @@ export default {
 
     // Get the root class from the store
     try {
-
       // Get the viewObj
       const viewObj = await this.$pouch.get(this.viewId);
       // Get the queryObj
@@ -215,17 +214,23 @@ export default {
         let cond = selector[key];
         if (cond === "$fk") selector[key] = this.selectedObjId;
       }
-            delete queryObj.mongoQuery.fields // temp hack: need to update the query
+      delete queryObj.mongoQuery.fields; // temp hack: need to update the query
       // Execute the mongoQuery
       const result = await this.$pouch.find(queryObj.mongoQuery);
-      let rootClass = result.docs[0]
-
+      let rootClass = result.docs[0];
+      let userData = {
+        _id: rootClass._id,
+        label: rootClass.title ? rootClass.title : rootClass.name,
+        subQueryIds: queryObj.subQueryIds,
+        pageId: rootClass.pageId ? rootClass.pageId : queryObj.pageId,
+        docType: rootClass.docType,
+      };
       // Tell the root class to draw itself, and each of it's subclasses, recursivily
       let rootClassObj3d = await this.collectAndDrawClasses(
         placeholderObj3d,
-        rootClass
+        userData
       );
-rootClassObj3d.subclassesObj3ds =[]
+      rootClassObj3d.subclassesObj3ds = [];
       // Position the classes
       let maxX = this.setPositionX(rootClassObj3d, 0);
       this.setPositionY(rootClassObj3d, 0);
@@ -239,14 +244,13 @@ rootClassObj3d.subclassesObj3ds =[]
       this.drawClassAssocs(placeholderObj3d, rootClassObj3d);
 
       // Tell the root class and each of it's subclasses to draw its objects, recursivily
-//      await this.collectAndDrawObjects(placeholderObj3d, rootClassObj3d);
+      //      await this.collectAndDrawObjects(placeholderObj3d, rootClassObj3d);
       placeholderObj3d.updateMatrixWorld(true);
 
       // TODO takes awhile. find a way to filter.
       this.drawObjectAssocs(placeholderObj3d, rootClassObj3d);
 
       this.removeLoadingText();
-
     } catch (err) {
       console.error(err);
       this.removeLoadingText();

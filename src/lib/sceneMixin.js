@@ -197,14 +197,7 @@ export default {
       let intersects = this.raycaster.intersectObjects(this.selectableMeshArr)
       if (intersects.length > 0) {
         let selectedMesh = intersects[0].object
-        // let normal = intersects[0].face.normal
-        // console.log(normal)
-        // let normalMatrix = new Matrix3().getNormalMatrix(selectedMesh.matrixWorld)
-        // console.log(normal.clone().applyMatrix3(normalMatrix).normalize())
-        this.$store.commit('SET_PAGE_STATE2', {
-          level: this.level,
-          selectedObjId: selectedMesh.parent.key
-        })
+        this.updateNextLevelHashSelectedObjId(selectedMesh.parent.userData)
       }
     },
     highlight(newVal, oldVal) {
@@ -322,6 +315,27 @@ export default {
 
 
       return cssRenderer;
+    },
+
+    // Insert selectObjId and pageId into next level hash
+    updateNextLevelHashSelectedObjId(userData) {
+      let hashArr = window.location.hash.split("/");
+      let nextPageStateStr = hashArr[this.hashLevel + 2];
+      if (!nextPageStateStr) nextPageStateStr = "";
+      let nextPageStateArr = nextPageStateStr.split(".");
+      nextPageStateArr[0] = userData._id;
+      if (userData.pageId && nextPageStateArr[1] !== userData.pageId) {
+        nextPageStateArr[1] = userData.pageId;
+        // Remove tab if there is one. Page find its own tab
+        nextPageStateArr.splice(2);
+        // Remove erveything that come after the next level as it no longer valid
+        hashArr.splice(this.hashLevel + 3);
+      }
+      nextPageStateStr = nextPageStateArr.join(".");
+      hashArr[this.hashLevel + 2] = nextPageStateStr;
+      //TODO remove following levels, fill with defaults
+      let hash = hashArr.join("/");
+      window.location.hash = hash;
     },
 
     handleHashChange: function () {
