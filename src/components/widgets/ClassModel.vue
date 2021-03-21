@@ -40,38 +40,55 @@ export default {
     };
   },
   methods: {
-    collectAndDrawClasses(placeholderObj3d, userData) {
+    async collectAndDrawClasses(placeholderObj3d, userData) {
+
+      // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(userData, this.font);
       placeholderObj3d.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
+
+      // Get the queries for this node
+      let queryPromisses = [];
+      userData.subQueryIds.forEach(async (queryId) => {
+        queryPromisses.push(this.$pouch.get(queryId)); // Get the queryObj
+      });
+      let queryObjs = await Promise.all(queryPromisses);
+      //console.log("queryObjs", queryObjs);
+
+      // Execute the queries
+      let resultPromisses = []
+      queryObjs.forEach(async (queryObj) => {
+        // Replace variables in the mongoQuery
+        let selector = queryObj.mongoQuery.selector;
+        for (var key in selector) {
+          let cond = selector[key];
+          if (cond === "$fk") selector[key] = userData._id;
+        }
+        delete queryObj.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+        // Execute the mongoQuery
+        resultPromisses.push(this.$pouch.find(queryObj.mongoQuery));
+      });
+
+      let subClassesArrArr = await Promise.all(resultPromisses);
+      //console.log("subClassesArrArr", subClassesArrArr);
+
+      queryObjs.forEach((queryObj, idx) => {
+        const queryResArr = subClassesArrArr[idx].docs.map((item) => {
+          //console.log("item - " +idx, item);
+          return {
+            _id: item._id,
+            label: item.title ? item.title : item.name,
+            subQueryIds: queryObj.subQueryIds,
+            pageId: item.pageId ? item.pageId : queryObj.pageId,
+            docType: item.docType,
+          };
+        });
+        console.log("queryResArr - " +idx, queryResArr);
+
+      });
+
+
       return rootClassObj3d;
-      /* let queryObj = {
-        query: {
-          sortBy: "title",
-          where: [
-            {
-              docProp: "parentId",
-              operator: "eq",
-              value: classObj.key,
-            },
-          ],
-        },
-      };
-      return this.$store.dispatch("query", queryObj).then((resultsArr) => {
-        let promises = [];
-        resultsArr.forEach((subClassObj) => {
-          if (classObj.key !== "5jdnjqxsqmgn") {
-            // Hack: ignore Blaance Sheet children
-            promises.push(
-              this.collectAndDrawClasses(placeholderObj3d, subClassObj)
-            );
-          }
-        });
-        return Promise.all(promises).then((childObjsArr) => {
-          rootClassObj3d.subclassesObj3ds = childObjsArr;
-          return rootClassObj3d;
-        });
-      }); */
     },
     collectAndDrawObjects(placeholderObj3d, classObj3d) {
       let queryObj = {
@@ -214,7 +231,6 @@ export default {
         let cond = selector[key];
         if (cond === "$fk") selector[key] = this.selectedObjId;
       }
-      delete queryObj.mongoQuery.fields; // temp hack: need to update the query
       // Execute the mongoQuery
       const result = await this.$pouch.find(queryObj.mongoQuery);
       let rootClass = result.docs[0];
@@ -225,11 +241,13 @@ export default {
         pageId: rootClass.pageId ? rootClass.pageId : queryObj.pageId,
         docType: rootClass.docType,
       };
+
       // Tell the root class to draw itself, and each of it's subclasses, recursivily
       let rootClassObj3d = await this.collectAndDrawClasses(
         placeholderObj3d,
         userData
       );
+
       rootClassObj3d.subclassesObj3ds = [];
       // Position the classes
       let maxX = this.setPositionX(rootClassObj3d, 0);

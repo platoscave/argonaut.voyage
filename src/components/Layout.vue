@@ -103,6 +103,7 @@ export default {
   data() {
     return {
       pageId: null,
+      //pageObj: Object,
       leftOpen: true,
       rightOpen: false,
     };
@@ -131,11 +132,13 @@ export default {
       });
     },
 
-    handleHashChange: function () {
+     handleHashChange: async function () {
       const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelArr) return;
       const levelStates = ourLevelArr.split(".");
       this.pageId = levelStates[1];
+      //this.pageObj = await this.$pouch.get(this.pageId);
+
     },
   },
 

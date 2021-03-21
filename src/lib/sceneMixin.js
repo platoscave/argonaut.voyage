@@ -200,15 +200,23 @@ export default {
         this.updateNextLevelHashSelectedObjId(selectedMesh.parent.userData)
       }
     },
-    highlight(newVal, oldVal) {
-      if (!this.heighlight) return
-      let currentlySelected = this.glModelObject3D.getObjectByProperty('key', oldVal)
-      if (currentlySelected) {
-        currentlySelected.children[0].material = currentlySelected.getMaterial()
-        currentlySelected.children[1].material = new MeshLambertMaterial({ color: 0xEFEFEF })
+    highlight(key) {
+      //if (!this.heighlight) return
+      if(this.currentlySelectedObjProps) {
+        let currentlySelected = this.glModelObject3D.getObjectByProperty('key', this.currentlySelectedObjProps.key)
+        if (currentlySelected) {
+          currentlySelected.children[0].material = this.currentlySelectedObjProps.obj3d
+          currentlySelected.children[1].material = this.currentlySelectedObjProps.label
+        }
       }
-      let newlySelected = this.glModelObject3D.getObjectByProperty('key', newVal)
+      let newlySelected = this.glModelObject3D.getObjectByProperty('key', key)
       if (newlySelected) {
+        console.log(newlySelected[0])
+        this.currentlySelectedObjProps = {
+          key: key,
+          obj3d: newlySelected.children[0].material,
+          label: newlySelected.children[1].material
+        }
         newlySelected.children[0].material = new MeshLambertMaterial({ color: 0xEEEE00 })
         newlySelected.children[1].material = new MeshLambertMaterial({ color: 0x666666 })
       }
@@ -326,24 +334,24 @@ export default {
       nextPageStateArr[0] = userData._id;
       if (userData.pageId && nextPageStateArr[1] !== userData.pageId) {
         nextPageStateArr[1] = userData.pageId;
-        // Remove tab if there is one. Page find its own tab
+        // Remove tab if there is one. Page will find its own tab
         nextPageStateArr.splice(2);
         // Remove erveything that come after the next level as it no longer valid
         hashArr.splice(this.hashLevel + 3);
       }
       nextPageStateStr = nextPageStateArr.join(".");
       hashArr[this.hashLevel + 2] = nextPageStateStr;
-      //TODO remove following levels, fill with defaults
+
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },
 
     handleHashChange: function () {
-      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
+      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 2];
       if (!ourLevelArr) return;
       const levelStates = ourLevelArr.split(".");
       let selectedObjId = levelStates[0]
-      //this.highlight(newVal, oldVal)
+      this.highlight(selectedObjId)
       this.moveCameraToPos(selectedObjId)
     },
   },

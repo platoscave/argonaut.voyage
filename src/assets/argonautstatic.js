@@ -4027,10 +4027,10 @@ module.exports = [
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    "pageId": "4cnex2saye1",
+    "pageId": "24cnex2saye1",
     "mongoQuery": {
       "selector": { "parentId": "$fk" },
-      "fields": ["_id", "title"],
+      "fields": ["_id", "title", "docType"],
       "sort": ["title"]
     }
   },
@@ -4174,7 +4174,7 @@ module.exports = [
       "mhi13xo2io4q",
       "4gnvq2ctvtiw"
     ],
-    "pageId": "4cnex2saye1",
+    "pageId": "24cnex2saye1",
     "mongoQuery": {
       "selector": { "parentId": "$fk" },
       "fields": ["_id", "title"],
@@ -4225,10 +4225,10 @@ module.exports = [
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    "pageId": "4cnex2saye1",
+    "pageId": "24cnex2saye1",
     "mongoQuery": {
       "selector": { "_id": "gzthjuyjca4s" },
-      "fields": ["_id", "title"]
+      "fields": ["_id", "title", "docType"]
     }
   },
   {
@@ -4271,10 +4271,11 @@ module.exports = [
     "name": "Object Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
+    "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "mongoQuery": {
       "selector": { "classId": "$fk" },
-      "fields": ["_id", "name"],
+      "fields": ["_id", "name", "docType"],
       "sort": ["name"]
     }
   },

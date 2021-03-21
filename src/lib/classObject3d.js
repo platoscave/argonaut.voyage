@@ -5,10 +5,7 @@ import classModelColors from '../config/classModelColors'
 import fontJson from '../assets/helvetiker_regular.typeface.json'
 const font = new THREE.Font(fontJson)
 
-const WIDTH = 400
-const HEIGHT = 200
-const DEPTH = 100
-const RADIUS = 50
+const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
 export default class ClassObject3d extends THREE.Object3D {
   constructor(userData) {

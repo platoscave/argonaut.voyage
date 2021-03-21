@@ -43,19 +43,13 @@ export default {
     return {
       selectedObjId: null,
       pageId: String,
+      viewObj: Object,
       defaultProps: {
         isLeaf: "isLeaf",
       },
     };
   },
   pouch: {
-    viewObj: function () {
-      return {
-        database: "argonaut",
-        selector: { _id: this.viewId },
-        first: true,
-      };
-    },
     pageSettings: function () {
       return {
         database: "settings",
@@ -94,101 +88,70 @@ export default {
       return draggingNode.data.label.indexOf("Level three 3-1-1") === -1;
     },
 
-    loadNode(node, resolve) {
-      // root level
-      if (node.level === 0) {
-        // Get the queryObj associated with this view
-        this.$pouch
-          .find({ selector: { _id: this.viewObj.queryId } })
-          .then((results) => {
-            const queryObj = results.docs[0];
+    async loadNode(node, resolve) {
+      try {
+        // root level
+        if (node.level === 0) {
+          // Get the viewObj
+          this.viewObj = await this.$pouch.get(this.viewId);
+          // Get the queryObj
+          let queryObj = await this.$pouch.get(this.viewObj.queryId);
+          // Replace variables in the mongoQuery
+          let selector = queryObj.mongoQuery.selector;
+          for (var key in selector) {
+            let cond = selector[key];
+            if (cond === "$fk") selector[key] = this.selectedObjId;
+          }
+          // Execute the mongoQuery
+          const result = await this.$pouch.find(queryObj.mongoQuery);
+          let rootClass = result.docs[0];
+          let userData = {
+            _id: rootClass._id,
+            label: rootClass.title ? rootClass.title : rootClass.name,
+            subQueryIds: queryObj.subQueryIds,
+            isLeaf: !queryObj.subQueryIds,
+            // If the query reteives an icon, use it. Otherwise use the query icon.
+            // TODO if the query reteives an empty icon, ask the object anscestors for an icon
+            icon: rootClass.icon ? rootClass.icon : queryObj.icon,
+            pageId: rootClass.pageId ? rootClass.pageId : queryObj.pageId,
+          };
+          resolve([userData]);
+        }
+        if (node.level > 0) {
+          //return resolve([]);
+          let resArr = [];
+          node.data.subQueryIds.forEach(async (queryId) => {
+            // Get the queryObj for this queryId
+            let queryObj = await this.$pouch.get(queryId);
             // Replace variables in the mongoQuery
             let selector = queryObj.mongoQuery.selector;
             for (var key in selector) {
               let cond = selector[key];
-              if (cond === '$fk' ) selector[key] = this.selectedObjId
+              if (cond === "$fk") selector[key] = node.data._id;
             }
+            delete queryObj.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
             // Execute the mongoQuery in the queryObj
-            this.$pouch.find(queryObj.mongoQuery).then((results2) => {
-              const resArr = results2.docs.map((item) => {
-                //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
-                return {
-                  _id: item._id,
-                  label: item.title ? item.title : item.name,
-                  subQueryIds: queryObj.subQueryIds,
-                  isLeaf: !queryObj.subQueryIds,
-                  // If the query reteives an icon, use it. Otherwise use the query icon.
-                  // TODO if the query reteives an empty icon, ask the object anscestors for an icon
-                  icon: item.icon ? item.icon : queryObj.icon, 
-                  pageId: item.pageId ? item.pageId : queryObj.pageId, 
-                };
-              });
-              resolve(resArr);
+            const results = await this.$pouch.find(queryObj.mongoQuery);
+            const queryResArr = results.docs.map((item) => {
+              //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+              return {
+                _id: item._id,
+                label: item.title ? item.title : item.name,
+                subQueryIds: queryObj.subQueryIds,
+                isLeaf: !queryObj.subQueryIds,
+                // If the query retreives an icon, use it. Otherwise use the query icon.
+                // TODO if the query reteives an empty icon, ask the object anscestors for an icon
+                icon: item.icon ? item.icon : queryObj.icon,
+                pageId: item.pageId ? item.pageId : queryObj.pageId,
+              };
             });
-            /* var liveFeed = this.$pouch
-              .liveFind(results.docs[0].mongoQuery)
-
-              // Called every time there is an update to the query
-              .on("update", function (update, aggregate) {
-                // update.action is 'ADD', 'UPDATE', or 'REMOVE'
-                // update also contains id, rev, and doc
-                console.log(update.action, update.id);
-                // aggregate is an array of docs containing the latest state of the query
-                resolve(aggregate);
-                // (refreshUI would be a function you write to pipe the changes to your rendering engine)
-              })
-
-              // Called when the initial query is complete
-              .on("ready", function () {
-                console.log("Initial query complete.");
-              })
-
-              // Called when you invoke `liveFeed.cancel()`
-              .on("cancelled", function () {
-                console.log("LiveFind cancelled.");
-              }); */
-          })
-          .catch(function (err) {
-            console.log(err);
+            resArr = resArr.concat(queryResArr);
+            resolve(resArr);
           });
-
-        // Start our live query
-      }
-      if (node.level > 0) {
-        //return resolve([]);
-        let resArr = []
-        node.data.subQueryIds.forEach((queryId) => {
-          // Get the queryObj for this queryId
-          this.$pouch.find({ selector: { _id: queryId } }).then((results) => {
-            const queryObj = results.docs[0];
-            // Replace variables in the mongoQuery
-            let selector = queryObj.mongoQuery.selector;
-            for (var key in selector) {
-              let cond = selector[key];
-              if (cond === '$fk' ) selector[key] = node.data._id
-            }
-            delete queryObj.mongoQuery.sort // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-            // Execute the mongoQuery in the queryObj
-            this.$pouch.find(queryObj.mongoQuery).then((results2) => {
-              const queryResArr = results2.docs.map((item) => {
-                //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
-                return {
-                  _id: item._id,
-                  label: item.title ? item.title : item.name,
-                  subQueryIds: queryObj.subQueryIds,
-                  isLeaf: !queryObj.subQueryIds,
-                  // If the query reteives an icon, use it. Otherwise use the query icon.
-                  // TODO if the query reteives an empty icon, ask the object anscestors for an icon
-                  icon: item.icon ? item.icon : queryObj.icon, 
-                  pageId: item.pageId ? item.pageId : queryObj.pageId, 
-                };
-              });
-              resArr = resArr.concat(queryResArr)
-              resolve(resArr);
-            });
-          });
-        });
-
+        }
+      } catch (err) {
+        console.error(err);
+        this.$message({ message: err, type: "error" });
       }
     },
 
@@ -286,5 +249,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

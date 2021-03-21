@@ -103,7 +103,7 @@ export default {
     },
 
     // If the hash provides a selectedTab, use it to set pageSettings for this pageId in the settings db
-    handleHashChange() {
+    async handleHashChange() {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
       const ourLeveArr = ourLevelStr.split(".");
