@@ -1,6 +1,9 @@
 <template>
   <div v-if="viewObj">
     <el-tree
+      ref="tree"
+      highlight-current
+      :expand-on-click-node="false"
       :props="defaultProps"
       :load="loadNode"
       lazy
@@ -231,10 +234,19 @@ export default {
 
     handleHashChange: function () {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
-      if (!ourLevelStr) return;
-      const ourLeveArr = ourLevelStr.split(".");
-      this.selectedObjId = ourLeveArr[0];
-      this.pageId = ourLeveArr[1];
+      if (ourLevelStr) {
+        const ourLevelArr = ourLevelStr.split(".");
+        this.selectedObjId = ourLevelArr[0];
+        this.pageId = ourLevelArr[1];
+      }
+
+      const nextLevelStr = window.location.hash.split("/")[this.hashLevel + 2];
+      if (nextLevelStr) {
+        const nextLevelArr = nextLevelStr.split(".");
+        const selectedObjId = nextLevelArr[0];
+        this.$refs["tree"].setCurrentKey(null); 
+        this.$refs["tree"].setCurrentKey(selectedObjId); 
+      }
     },
   },
 

@@ -8,20 +8,88 @@ const font = new THREE.Font(fontJson)
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
 export default class ClassObject3d extends THREE.Object3D {
-  constructor(userData) {
+  constructor(userData, yPos, selectableMeshArr) {
     super()
 
-    this.key = userData._id
+
+    this._id = userData._id
     this.name = userData.label
     this.userData = userData
+
     let mesh = new THREE.Mesh(this.getGeometry(), this.getMaterial())
     mesh.name = userData.label + ' - 3d mesh'
     this.add(mesh)
+    selectableMeshArr.push(mesh)
+
     let textPosition = this.position.clone()
     textPosition.setZ(textPosition.z + DEPTH / 2 + 10)
     this.addTextMesh(this.name, textPosition)
 
+    this.position.setY(yPos);
   }
+
+  async drawChildren(selectableMeshArr, pouch) {
+    if(!this.userData.subQueryIds) return
+    // Get the queries for this node
+    let queryPromisses = [];
+    this.userData.subQueryIds.forEach(async (queryId) => {
+      queryPromisses.push(pouch.get(queryId)); // Get the queryObj
+    });
+    let queryObjs = await Promise.all(queryPromisses);
+    //console.log("queryObjs", queryObjs);
+
+    // Execute the queries
+    let resultPromisses = []
+    queryObjs.forEach(async (queryObj) => {
+      // Replace variables in the mongoQuery
+      let selector = queryObj.mongoQuery.selector;
+      for (var key in selector) {
+        let cond = selector[key];
+        if (cond === "$fk") selector[key] = this.userData._id;
+      }
+      delete queryObj.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+      // Execute the mongoQuery
+      resultPromisses.push(pouch.find(queryObj.mongoQuery));
+    });
+
+    let subClassesArrArr = await Promise.all(resultPromisses);
+    //console.log("subClassesArrArr", subClassesArrArr);
+
+    queryObjs.forEach((queryObj, idx) => {
+      const queryResArr = subClassesArrArr[idx].docs.map((item) => {
+        //console.log("item - " +idx, item);
+        return {
+          _id: item._id,
+          label: item.title ? item.title : item.name,
+          subQueryIds: queryObj.subQueryIds,
+          pageId: item.pageId ? item.pageId : queryObj.pageId,
+          docType: item.docType,
+        };
+      });
+      //console.log("queryResArr - " + idx, queryResArr);
+      // Draw down beam from super class to middle
+      if(queryResArr.length) {
+        let p2 = this.position.clone()
+        p2.setY(-HEIGHT * 2)
+        const parentBeamMesh = this.drawBeam(this.position, p2, this.mapAssocNameToMaterial())
+        this.add(parentBeamMesh)
+      }
+      let childrenPronmises = []
+      queryResArr.forEach( userData => {
+        let classObj3d = new ClassObject3d(userData, -HEIGHT * 4, selectableMeshArr);
+        this.add(classObj3d)
+        // Draw up beam from here to middle
+        let p2 = classObj3d.position.clone()
+        p2.setY(HEIGHT * 2)
+        const parentBeamMesh = this.drawBeam(this.position, p2, this.mapAssocNameToMaterial())
+        classObj3d.add(parentBeamMesh)
+        
+        childrenPronmises.push(classObj3d.drawChildren(selectableMeshArr, pouch) )
+      })
+      return Promise.all(childrenPronmises);
+    });
+  }
+
   drawClassBeams() {
     if (this.subclassesObj3ds.length > 0) {
       let connectorMaterial = this.mapAssocNameToMaterial()
@@ -75,7 +143,7 @@ export default class ClassObject3d extends THREE.Object3D {
       Object.keys(properties).forEach(key => {
         let obj = properties[key]
         let toKey = ''//_.get(obj, 'query.from')
-        if (toKey && toKey !== 'classes') resultsArr.push({ key: key, name: obj.title, XXXkey: toKey })
+        if (toKey && toKey !== 'classes') resultsArr.push({ _id: _id, name: obj.title, XXXkey: toKey })
         let subProperties = ''//_.get(obj, 'items.properties')
         if (subProperties) resultsArr = resultsArr.concat(getAssocs(subProperties))
       })
@@ -88,10 +156,10 @@ export default class ClassObject3d extends THREE.Object3D {
     console.log('assocsArr', assocsArr)
 
     assocsArr.forEach(assoc => {
-      let assocToObj3d = placeholderObj3d.getObjectByProperty('key', assoc.key)
+      let assocToObj3d = placeholderObj3d.getObjectByProperty('_id', assoc._id)
 
       if (!assocToObj3d) console.error('Assoc destination mot found', assoc)
-      else this.drawTubeTopSideToBottom(assocToObj3d, assoc.key)
+      else this.drawTubeTopSideToBottom(assocToObj3d, assoc._id)
     })
   }
   drawObjectToClassBeam(length) {
@@ -122,12 +190,12 @@ export default class ClassObject3d extends THREE.Object3D {
     if (!this.userData) return
     let assocsArr = getAssocs(this.userData)
     assocsArr.forEach(assoc => {
-      let assocToObj3d = placeholderObj3d.getObjectByProperty('key', assoc.key)
-      if (!assocToObj3d) console.warn('Cant find ' + assoc.key + ' from ' + this.name + ': ' + this.key)
+      let assocToObj3d = placeholderObj3d.getObjectByProperty('_id', assoc._id)
+      if (!assocToObj3d) console.warn('Cant find ' + assoc._id + ' from ' + this.name + ': ' + this._id)
       else this.drawTubeTopSideToBottom(assocToObj3d, assoc.name)
     })
   }
-  drawBeam(p1, p2, material, sceneObject3D, name) {
+  drawBeam(p1, p2, material) {
     // https://stackoverflow.com/questions/15139649/three-js-two-points-one-cylinder-align-issue/15160850#15160850
     let HALF_PI = Math.PI * 0.5
     let distance = p1.distanceTo(p2)

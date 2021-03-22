@@ -43,11 +43,12 @@ export default {
     async collectAndDrawClasses(placeholderObj3d, userData) {
 
       // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(userData, this.font);
+      let rootClassObj3d = new ClassObject3d(userData, 0, this.selectableMeshArr);
       placeholderObj3d.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
 
-      // Get the queries for this node
+      await rootClassObj3d.drawChildren(this.selectableMeshArr, this.$pouch) 
+/*       // Get the queries for this node
       let queryPromisses = [];
       userData.subQueryIds.forEach(async (queryId) => {
         queryPromisses.push(this.$pouch.get(queryId)); // Get the queryObj
@@ -85,7 +86,7 @@ export default {
         });
         console.log("queryResArr - " +idx, queryResArr);
 
-      });
+      }); */
 
 
       return rootClassObj3d;

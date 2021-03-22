@@ -128,7 +128,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
-  watch: {
+/*   watch: {
     pageSettings: {
       handler: function (val, oldVal) {
         //console.log(this.pageSettings);
@@ -136,7 +136,7 @@ export default {
       },
       immediate: true,
     },
-  },
+  }, */
 };
 </script>
 <style scoped>

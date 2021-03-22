@@ -77,9 +77,9 @@ export default {
         cssRenderer.setSize(this.width, this.height)
       }
     },
-    getSceneIndexByKey(key) {
+    getSceneIndexByKey(_id) {
       for (let i = 0; i < this.scenes.length; i++) {
-        if (this.scenes[i].key === key) {
+        if (this.scenes[i]._id === _id) {
           return i
         }
       }
@@ -200,20 +200,19 @@ export default {
         this.updateNextLevelHashSelectedObjId(selectedMesh.parent.userData)
       }
     },
-    highlight(key) {
+    highlight(_id) {
       //if (!this.heighlight) return
       if(this.currentlySelectedObjProps) {
-        let currentlySelected = this.glModelObject3D.getObjectByProperty('key', this.currentlySelectedObjProps.key)
+        let currentlySelected = this.glModelObject3D.getObjectByProperty('_id', this.currentlySelectedObjProps._id)
         if (currentlySelected) {
           currentlySelected.children[0].material = this.currentlySelectedObjProps.obj3d
           currentlySelected.children[1].material = this.currentlySelectedObjProps.label
         }
       }
-      let newlySelected = this.glModelObject3D.getObjectByProperty('key', key)
+      let newlySelected = this.glModelObject3D.getObjectByProperty('_id', _id)
       if (newlySelected) {
-        console.log(newlySelected[0])
         this.currentlySelectedObjProps = {
-          key: key,
+          _id: _id,
           obj3d: newlySelected.children[0].material,
           label: newlySelected.children[1].material
         }
@@ -221,8 +220,8 @@ export default {
         newlySelected.children[1].material = new MeshLambertMaterial({ color: 0x666666 })
       }
     },
-    moveCameraToPos(key) {
-      let selectedModelObj = this.glModelObject3D.getObjectByProperty('key', key)
+    moveCameraToPos(_id) {
+      let selectedModelObj = this.glModelObject3D.getObjectByProperty('_id', _id)
       if (!selectedModelObj) return
       if (!glScene) return
       // console.log('selectedModelObj', selectedModelObj)
