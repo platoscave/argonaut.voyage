@@ -14,15 +14,11 @@ module.exports = [
       },
       "classId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "subclasses",
-              "value": "gzthjuyjca4s"
-            }
-          ],
-          "sortBy": "title"
+        "mongoQuery": {
+          "selector": { "classId": "gzthjuyjca4s" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "subclasses"
         },
         "title": "Class",
         "type": "string",
@@ -101,15 +97,11 @@ module.exports = [
       },
       "buyerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "ikjyhlqewxs3"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "ikjyhlqewxs3" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Buyer",
         "type": "string",
@@ -117,15 +109,11 @@ module.exports = [
       },
       "sellerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "ikjyhlqewxs3"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "ikjyhlqewxs3" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Seller",
         "type": "string",
@@ -133,15 +121,11 @@ module.exports = [
       },
       "assetId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "3ihg3mjdbqzv"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "3ihg3mjdbqzv" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Asset",
         "type": "string",
@@ -149,15 +133,11 @@ module.exports = [
       },
       "agreementProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dwl1kwhalwj4"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dwl1kwhalwj4" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Agreememt Process",
         "type": "string",
@@ -165,15 +145,11 @@ module.exports = [
       },
       "sellerProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dwl1kwhalwj4"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dwl1kwhalwj4" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Seller Process",
         "type": "string",
@@ -181,15 +157,11 @@ module.exports = [
       },
       "sellerEpicId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dwl1kwhalwj4"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dwl1kwhalwj4" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Seller Epic",
         "type": "string",
@@ -200,15 +172,11 @@ module.exports = [
           "properties": {
             "processId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dwl1kwhalwj4"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dwl1kwhalwj4" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "Process",
               "type": "string",
@@ -216,15 +184,11 @@ module.exports = [
             },
             "stateId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dlpwvptczyeb"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dlpwvptczyeb" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "State",
               "type": "string",
@@ -246,15 +210,11 @@ module.exports = [
           "properties": {
             "agreementHistoryId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "re1ihrfyl3zf"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "re1ihrfyl3zf" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "State History",
               "type": "string",
@@ -279,15 +239,11 @@ module.exports = [
     "properties": {
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "pejdgrwd5qso"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "pejdgrwd5qso" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Page",
         "type": "string",
@@ -296,14 +252,11 @@ module.exports = [
       "subParagraphIds": {
         "title": "First Paragraph",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "siutzqsj5dgc"
-            }
-          ]
+        "mongoQuery": {
+          "selector": { "classId": "siutzqsj5dgc" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "type": "string",
         "readOnly": true
@@ -650,15 +603,11 @@ module.exports = [
       },
       "stateId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dlpwvptczyeb"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dlpwvptczyeb" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "State",
         "type": "string",
@@ -666,15 +615,11 @@ module.exports = [
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dwl1kwhalwj4"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dwl1kwhalwj4" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Process",
         "type": "string",
@@ -692,15 +637,11 @@ module.exports = [
     "properties": {
       "ownerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "ikjyhlqewxs3"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "ikjyhlqewxs3" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Owner",
         "type": "string",
@@ -747,15 +688,11 @@ module.exports = [
       },
       "sellerEpicId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "dwl1kwhalwj4"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "dwl1kwhalwj4" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Seller Epic",
         "type": "string",
@@ -786,15 +723,11 @@ module.exports = [
           "properties": {
             "processId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dlpwvptczyeb"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dlpwvptczyeb" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "Authorized for State",
               "type": "string",
@@ -855,15 +788,11 @@ module.exports = [
           "properties": {
             "processId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dwl1kwhalwj4"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dwl1kwhalwj4" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "Exposed to Process",
               "type": "string",
@@ -1145,15 +1074,11 @@ module.exports = [
             },
             "stateId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dlpwvptczyeb"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dlpwvptczyeb" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "State",
               "type": "string",
@@ -1171,15 +1096,11 @@ module.exports = [
       },
       "substateId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "1jrqyjoabx1a"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "1jrqyjoabx1a" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Substate",
         "type": "string",
@@ -1215,15 +1136,11 @@ module.exports = [
       },
       "agreementClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "subclasses",
-              "value": "i1gjptcb2skq"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "i1gjptcb2skq" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Substate",
         "type": "string",
@@ -1231,15 +1148,11 @@ module.exports = [
       },
       "substateId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "1jrqyjoabx1a"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "1jrqyjoabx1a" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Substate",
         "type": "string",
@@ -1300,15 +1213,11 @@ module.exports = [
             },
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "pejdgrwd5qso"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "pejdgrwd5qso" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "Page",
               "type": "string",
@@ -1353,15 +1262,11 @@ module.exports = [
                   },
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "query": {
-                      "where": [
-                        {
-                          "docProp": "classId",
-                          "operator": "instances",
-                          "value": "pejdgrwd5qso"
-                        }
-                      ],
-                      "sortBy": "name"
+                    "mongoQuery": {
+                      "selector": { "classId": "pejdgrwd5qso" },
+                      "fields": ["_id", "name"],
+                      "sort": ["name"],
+                      "extendTo": "instances"
                     },
                     "title": "Page",
                     "type": "string",
@@ -1369,15 +1274,11 @@ module.exports = [
                   },
                   "viewId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "query": {
-                      "where": [
-                        {
-                          "docProp": "classId",
-                          "operator": "instances",
-                          "value": "pylvseoljret"
-                        }
-                      ],
-                      "sortBy": "name"
+                    "mongoQuery": {
+                      "selector": { "classId": "pylvseoljret" },
+                      "fields": ["_id", "name"],
+                      "sort": ["name"],
+                      "extendTo": "instances"
                     },
                     "title": "View",
                     "type": "string",
@@ -1417,15 +1318,11 @@ module.exports = [
       "subQueryIds": {
         "title": "Initial Query",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "q234ooehrk5v"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "q234ooehrk5v" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "type": "string",
         "readOnly": true
@@ -1433,15 +1330,11 @@ module.exports = [
       "baseClassId": {
         "title": "Base Class",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "subclasses",
-              "value": "gzthjuyjca4s"
-            }
-          ],
-          "sortBy": "title"
+        "mongoQuery": {
+          "selector": { "classId": "gzthjuyjca4s" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "type": "string",
         "readOnly": true
@@ -1675,15 +1568,11 @@ module.exports = [
             "queryId": {
               "title": "Subquery",
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "q234ooehrk5v"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "q234ooehrk5v" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "type": "string",
               "readOnly": true
@@ -1696,15 +1585,11 @@ module.exports = [
       },
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "pejdgrwd5qso"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "pejdgrwd5qso" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Page",
         "type": "string",
@@ -1776,15 +1661,11 @@ module.exports = [
           "properties": {
             "documentId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "siutzqsj5dgc"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "siutzqsj5dgc" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "Sub Ducument",
               "type": "string",
@@ -2333,15 +2214,11 @@ module.exports = [
             },
             "stateId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "query": {
-                "where": [
-                  {
-                    "docProp": "classId",
-                    "operator": "instances",
-                    "value": "dlpwvptczyeb"
-                  }
-                ],
-                "sortBy": "name"
+              "mongoQuery": {
+                "selector": { "classId": "dlpwvptczyeb" },
+                "fields": ["_id", "name"],
+                "sort": ["name"],
+                "extendTo": "instances"
               },
               "title": "State",
               "type": "string",
@@ -2360,15 +2237,11 @@ module.exports = [
       },
       "substateId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "instances",
-              "value": "1jrqyjoabx1a"
-            }
-          ],
-          "sortBy": "name"
+        "mongoQuery": {
+          "selector": { "classId": "1jrqyjoabx1a" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Substate",
         "type": "string",
@@ -3454,15 +3327,11 @@ module.exports = [
       },
       "parentId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "query": {
-          "where": [
-            {
-              "docProp": "classId",
-              "operator": "subclasses",
-              "value": "gzthjuyjca4s"
-            }
-          ],
-          "sortBy": "title"
+        "mongoQuery": {
+          "selector": { "classId": "gzthjuyjca4s" },
+          "fields": ["_id", "name"],
+          "sort": ["name"],
+          "extendTo": "instances"
         },
         "title": "Super Class",
         "type": "string",
@@ -4044,13 +3913,12 @@ module.exports = [
     "subQueryIds": [
       "2vwvbhvflpp1"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "subParagraphIds"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$subParagraphIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "4gnvq2ctvtiw",
@@ -4076,13 +3944,12 @@ module.exports = [
       "5fcag1lt11gj",
       "ydwhxijs4nrw"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "substateId"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$substateId" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "eevccbk1napt",
@@ -4090,13 +3957,12 @@ module.exports = [
     "name": "Agreements History Table Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "agreementHistoryIds"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$agreementHistoryIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "itypb41mkq2v",
@@ -4108,14 +3974,12 @@ module.exports = [
     "subQueryIds": [
       "itypb41mkq2v"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "subQueryIds"
-      }
-    ],
-    "sortBy": "name"
+    "mongoQuery": {
+      "selector": { "_id": "$subQueryIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "jla5kldghbxi",
@@ -4123,13 +3987,12 @@ module.exports = [
     "name": "Authorized for State Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "authorizedForStateIds"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$authorizedForStateIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "kl2fe4hvhhtg",
@@ -4155,13 +4018,11 @@ module.exports = [
     "subQueryIds": [
       "mhi13xo2io4q"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "value": "ikjyhlqewxs3"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "ikjyhlqewxs3" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+    },
   },
   {
     "_id": "mhi13xo2io4q",
@@ -4257,13 +4118,12 @@ module.exports = [
     "name": "Exposed to Processes Query",
     "classId": "q234ooehrk5v",
     "ownerId": "eoscommonsio",
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "exposedToProcessesIds"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$exposedToProcessesIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "x1lrv2xdq2tu",
@@ -4290,14 +4150,12 @@ module.exports = [
     "subQueryIds": [
       "ydwhxijs4nrw"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "valuePath": "nextStateIds",
-        "mapValue": "stateId"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "$nextStateIds" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "znn3osz1igvm",
@@ -4311,13 +4169,12 @@ module.exports = [
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    "where": [
-      {
-        "docProp": "_id",
-        "operator": "in",
-        "value": "nrioirgelhpi"
-      }
-    ]
+    "mongoQuery": {
+      "selector": { "_id": "nrioirgelhpi" },
+      "fields": ["_id", "name"],
+      "sort": ["name"],
+      "extendTo": "in"
+    },
   },
   {
     "_id": "jc2dv1u5rcp5",

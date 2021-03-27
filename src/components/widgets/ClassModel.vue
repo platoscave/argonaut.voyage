@@ -47,47 +47,10 @@ export default {
       placeholderObj3d.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
 
-      await rootClassObj3d.drawChildren(this.selectableMeshArr, this.$pouch) 
-/*       // Get the queries for this node
-      let queryPromisses = [];
-      userData.subQueryIds.forEach(async (queryId) => {
-        queryPromisses.push(this.$pouch.get(queryId)); // Get the queryObj
-      });
-      let queryObjs = await Promise.all(queryPromisses);
-      //console.log("queryObjs", queryObjs);
+      const queryObj = await this.$pouch.get('2jfs4is4icct') // Get the subclasses queryObj
+      await rootClassObj3d.drawChildren(this.selectableMeshArr, queryObj, this.$pouch)
 
-      // Execute the queries
-      let resultPromisses = []
-      queryObjs.forEach(async (queryObj) => {
-        // Replace variables in the mongoQuery
-        let selector = queryObj.mongoQuery.selector;
-        for (var key in selector) {
-          let cond = selector[key];
-          if (cond === "$fk") selector[key] = userData._id;
-        }
-        delete queryObj.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-        // Execute the mongoQuery
-        resultPromisses.push(this.$pouch.find(queryObj.mongoQuery));
-      });
-
-      let subClassesArrArr = await Promise.all(resultPromisses);
-      //console.log("subClassesArrArr", subClassesArrArr);
-
-      queryObjs.forEach((queryObj, idx) => {
-        const queryResArr = subClassesArrArr[idx].docs.map((item) => {
-          //console.log("item - " +idx, item);
-          return {
-            _id: item._id,
-            label: item.title ? item.title : item.name,
-            subQueryIds: queryObj.subQueryIds,
-            pageId: item.pageId ? item.pageId : queryObj.pageId,
-            docType: item.docType,
-          };
-        });
-        console.log("queryResArr - " +idx, queryResArr);
-
-      }); */
-
+      rootClassObj3d.setPositionX(0) 
 
       return rootClassObj3d;
     },

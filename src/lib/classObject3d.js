@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as THREE from 'three'
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import Vue from 'vue' // need this for underscore
 import classModelColors from '../config/classModelColors'
 import fontJson from '../assets/helvetiker_regular.typeface.json'
@@ -16,78 +17,124 @@ export default class ClassObject3d extends THREE.Object3D {
     this.name = userData.label
     this.userData = userData
 
+
     let mesh = new THREE.Mesh(this.getGeometry(), this.getMaterial())
     mesh.name = userData.label + ' - 3d mesh'
     this.add(mesh)
     selectableMeshArr.push(mesh)
 
-    let textPosition = this.position.clone()
-    textPosition.setZ(textPosition.z + DEPTH / 2 + 10)
+    let textPosition = new THREE.Vector3(0, 0, DEPTH * 0.6)
     this.addTextMesh(this.name, textPosition)
 
+
+    // Draw up beam from here to middle
+    if (yPos !== 0) {
+      let p2 = new THREE.Vector3(0, HEIGHT * 2, 0)
+      const parentBeamMesh = this.drawBeam(new THREE.Vector3(0, 0, 0), p2, this.mapAssocNameToMaterial())
+      this.add(parentBeamMesh)
+    }
+
     this.position.setY(yPos);
+    this.updateMatrix()
+
+    console.log('    ', this._id, this.name, yPos)
+
   }
 
-  async drawChildren(selectableMeshArr, pouch) {
-    if(!this.userData.subQueryIds) return
-    // Get the queries for this node
-    let queryPromisses = [];
-    this.userData.subQueryIds.forEach(async (queryId) => {
-      queryPromisses.push(pouch.get(queryId)); // Get the queryObj
-    });
-    let queryObjs = await Promise.all(queryPromisses);
-    //console.log("queryObjs", queryObjs);
+  async drawChildren(selectableMeshArr, queryObj, pouch) {
 
-    // Execute the queries
-    let resultPromisses = []
-    queryObjs.forEach(async (queryObj) => {
-      // Replace variables in the mongoQuery
-      let selector = queryObj.mongoQuery.selector;
-      for (var key in selector) {
-        let cond = selector[key];
-        if (cond === "$fk") selector[key] = this.userData._id;
+    // Create a deep clone of the queryObj to operate on
+    let queryObjClone = JSON.parse(JSON.stringify(queryObj))
+
+    // Replace variables in the mongoQuery
+    let selector = queryObjClone.mongoQuery.selector
+    for (var key in selector) {
+      let cond = selector[key];
+      if (cond === "$fk") selector[key] = this.userData._id;
+    }
+    delete queryObjClone.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+
+    // Execute the mongoQuery
+    const result = await pouch.find(queryObjClone.mongoQuery);
+
+    // Collect userData for use durring creation
+    const userDataArr = result.docs.map((item) => {
+      //console.log("item - " +idx, item);
+      return {
+        _id: item._id,
+        label: item.title ? item.title : item.name,
+        subQueryIds: queryObjClone.subQueryIds,
+        pageId: item.pageId ? item.pageId : queryObjClone.pageId,
+        docType: item.docType,
+      };
+    });
+
+    // If this class has children, draw down beam from here to middle
+    if (userDataArr.length) {
+      let p2 = new THREE.Vector3(0, -HEIGHT * 2, 0)
+      const childrenBeamMesh = this.drawBeam(new THREE.Vector3(0, 0, 0), p2, this.mapAssocNameToMaterial())
+      this.add(childrenBeamMesh)
+    }
+
+    let childrenPronmises = []
+    userDataArr.forEach(userData => {
+
+      // Create the child
+      let classObj3d = new ClassObject3d(userData, -HEIGHT * 4, selectableMeshArr);
+      this.add(classObj3d)
+
+      // Tell the child to draw its children
+      if(classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
+      childrenPronmises.push(classObj3d.drawChildren(selectableMeshArr, queryObj, pouch))
+    })
+
+
+    return Promise.all(childrenPronmises);
+
+  }
+
+
+  setPositionX(xPos) {
+
+    this.translateX(xPos)
+
+    // Position the children.
+    // The child x position is relative to this, so we start with 0
+    let childX = 0, childrenMaxX = 0
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        childrenMaxX = subClassObj3d.setPositionX(childX)
+        childX = childrenMaxX + WIDTH * 2
       }
-      delete queryObj.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-      // Execute the mongoQuery
-      resultPromisses.push(pouch.find(queryObj.mongoQuery));
     });
 
-    let subClassesArrArr = await Promise.all(resultPromisses);
-    //console.log("subClassesArrArr", subClassesArrArr);
-
-    queryObjs.forEach((queryObj, idx) => {
-      const queryResArr = subClassesArrArr[idx].docs.map((item) => {
-        //console.log("item - " +idx, item);
-        return {
-          _id: item._id,
-          label: item.title ? item.title : item.name,
-          subQueryIds: queryObj.subQueryIds,
-          pageId: item.pageId ? item.pageId : queryObj.pageId,
-          docType: item.docType,
-        };
-      });
-      //console.log("queryResArr - " + idx, queryResArr);
-      // Draw down beam from super class to middle
-      if(queryResArr.length) {
-        let p2 = this.position.clone()
-        p2.setY(-HEIGHT * 2)
-        const parentBeamMesh = this.drawBeam(this.position, p2, this.mapAssocNameToMaterial())
-        this.add(parentBeamMesh)
+    // Shift all the children to the left by 50%
+    const leftShift = (childrenMaxX) / 2
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        subClassObj3d.translateX(-leftShift)
       }
-      let childrenPronmises = []
-      queryResArr.forEach( userData => {
-        let classObj3d = new ClassObject3d(userData, -HEIGHT * 4, selectableMeshArr);
-        this.add(classObj3d)
-        // Draw up beam from here to middle
-        let p2 = classObj3d.position.clone()
-        p2.setY(HEIGHT * 2)
-        const parentBeamMesh = this.drawBeam(this.position, p2, this.mapAssocNameToMaterial())
-        classObj3d.add(parentBeamMesh)
-        
-        childrenPronmises.push(classObj3d.drawChildren(selectableMeshArr, pouch) )
-      })
-      return Promise.all(childrenPronmises);
     });
+    // Shift this to the right by the same value
+    this.translateX(leftShift)
+
+    // Find the first and last children x values after left shift
+    let firstX = -1, lastX = -1
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        if(firstX === -1) firstX = subClassObj3d.position.x
+        lastX = subClassObj3d.position.x
+      }
+    });
+
+    // Draw the horizontal beam, based on the positions of the first and last child
+    let q1 = new THREE.Vector3(firstX, -HEIGHT * 2, 0)
+    let q2 = new THREE.Vector3(lastX, -HEIGHT * 2, 0)
+    const horizontalBeamMesh = this.drawBeam(q1, q2, this.mapAssocNameToMaterial(), true)
+    this.add(horizontalBeamMesh)
+
+    // return the original x plus our children max, so that the parent can 
+    return xPos + childrenMaxX
   }
 
   drawClassBeams() {
@@ -195,7 +242,9 @@ export default class ClassObject3d extends THREE.Object3D {
       else this.drawTubeTopSideToBottom(assocToObj3d, assoc.name)
     })
   }
-  drawBeam(p1, p2, material) {
+  drawBeam(p1, p2, material, caps) {
+    let geometries = []
+
     // https://stackoverflow.com/questions/15139649/three-js-two-points-one-cylinder-align-issue/15160850#15160850
     let HALF_PI = Math.PI * 0.5
     let distance = p1.distanceTo(p2)
@@ -208,9 +257,24 @@ export default class ClassObject3d extends THREE.Object3D {
     offsetRotation.makeRotationX(HALF_PI)// rotate 90 degs on X
     orientation.multiply(offsetRotation)// combine orientation with rotation transformations
     cylinder.applyMatrix4(orientation)
-    let mesh = new THREE.Mesh(cylinder, material)
-    mesh.position.set(position.x, position.y, position.z)
-    return mesh
+    cylinder.translate(position.x, position.y, position.z);
+    geometries.push(cylinder)
+
+    if (caps) {
+      // sphere at the left end
+      let sphereGeometryLeft = new THREE.SphereGeometry(15)
+      sphereGeometryLeft.translate(p1.x, p1.y, p1.z);
+      geometries.push(sphereGeometryLeft)
+
+      // sphere at the right end
+      let sphereGeometryRight = new THREE.SphereGeometry(15)
+      sphereGeometryRight.translate(p2.x, p2.y, p2.z);
+      geometries.push(sphereGeometryRight)
+    }
+
+    let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    return new THREE.Mesh(mergedGeometry, material)
+
   }
   drawTubeTopSideToBottom(toObj3d, name) {
     // translate toPosition to our local coordinates
