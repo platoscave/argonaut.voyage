@@ -17,7 +17,7 @@ export default class ClassObject3d extends THREE.Object3D {
     this.name = userData.label
     this.userData = userData
 
-    const { class: assocProps } = classModelColors 
+    const { class: assocProps } = classModelColors
     const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
 
     let mesh = new THREE.Mesh(this.getGeometry(this.userData.docType), material)
@@ -31,15 +31,15 @@ export default class ClassObject3d extends THREE.Object3D {
 
     // Draw up beam from here to middle
     if (yPos !== 0) {
-      let p2 = new THREE.Vector3(0, HEIGHT * 2, 0)
-      const parentBeamMesh = this.drawBeam(new THREE.Vector3(0, 0, 0), p2, 'classConnectors')
-      this.add(parentBeamMesh)
+      let points = []
+      points.push(new THREE.Vector3(0, 0, 0))
+      points.push(new THREE.Vector3(0, HEIGHT * 2, 0))
+      this.add(this.drawBeam(points, 'classConnectors'))
     }
 
     this.position.setY(yPos);
-    //this.updateMatrix()
 
-    console.log('    ', this._id, this.name, yPos)
+    //console.log('    ', this._id, this.name, yPos)
 
   }
 
@@ -78,9 +78,10 @@ export default class ClassObject3d extends THREE.Object3D {
 
     // If this class has children, draw down beam from here to middle
     if (userDataArr.length) {
-      let p2 = new THREE.Vector3(0, -HEIGHT * 2, 0)
-      const childrenBeamMesh = this.drawBeam(new THREE.Vector3(0, 0, 0), p2, 'classConnectors')
-      this.add(childrenBeamMesh)
+      let points = []
+      points.push(new THREE.Vector3(0, 0, 0))
+      points.push(new THREE.Vector3(0, -HEIGHT * 2, 0))
+      this.add(this.drawBeam(points, 'classConnectors'))
     }
 
     let childrenPronmises = []
@@ -135,11 +136,11 @@ export default class ClassObject3d extends THREE.Object3D {
     });
 
     // Draw the horizontal beam, based on the positions of the first and last child
-
     if (firstX !== -1) {
-      let q1 = new THREE.Vector3(firstX, -HEIGHT * 2, 0)
-      let q2 = new THREE.Vector3(lastX, -HEIGHT * 2, 0)
-      this.add(this.drawBeam(q1, q2, 'classConnectors', true))
+      let points = []
+      points.push(new THREE.Vector3(firstX, -HEIGHT * 2, 0))
+      points.push(new THREE.Vector3(lastX, -HEIGHT * 2, 0))
+      this.add(this.drawBeam(points, 'classConnectors'))
     }
 
     // return the original x plus our children max, so that the parent can center itself
@@ -148,106 +149,64 @@ export default class ClassObject3d extends THREE.Object3D {
 
   drawClassAssocs(glModelObject3D) {
 
-    for(let key in this.userData.assocs) {
+    for (let key in this.userData.assocs) {
 
       const assoc = this.userData.assocs[key]
 
-      const { [assoc.name]: assocProps } = classModelColors 
-      if(!assocProps) continue
+      const { [assoc.name]: assocProps } = classModelColors
+      if (!assocProps) continue
       const depth = assocProps.depth * -DEPTH - DEPTH
 
-      const p1 = new THREE.Vector3(0, 0, -DEPTH/2)
-      const p2 = new THREE.Vector3(0, 0, depth)
-      this.add(this.drawBeam(p1, p2, assoc.name))
-
       const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      if(!destObj3d) console.log(assoc)
-      if(!destObj3d) continue
-
-      //let destP1 = destObj3d.position.clone()
-
-      let destP1 = destObj3d.position.clone()
-      //destP1.applyMatrix4(destObj3d.matrixWorld)
+      if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
+      if (!destObj3d) continue
+      // translate toPosition to our local coordinates
+      let destPos = destObj3d.position.clone()
+      destPos.applyMatrix4(new THREE.Matrix4().invert(this.matrix))
 
 
-      destP1.z = -DEPTH/2
+      let points = []
+      points.push(new THREE.Vector3(0, 0, -DEPTH / 2)) // move startpoint to the edge
+      points.push(new THREE.Vector3(0, 0, depth))
+      let beforeLastPos = destPos.clone()
+      beforeLastPos.z = depth
+      points.push(beforeLastPos)
+      destPos.z = -DEPTH / 2 // move endpoint to the edge
+      points.push(destPos)
 
-      //let destP1 = destObj3d.position.clone()
+      this.add(this.drawTube(points, assoc.name, assoc.name, true))
 
-      // Apply the mesh's world matrix to translate to world coords
-      //destP1.applyMatrix4(destObj3d.matrixWorld)
-      let destP2 = destP1.clone()
-      destP2.z = depth
-
-      this.add(this.drawBeam(destP1, destP2, assoc.name))
-      this.add(this.drawBeam(p2, destP2, assoc.name))
-
-      console.log(destObj3d)
-      
     }
     this.children.forEach((subClassObj3d) => {
       if (subClassObj3d.type === 'Object3D') {
-        subClassObj3d.drawClassAssocs(glModelObject3D) 
+        subClassObj3d.drawClassAssocs(glModelObject3D)
       }
     });
 
   }
-  drawObjectToClassBeam(length) {
-    let fomPos = new THREE.Vector3(0, -HEIGHT / 4, 0)
-    let toPos = fomPos.clone()
-    toPos.setZ(length)
-    let connectorMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
-    this.add(this.drawBeam(fomPos, toPos, connectorMaterial))
-  }
-  drawObjectAssocs(placeholderObj3d) {
-    const getAssocs = (properties) => {
-      let resultsArr = []
-      Object.keys(properties).forEach(key => {
-        let obj = properties[key]
-        if (key !== 'ownerId') {
-          let nameColor = classModelColors.nameColor[key]
-          // if (nameColor) console.log('obj.constructor', obj.constructor, obj)
-          if (nameColor && nameColor !== 'ownerId' && obj.constructor === String) resultsArr.push({ name: key, key: obj })
-        }
-        if (Array.isArray(obj)) {
-          obj.forEach(subObj => {
-            resultsArr = resultsArr.concat(getAssocs(subObj))
-          })
-        }
-      })
-      return resultsArr
-    }
-    if (!this.userData) return
-    let assocsArr = getAssocs(this.userData)
-    assocsArr.forEach(assoc => {
-      let assocToObj3d = placeholderObj3d.getObjectByProperty('_id', assoc._id)
-      if (!assocToObj3d) console.warn('Cant find ' + assoc._id + ' from ' + this.name + ': ' + this._id)
-      else this.drawTubeTopSideToBottom(assocToObj3d, assoc.name)
-    })
-  }
-  drawBeam(p1, p2, name, caps) {
 
-    const { [name]: assocProps = { color: 0xEFEFEF }  } = classModelColors 
-    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
-    
+  drawBeam(points, colorName, label, arrow) {
+
     let geometries = []
 
-    // https://stackoverflow.com/questions/15139649/three-js-two-points-one-cylinder-align-issue/15160850#15160850
-    let HALF_PI = Math.PI * 0.5
-    let distance = p1.distanceTo(p2)
-    let position = p2.clone().add(p1).divideScalar(2)
-    let cylinder = new THREE.CylinderGeometry(15, 15, distance, 10, 10, false)
-    let orientation = new THREE.Matrix4()// a new orientation matrix to offset pivot
-    let offsetRotation = new THREE.Matrix4()// a matrix to fix pivot rotation
-    // let offsetPosition = new THREE.Matrix4()// a matrix to fix pivot position
-    orientation.lookAt(p1, p2, new THREE.Vector3(0, 1, 0))// look at destination
-    offsetRotation.makeRotationX(HALF_PI)// rotate 90 degs on X
-    orientation.multiply(offsetRotation)// combine orientation with rotation transformations
-    cylinder.applyMatrix4(orientation)
-    cylinder.translate(position.x, position.y, position.z);
-    geometries.push(cylinder)
+    for (let idx = 1; idx < points.length; idx++) {
+      const p1 = points[idx - 1], p2 = points[idx]
 
-    if (caps) {
+      // https://stackoverflow.com/questions/15139649/three-js-two-points-one-cylinder-align-issue/15160850#15160850
+      let HALF_PI = Math.PI * 0.5
+      let distance = p1.distanceTo(p2)
+      let position = p2.clone().add(p1).divideScalar(2)
+      let cylinder = new THREE.CylinderGeometry(15, 15, distance, 10, 10, false)
+      let orientation = new THREE.Matrix4()// a new orientation matrix to offset pivot
+      let offsetRotation = new THREE.Matrix4()// a matrix to fix pivot rotation
+      // let offsetPosition = new THREE.Matrix4()// a matrix to fix pivot position
+      orientation.lookAt(p1, p2, new THREE.Vector3(0, 1, 0))// look at destination
+      offsetRotation.makeRotationX(HALF_PI)// rotate 90 degs on X
+      orientation.multiply(offsetRotation)// combine orientation with rotation transformations
+      cylinder.applyMatrix4(orientation)
+      cylinder.translate(position.x, position.y, position.z);
+      geometries.push(cylinder)
+
       // sphere at the left end
       let sphereGeometryLeft = new THREE.SphereGeometry(15)
       sphereGeometryLeft.translate(p1.x, p1.y, p1.z);
@@ -259,120 +218,54 @@ export default class ClassObject3d extends THREE.Object3D {
       geometries.push(sphereGeometryRight)
     }
 
+    if (arrow) {
+      const lastPoint = points[points.length -1]
+      let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
+      coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
+      geometries.push(coneGeometry)
+    }
+    
+    if (label) this.addTextMeshBetween(label, points[1], points[2])
+    
+    
     let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    //mergedGeometry.mergeVertices() //doesn't work
+        
+    const { [colorName]: assocProps = { color: 0xEFEFEF } } = classModelColors
+    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
+
     return new THREE.Mesh(mergedGeometry, material)
 
   }
-  drawTube(points, name, arrow){
+  drawTube(points, colorName, label, arrow) {
 
-    const { [name]: assocProps = { color: 0xEFEFEF }  } = classModelColors 
-    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
-    
+    let geometries = []
+
     let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
     // path.curveType = 'centripetal';
-    let geometry = new THREE.TubeGeometry(path, 300, 7, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
+    geometries.push(new THREE.TubeGeometry(path, 300, 7, 8, false))
 
-    if(arrow) {
+    if (arrow) {
+      const lastPoint = points[points.length -1]
       let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-      let coneMesh = new THREE.Mesh(coneGeometry, material)
-      this.add(coneMesh)
+      coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
+      //coneGeometry.rotateZ(Math.PI / 2)
+      geometries.push(coneGeometry)
     }
+    
+    if (label) this.addTextMeshBetween(label, points[1], points[2])
+    
+    
+    let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    //mergedGeometry.mergeVertices() //doesn't work
+        
+    const { [colorName]: assocProps = { color: 0xEFEFEF } } = classModelColors
+    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
 
-    if(name) this.addTextMeshBetween(name, points[1], points[2])
+    return new THREE.Mesh(mergedGeometry, material)
+
   }
 
-  drawTubeTopSideToBottom(toObj3d, name) {
-    // translate toPosition to our local coordinates
-    let toPosition = toObj3d.position.clone()
-    toPosition.applyMatrix4(new THREE.Matrix4().getInverse(this.matrix))
-
-    let material = this.mapAssocNameToMaterial(name)
-
-    let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-    let coneMesh = new THREE.Mesh(coneGeometry, material)
-
-    let fromPos, toPos
-    let points = []
-
-    if (toObj3d.userData.docType === 'class') {
-      fromPos = this.getSidePos('back', new THREE.Vector3())
-      toPos = this.getSidePos('back', toPosition)
-      let endPos = toPos.clone()
-      endPos.setZ(endPos.z - 60)
-
-      let assocDepth = (this.mapAssocNameToDepth(name) * DEPTH * 2) + (DEPTH * 2)
-
-      points.push(fromPos)
-      points.push(new THREE.Vector3(fromPos.x, fromPos.y, fromPos.z - assocDepth))
-      if (toPos.y !== fromPos.y) points.push(new THREE.Vector3(fromPos.x, toPos.y, fromPos.z - assocDepth))
-      points.push(new THREE.Vector3(toPos.x, toPos.y, toPos.z - assocDepth))
-      points.push(endPos)
-
-      coneMesh.rotation.x = Math.PI / 2
-      coneMesh.position.set(toPos.x, toPos.y, toPos.z - 40)
-    } else if (toPosition.y < 0) {
-      fromPos = this.getSidePos('bottom', new THREE.Vector3())
-      toPos = this.getSidePos('top', toPosition)
-      let endPos = toPos.clone()
-      endPos.setY(endPos.y + 60)
-
-      points.push(fromPos)
-      points.push(new THREE.Vector3(fromPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
-      if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
-      points.push(new THREE.Vector3(toPos.x, toPos.y + HEIGHT * 1.5, toPos.z))
-      points.push(endPos)
-
-      coneMesh.rotation.z = -Math.PI
-      coneMesh.position.set(toPos.x, toPos.y + 40, toPos.z)
-    } else if (toPosition.y > 0) {
-      fromPos = this.getSidePos('top', new THREE.Vector3())
-      toPos = this.getSidePos('bottom', toPosition)
-      let endPos = toPos.clone()
-      endPos.setY(endPos.y - 60)
-
-      points.push(fromPos)
-      points.push(new THREE.Vector3(fromPos.x, fromPos.y + HEIGHT * 1.5, fromPos.z))
-      if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y + HEIGHT * 1.5, fromPos.z))
-      points.push(new THREE.Vector3(toPos.x, toPos.y - HEIGHT * 1.5, toPos.z))
-      points.push(endPos)
-
-      coneMesh.position.set(toPos.x, toPos.y - 40, toPos.z)
-    } else {
-      fromPos = this.getSidePos('bottom', new THREE.Vector3())
-      toPos = this.getSidePos('bottom', toPosition)
-      let endPos = toPos.clone()
-      endPos.setY(endPos.y - 60)
-
-      points.push(fromPos)
-      points.push(new THREE.Vector3(fromPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
-      if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
-      points.push(new THREE.Vector3(toPos.x, toPos.y - HEIGHT * 1.5, toPos.z))
-      points.push(endPos)
-
-      coneMesh.position.set(toPos.x, toPos.y - 40, toPos.z)
-    }
-
-    let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
-    // path.curveType = 'centripetal';
-    let geometry = new THREE.TubeGeometry(path, 300, 7, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
-
-    this.add(coneMesh)
-
-    this.addTextMeshBetween(name, points[1], points[2])
-  }
-  getSidePos(side, pos) {
-    if (side === 'top') return new THREE.Vector3(pos.x, pos.y + HEIGHT / 2, pos.z)
-    if (side === 'right') return new THREE.Vector3(pos.x + WIDTH / 2, pos.y, pos.z)
-    if (side === 'bottom') return new THREE.Vector3(pos.x, pos.y - HEIGHT / 2, pos.z)
-    if (side === 'left') return new THREE.Vector3(pos.x - WIDTH / 2, pos.y, pos.z)
-    if (side === 'front') return new THREE.Vector3(pos.x, pos.y, pos.z + DEPTH / 2)
-    if (side === 'back') return new THREE.Vector3(pos.x, pos.y, pos.z - DEPTH / 2)
-    return pos
-  }
   getGeometry(docType) {
     const x = 0, y = 0
 
@@ -441,5 +334,128 @@ export default class ClassObject3d extends THREE.Object3D {
     textMesh.name = name + ' - text mesh'
     textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
     this.add(textMesh);
+  }
+
+//Old
+//Old
+//Old
+//Old
+//Old
+//Old
+//Old
+
+drawTubeTopSideToBottom(toObj3d, name) {
+  // translate toPosition to our local coordinates
+  let toPosition = toObj3d.position.clone()
+  toPosition.applyMatrix4(new THREE.Matrix4().getInverse(this.matrix))
+
+  let material = this.mapAssocNameToMaterial(name)
+
+  let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
+  let coneMesh = new THREE.Mesh(coneGeometry, material)
+
+  let fromPos, toPos
+  let points = []
+
+  if (toObj3d.userData.docType === 'class') {
+    fromPos = this.getSidePos('back', new THREE.Vector3())
+    toPos = this.getSidePos('back', toPosition)
+    let endPos = toPos.clone()
+    endPos.setZ(endPos.z - 60)
+
+    let assocDepth = (this.mapAssocNameToDepth(name) * DEPTH * 2) + (DEPTH * 2)
+
+    points.push(fromPos)
+    points.push(new THREE.Vector3(fromPos.x, fromPos.y, fromPos.z - assocDepth))
+    if (toPos.y !== fromPos.y) points.push(new THREE.Vector3(fromPos.x, toPos.y, fromPos.z - assocDepth))
+    points.push(new THREE.Vector3(toPos.x, toPos.y, toPos.z - assocDepth))
+    points.push(endPos)
+
+    coneMesh.rotation.x = Math.PI / 2
+    coneMesh.position.set(toPos.x, toPos.y, toPos.z - 40)
+  } else if (toPosition.y < 0) {
+    fromPos = this.getSidePos('bottom', new THREE.Vector3())
+    toPos = this.getSidePos('top', toPosition)
+    let endPos = toPos.clone()
+    endPos.setY(endPos.y + 60)
+
+    points.push(fromPos)
+    points.push(new THREE.Vector3(fromPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
+    if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
+    points.push(new THREE.Vector3(toPos.x, toPos.y + HEIGHT * 1.5, toPos.z))
+    points.push(endPos)
+
+    coneMesh.rotation.z = -Math.PI
+    coneMesh.position.set(toPos.x, toPos.y + 40, toPos.z)
+  } else if (toPosition.y > 0) {
+    fromPos = this.getSidePos('top', new THREE.Vector3())
+    toPos = this.getSidePos('bottom', toPosition)
+    let endPos = toPos.clone()
+    endPos.setY(endPos.y - 60)
+
+    points.push(fromPos)
+    points.push(new THREE.Vector3(fromPos.x, fromPos.y + HEIGHT * 1.5, fromPos.z))
+    if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y + HEIGHT * 1.5, fromPos.z))
+    points.push(new THREE.Vector3(toPos.x, toPos.y - HEIGHT * 1.5, toPos.z))
+    points.push(endPos)
+
+    coneMesh.position.set(toPos.x, toPos.y - 40, toPos.z)
+  } else {
+    fromPos = this.getSidePos('bottom', new THREE.Vector3())
+    toPos = this.getSidePos('bottom', toPosition)
+    let endPos = toPos.clone()
+    endPos.setY(endPos.y - 60)
+
+    points.push(fromPos)
+    points.push(new THREE.Vector3(fromPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
+    if (toPos.x !== fromPos.x) points.push(new THREE.Vector3(toPos.x, fromPos.y - HEIGHT * 1.5, fromPos.z))
+    points.push(new THREE.Vector3(toPos.x, toPos.y - HEIGHT * 1.5, toPos.z))
+    points.push(endPos)
+
+    coneMesh.position.set(toPos.x, toPos.y - 40, toPos.z)
+  }
+
+  let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
+  // path.curveType = 'centripetal';
+  let geometry = new THREE.TubeGeometry(path, 300, 7, 8, false)
+  let mesh = new THREE.Mesh(geometry, material)
+  this.add(mesh)
+
+  this.add(coneMesh)
+
+  this.addTextMeshBetween(name, points[1], points[2])
+}
+  drawObjectToClassBeam(length) {
+    let fomPos = new THREE.Vector3(0, -HEIGHT / 4, 0)
+    let toPos = fomPos.clone()
+    toPos.setZ(length)
+    let connectorMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
+    this.add(this.drawBeam(fomPos, toPos, connectorMaterial))
+  }
+  drawObjectAssocs(placeholderObj3d) {
+    const getAssocs = (properties) => {
+      let resultsArr = []
+      Object.keys(properties).forEach(key => {
+        let obj = properties[key]
+        if (key !== 'ownerId') {
+          let nameColor = classModelColors.nameColor[key]
+          // if (nameColor) console.log('obj.constructor', obj.constructor, obj)
+          if (nameColor && nameColor !== 'ownerId' && obj.constructor === String) resultsArr.push({ name: key, key: obj })
+        }
+        if (Array.isArray(obj)) {
+          obj.forEach(subObj => {
+            resultsArr = resultsArr.concat(getAssocs(subObj))
+          })
+        }
+      })
+      return resultsArr
+    }
+    if (!this.userData) return
+    let assocsArr = getAssocs(this.userData)
+    assocsArr.forEach(assoc => {
+      let assocToObj3d = placeholderObj3d.getObjectByProperty('_id', assoc._id)
+      if (!assocToObj3d) console.warn('Cant find ' + assoc._id + ' from ' + this.name + ': ' + this._id)
+      else this.drawTubeTopSideToBottom(assocToObj3d, assoc.name)
+    })
   }
 }
