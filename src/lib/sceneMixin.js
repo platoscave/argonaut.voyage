@@ -60,7 +60,7 @@ export default {
       this.orbit = !this.orbit
       controls.autoRotate = this.orbit
     },
-    onResize(x, y) {
+    onResize() {
       // add event liteners https://stackoverflow.com/questions/49380830/vue-js-how-to-get-window-size-whenever-it-changes
       if (!glRenderer) return
       if (this.width === undefined || this.height === undefined) {
@@ -86,6 +86,8 @@ export default {
       return -1
     },
     loadScene() {
+    
+      //if(glScene) alert('destroy')
       // world
       glScene = new Scene()
       this.glModelObject3D = new Object3D()
@@ -103,32 +105,17 @@ export default {
       // glRenderer
       glRenderer = this.createGlRenderer()
       cssRenderer = this.createCssRenderer()
-
+      // cssRenderer
       this.$el.appendChild(cssRenderer.domElement);
       cssRenderer.domElement.appendChild(glRenderer.domElement);
 
       // controls
-      //controls = new OrbitControls(camera, glRenderer.domElement)
       controls = new OrbitControls(camera, this.$el)
-      controls.autoRotateSpeed = 0.125
+      controls.autoRotateSpeed = 0.1245
       controls.minPolarAngle = Math.PI / 4
       controls.maxPolarAngle = Math.PI / 1.5
       controls.screenSpacePanning = true;
       controls.enableDamping = true;
-
-      /*       controls.enableZoom = false
-      
-            this.$el.addEventListener( 'wheel', evnet => {
-              event.preventDefault();
-              event.stopPropagation();
-              let moveCameraVec = new Vector3()
-              camera.getWorldDirection(moveCameraVec)
-              moveCameraVec.multiplyScalar ( event.deltaY > 0 ? 100 : -100)
-      
-              var newCameraPos = camera.position.clone().add( moveCameraVec );
-              controls.object.position.set(newCameraPos.x, newCameraPos.y, newCameraPos.z)
-      
-            }, false ); */
 
       // lights
       let light1 = new DirectionalLight(0xffffff)
@@ -234,7 +221,16 @@ export default {
       let cameraPos = controls.object.position.clone()
       let newCameraPos = newTargetPos.clone()
 
+
+      // is this better?
+      // Make camera pos in front of and slightly higher than center, relative to the mesh. 
+      // Apply the mesh's world matrix to translate to world coords
+      //var newCameraPos = new THREE.Vector3(0, 300, 2000).applyMatrix4(selectedMesh.matrixWorld)
+
+
       newCameraPos.setY(newCameraPos.y + 300)
+
+
       if (selectedModelObj.rotation.y > 0) newCameraPos.setX(newCameraPos.x + 2000)
       else newCameraPos.setZ(newCameraPos.z + 2000)
 
@@ -365,7 +361,7 @@ export default {
     this.onResize()
   },
   beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false);
-    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("hashchange", this.handleHashChange, false)
+    window.removeEventListener("resize", this.onResize)
   },
 }

@@ -30,10 +30,10 @@ export default {
       this.$pouch
         .destroy()
         .then( () => {
-          this.$message({ message: "Cache Cleared", type: "succes" });
+          this.$message({ message: "Cache Cleared", type: 'success' });
         })
         .catch( err => {
-          this.$message({ message: err, type: "error", duration:"0"});
+          this.$message({ message: err, type: "error"});
         });
     },
 
@@ -41,7 +41,7 @@ export default {
       this.$pouch
         .bulkDocs(argo)
         .then(() => {
-          this.$message({ message: "Static File Loaded", type: "succes" });
+          this.$message({ message: "Static File Loaded", type: 'success' });
         })
         .catch(function (err) {
           this.$message({ message: err, type: "error" });
@@ -54,7 +54,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: parentId", type: "succes" });
+          this.$message({ message: "Index Created: parentId", type: 'success' });
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });
@@ -67,7 +67,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: classId", type: "succes" });
+          this.$message({ message: "Index Created: classId", type: 'success' });
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });
@@ -80,7 +80,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: ownerId", type: "succes" });
+          this.$message({ message: "Index Created: ownerId", type: 'success' });
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });
@@ -93,7 +93,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: name", type: "succes" });
+          this.$message({ message: "Index Created: name", type: 'success' });
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });
@@ -106,7 +106,7 @@ export default {
           },
         })
         .then(() => {
-          this.$message({ message: "Index Created: title", type: "succes", duration: 0});
+          this.$message({ message: "Index Created: title", type: 'success', duration: 0});
         })
         .catch((err) => {
           this.$message({ message: err, type: "error" });

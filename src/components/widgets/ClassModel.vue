@@ -40,7 +40,7 @@ export default {
     };
   },
   methods: {
-    async collectAndDrawClasses(placeholderObj3d, userData) {
+    async dawClasses(placeholderObj3d, userData) {
 
       // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(userData, 0, this.selectableMeshArr);
@@ -50,10 +50,16 @@ export default {
       const queryObj = await this.$pouch.get('2jfs4is4icct') // Get the subclasses queryObj
       await rootClassObj3d.drawChildren(this.selectableMeshArr, queryObj, this.$pouch)
 
-      rootClassObj3d.setPositionX(0) 
+      const clidrenMaxX = rootClassObj3d.setPositionX(0) 
+      rootClassObj3d.translateX(-clidrenMaxX / 2)
+
+      placeholderObj3d.updateMatrixWorld(true) // important! after you set positions
+
+      rootClassObj3d.drawClassAssocs(placeholderObj3d) 
 
       return rootClassObj3d;
     },
+    /* 
     collectAndDrawObjects(placeholderObj3d, classObj3d) {
       let queryObj = {
         query: {
@@ -110,8 +116,8 @@ export default {
      * @param {ClassObject3d} classObj3d - An object3d instance. The current class.
      * @param {number} x - the x value that represents the minimum x for this class.
      * @return {number} - the hightest x value used sofar.
-     */
-    setPositionX(classObj3d, x) {
+     */ 
+    /* setPositionX(classObj3d, x) {
       let minX = x;
       let maxX = x;
       classObj3d.subclassesObj3ds.forEach((subClassObj3d) => {
@@ -122,12 +128,12 @@ export default {
       /* if (subclassesLength > 0) {
         let lastSubclassPosX = classObj3d.subclassesObj3ds[subclassesLength - 1].position.x
         classObj3d.position.setX(minX + (lastSubclassPosX - minX) / 2)
-      } */
+      } * /
       classObj3d.position.setX(minX + (maxX - minX) / 2);
       return maxX;
-    },
+    }, */
 
-    /**
+    /* /**
      * Recusrive function to traverse the class hierarchy using the subclassesObj3ds array.
      * On each of these classes, set the y value, then iterate the subclasses
      * Call ourselves on each of these subclasses.
@@ -135,7 +141,7 @@ export default {
      * @param {ClassObject3d} classObj3d - An object3d instance. The current class.
      * @param {number} y - the y value that this class will be positioned at.
      * @return {number} - the lowest y value used sofar (not actually used yet).
-     */
+     * /
     setPositionY(classObj3d, y) {
       classObj3d.position.setY(y);
       let minY = y;
@@ -143,7 +149,7 @@ export default {
         minY = Math.min(y, this.setPositionY(subClassObj3d, y - HEIGHT * 4));
       });
       return minY;
-    },
+    }, */
 
     /**
      * Recusrive function to traverse the class hierarchy using the subclassesObj3ds array.
@@ -152,7 +158,7 @@ export default {
      *
      * @param {ClassObject3d} placeholderObj3d - An object3d instance. Used to find associated objects by key.
      * @param {ClassObject3d} classObj3d - An object3d instance. The current class
-     */
+     * /
     drawObjectAssocs(placeholderObj3d, classObj3d) {
       classObj3d.subclassesObj3ds.forEach((subClassObj3d) => {
         subClassObj3d.instancesObj3d.forEach((instanceObj3d) => {
@@ -167,21 +173,17 @@ export default {
      *
      * @param {ClassObject3d} placeholderObj3d - An object3d instance. Used to find associated objects by key.
      * @param {ClassObject3d} classObj3d - An object3d instance. The current class
-     */
+     * /
     drawClassAssocs(placeholderObj3d, classObj3d) {
       classObj3d.subclassesObj3ds.forEach((subClassObj3d) => {
         subClassObj3d.drawClassAssocs(placeholderObj3d);
         this.drawClassAssocs(placeholderObj3d, subClassObj3d);
       });
-    },
+    },*/
   },
 
   mounted: async function () {
     this.addLoadingText();
-
-    // placeholderObj3d holds all of our 3d objects. Mostly used for lookup by key.
-    let placeholderObj3d = new THREE.Object3D();
-    this.glModelObject3D.add(placeholderObj3d);
 
     // Get the root class from the store
     try {
@@ -207,30 +209,7 @@ export default {
       };
 
       // Tell the root class to draw itself, and each of it's subclasses, recursivily
-      let rootClassObj3d = await this.collectAndDrawClasses(
-        placeholderObj3d,
-        userData
-      );
-
-      rootClassObj3d.subclassesObj3ds = [];
-      // Position the classes
-      let maxX = this.setPositionX(rootClassObj3d, 0);
-      this.setPositionY(rootClassObj3d, 0);
-
-      // Shift placeholder to the left so that the root is at the center of the universe
-      placeholderObj3d.position.setX(-maxX / 2);
-      placeholderObj3d.updateMatrixWorld(true);
-
-      rootClassObj3d.drawClassBeams();
-
-      this.drawClassAssocs(placeholderObj3d, rootClassObj3d);
-
-      // Tell the root class and each of it's subclasses to draw its objects, recursivily
-      //      await this.collectAndDrawObjects(placeholderObj3d, rootClassObj3d);
-      placeholderObj3d.updateMatrixWorld(true);
-
-      // TODO takes awhile. find a way to filter.
-      this.drawObjectAssocs(placeholderObj3d, rootClassObj3d);
+      await this.dawClasses( this.glModelObject3D, userData);
 
       this.removeLoadingText();
     } catch (err) {

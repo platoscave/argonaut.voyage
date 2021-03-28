@@ -3899,7 +3899,7 @@ module.exports = [
     "pageId": "24cnex2saye1",
     "mongoQuery": {
       "selector": { "parentId": "$fk" },
-      "fields": ["_id", "title", "docType"],
+      "fields": ["_id", "title", "docType", "properties"],
       "sort": ["title"]
     }
   },
@@ -4089,7 +4089,7 @@ module.exports = [
     "pageId": "24cnex2saye1",
     "mongoQuery": {
       "selector": { "_id": "gzthjuyjca4s" },
-      "fields": ["_id", "title", "docType"]
+      "fields": ["_id", "title", "docType", "properties"]
     }
   },
   {
@@ -4135,7 +4135,7 @@ module.exports = [
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "mongoQuery": {
       "selector": { "classId": "$fk" },
-      "fields": ["_id", "name", "docType"],
+      "fields": ["_id", "name", "docType", "properties"],
       "sort": ["name"]
     }
   },
