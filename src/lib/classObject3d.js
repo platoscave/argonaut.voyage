@@ -292,6 +292,7 @@ export default class ClassObject3d extends THREE.Object3D {
 
     return geometry
   }
+
   straightenPoints(points) {
     let newPoints = []
     points.forEach((point, i) => {
@@ -315,6 +316,7 @@ export default class ClassObject3d extends THREE.Object3D {
     })
     return newPoints
   }
+
   addTextMeshBetween(name, pointA, pointB) {
     if (!name) name = 'unnamed'
     let textPosition = new THREE.Vector3()
@@ -323,6 +325,7 @@ export default class ClassObject3d extends THREE.Object3D {
     textPosition.setZ(textPosition.z + 20)
     this.addTextMesh(name, textPosition)
   }
+  
   addTextMesh(name, textPosition) {
     if (!name) name = 'unnamed'
     let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
