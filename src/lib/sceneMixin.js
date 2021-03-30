@@ -56,35 +56,6 @@ export default {
     }
   },
   methods: {
-    onOrbit() {
-      this.orbit = !this.orbit
-      controls.autoRotate = this.orbit
-    },
-    onResize() {
-      // add event liteners https://stackoverflow.com/questions/49380830/vue-js-how-to-get-window-size-whenever-it-changes
-      if (!glRenderer) return
-      if (this.width === undefined || this.height === undefined) {
-        // console.log('this.$el', this.$el)
-        let rect = this.$el.getBoundingClientRect()
-        //console.log(rect)
-        camera.aspect = rect.width / rect.height
-        camera.updateProjectionMatrix()
-        glRenderer.setSize(rect.width, rect.height)
-        cssRenderer.setSize(rect.width, rect.height)
-        this.render()
-      } else {
-        glRenderer.setSize(this.width, this.height)
-        cssRenderer.setSize(this.width, this.height)
-      }
-    },
-    getSceneIndexByKey(_id) {
-      for (let i = 0; i < this.scenes.length; i++) {
-        if (this.scenes[i]._id === _id) {
-          return i
-        }
-      }
-      return -1
-    },
     loadScene() {
     
       //if(glScene) alert('destroy')
@@ -104,8 +75,8 @@ export default {
 
       // glRenderer
       glRenderer = this.createGlRenderer()
-      cssRenderer = this.createCssRenderer()
       // cssRenderer
+      cssRenderer = this.createCssRenderer()
       this.$el.appendChild(cssRenderer.domElement);
       cssRenderer.domElement.appendChild(glRenderer.domElement);
 
@@ -121,8 +92,7 @@ export default {
       let light1 = new DirectionalLight(0xffffff)
       light1.position.set(-1, 1, 1).normalize()
       glScene.add(light1)
-      let light2 = new AmbientLight(0x404040)
-      glScene.add(light2)
+      glScene.add(new AmbientLight(0x404040))
 
       // axesHelper
       axesHelper = new AxesHelper(100)
@@ -146,15 +116,16 @@ export default {
         glScene.add(skyBox)
       }
 
-      // else see http://threejs.org/examples/webgl_multiple_views.html
+      // see http://threejs.org/examples/webgl_multiple_views.html for rendering on 3d tv
 
-      glScene.name = 'Boilerplate'
+      glScene.name = 'glScene'
       this.$el.addEventListener('click', this.onClick, false)
 
-      this.$nextTick(() => this.$nextTick(() => this.onResize()))
+      //this.$nextTick(() => this.$nextTick(() => this.onResize()))
       this.render()
       this.animate()
     },
+
     render() {
       glRenderer.render(glScene, camera)
       cssRenderer.render(cssScene, camera)
@@ -169,6 +140,30 @@ export default {
       glRenderer.render(glScene, camera)
       cssRenderer.render(cssScene, camera)
     },
+
+    onOrbit() {
+      this.orbit = !this.orbit
+      controls.autoRotate = this.orbit
+    },
+
+    onResize() {
+      // add event liteners https://stackoverflow.com/questions/49380830/vue-js-how-to-get-window-size-whenever-it-changes
+      if (!glRenderer) return
+      if (this.width === undefined || this.height === undefined) {
+        // console.log('this.$el', this.$el)
+        let rect = this.$el.getBoundingClientRect()
+        //console.log(rect)
+        camera.aspect = rect.width / rect.height
+        camera.updateProjectionMatrix()
+        glRenderer.setSize(rect.width, rect.height)
+        cssRenderer.setSize(rect.width, rect.height)
+        this.render()
+      } else {
+        glRenderer.setSize(this.width, this.height)
+        cssRenderer.setSize(this.width, this.height)
+      }
+    },
+
     onClick(event) {
       // see https://threejs.org/docs/#api/core/Raycaster.setFromCamera
       event.preventDefault()
@@ -187,6 +182,7 @@ export default {
         this.updateNextLevelHashSelectedObjId(selectedMesh.parent.userData)
       }
     },
+
     highlight(_id) {
       //if (!this.heighlight) return
       if(this.currentlySelectedObjProps) {
@@ -207,6 +203,7 @@ export default {
         newlySelected.children[1].material = new MeshLambertMaterial({ color: 0x666666 })
       }
     },
+
     moveCameraToPos(_id) {
       let selectedModelObj = this.glModelObject3D.getObjectByProperty('_id', _id)
       if (!selectedModelObj) return
@@ -242,6 +239,7 @@ export default {
       })
       cameraTween.start()
     },
+
     addLoadingText(text) {
       let textMaterial = new MeshLambertMaterial({ color: 0xEFEFEF })
       let text3d = new TextGeometry(text || 'Loading...', { size: 200, font: font })
@@ -251,11 +249,12 @@ export default {
       textMesh.position.set(0, 400, 0)
       glScene.add(textMesh)
     },
+
     removeLoadingText() {
       let mesh = glScene.getObjectByName('Loading Message')
-
       glScene.remove(mesh)
     },
+
     getRoundedRectShape(width, height, radius) {
       const roundedRect = (ctx, width, height, radius) => {
         const x = 0
@@ -277,7 +276,7 @@ export default {
     },
 
     ///////////////////////////////////////////////////////////////////
-    // Creates WebGL Renderer
+    // Create WebGL Renderer
     //
     ///////////////////////////////////////////////////////////////////
     createGlRenderer: function () {
@@ -300,7 +299,7 @@ export default {
     },
 
     ///////////////////////////////////////////////////////////////////
-    // Creates CSS Renderer
+    // Create CSS Renderer
     //
     ///////////////////////////////////////////////////////////////////
     createCssRenderer: function () {

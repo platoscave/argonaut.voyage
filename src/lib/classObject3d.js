@@ -155,24 +155,32 @@ export default class ClassObject3d extends THREE.Object3D {
 
       const { [assoc.name]: assocProps } = classModelColors
       if (!assocProps) continue
-      const depth = assocProps.depth * -DEPTH - DEPTH
+      const depth = - ( DEPTH * 2 + assocProps.depth * DEPTH / 2 )
 
       const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
       if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
       if (!destObj3d) continue
-      // translate toPosition to our local coordinates
-      let destPos = destObj3d.position.clone()
-      destPos.applyMatrix4(new THREE.Matrix4().invert(this.matrix))
 
+      // Get positions in world coordinates
+      let sourcePos = new THREE.Vector3()
+      this.getWorldPosition(sourcePos)
+      let destPos = new THREE.Vector3()
+      destObj3d.getWorldPosition(destPos)
+
+      // Get the difference vector
+      let difVec = destPos.clone()
+      difVec.sub(sourcePos)
+
+      const sourceBack = this.getSidePos('back', new THREE.Vector3())
+      const destBack = this.getSidePos('back', difVec)
 
       let points = []
-      points.push(new THREE.Vector3(0, 0, -DEPTH / 2)) // move startpoint to the edge
+      points.push(sourceBack) // move startpoint to the edge
       points.push(new THREE.Vector3(0, 0, depth))
-      let beforeLastPos = destPos.clone()
+      let beforeLastPos = destBack.clone()
       beforeLastPos.z = depth
       points.push(beforeLastPos)
-      destPos.z = -DEPTH / 2 // move endpoint to the edge
-      points.push(destPos)
+      points.push(destBack)
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
 
@@ -237,30 +245,45 @@ export default class ClassObject3d extends THREE.Object3D {
     return new THREE.Mesh(mergedGeometry, material)
 
   }
+
   drawTube(points, colorName, label, arrow) {
 
-    let geometries = []
+    const beforeLastPoint = points[points.length -2]
+    const lastPoint = points[points.length -1]
+    let direction = new THREE.Vector3()
+    direction.subVectors(lastPoint, beforeLastPoint).normalize()
+    
+    // Shorten the last vector to make room for the arrow
+    if (arrow) {
+      let offset = direction.clone()
+      offset.multiplyScalar(100)
+      console.log(label, direction, offset, lastPoint)
+      points[points.length -1].sub(offset)
+      console.log(lastPoint)
+    }
 
     let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
     // path.curveType = 'centripetal';
+    let geometries = []
     geometries.push(new THREE.TubeGeometry(path, 300, 7, 8, false))
 
     if (arrow) {
-      const lastPoint = points[points.length -1]
       let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
+      coneGeometry.translate(0, 50, 0)
+      coneGeometry.rotateX(Math.PI / 2 * direction.z)
+      //coneGeometry.rotateZ(Math.PI / 2 * direction.x)
+      //coneGeometry.rotateY(Math.PI / 2 * direction.y)
       coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
-      //coneGeometry.rotateZ(Math.PI / 2)
       geometries.push(coneGeometry)
     }
     
-    if (label) this.addTextMeshBetween(label, points[1], points[2])
-    
-    
     let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
-    //mergedGeometry.mergeVertices() //doesn't work
-        
+    //mergedGeometry.mergeVertices() //doesn't work for buffer geometry
+    
     const { [colorName]: assocProps = { color: 0xEFEFEF } } = classModelColors
     const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
+
+    if (label) this.addTextMeshBetween(label, points[1], points[2])
 
     return new THREE.Mesh(mergedGeometry, material)
 
@@ -317,6 +340,16 @@ export default class ClassObject3d extends THREE.Object3D {
     return newPoints
   }
 
+  getSidePos (side, pos) {
+    if (side === 'top') return new THREE.Vector3(pos.x, pos.y + HEIGHT / 2, pos.z)
+    if (side === 'right') return new THREE.Vector3(pos.x + WIDTH / 2, pos.y, pos.z)
+    if (side === 'bottom') return new THREE.Vector3(pos.x, pos.y - HEIGHT / 2, pos.z)
+    if (side === 'left') return new THREE.Vector3(pos.x - WIDTH / 2, pos.y, pos.z)
+    if (side === 'front') return new THREE.Vector3(pos.x, pos.y, pos.z + DEPTH / 2)
+    if (side === 'back') return new THREE.Vector3(pos.x, pos.y, pos.z - DEPTH / 2)
+    return pos
+  }
+
   addTextMeshBetween(name, pointA, pointB) {
     if (!name) name = 'unnamed'
     let textPosition = new THREE.Vector3()
@@ -325,15 +358,17 @@ export default class ClassObject3d extends THREE.Object3D {
     textPosition.setZ(textPosition.z + 20)
     this.addTextMesh(name, textPosition)
   }
-  
+
   addTextMesh(name, textPosition) {
     if (!name) name = 'unnamed'
     let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
+    textMaterial.side = THREE.DoubleSide
     const shapes = font.generateShapes(name, HEIGHT / 6);
     const geometry = new THREE.ShapeGeometry(shapes);
     geometry.name = name + " - text geometry"
     geometry.center()
     let textMesh = new THREE.Mesh(geometry, textMaterial);
+    //textMesh.doubleSided = true
     textMesh.name = name + ' - text mesh'
     textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
     this.add(textMesh);
