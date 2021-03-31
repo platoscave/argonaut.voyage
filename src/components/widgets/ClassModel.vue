@@ -71,16 +71,20 @@ export default {
 
       // Get the subclasses queryObj
       const subclassesQueryObj = await this.$pouch.get('2jfs4is4icct') 
-      await rootClassObj3d.drawChildren(this.selectableMeshArr, subclassesQueryObj, this.$pouch)
+      await rootClassObj3d.drawSubclasses(this.selectableMeshArr, subclassesQueryObj, this.$pouch)
 
       // Set the x positions
       const clidrenMaxX = rootClassObj3d.setPositionX(0) 
       rootClassObj3d.translateX(-clidrenMaxX / 2) // move route obj to the center
 
-      // important! after you set positions, otherwise obj3d matrises will be wrong
+      // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true) 
 
       rootClassObj3d.drawClassAssocs(this.glModelObject3D) 
+
+      // Get the objects queryObj
+      const objectsQueryObj = await this.$pouch.get('x1lrv2xdq2tu') 
+      await rootClassObj3d.drawObjects(this.selectableMeshArr, objectsQueryObj, this.$pouch)
 
       return rootClassObj3d;
     },
