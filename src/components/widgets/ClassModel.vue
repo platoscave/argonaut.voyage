@@ -36,6 +36,8 @@ export default {
     };
   },
   methods: {
+
+    // Tell the root class to draw itself, and each of it's subclasses, recursivily
     async dawClasses() {
 
       // Get the root class from the store
@@ -65,12 +67,13 @@ export default {
       };
 
       // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(userData, 0, this.selectableMeshArr);
+      let rootClassObj3d = new ClassObject3d(userData, true);
       this.glModelObject3D.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
 
       // Get the subclasses queryObj
-      const subclassesQueryObj = await this.$pouch.get('2jfs4is4icct') 
+      const subclassesQueryObj = await this.$pouch.get('2jfs4is4icct')
+      // Tell root class to draw the subclasses
       await rootClassObj3d.drawSubclasses(this.selectableMeshArr, subclassesQueryObj, this.$pouch)
 
       // Set the x positions
@@ -96,7 +99,6 @@ export default {
 
     try {
 
-      // Tell the root class to draw itself, and each of it's subclasses, recursivily
       await this.dawClasses();
 
       this.removeLoadingText();

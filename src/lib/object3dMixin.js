@@ -7,7 +7,7 @@ const font = new THREE.Font(fontJson)
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 export default {
 
-  drawBeam(points, colorName, label, arrow) {
+  drawBeam(points, colorName = 'default', label = 'unnamed', arrow) {
 
     let geometries = []
 
@@ -46,9 +46,7 @@ export default {
       coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
       geometries.push(coneGeometry)
     }
-    
-    if (label) this.addTextMeshBetween(label, points[1], points[2])
-    
+        
     
     let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
     //mergedGeometry.mergeVertices() //doesn't work
@@ -60,7 +58,7 @@ export default {
 
   },
 
-  drawTube(points, colorName, label, arrow) {
+  drawTube(points, colorName = 'default', label = 'unnamed', arrow) {
 
     const beforeLastPoint = points[points.length -2]
     const lastPoint = points[points.length -1]
@@ -71,9 +69,7 @@ export default {
     if (arrow) {
       let offset = direction.clone()
       offset.multiplyScalar(100)
-      console.log(label, direction, offset, lastPoint)
       points[points.length -1].sub(offset)
-      console.log(lastPoint)
     }
 
     let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
@@ -85,8 +81,8 @@ export default {
       let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
       coneGeometry.translate(0, 50, 0)
       coneGeometry.rotateX(Math.PI / 2 * direction.z)
-      //coneGeometry.rotateZ(Math.PI / 2 * direction.x)
-      //coneGeometry.rotateY(Math.PI / 2 * direction.y)
+      coneGeometry.rotateZ(Math.PI / 2 * direction.x)
+      //coneGeometry.rotateY(Math.PI / 2 * direction.y) // TODO
       coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
       geometries.push(coneGeometry)
     }
@@ -97,40 +93,8 @@ export default {
     const { [colorName]: assocProps = { color: 0xEFEFEF } } = classModelColors
     const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
 
-    if (label) this.addTextMeshBetween(label, points[1], points[2])
-
     return new THREE.Mesh(mergedGeometry, material)
 
-  },
-
-  getMeshForDocType(docType) {
-    const x = 0, y = 0
-
-    let shape = new THREE.Shape()
-    if (docType === 'class')
-      shape.moveTo(x, y + HEIGHT / 3)
-        .lineTo(x, (y + HEIGHT / 3) * 2)
-        .lineTo(x + WIDTH / 2, y + HEIGHT)
-        .lineTo(x + WIDTH, (y + HEIGHT / 3) * 2)
-        .lineTo(x + WIDTH, y + HEIGHT / 3)
-        .lineTo(x + WIDTH / 2, y)
-    else
-      shape.moveTo(x, y)
-        .lineTo(x, y + HEIGHT / 2)
-        .lineTo(x + WIDTH / 2, y + HEIGHT)
-        .lineTo(x + WIDTH, y + HEIGHT / 2)
-        .lineTo(x + WIDTH, y)
-
-    // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
-    let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.title + " - 3d geometry"
-    geometry.center()
-
-    const { class: assocProps } = classModelColors
-    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
-
-    return new THREE.Mesh(geometry, material)
   },
 
   straightenPoints(points) {
@@ -157,7 +121,7 @@ export default {
     return newPoints
   },
 
-  getSidePos (side, pos) {
+  getSidePos (side, pos = new THREE.Vector3()) {
     if (side === 'top') return new THREE.Vector3(pos.x, pos.y + HEIGHT / 2, pos.z)
     if (side === 'right') return new THREE.Vector3(pos.x + WIDTH / 2, pos.y, pos.z)
     if (side === 'bottom') return new THREE.Vector3(pos.x, pos.y - HEIGHT / 2, pos.z)
@@ -167,28 +131,21 @@ export default {
     return pos
   },
 
-  addTextMeshBetween(name, pointA, pointB) {
-    if (!name) name = 'unnamed'
-    let textPosition = new THREE.Vector3()
-    textPosition.subVectors(pointB, pointA).divideScalar(2)
-    textPosition.add(pointA)
-    textPosition.setZ(textPosition.z + 20)
-    this.addTextMesh(name, textPosition)
-  },
+  getTextMesh( name = 'unnamed', size = HEIGHT / 6 ) {
 
-  addTextMesh(name, textPosition) {
-    if (!name) name = 'unnamed'
-    let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
+    const { label: assocProps } = classModelColors
+    let textMaterial = new THREE.MeshLambertMaterial({ color: assocProps.color })
     textMaterial.side = THREE.DoubleSide
-    const shapes = font.generateShapes(name, HEIGHT / 6);
+
+    const shapes = font.generateShapes(name, size);
+
     const geometry = new THREE.ShapeGeometry(shapes);
     geometry.name = name + " - text geometry"
     geometry.center()
+
     let textMesh = new THREE.Mesh(geometry, textMaterial);
-    //textMesh.doubleSided = true
     textMesh.name = name + ' - text mesh'
-    textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
-    this.add(textMesh);
+    return textMesh
   }
 
 }
