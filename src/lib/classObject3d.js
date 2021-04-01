@@ -209,26 +209,28 @@ export default class ClassObject3d extends THREE.Object3D {
       if (cond === "$fk") selector[key] = this.userData._id;
     }
     delete queryObjClone.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+    delete queryObjClone.mongoQuery.fields; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
 
     //if(this._id === 'hdt3hmnsaghk') debugger
     // Execute the mongoQuery
     const result = await pouch.find(queryObjClone.mongoQuery);
 
+    if(this._id === '4far2aqwurdo') debugger
     // Collect userData for use durring creation
     const userDataArr = result.docs.map((item) => {
       let assocs = []
       const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
-      for (let key in item.properties) {
-        const prop = item.properties[key]
-        if (key in fks) assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
-        for (let key in prop.tabs) {
-          const tab = item.properties[key]
-          if (key in fks) assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
-          for (let key in tab.widgets) {
-            const widgets = item.properties[key]
-            if (key in fks) assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
-          }
-        }
+      for (let key in item) {
+        const prop = item[key]
+        if (fks.includes(key)) assocs.push({ name: key, destId: prop })
+        /* for (let key in prop.tabs) {
+          const tab = prop[key]
+          if (key in fks) assocs.push({ name: key, destId: tab}) */
+          /* for (let key in tab.widgets) {
+            const widgets = tab[key]
+            if (key in fks) assocs.push({ name: key, destId: widgets })
+          } */
+        //}
       }
       return {
         _id: item._id,
@@ -265,13 +267,23 @@ export default class ClassObject3d extends THREE.Object3D {
     let objectPronmises = []
     this.children.forEach((subClassObj3d) => {
       if (subClassObj3d.type === 'Object3D') {
-        //if(!subClassObj3d.drawObjects) debugger
+        if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
+        if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
         objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, queryObj, pouch))
       }
     });
     return Promise.all(objectPronmises);
 
+  }
+
+  drawObjectAssocs(glModelObject3D) {
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        if(subClassObj3d.drawObjectAssocs)
+        subClassObj3d.drawObjectAssocs(glModelObject3D)
+      }
+    });
   }
 
   getMesh() {

@@ -89,6 +89,11 @@ export default {
       const objectsQueryObj = await this.$pouch.get('x1lrv2xdq2tu') 
       await rootClassObj3d.drawObjects(this.selectableMeshArr, objectsQueryObj, this.$pouch)
 
+      // important! after you set positions, otherwise obj3d matrixes will be incorrect
+      this.glModelObject3D.updateMatrixWorld(true) 
+
+      rootClassObj3d.drawObjectAssocs(this.glModelObject3D) 
+
       return rootClassObj3d;
     },
     
