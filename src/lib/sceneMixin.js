@@ -20,9 +20,8 @@ import {
   Texture, 
   PlaneGeometry, 
   WebGLRenderer,
-  Vector2
+  Vector2,
 } from 'three';
-//import * as THREE from 'three/build/module.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import fontJson from '../assets/helvetiker_regular.typeface.json'
@@ -89,10 +88,10 @@ export default {
       controls.enableDamping = true;
 
       // lights
-      let light1 = new DirectionalLight(0xffffff)
+      let light1 = new DirectionalLight(0xffffff, 0.8)
       light1.position.set(-1, 1, 1).normalize()
       glScene.add(light1)
-      glScene.add(new AmbientLight(0x404040))
+      glScene.add(new AmbientLight(0x969696, 0.8))
 
       // axesHelper
       axesHelper = new AxesHelper(100)
@@ -189,7 +188,7 @@ export default {
         let currentlySelected = this.glModelObject3D.getObjectByProperty('_id', this.currentlySelectedObjProps._id)
         if (currentlySelected) {
           currentlySelected.children[0].material = this.currentlySelectedObjProps.obj3d
-          currentlySelected.children[1].material = this.currentlySelectedObjProps.label
+          currentlySelected.children[0].children[0].material = this.currentlySelectedObjProps.label
         }
       }
       let newlySelected = this.glModelObject3D.getObjectByProperty('_id', _id)
@@ -197,10 +196,10 @@ export default {
         this.currentlySelectedObjProps = {
           _id: _id,
           obj3d: newlySelected.children[0].material,
-          label: newlySelected.children[1].material
+          label: newlySelected.children[0].children[0].material
         }
         newlySelected.children[0].material = new MeshLambertMaterial({ color: 0xEEEE00 })
-        newlySelected.children[1].material = new MeshLambertMaterial({ color: 0x666666 })
+        newlySelected.children[0].children[0].material = new MeshLambertMaterial({ color: 0x666666 })
       }
     },
 
@@ -208,7 +207,7 @@ export default {
       let selectedModelObj = this.glModelObject3D.getObjectByProperty('_id', _id)
       if (!selectedModelObj) return
       if (!glScene) return
-      // console.log('selectedModelObj', selectedModelObj)
+
       glScene.updateMatrixWorld()
       let newTargetPos = new Vector3()
       newTargetPos.setFromMatrixPosition(selectedModelObj.matrixWorld)
@@ -216,20 +215,10 @@ export default {
       new TWEEN.Tween(controls.target).easing(TWEEN.Easing.Quadratic.Out).to(newTargetPos, 1500).start()
 
       let cameraPos = controls.object.position.clone()
-      let newCameraPos = newTargetPos.clone()
 
-
-      // is this better?
-      // Make camera pos in front of and slightly higher than center, relative to the mesh. 
+      // Make camera pos in front of and slightly higher than center, relative to the first child mesh. 
       // Apply the mesh's world matrix to translate to world coords
-      //var newCameraPos = new THREE.Vector3(0, 300, 2000).applyMatrix4(selectedMesh.matrixWorld)
-
-
-      newCameraPos.setY(newCameraPos.y + 300)
-
-
-      if (selectedModelObj.rotation.y > 0) newCameraPos.setX(newCameraPos.x + 2000)
-      else newCameraPos.setZ(newCameraPos.z + 2000)
+      var newCameraPos = new Vector3(0, 300, 2000).applyMatrix4(selectedModelObj.children[0].matrixWorld)
 
       let cameraTween = new TWEEN.Tween(cameraPos).to(newCameraPos, 1500)
       cameraTween.easing(TWEEN.Easing.Quadratic.Out)

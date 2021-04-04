@@ -1,17 +1,15 @@
-/* eslint-disable no-unused-vars */
-import * as THREE from 'three'
-import { Vector3 } from 'three'
+import { Vector3, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
 import classModelColors from '../config/classModelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
-export default class ObjectObject3d extends THREE.Object3D {
+export default class ObjectObject3d extends Object3D {
 
-  constructor(userData, isRoot) {
+  constructor(userData) {
     super()
 
-    // Mixin utility methodes: Beam, Tube, Text etc
+    // Mixin utility methods: Beam, Tube, Text etc
     Object.assign(this, object3dMixin);
 
     this._id = userData._id
@@ -38,41 +36,25 @@ export default class ObjectObject3d extends THREE.Object3D {
 
       const assoc = this.userData.assocs[key]
 
-      const { [assoc.name]: assocProps } = classModelColors
-      if (!assocProps) console.log('No assoc props for: ' + assoc.name)
-      if (!assocProps) continue
-      const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
-
       const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
+      //if (!destObj3d) console.log('Assoc destination not found: ' + assoc.name, assoc.destId)
+      //if (!destObj3d) console.log(this)
       if (!destObj3d) continue
 
       // Get positions in world coordinates
-      let sourcePos = new THREE.Vector3()
+      let sourcePos = new Vector3()
       this.getWorldPosition(sourcePos)
-      let destPos = new THREE.Vector3()
+      let destPos = new Vector3()
       destObj3d.getWorldPosition(destPos)
 
-      // Get the difference vector
-      let difVec = destPos.clone()
-      difVec.sub(sourcePos)
-
-      const sourceBack = this.getSidePos('back', new THREE.Vector3())
-      const destBack = this.getSidePos('back', difVec)
-
-      let points = []
-      points.push(sourceBack) // move startpoint to the edge
-      points.push(new THREE.Vector3(0, 0, depth))
-      let beforeLastPos = destBack.clone()
-      beforeLastPos.z = depth
-      points.push(beforeLastPos)
-      points.push(destBack)
+      const points = this.addCorners(sourcePos, destPos) 
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
 
       let labelMesh = this.getTextMesh(assoc.name)
       let textPos = new Vector3()
-      textPos.lerpVectors(points[1], points[2], 0.5)
+      if (points[2]) textPos.lerpVectors(points[1], points[2], 0.5)
+      else textPos.lerpVectors(points[0], points[1], 0.5)
       labelMesh.translateX(textPos.x)
       labelMesh.translateY(textPos.y)
       labelMesh.translateZ(textPos.z)
@@ -82,10 +64,59 @@ export default class ObjectObject3d extends THREE.Object3D {
 
   }
 
+  addCorners(sourcePos, destPos) {
+    const sameAs = (a, b) => {
+      Math.round(parseFloat(value)*100000) < Math.round(parseFloat(max)*100000)
+    }
+
+    // Get the difference vector
+    let difVec = destPos.clone().sub(sourcePos)
+    let points = []
+    if(difVec.y === 0) { // same level, go down then up
+      let sourceBottomPos = this.getSidePos('bottom', new Vector3())
+      let sourceBusPos = new Vector3( 0, -HEIGHT * 2, 0)
+      let destBottomPos = this.getSidePos('bottom', difVec)
+      let destBusPos = destBottomPos.clone().setY( -HEIGHT * 2)
+
+      points.push(sourceBottomPos)
+      points.push(sourceBusPos)
+      if(sourceBusPos.z !== destBusPos.z) points.push(sourceBottomPos.clone().setZ(destBottomPos.z))
+      points.push(destBusPos)
+      points.push(destBottomPos)
+    }
+    else if (difVec.y > 0) { // higher level, go up then up
+      let sourceTopPos = this.getSidePos('top', new Vector3())
+      let sourceBusPos = new Vector3( 0, HEIGHT * 2, 0)
+      let destBottomPos = this.getSidePos('bottom', difVec)
+      let destBusPos = destBottomPos.clone().setY( -HEIGHT * 2)
+      
+      points.push(sourceTopPos)
+      points.push(sourceBusPos)
+      if(sourceBusPos.z !== destBusPos.z) points.push(sourceTopPos.clone().setZ(destBottomPos.z))
+      points.push(destBusPos)
+      points.push(destBottomPos)
+    }
+    else { // lower level, go down then down
+      let sourceBottomPos = this.getSidePos('bottom', new Vector3())
+      let sourceBusPos = new Vector3( 0, -HEIGHT * 2, 0)
+      let destBottomPos = this.getSidePos('bottom', difVec)
+      let destBusPos = destBottomPos.clone().setY( HEIGHT * 2)
+
+      points.push(sourceBottomPos)
+      points.push(sourceBusPos)
+      if(sourceBusPos.z !== destBusPos.z) points.push(sourceBottomPos.clone().setZ(destBottomPos.z))
+      points.push(destBusPos)
+      points.push(destBottomPos)
+    }
+
+    return points
+
+  }
+
   getMesh() {
     const x = 0, y = 0
 
-    let shape = new THREE.Shape()
+    let shape = new Shape()
     shape.moveTo(x, y)
       .lineTo(x, y + HEIGHT / 2)
       .lineTo(x + WIDTH / 2, y + HEIGHT)
@@ -94,13 +125,13 @@ export default class ObjectObject3d extends THREE.Object3D {
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
-    let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.title + " - 3d geometry"
+    let geometry = new ExtrudeGeometry(shape, extrudeSettings)
+    geometry.name = this.userData.label + " - 3d geometry"
     geometry.center()
 
     const { object: assocProps } = classModelColors
-    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
+    const material = new MeshLambertMaterial({ color: assocProps.color })
 
-    return new THREE.Mesh(geometry, material)
+    return new Mesh(geometry, material)
   }
 }

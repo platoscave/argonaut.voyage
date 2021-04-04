@@ -235,7 +235,7 @@ module.exports = [
     "docType": "class",
     "title": "Accounts",
     "parentId": "gzthjuyjca4s",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1793,7 +1793,7 @@ module.exports = [
     "expirationDate": "2019-07-24",
     "buyerId": "demouser1111",
     "classId": "w3mzeetidb5n",
-    "sellerId": "eoscommonsio",
+    "sellerId": "argonautdot1",
     "processStack": [
       {
         "processId": "cie1pllxq5mu",
@@ -1824,7 +1824,7 @@ module.exports = [
           "accounts": [
             {
               "permission": {
-                "actor": "eoscommonsio",
+                "actor": "argonautdot1",
                 "permission": "owner"
               },
               "weight": 1
@@ -1869,7 +1869,7 @@ module.exports = [
           "accounts": [
             {
               "permission": {
-                "actor": "eoscommonsio",
+                "actor": "argonautdot1",
                 "permission": "owner"
               },
               "weight": 1
@@ -1901,7 +1901,7 @@ module.exports = [
     "name": "Service Desk",
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>The Standard Model</div></div><p>The Neuralquest client</p>",
     "classId": "dasprps1lrwf",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "authorizedForStateIds": [
       "oltp4kpj4fvi"
     ],
@@ -1914,7 +1914,7 @@ module.exports = [
           "accounts": [
             {
               "permission": {
-                "actor": "eoscommonsio",
+                "actor": "argonautdot1",
                 "permission": "owner"
               },
               "weight": 1
@@ -2260,9 +2260,9 @@ module.exports = [
     "type": "object"
   },
   {
-    "_id": "eoscommonsio",
+    "_id": "argonautdot1",
     "docType": "object",
-    "name": "eos-commons.io",
+    "name": "argonaut.one",
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: navy; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div><div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: blue; height: 300px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div>",
     "classId": "be1ub1vtofjo",
     "icon": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI0IiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGc+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJNIDEyLjQ3MjQzNSwwLjQ1NDUxNDU4IDEyLjY2MTgzNSwxNy4xNDk5NTcgMS41NzA5MjM4LDE4LjAwNzMzOCBaIi8+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJtIDE0LjI3NzY2NiwzLjMzMDI1MiAwLjQwNDE2MSwxMy41MjMyMzggOC4wMDgwMTYsMC41ODg2NDcgeiIvPgogICAgPHBhdGggZmlsbD0iIzgwODBmZiIgZD0iTSAwLjE0MTQwNTMyLDE5LjQ2MjE3OCA5LjY1MjUxNjMsMjMuODcyMTIyIDIzLjk3NjcxMSwxOC4zNjkxOTggWiIvPgogIDwvZz4KPC9zdmc+Cg==",
@@ -2540,7 +2540,7 @@ module.exports = [
       "reject"
     ],
     "substateId": "3r5kgovlor1o",
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "1us2bjzz2i3h",
@@ -2575,7 +2575,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "OB Resources",
@@ -2596,7 +2596,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "Studio",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Class Model",
@@ -2617,7 +2617,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Properties",
@@ -2674,7 +2674,7 @@ module.exports = [
     "docType": "object",
     "name": "State Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Process",
@@ -2705,7 +2705,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "What",
@@ -2775,7 +2775,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Documents",
@@ -2795,7 +2795,7 @@ module.exports = [
     "name": "Standard Model Tree Page",
     "classId": "pejdgrwd5qso",
     "divider": "Studio",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Class Model",
@@ -2814,7 +2814,7 @@ module.exports = [
     "docType": "object",
     "name": "Page Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Pages",
@@ -2854,7 +2854,7 @@ module.exports = [
     "docType": "object",
     "name": "Page Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Pages",
@@ -2875,7 +2875,7 @@ module.exports = [
     "accordionOrTab": "Accordions",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Navigation",
@@ -2896,7 +2896,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Details",
@@ -2936,7 +2936,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreements Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "States",
@@ -2988,7 +2988,7 @@ module.exports = [
     "docType": "object",
     "name": "Document Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Documents",
@@ -3007,7 +3007,7 @@ module.exports = [
     "docType": "object",
     "name": "Query Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Query",
@@ -3026,7 +3026,7 @@ module.exports = [
     "docType": "object",
     "name": "View Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Views",
@@ -3047,7 +3047,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Details",
@@ -3074,7 +3074,7 @@ module.exports = [
     "docType": "object",
     "name": "Purchase Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Purchase",
@@ -3095,7 +3095,7 @@ module.exports = [
     "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Home",
@@ -3122,7 +3122,7 @@ module.exports = [
     "docType": "object",
     "name": "Process Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Process",
@@ -3151,7 +3151,7 @@ module.exports = [
     "docType": "object",
     "name": "Macro Economic Model",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Macro Economic Model",
@@ -3170,7 +3170,7 @@ module.exports = [
     "docType": "object",
     "name": "Mind Palace",
     "classId": "pejdgrwd5qso",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "tabs": [
       {
         "name": "Mind Palace",
@@ -3189,7 +3189,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreements Transaction Table View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "stateDate": {
         "sort": "desc",
@@ -3211,7 +3211,7 @@ module.exports = [
     "docType": "object",
     "name": "Page Tab Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "name": {
         "readOnly": false
@@ -3228,7 +3228,7 @@ module.exports = [
     "docType": "object",
     "name": "Add an Agreeement",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "baseClassId": "i1gjptcb2skq",
     "properties": {
       "agreementProcessId": {},
@@ -3248,7 +3248,7 @@ module.exports = [
     "docType": "object",
     "name": "Documents Tree View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "subQueryIds": "sd5zsuvlxdgf",
     "type": "object"
   },
@@ -3257,7 +3257,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreement Table View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "baseClassId": "i1gjptcb2skq",
     "properties": {
       "startDate": {
@@ -3282,7 +3282,7 @@ module.exports = [
     "name": "Standard Model Form View",
     "description": "<p>Descibes home page of the organization</p>",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {
         "readOnly": true,
@@ -3359,7 +3359,7 @@ module.exports = [
     "docType": "object",
     "name": "Purchase Table View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "baseClassId": "nlmgc3dmrwxs",
     "properties": {
       "_id": {},
@@ -3374,7 +3374,7 @@ module.exports = [
     "docType": "object",
     "name": "Query Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3431,7 +3431,7 @@ module.exports = [
     "docType": "object",
     "name": "Add Service Request Button View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "purchaseButton": {
         "title": "Add Service Request",
@@ -3448,7 +3448,7 @@ module.exports = [
     "docType": "object",
     "name": "Send Transaction",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "baseClassId": "re1ihrfyl3zf",
     "properties": {
       "action": {
@@ -3479,7 +3479,7 @@ module.exports = [
     "docType": "object",
     "name": "Purchase Asset Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "value": {},
       "purchaseButton": {
@@ -3500,7 +3500,7 @@ module.exports = [
     "docType": "object",
     "name": "Account Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {},
       "name": {
@@ -3551,7 +3551,7 @@ module.exports = [
     "docType": "object",
     "name": "Page Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3608,7 +3608,7 @@ module.exports = [
     "docType": "object",
     "name": "Process View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "name": {
         "readOnly": false
@@ -3622,7 +3622,7 @@ module.exports = [
     "docType": "object",
     "name": "Process Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {},
       "name": {
@@ -3652,7 +3652,7 @@ module.exports = [
     "name": "Owners Class Tree View",
     "description": "<p>Descibes the owner hierarchy, including a children array</p>",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "name": {
         "readOnly": false
@@ -3666,7 +3666,7 @@ module.exports = [
     "docType": "object",
     "name": "View Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3699,7 +3699,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreement Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {},
       "name": {},
@@ -3736,7 +3736,7 @@ module.exports = [
     "docType": "object",
     "name": "EC Resources Tree View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "queryId": "znn3osz1igvm",
     "type": "object"
   },
@@ -3746,7 +3746,7 @@ module.exports = [
     "name": "Class Model Tree View",
     "description": "<p>Descibes the class model hierarchy, including a children array</p>",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {
         "readOnly": true,
@@ -3790,7 +3790,7 @@ module.exports = [
     "docType": "object",
     "name": "State Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "_id": {},
       "name": {
@@ -3826,7 +3826,7 @@ module.exports = [
     "docType": "object",
     "name": "Document Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "name": {
         "readOnly": false
@@ -3852,7 +3852,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreement State Form View",
     "classId": "pylvseoljret",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "properties": {
       "buyerId": {
         "title": "From"
@@ -3890,7 +3890,7 @@ module.exports = [
     "docType": "object",
     "name": "Subclasses Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
@@ -3908,7 +3908,7 @@ module.exports = [
     "docType": "object",
     "name": "Document Sub Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAADxSURBVDhPY/j//z9FmLrgzEyT/yB8eobx/5PTDP+fmGpAvBUgjahgFxgf6tcibAhI8+3thUAchAUX/t/bpfp/V7vS/+0t8v+3Nsn+39wo/X9DnQTCYJCTSQVrqkQQBoD8+///TCCeQySe+X95KT/CgONT9MGCpODFhdwIA45O0oVI/JhMHAaqXZDHgTAAFNJgA953EoeBauflsCEMONCrATHgST1xGKh2ThYLwgBQNIENuF1KHAaqnZXBhDAAFMdgA67kE4eBamemMyIMAAHkBLKuRuz/6krh/yvKBP4vLeYFhzgo0ED+BjkdQ/MAAgYGAKPFDB0e1bt2AAAAAElFTkSuQmCC",
     "subQueryIds": [
       "2vwvbhvflpp1"
@@ -3925,7 +3925,7 @@ module.exports = [
     "docType": "object",
     "name": "Account Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "mongoQuery": {
       "selector": { "classId": "$fk" },
       "fields": ["_id", "name"],
@@ -3937,7 +3937,7 @@ module.exports = [
     "docType": "object",
     "name": "Sub State Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "2vnljdsieyjw",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAADxSURBVDhPY/j//z9FmLrgzEyT/yB8eobx/5PTDP+fmGpAvBUgjahgFxgf6tcibAhI8+3thUAchAUX/t/bpfp/V7vS/+0t8v+3Nsn+39wo/X9DnQTCYJCTSQVrqkQQBoD8+///TCCeQySe+X95KT/CgONT9MGCpODFhdwIA45O0oVI/JhMHAaqXZDHgTAAFNJgA953EoeBauflsCEMONCrATHgST1xGKh2ThYLwgBQNIENuF1KHAaqnZXBhDAAFMdgA67kE4eBamemMyIMAAHkBLKuRuz/6krh/yvKBP4vLeYFhzgo0ED+BjkdQ/MAAgYGAKPFDB0e1bt2AAAAAElFTkSuQmCC",
     "subQueryIds": [
@@ -3956,7 +3956,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreements History Table Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "mongoQuery": {
       "selector": { "_id": "$agreementHistoryIds" },
       "fields": ["_id", "name"],
@@ -3969,7 +3969,7 @@ module.exports = [
     "docType": "object",
     "name": "Queries Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "qcd1eefe432r",
     "subQueryIds": [
       "itypb41mkq2v"
@@ -3986,7 +3986,7 @@ module.exports = [
     "docType": "object",
     "name": "Authorized for State Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "mongoQuery": {
       "selector": { "_id": "$authorizedForStateIds" },
       "fields": ["_id", "name"],
@@ -3999,7 +3999,7 @@ module.exports = [
     "docType": "object",
     "name": "Assests Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "tet4swafvc2k",
     "mongoQuery": {
       "selector": { "classId": "nlmgc3dmrwxs" },
@@ -4012,7 +4012,7 @@ module.exports = [
     "docType": "object",
     "name": "Accounts Class Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHZpZXdCb3g9IjAgMCA3MDAgNzAwIgogICB3aWR0aD0iNzAwIgogICBoZWlnaHQ9IjcwMCI+CiAgPGcKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNS41OTMyMiw5NC45MTUyNTQpIj4KICAgIDxwYXRoCiAgICAgICBkPSJtIDYxMC41LDM0MS4zIGMgMi42LC0xNC4xIDIuNiwtMjguNSAwLC00Mi42IGwgMjUuOCwtMTQuOSBjIDMsLTEuNyA0LjMsLTUuMiAzLjMsLTguNSAtNi43LC0yMS42IC0xOC4yLC00MS4yIC0zMy4yLC01Ny40IC0yLjMsLTIuNSAtNiwtMy4xIC05LC0xLjQgbCAtMjUuOCwxNC45IGMgLTEwLjksLTkuMyAtMjMuNCwtMTYuNSAtMzYuOSwtMjEuMyB2IC0yOS44IGMgMCwtMy40IC0yLjQsLTYuNCAtNS43LC03LjEgLTIyLjMsLTUgLTQ1LC00LjggLTY2LjIsMCAtMy4zLDAuNyAtNS43LDMuNyAtNS43LDcuMSB2IDI5LjggYyAtMTMuNSw0LjggLTI2LDEyIC0zNi45LDIxLjMgbCAtMjUuOCwtMTQuOSBjIC0yLjksLTEuNyAtNi43LC0xLjEgLTksMS40IC0xNSwxNi4yIC0yNi41LDM1LjggLTMzLjIsNTcuNCAtMSwzLjMgMC40LDYuOCAzLjMsOC41IGwgMjUuOCwxNC45IGMgLTIuNiwxNC4xIC0yLjYsMjguNSAwLDQyLjYgbCAtMjUuOCwxNC45IGMgLTMsMS43IC00LjMsNS4yIC0zLjMsOC41IDYuNywyMS42IDE4LjIsNDEuMSAzMy4yLDU3LjQgMi4zLDIuNSA2LDMuMSA5LDEuNCBsIDI1LjgsLTE0LjkgYyAxMC45LDkuMyAyMy40LDE2LjUgMzYuOSwyMS4zIHYgMjkuOCBjIDAsMy40IDIuNCw2LjQgNS43LDcuMSAyMi4zLDUgNDUsNC44IDY2LjIsMCAzLjMsLTAuNyA1LjcsLTMuNyA1LjcsLTcuMSB2IC0yOS44IGMgMTMuNSwtNC44IDI2LC0xMiAzNi45LC0yMS4zIGwgMjUuOCwxNC45IGMgMi45LDEuNyA2LjcsMS4xIDksLTEuNCAxNSwtMTYuMiAyNi41LC0zNS44IDMzLjIsLTU3LjQgMSwtMy4zIC0wLjQsLTYuOCAtMy4zLC04LjUgeiBNIDQ5NiwzNjguNSBjIC0yNi44LDAgLTQ4LjUsLTIxLjggLTQ4LjUsLTQ4LjUgMCwtMjYuNyAyMS44LC00OC41IDQ4LjUsLTQ4LjUgMjYuNywwIDQ4LjUsMjEuOCA0OC41LDQ4LjUgMCwyNi43IC0yMS43LDQ4LjUgLTQ4LjUsNDguNSB6IE0gOTYsMjI0IGMgMzUuMywwIDY0LC0yOC43IDY0LC02NCAwLC0zNS4zIC0yOC43LC02NCAtNjQsLTY0IC0zNS4zLDAgLTY0LDI4LjcgLTY0LDY0IDAsMzUuMyAyOC43LDY0IDY0LDY0IHogbSAyMjQsMzIgYyAxLjksMCAzLjcsLTAuNSA1LjYsLTAuNiA4LjMsLTIxLjcgMjAuNSwtNDIuMSAzNi4zLC01OS4yIDcuNCwtOCAxNy45LC0xMi42IDI4LjksLTEyLjYgNi45LDAgMTMuNywxLjggMTkuNiw1LjMgbCA3LjksNC42IGMgMC44LC0wLjUgMS42LC0wLjkgMi40LC0xLjQgNywtMTQuNiAxMS4yLC0zMC44IDExLjIsLTQ4IDAsLTYxLjkgLTUwLjEsLTExMiAtMTEyLC0xMTIgQyAyNTgsMzIuMSAyMDgsODIuMSAyMDgsMTQ0IGMgMCw2MS45IDUwLjEsMTEyIDExMiwxMTIgeiBtIDEwNS4yLDE5NC41IGMgLTIuMywtMS4yIC00LjYsLTIuNiAtNi44LC0zLjkgLTguMiw0LjggLTE1LjMsOS44IC0yNy41LDkuOCAtMTAuOSwwIC0yMS40LC00LjYgLTI4LjksLTEyLjYgLTE4LjMsLTE5LjggLTMyLjMsLTQzLjkgLTQwLjIsLTY5LjYgLTEwLjcsLTM0LjUgMjQuOSwtNDkuNyAyNS44LC01MC4zIC0wLjEsLTIuNiAtMC4xLC01LjIgMCwtNy44IGwgLTcuOSwtNC42IGMgLTMuOCwtMi4yIC03LC01IC05LjgsLTguMSAtMy4zLDAuMiAtNi41LDAuNiAtOS44LDAuNiAtMjQuNiwwIC00Ny42LC02IC02OC41LC0xNiBoIC04LjMgQyAxNzkuNiwyODggMTI4LDMzOS42IDEyOCw0MDMuMiBWIDQzMiBjIDAsMjYuNSAyMS41LDQ4IDQ4LDQ4IGggMjU1LjQgYyAtMy43LC02IC02LjIsLTEyLjggLTYuMiwtMjAuMyB6IE0gMTczLjEsMjc0LjYgQyAxNjEuNSwyNjMuMSAxNDUuNiwyNTYgMTI4LDI1NiBIIDY0IEMgMjguNywyNTYgMCwyODQuNyAwLDMyMCB2IDMyIGMgMCwxNy43IDE0LjMsMzIgMzIsMzIgaCA2NS45IGMgNi4zLC00Ny40IDM0LjksLTg3LjMgNzUuMiwtMTA5LjQgeiIKICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwZmYiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "pageId": "qwhjia43h1s4",
     "subQueryIds": [
@@ -4029,7 +4029,7 @@ module.exports = [
     "docType": "object",
     "name": "Accounts Subclasses Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHZpZXdCb3g9IjAgMCA3MDAgNzAwIgogICB3aWR0aD0iNzAwIgogICBoZWlnaHQ9IjcwMCI+CiAgPGcKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNS41OTMyMiw5NC45MTUyNTQpIj4KICAgIDxwYXRoCiAgICAgICBkPSJtIDYxMC41LDM0MS4zIGMgMi42LC0xNC4xIDIuNiwtMjguNSAwLC00Mi42IGwgMjUuOCwtMTQuOSBjIDMsLTEuNyA0LjMsLTUuMiAzLjMsLTguNSAtNi43LC0yMS42IC0xOC4yLC00MS4yIC0zMy4yLC01Ny40IC0yLjMsLTIuNSAtNiwtMy4xIC05LC0xLjQgbCAtMjUuOCwxNC45IGMgLTEwLjksLTkuMyAtMjMuNCwtMTYuNSAtMzYuOSwtMjEuMyB2IC0yOS44IGMgMCwtMy40IC0yLjQsLTYuNCAtNS43LC03LjEgLTIyLjMsLTUgLTQ1LC00LjggLTY2LjIsMCAtMy4zLDAuNyAtNS43LDMuNyAtNS43LDcuMSB2IDI5LjggYyAtMTMuNSw0LjggLTI2LDEyIC0zNi45LDIxLjMgbCAtMjUuOCwtMTQuOSBjIC0yLjksLTEuNyAtNi43LC0xLjEgLTksMS40IC0xNSwxNi4yIC0yNi41LDM1LjggLTMzLjIsNTcuNCAtMSwzLjMgMC40LDYuOCAzLjMsOC41IGwgMjUuOCwxNC45IGMgLTIuNiwxNC4xIC0yLjYsMjguNSAwLDQyLjYgbCAtMjUuOCwxNC45IGMgLTMsMS43IC00LjMsNS4yIC0zLjMsOC41IDYuNywyMS42IDE4LjIsNDEuMSAzMy4yLDU3LjQgMi4zLDIuNSA2LDMuMSA5LDEuNCBsIDI1LjgsLTE0LjkgYyAxMC45LDkuMyAyMy40LDE2LjUgMzYuOSwyMS4zIHYgMjkuOCBjIDAsMy40IDIuNCw2LjQgNS43LDcuMSAyMi4zLDUgNDUsNC44IDY2LjIsMCAzLjMsLTAuNyA1LjcsLTMuNyA1LjcsLTcuMSB2IC0yOS44IGMgMTMuNSwtNC44IDI2LC0xMiAzNi45LC0yMS4zIGwgMjUuOCwxNC45IGMgMi45LDEuNyA2LjcsMS4xIDksLTEuNCAxNSwtMTYuMiAyNi41LC0zNS44IDMzLjIsLTU3LjQgMSwtMy4zIC0wLjQsLTYuOCAtMy4zLC04LjUgeiBNIDQ5NiwzNjguNSBjIC0yNi44LDAgLTQ4LjUsLTIxLjggLTQ4LjUsLTQ4LjUgMCwtMjYuNyAyMS44LC00OC41IDQ4LjUsLTQ4LjUgMjYuNywwIDQ4LjUsMjEuOCA0OC41LDQ4LjUgMCwyNi43IC0yMS43LDQ4LjUgLTQ4LjUsNDguNSB6IE0gOTYsMjI0IGMgMzUuMywwIDY0LC0yOC43IDY0LC02NCAwLC0zNS4zIC0yOC43LC02NCAtNjQsLTY0IC0zNS4zLDAgLTY0LDI4LjcgLTY0LDY0IDAsMzUuMyAyOC43LDY0IDY0LDY0IHogbSAyMjQsMzIgYyAxLjksMCAzLjcsLTAuNSA1LjYsLTAuNiA4LjMsLTIxLjcgMjAuNSwtNDIuMSAzNi4zLC01OS4yIDcuNCwtOCAxNy45LC0xMi42IDI4LjksLTEyLjYgNi45LDAgMTMuNywxLjggMTkuNiw1LjMgbCA3LjksNC42IGMgMC44LC0wLjUgMS42LC0wLjkgMi40LC0xLjQgNywtMTQuNiAxMS4yLC0zMC44IDExLjIsLTQ4IDAsLTYxLjkgLTUwLjEsLTExMiAtMTEyLC0xMTIgQyAyNTgsMzIuMSAyMDgsODIuMSAyMDgsMTQ0IGMgMCw2MS45IDUwLjEsMTEyIDExMiwxMTIgeiBtIDEwNS4yLDE5NC41IGMgLTIuMywtMS4yIC00LjYsLTIuNiAtNi44LC0zLjkgLTguMiw0LjggLTE1LjMsOS44IC0yNy41LDkuOCAtMTAuOSwwIC0yMS40LC00LjYgLTI4LjksLTEyLjYgLTE4LjMsLTE5LjggLTMyLjMsLTQzLjkgLTQwLjIsLTY5LjYgLTEwLjcsLTM0LjUgMjQuOSwtNDkuNyAyNS44LC01MC4zIC0wLjEsLTIuNiAtMC4xLC01LjIgMCwtNy44IGwgLTcuOSwtNC42IGMgLTMuOCwtMi4yIC03LC01IC05LjgsLTguMSAtMy4zLDAuMiAtNi41LDAuNiAtOS44LDAuNiAtMjQuNiwwIC00Ny42LC02IC02OC41LC0xNiBoIC04LjMgQyAxNzkuNiwyODggMTI4LDMzOS42IDEyOCw0MDMuMiBWIDQzMiBjIDAsMjYuNSAyMS41LDQ4IDQ4LDQ4IGggMjU1LjQgYyAtMy43LC02IC02LjIsLTEyLjggLTYuMiwtMjAuMyB6IE0gMTczLjEsMjc0LjYgQyAxNjEuNSwyNjMuMSAxNDUuNiwyNTYgMTI4LDI1NiBIIDY0IEMgMjguNywyNTYgMCwyODQuNyAwLDMyMCB2IDMyIGMgMCwxNy43IDE0LjMsMzIgMzIsMzIgaCA2NS45IGMgNi4zLC00Ny40IDM0LjksLTg3LjMgNzUuMiwtMTA5LjQgeiIKICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwZmYiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "mhi13xo2io4q",
@@ -4047,7 +4047,7 @@ module.exports = [
     "docType": "object",
     "name": "Organizational Units Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "subQueryIds": [
       "jla5kldghbxi"
     ],
@@ -4065,7 +4065,7 @@ module.exports = [
     "docType": "object",
     "name": "Document Root Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUuMDAwMDAwMDAwMDAwMDAyIiBoZWlnaHQ9IjE1LjAwMDAwMDAwMDAwMDAwMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbD0iI2NjY2NjYyIgaWQ9InN2Z18xIiBkPSJtNy41LDRjLTEuOTMsMCAtMy41LDEuNTcgLTMuNSwzLjVzMS41NywzLjUgMy41LDMuNXMzLjUsLTEuNTcgMy41LC0zLjVzLTEuNTcsLTMuNSAtMy41LC0zLjV6bTAsNmMtMS4zNzgsMCAtMi41LC0xLjEyMiAtMi41LC0yLjVzMS4xMjIsLTIuNSAyLjUsLTIuNXMyLjUsMS4xMjIgMi41LDIuNXMtMS4xMjIsMi41IC0yLjUsMi41eiIvPgogIDxwYXRoIGZpbGw9IiNjY2NjY2MiIGlkPSJzdmdfMiIgZD0ibTE1LDlsMCwtM2wtMi4yMDgsMGMtMC4xMTcsLTAuNDA5IC0wLjI4MSwtMC44MDMgLTAuNDkyLC0xLjE3OWwxLjU2MywtMS41NjRsLTIuMTIxLC0yLjEyMWwtMS41NjMsMS41NjRjLTAuMzc2LC0wLjIxMSAtMC43NywtMC4zNzUgLTEuMTc5LC0wLjQ5MmwwLC0yLjIwOGwtMywwbDAsMi4yMDhjLTAuNDA5LDAuMTE3IC0wLjgwMywwLjI4MSAtMS4xNzksMC40OTJsLTEuNTY0LC0xLjU2NGwtMi4xMjEsMi4xMjFsMS41NjQsMS41NjRjLTAuMjExLDAuMzc2IC0wLjM3NSwwLjc3IC0wLjQ5MiwxLjE3OWwtMi4yMDgsMGwwLDNsMi4yMDgsMGMwLjExNywwLjQwOSAwLjI4MSwwLjgwMyAwLjQ5MiwxLjE3OWwtMS41NjMsMS41NjRsMi4xMjEsMi4xMjFsMS41NjMsLTEuNTY0YzAuMzc1LDAuMjExIDAuNzcsMC4zNzUgMS4xNzksMC40OTJsMCwyLjIwOGwzLDBsMCwtMi4yMDhjMC40MDksLTAuMTE3IDAuODAzLC0wLjI4MSAxLjE3OSwtMC40OTJsMS41NjQsMS41NjNsMi4xMjEsLTIuMTIxbC0xLjU2NCwtMS41NjNjMC4yMTEsLTAuMzc1IDAuMzc1LC0wLjc3IDAuNDkyLC0xLjE3OWwyLjIwOCwwem0tMi41NSwyLjc0M2wtMC43MDcsMC43MDdsLTEuNDIzLC0xLjQyM2wtMC4zNDEsMC4yMjVjLTAuNDg5LDAuMzIyIC0xLjAyLDAuNTQ0IC0xLjU3OSwwLjY1OGwtMC40LDAuMDgxbDAsMi4wMDlsLTEsMGwwLC0yLjAwOWwtMC40LC0wLjA4MWMtMC41NTksLTAuMTE0IC0xLjA5LC0wLjMzNSAtMS41NzgsLTAuNjU4bC0wLjM0MSwtMC4yMjVsLTEuNDI0LDEuNDIzbC0wLjcwNywtMC43MDdsMS40MjMsLTEuNDIzbC0wLjIyNCwtMC4zNDFjLTAuMzIzLC0wLjQ4OSAtMC41NDUsLTEuMDIgLTAuNjU5LC0xLjU3OWwtMC4wODEsLTAuNGwtMi4wMDksMGwwLC0xbDIuMDA5LDBsMC4wODEsLTAuNGMwLjExNCwtMC41NTkgMC4zMzUsLTEuMDkgMC42NTgsLTEuNTc4bDAuMjI1LC0wLjM0MWwtMS40MjMsLTEuNDI0bDAuNzA3LC0wLjcwN2wxLjQyMywxLjQyM2wwLjM0MSwtMC4yMjVjMC40ODksLTAuMzIyIDEuMDIsLTAuNTQ0IDEuNTc5LC0wLjY1OGwwLjQsLTAuMDgxbDAsLTIuMDA5bDEsMGwwLDIuMDA5bDAuNCwwLjA4MWMwLjU1OSwwLjExNCAxLjA5LDAuMzM1IDEuNTc4LDAuNjU4bDAuMzQxLDAuMjI1bDEuNDIzLC0xLjQyM2wwLjcwNywwLjcwN2wtMS40MjMsMS40MjNsMC4yMjUsMC4zNDFjMC4zMjMsMC40ODkgMC41NDUsMS4wMiAwLjY1OSwxLjU3OWwwLjA4MSwwLjRsMi4wMDksMGwwLDFsLTIuMDA5LDBsLTAuMDgxLDAuNGMtMC4xMTQsMC41NTkgLTAuMzM1LDEuMDkgLTAuNjU4LDEuNTc4bC0wLjIyNSwwLjM0MWwxLjQyMywxLjQyNHoiLz4KIDwvZz4KPC9zdmc+",
     "subQueryIds": [
       "2vwvbhvflpp1"
@@ -4080,7 +4080,7 @@ module.exports = [
     "docType": "object",
     "name": "Root Class Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
@@ -4097,7 +4097,7 @@ module.exports = [
     "docType": "object",
     "name": "Agreements Table Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "n1dvzgi132ap",
     "where": [
       {
@@ -4117,7 +4117,7 @@ module.exports = [
     "docType": "object",
     "name": "Exposed to Processes Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "mongoQuery": {
       "selector": { "_id": "$exposedToProcessesIds" },
       "fields": ["_id", "name"],
@@ -4130,7 +4130,7 @@ module.exports = [
     "docType": "object",
     "name": "Object Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "mongoQuery": {
@@ -4144,7 +4144,7 @@ module.exports = [
     "docType": "object",
     "name": "Next States Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "pageId": "2vnljdsieyjw",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAADxSURBVDhPY/j//z9FmLrgzEyT/yB8eobx/5PTDP+fmGpAvBUgjahgFxgf6tcibAhI8+3thUAchAUX/t/bpfp/V7vS/+0t8v+3Nsn+39wo/X9DnQTCYJCTSQVrqkQQBoD8+///TCCeQySe+X95KT/CgONT9MGCpODFhdwIA45O0oVI/JhMHAaqXZDHgTAAFNJgA953EoeBauflsCEMONCrATHgST1xGKh2ThYLwgBQNIENuF1KHAaqnZXBhDAAFMdgA67kE4eBamemMyIMAAHkBLKuRuz/6krh/yvKBP4vLeYFhzgo0ED+BjkdQ/MAAgYGAKPFDB0e1bt2AAAAAElFTkSuQmCC",
     "subQueryIds": [
@@ -4162,7 +4162,7 @@ module.exports = [
     "docType": "object",
     "name": "OB Resources Class Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAABTSURBVDhPYxjm4D/Dnf8gDOUSD2AaNzH8B2OiDULXiI5xGkRIIzpGMYgUjegYxRBSDIKpB2tGBoQMwqkRHaAbRLRGdEC2RvoCkA8pwVgFicf/GQD/KjucAgshDwAAAABJRU5ErkJggg==",
     "pageId": "qwhjia43h1s4",
     "subQueryIds": [
@@ -4182,7 +4182,7 @@ module.exports = [
     "name": "Achitecture",
     "description": "<p>Our achitecture is centered arround</p>",
     "classId": "siutzqsj5dgc",
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "rewk2w4kvavm",
@@ -4190,7 +4190,7 @@ module.exports = [
     "name": "Design",
     "description": "<div><p>These are some of the _id design features</p><p><strong>Object Oriented</strong></p><p>Eos-commons is centered around a data store. The store holds a class model and a bunch of instantiations of these classes, a.k.a. objects. The classes form a hierarchy, where classes lower on the tree, inherit all the properties of their ancestor classes. Objects always point to a class through a 'classId'. Objects must comply with the properties defined in their respective classes.</p><p><strong>Extensible</strong></p><p>The class model is fully extensible meaning, developers can add and use their own classes, without interfering with existing class model.</p><p><strong>JSON Schema</strong></p><p>Our classes take the form of JSON Schema. That means you can, at any time, validate an object against it&rsquo;s schema, using a standard JSON schema validator.</p><p><strong>Frontend</strong></p><p>The frontend is developed in vuetify.js. The vuetify app 'knows' how to interpret data in the store, in order to generate layout, pages, tabs, widgets etc. These in turn, allowed the user to view and modify data.</p><p><strong>Naivgate the Data Graph</strong></p><p>The combination layout, pages, tabs etc. allow the user to drill down through the data graph, in a master - detail fashion, which can go on indefintity. Eos-commons elables developers to create sophisicated apps which maintain relational and data intgrity, based on rules lay down in the class model.</p><p><strong>Generated Forms</strong></p><p>Forms are generated from Views. Views similar to SQL views in that they referece a class, and properties of that class. The view properties determin wich type of editor is used: sting, number, html, date etc. If the property type is 'object' or 'array', sub-forms are generated accordingly.</p><p><strong>Pages</strong></p><p>Pages have one or more tabs. With one tab, no tabbar is displayed. A tab can have a widget: Form, Document, Process Model, Balance Sheet etc. Or it can reference another page. Pages can have splitter, in which case the right side serves as a slave to the right side. Click on a treenode or table row on the left, then it's details are displayed on the right (master detail paterm)</p><p><strong>DYI</strong></p><p>Users are invited to create their own pages and resuse (sub-)pages created by others.</p><p><strong>Routing</strong></p><p>The hash in the url represents the page state. You can easly create a link that points to your home page or an organization</p><p><strong>3D</strong></p><p>We love 3D. 3D views allow you to get upclose and personal with your data. Asof writing we have</p><ul><li>Class Model</li><li>Process Model</li><li>Macro Economic Model</li></ul><p>We would like to venture in to things like Tree of Life, Earth Epocs logatithic timeline, Dynamic political history map, Macro economics and so on. We're eager to see what others come up with.</p><p><strong>Death to 3GL</strong></p><p>No coding involved.</p></div>",
     "classId": "siutzqsj5dgc",
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "xqxkmto5njxi",
@@ -4198,7 +4198,7 @@ module.exports = [
     "name": "Eos Commons Docs",
     "description": "",
     "classId": "siutzqsj5dgc",
-    "ownerId": "eoscommonsio",
+    "ownerId": "argonautdot1",
     "subParagraphIds": [
       "jc2dv1u5rcp5",
       "rewk2w4kvavm"
@@ -4300,7 +4300,7 @@ module.exports = [
     "name": "Sucess",
     "description": "<p>Sucess</p>",
     "classId": "s41na42wsxez",
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "zdwdoqpxks2s",
@@ -4308,7 +4308,7 @@ module.exports = [
     "name": "Failed",
     "description": "<p>Failed</p>",
     "classId": "s41na42wsxez",
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "4htc3ykicyzj",
@@ -4371,7 +4371,7 @@ module.exports = [
       "product escrow",
       "payment escrow"
     ],
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "h15wtpxaetki",
@@ -4387,7 +4387,7 @@ module.exports = [
     "execute": [
       "return payment"
     ],
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   },
   {
     "_id": "uqefmsegqvhs",
@@ -4404,7 +4404,7 @@ module.exports = [
       "transfer product ownership",
       "transfer payment"
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "3edgchx5lgu3",
@@ -4422,7 +4422,7 @@ module.exports = [
         "stateId": "h15wtpxaetki"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "oltp4kpj4fvi",
@@ -4439,7 +4439,7 @@ module.exports = [
         "action": "unhappy"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "pvk5ngmorf4z",
@@ -4452,7 +4452,7 @@ module.exports = [
         "action": "happy"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "tfkyaytuac1g",
@@ -4469,7 +4469,7 @@ module.exports = [
         "action": "unhappy"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "yefagaab4ua2",
@@ -4483,7 +4483,7 @@ module.exports = [
         "stateId": "pvk5ngmorf4z"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "bavb2g1inh2t",
@@ -4501,7 +4501,7 @@ module.exports = [
         "stateId": "h15wtpxaetki"
       }
     ],
-    "ownerId": "jwzwfaehsqks"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "gczvalloctae",
@@ -4509,6 +4509,6 @@ module.exports = [
     "name": "Initialize",
     "description": "<p>Initialize</p>",
     "classId": "1jrqyjoabx1a",
-    "ownerId": "eoscommonsio"
+    "ownerId": "argonautdot1"
   }
 ]

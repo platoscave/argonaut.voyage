@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
-import * as THREE from 'three'
-import { Vector3 } from 'three'
+import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "../lib/objectObject3d";
 import object3dMixin from '../lib/object3dMixin'
 import classModelColors from '../config/classModelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
-export default class ClassObject3d extends THREE.Object3D {
+export default class ClassObject3d extends Object3D {
 
   constructor(userData, isRoot) {
     super()
@@ -25,14 +24,14 @@ export default class ClassObject3d extends THREE.Object3D {
 
     let textMesh = this.getTextMesh(userData.label)
     textMesh.translateZ(DEPTH * 0.6)
-    this.add(textMesh)
+    classMesh.add(textMesh)
 
 
     // Draw up beam from here to middle if this is not the root class
     if (!isRoot) {
       let points = []
-      points.push(new THREE.Vector3(0, 0, 0))
-      points.push(new THREE.Vector3(0, HEIGHT * 2, 0))
+      points.push(new Vector3(0, 0, 0))
+      points.push(new Vector3(0, HEIGHT * 2, 0))
       this.add(this.drawBeam(points, 'classConnectors'))
     }
   }
@@ -73,8 +72,8 @@ export default class ClassObject3d extends THREE.Object3D {
     // If this class has children, draw down beam from here to middle
     if (userDataArr.length) {
       let points = []
-      points.push(new THREE.Vector3(0, 0, 0))
-      points.push(new THREE.Vector3(0, -HEIGHT * 2, 0))
+      points.push(new Vector3(0, 0, 0))
+      points.push(new Vector3(0, -HEIGHT * 2, 0))
       this.add(this.drawBeam(points, 'classConnectors'))
     }
 
@@ -133,8 +132,8 @@ export default class ClassObject3d extends THREE.Object3D {
     // Draw the horizontal beam, based on the positions of the first and last child
     if (firstX !== -1) {
       let points = []
-      points.push(new THREE.Vector3(firstX, -HEIGHT * 2, 0))
-      points.push(new THREE.Vector3(lastX, -HEIGHT * 2, 0))
+      points.push(new Vector3(firstX, -HEIGHT * 2, 0))
+      points.push(new Vector3(lastX, -HEIGHT * 2, 0))
       this.add(this.drawBeam(points, 'classConnectors'))
     }
 
@@ -157,21 +156,21 @@ export default class ClassObject3d extends THREE.Object3D {
       if (!destObj3d) continue
 
       // Get positions in world coordinates
-      let sourcePos = new THREE.Vector3()
+      let sourcePos = new Vector3()
       this.getWorldPosition(sourcePos)
-      let destPos = new THREE.Vector3()
+      let destPos = new Vector3()
       destObj3d.getWorldPosition(destPos)
 
       // Get the difference vector
       let difVec = destPos.clone()
       difVec.sub(sourcePos)
 
-      const sourceBack = this.getSidePos('back', new THREE.Vector3())
+      const sourceBack = this.getSidePos('back', new Vector3())
       const destBack = this.getSidePos('back', difVec)
 
       let points = []
       points.push(sourceBack) // move startpoint to the edge
-      points.push(new THREE.Vector3(0, 0, depth))
+      points.push(new Vector3(0, 0, depth))
       let beforeLastPos = destBack.clone()
       beforeLastPos.z = depth
       points.push(beforeLastPos)
@@ -215,22 +214,28 @@ export default class ClassObject3d extends THREE.Object3D {
     // Execute the mongoQuery
     const result = await pouch.find(queryObjClone.mongoQuery);
 
-    if(this._id === '4far2aqwurdo') debugger
+    //if(this._id === '4far2aqwurdo') debugger
     // Collect userData for use durring creation
     const userDataArr = result.docs.map((item) => {
       let assocs = []
       const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
+      //const fks = ['pageId']
       for (let key in item) {
         const prop = item[key]
         if (fks.includes(key)) assocs.push({ name: key, destId: prop })
         /* for (let key in prop.tabs) {
           const tab = prop[key]
-          if (key in fks) assocs.push({ name: key, destId: tab}) */
-          /* for (let key in tab.widgets) {
+          if (key in fks) assocs.push({ name: key, destId: tab})
+          for (let key in tab.widgets) {
             const widgets = tab[key]
             if (key in fks) assocs.push({ name: key, destId: widgets })
-          } */
-        //}
+          }
+        } */
+        if(key === 'tabs') {
+          prop.forEach(tab => {
+            //if(tab.pageId) assocs.push({ name: 'pageId', destId: tab.pageId })
+          })
+        }
       }
       return {
         _id: item._id,
@@ -256,8 +261,8 @@ export default class ClassObject3d extends THREE.Object3D {
     // If this class has objects, draw beam from here to the end
     if (userDataArr.length) {
       let points = []
-      points.push(new THREE.Vector3(0, 0, 0))
-      points.push(new THREE.Vector3(0, 0, WIDTH * 2 * userDataArr.length))
+      points.push(new Vector3(0, 0, 0))
+      points.push(new Vector3(0, 0, WIDTH * 2 * userDataArr.length))
       let beam = this.drawBeam(points, 'classConnectors')
       beam.translateY(-HEIGHT / 4)
       this.add(beam)
@@ -267,8 +272,9 @@ export default class ClassObject3d extends THREE.Object3D {
     let objectPronmises = []
     this.children.forEach((subClassObj3d) => {
       if (subClassObj3d.type === 'Object3D') {
-        if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
-        if(!subClassObj3d.drawObjects) console.log(this)
+        // TODO whats going on here?
+        //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
+        //if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
         objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, queryObj, pouch))
       }
@@ -289,7 +295,7 @@ export default class ClassObject3d extends THREE.Object3D {
   getMesh() {
     const x = 0, y = 0
 
-    let shape = new THREE.Shape()
+    let shape = new Shape()
     shape.moveTo(x, y + HEIGHT / 3)
       .lineTo(x, (y + HEIGHT / 3) * 2)
       .lineTo(x + WIDTH / 2, y + HEIGHT)
@@ -299,13 +305,13 @@ export default class ClassObject3d extends THREE.Object3D {
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
-    let geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+    let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
     const { class: assocProps } = classModelColors
-    const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
+    const material = new MeshLambertMaterial({ color: assocProps.color })
 
-    return new THREE.Mesh(geometry, material)
+    return new Mesh(geometry, material)
   }
 }
