@@ -64,6 +64,7 @@ export default {
     const lastPoint = points[points.length -1]
     let direction = new THREE.Vector3()
     direction.subVectors(lastPoint, beforeLastPoint).normalize()
+
     
     // Shorten the last vector to make room for the arrow
     if (arrow) {
@@ -80,9 +81,24 @@ export default {
     if (arrow) {
       let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
       coneGeometry.translate(0, 50, 0)
-      coneGeometry.rotateX(Math.PI / 2 * direction.z)
-      coneGeometry.rotateZ(Math.PI / 2 * direction.x)
-      //coneGeometry.rotateY(Math.PI / 2 * direction.y) // TODO
+
+      // Cone is currently pointing upwards
+      var coneVector = new THREE.Vector3(0, 1, 0);
+
+      // Create a quaternion, and apply coneVector, then desired direction vector
+      var quaternion = new THREE.Quaternion();
+      quaternion.setFromUnitVectors(coneVector, direction);
+
+      // Quaternion now has rotation data within it. 
+      // We'll need to get it out with a THREE.Euler()
+      var euler = new THREE.Euler();
+      euler.setFromQuaternion(quaternion);
+      let radiansVec = euler.toVector3()
+
+      coneGeometry.rotateX(radiansVec.x)
+      coneGeometry.rotateY(radiansVec.y)
+      coneGeometry.rotateZ(radiansVec.z)
+
       coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
       geometries.push(coneGeometry)
     }
@@ -93,7 +109,9 @@ export default {
     const { [colorName]: assocProps = { color: 0xEFEFEF } } = classModelColors
     const material = new THREE.MeshLambertMaterial({ color: assocProps.color })
 
-    return new THREE.Mesh(mergedGeometry, material)
+    let mesh = new THREE.Mesh(mergedGeometry, material)
+    mesh.name = 'tube - ' + colorName
+    return mesh
 
   },
 

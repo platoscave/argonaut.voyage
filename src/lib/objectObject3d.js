@@ -32,6 +32,8 @@ export default class ObjectObject3d extends Object3D {
 
   drawObjectAssocs(glModelObject3D) {
 
+    //if(this._id !== '4caczktyxzm5') return
+
     for (let key in this.userData.assocs) {
 
       const assoc = this.userData.assocs[key]
@@ -65,22 +67,36 @@ export default class ObjectObject3d extends Object3D {
   }
 
   addCorners(sourcePos, destPos) {
-    const sameAs = (a, b) => {
-      Math.round(parseFloat(value)*100000) < Math.round(parseFloat(max)*100000)
+    let points = []
+
+    const similar = (a, b) => {
+      return Math.round(parseFloat(a)*100) === Math.round(parseFloat(b)*100)
+    }
+    const straighten = ( destPos) => {
+      let lastPoint = new Vector3()
+
+      lastPoint.copy(points[points.length -1])
+      if( !similar(lastPoint.z, destPos.z )) points.push(lastPoint.clone().setZ(destPos.z))
+
+      lastPoint.copy(points[points.length -1])
+      if( !similar(lastPoint.x, destPos.x )) points.push(lastPoint.clone().setX(destPos.x))
+
+      lastPoint.copy(points[points.length -1])
+      //if( !similar(lastPoint.y, destPos.y )) points.push(lastPoint.clone().setY(destPos.y))
+
     }
 
     // Get the difference vector
     let difVec = destPos.clone().sub(sourcePos)
-    let points = []
-    if(difVec.y === 0) { // same level, go down then up
+    if(similar(difVec.y, 0)) { // same level, go down then up
       let sourceBottomPos = this.getSidePos('bottom', new Vector3())
       let sourceBusPos = new Vector3( 0, -HEIGHT * 2, 0)
       let destBottomPos = this.getSidePos('bottom', difVec)
-      let destBusPos = destBottomPos.clone().setY( -HEIGHT * 2)
+      let destBusPos = destBottomPos.clone().setY(destBottomPos.y -HEIGHT * 2)
 
       points.push(sourceBottomPos)
       points.push(sourceBusPos)
-      if(sourceBusPos.z !== destBusPos.z) points.push(sourceBottomPos.clone().setZ(destBottomPos.z))
+      straighten(destBusPos)
       points.push(destBusPos)
       points.push(destBottomPos)
     }
@@ -88,25 +104,30 @@ export default class ObjectObject3d extends Object3D {
       let sourceTopPos = this.getSidePos('top', new Vector3())
       let sourceBusPos = new Vector3( 0, HEIGHT * 2, 0)
       let destBottomPos = this.getSidePos('bottom', difVec)
-      let destBusPos = destBottomPos.clone().setY( -HEIGHT * 2)
+      let destBusAPos = destBottomPos.clone().setY( destBottomPos.y + HEIGHT * 1)
+      let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
+      let destBusBPos = destBusAPos.clone().setX( destBusAPos.x - destBusBLength)
       
       points.push(sourceTopPos)
       points.push(sourceBusPos)
-      if(sourceBusPos.z !== destBusPos.z) points.push(sourceTopPos.clone().setZ(destBottomPos.z))
-      points.push(destBusPos)
+      points.push(destBusBPos)
+      points.push(destBusAPos)
       points.push(destBottomPos)
     }
     else { // lower level, go down then down
       let sourceBottomPos = this.getSidePos('bottom', new Vector3())
       let sourceBusPos = new Vector3( 0, -HEIGHT * 2, 0)
-      let destBottomPos = this.getSidePos('bottom', difVec)
-      let destBusPos = destBottomPos.clone().setY( HEIGHT * 2)
+      let destTopPos = this.getSidePos('top', difVec)
+      let destBusAPos = destTopPos.clone().setY( destTopPos.y + HEIGHT * 2)
+      let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
+      let destBusBPos = destBusAPos.clone().setX( destBusAPos.x - destBusBLength)
 
       points.push(sourceBottomPos)
       points.push(sourceBusPos)
-      if(sourceBusPos.z !== destBusPos.z) points.push(sourceBottomPos.clone().setZ(destBottomPos.z))
-      points.push(destBusPos)
-      points.push(destBottomPos)
+      straighten(destBusBPos)
+      points.push(destBusBPos)
+      points.push(destBusAPos)
+      points.push(destTopPos)
     }
 
     return points

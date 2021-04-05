@@ -183,7 +183,7 @@ export default {
     },
 
     highlight(_id) {
-      //if (!this.heighlight) return
+      //TODO don't need to lookup
       if(this.currentlySelectedObjProps) {
         let currentlySelected = this.glModelObject3D.getObjectByProperty('_id', this.currentlySelectedObjProps._id)
         if (currentlySelected) {
@@ -200,6 +200,11 @@ export default {
         }
         newlySelected.children[0].material = new MeshLambertMaterial({ color: 0xEEEE00 })
         newlySelected.children[0].children[0].material = new MeshLambertMaterial({ color: 0x666666 })
+        // TODO nice idea, find a way to undo
+        /* newlySelected.children.forEach( child => {
+          if(child.name.startsWith('tube'))
+          child.material = new MeshLambertMaterial({ color: 0xEEEE00 })
+        }) */
       }
     },
 
