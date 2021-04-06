@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
-//import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/index.css' // include this for missing icons in nav menu, remove when fixed
 import 'element-theme-dark'
 import * as PouchVue from 'pouch-vue';
 import PouchDB from 'pouchdb-browser'

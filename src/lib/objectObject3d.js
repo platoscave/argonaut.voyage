@@ -104,7 +104,7 @@ export default class ObjectObject3d extends Object3D {
       let sourceTopPos = this.getSidePos('top', new Vector3())
       let sourceBusPos = new Vector3( 0, HEIGHT * 2, 0)
       let destBottomPos = this.getSidePos('bottom', difVec)
-      let destBusAPos = destBottomPos.clone().setY( destBottomPos.y + HEIGHT * 1)
+      let destBusAPos = destBottomPos.clone().setY( destBottomPos.y + HEIGHT * 2) //TODO not coorect should be less
       let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
       let destBusBPos = destBusAPos.clone().setX( destBusAPos.x - destBusBLength)
       
@@ -118,7 +118,7 @@ export default class ObjectObject3d extends Object3D {
       let sourceBottomPos = this.getSidePos('bottom', new Vector3())
       let sourceBusPos = new Vector3( 0, -HEIGHT * 2, 0)
       let destTopPos = this.getSidePos('top', difVec)
-      let destBusAPos = destTopPos.clone().setY( destTopPos.y + HEIGHT * 2)
+      let destBusAPos = destTopPos.clone().setY( destTopPos.y + HEIGHT * 2) //TODO not coorect should be less
       let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
       let destBusBPos = destBusAPos.clone().setX( destBusAPos.x - destBusBLength)
 

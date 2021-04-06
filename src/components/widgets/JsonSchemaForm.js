@@ -1,6 +1,3 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import Tiptap from './Tiptap';
 
 export default {
