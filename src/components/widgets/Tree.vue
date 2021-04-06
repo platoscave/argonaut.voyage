@@ -222,7 +222,7 @@ export default {
         nextPageStateArr[1] = nodeData.pageId;
         // Remove tab if there is one. Page find its own tab
         nextPageStateArr.splice(2);
-        // Remove erveything that come after the next level as it no longer valid
+        // Remove erveything that comes after the next level as it no longer valid
         hashArr.splice(this.hashLevel + 3);
       }
       nextPageStateStr = nextPageStateArr.join(".");
@@ -244,6 +244,7 @@ export default {
       if (nextLevelStr) {
         const nextLevelArr = nextLevelStr.split(".");
         const selectedObjId = nextLevelArr[0];
+        // TODO select unselect is a bit buggy
         this.$refs["tree"].setCurrentKey(null); 
         this.$refs["tree"].setCurrentKey(selectedObjId); 
       }

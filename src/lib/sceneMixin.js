@@ -52,6 +52,8 @@ export default {
       cssModelObject3D: null,
       selectableMeshArr: [],
       heighlight: false
+      glScene: null
+
     }
   },
   methods: {
@@ -345,6 +347,10 @@ export default {
   },
 
   mounted() {
+
+    // If we've been here before, assume no redraw nessesary
+    if(glScene) return
+
     this.loadScene()
 
     window.addEventListener("hashchange", this.handleHashChange, false);

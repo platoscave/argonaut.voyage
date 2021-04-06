@@ -1,16 +1,10 @@
 <template>
   <div>
-    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-      <el-radio-button :label="false">expand</el-radio-button>
-      <el-radio-button :label="true">collapse</el-radio-button>
-    </el-radio-group>
     <el-menu
       default-active="1"
       class="el-menu-vertical-demo"
-      :collapse="isCollapse"
-      @select="handleSelect"
-      @open="handleOpen"
-      @close="handleClose"
+      unique-opened
+      @select="updateNextLevelHashSelectedObjId"
     >
       <el-menu-item index="1">
         <template slot="title">
@@ -44,28 +38,13 @@
           <i class="el-icon-picture"></i>
           <span>Modeling</span>
         </template>
-        <el-menu-item index="5-1">Class Model</el-menu-item>
+        <el-menu-item index="4lk3hxyyfac3">Class Model</el-menu-item>
         <el-menu-item index="5-2">Process Model</el-menu-item>
         <el-menu-item index="5-4">Page Model</el-menu-item>
         <el-menu-item index="5-4">Organization</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
-
-  <!-- 
-        <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">item four</template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
-
-   -->
 </template>
 
 <script>
@@ -75,37 +54,39 @@ export default {
     hashLevel: Number,
     viewId: String,
   },
-  data() {
-    return {
-      isCollapse: true,
-    };
-  },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+
+    // Insert selectObjId and pageId into next level hash
+    updateNextLevelHashSelectedObjId(pageId, keyPath) {
+      let hashArr = window.location.hash.split("/");
+
+      let ourPageStateStr = hashArr[this.hashLevel + 1];
+      let ourPageStateArr = ourPageStateStr.split(".");
+      let ourSelectObjId = ourPageStateArr[0]
+
+      let nextPageStateStr = hashArr[this.hashLevel + 2];
+      if (!nextPageStateStr) nextPageStateStr = "";
+      let nextPageStateArr = nextPageStateStr.split(".");
+      nextPageStateArr[0] = ourSelectObjId;
+      if (pageId && nextPageStateArr[1] !== pageId) {
+        nextPageStateArr[1] = pageId;
+        // Remove tab if there is one. Page find its own tab
+        nextPageStateArr.splice(2);
+        // Remove erveything that comes after the next level as it no longer valid
+        hashArr.splice(this.hashLevel + 3);
+      }
+      nextPageStateStr = nextPageStateArr.join(".");
+      hashArr[this.hashLevel + 2] = nextPageStateStr;
+      //TODO remove following levels, fill with defaults
+      let hash = hashArr.join("/");
+      window.location.hash = hash;
     },
   },
 };
 </script>
 
 <style scoped>
-    .icon {
-       width: 1em; height: 1em;
-       vertical-align: -0.15em;
-       overflow: hidden;
-    }
-i {
-       fill: currentColor;
-  color: #eee
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
 </style>

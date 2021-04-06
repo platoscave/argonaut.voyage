@@ -1,6 +1,3 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import BalanceSheet from './widgets/BalanceSheet.vue'
 import ClassModel from './widgets/ClassModel.vue'
 import Document from './widgets/Document.vue'

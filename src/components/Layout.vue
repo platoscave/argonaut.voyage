@@ -160,7 +160,7 @@ export default {
   height: 100%;
 }
 .right >>> div {
-  height: 100%;
+  Xheight: 100%;
 }
 .pane-rs {
   position: unset;
