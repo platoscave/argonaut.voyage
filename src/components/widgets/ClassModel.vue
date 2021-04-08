@@ -102,7 +102,7 @@ export default {
   mounted: async function () {
 
     // If we've been here before, assume no redraw nessesary
-    if(glScene) return
+    //if(this.glScene) return
 
     this.addLoadingText();
 

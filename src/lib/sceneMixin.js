@@ -52,7 +52,6 @@ export default {
       cssModelObject3D: null,
       selectableMeshArr: [],
       heighlight: false
-      glScene: null
 
     }
   },
@@ -349,7 +348,7 @@ export default {
   mounted() {
 
     // If we've been here before, assume no redraw nessesary
-    if(glScene) return
+    //if(glScene) return
 
     this.loadScene()
 
