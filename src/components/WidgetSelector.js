@@ -38,7 +38,8 @@ export default {
         },
         props: {
           'hash-level': this.hashLevel,
-          'view-id': widget.viewId
+          'view-id': widget.viewId,
+          'menu-id': widget.menuId
         }
       }
 

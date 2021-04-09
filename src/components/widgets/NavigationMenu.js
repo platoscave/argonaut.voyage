@@ -2,9 +2,9 @@ export default {
   name: "ar-navigation-menu",
   props: {
     hashLevel: Number,
-    viewId: String,
+    menuId: String,
   },
-  data() {
+  /* data() {
     return {
       menuArr: [
         {
@@ -21,7 +21,7 @@ export default {
           name: 'Human Resources',
           icon: 'el-icon-user-solid',
           pageId: '',
-          subMenu: [
+          menuArr: [
             {
               name: 'Income Statement',
               pageId: '',
@@ -40,7 +40,7 @@ export default {
           name: 'Accounting',
           icon: 'el-icon-picture-outline',
           pageId: '',
-          subMenu: [
+          menuArr: [
             {
               name: 'Invoice',
               pageId: '',
@@ -51,7 +51,7 @@ export default {
             },
             {
               name: 'Financials',
-              subMenu: [
+              menuArr: [
                 {
                   name: 'Income Statement',
                   pageId: '',
@@ -72,7 +72,7 @@ export default {
           name: 'Modeling',
           icon: 'el-icon-picture',
           pageId: '',
-          subMenu: [
+          menuArr: [
             {
               name: 'Class Model',
               pageId: '4lk3hxyyfac3',
@@ -90,6 +90,16 @@ export default {
         },
       ],
     }
+  }, */
+
+  pouch: {
+    menuObj: function () {
+      return {
+        database: "argonaut",
+        selector: { _id: this.menuId },
+        first: true,
+      };
+    },
   },
   render(createElement) {
 
@@ -108,7 +118,7 @@ export default {
       let subMenuArr = []
 
       menuArr.forEach((item, idx) => {
-        if (item.subMenu) {
+        if (item.menuArr) {
           subMenuArr.push(createElement('el-submenu', {
             props: {
               index: index + '-' + idx,
@@ -117,7 +127,7 @@ export default {
           }, 
           [
             createElement("span", { slot: "title" }, labelElement(item)),
-            ...createSubMenu(item.subMenu, index + '-' + idx)
+            ...createSubMenu(item.menuArr, index + '-' + idx)
           ]))
         }
         else {
@@ -138,13 +148,15 @@ export default {
     }
 
     // Create the menu element
+    if(!this.menuObj) return // hasn't been filled yet
+
     return createElement('el-menu', {
       ref: "elMenu",
       props: {
         'unique-opened': true
       },
       class: 'form-class'
-    }, createSubMenu(this.menuArr, ''))
+    }, createSubMenu(this.menuObj.menuArr, ''))
   },
 
   methods: {

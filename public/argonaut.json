@@ -1893,6 +1893,204 @@
     "type": "object"
   },
   {
+    "_id": "inbumnx4vx5w",
+    "docType": "class",
+    "title": "Menus",
+    "description": "<p>Custom Menus/p>",
+    "parentId": "nrioirgelhpi",
+    "properties": {
+      "menuArr": {              
+        "items": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "placeholder": "Provide a name",
+            "maxLength": 1000,
+            "title": "Name",
+            "type": "string",
+            "readOnly": true
+          },
+          "pageId": {
+            "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+            "mongoQuery": {
+              "selector": {
+                "classId": "pejdgrwd5qso"
+              },
+              "fields": [
+                "_id",
+                "name"
+              ],
+              "sort": [
+                "name"
+              ],
+              "extendTo": "instances"
+            },
+            "title": "Page",
+            "type": "string",
+            "readOnly": true
+          },
+          "icon": {
+            "maxLength": 2000,
+            "media": {
+              "binaryEncoding": "base64",
+              "type": "image/png"
+            },
+            "minLength": 0,
+            "title": "Icon",
+            "type": "string",
+            "readOnly": true
+          },
+          "menuArr": {              
+            "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "placeholder": "Provide a name",
+                "maxLength": 1000,
+                "title": "Name",
+                "type": "string",
+                "readOnly": true
+              },
+              "pageId": {
+                "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                "mongoQuery": {
+                  "selector": {
+                    "classId": "pejdgrwd5qso"
+                  },
+                  "fields": [
+                    "_id",
+                    "name"
+                  ],
+                  "sort": [
+                    "name"
+                  ],
+                  "extendTo": "instances"
+                },
+                "title": "Page",
+                "type": "string",
+                "readOnly": true
+              },
+              "icon": {
+                "maxLength": 2000,
+                "media": {
+                  "binaryEncoding": "base64",
+                  "type": "image/png"
+                },
+                "minLength": 0,
+                "title": "Icon",
+                "type": "string",
+                "readOnly": true
+              },
+              "subMenu": {
+              }
+            },
+            "type": "object"
+          },
+            "title": "Menu Items",
+            "type": "Array"
+          }
+        },
+        "type": "object"
+      },
+        "title": "Menu Items",
+        "type": "Array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "ltsslbsdftpg",
+    "docType": "object",
+    "name": "Clinic Menu",
+    "description": "<p></p>",
+    "classId": "inbumnx4vx5w",
+    "ownerId": "argonautdot1",
+    "menuArr": [
+      {
+        "name": "Home",
+        "icon": "el-icon-s-home",
+        "pageId": ""
+      },
+      {
+        "name": "Reception",
+        "icon": "el-icon-s-custom",
+        "pageId": ""
+      },
+      {
+        "name": "Human Resources",
+        "icon": "el-icon-user-solid",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Income Statement",
+            "pageId": ""
+          },
+          {
+            "name": "Balance Sheet",
+            "pageId": ""
+          },
+          {
+            "name": "Cash Flow",
+            "pageId": ""
+          }
+        ]
+      },
+      {
+        "name": "Accounting",
+        "icon": "el-icon-picture-outline",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Invoice",
+            "pageId": ""
+          },
+          {
+            "name": "Purchase",
+            "pageId": ""
+          },
+          {
+            "name": "Financials",
+            "menuArr": [
+              {
+                "name": "Income Statement",
+                "pageId": ""
+              },
+              {
+                "name": "Balance Sheet",
+                "pageId": ""
+              },
+              {
+                "name": "Cash Flow",
+                "pageId": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Modeling",
+        "icon": "el-icon-picture",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Class Model",
+            "pageId": "4lk3hxyyfac3"
+          }, {
+            "name": "Process Model",
+            "pageId": ""
+          }, {
+            "name": "Page Model",
+            "pageId": ""
+          }, 
+          {
+            "name": "Organization",
+            "pageId": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "lmxjrogzeld1",
     "docType": "object",
     "name": "Purchase Agreement",
@@ -3403,7 +3601,7 @@
           {
             "displayType": "Navigation Menu",
             "name": "Navigation Menu",
-            "viewId": "nqnnj5xfzg4y"
+            "menuId": "ltsslbsdftpg"
           }
         ]
       }
