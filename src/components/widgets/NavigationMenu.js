@@ -4,93 +4,12 @@ export default {
     hashLevel: Number,
     menuId: String,
   },
-  /* data() {
+
+  data: function () {
     return {
-      menuArr: [
-        {
-          name: 'Home',
-          icon: 'el-icon-s-home',
-          pageId: ''
-        },
-        {
-          name: 'Reception',
-          icon: 'el-icon-s-custom',
-          pageId: ''
-        },
-        {
-          name: 'Human Resources',
-          icon: 'el-icon-user-solid',
-          pageId: '',
-          menuArr: [
-            {
-              name: 'Income Statement',
-              pageId: '',
-            },
-            {
-              name: 'Balance Sheet',
-              pageId: '',
-            },
-            {
-              name: 'Cash Flow',
-              pageId: '',
-            },
-          ]
-        },
-        {
-          name: 'Accounting',
-          icon: 'el-icon-picture-outline',
-          pageId: '',
-          menuArr: [
-            {
-              name: 'Invoice',
-              pageId: '',
-            },
-            {
-              name: 'Purchase',
-              pageId: '',
-            },
-            {
-              name: 'Financials',
-              menuArr: [
-                {
-                  name: 'Income Statement',
-                  pageId: '',
-                },
-                {
-                  name: 'Balance Sheet',
-                  pageId: '',
-                },
-                {
-                  name: 'Cash Flow',
-                  pageId: '',
-                },
-              ]
-            },
-          ]
-        },
-        {
-          name: 'Modeling',
-          icon: 'el-icon-picture',
-          pageId: '',
-          menuArr: [
-            {
-              name: 'Class Model',
-              pageId: '4lk3hxyyfac3',
-            }, {
-              name: 'Process Model',
-              pageId: '',
-            }, {
-              name: 'Page Model',
-              pageId: '',
-            }, {
-              name: 'Organization',
-              pageId: '',
-            },
-          ]
-        },
-      ],
-    }
-  }, */
+      nextLevelPageId: '',
+    };
+  },
 
   pouch: {
     menuObj: function () {
@@ -101,6 +20,27 @@ export default {
       };
     },
   },
+
+  computed: {
+    // Get the index if the menuItem the corresponds to the next level pageId
+    // We do this in computed because menuObj is async
+    defaultActive: function()  {
+
+      const findIndexPathForPageId = (pageId, menuArr, index) => {
+        for (let idx in menuArr) {
+          let item = menuArr[idx]
+          if(item.pageId === pageId) return index + '-' + idx
+          if (item.menuArr) {
+            let result = findIndexPathForPageId(pageId, item.menuArr, index + '-' + idx)
+            if(result) return result
+          }
+        }
+      }
+
+      return findIndexPathForPageId(this.nextLevelPageId, this.menuObj.menuArr, '')
+    }
+  },
+
   render(createElement) {
 
     // Label, potentially containing an icon
@@ -122,7 +62,6 @@ export default {
           subMenuArr.push(createElement('el-submenu', {
             props: {
               index: index + '-' + idx,
-              pageId: item.pageId
             },
           }, 
           [
@@ -134,7 +73,6 @@ export default {
           subMenuArr.push(createElement('el-menu-item', {
             props: {
               index: index + '-' + idx,
-              pageId: item.pageId
             },
             on: {
               click: () => {
@@ -151,11 +89,10 @@ export default {
     if(!this.menuObj) return // hasn't been filled yet
 
     return createElement('el-menu', {
-      ref: "elMenu",
       props: {
-        'unique-opened': true
+        'unique-opened': true,
+        'default-active': this.defaultActive
       },
-      class: 'form-class'
     }, createSubMenu(this.menuObj.menuArr, ''))
   },
 
@@ -186,6 +123,22 @@ export default {
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },
+
+    handleHashChange: function () {
+      const nextLevelStr = window.location.hash.split("/")[this.hashLevel + 2];
+      if (nextLevelStr) {
+        const nextLevelArr = nextLevelStr.split(".");
+        this.nextLevelPageId = nextLevelArr[1]
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener("hashchange", this.handleHashChange, false);
+    this.handleHashChange();
+  },
+  beforeDestroy() {
+    window.removeEventListener("hashchange", this.handleHashChange, false);
   },
 };
 

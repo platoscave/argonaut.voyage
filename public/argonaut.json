@@ -2012,25 +2012,25 @@
         "pageId": ""
       },
       {
-        "name": "Reception",
+        "name": "Front Desk",
         "icon": "el-icon-s-custom",
         "pageId": ""
       },
       {
-        "name": "Human Resources",
+        "name": "Organization",
         "icon": "el-icon-user-solid",
         "pageId": "",
         "menuArr": [
           {
-            "name": "Income Statement",
+            "name": "Human Resources",
             "pageId": ""
           },
           {
-            "name": "Balance Sheet",
+            "name": "Scheduling",
             "pageId": ""
           },
           {
-            "name": "Cash Flow",
+            "name": "Messaging",
             "pageId": ""
           }
         ]
