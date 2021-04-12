@@ -24,15 +24,15 @@ export default {
   computed: {
     // Get the index if the menuItem the corresponds to the next level pageId
     // We do this in computed because menuObj is async
-    defaultActive: function()  {
+    defaultActive: function () {
 
       const findIndexPathForPageId = (pageId, menuArr, index) => {
         for (let idx in menuArr) {
           let item = menuArr[idx]
-          if(item.pageId === pageId) return index + '-' + idx
+          if (item.pageId === pageId) return index + '-' + idx
           if (item.menuArr) {
             let result = findIndexPathForPageId(pageId, item.menuArr, index + '-' + idx)
-            if(result) return result
+            if (result) return result
           }
         }
       }
@@ -50,7 +50,7 @@ export default {
       if (item.icon) labelArr.push(createElement('i', { class: item.icon }))
 
       let style = {}
-      if(firstLevel) style = { style: {'font-weight': 'bold', 'font-size': '16px'}}
+      if (firstLevel) style = { style: { 'font-weight': 'bold', 'font-size': '16px' } }
 
       labelArr.push(createElement('span', style, item.name))
 
@@ -66,17 +66,19 @@ export default {
           subMenuArr.push(createElement('el-submenu', {
             props: {
               index: index + '-' + idx,
+              disabled: item.menuArr.length ? false : true
             },
-          }, 
-          [
-            createElement("span", { slot: "title" }, labelElement(item, index === '' ? true : false)),
-            ...createSubMenu(item.menuArr, index + '-' + idx)
-          ]))
+          },
+            [
+              createElement("span", { slot: "title" }, labelElement(item, index === '' ? true : false)),
+              ...createSubMenu(item.menuArr, index + '-' + idx)
+            ]))
         }
         else {
           subMenuArr.push(createElement('el-menu-item', {
             props: {
               index: index + '-' + idx,
+              disabled: item.pageId ? false : true
             },
             on: {
               click: () => {
@@ -90,15 +92,15 @@ export default {
     }
 
     // Create the menu element
-    if(!this.menuObj) return // hasn't been filled yet
+    if (!this.menuObj) return // hasn't been filled yet
 
     return createElement('el-menu', {
       props: {
         'unique-opened': true,
         'default-active': this.defaultActive
       },
-    }, [ createElement('h3', { style: {'text-align': 'center'}}, this.menuObj.name),
-        ...createSubMenu(this.menuObj.menuArr, '')])
+    }, [createElement('h3', { style: { 'text-align': 'center' } }, this.menuObj.name),
+    ...createSubMenu(this.menuObj.menuArr, '')])
   },
 
   methods: {

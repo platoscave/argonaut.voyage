@@ -2670,6 +2670,231 @@
   },
 
 
+
+
+  {
+    "_id": "cie1pllxq5mu",
+    "docType": "object",
+    "name": "Service Request Process",
+    "description": "<p>Service Request Process</p>",
+    "classId": "dwl1kwhalwj4",
+    "agreementClassId": "w3mzeetidb5n",
+    "returnActions": [
+      "happy",
+      "unhappy"
+    ],
+    "substateId": "oltp4kpj4fvi",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "h3q1vchxahoh",
+    "docType": "object",
+    "name": "Bicycle Shop Process",
+    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "classId": "dwl1kwhalwj4",
+    "agreementClassId": "w3mzeetidb5n",
+    "returnActions": [
+      "happy",
+      "unhappy"
+    ],
+    "substateId": "yefagaab4ua2",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "ynaxakdc423e",
+    "docType": "object",
+    "name": "Purchase Process",
+    "description": "<p>Purchase</p>",
+    "classId": "dwl1kwhalwj4",
+    "agreementClassId": "w3mzeetidb5n",
+    "returnActions": [
+      "happy",
+      "unhappy",
+      "reject"
+    ],
+    "substateId": "3r5kgovlor1o",
+    "ownerId": "argonautdot1"
+  },
+  {
+    "_id": "3hxkire2nn4v",
+    "docType": "object",
+    "name": "Sucess",
+    "description": "<p>Sucess</p>",
+    "classId": "s41na42wsxez",
+    "ownerId": "argonautdot1"
+  },
+  {
+    "_id": "zdwdoqpxks2s",
+    "docType": "object",
+    "name": "Failed",
+    "description": "<p>Failed</p>",
+    "classId": "s41na42wsxez",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "3r5kgovlor1o",
+    "docType": "object",
+    "name": "Validate",
+    "description": "<p>Validate</p>",
+    "classId": "dqja423wlzrb",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "stateId": "3edgchx5lgu3"
+      },
+      {
+        "action": "reject"
+      }
+    ],
+    "execute": [
+      "validate ownership",
+      "product escrow",
+      "payment escrow"
+    ],
+    "ownerId": "argonautdot1"
+  },
+  {
+    "_id": "h15wtpxaetki",
+    "docType": "object",
+    "name": "Rollback",
+    "description": "<p>Rollback</p>",
+    "classId": "dqja423wlzrb",
+    "nextStateIds": [
+      {
+        "action": "unhappy"
+      }
+    ],
+    "execute": [
+      "return payment"
+    ],
+    "ownerId": "argonautdot1"
+  },
+  {
+    "_id": "uqefmsegqvhs",
+    "docType": "object",
+    "name": "Transact",
+    "description": "<p>Transact</p>",
+    "classId": "dqja423wlzrb",
+    "nextStateIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "execute": [
+      "transfer product ownership",
+      "transfer payment"
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "3edgchx5lgu3",
+    "docType": "object",
+    "name": "Perform",
+    "description": "<p>Perform</p>",
+    "classId": "jotxozcetpx2",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "stateId": "bavb2g1inh2t"
+      },
+      {
+        "action": "unhappy",
+        "stateId": "h15wtpxaetki"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "oltp4kpj4fvi",
+    "docType": "object",
+    "name": "Intake",
+    "description": "<p>Intake</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "stateId": "tfkyaytuac1g"
+      },
+      {
+        "action": "unhappy"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "pvk5ngmorf4z",
+    "docType": "object",
+    "name": "Expedite",
+    "description": "<p>Expedite</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStateIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "tfkyaytuac1g",
+    "docType": "object",
+    "name": "Answer",
+    "description": "<p>Answer</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "XstateId": "cie1pllxq5mu"
+      },
+      {
+        "action": "unhappy"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "yefagaab4ua2",
+    "docType": "object",
+    "name": "Order Pick",
+    "description": "<p>Order Pick</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "stateId": "pvk5ngmorf4z"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "bavb2g1inh2t",
+    "docType": "object",
+    "name": "Acceptance",
+    "description": "<p>Acceptance</p>",
+    "classId": "xsaq3l5hncb2",
+    "nextStateIds": [
+      {
+        "action": "happy",
+        "stateId": "uqefmsegqvhs"
+      },
+      {
+        "action": "unhappy",
+        "stateId": "h15wtpxaetki"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "gczvalloctae",
+    "docType": "object",
+    "name": "Initialize",
+    "description": "<p>Initialize</p>",
+    "classId": "1jrqyjoabx1a",
+    "ownerId": "argonautdot1"
+  },
+
+
+
+
   {
     "_id": "uhekisbbbjh5",
     "docType": "object",

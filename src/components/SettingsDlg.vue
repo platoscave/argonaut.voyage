@@ -73,8 +73,10 @@ export default {
 
       const response = await fetch("argonaut.json");
       const argonautData = await response.json();
+
+      const processClasses = ["cq4bjkzqc2qp","xsaq3l5hncb2","dqja423wlzrb","jotxozcetpx2", "1jrqyjoabx1a","s41na42wsxez", "dwl1kwhalwj4" ]
       const filterData = argonautData.filter((item) => {
-        return item.docType === "class";
+        return processClasses.includes(item.classId)
       });
 
       const jsonString = JSON.stringify(filterData, null, 2);
