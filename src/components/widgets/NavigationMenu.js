@@ -44,11 +44,15 @@ export default {
   render(createElement) {
 
     // Label, potentially containing an icon
-    const labelElement = (item) => {
+    const labelElement = (item, firstLevel) => {
       let labelArr = []
 
       if (item.icon) labelArr.push(createElement('i', { class: item.icon }))
-      labelArr.push(createElement('span', item.name))
+
+      let style = {}
+      if(firstLevel) style = { style: {'font-weight': 'bold', 'font-size': '16px'}}
+
+      labelArr.push(createElement('span', style, item.name))
 
       return labelArr
     }
@@ -65,7 +69,7 @@ export default {
             },
           }, 
           [
-            createElement("span", { slot: "title" }, labelElement(item)),
+            createElement("span", { slot: "title" }, labelElement(item, index === '' ? true : false)),
             ...createSubMenu(item.menuArr, index + '-' + idx)
           ]))
         }
@@ -79,7 +83,7 @@ export default {
                 this.updateNextLevelHashSelectedObjId(item.pageId)
               }
             }
-          }, labelElement(item)))
+          }, labelElement(item, index === '' ? true : false)))
         }
       })
       return subMenuArr
@@ -93,7 +97,8 @@ export default {
         'unique-opened': true,
         'default-active': this.defaultActive
       },
-    }, createSubMenu(this.menuObj.menuArr, ''))
+    }, [ createElement('h3', { style: {'text-align': 'center'}}, this.menuObj.name),
+        ...createSubMenu(this.menuObj.menuArr, '')])
   },
 
   methods: {
