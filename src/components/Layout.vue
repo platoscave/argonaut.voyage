@@ -31,11 +31,11 @@
 
     <!-- Studio -->
     <div class="ar-full-height" v-else-if="pageObj.divider === 'Studio'">
-      <ar-class-model
+      <ar-process-model
         class="diagram"
         v-bind:hash-level="hashLevel"
         v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-class-model>
+      ></ar-process-model>
       <!-- Master content -->
       <div
         class="drawer-left"
@@ -90,12 +90,14 @@
 /* eslint-disable no-unused-vars */
 import ResSplitPane from "vue-resize-split-pane";
 import ClassModel from "./widgets/ClassModel.vue";
+import ProcessModel from "./widgets/ProcessModel.vue";
 
 export default {
   name: "ar-layout",
   components: {
     "rs-panes": ResSplitPane,
     "ar-class-model": ClassModel,
+    "ar-process-model": ProcessModel,
   },
   props: {
     hashLevel: Number,
@@ -159,8 +161,8 @@ export default {
 .ar-layout {
   height: 100%;
 }
-.right >>> div {
-  Xheight: 100%;
+.right > div {
+  height: 100%;
 }
 .pane-rs {
   position: unset;

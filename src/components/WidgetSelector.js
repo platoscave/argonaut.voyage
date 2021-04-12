@@ -18,7 +18,7 @@ export default {
     'ar-form': Form,
     'ar-naigation-menu': NavigationMenu,
     'ar-page-editor': PageEditor,
-    'ar-process-model': ClassModel,
+    'ar-process-model': ProcessModel,
     'ar-table': Table,
     'ar-tiptap': Tiptap,
     'ar-tree': Tree

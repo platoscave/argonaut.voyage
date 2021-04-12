@@ -14,7 +14,7 @@ import Scene from "../../lib/sceneMixin.js";
 import ClassObject3d from "../../lib/classObject3d.js";
 
 export default {
-  name: "ar-class-model",
+  name: "ar-process-model",
   mixins: [Scene],
   props: {
     hashLevel: Number,
@@ -24,13 +24,14 @@ export default {
     return {
       selectedObjId: null,
       // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
+      // skyboxArray: [ "milkyway/posx.jpg", "milkyway/negx.jpg", "milkyway/posy.jpg", "milkyway/negy.jpg", "milkyway/posz.jpg", "milkyway/negz.jpg",],
       skyboxArray: [
-        "milkyway/posx.jpg",
-        "milkyway/negx.jpg",
-        "milkyway/posy.jpg",
-        "milkyway/negy.jpg",
-        "milkyway/posz.jpg",
-        "milkyway/negz.jpg",
+        "islands/skybox_e.jpg",
+        "islands/skybox_w.jpg",
+        "islands/skybox_t.jpg",
+        "islands/skybox_b.jpg",
+        "islands/skybox_n.jpg",
+        "islands/skybox_s.jpg",
       ],
       // skyboxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']
     };
@@ -108,7 +109,7 @@ export default {
 
     try {
 
-      await this.dawClasses();
+      //await this.dawClasses();
 
       this.removeLoadingText();
     } catch (err) {

@@ -1010,8 +1010,8 @@
   {
     "_id": "dlpwvptczyeb",
     "docType": "class",
-    "title": "States",
-    "description": "<p>States</p>",
+    "title": "Steps",
+    "description": "<p>Steps</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "parentId": "nrioirgelhpi",
     "pageId": "2vnljdsieyjw",
@@ -2894,7 +2894,26 @@
 
 
 
-
+  {
+    "_id": "vwkdlll4t5vy",
+    "docType": "object",
+    "name": "Demo Menu Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Vertical",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Navigation Menu",
+        "widgets": [
+          {
+            "displayType": "Navigation Menu",
+            "name": "Navigation Menu",
+            "menuId": "kvnnqloyehbg"
+          }
+        ]
+      }
+    ]
+  },
   {
     "_id": "uhekisbbbjh5",
     "docType": "object",
@@ -2935,17 +2954,47 @@
       }
     ]
   },
+  {
+    "_id": "dsimhnp5euui",
+    "docType": "object",
+    "name": "Process Tree Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Studio",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Process Model",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Process Model Tree",
+            "viewId": "vzhw2vpaflmw"
+          }
+        ]
+      }
+    ]
+  },
 
 
 
   {
     "_id": "vzhw2vpaflmw",
     "docType": "object",
-    "name": "Process Umiverse  Tree View",
+    "name": "Process Umiverse Tree View",
     "description": "<p>Descibes the class model hierarchy, including a children array</p>",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "queryId": "tllcmvjazmz2",
+    "type": "object"
+  },  
+  {
+    "_id": "pepmfz4be5uu",
+    "docType": "object",
+    "name": "Process Tree View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "queryId": "sfmg5u3wtpds",
     "type": "object"
   },
 
@@ -3007,6 +3056,75 @@
     "_id": "x1lrv2xdq2tu",
     "docType": "object",
     "name": "Objects Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "pageId": "24cnex2saye1",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
+    "mongoQuery": {
+      "selector": {
+        "classId": "$fk"
+      },
+      "fields": [
+        "_id",
+        "name",
+        "docType",
+        "properties"
+      ],
+      "sort": [
+        "name"
+      ]
+    }
+  },
+  {
+    "_id": "tllcmvjazmz2",
+    "docType": "object",
+    "name": "Root Process Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "pageId": "24cnex2saye1",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "subQueryIds": [
+      "aiw54neadp14"
+    ],
+    "mongoQuery": {
+      "selector": {
+        "_id": "gzthjuyjca4s"
+      },
+      "fields": [
+        "_id",
+        "title",
+        "docType",
+        "properties"
+      ]
+    }
+  },
+  {
+    "_id": "aiw54neadp14",
+    "docType": "object",
+    "name": "Steps Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "pageId": "24cnex2saye1",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "mongoQuery": {
+      "selector": {
+        "parentId": "$fk"
+      },
+      "fields": [
+        "_id",
+        "title",
+        "docType",
+        "properties"
+      ],
+      "sort": [
+        "title"
+      ]
+    }
+  },
+  {
+    "_id": "ybjrgmdjybzl",
+    "docType": "object",
+    "name": "Spare Process Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
     "pageId": "24cnex2saye1",
@@ -3140,7 +3258,7 @@
           },
           {
             "name": "Process Model",
-            "pageId": "z2xnjsqcs5bj"
+            "pageId": "dsimhnp5euui"
           },
           {
             "name": "Page Model",
