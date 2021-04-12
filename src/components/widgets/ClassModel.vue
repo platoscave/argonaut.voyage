@@ -112,11 +112,11 @@ export default {
 
       this.removeLoadingText();
     } catch (err) {
-
       console.error(err);
       this.removeLoadingText();
 
       this.$message({ message: err, type: "error" });
+      throw err
     }
   },
 };

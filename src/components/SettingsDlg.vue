@@ -11,6 +11,11 @@
       >
     </el-row>
     <el-row>
+      <el-button type="primary" @click="onReadFilterDownLoad"
+        >Read Filter Doenload</el-button
+      >
+    </el-row>
+    <el-row>
       <el-button type="primary" @click="randomKey">Random Key</el-button>
     </el-row>
   </el-dialog>
@@ -34,9 +39,9 @@ export default {
     },
     async populateFromStatic() {
       try {
-        const response = await fetch("argonaut.json");
+        const response = await fetch("argonautFiltered.json");
         const argonautData = await response.json();
-        await this.clearCache()
+        await this.clearCache();
         await this.$pouch.bulkDocs(argonautData);
         await this.$pouch.createIndex({
           index: {
@@ -61,6 +66,26 @@ export default {
         console.error(err);
         this.$message({ message: err, type: "error" });
       }
+    },
+    async onReadFilterDownLoad() {
+      // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv
+      //const data = await IndexedDBApiService.GetAll(this.$store);
+
+      const response = await fetch("argonaut.json");
+      const argonautData = await response.json();
+      const filterData = argonautData.filter((item) => {
+        return item.docType === "class";
+      });
+
+      const jsonString = JSON.stringify(filterData, null, 2);
+      const csv_mime_type = "text/json";
+      const blob = new Blob([jsonString], { type: csv_mime_type });
+      const anchor = document.createElement("a");
+      anchor.setAttribute("download", "argonautFiltered.json");
+      const url = URL.createObjectURL(blob);
+      anchor.setAttribute("href", url);
+      anchor.click();
+      URL.revokeObjectURL(url);
     },
     randomKey() {
       const characters = "abcdefghijklmnopqrstuvwxyz12345";

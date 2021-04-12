@@ -305,7 +305,6 @@
     "docType": "class",
     "title": "Accounts",
     "parentId": "gzthjuyjca4s",
-    "ownerId": "argonautdot1",
     "properties": {
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1899,99 +1898,98 @@
     "description": "<p>Custom Menus/p>",
     "parentId": "nrioirgelhpi",
     "properties": {
-      "menuArr": {              
+      "menuArr": {
         "items": {
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "placeholder": "Provide a name",
-            "maxLength": 1000,
-            "title": "Name",
-            "type": "string",
-            "readOnly": true
-          },
-          "pageId": {
-            "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-            "mongoQuery": {
-              "selector": {
-                "classId": "pejdgrwd5qso"
-              },
-              "fields": [
-                "_id",
-                "name"
-              ],
-              "sort": [
-                "name"
-              ],
-              "extendTo": "instances"
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "placeholder": "Provide a name",
+              "maxLength": 1000,
+              "title": "Name",
+              "type": "string",
+              "readOnly": true
             },
-            "title": "Page",
-            "type": "string",
-            "readOnly": true
-          },
-          "icon": {
-            "maxLength": 2000,
-            "media": {
-              "binaryEncoding": "base64",
-              "type": "image/png"
-            },
-            "minLength": 0,
-            "title": "Icon",
-            "type": "string",
-            "readOnly": true
-          },
-          "menuArr": {              
-            "items": {
-            "additionalProperties": false,
-            "properties": {
-              "name": {
-                "placeholder": "Provide a name",
-                "maxLength": 1000,
-                "title": "Name",
-                "type": "string",
-                "readOnly": true
+            "pageId": {
+              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+              "mongoQuery": {
+                "selector": {
+                  "classId": "pejdgrwd5qso"
+                },
+                "fields": [
+                  "_id",
+                  "name"
+                ],
+                "sort": [
+                  "name"
+                ],
+                "extendTo": "instances"
               },
-              "pageId": {
-                "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                "mongoQuery": {
-                  "selector": {
-                    "classId": "pejdgrwd5qso"
+              "title": "Page",
+              "type": "string",
+              "readOnly": true
+            },
+            "icon": {
+              "maxLength": 2000,
+              "media": {
+                "binaryEncoding": "base64",
+                "type": "image/png"
+              },
+              "minLength": 0,
+              "title": "Icon",
+              "type": "string",
+              "readOnly": true
+            },
+            "menuArr": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "placeholder": "Provide a name",
+                    "maxLength": 1000,
+                    "title": "Name",
+                    "type": "string",
+                    "readOnly": true
                   },
-                  "fields": [
-                    "_id",
-                    "name"
-                  ],
-                  "sort": [
-                    "name"
-                  ],
-                  "extendTo": "instances"
+                  "pageId": {
+                    "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                    "mongoQuery": {
+                      "selector": {
+                        "classId": "pejdgrwd5qso"
+                      },
+                      "fields": [
+                        "_id",
+                        "name"
+                      ],
+                      "sort": [
+                        "name"
+                      ],
+                      "extendTo": "instances"
+                    },
+                    "title": "Page",
+                    "type": "string",
+                    "readOnly": true
+                  },
+                  "icon": {
+                    "maxLength": 2000,
+                    "media": {
+                      "binaryEncoding": "base64",
+                      "type": "image/png"
+                    },
+                    "minLength": 0,
+                    "title": "Icon",
+                    "type": "string",
+                    "readOnly": true
+                  },
+                  "subMenu": {}
                 },
-                "title": "Page",
-                "type": "string",
-                "readOnly": true
+                "type": "object"
               },
-              "icon": {
-                "maxLength": 2000,
-                "media": {
-                  "binaryEncoding": "base64",
-                  "type": "image/png"
-                },
-                "minLength": 0,
-                "title": "Icon",
-                "type": "string",
-                "readOnly": true
-              },
-              "subMenu": {
-              }
-            },
-            "type": "object"
+              "title": "Menu Items",
+              "type": "Array"
+            }
           },
-            "title": "Menu Items",
-            "type": "Array"
-          }
+          "type": "object"
         },
-        "type": "object"
-      },
         "title": "Menu Items",
         "type": "Array"
       }
@@ -2009,7 +2007,7 @@
       {
         "name": "Home",
         "icon": "el-icon-s-home",
-        "pageId": ""
+        "pageId": "2kjjzqr2i5o5"
       },
       {
         "name": "Front Desk",
@@ -2075,13 +2073,15 @@
           {
             "name": "Class Model",
             "pageId": "4lk3hxyyfac3"
-          }, {
+          },
+          {
             "name": "Process Model",
-            "pageId": ""
-          }, {
+            "pageId": "z2xnjsqcs5bj"
+          },
+          {
             "name": "Page Model",
             "pageId": ""
-          }, 
+          },
           {
             "name": "Organization",
             "pageId": ""
@@ -3174,19 +3174,6 @@
             "name": "What Form"
           }
         ]
-      },
-      {
-        "name": "Make an Appointment",
-        "widgets": [
-          {
-            "displayType": "Table",
-            "name": "Why Form"
-          }
-        ]
-      },
-      {
-        "name": "Resources",
-        "pageId": "mbatzlqr1qsx"
       }
     ]
   },
@@ -3547,16 +3534,6 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Process",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Processes Form",
-            "viewId": "qtubgorhvukr"
-          }
-        ]
-      },
-      {
         "name": "Process Model",
         "widgets": [
           {
@@ -3590,7 +3567,7 @@
   {
     "_id": "uhekisbbbjh5",
     "docType": "object",
-    "name": "Navigation Menu",
+    "name": "Navigation Menu Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
     "ownerId": "argonautdot1",
