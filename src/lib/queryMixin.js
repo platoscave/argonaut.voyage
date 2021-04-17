@@ -1,38 +1,3 @@
-<template>
-  <div v-if="viewObj">
-    <el-tree
-      ref="tree"
-      highlight-current
-      :expand-on-click-node="false"
-      :props="defaultProps"
-      :load="loadNode"
-      lazy
-      node-key="_id"
-      :render-content="renderContent"
-      :default-expanded-keys="pageSettings ? pageSettings.expandedNodes : []"
-      @node-click="updateNextLevelHashSelectedObjId"
-      @node-expand="handleNodeExpand"
-      @node-collapse="handleNodeCollapse"
-      @node-contextmenu="nodeContextmenu"
-      draggable
-      @node-drag-start="handleDragStart"
-      @node-drag-enter="handleDragEnter"
-      @node-drag-leave="handleDragLeave"
-      @node-drag-over="handleDragOver"
-      @node-drag-end="handleDragEnd"
-      @node-drop="handleDrop"
-      :allow-drop="allowDrop"
-      :allow-drag="allowDrag"
-    >
-    </el-tree>
-    <ar-context-menu />
-  </div>
-</template>
-
-<script>
-/* eslint-disable no-unused-vars */
-import ContextMenu from "./ContextMenu.vue";
-
 export default {
   name: "ar-tree",
   components: {
@@ -291,6 +256,13 @@ export default {
     },
   },
 
+  mounted() {
+    window.addEventListener("hashchange", this.handleHashChange, false);
+    this.handleHashChange();
+  },
+  beforeDestroy() {
+    window.removeEventListener("hashchange", this.handleHashChange, false);
+  },
 };
 </script>
 

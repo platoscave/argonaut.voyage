@@ -50,7 +50,7 @@ export default {
       if (item.icon) labelArr.push(createElement('i', { class: item.icon }))
 
       let style = {}
-      if (firstLevel) style = { style: { 'font-weight': 'bold', 'font-size': '16px' } }
+      if (firstLevel) style = { style: { 'font-weight': 'bold'} }
 
       labelArr.push(createElement('span', style, item.name))
 

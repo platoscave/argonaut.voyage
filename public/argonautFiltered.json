@@ -1016,7 +1016,7 @@
     "parentId": "nrioirgelhpi",
     "pageId": "2vnljdsieyjw",
     "properties": {
-      "nextStateIds": {
+      "nextStepIds": {
         "items": {
           "properties": {
             "action": {
@@ -1054,7 +1054,7 @@
         "type": "array",
         "readOnly": true
       },
-      "substateId": {
+      "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -1120,7 +1120,7 @@
         "type": "string",
         "readOnly": true
       },
-      "substateId": {
+      "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -1880,7 +1880,7 @@
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "parentId": "dlpwvptczyeb",
     "properties": {
-      "nextStateIds": {
+      "nextStepIds": {
         "items": {
           "properties": {
             "action": {
@@ -1919,7 +1919,7 @@
         "type": "array",
         "readOnly": true
       },
-      "substateId": {
+      "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -2398,7 +2398,7 @@
     "classId": "hdt3hmnsaghk"
   },
   {
-    "_id": "demouser0000",
+    "_id": "demouser1112",
     "docType": "object",
     "name": "Consumer Two",
     "classId": "hdt3hmnsaghk"
@@ -2683,7 +2683,7 @@
       "happy",
       "unhappy"
     ],
-    "substateId": "oltp4kpj4fvi",
+    "firstStepId": "oltp4kpj4fvi",
     "ownerId": "bikeshop1111"
   },
   {
@@ -2697,7 +2697,7 @@
       "happy",
       "unhappy"
     ],
-    "substateId": "yefagaab4ua2",
+    "firstStepId": "yefagaab4ua2",
     "ownerId": "bikeshop1111"
   },
   {
@@ -2712,7 +2712,7 @@
       "unhappy",
       "reject"
     ],
-    "substateId": "3r5kgovlor1o",
+    "firstStepId": "3r5kgovlor1o",
     "ownerId": "argonautdot1"
   },
   {
@@ -2737,7 +2737,7 @@
     "name": "Validate",
     "description": "<p>Validate</p>",
     "classId": "dqja423wlzrb",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "stateId": "3edgchx5lgu3"
@@ -2759,7 +2759,7 @@
     "name": "Rollback",
     "description": "<p>Rollback</p>",
     "classId": "dqja423wlzrb",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "unhappy"
       }
@@ -2775,7 +2775,7 @@
     "name": "Transact",
     "description": "<p>Transact</p>",
     "classId": "dqja423wlzrb",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy"
       }
@@ -2792,7 +2792,7 @@
     "name": "Perform",
     "description": "<p>Perform</p>",
     "classId": "jotxozcetpx2",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "stateId": "bavb2g1inh2t"
@@ -2810,7 +2810,7 @@
     "name": "Intake",
     "description": "<p>Intake</p>",
     "classId": "cq4bjkzqc2qp",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "stateId": "tfkyaytuac1g"
@@ -2827,7 +2827,7 @@
     "name": "Expedite",
     "description": "<p>Expedite</p>",
     "classId": "cq4bjkzqc2qp",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy"
       }
@@ -2840,7 +2840,7 @@
     "name": "Answer",
     "description": "<p>Answer</p>",
     "classId": "cq4bjkzqc2qp",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "XstateId": "cie1pllxq5mu"
@@ -2857,7 +2857,7 @@
     "name": "Order Pick",
     "description": "<p>Order Pick</p>",
     "classId": "cq4bjkzqc2qp",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "stateId": "pvk5ngmorf4z"
@@ -2871,7 +2871,7 @@
     "name": "Acceptance",
     "description": "<p>Acceptance</p>",
     "classId": "xsaq3l5hncb2",
-    "nextStateIds": [
+    "nextStepIds": [
       {
         "action": "happy",
         "stateId": "uqefmsegqvhs"
@@ -2968,7 +2968,7 @@
           {
             "displayType": "Tree",
             "name": "Process Model Tree",
-            "viewId": "vzhw2vpaflmw"
+            "viewId": "pepmfz4be5uu"
           }
         ]
       }
@@ -3076,68 +3076,75 @@
     }
   },
   {
-    "_id": "tllcmvjazmz2",
+    "_id": "sfmg5u3wtpds",
     "docType": "object",
     "name": "Root Process Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
     "pageId": "24cnex2saye1",
-    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "subQueryIds": [
       "aiw54neadp14"
     ],
     "mongoQuery": {
       "selector": {
-        "_id": "gzthjuyjca4s"
+        "classId": "dwl1kwhalwj4"
       },
       "fields": [
         "_id",
-        "title",
+        "name",
         "docType",
-        "properties"
+        "firstStepId"
       ]
     }
   },
   {
     "_id": "aiw54neadp14",
     "docType": "object",
-    "name": "Steps Query",
+    "name": "First Step Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
     "pageId": "24cnex2saye1",
-    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
+    "subQueryIds": [
+      "ybjrgmdjybzl"
+    ],
     "mongoQuery": {
       "selector": {
-        "parentId": "$fk"
+        "_id": "$firstStepId"
       },
       "fields": [
         "_id",
-        "title",
+        "name",
         "docType",
-        "properties"
+        "nextStepIds"
       ],
       "sort": [
-        "title"
+        "name"
       ]
     }
   },
   {
     "_id": "ybjrgmdjybzl",
     "docType": "object",
-    "name": "Spare Process Query",
+    "name": "Next Steps Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
     "pageId": "24cnex2saye1",
-    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
+    "subQueryIds": [
+      "ybjrgmdjybzl"
+    ],
     "mongoQuery": {
+      "manyToOneArrayProp": "nextStepIds",
       "selector": {
-        "classId": "$fk"
+        "_id": "$stateId"
       },
       "fields": [
         "_id",
         "name",
         "docType",
-        "properties"
+        "nextStepIds"
       ],
       "sort": [
         "name"
