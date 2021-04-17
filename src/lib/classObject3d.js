@@ -36,41 +36,23 @@ export default class ClassObject3d extends Object3D {
     }
   }
 
-  async drawSubclasses(selectableMeshArr, queryObj, pouch) {
+  async drawSubclasses(selectableMeshArr, getTheData, queryId ) {
 
-    // Create a deep clone of the queryObj to operate on
-    let queryObjClone = JSON.parse(JSON.stringify(queryObj))
+    // Execute the query
+    let resArr = await getTheData(queryId, this.userData)
 
-    // Replace variables in the mongoQuery
-    let selector = queryObjClone.mongoQuery.selector
-    for (var key in selector) {
-      let cond = selector[key];
-      if (cond === "$fk") selector[key] = this.userData._id;
-    }
-    delete queryObjClone.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-
-    // Execute the mongoQuery
-    const result = await pouch.find(queryObjClone.mongoQuery);
-
-    // Collect userData for use durring creation
-    const userDataArr = result.docs.map((item) => {
-      let assocs = []
+    // Enrich items with an array of assocs that need to be drawn
+    resArr.map((item) => {
+      item.assocs = []
       for (let key in item.properties) {
         const prop = item.properties[key]
-        if (prop.mongoQuery) assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
+        if (prop.mongoQuery) item.assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
       }
-      return {
-        _id: item._id,
-        label: item.title ? item.title : item.name,
-        subQueryIds: queryObjClone.subQueryIds,
-        pageId: item.pageId ? item.pageId : queryObjClone.pageId,
-        docType: item.docType,
-        assocs: assocs
-      };
-    });
+      return item;
+    })
 
     // If this class has children, draw down beam from here to middle
-    if (userDataArr.length) {
+    if (resArr.length) {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, -HEIGHT * 2, 0))
@@ -78,7 +60,7 @@ export default class ClassObject3d extends Object3D {
     }
 
     let childrenPronmises = []
-    userDataArr.forEach(userData => {
+    resArr.forEach(userData => {
 
       // Create the child
       let classObj3d = new ClassObject3d(userData)
@@ -88,7 +70,7 @@ export default class ClassObject3d extends Object3D {
 
       // Tell the child to draw its children
       if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, queryObj, pouch))
+        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, getTheData, queryId ))
     })
 
 
@@ -196,33 +178,18 @@ export default class ClassObject3d extends Object3D {
   }
 
 
-  async drawObjects(selectableMeshArr, queryObj, pouch) {
+  async drawObjects(selectableMeshArr, getTheData, queryId ) {
 
-    // Create a deep clone of the queryObj to operate on
-    let queryObjClone = JSON.parse(JSON.stringify(queryObj))
+    // Execute the query
+    let resArr = await getTheData(queryId, this.userData)
 
-    // Replace variables in the mongoQuery
-    let selector = queryObjClone.mongoQuery.selector
-    for (var key in selector) {
-      let cond = selector[key];
-      if (cond === "$fk") selector[key] = this.userData._id;
-    }
-    delete queryObjClone.mongoQuery.sort; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-    delete queryObjClone.mongoQuery.fields; // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-
-    //if(this._id === 'hdt3hmnsaghk') debugger
-    // Execute the mongoQuery
-    const result = await pouch.find(queryObjClone.mongoQuery);
-
-    //if(this._id === '4far2aqwurdo') debugger
-    // Collect userData for use durring creation
-    const userDataArr = result.docs.map((item) => {
-      let assocs = []
+    resArr.map((item) => {
+      item.assocs = []
       const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
       //const fks = ['pageId']
       for (let key in item) {
         const prop = item[key]
-        if (fks.includes(key)) assocs.push({ name: key, destId: prop })
+        if (fks.includes(key)) item.assocs.push({ name: key, destId: prop })
         /* for (let key in prop.tabs) {
           const tab = prop[key]
           if (key in fks) assocs.push({ name: key, destId: tab})
@@ -237,20 +204,12 @@ export default class ClassObject3d extends Object3D {
           })
         }
       }
-      return {
-        _id: item._id,
-        label: item.title ? item.title : item.name,
-        pageId: item.pageId ? item.pageId : queryObjClone.pageId,
-        docType: item.docType,
-        assocs: assocs
-      };
-    });
+      return item
+    })
 
-
-
+    // Create the objects
     let zPos = WIDTH * 2
-    userDataArr.forEach(userData => {
-      // Create the object
+    resArr.forEach(userData => {
       let objectObj3d = new ObjectObject3d(userData);
       selectableMeshArr.push(objectObj3d.children[0])
       objectObj3d.translateZ(zPos)
@@ -259,10 +218,10 @@ export default class ClassObject3d extends Object3D {
     })
 
     // If this class has objects, draw beam from here to the end
-    if (userDataArr.length) {
+    if (resArr.length) {
       let points = []
       points.push(new Vector3(0, 0, 0))
-      points.push(new Vector3(0, 0, WIDTH * 2 * userDataArr.length))
+      points.push(new Vector3(0, 0, WIDTH * 2 * resArr.length))
       let beam = this.drawBeam(points, 'classConnectors')
       beam.translateY(-HEIGHT / 4)
       this.add(beam)
@@ -276,7 +235,7 @@ export default class ClassObject3d extends Object3D {
         //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
         //if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, queryObj, pouch))
+        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, getTheData, queryId ))
       }
     });
     return Promise.all(objectPronmises);

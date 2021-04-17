@@ -10,12 +10,14 @@
 </template>
 
 <script>
-import Scene from "../../lib/sceneMixin.js";
 import ClassObject3d from "../../lib/classObject3d.js";
+import SceneMixin from "../../lib/sceneMixin.js";
+import QueryMixin from "../../lib/queryMixin";
+import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
   name: "ar-class-model",
-  mixins: [Scene],
+  mixins: [SceneMixin, WidgetMixin, QueryMixin],
   props: {
     hashLevel: Number,
     viewId: String,
@@ -36,78 +38,60 @@ export default {
     };
   },
   methods: {
-
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
     async dawClasses() {
-
       // Get the root class from the store
 
       // Get the viewObj
-      const viewObj = await this.$pouch.get(this.viewId)
+      const viewObj = await this.$pouch.get(this.viewId);
 
-      // Get the queryObj
-      let queryObj = await this.$pouch.get(viewObj.queryId)
-
-      // Replace variables in the mongoQuery
-      let selector = queryObj.mongoQuery.selector
-      for (var key in selector) {
-        let cond = selector[key];
-        if (cond === "$fk") selector[key] = this.selectedObjId
-      }
-
-      // Execute the mongoQuery
-      const result = await this.$pouch.find(queryObj.mongoQuery)
-      let rootClass = result.docs[0];
-      let userData = {
-        _id: rootClass._id,
-        label: rootClass.title ? rootClass.title : rootClass.name,
-        subQueryIds: queryObj.subQueryIds,
-        pageId: rootClass.pageId ? rootClass.pageId : queryObj.pageId,
-        docType: rootClass.docType,
-      };
+      // Execute the query
+      let resArr = await this.getTheData(viewObj.queryId);
 
       // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(userData, true);
+      let rootClassObj3d = new ClassObject3d(resArr[0], true);
       this.glModelObject3D.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
 
-      // Get the subclasses queryObj
-      const subclassesQueryObj = await this.$pouch.get('2jfs4is4icct')
       // Tell root class to draw the subclasses
-      await rootClassObj3d.drawSubclasses(this.selectableMeshArr, subclassesQueryObj, this.$pouch)
+      await rootClassObj3d.drawSubclasses(
+        this.selectableMeshArr,
+        this.getTheData,
+        '2jfs4is4icct'
+      );
 
       // Set the x positions
-      const clidrenMaxX = rootClassObj3d.setPositionX(0) 
-      rootClassObj3d.translateX(-clidrenMaxX / 2) // move route obj to the center
+      const clidrenMaxX = rootClassObj3d.setPositionX(0);
+      rootClassObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
-      this.glModelObject3D.updateMatrixWorld(true) 
+      this.glModelObject3D.updateMatrixWorld(true);
 
-      rootClassObj3d.drawClassAssocs(this.glModelObject3D) 
+      rootClassObj3d.drawClassAssocs(this.glModelObject3D);
 
-      // Get the objects queryObj
-      const objectsQueryObj = await this.$pouch.get('x1lrv2xdq2tu') 
-      await rootClassObj3d.drawObjects(this.selectableMeshArr, objectsQueryObj, this.$pouch)
+      // Tell root class and its subclasses to draw the objects
+      await rootClassObj3d.drawObjects(
+        this.selectableMeshArr,
+        this.getTheData,
+        'x1lrv2xdq2tu'
+      );
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
-      this.glModelObject3D.updateMatrixWorld(true) 
+      this.glModelObject3D.updateMatrixWorld(true);
 
-      rootClassObj3d.drawObjectAssocs(this.glModelObject3D) 
+      rootClassObj3d.drawObjectAssocs(this.glModelObject3D);
 
       return rootClassObj3d;
     },
-    
   },
 
   mounted: async function () {
-
     // If we've been here before, assume no redraw nessesary
     //if(this.glScene) return
 
     this.addLoadingText();
 
     try {
-
       await this.dawClasses();
 
       this.removeLoadingText();
@@ -116,7 +100,7 @@ export default {
       this.removeLoadingText();
 
       this.$message({ message: err, type: "error" });
-      throw err
+      throw err;
     }
   },
 };

@@ -51,8 +51,8 @@ export default {
       glModelObject3D: null,
       cssModelObject3D: null,
       selectableMeshArr: [],
-      heighlight: false
-
+      heighlight: false,
+      nextLevelSelectedObjId: ''
     }
   },
   methods: {
@@ -179,7 +179,7 @@ export default {
       let intersects = this.raycaster.intersectObjects(this.selectableMeshArr)
       if (intersects.length > 0) {
         let selectedMesh = intersects[0].object
-        this.updateNextLevelHashSelectedObjId(selectedMesh.parent.userData)
+        this.updateNextLevelHash(selectedMesh.parent.userData)
       }
     },
 
@@ -314,52 +314,23 @@ export default {
       return cssRenderer;
     },
 
-    // Insert selectObjId and pageId into next level hash
-    updateNextLevelHashSelectedObjId(userData) {
-      let hashArr = window.location.hash.split("/");
-      let nextPageStateStr = hashArr[this.hashLevel + 2];
-      if (!nextPageStateStr) nextPageStateStr = "";
-      let nextPageStateArr = nextPageStateStr.split(".");
-      nextPageStateArr[0] = userData._id;
-      if (userData.pageId && nextPageStateArr[1] !== userData.pageId) {
-        nextPageStateArr[1] = userData.pageId;
-        // Remove tab if there is one. Page will find its own tab
-        nextPageStateArr.splice(2);
-        // Remove erveything that come after the next level as it no longer valid
-        hashArr.splice(this.hashLevel + 3);
-      }
-      nextPageStateStr = nextPageStateArr.join(".");
-      hashArr[this.hashLevel + 2] = nextPageStateStr;
-
-      let hash = hashArr.join("/");
-      window.location.hash = hash;
-    },
-
-    handleHashChange: function () {
-      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 2];
-      if (!ourLevelArr) return;
-      const levelStates = ourLevelArr.split(".");
-      let selectedObjId = levelStates[0]
-      this.highlight(selectedObjId)
-      this.moveCameraToPos(selectedObjId)
-    },
   },
 
+  watch: {
+    nextLevelSelectedObjId: function (val) {
+      this.highlight(val)
+      this.moveCameraToPos(val)
+    },
+  },
+  
   mounted() {
 
-    // If we've been here before, assume no redraw nessesary
-    //if(glScene) return
-
     this.loadScene()
-
-    window.addEventListener("hashchange", this.handleHashChange, false);
-    this.handleHashChange();
 
     window.addEventListener("resize", this.onResize);
     this.onResize()
   },
   beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false)
     window.removeEventListener("resize", this.onResize)
   },
 }

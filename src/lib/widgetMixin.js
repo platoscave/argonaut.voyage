@@ -39,7 +39,9 @@ export default {
     },
 
     handleHashChange: function () {
-      const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
+      const hashArr = window.location.hash.split("/")
+      
+      const ourLevelStr = hashArr[this.hashLevel + 1];
       if (ourLevelStr) {
         const ourLevelArr = ourLevelStr.split(".")
         this.selectedObjId = ourLevelArr[0]
@@ -47,7 +49,7 @@ export default {
         this.tab= ourLevelArr[2]
       }
 
-      const nextLevelStr = window.location.hash.split("/")[this.hashLevel + 2];
+      const nextLevelStr = hashArr[this.hashLevel + 2];
       if (nextLevelStr) {
         const nextLevelArr = nextLevelStr.split(".")
         this.nextLevelSelectedObjId = nextLevelArr[0]

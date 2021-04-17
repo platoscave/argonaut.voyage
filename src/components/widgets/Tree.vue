@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import ContextMenu from "./ContextMenu.vue";
-import QueryMixin from "../../lib/queryMixin";
-import WidgetMixin from "../../lib/widgetMixin";
+import ContextMenu from "./ContextMenu.vue"
+import QueryMixin from "../../lib/queryMixin"
+import WidgetMixin from "../../lib/widgetMixin"
 
 export default {
   name: "ar-tree",
@@ -50,7 +50,8 @@ export default {
       defaultProps: {
         isLeaf: "isLeaf",
       },
-    };
+      nextLevelSelectedObjId: ''
+    }
   },
   methods: {
     handleDragStart(node, ev) {
@@ -90,17 +91,16 @@ export default {
           // Get the viewObj
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
-          let resArr = await this.getTheData(node.data, this.viewObj.queryId);
+          let resArr = await this.getTheData(this.viewObj.queryId, node.data);
           resolve(resArr);
         }
         if (node.level > 0) {
           //TODO remove condition?
           if (node.data.subQueryIds) {
             let promiseArr = node.data.subQueryIds.map((queryId) => {
-              return this.getTheData(node.data, queryId);
+              return this.getTheData(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
-            console.log(resArr.flat());
             resolve(resArr.flat());
           } else resolve([]);
         }
@@ -164,12 +164,14 @@ export default {
     },
 
   },
-/* 
 
+  watch: {
+    nextLevelSelectedObjId: function (selectedObjId) {
         // TODO select unselect is a bit buggy
-        this.$refs["tree"].setCurrentKey(null);
+        //this.$refs["tree"].setCurrentKey(null);
         this.$refs["tree"].setCurrentKey(selectedObjId);
-*/
+    },
+  },
 };
 </script>
 

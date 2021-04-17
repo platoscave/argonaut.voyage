@@ -1,7 +1,8 @@
 export default {
   methods: {
 
-    async getTheData(nodeData, queryId) {
+    // nodeData is used to resolve $ variables in queries
+    async getTheData(queryId, nodeData = {}) {
 
       // Get obj a property using dot noatation
       const getDescendantProp = (obj, desc) => {
@@ -36,8 +37,7 @@ export default {
         delete queryObj.mongoQuery.sort;
 
         const resolvedMongoQuery = resolveQueryVariables(obj, queryObj.mongoQuery)
-        if(!resolvedMongoQuery) return []
-        console.log(resolvedMongoQuery)
+        if(!resolvedMongoQuery) return [] // invalid query, ignore
 
         // Execute the mongoQuery
         const results = await this.$pouch.find(resolvedMongoQuery)
