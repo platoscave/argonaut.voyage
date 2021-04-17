@@ -2974,6 +2974,37 @@
       }
     ]
   },
+  {
+    "_id": "24cnex2saye1",
+    "docType": "object",
+    "name": "Class Model Page",
+    "accordionOrTab": "Tabs",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Properties",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Class Home Page",
+            "viewId": "5ucwmdby4wox"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Class Home Page",
+            "viewId": "5ucwmdby4wox"
+          }
+        ]
+      }
+    ]
+  },
 
 
 
@@ -2995,6 +3026,91 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "queryId": "sfmg5u3wtpds",
+    "type": "object"
+  },
+  {
+    "_id": "5ucwmdby4wox",
+    "docType": "object",
+    "name": "Standard Model Form View",
+    "description": "<p>Descibes home page of the organization</p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {
+        "readOnly": true,
+        "title": "_id",
+        "type": "string"
+      },
+      "title": {
+        "placeholder": "Provide a name",
+        "maxLength": 1000,
+        "minLength": 0,
+        "title": "Name",
+        "type": "string",
+        "readOnly": false
+      },
+      "description": {
+        "placholder": "Add a description",
+        "maxLength": 10000,
+        "contentMediaType": "text/html",
+        "minLength": 0,
+        "title": "Description",
+        "type": "string",
+        "readOnly": false
+      },
+      "docType": {
+        "enum": [
+          "class"
+        ],
+        "title": "Doc Type",
+        "type": "string",
+        "readOnly": false
+      },
+      "icon": {
+        "maxLength": 2000,
+        "media": {
+          "binaryEncoding": "base64",
+          "type": "image/png"
+        },
+        "minLength": 0,
+        "title": "Icon",
+        "type": "string",
+        "readOnly": false
+      },
+      "parentId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "mongoQuery": {
+          "selector": {
+            "classId": "gzthjuyjca4s"
+          },
+          "fields": [
+            "_id",
+            "name"
+          ],
+          "sort": [
+            "name"
+          ],
+          "extendTo": "instances"
+        },
+        "title": "Super Class",
+        "type": "string",
+        "readOnly": false
+      },
+      "properties": {
+        "title": "Properties",
+        "type": "object",
+        "readOnly": false
+      },
+      "required": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Required",
+        "type": "array",
+        "readOnly": false
+      }
+    },
+    "query": "classes",
     "type": "object"
   },
 
