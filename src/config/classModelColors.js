@@ -1,4 +1,7 @@
 module.exports = {
+
+  // Class Model
+
   class: {
     color: 0x8904B1,
   },
@@ -11,6 +14,8 @@ module.exports = {
   classConnectors: {
     color: 0xCDCDCD,
   },
+
+  // Class Model assoc colors
 
   substateId: {
     color: 0xa697f8,
@@ -67,6 +72,54 @@ module.exports = {
   baseClassId: {
     color: 0xbf2a64,
     depth: 14
+  },
+
+
+
+
+  // Process Model
+
+  process: {
+    color: 0x8904B1,
+  },
+  'dwl1kwhalwj4': {
+    color:  0x00A300, // Interface
+  },
+  'cq4bjkzqc2qp': {
+    color:  0x5200A3, // User input Seller
+  },
+  '3r5kgovlor1o': {
+    color:  0xA30000, // Validate
+  },
+  '3edgchx5lgu3': {
+    color:  0x0000A3, // Perform
+  },
+  'xsaq3l5hncb2': {
+    color:  0xA30052, // User input Buyer
+  },
+  'dqja423wlzrb': {
+    color:  0xA30000, // Execute
+  },
+  'jotxozcetpx2': {
+    color:  0x0000A3, // Delegate
+  },
+  happy: {
+    color:  0xAAEFAA,
+  },
+  unhappy: {
+    color:  0xFFAAAA,
+  },
+  invalid: {
+    color:  0xFFAAAA,
+  },
+  timeout: {
+    color:  0xFFFFAA,
+  },
+  reject: {
+    color:  0xFFAAAA,
+  },
+  default: {
+    color:  0xEFEFEF // grey, class connectors
   },
 
 }

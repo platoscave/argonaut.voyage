@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       selectedObjId: null,
-      // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
       skyboxArray: [
         "milkyway/posx.jpg",
         "milkyway/negx.jpg",
@@ -33,13 +32,12 @@ export default {
         "milkyway/negy.jpg",
         "milkyway/posz.jpg",
         "milkyway/negz.jpg",
-      ],
-      // skyboxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']
-    };
+      ]
+    }
   },
   methods: {
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
-    async dawClasses() {
+    async drawClasses() {
       // Get the root class from the store
 
       // Get the viewObj
@@ -92,7 +90,7 @@ export default {
     this.addLoadingText();
 
     try {
-      await this.dawClasses();
+      await this.drawClasses();
 
       this.removeLoadingText();
     } catch (err) {

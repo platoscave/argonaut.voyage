@@ -103,6 +103,10 @@ export default {
     ...createSubMenu(this.menuObj.menuArr, '')])
   },
 
+// TODO Replace with widgetMixin
+// How do we deal with selectedObjId. Should it be fixed of dependant on hash
+// Our selectedObjId then needs to be copied to next level
+
   methods: {
 
     // Insert selectObjId and pageId into next level hash

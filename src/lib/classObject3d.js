@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "../lib/objectObject3d";
 import object3dMixin from '../lib/object3dMixin'

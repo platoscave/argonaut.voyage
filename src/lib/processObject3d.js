@@ -1,258 +1,281 @@
-import * as THREE from 'three'
-import processModelColors from '../config/processModelColors'
-import fontJson from '../assets/helvetiker_regular.typeface.json'
-const font = new THREE.Font(fontJson)
+import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
+import ObjectObject3d from "./objectObject3d";
+import object3dMixin from './object3dMixin'
+import classModelColors from '../config/classModelColors'
 
-const WIDTH = 400
-const HEIGHT = 200
-const DEPTH = 100
-const RADIUS = 50
+const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
-export default class ProcessObject3d extends THREE.Object3D {
-  constructor (queryResult) {
+export default class ClassObject3d extends Object3D {
+
+  constructor(userData, isRoot) {
     super()
 
-    this.key = queryResult.key
-    this.name = queryResult.name ? queryResult.name : queryResult.title
-    this.userData = queryResult
-    let mesh = new THREE.Mesh(this.getGeometry(), this.getMaterial())
-    // let helper = new THREE.VertexNormalsHelper(mesh, 20, 0x00ff00, 1)
-    // this.add(helper)
-    this.add(mesh)
-    let textPosition = this.position.clone()
-    textPosition.setZ(textPosition.z + DEPTH / 2 + 20)
-    this.addTextMesh(this.name, textPosition)
+    // Mixin utility methodes: Beam, Tube, Text etc
+    Object.assign(this, object3dMixin);
+
+    this._id = userData._id
+    this.name = userData.label + ' - object3d'
+    this.userData = userData
+
+    let classMesh = this.getMesh()
+    classMesh.name = userData.label + ' - 3d mesh'
+    this.add(classMesh)
+
+    let textMesh = this.getTextMesh(userData.label)
+    textMesh.translateZ(DEPTH * 0.6)
+    classMesh.add(textMesh)
+
+
+    // Draw up the initialize and end state tubes
+    if (isRoot) {
+      const destVec = this.getSidePos('left')
+      let points = []
+      points.push(destVec.clone().add( new Vector3(-WIDTH * 4, HEIGHT, 0)))
+      points.push(destVec.clone().add( new Vector3(-WIDTH * 3, HEIGHT, 0)))
+      points.push(destVec.clone().add( new Vector3(-WIDTH * 1, 0, 0)))
+      points.push(destVec)
+      this.add(this.drawTube(points, 'happy', '', true))
+    }
   }
-  drawSubstateConnectors (placeholderObject3d, returnState) {
-    if (!this.userData.nextStateIds) return
-    this.userData.nextStateIds.forEach(nextStateActionId => {
-      if (nextStateActionId.stateId) {
-        let toState = placeholderObject3d.getObjectByProperty('key', nextStateActionId.stateId)
-        this.drawTubeRightSideToLeftSide(toState, nextStateActionId.action)
-        toState.drawSubstateConnectors(placeholderObject3d, returnState)
-      } else {
-        this.drawTubeRightSideToBottom(returnState, nextStateActionId.action)
+
+  async drawSubclasses(selectableMeshArr, getTheData, queryId ) {
+
+    // Execute the query
+    let resArr = await getTheData(queryId, this.userData)
+
+    // Enrich items with an array of assocs that need to be drawn
+    resArr.map((item) => {
+      item.assocs = []
+      for (let key in item.properties) {
+        const prop = item.properties[key]
+        if (prop.mongoQuery) item.assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
       }
+      return item;
     })
-  }
-  drawTubeBottomToLeftSide (toState, name) {
-    // translate toPosition to our local coordinates
-    let toPosition = toState.position.clone()
-    toPosition.applyMatrix4(new THREE.Matrix4().getInverse(this.matrix))
 
-    let material = this.mapActionNameToMaterial(name)
-
-    let fromPos = this.getSidePos('bottom', new THREE.Vector3())
-    fromPos.setX(fromPos.x - WIDTH / 4)
-    let toPos = this.getSidePos('left', toPosition)
-    let endPos = toPos.clone()
-    endPos.setX(endPos.x - 60)
-
-    let points = []
-    points.push(fromPos)
-    points.push(new THREE.Vector3(fromPos.x, fromPos.y - HEIGHT, fromPos.z))
-    points.push(new THREE.Vector3(toPos.x - WIDTH / 2, fromPos.y - HEIGHT, toPos.z))
-    points.push(new THREE.Vector3(toPos.x - WIDTH / 2, toPos.y, toPos.z))
-    points.push(endPos)
-
-    this.addTextMeshBetween(name, points[1], points[2])
-
-    let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
-    let geometry = new THREE.TubeGeometry(path, 64, 10, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
-
-    let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-    let rightCone = new THREE.Mesh(coneGeometry, material)
-    rightCone.position.set(toPos.x - 40, toPos.y, toPos.z)
-    rightCone.rotation.z = -Math.PI / 2
-    this.add(rightCone)
-  }
-  drawTubeRightSideToBottom (toState, name) {
-    // translate toPosition to our local coordinates
-    let toPosition = new THREE.Vector3()
-    toPosition.subVectors(toState.position, this.position)
-
-    let material = this.mapActionNameToMaterial(name)
-
-    let fromPos = this.getSidePos('right', new THREE.Vector3())
-    let toPos = this.getSidePos('bottom', toPosition)
-    toPos.setX(toPos.x + WIDTH / 4)
-    let endPos = toPos.clone()
-    endPos.setY(endPos.y - 60)
-
-    let points = []
-    points.push(fromPos)
-    points.push(new THREE.Vector3(fromPos.x + WIDTH / 2, fromPos.y, fromPos.z))
-    points.push(new THREE.Vector3(fromPos.x + WIDTH / 2, toPos.y - HEIGHT * 2, toPos.z))
-    points.push(new THREE.Vector3(toPos.x, toPos.y - HEIGHT * 2, toPos.z))
-    points.push(endPos)
-
-    this.addTextMeshBetween(name, points[1], points[2])
-
-    let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
-    let geometry = new THREE.TubeGeometry(path, 64, 10, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
-
-    let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-    let rightCone = new THREE.Mesh(coneGeometry, material)
-    rightCone.position.set(toPos.x, toPos.y - 40, toPos.z)
-    this.add(rightCone)
-  }
-  drawTubeRightSideToLeftSide (toState, name) {
-    // translate toPosition to our local coordinates
-    let toPosition = new THREE.Vector3()
-    toPosition.subVectors(toState.position, this.position)
-
-    let material = this.mapActionNameToMaterial(name)
-
-    let fromPos = this.getSidePos('right', new THREE.Vector3())
-    let toPos = this.getSidePos('left', toPosition)
-    let endPos = toPos.clone()
-    endPos.setX(endPos.x - 60)
-
-    let points = []
-    if (toPos.x - fromPos.x <= WIDTH && toPos.y === fromPos.y) {
-      points.push(fromPos)
-      points.push(endPos)
-      this.addTextMeshBetween(name, points[0], points[1])
-    } else {
-      points.push(fromPos)
-      points.push(new THREE.Vector3(fromPos.x + WIDTH / 2, fromPos.y, fromPos.z))
-      points.push(new THREE.Vector3(toPos.x - WIDTH / 2, toPos.y, toPos.z))
-      points.push(endPos)
-      this.addTextMeshBetween(name, points[1], points[2])
+    // If this class has children, draw down beam from here to middle
+    if (resArr.length) {
+      let points = []
+      points.push(new Vector3(0, 0, 0))
+      points.push(new Vector3(0, -HEIGHT * 2, 0))
+      this.add(this.drawBeam(points, 'classConnectors'))
     }
 
-    let path = new THREE.CatmullRomCurve3(points)
-    let geometry = new THREE.TubeGeometry(path, 64, 10, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
+    let childrenPronmises = []
+    resArr.forEach(userData => {
 
-    let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-    let rightCone = new THREE.Mesh(coneGeometry, material)
-    rightCone.position.set(toPos.x - 40, toPos.y, toPos.z)
-    rightCone.rotation.z = -Math.PI / 2
-    this.add(rightCone)
+      // Create the child
+      let classObj3d = new ClassObject3d(userData)
+      selectableMeshArr.push(classObj3d.children[0])
+      classObj3d.translateY(-HEIGHT * 4)
+      this.add(classObj3d)
+
+      // Tell the child to draw its children
+      if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
+        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, getTheData, queryId ))
+    })
+
+
+    return Promise.all(childrenPronmises);
+
   }
-  drawInitialTubetoLeftSide (fromPosition, name) {
-    let material = this.mapActionNameToMaterial(name)
 
-    let fromPos = this.getSidePos('right', fromPosition)
-    let toPos = this.getSidePos('left', new THREE.Vector3())
-    let endPos = toPos.clone()
-    endPos.setX(endPos.x - 60)
+  setPositionX(xPos) {
 
-    let points = []
-    points.push(fromPos)
-    points.push(new THREE.Vector3(fromPos.x + WIDTH / 2, fromPos.y, fromPos.z))
-    points.push(new THREE.Vector3(toPos.x - WIDTH / 2, toPos.y, toPos.z))
-    points.push(endPos)
+    this.translateX(xPos)
 
-    this.addTextMeshBetween(name, points[1], points[2])
+    // Position the children.
+    // The child x position is relative to this, so we start with 0
+    let childX = 0, childrenMaxX = 0
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        childrenMaxX = subClassObj3d.setPositionX(childX)
+        childX = childrenMaxX + WIDTH * 2
+      }
+    });
 
-    let path = new THREE.CatmullRomCurve3(this.straightenPoints(points))
-    let geometry = new THREE.TubeGeometry(path, 64, 10, 8, false)
-    let mesh = new THREE.Mesh(geometry, material)
-    this.add(mesh)
+    // Shift all the children to the left by 50%
+    const leftShift = (childrenMaxX) / 2
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        subClassObj3d.translateX(-leftShift)
+      }
+    });
+    // Shift this to the right by the same value
+    this.translateX(leftShift)
 
-    let coneGeometry = new THREE.CylinderGeometry(0, 40, 100, 40, 40, false)
-    let rightCone = new THREE.Mesh(coneGeometry, material)
-    rightCone.position.set(toPos.x - 40, toPos.y, toPos.z)
-    rightCone.rotation.z = -Math.PI / 2
-    this.add(rightCone)
+    // Find the first and last children x values after left shift
+    let firstX = -1, lastX = -1
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        if (firstX === -1) firstX = subClassObj3d.position.x
+        lastX = subClassObj3d.position.x
+      }
+    });
 
-    // sphere at the left end
-    let sphereGeometryLeft = new THREE.SphereGeometry(10)
-    let sphereMeshLeft = new THREE.Mesh(sphereGeometryLeft, material)
-    sphereMeshLeft.position.set(fromPos.x, fromPos.y, fromPos.z)
-    this.add(sphereMeshLeft)
-  }
-  mapActionNameToMaterial (name) {
-    let color = processModelColors.nameColor[name]
-    if (!color) {
-      color = processModelColors.nameColor['default']
-      console.warn('Add color to processModelColors:', name)
+    // Draw the horizontal beam, based on the positions of the first and last child
+    if (firstX !== -1) {
+      let points = []
+      points.push(new Vector3(firstX, -HEIGHT * 2, 0))
+      points.push(new Vector3(lastX, -HEIGHT * 2, 0))
+      this.add(this.drawBeam(points, 'classConnectors'))
     }
-    return new THREE.MeshLambertMaterial({ color: color })
+
+    // return the original x plus our children max, so that the parent can center itself
+    return xPos + childrenMaxX
   }
-  getMaterial () {
-    let color = processModelColors.nameColor[this.userData.classId]
-    if (!color) {
-      color = processModelColors.nameColor['default']
-      console.warn('Add color to processModelColors:', this.userData.classId)
+
+  drawClassAssocs(glModelObject3D) {
+
+    for (let key in this.userData.assocs) {
+
+      const assoc = this.userData.assocs[key]
+
+      const { [assoc.name]: assocProps } = classModelColors
+      if (!assocProps) continue
+      const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
+
+      const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
+      if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
+      if (!destObj3d) continue
+
+      // Get positions in world coordinates
+      let sourcePos = new Vector3()
+      this.getWorldPosition(sourcePos)
+      let destPos = new Vector3()
+      destObj3d.getWorldPosition(destPos)
+
+      // Get the difference vector
+      let difVec = destPos.clone()
+      difVec.sub(sourcePos)
+
+      const sourceBack = this.getSidePos('back', new Vector3())
+      const destBack = this.getSidePos('back', difVec)
+
+      let points = []
+      points.push(sourceBack) // move startpoint to the edge
+      points.push(new Vector3(0, 0, depth))
+      let beforeLastPos = destBack.clone()
+      beforeLastPos.z = depth
+      points.push(beforeLastPos)
+      points.push(destBack)
+
+      this.add(this.drawTube(points, assoc.name, assoc.name, true))
+
+      let labelMesh = this.getTextMesh(assoc.name)
+      let textPos = new Vector3()
+      textPos.lerpVectors(points[1], points[2], 0.5)
+      labelMesh.translateX(textPos.x)
+      labelMesh.translateY(textPos.y)
+      labelMesh.translateZ(textPos.z)
+      this.add(labelMesh)
+
     }
-    return new THREE.MeshLambertMaterial({ color: color })
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        subClassObj3d.drawClassAssocs(glModelObject3D)
+      }
+    });
+
   }
-  getSidePos (side, pos) {
-    if (side === 'top') return new THREE.Vector3(pos.x, pos.y + HEIGHT / 2, pos.z)
-    if (side === 'right') return new THREE.Vector3(pos.x + WIDTH / 2, pos.y, pos.z)
-    if (side === 'bottom') return new THREE.Vector3(pos.x, pos.y - HEIGHT / 2, pos.z)
-    if (side === 'left') return new THREE.Vector3(pos.x - WIDTH / 2, pos.y, pos.z)
-    if (side === 'front') return new THREE.Vector3(pos.x, pos.y, pos.z + DEPTH / 2)
-    if (side === 'back') return new THREE.Vector3(pos.x, pos.y, pos.z - DEPTH / 2)
-    return pos
-  }
-  getGeometry () {
-    const roundedRect = (ctx, x, y, width, height, radius) => {
-      ctx.moveTo(x, y + radius)
-      ctx.lineTo(x, y + height - radius)
-      ctx.quadraticCurveTo(x, y + height, x + radius, y + height)
-      ctx.lineTo(x + width - radius, y + height)
-      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
-      ctx.lineTo(x + width, y + radius)
-      ctx.quadraticCurveTo(x + width, y, x + width - radius, y)
-      ctx.lineTo(x + radius, y)
-      ctx.quadraticCurveTo(x, y, x, y + radius)
+
+
+  async drawObjects(selectableMeshArr, getTheData, queryId ) {
+
+    // Execute the query
+    let resArr = await getTheData(queryId, this.userData)
+
+    resArr.map((item) => {
+      item.assocs = []
+      const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
+      //const fks = ['pageId']
+      for (let key in item) {
+        const prop = item[key]
+        if (fks.includes(key)) item.assocs.push({ name: key, destId: prop })
+        /* for (let key in prop.tabs) {
+          const tab = prop[key]
+          if (key in fks) assocs.push({ name: key, destId: tab})
+          for (let key in tab.widgets) {
+            const widgets = tab[key]
+            if (key in fks) assocs.push({ name: key, destId: widgets })
+          }
+        } */
+        if(key === 'tabs') {
+          prop.forEach(tab => {
+            //if(tab.pageId) assocs.push({ name: 'pageId', destId: tab.pageId })
+          })
+        }
+      }
+      return item
+    })
+
+    // Create the objects
+    let zPos = WIDTH * 2
+    resArr.forEach(userData => {
+      let objectObj3d = new ObjectObject3d(userData);
+      selectableMeshArr.push(objectObj3d.children[0])
+      objectObj3d.translateZ(zPos)
+      this.add(objectObj3d)
+      zPos += WIDTH * 2
+    })
+
+    // If this class has objects, draw beam from here to the end
+    if (resArr.length) {
+      let points = []
+      points.push(new Vector3(0, 0, 0))
+      points.push(new Vector3(0, 0, WIDTH * 2 * resArr.length))
+      let beam = this.drawBeam(points, 'classConnectors')
+      beam.translateY(-HEIGHT / 4)
+      this.add(beam)
     }
-    // Rounded rectangle
-    let roundedRectShape = new THREE.Shape()
-    roundedRect(roundedRectShape, 0, 0, WIDTH, 200, 20) // negative numbers not allowed
+
+
+    let objectPronmises = []
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        // TODO whats going on here?
+        //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
+        //if(!subClassObj3d.drawObjects) console.log(this)
+        if(subClassObj3d.drawObjects)
+        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, getTheData, queryId ))
+      }
+    });
+    return Promise.all(objectPronmises);
+
+  }
+
+  drawObjectAssocs(glModelObject3D) {
+    this.children.forEach((subClassObj3d) => {
+      if (subClassObj3d.type === 'Object3D') {
+        if(subClassObj3d.drawObjectAssocs)
+        subClassObj3d.drawObjectAssocs(glModelObject3D)
+      }
+    });
+  }
+
+  getMesh() {
+    const x = 0, y = 0
+
+    let shape = new Shape()
+    shape.moveTo(x, y + RADIUS)
+      .lineTo(x, y + HEIGHT - RADIUS)
+      .quadraticCurveTo(x, y + HEIGHT, x + RADIUS, y + HEIGHT)
+      .lineTo(x + WIDTH - RADIUS, y + HEIGHT)
+      .quadraticCurveTo(x + WIDTH, y + HEIGHT, x + WIDTH, y + HEIGHT - RADIUS)
+      .lineTo(x + WIDTH, y + RADIUS)
+      .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
+      .lineTo(x + RADIUS, y)
+      .quadraticCurveTo(x, y, x, y + RADIUS)
+
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
-    let geometry = new THREE.ExtrudeGeometry(roundedRectShape, extrudeSettings)
+    let geometry = new ExtrudeGeometry(shape, extrudeSettings)
+    geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
-    let buffgeom = new THREE.BufferGeometry()
-    buffgeom.fromGeometry(geometry)
-    return buffgeom
-  }
-  straightenPoints (points) {
-    let newPoints = []
-    points.forEach((point, i) => {
-      if (i === 0) newPoints.push(point)
-      else {
-        let direction = new THREE.Vector3()
-        direction.subVectors(point, points[i - 1])
-        direction.setLength(RADIUS)
-        let newPoint = new THREE.Vector3()
-        newPoint.subVectors(point, direction)
-        newPoints.push(newPoint)
-        if (i < points.length - 1) {
-          let direction = new THREE.Vector3()
-          direction.subVectors(point, points[i + 1])
-          direction.setLength(RADIUS)
-          let newPoint = new THREE.Vector3()
-          newPoint.subVectors(point, direction)
-          newPoints.push(newPoint)
-        } else newPoints.push(point)
-      }
-    })
-    return newPoints
-  }
-  addTextMeshBetween (name, pointA, pointB) {
-    let textPosition = new THREE.Vector3()
-    textPosition.subVectors(pointB, pointA).divideScalar(2)
-    textPosition.add(pointA)
-    textPosition.setZ(textPosition.z + 20)
-    this.addTextMesh(name, textPosition)
-  }
-  addTextMesh (name, textPosition) {
-    let textMaterial = new THREE.MeshLambertMaterial({ color: 0xEFEFEF })
-    let text3d = new THREE.TextGeometry(name, { size: 30, height: 1, font: font })
-    text3d.center()
-    let textMesh = new THREE.Mesh(text3d, textMaterial)
-    textMesh.position.set(textPosition.x, textPosition.y, textPosition.z)
-    //this.add(textMesh)
+
+    const { process: assocProps } = classModelColors
+    const material = new MeshLambertMaterial({ color: assocProps.color })
+
+    return new Mesh(geometry, material)
   }
 }

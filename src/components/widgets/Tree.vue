@@ -91,7 +91,7 @@ export default {
           // Get the viewObj
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
-          let resArr = await this.getTheData(this.viewObj.queryId, node.data);
+          const resArr = await this.getTheData(this.viewObj.queryId, node.data);
           resolve(resArr);
         }
         if (node.level > 0) {
@@ -129,7 +129,7 @@ export default {
       // See https://medium.com/@akumaisaacakuma/how-to-create-custom-context-menu-in-vue-970e67059532
     },
 
-    // The tree node expands
+    // The tree node expands, update page settings
     handleNodeExpand(data) {
       let expandedNodes = this.pageSettings.expandedNodes
         ? this.pageSettings.expandedNodes
@@ -146,7 +146,7 @@ export default {
         });
       }
     },
-    // The tree node is closed
+    // The tree node is closed, update page settings
     handleNodeCollapse(data) {
       let expandedNodes = this.pageSettings.expandedNodes;
       if (!expandedNodes) return;

@@ -47,6 +47,10 @@ export default {
   data() {
     return {
       skyboxArray: [],
+      // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
+      // skyboxArray: ["milkyway/posx.jpg", "milkyway/posy.jpg", "milkyway/negy.jpg", "milkyway/posz.jpg", "milkyway/negz.jpg"],
+      // skyboxArray: ["islands/skybox_e.jpg", "islands/skybox_w.jpg", "islands/skybox_t.jpg", "islands/skybox_b.jpg", "islands/skybox_n.jpg", "islands/skybox_s.jpg", ],
+      // skyboxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']     
       orbit: false,
       glModelObject3D: null,
       cssModelObject3D: null,

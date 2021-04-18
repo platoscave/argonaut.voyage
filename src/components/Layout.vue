@@ -31,11 +31,11 @@
 
     <!-- Studio -->
     <div class="ar-full-height" v-else-if="pageObj.divider === 'Studio'">
-      <ar-class-model
+      <ar-process-model
         class="diagram"
         v-bind:hash-level="hashLevel"
         v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-class-model>
+      ></ar-process-model>
       <!-- Master content -->
       <div
         class="drawer-left"

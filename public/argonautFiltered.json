@@ -3005,6 +3005,25 @@
       }
     ]
   },
+  {
+    "_id": "z2xnjsqcs5bj",
+    "docType": "object",
+    "name": "Process Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Process",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Process",
+            "viewId": "qtubgorhvukr"
+          }
+        ]
+      }
+    ]
+  },
 
 
 
@@ -3113,7 +3132,35 @@
     "query": "classes",
     "type": "object"
   },
-
+  {
+    "_id": "qtubgorhvukr",
+    "docType": "object",
+    "name": "Process Form View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {},
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "agreementClassId": {
+        "readOnly": false
+      },
+      "returnActions": {
+        "items": {
+          "readOnly": false
+        }
+      },
+      "substateId": {
+        "readOnly": false
+      }
+    },
+    "baseClassId": "dwl1kwhalwj4",
+    "type": "object"
+  },
 
 
 
@@ -3197,7 +3244,7 @@
     "name": "Root Process Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
-    "pageId": "24cnex2saye1",
+    "pageId": "z2xnjsqcs5bj",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "subQueryIds": [
       "aiw54neadp14"

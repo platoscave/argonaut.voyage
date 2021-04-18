@@ -15,9 +15,12 @@
 
 <script>
 import JsonSchemaForm from './JsonSchemaForm';
+import QueryMixin from "../../lib/queryMixin";
+import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: "ar-form",  
+  name: "ar-form", 
+  mixins: [WidgetMixin, QueryMixin], 
   components: {
     'ar-jsonschema-form': JsonSchemaForm
   },
@@ -66,21 +69,9 @@ export default {
       );
     },
 
-    handleHashChange: function () {
-      const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
-      if (!ourLevelStr) return;
-      const levelStates = ourLevelStr.split(".");
-      this.selectedObjId = levelStates[0];
-    },
+
   },
 
-  mounted() {
-    window.addEventListener("hashchange", this.handleHashChange, false);
-    this.handleHashChange();
-  },
-  beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false);
-  },
 };
 </script>
 
