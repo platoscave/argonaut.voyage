@@ -49,10 +49,8 @@
       },
       "icon": {
         "maxLength": 2000,
-        "media": {
-          "binaryEncoding": "base64",
-          "type": "image/png"
-        },
+        "contentEncoding": "base64",
+        "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
         "type": "string",
@@ -1569,10 +1567,8 @@
     "properties": {
       "icon": {
         "maxLength": 2000,
-        "media": {
-          "binaryEncoding": "base64",
-          "type": "image/png"
-        },
+        "contentEncoding": "base64",
+        "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
         "type": "string",
@@ -1758,10 +1754,8 @@
             },
             "icon": {
               "maxLength": 2000,
-              "media": {
-                "binaryEncoding": "base64",
-                "type": "image/png"
-              },
+              "contentEncoding": "base64",
+              "contentMediaType": "image/svg+xml",
               "minLength": 0,
               "title": "Icon",
               "type": "string",
@@ -1799,10 +1793,8 @@
                   },
                   "icon": {
                     "maxLength": 2000,
-                    "media": {
-                      "binaryEncoding": "base64",
-                      "type": "image/png"
-                    },
+                    "contentEncoding": "base64",
+                    "contentMediaType": "image/svg+xml",
                     "minLength": 0,
                     "title": "Icon",
                     "type": "string",
@@ -3087,10 +3079,8 @@
       },
       "icon": {
         "maxLength": 2000,
-        "media": {
-          "binaryEncoding": "base64",
-          "type": "image/png"
-        },
+        "contentEncoding": "base64",
+        "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
         "type": "string",
@@ -3256,8 +3246,9 @@
       "fields": [
         "_id",
         "name",
-        "docType",
-        "firstStepId"
+        "classId",
+        "firstStepId",
+        "returnActions"
       ]
     }
   },
@@ -3279,7 +3270,7 @@
       "fields": [
         "_id",
         "name",
-        "docType",
+        "classId",
         "nextStepIds"
       ],
       "sort": [
@@ -3306,7 +3297,7 @@
       "fields": [
         "_id",
         "name",
-        "docType",
+        "classId",
         "nextStepIds"
       ],
       "sort": [

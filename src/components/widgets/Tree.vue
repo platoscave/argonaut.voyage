@@ -25,12 +25,10 @@
       :allow-drag="allowDrag"
     >
     </el-tree>
-    <ar-context-menu />
   </div>
 </template>
 
 <script>
-import ContextMenu from "./ContextMenu.vue"
 import QueryMixin from "../../lib/queryMixin"
 import WidgetMixin from "../../lib/widgetMixin"
 
@@ -38,7 +36,6 @@ export default {
   name: "ar-tree",
   mixins: [QueryMixin, WidgetMixin],
   components: {
-    "ar-context-menu": ContextMenu,
   },
   props: {
     hashLevel: Number,
@@ -52,6 +49,15 @@ export default {
       },
       nextLevelSelectedObjId: ''
     }
+  },
+  pouch: {
+    pageSettings: function () {
+      return {
+        database: "settings",
+        selector: { _id: this.pageId },
+        first: true,
+      };
+    },
   },
   methods: {
     handleDragStart(node, ev) {

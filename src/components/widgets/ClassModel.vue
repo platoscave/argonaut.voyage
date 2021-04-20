@@ -93,12 +93,17 @@ export default {
       await this.drawClasses();
 
       this.removeLoadingText();
+
+      if(this.nextLevelSelectedObjId) {
+        this.highlight(this.nextLevelSelectedObjId)
+        this.moveCameraToPos(this.nextLevelSelectedObjId)
+      }
+      
     } catch (err) {
-      console.error(err);
       this.removeLoadingText();
 
+      console.error(err);
       this.$message({ message: err, type: "error" });
-      throw err;
     }
   },
 };

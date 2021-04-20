@@ -1,7 +1,7 @@
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "./objectObject3d";
 import object3dMixin from './object3dMixin'
-import classModelColors from '../config/classModelColors'
+import modelColors from '../config/modelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
@@ -35,6 +35,18 @@ export default class ClassObject3d extends Object3D {
       points.push(destVec.clone().add( new Vector3(-WIDTH * 1, 0, 0)))
       points.push(destVec)
       this.add(this.drawTube(points, 'happy', '', true))
+
+      const sourceVec = this.getSidePos('right')
+      let height = 0
+      this.userData.returnActions.forEach(item => {
+        let points = []
+        points.push(sourceVec)
+        points.push(sourceVec.clone().add( new Vector3(WIDTH * 1, 0, 0)))
+        points.push(sourceVec.clone().add( new Vector3(WIDTH * 3, height, 0)))
+        points.push(sourceVec.clone().add( new Vector3(WIDTH * 4, height, 0)))
+        this.add(this.drawTube(points, item, item, true))
+        height += HEIGHT
+      })
     }
   }
 
@@ -131,7 +143,7 @@ export default class ClassObject3d extends Object3D {
 
       const assoc = this.userData.assocs[key]
 
-      const { [assoc.name]: assocProps } = classModelColors
+      const { [assoc.name]: assocProps } = modelColors
       if (!assocProps) continue
       const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
 
@@ -160,7 +172,7 @@ export default class ClassObject3d extends Object3D {
       points.push(beforeLastPos)
       points.push(destBack)
 
-      this.add(this.drawTube(points, assoc.name, assoc.name, true))
+      this.add(this.drawTube(points, assoc.name, true))
 
       let labelMesh = this.getTextMesh(assoc.name)
       let textPos = new Vector3()
@@ -267,14 +279,22 @@ export default class ClassObject3d extends Object3D {
       .lineTo(x + RADIUS, y)
       .quadraticCurveTo(x, y, x, y + RADIUS)
 
+    /* shape.moveTo(x, y)
+      .lineTo(x + WIDTH / 4,  y + HEIGHT / 2)
+      .lineTo(x,              y + HEIGHT)
+      .lineTo(x + WIDTH *3/4, y + HEIGHT)
+      .lineTo(x + WIDTH     , y + HEIGHT / 2)
+      .lineTo(x + WIDTH *3/4, y ) */
+
+
     // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
+    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: 2, bevelThickness: 2 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.title + " - 3d geometry"
+    geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { process: assocProps } = classModelColors
-    const material = new MeshLambertMaterial({ color: assocProps.color })
+    const { [this.userData.classId]: colorProp } = modelColors
+    const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)
   }

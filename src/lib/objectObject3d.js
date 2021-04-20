@@ -1,6 +1,6 @@
 import { Vector3, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
-import classModelColors from '../config/classModelColors'
+import modelColors from '../config/modelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
@@ -52,7 +52,7 @@ export default class ObjectObject3d extends Object3D {
       const points = this.addCorners(sourcePos, destPos) 
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
-
+/* 
       let labelMesh = this.getTextMesh(assoc.name)
       let textPos = new Vector3()
       if (points[2]) textPos.lerpVectors(points[1], points[2], 0.5)
@@ -60,7 +60,7 @@ export default class ObjectObject3d extends Object3D {
       labelMesh.translateX(textPos.x)
       labelMesh.translateY(textPos.y)
       labelMesh.translateZ(textPos.z)
-      this.add(labelMesh)
+      this.add(labelMesh) */
 
     }
 
@@ -151,8 +151,8 @@ export default class ObjectObject3d extends Object3D {
     geometry.name = this.userData.label + " - 3d geometry"
     geometry.center()
 
-    const { object: assocProps } = classModelColors
-    const material = new MeshLambertMaterial({ color: assocProps.color })
+    const { object: colorProp } = modelColors
+    const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)
   }

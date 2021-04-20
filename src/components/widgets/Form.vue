@@ -34,6 +34,7 @@ export default {
       readonly: false,
       omitEmptyFields: false,
       valid: false,
+      viewObj: {}
     };
   },
   pouch: {
@@ -44,13 +45,13 @@ export default {
         first: true,
       };
     },
-    viewObj: function () {
+    /* viewObj: function () {
       return {
         database: "argonaut",
         selector: { _id: this.viewId},
         first: true,
       };
-    },
+    }, */
   },
   methods: {
 
@@ -71,7 +72,10 @@ export default {
 
 
   },
-
+  async mounted() {
+    this.viewObj =  await this.getMaterializedView( this.viewId )
+    console.log(this.viewObj)
+  }
 };
 </script>
 

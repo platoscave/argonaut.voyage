@@ -3,18 +3,10 @@ export default {
     return {
       selectedObjId: null,
       pageId: null,
-      tab: 0,
-      naxtLevelSelectedObjId: null,
+      tabNum: 0,
+      nextLevelSelectedObjId: null,
+      nextLevelPageId: null,
     }
-  },
-  pouch: {
-    pageSettings: function () {
-      return {
-        database: "settings",
-        selector: { _id: this.pageId },
-        first: true,
-      };
-    },
   },
   methods: {
     // Insert selectObjId and pageId into next level hash
@@ -33,7 +25,6 @@ export default {
       }
       nextPageStateStr = nextPageStateArr.join(".");
       hashArr[this.hashLevel + 2] = nextPageStateStr;
-      //TODO remove following levels, fill with defaults
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },
@@ -46,13 +37,14 @@ export default {
         const ourLevelArr = ourLevelStr.split(".")
         this.selectedObjId = ourLevelArr[0]
         this.pageId = ourLevelArr[1]
-        this.tab= ourLevelArr[2]
+        this.tabNum = ourLevelArr[2]
       }
 
       const nextLevelStr = hashArr[this.hashLevel + 2];
       if (nextLevelStr) {
         const nextLevelArr = nextLevelStr.split(".")
         this.nextLevelSelectedObjId = nextLevelArr[0]
+        this.nextLevelPageId = nextLevelArr[1]
       }
     },
     

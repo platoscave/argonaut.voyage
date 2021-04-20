@@ -196,7 +196,8 @@ export default {
   right: 0px;
 }
 .drawer-content {
-  background: #232323ab;
+  background: #232323db;
+  /* background: #232323ab; */
   border-radius: 6px;
   border-style: solid;
   border-width: 1px;

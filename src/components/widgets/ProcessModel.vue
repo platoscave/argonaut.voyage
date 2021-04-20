@@ -15,6 +15,8 @@ import SceneMixin from "../../lib/sceneMixin.js";
 import QueryMixin from "../../lib/queryMixin";
 import WidgetMixin from "../../lib/widgetMixin";
 
+const DEPTH = 100
+
 export default {
   name: "ar-process-model",
   mixins: [SceneMixin, WidgetMixin, QueryMixin],
@@ -47,9 +49,14 @@ export default {
       let resArr = await this.getTheData(viewObj.queryId);
 
       // Create the ProcessObject3d (extends Object3d)
-      let rootProcessObj3d = new ProcessObject3d(resArr[0], true)
-      this.glModelObject3D.add(rootProcessObj3d)
-      this.selectableMeshArr.push(rootProcessObj3d.children[0])
+      let zPos = 0
+      resArr.forEach(item =>{
+        let rootProcessObj3d = new ProcessObject3d(item, true)
+        rootProcessObj3d.translateZ( zPos)
+        this.glModelObject3D.add(rootProcessObj3d)
+        this.selectableMeshArr.push(rootProcessObj3d.children[0])
+        zPos -= DEPTH * 20
+      })
 
 
 
@@ -86,7 +93,7 @@ export default {
 
       rootProcessObj3d.drawObjectAssocs(this.glModelObject3D);
  */
-      return rootProcessObj3d;
+       
     },
   },
 
@@ -100,12 +107,17 @@ export default {
       await this.drawProcess();
 
       this.removeLoadingText();
+
+      if(this.nextLevelSelectedObjId) {
+        this.highlight(this.nextLevelSelectedObjId)
+        this.moveCameraToPos(this.nextLevelSelectedObjId)
+      }
+
     } catch (err) {
-      console.error(err);
       this.removeLoadingText();
 
+      console.error(err);
       this.$message({ message: err, type: "error" });
-      throw err;
     }
   },
 };

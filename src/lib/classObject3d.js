@@ -1,7 +1,7 @@
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "../lib/objectObject3d";
 import object3dMixin from '../lib/object3dMixin'
-import classModelColors from '../config/classModelColors'
+import modelColors from '../config/modelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
@@ -128,7 +128,7 @@ export default class ClassObject3d extends Object3D {
 
       const assoc = this.userData.assocs[key]
 
-      const { [assoc.name]: assocProps } = classModelColors
+      const { [assoc.name]: assocProps } = modelColors
       if (!assocProps) continue
       const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
 
@@ -267,8 +267,8 @@ export default class ClassObject3d extends Object3D {
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
-    const { class: assocProps } = classModelColors
-    const material = new MeshLambertMaterial({ color: assocProps.color })
+    const { class: colorProp } = modelColors
+    const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)
   }

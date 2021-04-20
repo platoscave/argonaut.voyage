@@ -33,59 +33,25 @@ export default {
     //
     const generateControlElements = (propertyName, property, dataObj) => {
 
-      let controlData = dataObj[propertyName]
-      if (!controlData) controlData = property.default
-      // Note: controlData can still be undefined. Some controls will crash if you don't pass a value of the right type
-
-
-      // Set genneral element properties including value and response to the input event 
-      // This will suit simple controls. Some controls will overwrite certain properties
-      let elementProps = {
-        props: {
-          value: controlData ? controlData : '',
-        },
-        attrs: {},
-        scopedSlots: {},
-        on: {
-          input: (newValue) => {
-            this.$set(dataObj, propertyName, newValue)
-          }
-        }
-      }
-
-
-      // Copy certain properties to attrs
-      if (property.attrs) {
-        if (property.attrs.placeholder) elementProps.attrs.placeholder = property.attrs.placeholder
-        // useful values are: date, time, datetime, textarea or checkbox
-        if (property.attrs.type) elementProps.attrs.type = property.attrs.type
-      }
-      if (this.formReadOnly || property.readonly) {
-        elementProps.attrs.readonly = true
-      }
-
-
       // Determin the control type and create it
       if (property.type === 'string') {
-        if (property.minlength) elementProps.attrs.minlength = property.minlength
-        if (property.maxlength) elementProps.attrs.maxlength = property.maxlength
 
         if (property.contentMediaType) {
 
           // HTML
           if (property.contentMediaType === 'text/html') {
-            return this.createHtmlElements(createElement, property, elementProps, controlData)
+            return this.createHtmlElements(createElement, property, dataObj, propertyName)
           }
 
           // Image
           else if (property.contentMediaType.startsWith('image/')) {
-            return this.createImageElements(createElement, property, elementProps, controlData, dataObj, propertyName)
+            return this.createImageElements(createElement, property, dataObj, propertyName)
           }
 
           // Javascript, Json
           else if (property.contentMediaType === 'text/javascript' ||
             property.contentMediaType.startsWith('application/')) {
-            return this.createJsonElements(createElement, property, elementProps, controlData)
+            return this.createJsonElements(createElement, property, dataObj, propertyName)
           }
 
           // Unknown
@@ -95,28 +61,28 @@ export default {
 
         // Enumeration
         else if (property.enum) {
-          return this.createEnumerationElements(createElement, property, elementProps, controlData)
+          return this.createEnumerationElements(createElement, property, dataObj, propertyName)
         }
 
         // Date time
         else if (property.format === 'date-time') {
-          return this.createDatetimeElements(createElement, property, elementProps, controlData)
+          return this.createDatetimeElements(createElement, property, dataObj, propertyName)
         }
 
         // Text
         else {
-          return this.createTextElements(createElement, property, elementProps, controlData)
+          return this.createTextElements(createElement, property, dataObj, propertyName)
         }
       }
 
       // Number
       else if (property.type === 'number') {
-        return this.createNumberElements(createElement, property, elementProps, controlData)
+        return this.createNumberElements(createElement, property, dataObj, propertyName)
       }
 
       // Boolean
       else if (property.type === 'boolean') {
-        return this.createBooleanElements(createElement, property, elementProps, controlData)
+        return this.createBooleanElements(createElement, property, dataObj, propertyName)
       }
 
       // Object
@@ -133,8 +99,8 @@ export default {
         }
 
         // multi select
-        else if (property.items.type === 'string' && property.items.enum) {
-          return this.createStringArrayElements(createElement, property, elementProps, controlData, dataObj, propertyName)
+        else if (property.items.type === 'string') {
+          return this.createStringArrayElements(createElement, property, dataObj, propertyName)
         }
 
         else return [createElement('div', 'Unknown array type: ' + property.items.type)]
@@ -292,7 +258,42 @@ export default {
     resetFields() {
       this.$refs['elementUiForm'].resetFields();
     },
+    getStandardElementProps(dataObj, property, propertyName) {
+      let controlData = dataObj[propertyName]
+      if (!controlData) controlData = property.default
+      if (!controlData) controlData = ''
 
+      // Set genneral element properties including value and response to the input event 
+      // This will suit simple controls. Some controls will overwrite certain properties
+      let elementProps = {
+        props: {
+          value: controlData
+        },
+        attrs: {},
+        scopedSlots: {},
+        on: {
+          input: (newValue) => {
+            this.$set(dataObj, propertyName, newValue)
+          }
+        }
+      }
+
+      // Copy certain properties to attrs
+      if (property.attrs) {
+        if (property.attrs.placeholder) elementProps.attrs.placeholder = property.attrs.placeholder
+        // useful values are: date, time, datetime, textarea or checkbox
+        if (property.attrs.type) elementProps.attrs.type = property.attrs.type
+      }
+      if (this.formReadOnly || property.readonly) {
+        elementProps.attrs.readonly = true
+      }
+      if (property.minlength) elementProps.attrs.minlength = property.minlength
+      if (property.maxlength) elementProps.attrs.maxlength = property.maxlength
+      if (property.min) elementProps.attrs.min = property.min
+      if (property.max) elementProps.attrs.max = property.max
+
+      return elementProps
+    },
 
     //************************************************************** */
     //
@@ -303,7 +304,10 @@ export default {
     //
     // HTML
     //
-    createHtmlElements(createElement, property, elementProps, controlData) {
+    createHtmlElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
 
       if (this.formReadOnly || property.readonly) elementProps.props.readonly = true
 
@@ -323,7 +327,10 @@ export default {
     //
     // Image
     //
-    createImageElements(createElement, property, elementProps, controlData, dataObj, propertyName) {
+    createImageElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
       let elementsArr = []
 
       // display the image
@@ -339,8 +346,11 @@ export default {
           // SVG Icon
           if (property.contentMediaType === 'image/svg+xml') {
 
-            const sub = controlData.slice(26) // remove data:image/svg+xml;base64,
-            const svgMarkup = window.atob(sub)
+            let svgMarkup = ''
+            if(controlData){
+              const sub = controlData.slice(26) // remove data:image/svg+xml;base64,
+              svgMarkup = window.atob(sub)
+            }
 
             elementsArr.push(createElement('tiptap', {
               props: {
@@ -374,7 +384,8 @@ export default {
     //
     // Json
     //
-    createJsonElements(createElement, property, elementProps, controlData) {
+    createJsonElements(createElement, property, dataObj, propertyName) {
+      const controlData = dataObj[propertyName]
 
       return [createElement('tiptap', {
         props: {
@@ -394,7 +405,10 @@ export default {
     //
     // Enumeration
     //
-    createEnumerationElements(createElement, property, elementProps, controlData) {
+    createEnumerationElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
       let elementsArr = []
 
       if (this.formReadOnly || property.readonly) { // readonly
@@ -464,7 +478,10 @@ export default {
     //
     // Datetime
     //
-    createDatetimeElements(createElement, property, elementProps, controlData) {
+    createDatetimeElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
 
       elementProps.props.value = controlData === 'now' ? new Date() : controlData
       return [createElement('el-date-picker', elementProps)]
@@ -475,7 +492,9 @@ export default {
     //
     // Text
     //
-    createTextElements(createElement, property, elementProps, controlData) {
+    createTextElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
 
       if (elementProps.attrs.type === 'textarea') {
         elementProps.props.showWordLimit = true // <- not working
@@ -489,7 +508,10 @@ export default {
     //
     // Number
     //
-    createNumberElements(createElement, property, elementProps, controlData) {
+    createNumberElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
 
       if (this.formReadOnly || property.readonly) {
 
@@ -514,7 +536,10 @@ export default {
     //
     // Boolean
     //
-    createBooleanElements(createElement, property, elementProps, controlData) {
+    createBooleanElements(createElement, property, dataObj, propertyName) {
+
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
 
       if (this.formReadOnly || property.readonly) { // readonly
 
@@ -562,7 +587,9 @@ export default {
     //
     // Array containing strings
     //
-    createStringArrayElements(createElement, property, elementProps, controlData, dataObj, propertyName) {
+    createStringArrayElements(createElement, property, dataObj, propertyName) {
+      let elementProps = this.getStandardElementProps(dataObj, property, propertyName) 
+      const controlData = dataObj[propertyName]
 
       if (this.formReadOnly || property.readonly) { // readonly
 
@@ -576,61 +603,69 @@ export default {
 
       else { // read / write
 
+        if(property.items.enum) {
+          // Check Boxes
+          if (property.items.enum.length < 5) {
 
-        // Check Boxes
-        if (property.items.enum.length < 5) {
+            // Create the empty results array if it doesn't exist yet
+            if (!dataObj[propertyName]) this.$set(dataObj, propertyName, [])
 
-          // Create the empty results array if it doesn't exist yet
-          if (!dataObj[propertyName]) this.$set(dataObj, propertyName, [])
-
-          let checkElsArr = []
-          property.items.enum.forEach(option => {
-            checkElsArr.push(createElement('el-checkbox', {
-              props: {
-                checked: dataObj[propertyName].includes(option),
-                label: option
-              },
-              on: {
-                change: (newValue) => {
-                  if (newValue) dataObj[propertyName].push(String(option))
-                  else {
-                    const index = dataObj[propertyName].indexOf(String(option));
-                    if (index > -1) {
-                      dataObj[propertyName].splice(index, 1);
+            let checkElsArr = []
+            property.items.enum.forEach(option => {
+              checkElsArr.push(createElement('el-checkbox', {
+                props: {
+                  checked: dataObj[propertyName].includes(option),
+                  label: option
+                },
+                on: {
+                  change: (newValue) => {
+                    if (newValue) dataObj[propertyName].push(String(option))
+                    else {
+                      const index = dataObj[propertyName].indexOf(String(option));
+                      if (index > -1) {
+                        dataObj[propertyName].splice(index, 1);
+                      }
                     }
                   }
                 }
-              }
-            }))
-          })
-          ////////////////////////////////////////
-          // The check box group
-          return [createElement('div', {
-            attrs: {
-              readonly: (this.formReadOnly || property.readonly)
-            },
-            class: 'control-background'
-          }, checkElsArr)]
-        }
-
-
-        // multi select dropdown
-        else { // property.items.enum.length >= 5
-
-          elementProps.attrs.multiple = true
-
-          // Select
-          let optionsArr = property.items.enum.map((option) => {
-            return createElement('el-option', {
-              props: {
-                value: String(option),
-                label: String(option)
+              }))
+            })
+            ////////////////////////////////////////
+            // The check box group
+            return [createElement('div', {
+              attrs: {
+                readonly: (this.formReadOnly || property.readonly)
               },
-            }, String(option))
-          })
+              class: 'control-background'
+            }, checkElsArr)]
+          }
 
-          return [createElement('el-select', elementProps, optionsArr)]
 
+          // multi select dropdown
+          else { // property.items.enum.length >= 5
+
+            elementProps.attrs.multiple = true
+
+            // Select
+            let optionsArr = property.items.enum.map((option) => {
+              return createElement('el-option', {
+                props: {
+                  value: String(option),
+                  label: String(option)
+                },
+              }, String(option))
+            })
+
+            return [createElement('el-select', elementProps, optionsArr)]
+
+          }
+        }
+        else {
+                  // display the labels
+        return [createElement('div', {
+          attrs: { readonly: true },
+          class: 'control-background',
+        }, controlData ? controlData.join(', ') : '')]
         }
       }
 

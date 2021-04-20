@@ -51,6 +51,7 @@ export default {
 
       let style = {}
       if (firstLevel) style = { style: { 'font-weight': 'bold'} }
+      else style = { style: { 'left-padding': '48px'} }
 
       labelArr.push(createElement('span', style, item.name))
 
