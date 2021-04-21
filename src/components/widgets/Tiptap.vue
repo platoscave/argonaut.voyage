@@ -103,7 +103,7 @@
             popup-text="Unordered List" 
             icon-name="ul"
             :is-active="isActive.bullet_list()"
-            @button-clicked="commands.ul" >
+            @button-clicked="commands.bullet_list" >
           </toolbar-button>
 
           <!-- ol -->
@@ -111,7 +111,7 @@
             popup-text="Ordered List" 
             icon-name="ol"
             :is-active="isActive.ordered_list() "
-            @button-clicked="commands.ol" >
+            @button-clicked="commands.ordered_list" >
           </toolbar-button>
 
           <!-- quote -->
@@ -163,60 +163,60 @@
 
           <span v-if="isActive.table()">
             <!-- delete_table -->
-          <toolbar-button 
-            popup-text="Delete Table" 
-            icon-name="delete_table"
-            @button-clicked="commands.deleteTable" >
-          </toolbar-button>
+            <toolbar-button 
+              popup-text="Delete Table" 
+              icon-name="delete_table"
+              @button-clicked="commands.deleteTable" >
+            </toolbar-button>
 
-            <!-- add_col_before -->
-          <toolbar-button 
-            popup-text="Add Column Before" 
-            icon-name="add_col_before"
-            @button-clicked="commands.addColumnBefore" >
-          </toolbar-button>
+              <!-- add_col_before -->
+            <toolbar-button 
+              popup-text="Add Column Before" 
+              icon-name="add_col_before"
+              @button-clicked="commands.addColumnBefore" >
+            </toolbar-button>
 
-            <!-- add_col_after -->
-          <toolbar-button 
-            popup-text="Add Column After" 
-            icon-name="add_col_after"
-            @button-clicked="commands.addColumnAfter" >
-          </toolbar-button>
+              <!-- add_col_after -->
+            <toolbar-button 
+              popup-text="Add Column After" 
+              icon-name="add_col_after"
+              @button-clicked="commands.addColumnAfter" >
+            </toolbar-button>
 
-            <!-- delete_col-->
-          <toolbar-button 
-            popup-text="Delete Column" 
-            icon-name="delete_col"
-            @button-clicked="commands.deleteColumn" >
-          </toolbar-button>
+              <!-- delete_col-->
+            <toolbar-button 
+              popup-text="Delete Column" 
+              icon-name="delete_col"
+              @button-clicked="commands.deleteColumn" >
+            </toolbar-button>
 
-            <!-- add_row_before-->
-          <toolbar-button 
-            popup-text="Add Row Before" 
-            icon-name="add_row_before"
-            @button-clicked="commands.addRowBefore" >
-          </toolbar-button>
+              <!-- add_row_before-->
+            <toolbar-button 
+              popup-text="Add Row Before" 
+              icon-name="add_row_before"
+              @button-clicked="commands.addRowBefore" >
+            </toolbar-button>
 
-            <!-- add_row_after-->
-          <toolbar-button 
-            popup-text="Add Row After" 
-            icon-name="add_row_after"
-            @button-clicked="commands.addRowAfter" >
-          </toolbar-button>
+              <!-- add_row_after-->
+            <toolbar-button 
+              popup-text="Add Row After" 
+              icon-name="add_row_after"
+              @button-clicked="commands.addRowAfter" >
+            </toolbar-button>
 
-            <!-- delete_row-->
-          <toolbar-button 
-            popup-text="Delete Row" 
-            icon-name="delete_row"
-            @button-clicked="commands.deleteRow" >
-          </toolbar-button>
+              <!-- delete_row-->
+            <toolbar-button 
+              popup-text="Delete Row" 
+              icon-name="delete_row"
+              @button-clicked="commands.deleteRow" >
+            </toolbar-button>
 
-            <!-- combine_cells-->
-          <toolbar-button 
-            popup-text="Combine Cells" 
-            icon-name="combine_cells"
-            @button-clicked="commands.toggleCellMerge" >
-          </toolbar-button>
+              <!-- combine_cells-->
+            <toolbar-button 
+              popup-text="Combine Cells" 
+              icon-name="combine_cells"
+              @button-clicked="commands.toggleCellMerge" >
+            </toolbar-button>
 
           </span>
         </div>
@@ -332,7 +332,7 @@ export default {
   },
   watch: {
     readonly: {
-      immediate: true,
+      //immediate: true,
       handler() {
         this.editor.options.editable = !this.readonly;
         // also update the editor border:
