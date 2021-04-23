@@ -15,7 +15,8 @@ import SceneMixin from "../../lib/sceneMixin.js";
 import QueryMixin from "../../lib/queryMixin";
 import WidgetMixin from "../../lib/widgetMixin";
 
-const DEPTH = 100
+// eslint-disable-next-line no-unused-vars
+const HEIGHT = 200, DEPTH = 100;
 
 export default {
   name: "ar-process-model",
@@ -34,8 +35,8 @@ export default {
         "islands/skybox_b.jpg",
         "islands/skybox_n.jpg",
         "islands/skybox_s.jpg",
-      ]
-    }
+      ],
+    };
   },
   methods: {
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
@@ -49,57 +50,49 @@ export default {
       let resArr = await this.getTheData(viewObj.queryId);
 
       // Create the ProcessObject3d (extends Object3d)
-      let zPos = 0
-      resArr.forEach(item =>{
-        let rootProcessObj3d = new ProcessObject3d(item, true)
-        rootProcessObj3d.translateZ( zPos)
-        this.glModelObject3D.add(rootProcessObj3d)
-        this.selectableMeshArr.push(rootProcessObj3d.children[0])
-        zPos -= DEPTH * 20
+      let zPos = 0;
+      let processArr = [];
+      resArr.forEach((item) => {
+        let rootProcessObj3d = new ProcessObject3d(item, true);
+        processArr.push(rootProcessObj3d)
+        rootProcessObj3d.translateZ(zPos);
+        this.glModelObject3D.add(rootProcessObj3d);
+        this.selectableMeshArr.push(rootProcessObj3d.children[0]);
+        zPos -= DEPTH * 20;
+      });
+
+      let promisesArr = [];
+      processArr.forEach((rootProcessObj3d) => {
+        // Tell root process to draw the first step, and tehn it's next steps
+        promisesArr.push(
+          rootProcessObj3d.drawSteps(
+            this.selectableMeshArr,
+            this.getTheData,
+            this.glModelObject3D,
+            "aiw54neadp14" // First step queryId
+          )
+        );
+      });
+      await Promise.all(promisesArr)
+
+
+      // Set the Y positions
+      processArr.forEach((rootProcessObj3d) => {
+        rootProcessObj3d.setPositionY()
       })
 
-
-
-
-    
-
-
-/* 
-      // Tell root process to draw the subclasses
-      await rootProcessObj3d.drawSubclasses(
-        this.selectableMeshArr,
-        this.getTheData,
-        '2jfs4is4icct'
-      );
-
-      // Set the x positions
-      const clidrenMaxX = rootProcessObj3d.setPositionX(0);
-      rootProcessObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
-
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
-      rootProcessObj3d.drawClassAssocs(this.glModelObject3D);
-
-      // Tell root process and its subclasses to draw the objects
-      await rootProcessObj3d.drawObjects(
-        this.selectableMeshArr,
-        this.getTheData,
-        'x1lrv2xdq2tu'
-      );
-
-      // important! after you set positions, otherwise obj3d matrixes will be incorrect
-      this.glModelObject3D.updateMatrixWorld(true);
-
-      rootProcessObj3d.drawObjectAssocs(this.glModelObject3D);
- */
-       
+      processArr.forEach((rootProcessObj3d) => {
+        rootProcessObj3d.drawStepConnectors(this.glModelObject3D)
+      })
     },
+
   },
 
+
   mounted: async function () {
-    // If we've been here before, assume no redraw nessesary
-    //if(this.glScene) return
 
     this.addLoadingText();
 
@@ -108,11 +101,10 @@ export default {
 
       this.removeLoadingText();
 
-      if(this.nextLevelSelectedObjId) {
-        this.highlight(this.nextLevelSelectedObjId)
-        this.moveCameraToPos(this.nextLevelSelectedObjId)
+      if (this.nextLevelSelectedObjId) {
+        this.highlight(this.nextLevelSelectedObjId);
+        this.moveCameraToPos(this.nextLevelSelectedObjId);
       }
-
     } catch (err) {
       this.removeLoadingText();
 

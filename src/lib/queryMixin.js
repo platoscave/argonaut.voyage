@@ -59,7 +59,7 @@ export default {
       }
 
 
-
+      // START HERE
       // Get the queryObj
       const queryObj = await this.$pouch.get(queryId)
 
@@ -83,7 +83,7 @@ export default {
 
 
 
-    // Updates the target object with corresponding properties from the source object
+    // Updates the target object with corresponding properties from the source object, recusivly
     // We write our own deepMerge (instead of using lodash) because we have to be able to reproduce it in C++, see below
     deepMerge(targetObj, sourceObj) {
 
@@ -125,6 +125,8 @@ export default {
 
     },
 
+    // Get the view, then get the merged ancestors of the basClassId it points to.
+    // Finally merge the view with the merged ancestors
     async getMaterializedView(viewId) {
 
       const smartMerge = (viewObj, classObj) => {
@@ -146,7 +148,7 @@ export default {
                 this.deepMerge(viewObj.properties[propName], classObj.properties[propName])
               }
               else {
-                // TODO view cannot make things longer or shorter
+                // TODO view cannot make things longer or shorter, earlier or later than allowed by merged ancesters
                 //viewObj.properties[propName] = classProp
               }
             }
@@ -162,7 +164,7 @@ export default {
       }
 
 
-
+      // START HERE
       // Get the view
       const viewObj = await this.$pouch.get(viewId)
 
@@ -172,7 +174,7 @@ export default {
 
       smartMerge(viewObj, mergedAncestorProperties)
 
-      return mergedAncestorProperties
+      return viewObj
     }
   }
 

@@ -3,6 +3,7 @@ import ObjectObject3d from "../lib/objectObject3d";
 import object3dMixin from '../lib/object3dMixin'
 import modelColors from '../config/modelColors'
 
+// eslint-disable-next-line no-unused-vars
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
 export default class ClassObject3d extends Object3D {
@@ -159,13 +160,13 @@ export default class ClassObject3d extends Object3D {
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
 
-      let labelMesh = this.getTextMesh(assoc.name)
+/*       let labelMesh = this.getTextMesh(assoc.name)
       let textPos = new Vector3()
       textPos.lerpVectors(points[1], points[2], 0.5)
       labelMesh.translateX(textPos.x)
       labelMesh.translateY(textPos.y)
       labelMesh.translateZ(textPos.z)
-      this.add(labelMesh)
+      this.add(labelMesh) */
 
     }
     this.children.forEach((subClassObj3d) => {
@@ -207,9 +208,11 @@ export default class ClassObject3d extends Object3D {
     })
 
     // Create the objects
-    let zPos = WIDTH * 2
+    //let objectsArr = []
+    let zPos = WIDTH * 4
     resArr.forEach(userData => {
       let objectObj3d = new ObjectObject3d(userData);
+      //objectsArr.push(objectObj3d)
       selectableMeshArr.push(objectObj3d.children[0])
       objectObj3d.translateZ(zPos)
       this.add(objectObj3d)

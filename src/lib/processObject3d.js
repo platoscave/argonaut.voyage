@@ -1,11 +1,11 @@
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import ObjectObject3d from "./objectObject3d";
+import StepObject3d from "./stepObject3d";
 import object3dMixin from './object3dMixin'
 import modelColors from '../config/modelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
-export default class ClassObject3d extends Object3D {
+export default class ProcessObject3d extends Object3D {
 
   constructor(userData, isRoot) {
     super()
@@ -26,13 +26,13 @@ export default class ClassObject3d extends Object3D {
     classMesh.add(textMesh)
 
 
-    // Draw up the initialize and end state tubes
+    // Draw the initialize and end state tubes
     if (isRoot) {
       const destVec = this.getSidePos('left')
       let points = []
-      points.push(destVec.clone().add( new Vector3(-WIDTH * 4, HEIGHT, 0)))
-      points.push(destVec.clone().add( new Vector3(-WIDTH * 3, HEIGHT, 0)))
-      points.push(destVec.clone().add( new Vector3(-WIDTH * 1, 0, 0)))
+      points.push(destVec.clone().add(new Vector3(-WIDTH * 4, HEIGHT, 0)))
+      points.push(destVec.clone().add(new Vector3(-WIDTH * 3, HEIGHT, 0)))
+      points.push(destVec.clone().add(new Vector3(-WIDTH * 1, 0, 0)))
       points.push(destVec)
       this.add(this.drawTube(points, 'happy', '', true))
 
@@ -41,228 +41,80 @@ export default class ClassObject3d extends Object3D {
       this.userData.returnActions.forEach(item => {
         let points = []
         points.push(sourceVec)
-        points.push(sourceVec.clone().add( new Vector3(WIDTH * 1, 0, 0)))
-        points.push(sourceVec.clone().add( new Vector3(WIDTH * 3, height, 0)))
-        points.push(sourceVec.clone().add( new Vector3(WIDTH * 4, height, 0)))
+        points.push(sourceVec.clone().add(new Vector3(WIDTH * 1, 0, 0)))
+        points.push(sourceVec.clone().add(new Vector3(WIDTH * 3, height, 0)))
+        points.push(sourceVec.clone().add(new Vector3(WIDTH * 4, height, 0)))
         this.add(this.drawTube(points, item, item, true))
         height += HEIGHT
       })
     }
   }
 
-  async drawSubclasses(selectableMeshArr, getTheData, queryId ) {
+
+  async drawSteps(selectableMeshArr, getTheData, glModelObject3D, queryId) {
 
     // Execute the query
     let resArr = await getTheData(queryId, this.userData)
 
-    // Enrich items with an array of assocs that need to be drawn
-    resArr.map((item) => {
-      item.assocs = []
-      for (let key in item.properties) {
-        const prop = item.properties[key]
-        if (prop.mongoQuery) item.assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
-      }
-      return item;
-    })
+    // Draw the first step
+    let stepObj3d = new StepObject3d(resArr[0]);
+    selectableMeshArr.push(stepObj3d.children[0])
+    this.add(stepObj3d)
 
-    // If this class has children, draw down beam from here to middle
-    if (resArr.length) {
-      let points = []
-      points.push(new Vector3(0, 0, 0))
-      points.push(new Vector3(0, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'classConnectors'))
-    }
-
-    let childrenPronmises = []
-    resArr.forEach(userData => {
-
-      // Create the child
-      let classObj3d = new ClassObject3d(userData)
-      selectableMeshArr.push(classObj3d.children[0])
-      classObj3d.translateY(-HEIGHT * 4)
-      this.add(classObj3d)
-
-      // Tell the child to draw its children
-      if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, getTheData, queryId ))
-    })
-
-
-    return Promise.all(childrenPronmises);
-
-  }
-
-  setPositionX(xPos) {
-
-    this.translateX(xPos)
-
-    // Position the children.
-    // The child x position is relative to this, so we start with 0
-    let childX = 0, childrenMaxX = 0
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        childrenMaxX = subClassObj3d.setPositionX(childX)
-        childX = childrenMaxX + WIDTH * 2
-      }
-    });
-
-    // Shift all the children to the left by 50%
-    const leftShift = (childrenMaxX) / 2
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        subClassObj3d.translateX(-leftShift)
-      }
-    });
-    // Shift this to the right by the same value
-    this.translateX(leftShift)
-
-    // Find the first and last children x values after left shift
-    let firstX = -1, lastX = -1
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        if (firstX === -1) firstX = subClassObj3d.position.x
-        lastX = subClassObj3d.position.x
-      }
-    });
-
-    // Draw the horizontal beam, based on the positions of the first and last child
-    if (firstX !== -1) {
-      let points = []
-      points.push(new Vector3(firstX, -HEIGHT * 2, 0))
-      points.push(new Vector3(lastX, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'classConnectors'))
-    }
-
-    // return the original x plus our children max, so that the parent can center itself
-    return xPos + childrenMaxX
-  }
-
-  drawClassAssocs(glModelObject3D) {
-
-    for (let key in this.userData.assocs) {
-
-      const assoc = this.userData.assocs[key]
-
-      const { [assoc.name]: assocProps } = modelColors
-      if (!assocProps) continue
-      const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
-
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
-      if (!destObj3d) continue
-
-      // Get positions in world coordinates
-      let sourcePos = new Vector3()
-      this.getWorldPosition(sourcePos)
-      let destPos = new Vector3()
-      destObj3d.getWorldPosition(destPos)
-
-      // Get the difference vector
-      let difVec = destPos.clone()
-      difVec.sub(sourcePos)
-
-      const sourceBack = this.getSidePos('back', new Vector3())
-      const destBack = this.getSidePos('back', difVec)
-
-      let points = []
-      points.push(sourceBack) // move startpoint to the edge
-      points.push(new Vector3(0, 0, depth))
-      let beforeLastPos = destBack.clone()
-      beforeLastPos.z = depth
-      points.push(beforeLastPos)
-      points.push(destBack)
-
-      this.add(this.drawTube(points, assoc.name, true))
-
-      let labelMesh = this.getTextMesh(assoc.name)
-      let textPos = new Vector3()
-      textPos.lerpVectors(points[1], points[2], 0.5)
-      labelMesh.translateX(textPos.x)
-      labelMesh.translateY(textPos.y)
-      labelMesh.translateZ(textPos.z)
-      this.add(labelMesh)
-
-    }
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        subClassObj3d.drawClassAssocs(glModelObject3D)
-      }
-    });
-
+    // Tell it to draw next steps
+    return stepObj3d.drawSteps(selectableMeshArr, getTheData, glModelObject3D, 'ybjrgmdjybzl') // Next Step QueryId
   }
 
 
-  async drawObjects(selectableMeshArr, getTheData, queryId ) {
-
-    // Execute the query
-    let resArr = await getTheData(queryId, this.userData)
-
-    resArr.map((item) => {
-      item.assocs = []
-      const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
-      //const fks = ['pageId']
-      for (let key in item) {
-        const prop = item[key]
-        if (fks.includes(key)) item.assocs.push({ name: key, destId: prop })
-        /* for (let key in prop.tabs) {
-          const tab = prop[key]
-          if (key in fks) assocs.push({ name: key, destId: tab})
-          for (let key in tab.widgets) {
-            const widgets = tab[key]
-            if (key in fks) assocs.push({ name: key, destId: widgets })
-          }
-        } */
-        if(key === 'tabs') {
-          prop.forEach(tab => {
-            //if(tab.pageId) assocs.push({ name: 'pageId', destId: tab.pageId })
-          })
-        }
-      }
-      return item
+  setPositionY() {
+    // Find the first step
+    const stepObj = this.children.find( item => {
+      return item.constructor.name === 'StepObject3d' // WARNING may not work after mimify
     })
-
-    // Create the objects
-    let zPos = WIDTH * 2
-    resArr.forEach(userData => {
-      let objectObj3d = new ObjectObject3d(userData);
-      selectableMeshArr.push(objectObj3d.children[0])
-      objectObj3d.translateZ(zPos)
-      this.add(objectObj3d)
-      zPos += WIDTH * 2
-    })
-
-    // If this class has objects, draw beam from here to the end
-    if (resArr.length) {
-      let points = []
-      points.push(new Vector3(0, 0, 0))
-      points.push(new Vector3(0, 0, WIDTH * 2 * resArr.length))
-      let beam = this.drawBeam(points, 'classConnectors')
-      beam.translateY(-HEIGHT / 4)
-      this.add(beam)
+    if (stepObj) {
+      // Tell first step to position its children
+      const maxXYVec = stepObj.setPositionY(0);
+      stepObj.translateX(-maxXYVec.x / 2); // move first step to the left
+      stepObj.translateY( -HEIGHT * 4); // move first step down
     }
-
-
-    let objectPronmises = []
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        // TODO whats going on here?
-        //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
-        //if(!subClassObj3d.drawObjects) console.log(this)
-        if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, getTheData, queryId ))
-      }
-    });
-    return Promise.all(objectPronmises);
-
   }
 
-  drawObjectAssocs(glModelObject3D) {
-    this.children.forEach((subClassObj3d) => {
-      if (subClassObj3d.type === 'Object3D') {
-        if(subClassObj3d.drawObjectAssocs)
-        subClassObj3d.drawObjectAssocs(glModelObject3D)
-      }
-    });
+
+  drawStepConnectors(glModelObject3D) {
+
+    // Find the first step
+    const stepObj3d = this.children.find( item => {
+      return item.constructor.name === 'StepObject3d'  // WARNING may not work after mimify
+    })
+
+    if(!stepObj3d) return
+
+    // Get positions in world coordinates
+    let sourcePos = new Vector3()
+    this.getWorldPosition(sourcePos)
+    let destPos = new Vector3()
+    stepObj3d.getWorldPosition(destPos)
+
+    // Get the difference vector
+    let difVec = destPos.clone()
+    difVec.sub(sourcePos)
+
+    const sourceBottom= this.getSidePos('bottom', new Vector3())
+    sourceBottom.setX(sourceBottom.x - WIDTH / 4)
+    const destLeft = this.getSidePos('left', difVec)
+
+    let points = []
+    points.push(sourceBottom) // move startpoint to the edge
+    points.push(new Vector3(sourceBottom.x, sourceBottom.y - HEIGHT, sourceBottom.z))
+    points.push(new Vector3(destLeft.x - WIDTH / 2, sourceBottom.y - HEIGHT, destLeft.z))
+    points.push(new Vector3(destLeft.x - WIDTH / 2, destLeft.y, destLeft.z))
+    points.push(destLeft)
+
+    this.add(this.drawTube(points, 'happy', '', true))
+
+    // Tell first step to draw its connectors
+    stepObj3d.drawStepConnectors(glModelObject3D, this)
+
   }
 
   getMesh() {
@@ -278,14 +130,6 @@ export default class ClassObject3d extends Object3D {
       .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
       .lineTo(x + RADIUS, y)
       .quadraticCurveTo(x, y, x, y + RADIUS)
-
-    /* shape.moveTo(x, y)
-      .lineTo(x + WIDTH / 4,  y + HEIGHT / 2)
-      .lineTo(x,              y + HEIGHT)
-      .lineTo(x + WIDTH *3/4, y + HEIGHT)
-      .lineTo(x + WIDTH     , y + HEIGHT / 2)
-      .lineTo(x + WIDTH *3/4, y ) */
-
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: 2, bevelThickness: 2 }

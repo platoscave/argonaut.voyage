@@ -73,8 +73,9 @@ export default {
 
   },
   async mounted() {
+    // TODO move to watch
     this.viewObj =  await this.getMaterializedView( this.viewId )
-    console.log(this.viewObj)
+    //console.log(this.viewObj)
   }
 };
 </script>

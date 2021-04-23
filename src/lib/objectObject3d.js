@@ -4,7 +4,7 @@ import modelColors from '../config/modelColors'
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
-export default class ObjectObject3d extends Object3D {
+export default class StepObject3d extends Object3D {
 
   constructor(userData) {
     super()
@@ -52,15 +52,6 @@ export default class ObjectObject3d extends Object3D {
       const points = this.addCorners(sourcePos, destPos) 
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
-/* 
-      let labelMesh = this.getTextMesh(assoc.name)
-      let textPos = new Vector3()
-      if (points[2]) textPos.lerpVectors(points[1], points[2], 0.5)
-      else textPos.lerpVectors(points[0], points[1], 0.5)
-      labelMesh.translateX(textPos.x)
-      labelMesh.translateY(textPos.y)
-      labelMesh.translateZ(textPos.z)
-      this.add(labelMesh) */
 
     }
 
@@ -139,19 +130,22 @@ export default class ObjectObject3d extends Object3D {
     const x = 0, y = 0
 
     let shape = new Shape()
+
     shape.moveTo(x, y)
-      .lineTo(x, y + HEIGHT / 2)
-      .lineTo(x + WIDTH / 2, y + HEIGHT)
-      .lineTo(x + WIDTH, y + HEIGHT / 2)
-      .lineTo(x + WIDTH, y)
+      .lineTo(x + WIDTH / 4,  y + HEIGHT / 2)
+      .lineTo(x,              y + HEIGHT)
+      .lineTo(x + WIDTH *3/4, y + HEIGHT)
+      .lineTo(x + WIDTH     , y + HEIGHT / 2)
+      .lineTo(x + WIDTH *3/4, y )
+
 
     // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
+    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: 2, bevelThickness: 2 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.label + " - 3d geometry"
+    geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { object: colorProp } = modelColors
+    const { [this.userData.classId]: colorProp } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

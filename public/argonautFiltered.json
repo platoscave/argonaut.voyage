@@ -236,7 +236,7 @@
               "type": "string",
               "readOnly": true
             },
-            "stateId": {
+            "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "mongoQuery": {
                 "selector": {
@@ -251,14 +251,14 @@
                 ],
                 "extendTo": "instances"
               },
-              "title": "State",
+              "title": "Step",
               "type": "string",
               "readOnly": true
             }
           },
           "required": [
             "action",
-            "stateId"
+            "stepId"
           ],
           "type": "object"
         },
@@ -284,7 +284,7 @@
                 ],
                 "extendTo": "instances"
               },
-              "title": "State History",
+              "title": "Step History",
               "type": "string",
               "readOnly": true
             }
@@ -674,7 +674,7 @@
     "parentId": "gzthjuyjca4s",
     "properties": {
       "stateDate": {
-        "title": "State Date",
+        "title": "Step Date",
         "type": "date",
         "readOnly": true
       },
@@ -683,7 +683,7 @@
         "type": "string",
         "readOnly": true
       },
-      "stateId": {
+      "stepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -698,7 +698,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "State",
+        "title": "Step",
         "type": "string",
         "readOnly": true
       },
@@ -846,7 +846,7 @@
                 ],
                 "extendTo": "instances"
               },
-              "title": "Authorized for State",
+              "title": "Authorized for Step",
               "type": "string",
               "readOnly": true
             }
@@ -1023,7 +1023,7 @@
               "type": "string",
               "readOnly": true
             },
-            "stateId": {
+            "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "mongoQuery": {
                 "selector": {
@@ -1038,7 +1038,7 @@
                 ],
                 "extendTo": "instances"
               },
-              "title": "State",
+              "title": "Step",
               "type": "string",
               "readOnly": true
             }
@@ -1067,7 +1067,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "Substate",
+        "title": "First Step",
         "type": "string",
         "readOnly": true
       },
@@ -1114,7 +1114,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "Substate",
+        "title": "Step",
         "type": "string",
         "readOnly": true
       },
@@ -1133,7 +1133,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "Substate",
+        "title": "First Step",
         "type": "string",
         "readOnly": true
       }
@@ -1881,7 +1881,7 @@
               "type": "string",
               "readOnly": true
             },
-            "stateId": {
+            "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "mongoQuery": {
                 "selector": {
@@ -1896,14 +1896,14 @@
                 ],
                 "extendTo": "instances"
               },
-              "title": "State",
+              "title": "Step",
               "type": "string",
               "readOnly": true
             }
           },
           "required": [
             "action",
-            "stateId"
+            "stepId"
           ],
           "type": "object"
         },
@@ -1926,7 +1926,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "Substate",
+        "title": "First Step",
         "type": "string",
         "readOnly": true
       }
@@ -2732,7 +2732,7 @@
     "nextStepIds": [
       {
         "action": "happy",
-        "stateId": "3edgchx5lgu3"
+        "stepId": "3edgchx5lgu3"
       },
       {
         "action": "reject"
@@ -2787,11 +2787,11 @@
     "nextStepIds": [
       {
         "action": "happy",
-        "stateId": "bavb2g1inh2t"
+        "stepId": "bavb2g1inh2t"
       },
       {
         "action": "unhappy",
-        "stateId": "h15wtpxaetki"
+        "stepId": "h15wtpxaetki"
       }
     ],
     "ownerId": "bikeshop1111"
@@ -2805,7 +2805,7 @@
     "nextStepIds": [
       {
         "action": "happy",
-        "stateId": "tfkyaytuac1g"
+        "stepId": "tfkyaytuac1g"
       },
       {
         "action": "unhappy"
@@ -2852,7 +2852,7 @@
     "nextStepIds": [
       {
         "action": "happy",
-        "stateId": "pvk5ngmorf4z"
+        "stepId": "pvk5ngmorf4z"
       }
     ],
     "ownerId": "bikeshop1111"
@@ -2866,11 +2866,11 @@
     "nextStepIds": [
       {
         "action": "happy",
-        "stateId": "uqefmsegqvhs"
+        "stepId": "uqefmsegqvhs"
       },
       {
         "action": "unhappy",
-        "stateId": "h15wtpxaetki"
+        "stepId": "h15wtpxaetki"
       }
     ],
     "ownerId": "bikeshop1111"
@@ -3144,7 +3144,7 @@
           "readOnly": false
         }
       },
-      "substateId": {
+      "firstStepId": {
         "readOnly": false
       }
     },
@@ -3292,7 +3292,7 @@
     "mongoQuery": {
       "manyToOneArrayProp": "nextStepIds",
       "selector": {
-        "_id": "$stateId"
+        "_id": "$stepId"
       },
       "fields": [
         "_id",
