@@ -45,16 +45,9 @@ export default {
         first: true,
       };
     },
-    /* viewObj: function () {
-      return {
-        database: "argonaut",
-        selector: { _id: this.viewId},
-        first: true,
-      };
-    }, */
   },
   methods: {
-
+    // TODO async await
     onChange(newDataObj) {
       this.$refs["schemaForm"].validate().then(
         () => {
@@ -73,7 +66,7 @@ export default {
 
   },
   async mounted() {
-    // TODO move to watch
+    // TODO move to computed
     this.viewObj =  await this.getMaterializedView( this.viewId )
     //console.log(this.viewObj)
   }

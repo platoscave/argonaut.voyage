@@ -1,14 +1,12 @@
+import WidgetMixin from "../../lib/widgetMixin";
+
 export default {
   name: "ar-navigation-menu",
+  mixins: [WidgetMixin],
+
   props: {
     hashLevel: Number,
     menuId: String,
-  },
-
-  data: function () {
-    return {
-      nextLevelPageId: '',
-    };
   },
 
   pouch: {
@@ -16,6 +14,13 @@ export default {
       return {
         database: "argonaut",
         selector: { _id: this.menuId },
+        first: true,
+      };
+    },
+    currentObj: function () {
+      return {
+        database: "argonaut",
+        selector: { _id: this.selectedObjId },
         first: true,
       };
     },
@@ -37,7 +42,7 @@ export default {
         }
       }
 
-      return findIndexPathForPageId(this.nextLevelPageId, this.menuObj.menuArr, '')
+      return findIndexPathForPageId( this.nextLevelPageId, this.menuObj.menuArr, '')
     }
   },
 
@@ -47,11 +52,21 @@ export default {
     const labelElement = (item, firstLevel) => {
       let labelArr = []
 
-      if (item.icon) labelArr.push(createElement('i', { class: item.icon }))
+
+      // TODO replace icons in menu then remove the else branch
+      if (item.icon) {
+        if (item.icon.startsWith('data:image/')) {
+          labelArr.push(createElement("img", {
+            attrs: { src: this.currentObj.icon },
+            style: { "vertical-align": "middle" }
+          }))
+        }
+        else labelArr.push(createElement('i', { class: item.icon }))
+      }
 
       let style = {}
-      if (firstLevel) style = { style: { 'font-weight': 'bold'} }
-      else style = { style: { 'left-padding': '48px'} }
+      if (firstLevel) style = { style: { 'font-weight': 'bold' } }
+      else style = { style: { 'left-padding': '48px' } }
 
       labelArr.push(createElement('span', style, item.name))
 
@@ -83,7 +98,7 @@ export default {
             },
             on: {
               click: () => {
-                this.updateNextLevelHashSelectedObjId(item.pageId)
+                this.updateNextLevelHash( { _id: item.nextLevelSelectedObjId, pageId: item.pageId })
               }
             }
           }, labelElement(item, index === '' ? true : false)))
@@ -100,57 +115,9 @@ export default {
         'unique-opened': true,
         'default-active': this.defaultActive
       },
-    }, [createElement('h3', { style: { 'text-align': 'center' } }, this.menuObj.name),
+    }, [createElement('h3', { style: { 'text-align': 'center' } }, labelElement(this.currentObj)),
     ...createSubMenu(this.menuObj.menuArr, '')])
   },
 
-// TODO Replace with widgetMixin
-// How do we deal with selectedObjId. Should it be fixed of dependant on hash
-// Our selectedObjId then needs to be copied to next level
-
-  methods: {
-
-    // Insert selectObjId and pageId into next level hash
-    updateNextLevelHashSelectedObjId(pageId) {
-      let hashArr = window.location.hash.split("/");
-
-      let ourPageStateStr = hashArr[this.hashLevel + 1];
-      let ourPageStateArr = ourPageStateStr.split(".");
-      let ourSelectObjId = ourPageStateArr[0]
-
-      let nextPageStateStr = hashArr[this.hashLevel + 2];
-      if (!nextPageStateStr) nextPageStateStr = "";
-      let nextPageStateArr = nextPageStateStr.split(".");
-      nextPageStateArr[0] = ourSelectObjId; //copy our selectedObjId
-      if (pageId && nextPageStateArr[1] !== pageId) {
-        nextPageStateArr[1] = pageId;
-        // Remove tab if there is one. Page find its own tab
-        nextPageStateArr.splice(2);
-        // Remove erveything that comes after the next level as it no longer valid
-        hashArr.splice(this.hashLevel + 3);
-      }
-      nextPageStateStr = nextPageStateArr.join(".");
-      hashArr[this.hashLevel + 2] = nextPageStateStr;
-      //TODO remove following levels, fill with defaults
-      let hash = hashArr.join("/");
-      window.location.hash = hash;
-    },
-
-    handleHashChange: function () {
-      const nextLevelStr = window.location.hash.split("/")[this.hashLevel + 2];
-      if (nextLevelStr) {
-        const nextLevelArr = nextLevelStr.split(".");
-        this.nextLevelPageId = nextLevelArr[1]
-      }
-    },
-  },
-
-  mounted() {
-    window.addEventListener("hashchange", this.handleHashChange, false);
-    this.handleHashChange();
-  },
-  beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false);
-  },
 };
 

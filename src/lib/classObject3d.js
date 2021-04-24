@@ -134,7 +134,7 @@ export default class ClassObject3d extends Object3D {
       const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
 
       const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      if (!destObj3d) console.log('Assoc destination not found: ' + assoc)
+      if (!destObj3d) console.log('Assoc destination not found: ' + assoc.destId)
       if (!destObj3d) continue
 
       // Get positions in world coordinates

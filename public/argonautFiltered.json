@@ -3320,16 +3320,19 @@
       {
         "name": "argonaut.one",
         "icon": "el-icon-s-home",
+        "nextLevelSelectedObjId": "argonautdot1" ,
         "pageId": ""
       },
       {
         "name": "ACME Bicyle Shop",
         "icon": "el-icon-s-home",
+        "nextLevelSelectedObjId": "bikeshop1111" ,
         "pageId": "uhekisbbbjh5"
       },
       {
         "name": "ACME Healthcare Clinic",
         "icon": "el-icon-s-home",
+        "nextLevelSelectedObjId": "clinic111111" ,
         "pageId": ""
       },
       {
@@ -3342,7 +3345,6 @@
   {
     "_id": "ltsslbsdftpg",
     "docType": "object",
-    "name": "ACME Bicyle Shop",
     "description": "<p></p>",
     "classId": "inbumnx4vx5w",
     "ownerId": "bikeshop1111",

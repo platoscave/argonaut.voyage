@@ -9,13 +9,28 @@ export default {
     }
   },
   methods: {
+
     // Insert selectObjId and pageId into next level hash
     updateNextLevelHash(nodeData) {
-      let hashArr = window.location.hash.split("/");
+      const hashArr = window.location.hash.split("/");
+
+      // Get our selectedObjId in case we need it later on
+      const ourPageStateStr = hashArr[this.hashLevel + 1];
+      const ourPageStateArr = ourPageStateStr.split(".");
+      const ourSelectObjId = ourPageStateArr[0]
+
+      // Get next level
       let nextPageStateStr = hashArr[this.hashLevel + 2];
       if (!nextPageStateStr) nextPageStateStr = "";
-      let nextPageStateArr = nextPageStateStr.split(".");
-      nextPageStateArr[0] = nodeData._id;
+      const nextPageStateArr = nextPageStateStr.split(".");
+
+      // Next level selectedObjId
+      // If nodeData has an id use it, otherwise use this level selectedObjId
+      if(nodeData._id) nextPageStateArr[0] = nodeData._id
+      else nextPageStateArr[0] = ourSelectObjId
+
+      // Next level pageId
+      // If nodeData has a pageId and it is different than the curren one, replace it
       if (nodeData.pageId && nextPageStateArr[1] !== nodeData.pageId) {
         nextPageStateArr[1] = nodeData.pageId;
         // Remove tab if there is one. Page will find its own tab
@@ -23,9 +38,11 @@ export default {
         // Remove erveything that comes after the next level as it no longer valid
         hashArr.splice(this.hashLevel + 3);
       }
+
+      // Write back to window location hash
       nextPageStateStr = nextPageStateArr.join(".");
       hashArr[this.hashLevel + 2] = nextPageStateStr;
-      let hash = hashArr.join("/");
+      const hash = hashArr.join("/");
       window.location.hash = hash;
     },
 

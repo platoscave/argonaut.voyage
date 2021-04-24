@@ -6,7 +6,7 @@ module.exports = {
     color: 0x8904B1,
   },
   object: {
-    color: 0x00A300,
+    color: 0x008000,
   },
   label: {
     color: 0xEFEFEF,
