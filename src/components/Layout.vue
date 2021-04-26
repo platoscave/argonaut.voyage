@@ -1,9 +1,19 @@
 <template>
   <div v-if="pageObj">
+
+    <!-- Single page content -->
+    <div class="ar-full-height" v-if="!pageObj.divider || pageObj.divider === 'None'">
+      <ar-page
+        class="ar-full-height"
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+      ></ar-page>
+    </div>
+
     <!-- Master - Slave content -->
     <div
       class="ar-full-height"
-      v-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
+      v-else-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
     >
       <!-- split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'" -->
       <rs-panes
@@ -30,12 +40,38 @@
     </div>
 
     <!-- Studio -->
-    <div class="ar-full-height" v-else-if="pageObj.divider === 'Studio'">
-      <ar-class-model
-        class="diagram"
-        v-bind:hash-level="hashLevel"
-        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-class-model>
+    <div class="ar-full-height" v-else>
+        <ar-process-model
+          class="diagram"
+          v-bind:hash-level="hashLevel"
+          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+        ></ar-process-model>
+
+<!-- 
+      <div class="ar-full-height" v-if="pageObj.divider === 'Class Model'">
+        <ar-class-model
+          class="diagram"
+          v-bind:hash-level="hashLevel"
+          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+        ></ar-class-model>
+      </div>
+      <div class="ar-full-height" v-else-if="pageObj.divider === 'Process Model'">
+        <ar-process-model
+          class="diagram"
+          v-bind:hash-level="hashLevel"
+          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+        ></ar-process-model>
+      </div>
+      <div class="ar-full-height" v-else-if="pageObj.divider === 'Organization'">
+        <ar-organization-model
+          class="diagram"
+          v-bind:hash-level="hashLevel"
+          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+        ></ar-organization-model>
+      </div>
+
+ -->
+
       <!-- Master content -->
       <div
         class="drawer-left"
@@ -74,15 +110,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Single page content -->
-    <div class="ar-full-height" v-else>
-      <ar-page
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:tabs="pageObj.tabs"
-      ></ar-page>
-    </div>
   </div>
 </template>
 
@@ -91,6 +118,7 @@
 import ResSplitPane from "vue-resize-split-pane";
 import ClassModel from "./widgets/ClassModel.vue";
 import ProcessModel from "./widgets/ProcessModel.vue";
+import OrganizationModel from "./widgets/OrganizationModel.vue";
 
 export default {
   name: "ar-layout",
@@ -98,6 +126,7 @@ export default {
     "rs-panes": ResSplitPane,
     "ar-class-model": ClassModel,
     "ar-process-model": ProcessModel,
+    "ar-organization-model": OrganizationModel,
   },
   props: {
     hashLevel: Number,

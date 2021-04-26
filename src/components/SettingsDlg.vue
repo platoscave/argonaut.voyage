@@ -45,17 +45,17 @@ export default {
         await this.$pouch.bulkDocs(argonautData);
         await this.$pouch.createIndex({
           index: {
-            fields: ["parentId"],
+            fields: ["name", "title", "parentId"],
           },
         });
         await this.$pouch.createIndex({
           index: {
-            fields: ["classId"],
+            fields: ["name", "title", "classId"],
           },
         });
         await this.$pouch.createIndex({
           index: {
-            fields: ["ownerId"],
+            fields: ["name", "title", "ownerId"],
           },
         });
         await this.$message({

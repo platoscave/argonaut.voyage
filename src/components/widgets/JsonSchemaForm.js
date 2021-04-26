@@ -103,11 +103,17 @@ export default {
           return this.createStringArrayElements(createElement, property, dataObj, propertyName)
         }
 
-        else return [createElement('div', 'Unknown array type: ' + property.items.type)]
       }
 
-      // Unknown
-      else return [createElement('div', 'Unkown property type: ' + property.type)]
+      // unknown
+      return [createElement(
+        'highlight-code', 
+        {
+          attrs: { lang: 'json'},
+          class: "highlight-code",
+        },
+        JSON.stringify(dataObj[propertyName], null, 4)
+      )]
 
     }
 
@@ -217,11 +223,11 @@ export default {
     }
 
 
-    //
+    // START HERE
     // Create the form
     //
     let subFormElementsArr = generateSubform(this.schema.properties, this.schema.required, this.value)
-
+    subFormElementsArr.splice(0, 0, createElement('div', {style: {'font-size': 'smaller'}}, this.schema._id))
     // insert a header title, if there is one
     if (this.schema.title) subFormElementsArr.splice(0, 0, createElement('h3', labelElement(this.schema)))
 
@@ -232,6 +238,7 @@ export default {
         labelWidth: "150px",
         labelPosition: 'left',
         size: "small",
+        'show-message': false
       },
       class: 'form-class'
     }, subFormElementsArr)

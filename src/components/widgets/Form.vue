@@ -10,6 +10,12 @@
       v-on:change="onChange"
     >
     </ar-jsonschema-form>
+    <el-button
+      class="fab"
+      icon="el-icon-edit"
+      circle
+      @click="readonly = !readonly"
+    ></el-button>
   </div>
 </template>
 
@@ -31,7 +37,7 @@ export default {
   data() {
     return {
       selectedObjId: null,
-      readonly: false,
+      readonly: true,
       omitEmptyFields: false,
       valid: false,
       viewObj: {}
@@ -75,6 +81,15 @@ export default {
 
 
 <style scoped>
+.fab {
+  position: absolute;
+  margin: 10px;
+  bottom: 0px;
+  right: 0;
+  color: #eee;
+  background: #e91e63;
+  z-index: 20;
+}
 pre {
   text-align: left;
 }
@@ -82,9 +97,13 @@ pre {
   max-width: 750px;
   padding: 10px;
 }
-/* doesnt work */
+/* doesnt work 
 .highlight-code >>> code.hljs .json{
   background: inherit;
+}*/
+.json-schema-form  >>> code {
+  background:  #ffffff08;
+  line-height: 20px;;
 }
 .json-schema-form >>> .control-background {
   background-color: #ffffff08;

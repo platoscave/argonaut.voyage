@@ -620,7 +620,7 @@
           },
           "producer": {
             "title": "Producer",
-            "type": "Array",
+            "type": "array",
             "readOnly": true
           },
           "staked": {
@@ -1048,7 +1048,7 @@
           ],
           "type": "object"
         },
-        "title": "Next States",
+        "title": "Next Steps",
         "type": "array",
         "readOnly": true
       },
@@ -1149,22 +1149,15 @@
     "parentId": "nrioirgelhpi",
     "pageId": "icfdprzi442m",
     "properties": {
-      "accordionOrTab": {
-        "default": "Tabs",
-        "enum": [
-          "Accordions",
-          "Tabs"
-        ],
-        "title": "Accordian or Tab",
-        "type": "string",
-        "readOnly": true
-      },
       "divider": {
         "default": "None",
         "enum": [
           "None",
           "Vertical",
-          "Horizontal"
+          "Horizontal",
+          "Class Model",
+          "Process Model",
+          "Organization"
         ],
         "title": "Divider",
         "type": "string",
@@ -1232,6 +1225,7 @@
                       "Navigation Menu",
                       "Page Editor",
                       "Process Model",
+                      "Raw",
                       "Table",
                       "Tree"
                     ],
@@ -1560,7 +1554,7 @@
   {
     "_id": "q234ooehrk5v",
     "docType": "class",
-    "title": "Queries",
+    "title": "Mongo Queries",
     "description": "<p>Queriwes used by views</p>",
     "parentId": "nrioirgelhpi",
     "pageId": "qcd1eefe432r",
@@ -1621,56 +1615,37 @@
         "type": "string",
         "readOnly": true
       },
-      "where": {
-        "items": {
-          "additionalProperties": false,
-          "properties": {
-            "docProp": {
-              "maxLength": 1000,
-              "minLength": 0,
-              "title": "Document Property",
-              "type": "string",
-              "readOnly": true
-            },
-            "operator": {
-              "enum": [
-                "eq",
-                "in",
-                "instances",
-                "subclasses",
-                "litteral"
-              ],
-              "title": "Operator",
-              "type": "string",
-              "readOnly": true
-            },
-            "value": {
-              "maxLength": 1000,
-              "minLength": 0,
-              "title": "Value",
-              "type": "string",
-              "readOnly": true
-            },
-            "valuePath": {
-              "maxLength": 1000,
-              "minLength": 0,
-              "title": "Value Path",
-              "type": "string",
-              "readOnly": true
-            },
-            "mapValue": {
-              "maxLength": 1000,
-              "minLength": 0,
-              "title": "Map Value",
-              "type": "string",
-              "readOnly": true
-            }
+      "mongoQuery": {
+        "properties": {
+          "selector": {
+            "title": "Selector",
+            "type": "string"
           },
-          "title": "Where",
-          "type": "object"
+          "fields": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Fields",
+            "type": "array"
+          },
+          "sort": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sort",
+            "type": "array"
+          },
+          "extendTo": {
+            "enum": [
+              "Instances",
+              "Subclasses"
+            ],
+            "title": "Extend To",
+            "type": "string",
+            "readOnly": true
+          }
         },
-        "title": "And Array",
-        "type": "array"
+        "type": "object"
       }
     },
     "type": "object"
@@ -1721,6 +1696,7 @@
     "title": "Menus",
     "description": "<p>Custom Menus/p>",
     "parentId": "nrioirgelhpi",
+    "pageId": "ewpdfwn1bghg",
     "properties": {
       "menuArr": {
         "items": {
@@ -1799,19 +1775,18 @@
                     "title": "Icon",
                     "type": "string",
                     "readOnly": true
-                  },
-                  "subMenu": {}
+                  }
                 },
                 "type": "object"
               },
               "title": "Menu Items",
-              "type": "Array"
+              "type": "array"
             }
           },
           "type": "object"
         },
         "title": "Menu Items",
-        "type": "Array"
+        "type": "array"
       }
     },
     "type": "object"
@@ -2929,9 +2904,9 @@
   {
     "_id": "4lk3hxyyfac3",
     "docType": "object",
-    "name": "Process Umiverse Tree Page",
+    "name": "Process Umiverse Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Studio",
+    "divider": "Class Model",
     "ownerId": "argonautdot1",
     "tabs": [
       {
@@ -2949,9 +2924,9 @@
   {
     "_id": "dsimhnp5euui",
     "docType": "object",
-    "name": "Process Tree Page",
+    "name": "Process Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Studio",
+    "divider": "Process Model",
     "ownerId": "argonautdot1",
     "tabs": [
       {
@@ -2967,10 +2942,29 @@
     ]
   },
   {
+    "_id": "4q5nx5ek5gww",
+    "docType": "object",
+    "name": "Organization Model Tree Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Organization",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Process Model",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Organization Tree",
+            "viewId": "pepmfz4be5uu"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "24cnex2saye1",
     "docType": "object",
     "name": "Class Model Page",
-    "accordionOrTab": "Tabs",
     "classId": "pejdgrwd5qso",
     "divider": "None",
     "ownerId": "argonautdot1",
@@ -2980,7 +2974,6 @@
         "widgets": [
           {
             "displayType": "Form",
-            "name": "Class Home Page",
             "viewId": "5ucwmdby4wox"
           }
         ]
@@ -2989,9 +2982,7 @@
         "name": "Raw",
         "widgets": [
           {
-            "displayType": "Form",
-            "name": "Class Home Page",
-            "viewId": "5ucwmdby4wox"
+            "displayType": "Raw"
           }
         ]
       }
@@ -3016,7 +3007,140 @@
       }
     ]
   },
-
+  {
+    "_id": "2vnljdsieyjw",
+    "docType": "object",
+    "name": "Step Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Process",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "State Form",
+            "viewId": "wfejmbcgmmpm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "kdeacjjhiaym",
+    "docType": "object",
+    "name": "Off Balance Sheet Resources Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Vertical",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Resources Tree",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Resources Tree",
+            "viewId": "golecsaxijss"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "ewpdfwn1bghg",
+    "docType": "object",
+    "name": "Menu Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Menu Form",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Menu",
+            "viewId": "men1b5cmjprt"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "icfdprzi442m",
+    "docType": "object",
+    "name": "Page Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Pages",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Page Form",
+            "viewId": "mdqg4rkzezxa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "qwhjia43h1s4",
+    "docType": "object",
+    "name": "View Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Views",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "View Form",
+            "viewId": "sudhaobvgvq3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "qcd1eefe432r",
+    "docType": "object",
+    "name": "Query Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Query",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Query Form",
+            "viewId": "dsae2kl342hk"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "nnksb2zyphob",
+    "docType": "object",
+    "name": "Document Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Documents",
+        "widgets": [
+          {
+            "displayType": "Document",
+            "name": "Document Form",
+            "viewId": "wh1nnojktarq"
+          }
+        ]
+      }
+    ]
+  },
 
 
   {
@@ -3042,8 +3166,8 @@
   {
     "_id": "5ucwmdby4wox",
     "docType": "object",
-    "name": "Standard Model Form View",
-    "description": "<p>Descibes home page of the organization</p>",
+    "name": "Class Form View",
+    "title": "Class Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3083,6 +3207,25 @@
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
+        "type": "string",
+        "readOnly": false
+      },
+      "pageId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "mongoQuery": {
+          "selector": {
+            "classId": "pejdgrwd5qso"
+          },
+          "fields": [
+            "_id",
+            "name"
+          ],
+          "sort": [
+            "name"
+          ],
+          "extendTo": "instances"
+        },
+        "title": "Page",
         "type": "string",
         "readOnly": false
       },
@@ -3126,6 +3269,7 @@
     "_id": "qtubgorhvukr",
     "docType": "object",
     "name": "Process Form View",
+    "title": "Process Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3151,6 +3295,269 @@
     "baseClassId": "dwl1kwhalwj4",
     "type": "object"
   },
+  {
+    "_id": "golecsaxijss",
+    "docType": "object",
+    "name": "Off Balance Sheet Resources Tree View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "queryId": "szyxk43kmjsg",
+    "type": "object"
+  },
+  {
+    "_id": "wfejmbcgmmpm",
+    "docType": "object",
+    "name": "Step Form View",
+    "title": "Step Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {},
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "nextStepIds": {
+        "items": {
+          "properties": {
+            "action": {
+              "readOnly": false
+            },
+            "stepId": {
+              "readOnly": false
+            }
+          }
+        }
+      },
+      "firstStepId": {
+        "readOnly": false
+      },
+      "execute": {
+        "readOnly": false
+      }
+    },
+    "baseClassId": "dlpwvptczyeb",
+    "type": "object"
+  },
+  {
+    "_id": "men1b5cmjprt",
+    "docType": "object",
+    "name": "Menu Form View",
+    "title": "Menu Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {},
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "menuArr": {
+        "properties": {
+          "name": {
+            "readOnly": false
+          },
+          "pageId": {
+            "readOnly": false
+          },
+          "icon": {
+            "readOnly": false
+          },
+          "menuArr": {
+            "properties": {
+              "name": {
+                "readOnly": false
+              },
+              "pageId": {
+                "readOnly": false
+              },
+              "icon": {
+                "readOnly": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "baseClassId": "inbumnx4vx5w",
+    "type": "object"
+  },
+  {
+    "_id": "mdqg4rkzezxa",
+    "docType": "object",
+    "name": "Page Form View",
+    "title": "Page Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {
+        "title": "_id",
+        "type": "string"
+      },
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "divider": {
+        "readOnly": false
+      },
+      "tabs": {
+        "items": {
+          "properties": {
+            "name": {
+              "readOnly": false
+            },
+            "pageId": {
+              "readOnly": false
+            },
+            "widgets": {
+              "items": {
+                "properties": {
+                  "description": {
+                    "readOnly": false
+                  },
+                  "displayType": {
+                    "readOnly": false
+                  },
+                  "name": {
+                    "readOnly": false
+                  },
+                  "viewId": {
+                    "readOnly": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "baseClassId": "pejdgrwd5qso",
+    "type": "object"
+  },
+  {
+    "_id": "sudhaobvgvq3",
+    "docType": "object",
+    "name": "View Form View",
+    "title": "View Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {
+        "title": "_id",
+        "type": "string"
+      },
+      "description": {
+        "readOnly": false
+      },
+      "name": {
+        "readOnly": false
+      },
+      "subQueryIds": {
+        "readOnly": false
+      },
+      "baseClassId": {
+        "readOnly": false
+      },
+      "required": {
+        "readOnly": false
+      },
+      "properties": {
+        "readOnly": false
+      }
+    },
+    "baseClassId": "pylvseoljret",
+    "type": "object"
+  },
+  {
+    "_id": "dsae2kl342hk",
+    "docType": "object",
+    "name": "Query Form View",
+    "title": "Query Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {
+        "title": "_id",
+        "type": "string"
+      },
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "icon": {
+        "readOnly": false
+      },
+      "pageId": {
+        "readOnly": false
+      },
+      "mogoQuery": {
+        "items": {
+          "properties": {
+            "selector": {
+              "readOnly": false
+            },
+            "fields": {
+              "readOnly": false
+            },
+            "sort": {
+              "readOnly": false
+            },
+            "extendTo": {
+              "readOnly": false
+            }
+          }
+        }
+      },
+      "subQueryIds": {
+        "items": {
+          "properties": {
+            "queryId": {
+              "readOnly": false
+            }
+          }
+        }
+      }
+    },
+    "baseClassId": "q234ooehrk5v",
+    "type": "object"
+  },
+  {
+    "_id": "wh1nnojktarq",
+    "docType": "object",
+    "name": "Document Form View",
+    "title": "Paragraph Details",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "subParagraphIds": {
+        "items": {
+          "properties": {
+            "documentId": {
+              "readOnly": false
+            }
+          }
+        }
+      }
+    },
+    "baseClassId": "siutzqsj5dgc",
+    "type": "object"
+  },
 
 
 
@@ -3174,7 +3581,8 @@
         "_id",
         "title",
         "docType",
-        "properties"
+        "properties",
+        "parentId"
       ]
     }
   },
@@ -3198,7 +3606,8 @@
         "_id",
         "title",
         "docType",
-        "properties"
+        "properties",
+        "parentId"
       ],
       "sort": [
         "title"
@@ -3211,7 +3620,6 @@
     "name": "Objects Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
-    "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "mongoQuery": {
       "selector": {
@@ -3221,7 +3629,8 @@
         "_id",
         "name",
         "docType",
-        "properties"
+        "properties",
+        "classId"
       ],
       "sort": [
         "name"
@@ -3234,7 +3643,6 @@
     "name": "Root Process Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
-    "pageId": "z2xnjsqcs5bj",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "subQueryIds": [
       "aiw54neadp14"
@@ -3258,7 +3666,6 @@
     "name": "First Step Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
-    "pageId": "24cnex2saye1",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
@@ -3284,7 +3691,6 @@
     "name": "Next Steps Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautdot1",
-    "pageId": "24cnex2saye1",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
@@ -3299,6 +3705,81 @@
         "name",
         "classId",
         "nextStepIds"
+      ],
+      "sort": [
+        "name"
+      ]
+    }
+  },
+  {
+    "_id": "szyxk43kmjsg",
+    "docType": "object",
+    "name": "Off Balance Sheet Classes Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "pageId": "24cnex2saye1",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "subQueryIds": [
+      "kmcvgaw2jtjw",
+      "u1pryedcjljz"
+    ],
+    "mongoQuery": {
+      "selector": {
+        "parentId": "nrioirgelhpi"
+      },
+      "fields": [
+        "_id",
+        "title",
+        "docType",
+        "properties",
+        "parentId"
+      ]
+    }
+  },
+  {
+    "_id": "kmcvgaw2jtjw",
+    "docType": "object",
+    "name": "Off Balance Sheet Subclasses Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "pageId": "24cnex2saye1",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "subQueryIds": [
+      "kmcvgaw2jtjw",
+      "u1pryedcjljz"
+    ],
+    "mongoQuery": {
+      "selector": {
+        "parentId": "$fk"
+      },
+      "fields": [
+        "_id",
+        "title",
+        "docType",
+        "properties",
+        "parentId"
+      ],
+      "sort": [
+        "title"
+      ]
+    }
+  },
+  {
+    "_id": "u1pryedcjljz",
+    "docType": "object",
+    "name": "Off Balance Sheet Objects Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "mongoQuery": {
+      "selector": {
+        "classId": "$fk"
+      },
+      "fields": [
+        "_id",
+        "name",
+        "docType",
+        "properties",
+        "classId"
       ],
       "sort": [
         "name"
@@ -3345,6 +3826,7 @@
   {
     "_id": "ltsslbsdftpg",
     "docType": "object",
+    "name": "Generic Menu",
     "description": "<p></p>",
     "classId": "inbumnx4vx5w",
     "ownerId": "bikeshop1111",
@@ -3424,12 +3906,12 @@
             "pageId": "dsimhnp5euui"
           },
           {
-            "name": "Page Model",
-            "pageId": ""
+            "name": "Organization",
+            "pageId": "4q5nx5ek5gww"
           },
           {
-            "name": "Organization",
-            "pageId": ""
+            "name": "App Resources",
+            "pageId": "kdeacjjhiaym"
           }
         ]
       }

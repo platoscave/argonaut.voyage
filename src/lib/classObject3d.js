@@ -160,14 +160,6 @@ export default class ClassObject3d extends Object3D {
 
       this.add(this.drawTube(points, assoc.name, assoc.name, true))
 
-/*       let labelMesh = this.getTextMesh(assoc.name)
-      let textPos = new Vector3()
-      textPos.lerpVectors(points[1], points[2], 0.5)
-      labelMesh.translateX(textPos.x)
-      labelMesh.translateY(textPos.y)
-      labelMesh.translateZ(textPos.z)
-      this.add(labelMesh) */
-
     }
     this.children.forEach((subClassObj3d) => {
       if (subClassObj3d.type === 'Object3D') {

@@ -30,7 +30,13 @@ export default {
       else nextPageStateArr[0] = ourSelectObjId
 
       // Next level pageId
-      // If nodeData has a pageId and it is different than the curren one, replace it
+      if(!nodeData.pageId) {
+        // Remove pageId and tab if there is one. Page will find its own tab
+        nextPageStateArr.splice(1);
+        // Remove erveything that comes after the next level as it no longer valid
+        hashArr.splice(this.hashLevel + 3);
+      }
+      // If nodeData has a pageId and it is different than the current one, replace it
       if (nodeData.pageId && nextPageStateArr[1] !== nodeData.pageId) {
         nextPageStateArr[1] = nodeData.pageId;
         // Remove tab if there is one. Page will find its own tab

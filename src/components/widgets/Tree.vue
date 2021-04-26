@@ -13,7 +13,6 @@
       @node-click="updateNextLevelHash"
       @node-expand="handleNodeExpand"
       @node-collapse="handleNodeCollapse"
-      @node-contextmenu="nodeContextmenu"
       draggable
       @node-drag-start="handleDragStart"
       @node-drag-enter="handleDragEnter"
@@ -91,6 +90,26 @@ export default {
 
     async loadNode(node, resolve) {
 
+      // Get PageId or Icon from item anscestors
+      const getProp = async (id, prop) => {
+        const classObj = await this.$pouch.get(id)
+        if(classObj[prop]) return classObj[prop]
+        return getProp(classObj.parentId, prop)
+      }
+      // For each resArr, Get PageId or Icon from item anscestors
+      const getGetPropertyFromAnscetors = async (resArr, prop) => {
+        let promisesArr = []
+        resArr.forEach(item => {
+          if(item[prop]) promisesArr.push(item[prop])
+          else promisesArr.push(getProp(item.classId, prop))
+        })
+        const propArr = await Promise.all(promisesArr);
+        resArr.forEach( (item, idx) => {
+          item[prop] = propArr[idx]
+        })
+      }
+
+
       try {
         // root level
         if (node.level === 0) {
@@ -98,6 +117,11 @@ export default {
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
           const resArr = await this.getTheData(this.viewObj.queryId, node.data);
+
+          // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
+          getGetPropertyFromAnscetors(resArr, 'pageId')
+          getGetPropertyFromAnscetors(resArr, 'icon')
+
           resolve(resArr);
         }
         if (node.level > 0) {
@@ -107,7 +131,13 @@ export default {
               return this.getTheData(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
-            resolve(resArr.flat());
+            let flatResArr = resArr.flat()
+
+            // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
+            getGetPropertyFromAnscetors(flatResArr, 'pageId')
+            getGetPropertyFromAnscetors(flatResArr, 'icon')
+
+            resolve(resArr.flat())
           } else resolve([]);
         }
       } catch (err) {
@@ -129,11 +159,6 @@ export default {
       ]);
     },
 
-    nodeContextmenu(event, nodeObject, nodeProperty, treeNode) {
-      //event, node object corresponding to the node clicked, node property of TreeNode, TreeNode itself
-      console.log(event, nodeObject, nodeProperty, treeNode);
-      // See https://medium.com/@akumaisaacakuma/how-to-create-custom-context-menu-in-vue-970e67059532
-    },
 
     // The tree node expands, update page settings
     handleNodeExpand(data) {

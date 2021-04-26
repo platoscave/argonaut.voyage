@@ -34,6 +34,7 @@ export default {
       const executeQuery = async (queryObj, resolveObj) => {
         // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
         delete queryObj.mongoQuery.sort;
+        //if(queryObj.mongoQuery.sort && queryObj.mongoQuery.sort[0] === 'title') delete queryObj.mongoQuery.sort;
 
         const resolvedMongoQuery = resolveQueryVariables(queryObj.mongoQuery, resolveObj)
         if (!resolvedMongoQuery) return [] // invalid query, ignore
@@ -41,7 +42,7 @@ export default {
         // Execute the mongoQuery
         const results = await this.$pouch.find(resolvedMongoQuery)
 
-        return results.docs.map((item) => {
+        return results.docs.map( (item) => {
           item.label = item.title ? item.title : item.name;
           if (queryObj.subQueryIds) {
             item.subQueryIds = queryObj.subQueryIds;
@@ -50,10 +51,9 @@ export default {
             item.isLeaf = false;
           }
           // If the query retreives an icon, use it. Otherwise use the query icon.
-          // TODO if the query reteives an empty icon, ask the object anscestors for an icon
           if (!item.icon) item.icon = queryObj.icon;
           // If the query retreives a pageId, use it. Otherwise use the query pageId.
-          if (!item.pageId) item.pageId = queryObj.pageId;
+          if (!item.pageId) item.pageId = queryObj.pageId
           return item;
         })
       }
@@ -130,7 +130,7 @@ export default {
     async getMaterializedView(viewId) {
 
       const smartMerge = (viewObj, classObj) => {
-
+        
         if (viewObj.properties) {
           // The the order and presence of viewObj properties is leading
           Object.keys(viewObj.properties).forEach(propName => {

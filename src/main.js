@@ -22,6 +22,21 @@ PouchDB.plugin(pouchdbLiveFind)
 PouchDB.plugin(pouchdbUpsert)
 
 
+import VueHighlightJS from 'vue-highlight.js';
+// Highlight.js languages (Only required languages)
+import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import xml from 'highlight.js/lib/languages/xml';
+import 'highlight.js/styles/vs2015.css';
+Vue.use(VueHighlightJS, {
+	// Register only languages that you want
+	languages: {
+    javascript,
+    json,
+    xml
+	}
+});
+
 
 Vue.use(PouchVue, {
   pouch: PouchDB,

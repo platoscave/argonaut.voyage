@@ -58,7 +58,7 @@ export default {
         if (item.icon.startsWith('data:image/')) {
           labelArr.push(createElement("img", {
             attrs: { src: this.currentObj.icon },
-            style: { "vertical-align": "middle" }
+            style: { }
           }))
         }
         else labelArr.push(createElement('i', { class: item.icon }))
@@ -66,7 +66,7 @@ export default {
 
       let style = {}
       if (firstLevel) style = { style: { 'font-weight': 'bold' } }
-      else style = { style: { 'left-padding': '48px' } }
+      //else style = { style: { 'left-padding': '48px' } }
 
       labelArr.push(createElement('span', style, item.name))
 
@@ -107,15 +107,16 @@ export default {
       return subMenuArr
     }
 
+    // START HERE
     // Create the menu element
-    if (!this.menuObj) return // hasn't been filled yet
+    if (!this.menuObj || !this.currentObj) return // hasn't been filled yet
 
     return createElement('el-menu', {
       props: {
         'unique-opened': true,
         'default-active': this.defaultActive
       },
-    }, [createElement('h3', { style: { 'text-align': 'center' } }, labelElement(this.currentObj)),
+    }, [createElement('h3', { style: { 'padding-left': '20px' } }, labelElement(this.currentObj)),
     ...createSubMenu(this.menuObj.menuArr, '')])
   },
 
