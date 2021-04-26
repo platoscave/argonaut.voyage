@@ -235,10 +235,10 @@ export default {
       ref: "elementUiForm",
       props: {
         model: this.value, // needed for validation rules
-        labelWidth: "150px",
+        labelWidth: "100px",
         labelPosition: 'left',
-        size: "small",
-        'show-message': false
+        size: "mini",
+        //'show-message': false
       },
       class: 'form-class'
     }, subFormElementsArr)

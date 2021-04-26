@@ -3248,17 +3248,17 @@
         "type": "string",
         "readOnly": false
       },
-      "properties": {
-        "title": "Properties",
-        "type": "object",
-        "readOnly": false
-      },
       "required": {
         "items": {
           "type": "string"
         },
         "title": "Required",
         "type": "array",
+        "readOnly": false
+      },
+      "properties": {
+        "title": "Properties",
+        "type": "object",
         "readOnly": false
       }
     },
@@ -3420,13 +3420,13 @@
             "widgets": {
               "items": {
                 "properties": {
+                  "name": {
+                    "readOnly": false
+                  },
                   "description": {
                     "readOnly": false
                   },
                   "displayType": {
-                    "readOnly": false
-                  },
-                  "name": {
                     "readOnly": false
                   },
                   "viewId": {

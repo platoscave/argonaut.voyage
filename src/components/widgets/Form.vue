@@ -52,31 +52,38 @@ export default {
       };
     },
   },
-  methods: {
-    // TODO async await
-    onChange(newDataObj) {
-      this.$refs["schemaForm"].validate().then(
-        () => {
-          this.$argonaut.upsert(this.selectedObjId, () => {
-              return newDataObj
-            }).catch((err) =>
-              this.$message({ showClose: true, message: err, type: "error" })
-            );
-        },
-        () => {
-          this.valid = false;
-        }
-      );
+  watch: {
+    viewId: {
+      //immediate: true,
+      handler(value) {
+        //debugger
+        if(value) this.getMaterializedView( value ).then( viewObj => {
+          this.viewObj = viewObj
+        })
+      }
     },
-
-
   },
-  async mounted() {
-    // TODO move to computed
-    this.viewObj =  await this.getMaterializedView( this.viewId )
-    //console.log(this.viewObj)
+  mounted() {
+    if(this.viewId) this.getMaterializedView( this.viewId ).then( viewObj => {
+      this.viewObj = viewObj
+    })
+  },
+  methods: {
+    async onChange(newDataObj) {
+      try {
+        const valid = await this.$refs["schemaForm"].validate()
+        console.log(valid)
+        this.$argonaut.upsert(this.selectedObjId, () => {
+          return newDataObj
+        }).catch((err) =>
+          this.$message({ showClose: true, message: err, type: "error" })
+        );
+      } catch (err) {
+        this.valid = false;
+      }
+    }
   }
-};
+}
 </script>
 
 
@@ -97,13 +104,10 @@ pre {
   max-width: 750px;
   padding: 10px;
 }
-/* doesnt work 
-.highlight-code >>> code.hljs .json{
-  background: inherit;
-}*/
 .json-schema-form  >>> code {
   background:  #ffffff08;
-  line-height: 20px;;
+  line-height: 20px;
+  font-size: 14px;
 }
 .json-schema-form >>> .control-background {
   background-color: #ffffff08;
@@ -127,9 +131,13 @@ pre {
 .json-schema-form >>> .el-icon-info {
   color: #00adffb3;
 }
+.json-schema-form >>> .el-form-item__content{
+  font-size: 16px;
+}
 .json-schema-form >>> .el-input__inner {
   background-color: #ffffff08;
   border-color: #00adff66;
+  font-size: 16px;
 }
 .json-schema-form >>> .el-textarea__inner {
   background-color: #ffffff08;
