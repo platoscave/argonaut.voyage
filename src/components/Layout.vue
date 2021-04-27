@@ -1,8 +1,10 @@
 <template>
   <div v-if="pageObj">
-
     <!-- Single page content -->
-    <div class="ar-full-height" v-if="!pageObj.divider || pageObj.divider === 'None'">
+    <div
+      class="ar-full-height"
+      v-if="!pageObj.divider || pageObj.divider === 'None'"
+    >
       <ar-page
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
@@ -13,7 +15,9 @@
     <!-- Master - Slave content -->
     <div
       class="ar-full-height"
-      v-else-if="pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'"
+      v-else-if="
+        pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'
+      "
     >
       <!-- split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'" -->
       <rs-panes
@@ -40,37 +44,12 @@
     </div>
 
     <!-- Studio -->
-    <div class="ar-full-height" v-else>
-        <ar-process-model
-          class="diagram"
-          v-bind:hash-level="hashLevel"
-          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-        ></ar-process-model>
-
-<!-- 
-      <div class="ar-full-height" v-if="pageObj.divider === 'Class Model'">
-        <ar-class-model
-          class="diagram"
-          v-bind:hash-level="hashLevel"
-          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-        ></ar-class-model>
-      </div>
-      <div class="ar-full-height" v-else-if="pageObj.divider === 'Process Model'">
-        <ar-process-model
-          class="diagram"
-          v-bind:hash-level="hashLevel"
-          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-        ></ar-process-model>
-      </div>
-      <div class="ar-full-height" v-else-if="pageObj.divider === 'Organization'">
-        <ar-organization-model
-          class="diagram"
-          v-bind:hash-level="hashLevel"
-          v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-        ></ar-organization-model>
-      </div>
-
- -->
+    <div class="ar-full-height" v-else-if="pageObj.divider === 'Class Model'">
+      <ar-class-model
+        class="diagram"
+        v-bind:hash-level="hashLevel"
+        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+      ></ar-class-model>
 
       <!-- Master content -->
       <div
@@ -110,6 +89,146 @@
         </div>
       </div>
     </div>
+    <div class="ar-full-height" v-else-if="pageObj.divider === 'Process Model'">
+      <ar-process-model
+        class="diagram"
+        v-bind:hash-level="hashLevel"
+        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+      ></ar-process-model>
+
+      <!-- Master content -->
+      <div
+        class="drawer-left"
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+        v-bind:class="{ 'left-open': leftOpen }"
+      >
+        <ar-page
+          class="drawer-content"
+          v-bind:hash-level="hashLevel"
+          v-bind:tabs="pageObj.tabs"
+        ></ar-page>
+        <div class="left-handle" @click="leftOpen = !leftOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-left'"
+            ></use>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Slave content -->
+      <div class="drawer-right" v-bind:class="{ 'right-open': rightOpen }">
+        <ar-layout
+          class="drawer-content"
+          :hash-level="hashLevel + 1"
+        ></ar-layout>
+        <div class="right-handle" @click="rightOpen = !rightOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-right'"
+            ></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="ar-full-height" v-else-if="pageObj.divider === 'Organization'">
+      <ar-organization-model
+        class="diagram"
+        v-bind:hash-level="hashLevel"
+        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+      ></ar-organization-model>
+
+      <!-- Master content -->
+      <div
+        class="drawer-left"
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+        v-bind:class="{ 'left-open': leftOpen }"
+      >
+        <ar-page
+          class="drawer-content"
+          v-bind:hash-level="hashLevel"
+          v-bind:tabs="pageObj.tabs"
+        ></ar-page>
+        <div class="left-handle" @click="leftOpen = !leftOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-left'"
+            ></use>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Slave content -->
+      <div class="drawer-right" v-bind:class="{ 'right-open': rightOpen }">
+        <ar-layout
+          class="drawer-content"
+          :hash-level="hashLevel + 1"
+        ></ar-layout>
+        <div class="right-handle" @click="rightOpen = !rightOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-right'"
+            ></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!--
+    <div class="ar-full-height" v-else>
+      <ar-process-model
+        class="diagram"
+        v-bind:hash-level="hashLevel"
+        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+      ></ar-process-model>
+
+      <!-- Master content -- >
+      <div
+        class="drawer-left"
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+        v-bind:class="{ 'left-open': leftOpen }"
+      >
+        <ar-page
+          class="drawer-content"
+          v-bind:hash-level="hashLevel"
+          v-bind:tabs="pageObj.tabs"
+        ></ar-page>
+        <div class="left-handle" @click="leftOpen = !leftOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-left'"
+            ></use>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Slave content -- >
+      <div class="drawer-right" v-bind:class="{ 'right-open': rightOpen }">
+        <ar-layout
+          class="drawer-content"
+          :hash-level="hashLevel + 1"
+        ></ar-layout>
+        <div class="right-handle" @click="rightOpen = !rightOpen">
+          <svg class="handle-icon">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#handle-right'"
+            ></use>
+          </svg>
+        </div>
+      </div> 
+    </div>-->
   </div>
 </template>
 
@@ -163,13 +282,12 @@ export default {
       });
     },
 
-     handleHashChange: async function () {
+    handleHashChange: async function () {
       const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelArr) return;
       const levelStates = ourLevelArr.split(".");
       this.pageId = levelStates[1];
       //this.pageObj = await this.$pouch.get(this.pageId);
-
     },
   },
 
