@@ -5,6 +5,7 @@ import Form from './widgets/Form.vue'
 import NavigationMenu from './widgets/NavigationMenu.js'
 import PageEditor from './widgets/PageEditor.vue'
 import ProcessModel from './widgets/ProcessModel.vue'
+import Raw from './widgets/Raw.vue'
 import Table from './widgets/Table.vue'
 import Tiptap from './widgets/Tiptap.vue'
 import Tree from './widgets/Tree.vue'
@@ -19,6 +20,7 @@ export default {
     'ar-naigation-menu': NavigationMenu,
     'ar-page-editor': PageEditor,
     'ar-process-model': ProcessModel,
+    'ar-raw': Raw,
     'ar-table': Table,
     'ar-tiptap': Tiptap,
     'ar-tree': Tree
@@ -66,6 +68,9 @@ export default {
       }
       else if (widget.displayType === 'Process Model') {
         return createElement('ar-process-model', elementProps)
+      }
+      else if (widget.displayType === 'Raw') {
+        return createElement('ar-raw', elementProps)
       }
       else if (widget.displayType === 'Table') {
         return createElement('ar-table', elementProps)
