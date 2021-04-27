@@ -2970,7 +2970,7 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Properties",
+        "name": "Class Details",
         "widgets": [
           {
             "displayType": "Form",
@@ -2979,10 +2979,10 @@
         ]
       },
       {
-        "name": "Raw",
+        "name": "Merged Ancestors",
         "widgets": [
           {
-            "displayType": "Raw"
+            "displayType": "Merged Ancestors"
           }
         ]
       }
@@ -2996,12 +2996,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Process",
+        "name": "Process Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "Process",
             "viewId": "qtubgorhvukr"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3015,12 +3031,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Process",
+        "name": "Step Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "State Form",
             "viewId": "wfejmbcgmmpm"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3054,12 +3086,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Menu Form",
+        "name": "Menu Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "Menu",
             "viewId": "men1b5cmjprt"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3073,12 +3121,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Pages",
+        "name": "Page Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "Page Form",
             "viewId": "mdqg4rkzezxa"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3092,12 +3156,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Views",
+        "name": "View Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "View Form",
             "viewId": "sudhaobvgvq3"
+          }
+        ]
+      },
+      {
+        "name": "Materialized View",
+        "widgets": [
+          {
+            "displayType": "Materialized View"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3111,12 +3191,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Query",
+        "name": "Query Details",
         "widgets": [
           {
             "displayType": "Form",
             "name": "Query Form",
             "viewId": "dsae2kl342hk"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3130,12 +3226,28 @@
     "ownerId": "argonautdot1",
     "tabs": [
       {
-        "name": "Documents",
+        "name": "Document Details",
         "widgets": [
           {
             "displayType": "Document",
             "name": "Document Form",
             "viewId": "wh1nnojktarq"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3167,7 +3279,6 @@
     "_id": "5ucwmdby4wox",
     "docType": "object",
     "name": "Class Form View",
-    "title": "Class Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3269,7 +3380,6 @@
     "_id": "qtubgorhvukr",
     "docType": "object",
     "name": "Process Form View",
-    "title": "Process Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3309,7 +3419,6 @@
     "_id": "wfejmbcgmmpm",
     "docType": "object",
     "name": "Step Form View",
-    "title": "Step Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3346,7 +3455,6 @@
     "_id": "men1b5cmjprt",
     "docType": "object",
     "name": "Menu Form View",
-    "title": "Menu Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3391,7 +3499,6 @@
     "_id": "mdqg4rkzezxa",
     "docType": "object",
     "name": "Page Form View",
-    "title": "Page Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3446,7 +3553,6 @@
     "_id": "sudhaobvgvq3",
     "docType": "object",
     "name": "View Form View",
-    "title": "View Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3480,7 +3586,6 @@
     "_id": "dsae2kl342hk",
     "docType": "object",
     "name": "Query Form View",
-    "title": "Query Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {
@@ -3535,7 +3640,6 @@
     "_id": "wh1nnojktarq",
     "docType": "object",
     "name": "Document Form View",
-    "title": "Paragraph Details",
     "classId": "pylvseoljret",
     "ownerId": "argonautdot1",
     "properties": {

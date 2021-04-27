@@ -53,14 +53,12 @@ export default {
     },
   },
   watch: {
-    viewId: {
-      //immediate: true,
-      handler(value) {
-        //debugger
-        if(value) this.getMaterializedView( value ).then( viewObj => {
-          this.viewObj = viewObj
-        })
-      }
+    viewId: function (value) {
+      // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
+      // Thats why we need both mounted and watch
+      if(value) this.getMaterializedView( value ).then( viewObj => {
+        this.viewObj = viewObj
+      })
     },
   },
   mounted() {

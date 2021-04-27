@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import WidgetMixin from "../../lib/widgetMixin";
+import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
   name: 'ar-raw',
   mixins: [WidgetMixin], 
-
   props: {
     hashLevel: Number,
     viewId: String
@@ -28,10 +27,8 @@ export default {
 </script>
 
 <style scoped>
-.hljs {
-  background:  #ffffff08;
-}
-pre {
+.highlight-code >>> .hljs{
+  background: unset;
   line-height: 20px;
   font-size: 14px;
 }
