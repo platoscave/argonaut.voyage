@@ -1619,7 +1619,7 @@
         "properties": {
           "selector": {
             "title": "Selector",
-            "type": "string"
+            "properties": {}
           },
           "fields": {
             "items": {
@@ -1641,10 +1641,10 @@
               "Subclasses"
             ],
             "title": "Extend To",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
           }
         },
+        "title": "Mongo Query",
         "type": "object"
       }
     },
@@ -3500,21 +3500,21 @@
       "pageId": {
         "readOnly": false
       },
-      "mogoQuery": {
-        "items": {
-          "properties": {
-            "selector": {
-              "readOnly": false
-            },
-            "fields": {
-              "readOnly": false
-            },
-            "sort": {
-              "readOnly": false
-            },
-            "extendTo": {
+      "mongoQuery": {
+        "properties": {
+          "selector": {
+            "properties": {
               "readOnly": false
             }
+          },
+          "fields": {
+            "readOnly": false
+          },
+          "sort": {
+            "readOnly": false
+          },
+          "extendTo": {
+            "readOnly": false
           }
         }
       },
