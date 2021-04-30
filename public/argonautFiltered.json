@@ -2806,6 +2806,14 @@
         ]
       },
       {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
         "name": "Merged Ancestors",
         "widgets": [
           {
@@ -2989,6 +2997,14 @@
             "displayType": "Form",
             "name": "View Form",
             "viewId": "sudhaobvgvq3"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
           }
         ]
       },
@@ -3397,7 +3413,7 @@
       "name": {
         "readOnly": false
       },
-      "subQueryIds": {
+      "queryId": {
         "readOnly": false
       },
       "baseClassId": {

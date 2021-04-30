@@ -354,6 +354,7 @@ export default {
 }
 .drawer-content >>> .el-tree {
   background: unset;
+  padding-top: 5px;
 }
 .left-handle {
   position: absolute;

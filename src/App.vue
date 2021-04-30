@@ -70,9 +70,7 @@ export default {
     users: function () {
       return {
         database: "argonaut",
-        selector: {
-          /* Add selector for classId = user accounts */
-        },
+        selector: { classId: 'hdt3hmnsaghk'},
         fields: ["_id", "name"],
         sort: [{ name: "asc" }],
       };

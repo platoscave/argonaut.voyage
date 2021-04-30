@@ -715,7 +715,6 @@ export default {
       let objectsArr = []
       // For each of the current items
       dataObj[propertyName].forEach((item, idx) => {
-        debugger
 
         // Generate the subform for this item
         const subFormArr = generateSubform(properties, subRequiredArr, item)

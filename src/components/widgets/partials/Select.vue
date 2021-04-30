@@ -1,6 +1,6 @@
 <template>
   <div v-if="readOnly || items.length < 2">
-    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : "" }}
+    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : '' }}
   </div>
   <el-radio-group
     v-else-if="items.length < 5"
@@ -44,11 +44,13 @@ export default {
 
   pouch: {
     dataObj: function () {
-      return {
-        database: "argonaut",
-        selector: { _id: this.value },
-        first: true,
-      };
+      if(this.value) {
+        return {
+          database: "argonaut",
+          selector: { _id: this.value },
+          first: true,
+        };
+      } else return ''
     },
   },
   methods: {

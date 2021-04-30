@@ -153,6 +153,8 @@ export default {
   height: 100%;
 }
 .el-tabs >>> .el-tabs__header {
+  margin-left: 10px;
+  margin-right: 10px;
   margin-bottom: 0px;
 }
 .el-tabs >>> .el-tabs__content {
