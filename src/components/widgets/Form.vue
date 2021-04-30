@@ -110,7 +110,7 @@ pre {
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 4px;
-  border-color: #00adff66;
+  border-color: #00adff42;
   border-style: solid;
   border-width: 1px;
   min-height: 30px;
@@ -132,16 +132,16 @@ pre {
 }
 .json-schema-form >>> .el-input__inner {
   background-color: #ffffff08;
-  border-color: #00adff66;
+  border-color: #00adff42;
   font-size: 16px;
 }
 .json-schema-form >>> .el-textarea__inner {
   background-color: #ffffff08;
-  border-color: #00adff66;
+  border-color: #00adff42;
 }
 .json-schema-form >>> .el-select.el-select--small {
   border-radius: 4px;
-  border-color: #00adff66;
+  border-color: #00adff42;
   border-style: solid;
   border-width: 1px;
 }
@@ -152,7 +152,7 @@ pre {
   color: #00adff;
 }
 .json-schema-form >>> .el-input__inner::placeholder {
-  color: #00adff66;
+  color: #00adff42;
 }
 .json-schema-form >>> input[readonly] {
   border-width: 0px;
@@ -192,7 +192,7 @@ pre {
   cursor: pointer;
 }
 .json-schema-form >>> .drop-separator {
-  background-color: #00adff66;
+  background-color: #00adff42;
   height: 1px;
   border: none;
 }

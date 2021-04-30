@@ -1296,7 +1296,7 @@
                       ],
                       "extendTo": "instances"
                     },
-                    "title": "View",
+                    "title": "Menu",
                     "type": "string",
                     "readOnly": true
                   }
@@ -3384,6 +3384,9 @@
                     "readOnly": false
                   },
                   "viewId": {
+                    "readOnly": false
+                  },
+                  "menuId": {
                     "readOnly": false
                   }
                 }

@@ -369,7 +369,7 @@ export default {
   font-size: 16px;
   background-color: #ffffff1a;
   border-radius: 4px;
-  border-color: #00adff66;
+  border-color: #00adff42;
   border-style: solid;
   border-width: 1px;
   padding-top: 4px;
@@ -380,11 +380,11 @@ export default {
   padding-left: 0px;
 }
 .menubar__button.is-active {
-  background-color: #00adff66;
+  background-color: #00adff42;
 }
 .editor-content >>> .ProseMirror {
   background-color: #ffffff08;
-  border-color: #00adff66;
+  border-color: #00adff42;
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;

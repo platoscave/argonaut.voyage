@@ -65,14 +65,15 @@ export default {
 
         // Select
         else if (property.mongoQuery) {
+          debugger
           return [createElement('ar-select', { 
-            class: 'control-background', 
-            attrs: { readonly: this.formReadOnly || property.readonly },
+            //class: 'control-background', 
+            //attrs: { readonly: this.formReadOnly || property.readonly },
 
             props: { 
               property: property,
               value: dataObj[propertyName],
-              readOnly: this.formReadOnly || property.readonly
+              readOnly: this.formReadOnly || property.readOnly
             } 
           })]
         }

@@ -47,13 +47,13 @@ export default {
   font-size: 16px;
   background-color: #ffffff1a;
   border-radius: 4px;
-  border-color: #00adff66;
+  border-color: #00adff42;
   border-style: solid;
   border-width: 1px;
   padding-top: 4px;
   margin-right: 3px;
 }
 .menubar__button.is-active {
-  background-color: #00adff66;
+  background-color: #00adff42;
 }
 </style>

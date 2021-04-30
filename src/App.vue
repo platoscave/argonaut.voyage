@@ -172,7 +172,7 @@ li.el-select-dropdown__item {
 }
 .ar-footer {
   background: #ffffff08;
-  border-top-color: #00adff66;
+  border-top-color: #00adff42;
   border-top-width: 1px;
   border-top-style: solid;
   height: 39px;
