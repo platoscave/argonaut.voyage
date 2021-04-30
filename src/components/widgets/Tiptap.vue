@@ -330,26 +330,30 @@ export default {
       }),
     };
   },
-  watch: {
-    readonly: {
-      //immediate: true,
-      handler() {
-        this.editor.options.editable = !this.readonly;
-        // also update the editor border:
-        this.editor.view.update(this.editor.view.props);
-      },
-    },
-  },
-  beforeDestroy() {
-    this.editor.destroy();
-  },
   methods: {
     showImagePrompt(command) {
       const src = prompt("Enter the url of your image here");
       if (src !== null) {
         command({ src });
       }
+    },
+
+    readonlyHandeler() {
+      this.editor.options.editable = !this.readonly;
+      // also update the editor border:
+      this.editor.view.update(this.editor.view.props);
     }
+  },
+  watch: {
+    // immediate: true doesn't work. Too early. Tiptap hasn't been initialized yet
+    // Thats why we need both mounted and watch
+    readonly: 'readonlyHandeler'
+  },
+  mounted: function (){
+    this.readonlyHandeler()
+  },
+  beforeDestroy() {
+    this.editor.destroy();
   },
 };
 </script>
