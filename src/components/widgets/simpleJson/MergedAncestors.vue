@@ -20,19 +20,18 @@ export default {
       classObj: {}
     };
   },
-  watch: {
-    selectedObjId: function (value) {
-      // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-      // Thats why we need both mounted and watch
-      if(value) this.getMergedAncestorProperties( value ).then( classObj => {
-        this.classObj = classObj
-      })
-    },
+  methods: {
+    async selectedObjIdHandeler() {
+      if (this.selectedObjId) this.classObj = await this.getMergedAncestorProperties(this.selectedObjId)
+    }
   },
-  mounted() {
-    if(this.selectedObjId) this.getMergedAncestorProperties( this.selectedObjId ).then( classObj => {
-      this.classObj = classObj
-    })
+  watch: {
+    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
+    // Thats why we need both mounted and watch
+    selectedObjId: 'selectedObjIdHandeler'
+  },
+  mounted: function (){
+    this.selectedObjIdHandeler()
   },
 }
 </script>

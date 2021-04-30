@@ -21,43 +21,8 @@ export default {
     return {
       selectedObjId: null,
       pageId: null,
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-08",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-06",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-07",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
+      viewObj: {},
+      selector: {}
     };
   },
   pouch: {
@@ -68,16 +33,29 @@ export default {
         first: true,
       };
     },
-    viewObj: function () {
+    tableData: function () {
       return {
         database: "argonaut",
-        selector: { _id: this.viewId },
-        first: true,
+        selector: this.selector,
       };
     },
-  },
+  },  
   methods: {
-
+    async viewIdHandeler() {
+      if (this.viewId) {
+        this.viewObj = await this.getMaterializedView(this.viewId)
+        const mongoQuery = await this.$pouch.get( this.viewObj.queryId )
+        this.selector = mongoQuery.mongoQuery
+      }
+    }
+  },
+  watch: {
+    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
+    // Thats why we need both mounted and watch
+    viewId: 'viewIdHandeler'
+  },
+  mounted: function (){
+    this.viewIdHandeler()
   },
 
 };

@@ -1052,7 +1052,7 @@
         "type": "array",
         "readOnly": true
       },
-      "firstStepId": {
+      "deligateProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -1067,7 +1067,7 @@
           ],
           "extendTo": "instances"
         },
-        "title": "First Step",
+        "title": "Deligate to Process",
         "type": "string",
         "readOnly": true
       },
@@ -1222,12 +1222,15 @@
                       "Document",
                       "Form",
                       "HTML Page",
+                      "Materialized View",
+                      "Merged Ancestors",
                       "Navigation Menu",
                       "Page Editor",
                       "Process Model",
                       "Raw",
                       "Table",
-                      "Tree"
+                      "Tree",
+                      "Validate"
                     ],
                     "title": "Display Type",
                     "type": "string",
@@ -1277,6 +1280,25 @@
                     "title": "View",
                     "type": "string",
                     "readOnly": true
+                  },
+                  "menuId": {
+                    "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                    "mongoQuery": {
+                      "selector": {
+                        "classId": "inbumnx4vx5w"
+                      },
+                      "fields": [
+                        "_id",
+                        "name"
+                      ],
+                      "sort": [
+                        "name"
+                      ],
+                      "extendTo": "instances"
+                    },
+                    "title": "View",
+                    "type": "string",
+                    "readOnly": true
                   }
                 },
                 "type": "object"
@@ -1309,7 +1331,7 @@
         },
         "readOnly": true
       },
-      "subQueryIds": {
+      "queryId": {
         "title": "Initial Query",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
@@ -3441,7 +3463,7 @@
           }
         }
       },
-      "firstStepId": {
+      "deligateProcessId": {
         "readOnly": false
       },
       "execute": {
@@ -3466,26 +3488,30 @@
         "readOnly": false
       },
       "menuArr": {
-        "properties": {
-          "name": {
-            "readOnly": false
-          },
-          "pageId": {
-            "readOnly": false
-          },
-          "icon": {
-            "readOnly": false
-          },
-          "menuArr": {
-            "properties": {
-              "name": {
-                "readOnly": false
-              },
-              "pageId": {
-                "readOnly": false
-              },
-              "icon": {
-                "readOnly": false
+        "items": {
+          "properties": {
+            "name": {
+              "readOnly": false
+            },
+            "pageId": {
+              "readOnly": false
+            },
+            "icon": {
+              "readOnly": false
+            },
+            "menuArr": {
+              "items": {
+                "properties": {
+                  "name": {
+                    "readOnly": false
+                  },
+                  "pageId": {
+                    "readOnly": false
+                  },
+                  "icon": {
+                    "readOnly": false
+                  }
+                }
               }
             }
           }

@@ -127,10 +127,18 @@ body {
 .ar-full-height {
   height: 100%;
 }
+/* Fix message box */
 .el-message__content {
   color: #eee !important;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
+/* Fix drop down */
+li.el-select-dropdown__item {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 28px;
+}
+/* Dark mode scroll bars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 3px;
@@ -172,7 +180,10 @@ body {
   height: 39px;
 }
 .el-select {
-  width: 120px;
+  width: 175px;
+}
+.el-select >>> .el-input__inner{
+  font-size: 16px;
 }
 .ar-left-align {
   float: left;

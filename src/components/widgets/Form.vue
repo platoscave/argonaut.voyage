@@ -52,20 +52,6 @@ export default {
       };
     },
   },
-  watch: {
-    viewId: function (value) {
-      // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-      // Thats why we need both mounted and watch
-      if(value) this.getMaterializedView( value ).then( viewObj => {
-        this.viewObj = viewObj
-      })
-    },
-  },
-  mounted() {
-    if(this.viewId) this.getMaterializedView( this.viewId ).then( viewObj => {
-      this.viewObj = viewObj
-    })
-  },
   methods: {
     async onChange(newDataObj) {
       try {
@@ -79,7 +65,19 @@ export default {
       } catch (err) {
         this.valid = false;
       }
+    },
+
+    async viewIdHandeler() {
+      if (this.viewId) this.viewObj = await this.getMaterializedView(this.viewId)
     }
+  },
+  watch: {
+    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
+    // Thats why we need both mounted and watch
+    viewId: 'viewIdHandeler'
+  },
+  mounted: function (){
+    this.viewIdHandeler()
   }
 }
 </script>

@@ -36,6 +36,7 @@ export default {
     }
   },
   methods: {
+    
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
     async drawClasses() {
       // Get the root class from the store

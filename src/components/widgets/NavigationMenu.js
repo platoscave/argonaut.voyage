@@ -27,7 +27,7 @@ export default {
   },
 
   computed: {
-    // Get the index if the menuItem the corresponds to the next level pageId
+    // Get the index if the menuItem that corresponds to the next level pageId
     // We do this in computed because menuObj is async
     defaultActive: function () {
 

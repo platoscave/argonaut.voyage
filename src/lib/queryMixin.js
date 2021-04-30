@@ -2,7 +2,7 @@ export default {
   methods: {
 
     // nodeData is used to resolve $ variables in queries
-    async getTheData(queryId, nodeData = {}) {
+    async getTheData(query, nodeData = {}) {
 
       // Get obj a property using dot noatation
       const getDescendantProp = (desc, resolveObj) => {
@@ -60,8 +60,10 @@ export default {
 
 
       // START HERE
+      let queryObj = {}
       // Get the queryObj
-      const queryObj = await this.$pouch.get(queryId)
+      if(typeof query === 'string') queryObj = await this.$pouch.get(query)
+      else queryObj.mongoQuery = query
 
       // In the case of a many to one query we interate over the many array
       // Execute the query for each of the items

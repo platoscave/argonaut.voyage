@@ -19,20 +19,19 @@ export default {
       viewObj: {}
     };
   },
+  methods: {
+    async selectedObjIdHandeler() {
+      if (this.selectedObjId) this.viewObj = await this.getMaterializedView(this.selectedObjId)
+    }
+  },
   watch: {
-    selectedObjId: function (value) {
-      // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-      // Thats why we need both mounted and watch
-      if(value) this.getMaterializedView( value ).then( viewObj => {
-        this.viewObj = viewObj
-      })
-    },
+    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
+    // Thats why we need both mounted and watch
+    selectedObjId: 'selectedObjIdHandeler'
   },
-  mounted() {
-    if(this.selectedObjId) this.getMaterializedView( this.selectedObjId ).then( viewObj => {
-      this.viewObj = viewObj
-    })
-  },
+  mounted: function (){
+    this.selectedObjIdHandeler()
+  }
 }
 </script>
 

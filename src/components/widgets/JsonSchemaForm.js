@@ -1,9 +1,13 @@
 import Tiptap from './Tiptap';
+import Select from './partials/Select';
+import QueryMixin from "../../lib/queryMixin";
 
 export default {
   name: 'ar-jsonschema-form',
+  mixins: [QueryMixin], 
   components: {
-    'tiptap': Tiptap
+    'tiptap': Tiptap,
+    'ar-select': Select
   },
   props: {
     value: {
@@ -57,6 +61,20 @@ export default {
           // Unknown
           else return [createElement('div', 'Unknown contentMediaType: ' + property.contentMediaType)]
 
+        }
+
+        // Select
+        else if (property.mongoQuery) {
+          return [createElement('ar-select', { 
+            class: 'control-background', 
+            attrs: { readonly: this.formReadOnly || property.readonly },
+
+            props: { 
+              property: property,
+              value: dataObj[propertyName],
+              readOnly: this.formReadOnly || property.readonly
+            } 
+          })]
         }
 
         // Enumeration
@@ -697,6 +715,7 @@ export default {
       let objectsArr = []
       // For each of the current items
       dataObj[propertyName].forEach((item, idx) => {
+        debugger
 
         // Generate the subform for this item
         const subFormArr = generateSubform(properties, subRequiredArr, item)
