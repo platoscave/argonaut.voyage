@@ -9,8 +9,8 @@
         "description": "<p>Base32 identifier.</p>",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "title": "_id",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "classId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -28,8 +28,8 @@
           "extendTo": "subclasses"
         },
         "title": "Class",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "description": {
         "placholder": "Add a description",
@@ -37,8 +37,8 @@
         "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Description",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "docType": {
         "enum": [
@@ -53,16 +53,16 @@
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "name": {
         "placeholder": "Provide a name",
         "maxLength": 1000,
         "minLength": 0,
         "title": "Name",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "required": [
@@ -82,23 +82,23 @@
     "properties": {
       "startDate": {
         "title": "Request Date",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "expirationDate": {
         "title": "Expiration Date",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "amount": {
         "title": "Amount",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "currency": {
         "title": "Currency",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "buyerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -116,8 +116,8 @@
           "extendTo": "instances"
         },
         "title": "Buyer",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "sellerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -135,8 +135,8 @@
           "extendTo": "instances"
         },
         "title": "Seller",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "assetId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -154,8 +154,8 @@
           "extendTo": "instances"
         },
         "title": "Asset",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "agreementProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -173,8 +173,8 @@
           "extendTo": "instances"
         },
         "title": "Agreememt Process",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "sellerProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -192,8 +192,8 @@
           "extendTo": "instances"
         },
         "title": "Seller Process",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "sellerEpicId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -211,8 +211,8 @@
           "extendTo": "instances"
         },
         "title": "Seller Epic",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "processStack": {
         "items": {
@@ -233,8 +233,8 @@
                 "extendTo": "instances"
               },
               "title": "Process",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -252,8 +252,8 @@
                 "extendTo": "instances"
               },
               "title": "Step",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "required": [
@@ -263,8 +263,8 @@
           "type": "object"
         },
         "title": "Process Stack",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       },
       "agreementHistoryIds": {
         "items": {
@@ -285,15 +285,15 @@
                 "extendTo": "instances"
               },
               "title": "Step History",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "type": "object"
         },
         "title": "Agreement History",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "type": "object"
@@ -321,8 +321,8 @@
           "extendTo": "instances"
         },
         "title": "Page",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "subParagraphIds": {
         "title": "First Paragraph",
@@ -340,75 +340,75 @@
           ],
           "extendTo": "instances"
         },
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "account_name": {
         "maxLength": 12,
         "minLength": 12,
         "title": "Account Name",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "head_block_num": {
         "title": "Head Block Number",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "head_block_time": {
         "format": "date-time",
         "title": "Head Block Time",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "privileged": {
         "title": "Privileged",
-        "type": "boolean",
-        "readOnly": true
+        "type": "boolean"
+        
       },
       "last_code_update": {
         "format": "date-time",
         "title": "Last Code Update",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "created": {
         "format": "date-time",
         "title": "Created",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "ram_quota": {
         "title": "Ram Quota",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "net_weight": {
         "title": "Net Weight",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "cpu_weight": {
         "title": "Cpu Weight",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "net_limit": {
         "properties": {
           "used": {
             "title": "Used",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "available": {
             "title": "Available",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "max": {
             "title": "Maximum",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           }
         },
         "type": "object"
@@ -417,26 +417,26 @@
         "properties": {
           "used": {
             "title": "Used",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "available": {
             "title": "Available",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "max": {
             "title": "Maximum",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           }
         },
         "type": "object"
       },
       "ram_usage": {
         "title": "Ram Usage",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "permissions": {
         "items": {
@@ -445,22 +445,22 @@
               "maxLength": 12,
               "minLength": 1,
               "title": "Permission Name",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "parent": {
               "maxLength": 12,
               "minLength": 1,
               "title": "Parent Permission",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "required_auth": {
               "properties": {
                 "threshold": {
                   "title": "Threshold",
-                  "type": "number",
-                  "readOnly": true
+                  "type": "number"
+                  
                 },
                 "keys": {
                   "items": {
@@ -469,13 +469,13 @@
                         "maxLength": 44,
                         "minLength": 0,
                         "title": "Key",
-                        "type": "string",
-                        "readOnly": true
+                        "type": "string"
+                        
                       },
                       "weight": {
                         "title": "Weight",
-                        "type": "number",
-                        "readOnly": true
+                        "type": "number"
+                        
                       }
                     },
                     "type": "object"
@@ -492,15 +492,15 @@
                             "maxLength": 12,
                             "minLength": 0,
                             "title": "Actor",
-                            "type": "string",
-                            "readOnly": true
+                            "type": "string"
+                            
                           },
                           "permission": {
                             "maxLength": 12,
                             "minLength": 0,
                             "title": "Permission",
-                            "type": "string",
-                            "readOnly": true
+                            "type": "string"
+                            
                           }
                         },
                         "title": "Permission",
@@ -508,8 +508,8 @@
                       },
                       "weight": {
                         "title": "Weight",
-                        "type": "number",
-                        "readOnly": true
+                        "type": "number"
+                        
                       }
                     },
                     "type": "object"
@@ -522,20 +522,20 @@
                     "properties": {
                       "wait_sec": {
                         "title": "Wait Seconds",
-                        "type": "string",
-                        "readOnly": true
+                        "type": "string"
+                        
                       },
                       "weight": {
                         "title": "Weight",
-                        "type": "number",
-                        "readOnly": true
+                        "type": "number"
+                        
                       }
                     },
                     "type": "object"
                   },
                   "title": "Waits",
-                  "type": "array",
-                  "readOnly": true
+                  "type": "array"
+                  
                 }
               },
               "title": "Required Authorization",
@@ -552,23 +552,23 @@
         "properties": {
           "owner": {
             "title": "Owner",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "net_weigh": {
             "title": "Net Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "cpu_weight": {
             "title": "CPU Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "ram_bytes": {
             "title": "Ram Bytes",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           }
         },
         "title": "Total Resources",
@@ -578,23 +578,23 @@
         "properties": {
           "from": {
             "title": "From",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "to": {
             "title": "To",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+          
           },
           "cpu_weight": {
             "title": "CPU Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "cpu_weigh": {
             "title": "CPU Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           }
         },
         "title": "Self Delegated Bandwidth",
@@ -602,61 +602,61 @@
       },
       "refund_request": {
         "title": "Refund Request",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "voter_info": {
         "title": "Voter Info",
         "properties": {
           "owner": {
             "title": "Owner",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "proxy": {
             "title": "Proxy",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "producer": {
             "title": "Producer",
-            "type": "array",
-            "readOnly": true
+            "type": "array"
+            
           },
           "staked": {
             "title": "Staked",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "last_vote_weight": {
             "title": "Last Vote Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "proxied_vote_weight": {
             "title": "Proxied Vote Weight",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           },
           "is_proxy": {
             "title": "Is Proxy",
-            "type": "boolean",
-            "readOnly": true
+            "type": "boolean"
+            
           },
           "flags1": {
             "title": "Flags 1",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "reserved2": {
             "title": "Reserved 2",
-            "type": "number",
-            "readOnly": true
+            "type": "number"
+            
           },
           "reserved3": {
             "title": "Reserved 3",
-            "type": "string",
-            "readOnly": true
+            "type": "string"
+            
           }
         },
         "type": "object"
@@ -675,13 +675,13 @@
     "properties": {
       "stateDate": {
         "title": "Step Date",
-        "type": "date",
-        "readOnly": true
+        "type": "date"
+        
       },
       "action": {
         "title": "Action",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "stepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -699,8 +699,8 @@
           "extendTo": "instances"
         },
         "title": "Step",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -718,8 +718,8 @@
           "extendTo": "instances"
         },
         "title": "Process",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "type": "object"
@@ -747,8 +747,8 @@
           "extendTo": "instances"
         },
         "title": "Owner",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "required": [
@@ -786,8 +786,8 @@
           "Enhancement"
         ],
         "title": "Classification",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "sellerEpicId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -805,8 +805,8 @@
           "extendTo": "instances"
         },
         "title": "Seller Epic",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "type": "object"
@@ -847,15 +847,15 @@
                 "extendTo": "instances"
               },
               "title": "Authorized for Step",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "type": "object"
         },
         "title": "Authorized for States",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "type": "object"
@@ -879,8 +879,8 @@
     "properties": {
       "description": {
         "title": "What",
-        "placeholder": "<p>[What do you do that is different?]</p>",
-        "readOnly": true
+        "placeholder": "<p>[What do you do that is different?]</p>"
+        
       },
       "how": {
         "placeholder": "<p>[How do you achive your goal?]</p>",
@@ -888,8 +888,8 @@
         "contentMediaType": "text/html",
         "minLength": 0,
         "title": "How",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "why": {
         "placeholder": "<p>[Vision]</p>",
@@ -897,8 +897,8 @@
         "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Why",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "exposedToProcessesIds": {
         "items": {
@@ -919,15 +919,15 @@
                 "extendTo": "instances"
               },
               "title": "Exposed to Process",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "type": "object"
         },
         "title": "Exposed to Processes",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "type": "object",
@@ -942,8 +942,8 @@
     "properties": {
       "value": {
         "title": "Value",
-        "type": "number",
-        "readOnly": true
+        "type": "number"
+        
       },
       "currency": {
         "enum": [
@@ -951,8 +951,8 @@
           "USD"
         ],
         "title": "Currency",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "type": "object"
@@ -1020,8 +1020,8 @@
             "action": {
               "maxLength": 100,
               "title": "Action",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1039,8 +1039,8 @@
                 "extendTo": "instances"
               },
               "title": "Step",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "required": [
@@ -1049,8 +1049,8 @@
           "type": "object"
         },
         "title": "Next Steps",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       },
       "deligateProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1068,16 +1068,16 @@
           "extendTo": "instances"
         },
         "title": "Deligate to Process",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "execute": {
         "items": {
           "type": "string"
         },
         "title": "Execute",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "type": "object"
@@ -1096,8 +1096,8 @@
         "items": {
           "type": "string"
         },
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       },
       "agreementClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1115,8 +1115,8 @@
           "extendTo": "instances"
         },
         "title": "Step",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1134,8 +1134,8 @@
           "extendTo": "instances"
         },
         "title": "First Step",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "type": "object"
@@ -1160,8 +1160,8 @@
           "Organization"
         ],
         "title": "Divider",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "tabs": {
         "description": "",
@@ -1173,15 +1173,15 @@
               "maxLength": 10000,
               "contentMediaType": "text/html",
               "title": "Description",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "name": {
               "placeholder": "Provide a name",
               "maxLength": 1000,
               "title": "Tab Name",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1199,8 +1199,8 @@
                 "extendTo": "instances"
               },
               "title": "Page",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "widgets": {
               "items": {
@@ -1211,8 +1211,8 @@
                     "maxLength": 10000,
                     "contentMediaType": "text/html",
                     "title": "Description",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "displayType": {
                     "default": "Form",
@@ -1233,15 +1233,15 @@
                       "Validate"
                     ],
                     "title": "Display Type",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "name": {
                     "placeholder": "Provide a name",
                     "maxLength": 1000,
                     "title": "Name",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1259,8 +1259,8 @@
                       "extendTo": "instances"
                     },
                     "title": "Page",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "viewId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1278,8 +1278,8 @@
                       "extendTo": "instances"
                     },
                     "title": "View",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "menuId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1297,8 +1297,8 @@
                       "extendTo": "instances"
                     },
                     "title": "Menu",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   }
                 },
                 "type": "object"
@@ -1325,8 +1325,8 @@
     "properties": {
       "properties": {
         "title": "Properties",
-        "type": "object",
-        "readOnly": true
+        "type": "object"
+        
       },
       "queryId": {
         "title": "Initial Query",
@@ -1344,8 +1344,8 @@
           ],
           "extendTo": "instances"
         },
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "baseClassId": {
         "title": "Base Class",
@@ -1363,16 +1363,16 @@
           ],
           "extendTo": "instances"
         },
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "required": {
         "items": {
           "type": "string"
         },
         "title": "Required",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "pageId": "qwhjia43h1s4",
@@ -1392,8 +1392,8 @@
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "subQueryIds": {
         "items": {
@@ -1414,8 +1414,8 @@
                 ],
                 "extendTo": "instances"
               },
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "type": "object"
@@ -1439,8 +1439,8 @@
           "extendTo": "instances"
         },
         "title": "Page",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       },
       "mongoQuery": {
         "properties": {
@@ -1503,15 +1503,15 @@
                 "extendTo": "instances"
               },
               "title": "Sub Ducument",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "type": "object"
         },
         "title": "Sub Paragraph",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "pageId": "nnksb2zyphob",
@@ -1533,8 +1533,8 @@
               "placeholder": "Provide a name",
               "maxLength": 1000,
               "title": "Name",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1552,8 +1552,8 @@
                 "extendTo": "instances"
               },
               "title": "Page",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "icon": {
               "maxLength": 2000,
@@ -1561,8 +1561,8 @@
               "contentMediaType": "image/svg+xml",
               "minLength": 0,
               "title": "Icon",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "menuArr": {
               "items": {
@@ -1572,8 +1572,8 @@
                     "placeholder": "Provide a name",
                     "maxLength": 1000,
                     "title": "Name",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1591,8 +1591,8 @@
                       "extendTo": "instances"
                     },
                     "title": "Page",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   },
                   "icon": {
                     "maxLength": 2000,
@@ -1600,8 +1600,8 @@
                     "contentMediaType": "image/svg+xml",
                     "minLength": 0,
                     "title": "Icon",
-                    "type": "string",
-                    "readOnly": true
+                    "type": "string"
+                    
                   }
                 },
                 "type": "object"
@@ -1680,8 +1680,8 @@
             "action": {
               "maxLength": 100,
               "title": "Action",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             },
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1699,8 +1699,8 @@
                 "extendTo": "instances"
               },
               "title": "Step",
-              "type": "string",
-              "readOnly": true
+              "type": "string"
+              
             }
           },
           "required": [
@@ -1710,8 +1710,8 @@
           "type": "object"
         },
         "title": "Next States",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       },
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1729,8 +1729,8 @@
           "extendTo": "instances"
         },
         "title": "First Step",
-        "type": "string",
-        "readOnly": true
+        "type": "string"
+        
       }
     },
     "type": "object"
@@ -1837,8 +1837,8 @@
         "type": "string",
         "media": {
           "type": "image/png"
-        },
-        "readOnly": true
+        }
+        
       }
     },
     "type": "object"
@@ -1929,8 +1929,8 @@
           "type": "string"
         },
         "title": "Execute",
-        "type": "array",
-        "readOnly": true
+        "type": "array"
+        
       }
     },
     "type": "object"
@@ -3126,7 +3126,6 @@
     "ownerId": "argonautdot1",
     "properties": {
       "_id": {
-        "readOnly": true,
         "title": "_id",
         "type": "string"
       },

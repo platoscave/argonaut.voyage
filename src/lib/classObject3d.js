@@ -215,7 +215,7 @@ export default class ClassObject3d extends Object3D {
     if (resArr.length) {
       let points = []
       points.push(new Vector3(0, 0, 0))
-      points.push(new Vector3(0, 0, WIDTH * 2 * resArr.length))
+      points.push(new Vector3(0, 0, WIDTH * 2 * (resArr.length + 1)))
       let beam = this.drawBeam(points, 'classConnectors')
       beam.translateY(-HEIGHT / 4)
       this.add(beam)

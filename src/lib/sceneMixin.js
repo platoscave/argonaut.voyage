@@ -25,6 +25,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import fontJson from '../assets/helvetiker_regular.typeface.json'
+import Stats from 'three/examples/jsm/libs/stats.module.js';
+
 const font = new Font(fontJson)
 
 let camera, controls, skyBox, glRenderer, cssRenderer, glScene, cssScene, axesHelper
@@ -62,7 +64,7 @@ export default {
   methods: {
     loadScene() {
     
-      //if(glScene) alert('destroy')
+      //if(glScene) return
       // world
       glScene = new Scene()
       this.glModelObject3D = new Object3D()
@@ -125,6 +127,7 @@ export default {
       glScene.name = 'glScene'
       this.$el.addEventListener('click', this.onClick, false)
 
+      glScene.add(new Stats())
       //this.$nextTick(() => this.$nextTick(() => this.onResize()))
       this.render()
       this.animate()
@@ -252,6 +255,7 @@ export default {
     removeLoadingText() {
       let mesh = glScene.getObjectByName('Loading Message')
       glScene.remove(mesh)
+      //mesh.dispose() how
     },
 
     getRoundedRectShape(width, height, radius) {
@@ -333,6 +337,8 @@ export default {
 
     window.addEventListener("resize", this.onResize);
     this.onResize()
+
+    
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize)

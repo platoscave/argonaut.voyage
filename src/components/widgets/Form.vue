@@ -155,13 +155,13 @@ pre {
   color: #00adff42;
 }
 .json-schema-form >>> input[readonly] {
-  border-width: 0px;
+  border-style: none;
 }
 .json-schema-form >>> textarea[readonly] {
-  border-width: 0px;
-}
+  border-style: none;
+} 
 .json-schema-form >>> div[readonly] {
-  border-width: 0px;
+  border-style: none;
 }
 .json-schema-form >>> p {
   line-height: 24px;

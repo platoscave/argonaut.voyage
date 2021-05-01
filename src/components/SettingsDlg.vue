@@ -39,7 +39,7 @@ export default {
     },
     async populateFromStatic() {
       try {
-        const response = await fetch("argonautFiltered.json");
+        const response = await fetch("argonaut.json");
         const argonautData = await response.json();
         await this.clearCache();
         await this.$pouch.bulkDocs(argonautData);

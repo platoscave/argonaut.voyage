@@ -1,8 +1,9 @@
 <template>
-  <div v-if="readOnly || items.length < 2">
+  <div v-if="readOnly || items.length < 2" class="control-background" readonly="readonly">
     {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : '' }}
   </div>
   <el-radio-group
+   class="control-background"
     v-else-if="items.length < 5"
     v-on:update="$emit('input', $event)"
     v-bind:value="value"
