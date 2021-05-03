@@ -136,6 +136,18 @@ li.el-select-dropdown__item {
   font-size: 16px;
   line-height: 28px;
 }
+/* Fix Tooltip */
+div.el-tooltip__popper.is-dark {
+  background: #232323;
+  border-color: #524f4f;
+  border-style: solid;
+  border-radius: 6px;
+  border-width: 1px;
+  color: #eee !important;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 28px;
+}
 /* Dark mode scroll bars */
 ::-webkit-scrollbar {
   width: 8px;

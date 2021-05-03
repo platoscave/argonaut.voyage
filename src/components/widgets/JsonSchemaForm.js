@@ -194,12 +194,16 @@ export default {
         labelArr.push(createElement('el-tooltip',
           {
             class: 'el-icon-info',
-            attrs: {
-            },
             props: {
               content: property.description,
               effect: 'dark'
-            }
+            },
+            // TODO cant get this to work
+            /* scopedSlots: {
+              content: function () {
+                return createElement('span', {attrs: {'v-html': 'html'}}, property.description)
+              }
+            } */
           }, [createElement('i', { class: 'el-icon-info' })]
         ))
       }

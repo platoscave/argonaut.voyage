@@ -175,29 +175,6 @@ export default class ClassObject3d extends Object3D {
     // Execute the query
     let resArr = await getTheData(queryId, this.userData)
 
-    resArr.map((item) => {
-      item.assocs = []
-      const fks = ['stateId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', 'ownerId', 'agreementClassId', 'viewId', 'pageId', 'queryId', 'baseClassId']
-      //const fks = ['pageId']
-      for (let key in item) {
-        const prop = item[key]
-        if (fks.includes(key)) item.assocs.push({ name: key, destId: prop })
-        /* for (let key in prop.tabs) {
-          const tab = prop[key]
-          if (key in fks) assocs.push({ name: key, destId: tab})
-          for (let key in tab.widgets) {
-            const widgets = tab[key]
-            if (key in fks) assocs.push({ name: key, destId: widgets })
-          }
-        } */
-        if(key === 'tabs') {
-          prop.forEach(tab => {
-            //if(tab.pageId) assocs.push({ name: 'pageId', destId: tab.pageId })
-          })
-        }
-      }
-      return item
-    })
 
     // Create the objects
     //let objectsArr = []

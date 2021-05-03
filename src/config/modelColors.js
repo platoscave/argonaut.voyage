@@ -21,7 +21,11 @@ module.exports = {
     color: 0xa697f8,
     depth: 0
   },
-  stateId: {
+  stepId: {
+    color: 0xc9912d,
+    depth: 1
+  },
+  firstStepId: {
     color: 0xc9912d,
     depth: 1
   },

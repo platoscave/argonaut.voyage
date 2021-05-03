@@ -3578,13 +3578,6 @@
       "selector": {
         "classId": "$fk"
       },
-      "fields": [
-        "_id",
-        "name",
-        "docType",
-        "properties",
-        "classId"
-      ],
       "sort": [
         "name"
       ]
