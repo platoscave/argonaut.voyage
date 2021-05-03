@@ -1,4 +1,5 @@
 import BalanceSheet from './widgets/BalanceSheet.vue'
+import Calendar from './widgets/Calendar.vue'
 import ClassModel from './widgets/ClassModel.vue'
 import Document from './widgets/Document.vue'
 import Form from './widgets/Form.vue'
@@ -18,6 +19,7 @@ export default {
   name: 'ar-widget-selector',
   components: {
     'ar-balance-sheet': BalanceSheet,
+    'ar-calendar': Calendar,
     'ar-class-model': ClassModel,
     'ar-document': Document,
     'ar-form': Form,
@@ -54,6 +56,9 @@ export default {
 
       if (widget.displayType === 'Balance Sheet') {
         return createElement('ar-balance-sheet', elementProps)
+      }
+      else if (widget.displayType === 'Calendar') {
+        return createElement('ar-calendar', elementProps)
       }
       else if (widget.displayType === 'Class Model') {
         return createElement('ar-class-model', elementProps)

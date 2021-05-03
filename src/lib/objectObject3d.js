@@ -70,28 +70,6 @@ export default class StepObject3d extends Object3D {
 
     drawAssocs(this.userData)
 
-    for (let key in this.userData.assocs) {
-
-      const assoc = this.userData.assocs[key]
-      //if (!assoc.destId) continue
-
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      //if (!destObj3d) console.log('Assoc destination not found: ' + assoc.name, assoc.destId)
-      //if (!destObj3d) console.log(this)
-      if (!destObj3d) continue
-
-      // Get positions in world coordinates
-      let sourcePos = new Vector3()
-      this.getWorldPosition(sourcePos)
-      let destPos = new Vector3()
-      destObj3d.getWorldPosition(destPos)
-
-      const points = this.addCorners(sourcePos, destPos)
-
-      this.add(this.drawTube(points, assoc.name, assoc.name, true))
-
-    }
-
   }
 
   addCorners(sourcePos, destPos) {

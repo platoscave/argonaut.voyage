@@ -1218,6 +1218,7 @@
                     "default": "Form",
                     "enum": [
                       "Balance Sheet",
+                      "Calendar",
                       "Class Model",
                       "Document",
                       "Form",
@@ -3096,6 +3097,172 @@
       }
     ]
   },
+  {
+    "_id": "z1wmobr423zh",
+    "docType": "object",
+    "name": "User Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "User Details",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "User Form",
+            "viewId": "mairnfr3iilv"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
+          }
+        ]
+      }
+    ]
+  },  
+  {
+    "_id": "44yiclbxugop",
+    "docType": "object",
+    "name": "Organization Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Organization Details",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Organization Form",
+            "viewId": "mairnfr3iilv"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
+          }
+        ]
+      }
+    ]
+  },  
+  {
+    "_id": "t2grmjaab5fn",
+    "docType": "object",
+    "name": "Organizational Unit Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Organizational Unit Details",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Organizational Unit Form",
+            "viewId": "mairnfr3iilv"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "rctffnyuy2kn",
+    "docType": "object",
+    "name": "Human Resources Form Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Vertical",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Members Table",
+        "widgets": [
+          {
+            "displayType": "Table",
+            "name": "Members Table",
+            "XviewId": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "zjxzkwb2q5rc",
+    "docType": "object",
+    "name": "Planning Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Planing Calendar",
+        "widgets": [
+          {
+            "displayType": "Calendar",
+            "name": "Calendar",
+            "XviewId": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "oa2wxqmzh44v",
+    "docType": "object",
+    "name": "Backlog Form Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "Vertical",
+    "ownerId": "argonautdot1",
+    "tabs": [
+      {
+        "name": "Backlog Table",
+        "widgets": [
+          {
+            "displayType": "Table",
+            "name": "Backlog Table",
+            "XviewId": ""
+          }
+        ]
+      }
+    ]
+  },
+
+
 
 
   {
@@ -3511,6 +3678,57 @@
     "baseClassId": "siutzqsj5dgc",
     "type": "object"
   },
+  {
+    "_id": "mairnfr3iilv",
+    "docType": "object",
+    "name": "Account Form View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "properties": {
+      "_id": {},
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "how": {
+        "readOnly": false
+      },
+      "why": {
+        "readOnly": false
+      },
+      "exposedToProcessesIds": {
+        "readOnly": false
+      },
+      "pageId": {
+        "readOnly": false
+      },
+      "subParagraphIds": {
+        "readOnly": false
+      },
+      "subUnitIds": {},
+      "account_name": {},
+      "head_block_num": {},
+      "head_block_time": {},
+      "privileged": {},
+      "last_code_update": {},
+      "created": {},
+      "ram_quota": {},
+      "net_weight": {},
+      "cpu_weight": {},
+      "net_limit": {},
+      "cpu_limit": {},
+      "ram_usage": {},
+      "permissions": {},
+      "total_resources": {},
+      "self_delegated_bandwidth": {},
+      "refund_request": {},
+      "voter_info": {}
+    },
+    "baseClassId": "pae2bfbrab5n",
+    "type": "object"
+  },
 
 
 
@@ -3790,19 +4008,18 @@
       {
         "name": "Organization",
         "icon": "el-icon-user-solid",
-        "pageId": "",
         "menuArr": [
           {
             "name": "Human Resources",
-            "pageId": ""
+            "pageId": "rctffnyuy2kn"
           },
           {
             "name": "Scheduling",
-            "pageId": ""
+            "pageId": "zjxzkwb2q5rc"
           },
           {
-            "name": "Messaging",
-            "pageId": ""
+            "name": "Backlog",
+            "pageId": "oa2wxqmzh44v"
           }
         ]
       },
