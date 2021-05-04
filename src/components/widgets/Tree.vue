@@ -116,7 +116,7 @@ export default {
           // Get the viewObj
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
-          const resArr = await this.getTheData(this.viewObj.queryId, node.data);
+          const resArr = await this.getTheData(this.viewObj.queryId, {_id: this.selectedObjId});
 
           // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
           getGetPropertyFromAnscetors(resArr, 'pageId')

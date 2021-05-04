@@ -1,5 +1,5 @@
 <template>
-  <el-calendar>
+  <el-calendar class="el-calendar">
     {{ dataObj }}
   </el-calendar>
 </template>
@@ -30,10 +30,10 @@ export default {
 .el-calendar {
   background-color: unset;
 }
-.el-calendar__title {
+.el-calendar >>> div.el-calendar__title {
   color: unset;
 }
-.el-calendar-table td.is-selected {
+.el-calendar >>> .el-calendar-table td.is-selected {
   background-color: #ffffff08;
 }
 </style>

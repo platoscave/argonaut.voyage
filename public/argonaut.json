@@ -2217,14 +2217,7 @@
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: green; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Bicycle Shop</h1><p><i>Enjoy the fresh air.</i></p><h2>For Rent Sale or Repair</h2></div><div class=\"flex xs6\"><img src=\"bicycle-788733_960_720.jpg\" height=\"500\"></div></div>",
     "classId": "zx5ffzoa5euy",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB5klEQVQ4T61Tv2sUURD+Zt7undFYqKTKsW/v7p0YDqwEGxst/EUKbcQiYKGIAUGRVIqKTYpYiBjQSiEGSSPIgYX5C+wEUSx8t7e3kassDAlL4vneyIKBxICFl2mGGeZ988038wgDGg34HjsLYKKoCeYRAIIgeG+t7Teq1WMiwuLU9/ZS+9PfjLcwaES1cWE/DZEFhOFsuVxeW19dvSJgFvgJKHUqSZLlzSDbRjBxPOkEUwz6srXQaxA9t2n6aBtAvVI3FLhx8ZQz4YJ4UT7kcxvd4jjeFQpeiHdjpNRTAXbDuZZdWmpTXeszLHRdQM9AuASSg/A0A0jdZumDQ6OjB34F4TwR3ohzt8HcIlHvAD8pih5TI4rflvbuOZ/n+T5ybg4+mKLAXyaBBmQGnqbBckuEriqhV57cHZtlp40xZem712R0dd52OxMFExG5ycxrIjgiwA8GxCs+myRJZqJowWbZRVOtnrSdzmKhQ03rl2S0nsv7/Wu9Xi8vko04PirAcZumD/+I5Qpvovg+SFq22/1QxM2R5vDPoZVZqlVqDSh3j4UXCbLfw49RqXTDWru+We1KpTJUUuETJvkMkWWATyj4uxtrVEbrw+KClfa3tv3XeRcb48ANf03TjwD8zp7y/3ysgRn8BlTuy14MbVpqAAAAAElFTkSuQmCC",
-    "pageId": "2kjjzqr2i5o5",
-    "subUnitIds": [
-      "bikefrondesk",
-      "bikeworkshop"
-    ],
-    "exposedToProcessesIds": [
-      "ynaxakdc423e"
-    ]
+    "pageId": "2kjjzqr2i5o5"
   },
   {
     "_id": "clinic111111",
@@ -2233,10 +2226,7 @@
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: #76448A; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Health Care Clinic</h1><p><i>Stay fit, live long.</i></p><h2>Call for an appointment</h2></div><div class=\"flex xs3\"><h1>Image</h1></div></div>",
     "classId": "be1ub1vtofjo",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtklEQVQ4T5WSsUtbURTGz3dfiFEzFKFL1Xtv8p4g2sFOFdql0E5tQTJlkHZ16FQo/gOdnBw6dA4dhKKTdHDKIJKpUy2heUneTYKLIBLakERzT3liIAlJSO50z3e+8zv3XA6o57hSPgPECRHN9eo99wYTvyoac9bV0AdQiQ+wt5/Icd4RUV/uzmdthuHsFU35y2gA8Y5vgsfDXuAp/YsJX/sArtb7zIiHBYJ5jUCrlnA0DCCIU8SUt8DvMO+QbcBT+goCW50O7Ii5R8qC7Xckla6VTLA06Fp/uB5vRVsPQn2mPXN9fnn+d9DjSpkfCfBU4hsRxe6Lmr4pb08FcJf1Yaw5/z4sasf+ZQrVIDURwNP6hBltEDtLRr/NUpY9KQ+JRRQC0YIpv+yCho7gqcSpb8rPB7tprWORTifnV6sbYwFJpXIA9pm5XjLmR2heUeo1s1iwxB9LleDJWICr1AuwWCTY3cbNzdPQPBuJ/AQ5n0lwzQ+C7FhAN+lJecBCHIQxrE37lUp6ok/smlZk8g2BN+9iRq5QKR0PBbhKXxRN8GjaLQz9ntZ/kJSyTkBTWJ5ulZlAjoj/B4u9x9M8LUgYAAAAAElFTkSuQmCC",
-    "pageId": "4devwsepaig1",
-    "exposedToProcessesIds": [
-      "cie1pllxq5mu"
-    ]
+    "pageId": "4devwsepaig1"
   },
   {
     "_id": "clinreceptio",
@@ -2379,10 +2369,7 @@
     "name": "Front Desk",
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/ACMEBicyleShop.png' width='100%' height='100px'><div class='headline'>Front Desk</div></div>",
     "classId": "dasprps1lrwf",
-    "ownerId": "bikeshop1111",
-    "authorizedForStateIds": [
-      "yefagaab4ua2"
-    ],
+    "parentOrgId": "bikeshop1111",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2424,10 +2411,7 @@
     "name": "Workshop",
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/ACMEBicyleShop.png' width='100%' height='100px'><div class='headline'>Workshop</div></div><p>ACME Workshop</p>",
     "classId": "dasprps1lrwf",
-    "ownerId": "bikeshop1111",
-    "authorizedForStateIds": [
-      "pvk5ngmorf4z"
-    ],
+    "parentOrgId": "bikeshop1111",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2783,7 +2767,7 @@
           {
             "displayType": "Tree",
             "name": "Organization Tree",
-            "viewId": "pepmfz4be5uu"
+            "viewId": "nmeh5awdy4jm"
           }
         ]
       }
@@ -3284,6 +3268,16 @@
     "ownerId": "argonautdot1",
     "queryId": "sfmg5u3wtpds",
     "type": "object"
+  },  
+  {
+    "_id": "nmeh5awdy4jm",
+    "docType": "object",
+    "name": "Organization Tree View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "queryId": "vbinebvkz1sq",
+    "type": "object"
   },
   {
     "_id": "5ucwmdby4wox",
@@ -3698,16 +3692,14 @@
       "why": {
         "readOnly": false
       },
-      "exposedToProcessesIds": {
-        "readOnly": false
-      },
       "pageId": {
         "readOnly": false
       },
       "subParagraphIds": {
         "readOnly": false
       },
-      "subUnitIds": {},
+      "parentOrgId": {},
+      "permissions": {},
       "account_name": {},
       "head_block_num": {},
       "head_block_time": {},
@@ -3720,7 +3712,6 @@
       "net_limit": {},
       "cpu_limit": {},
       "ram_usage": {},
-      "permissions": {},
       "total_resources": {},
       "self_delegated_bandwidth": {},
       "refund_request": {},
@@ -3869,6 +3860,82 @@
         "name",
         "classId",
         "nextStepIds"
+      ],
+      "sort": [
+        "name"
+      ]
+    }
+  },
+  {
+    "_id": "vbinebvkz1sq",
+    "docType": "object",
+    "name": "Organization Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "subQueryIds": [
+      "o4jhldcqvbep",
+      "1dbriehwtyyp"
+    ],
+    "mongoQuery": {
+      "selector": {
+        "_id": "$fk"
+      },
+      "fields": [
+        "_id",
+        "name",
+        "classId",
+        "firstStepId",
+        "returnActions",
+        "permissions",
+        "icon"
+      ]
+    }
+  },
+  {
+    "_id": "o4jhldcqvbep",
+    "docType": "object",
+    "name": "Organizational Unit Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "subQueryIds": [
+      "o4jhldcqvbep",
+      "1dbriehwtyyp"
+    ],
+    "mongoQuery": {
+      "selector": {
+        "parentOrgId": "$fk"
+      },
+      "fields": [
+        "_id",
+        "name",
+        "docType",
+        "permissions",
+        "classId",
+        "icon"
+      ],
+      "sort": [
+        "name"
+      ]
+    }
+  },
+  {
+    "_id": "1dbriehwtyyp",
+    "docType": "object",
+    "name": "Organizational Unit Permission Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "mongoQuery": {
+      "manyToOneArrayProp": "permissions",
+      "selector": {
+        "_id": "$required_auth.accounts.0.permission.actor"
+      },
+      "fields": [
+        "_id",
+        "name",
+        "docType",
+        "permissions",
+        "classId",
+        "icon"
       ],
       "sort": [
         "name"
