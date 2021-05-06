@@ -45,10 +45,6 @@
 </template>
 
 <script>
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-debugger */
-/* eslint-disable no-unused-vars */
-/* eslint-disable vue/no-unused-components */
 
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
@@ -72,7 +68,7 @@ export default {
         database: "argonaut",
         selector: { classId: 'hdt3hmnsaghk'},
         fields: ["_id", "name"],
-        sort: [{ name: "asc" }],
+        sort: ["name"],
       };
     },
     appSettings: function () {
@@ -87,12 +83,14 @@ export default {
   methods: {
     updateCurrentNetwork(value) {
       this.$settings.upsert("appSettings", (doc) => {
-        return { currentNetwork: value };
+        doc.currentNetwork = value
+        return doc
       });
     },
     updateCurrentUser(value) {
       this.$settings.upsert("appSettings", (doc) => {
-        return { currentUser: value };
+        doc.currentUser = value
+        return doc
       });
     },
   },
@@ -135,6 +133,13 @@ li.el-select-dropdown__item {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 28px;
+}
+.el-scrollbar {
+  background: #232323;
+  border-color: #524f4f;
+  border-style: solid;
+  border-radius: 6px;
+  border-width: 1px;
 }
 /* Fix Tooltip */
 div.el-tooltip__popper.is-dark {

@@ -174,6 +174,7 @@ export default class StepObject3d extends Object3D {
   getMesh() {
     const x = 0, y = 0
 
+    // Chervron
     let shape = new Shape()
     shape.moveTo(x, y)
       .lineTo(x + WIDTH / 8, y + HEIGHT / 2)

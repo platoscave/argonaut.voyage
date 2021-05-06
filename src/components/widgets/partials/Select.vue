@@ -28,6 +28,7 @@
 
 <script>
 import QueryMixin from "../../../lib/queryMixin";
+import { PouchdbServices } from "../../../dataServices/pouchdbServices";
 
 export default {
   name: "ar-select",

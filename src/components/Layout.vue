@@ -1,51 +1,43 @@
 <template>
   <div v-if="pageObj">
-    <!-- Single page content -->
-    <div
-      class="ar-full-height"
+    <!-- Single page layout -->
+    <ar-page
       v-if="!pageObj.divider || pageObj.divider === 'None'"
-    >
-      <ar-page
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:tabs="pageObj.tabs"
-      ></ar-page>
-    </div>
-
-    <!-- Divider content -->
-    <div
       class="ar-full-height"
+      v-bind:hash-level="hashLevel"
+      v-bind:tabs="pageObj.tabs"
+    ></ar-page>
+
+    <!-- Divider layout -->
+    <rs-panes
       v-else-if="
         pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'
       "
+      split-to="columns"
+      :allow-resize="true"
+      v-on:update:size="paneResizeStop"
+      :size="pageSettings ? pageSettings.paneSize : 300"
+      :min-size="40"
+      resizerColor="#2196f3"
     >
-      <!-- split-to="pageObj.divider === 'Horizontal' ? 'rows' : 'columns'" -->
-      <rs-panes
-        split-to="columns"
-        :allow-resize="true"
-        v-on:update:size="paneResizeStop"
-        :size="pageSettings ? pageSettings.paneSize : 300"
-        :min-size="40"
-        resizerColor="#2196f3"
-      >
-        <!-- Master content -->
-        <div class="ar-full-height" slot="firstPane">
-          <ar-page
-            v-bind:hash-level="hashLevel"
-            v-bind:tabs="pageObj.tabs"
-          ></ar-page>
-        </div>
+      <!-- Master content -->
+      <ar-page
+        class="ar-full-height"
+        slot="firstPane"
+        v-bind:hash-level="hashLevel"
+        v-bind:tabs="pageObj.tabs"
+      ></ar-page>
 
-        <!-- Slave content -->
-        <div class="ar-full-height right" slot="secondPane">
-          <ar-layout v-bind:hash-level="hashLevel + 1"></ar-layout>
-        </div>
-      </rs-panes>
-    </div>
+      <!-- Slave content -->
+      <ar-layout
+        class="ar-full-height right"
+        slot="secondPane"
+        v-bind:hash-level="hashLevel + 1"
+      ></ar-layout>
+    </rs-panes>
 
-    <!-- Studio -->
+    <!-- Studio layout -->
     <ar-studio class="ar-full-height" v-else>
-
       <!-- Background content -->
       <ar-class-model
         v-if="pageObj.divider === 'Class Model'"
@@ -84,11 +76,11 @@
         :hash-level="hashLevel + 1"
       ></ar-layout>
     </ar-studio>
-
   </div>
 </template>
 
 <script>
+import WidgetMixin from "../lib/widgetMixin";
 import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
 import ClassModel from "./widgets/ClassModel.vue";
@@ -97,6 +89,7 @@ import OrganizationModel from "./widgets/OrganizationModel.vue";
 
 export default {
   name: "ar-layout",
+  mixins: [WidgetMixin],
   components: {
     "rs-panes": ResSplitPane,
     "ar-studio": Studio,
@@ -109,8 +102,6 @@ export default {
   },
   data() {
     return {
-      pageId: null,
-      //pageObj: Object,
       leftOpen: true,
       rightOpen: false,
     };
@@ -138,41 +129,15 @@ export default {
         return doc;
       });
     },
-
-    handleHashChange: async function () {
-      const ourLevelArr = window.location.hash.split("/")[this.hashLevel + 1];
-      if (!ourLevelArr) return;
-      const levelStates = ourLevelArr.split(".");
-      this.pageId = levelStates[1];
-      //this.pageObj = await this.$pouch.get(this.pageId);
-    },
-  },
-
-  mounted() {
-    window.addEventListener("hashchange", this.handleHashChange, false);
-    this.handleHashChange();
-  },
-  beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false);
   },
 };
 </script>
 <style scoped>
 /* Split pane */
-.ar-page {
-  height: 100%;
-}
-.ar-layout {
-  height: 100%;
-}
 .right > div {
   height: 100%;
 }
 .pane-rs {
   position: unset;
-}
-.ar-page {
-  background: unset;
-  padding: 10px;
 }
 </style>
