@@ -157,7 +157,7 @@
         "type": "string"
         
       },
-      "agreementProcessId": {
+      "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -176,11 +176,11 @@
         "type": "string"
         
       },
-      "sellerProcessId": {
+      "currentStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
-            "classId": "dwl1kwhalwj4"
+            "classId": "dlpwvptczyeb"
           },
           "fields": [
             "_id",
@@ -191,109 +191,8 @@
           ],
           "extendTo": "instances"
         },
-        "title": "Seller Process",
+        "title": "Step",
         "type": "string"
-        
-      },
-      "sellerEpicId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
-            "classId": "dwl1kwhalwj4"
-          },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
-          "extendTo": "instances"
-        },
-        "title": "Seller Epic",
-        "type": "string"
-        
-      },
-      "processStack": {
-        "items": {
-          "properties": {
-            "processId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
-                  "classId": "dwl1kwhalwj4"
-                },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
-                "extendTo": "instances"
-              },
-              "title": "Process",
-              "type": "string"
-              
-            },
-            "stepId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
-                  "classId": "dlpwvptczyeb"
-                },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
-                "extendTo": "instances"
-              },
-              "title": "Step",
-              "type": "string"
-              
-            }
-          },
-          "required": [
-            "action",
-            "stepId"
-          ],
-          "type": "object"
-        },
-        "title": "Process Stack",
-        "type": "array"
-        
-      },
-      "agreementHistoryIds": {
-        "items": {
-          "properties": {
-            "agreementHistoryId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
-                  "classId": "re1ihrfyl3zf"
-                },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
-                "extendTo": "instances"
-              },
-              "title": "Step History",
-              "type": "string"
-              
-            }
-          },
-          "type": "object"
-        },
-        "title": "Agreement History",
-        "type": "array"
-        
       }
     },
     "type": "object"
@@ -786,25 +685,6 @@
           "Enhancement"
         ],
         "title": "Classification",
-        "type": "string"
-        
-      },
-      "sellerEpicId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
-            "classId": "dwl1kwhalwj4"
-          },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
-          "extendTo": "instances"
-        },
-        "title": "Seller Epic",
         "type": "string"
         
       }

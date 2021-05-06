@@ -70,10 +70,12 @@ export default {
       // use the item as basis for resolving query variables
       if (queryObj.mongoQuery.manyToOneArrayProp) {
         const manyArr = nodeData[queryObj.mongoQuery.manyToOneArrayProp]
+        if(!manyArr) return []
         let promiseArr = manyArr.map((item) => {
           return executeQuery(queryObj, item)
         })
         const arrayOfResultArrays = await Promise.all(promiseArr)
+        // TODO results may still have to be sorted
         return arrayOfResultArrays.flat()
 
       } else {
