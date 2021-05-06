@@ -18,6 +18,9 @@
     <el-row>
       <el-button type="primary" @click="randomKey">Random Key</el-button>
     </el-row>
+    <el-row>
+      <el-button type="primary" @click="testQuery">Test Query</el-button>
+    </el-row>
   </el-dialog>
 </template>
 
@@ -45,20 +48,20 @@ export default {
         await this.$pouch.bulkDocs(argonautData);
         await this.$pouch.createIndex({
           index: {
-            fields: ["name", "title", "parentId"],
+            fields: ["parentId", "title"],
           },
         });
         await this.$pouch.createIndex({
           index: {
-            fields: ["name", "title", "classId"],
+            fields: ["classId", "name"],
           },
         });
         await this.$pouch.createIndex({
           index: {
-            fields: ["name", "title", "ownerId"],
+            fields: ["ownerId", "name"],
           },
         });
-        await this.$message({
+        this.$message({
           message: "Static File Loaded and Imported",
           type: "success",
         });
@@ -74,9 +77,17 @@ export default {
       const response = await fetch("argonaut.json");
       const argonautData = await response.json();
 
-      const processClasses = ["cq4bjkzqc2qp","xsaq3l5hncb2","dqja423wlzrb","jotxozcetpx2", "1jrqyjoabx1a","s41na42wsxez", "dwl1kwhalwj4" ]
+      const processClasses = [
+        "cq4bjkzqc2qp",
+        "xsaq3l5hncb2",
+        "dqja423wlzrb",
+        "jotxozcetpx2",
+        "1jrqyjoabx1a",
+        "s41na42wsxez",
+        "dwl1kwhalwj4",
+      ];
       const filterData = argonautData.filter((item) => {
-        return processClasses.includes(item.classId)
+        return processClasses.includes(item.classId);
       });
 
       const jsonString = JSON.stringify(filterData, null, 2);
@@ -99,7 +110,46 @@ export default {
       }
       alert(randomKey);
     },
+    async testQuery() {
+      try {
+        /* 
+        {
+          "$and": [
+            { "classId": "pejdgrwd5qso" },
+            { "_id": {"$gt": null} },
+            { "_id": {"$exists": true} },
+            { "name": {"$gt": null} },
+            { "name": {"$exists": true} }
+          ]
+        }
+        */
+
+        const res = await this.$pouch.find({
+          database: "argonaut",
+          selector: { classId: "hdt3hmnsaghk" },
+          fields: ["_id", "name"],
+          //sort: ["name"],
+        });
+        console.log(res);
+        this.$message({
+          message: "Static File Loaded and Imported",
+          type: "success",
+        });
+      } catch (err) {
+        console.error(err);
+        this.$message({ message: err, type: "error" });
+      }
+    },
   },
 };
 </script>
+<style scoped>
+.el-row {
+  margin-top: 10px;
+}
+.el-button--primary {
+  color: black;
+}
+</style>
+
 

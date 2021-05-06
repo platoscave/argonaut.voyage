@@ -21,10 +21,11 @@ export default {
         let selector = mongoQueryClone.selector;
         for (var key in selector) {
           const value = selector[key];
+          if(Array.isArray(value)) continue
           if (value === "$fk") selector[key] = resolveObj._id;
           else if (value.startsWith("$")) {
             selector[key] = getDescendantProp(value, resolveObj);
-            if (!selector[key]) return null // not found
+            if (!selector[key]) return null // not found TODO continue
           }
         }
         return mongoQueryClone
@@ -33,6 +34,7 @@ export default {
       // Get / Execute the query
       const executeQuery = async (queryObj, resolveObj) => {
         // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+        // Bizar: I change the indexes and sorting is done automaticly
         delete queryObj.mongoQuery.sort;
         //if(queryObj.mongoQuery.sort && queryObj.mongoQuery.sort[0] === 'title') delete queryObj.mongoQuery.sort;
 
@@ -50,6 +52,8 @@ export default {
             //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
             item.isLeaf = false;
           }
+          else  item.isLeaf = true;
+            
           // If the query retreives an icon, use it. Otherwise use the query icon.
           if (!item.icon) item.icon = queryObj.icon;
           // If the query retreives a pageId, use it. Otherwise use the query pageId.

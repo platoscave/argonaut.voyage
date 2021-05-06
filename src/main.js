@@ -9,6 +9,7 @@ import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
 import pouchdbUpsert from 'pouchdb-upsert'
+import debugPouch from "pouchdb-debug"
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
@@ -20,6 +21,8 @@ Vue.use( ElementUI, { locale })
 PouchDB.plugin(pouchdbFind)
 PouchDB.plugin(pouchdbLiveFind)
 PouchDB.plugin(pouchdbUpsert)
+//PouchDB.plugin(debugPouch)
+debugPouch(PouchDB);
 
 
 import VueHighlightJS from 'vue-highlight.js';

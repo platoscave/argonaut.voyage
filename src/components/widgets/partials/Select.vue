@@ -59,6 +59,7 @@ export default {
     async propertyHandeler() {
       // Execute the query
       if (this.property && this.property.mongoQuery) {
+        //this.$pouch.debug.enable('*')
         this.items = await this.getTheData(this.property.mongoQuery);
       }
     },
