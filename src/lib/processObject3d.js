@@ -137,7 +137,7 @@ export default class ProcessObject3d extends Object3D {
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { [this.userData.classId]: colorProp } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF }  } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

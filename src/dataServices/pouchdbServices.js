@@ -4,6 +4,7 @@ import pouchdbFind from 'pouchdb-find'
 
 export class PoucdbServices {
   constructor() {
+    this.db = new PouchDB('argonaut');
   }
 
   // nodeData is used to resolve $ variables in queries
@@ -26,6 +27,8 @@ export class PoucdbServices {
       let selector = mongoQueryClone.selector;
       for (var key in selector) {
         const value = selector[key];
+        if (Array.isArray(value)) continue // This is a complex query. Dont know how to deal with it yet
+        if (value === '$') selector[key] = resolveObj // This is a request for the value itself (not a path)
         if (value === "$fk") selector[key] = resolveObj._id;
         else if (value.startsWith("$")) {
           selector[key] = getDescendantProp(value, resolveObj);

@@ -189,7 +189,7 @@ export default {
 
   getTextMesh( name = 'unnamed', size = HEIGHT / 6 ) {
 
-    const { label: colorProp } = modelColors
+    const { label: colorProp = { color: 0xEFEFEF }  } = modelColors
     let textMaterial = new MeshLambertMaterial({ color: colorProp.color })
     textMaterial.side = DoubleSide
 

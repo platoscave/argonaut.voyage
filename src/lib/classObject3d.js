@@ -239,7 +239,7 @@ export default class ClassObject3d extends Object3D {
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
-    const { class: colorProp } = modelColors
+    const { class: colorProp = { color: 0xEFEFEF }  } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

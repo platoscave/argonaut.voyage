@@ -123,16 +123,28 @@ export default {
           ]
         }
         */
+        // https://stackoverflow.com/questions/52532232/how-to-get-specific-data-from-an-array-using-pouchdb-find
 
         const res = await this.$pouch.find({
           database: "argonaut",
-          selector: { classId: "hdt3hmnsaghk" },
-          fields: ["_id", "name"],
+          selector: {
+            nextStepIds: {
+              $elemMatch: {
+                stepId: { $exists: true },
+              },
+            },
+            /* $and: [
+              { _id: "3r5kgovlor1o" },
+              {'nextStepIds.[].stepId': '3edgchx5lgu3' },
+              //{'nextStepIds.[].stepId': { $exists: true }},
+            ], */
+          },
+          fields: ["_id", "nextStepIds"],
           //sort: ["name"],
         });
         console.log(res);
         this.$message({
-          message: "Static File Loaded and Imported",
+          message: "Succes",
           type: "success",
         });
       } catch (err) {

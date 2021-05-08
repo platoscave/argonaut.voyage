@@ -12,23 +12,25 @@ export default {
         return resolveObj;
       };
 
-      const resolveQueryVariables = (mongoQuery, resolveObj) => {
+      const resolveQueryVariables = (mongoQueryClone, resolveObj) => {
 
-        // Clone the query
-        let mongoQueryClone = JSON.parse(JSON.stringify(mongoQuery))
-
-        // Replace variables in the mongoQuery
+        // Replace variables in the mongoQueryClone
         let selector = mongoQueryClone.selector;
         for (var key in selector) {
-          const value = selector[key];
-          if(Array.isArray(value)) continue
-          if (value === "$fk") selector[key] = resolveObj._id;
+          const value = selector[key]
+          // This is a complex query. Recusive call on each of the items
+          if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, resolveObj)) 
+          // This is a request for the value itself (not a path)
+          else if (value === '$') mongoQueryClone.selector[key] = resolveObj
+          // Replace with id from resolve obj
+          else if (value === "$fk") mongoQueryClone.selector[key] = resolveObj._id;
+          // Apply dot notation using resolveObj
           else if (value.startsWith("$")) {
-            selector[key] = getDescendantProp(value, resolveObj);
-            if (!selector[key]) return null // not found TODO continue
+            mongoQueryClone.selector[key] = getDescendantProp(value, resolveObj);
+            // not found? force empty results (null would cause everything to be retreived)
+            if (!mongoQueryClone.selector[key]) mongoQueryClone.selector[key] = 'xxx'
           }
         }
-        return mongoQueryClone
       }
 
       // Get / Execute the query
@@ -36,20 +38,22 @@ export default {
         // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
         // Bizar: I change the indexes and sorting is done automaticly
         delete queryObj.mongoQuery.sort;
-        //if(queryObj.mongoQuery.sort && queryObj.mongoQuery.sort[0] === 'title') delete queryObj.mongoQuery.sort;
 
-        const resolvedMongoQuery = resolveQueryVariables(queryObj.mongoQuery, resolveObj)
-        if (!resolvedMongoQuery) return [] // invalid query, ignore
+        // Clone the query
+        let mongoQueryClone = JSON.parse(JSON.stringify(queryObj.mongoQuery))
+        // Resolve the variables in the query
+        resolveQueryVariables(mongoQueryClone, resolveObj)
+        //console.log(mongoQueryClone)
 
         // Execute the mongoQuery
-        const results = await this.$pouch.find(resolvedMongoQuery)
+        const results = await this.$pouch.find(mongoQueryClone)
 
         return results.docs.map( (item) => {
           item.label = item.title ? item.title : item.name;
           if (queryObj.subQueryIds) {
             item.subQueryIds = queryObj.subQueryIds;
             // If the query has subQueryIds, assume it may have children
-            //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+            //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
             item.isLeaf = false;
           }
           else  item.isLeaf = true;

@@ -189,7 +189,7 @@ export default class StepObject3d extends Object3D {
     geometry.name = this.userData.label + " - 3d geometry"
     geometry.center()
 
-    const { [this.userData.classId]: colorProp } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF }  } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)
