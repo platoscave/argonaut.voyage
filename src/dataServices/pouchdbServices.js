@@ -2,13 +2,14 @@
 import PouchDB from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find'
 
-export class PoucdbServices {
-  constructor() {
-    this.db = new PouchDB('argonaut');
-  }
+const db = new PouchDB('argonaut');
+
+
+export default class PoucdbServices {
+
 
   // nodeData is used to resolve $ variables in queries
-  async getTheData(query, nodeData = {}) {
+  static async getTheData(query, nodeData = {}) {
 
     // Get obj a property using dot noatation
     const getDescendantProp = (desc, resolveObj) => {
@@ -20,35 +21,39 @@ export class PoucdbServices {
 
     const resolveQueryVariables = (mongoQuery, resolveObj) => {
 
-      // Clone the query
-      let mongoQueryClone = JSON.parse(JSON.stringify(mongoQuery))
-
-      // Replace variables in the mongoQuery
-      let selector = mongoQueryClone.selector;
+      // Replace variables in the mongoQueryClone
+      let selector = mongoQuery.selector;
       for (var key in selector) {
-        const value = selector[key];
-        if (Array.isArray(value)) continue // This is a complex query. Dont know how to deal with it yet
-        if (value === '$') selector[key] = resolveObj // This is a request for the value itself (not a path)
-        if (value === "$fk") selector[key] = resolveObj._id;
+        const value = selector[key]
+        // This is a complex query. Recusive call on each of the items
+        if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, resolveObj))
+        // This is a request for the value itself (not a path)
+        else if (value === '$') mongoQuery.selector[key] = resolveObj
+        // Replace $fk with id from resolve obj
+        else if (value === "$fk") mongoQuery.selector[key] = resolveObj._id;
+        // Apply dot notation using resolveObj
         else if (value.startsWith("$")) {
-          selector[key] = getDescendantProp(value, resolveObj);
-          if (!selector[key]) return null // not found
+          mongoQuery.selector[key] = getDescendantProp(value, resolveObj);
+          // not found? force empty results (null would cause everything to be retreived)
+          if (!mongoQuery.selector[key]) mongoQuery.selector[key] = 'xxx'
         }
       }
-      return mongoQueryClone
     }
 
     // Get / Execute the query
     const executeQuery = async (queryObj, resolveObj) => {
       // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
+      // Bizar: I change the indexes and sorting is done automaticly
       delete queryObj.mongoQuery.sort;
-      //if(queryObj.mongoQuery.sort && queryObj.mongoQuery.sort[0] === 'title') delete queryObj.mongoQuery.sort;
 
-      const resolvedMongoQuery = resolveQueryVariables(queryObj.mongoQuery, resolveObj)
-      if (!resolvedMongoQuery) return [] // invalid query, ignore
+      // Clone the query
+      let mongoQueryClone = JSON.parse(JSON.stringify(queryObj.mongoQuery))
+      // Resolve the variables in the query
+      resolveQueryVariables(mongoQueryClone, resolveObj)
+      //console.log(mongoQueryClone)
 
       // Execute the mongoQuery
-      const results = await this.$pouch.find(resolvedMongoQuery)
+      const results = await db.find(mongoQueryClone)
 
       return results.docs.map((item) => {
         item.label = item.title ? item.title : item.name;
@@ -70,7 +75,7 @@ export class PoucdbServices {
     // START HERE
     let queryObj = {}
     // Get the queryObj
-    if (typeof query === 'string') queryObj = await this.$pouch.get(query)
+    if (typeof query === 'string') queryObj = await db.get(query)
     else queryObj.mongoQuery = query
 
     // In the case of a many to one query we interate over the many array
@@ -97,7 +102,7 @@ export class PoucdbServices {
 
   // Updates the target object with corresponding properties from the source object, recusivly
   // We write our own deepMerge (instead of using lodash) because we have to be able to reproduce it in C++, see below
-  deepMerge(targetObj, sourceObj) {
+  static deepMerge(targetObj, sourceObj) {
 
     Object.keys(sourceObj).forEach(propName => {
 
@@ -121,9 +126,9 @@ export class PoucdbServices {
   }
 
   // Merge class with all of its ancestors, recusivly
-  async getMergedAncestorProperties(_id) {
+  static async getMergedAncestorProperties(_id) {
 
-    const classObj = await this.$pouch.get(_id)
+    const classObj = await db.get(_id)
 
     if (classObj.parentId) {
 
@@ -139,7 +144,7 @@ export class PoucdbServices {
 
   // Get the view, then get the merged ancestors of the basClassId it points to.
   // Finally merge the view with the merged ancestors
-  async getMaterializedView(viewId) {
+  static async getMaterializedView(viewId) {
 
     const smartMerge = (viewObj, classObj) => {
 
@@ -178,7 +183,7 @@ export class PoucdbServices {
 
     // START HERE
     // Get the view
-    const viewObj = await this.$pouch.get(viewId)
+    const viewObj = await db.get(viewId)
 
     if (!viewObj.baseClassId) return viewObj
 
@@ -188,6 +193,7 @@ export class PoucdbServices {
 
     return viewObj
   }
+
 }
 
 /*  example of C++ merge: https://stackoverflow.com/questions/40013355/how-to-merge-two-json-file-using-rapidjson

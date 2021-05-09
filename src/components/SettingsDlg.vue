@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import PoucdbServices from "../dataServices/pouchdbServices"
+
 export default {
   name: "settings-dlg",
   props: {
@@ -125,7 +127,7 @@ export default {
         */
         // https://stackoverflow.com/questions/52532232/how-to-get-specific-data-from-an-array-using-pouchdb-find
 
-        const res = await this.$pouch.find({
+        /* const res = await this.$pouch.find({
           database: "argonaut",
           selector: {
             nextStepIds: {
@@ -137,14 +139,18 @@ export default {
               { _id: "3r5kgovlor1o" },
               {'nextStepIds.[].stepId': '3edgchx5lgu3' },
               //{'nextStepIds.[].stepId': { $exists: true }},
-            ], */
+            ], * /
           },
           fields: ["_id", "nextStepIds"],
           //sort: ["name"],
-        });
+        }); */
+
+        debugger
+        //console.log(PouchdbServices)
+        const res = await PoucdbServices.getTheData('sfmg5u3wtpds')
         console.log(res);
         this.$message({
-          message: "Succes",
+          message: "Success",
           type: "success",
         });
       } catch (err) {
