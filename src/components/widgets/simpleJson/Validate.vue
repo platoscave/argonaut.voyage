@@ -6,7 +6,7 @@
 
 <script>
 import WidgetMixin from "../../../lib/widgetMixin"
-import QueryMixin from "../../../lib/queryMixin"
+import PoucdbServices from "../../../dataServices/pouchdbServices"
 import Ajv from "ajv"
 import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json"
 
@@ -15,7 +15,7 @@ ajv.addMetaSchema(draft4MetaSchema)
 
 export default {
   name: 'ar-validate',
-  mixins: [WidgetMixin, QueryMixin], 
+  mixins: [WidgetMixin], 
   props: {
     hashLevel: Number,
     viewId: String
@@ -38,7 +38,7 @@ export default {
     dataObj: function (value) {
       // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
       // Thats why we need both mounted and watch
-      if(value) this.getMergedAncestorProperties( value.classId ).then( schema => {
+      if(value) PoucdbServices.getMergedAncestorProperties( value.classId ).then( schema => {
         const validate = ajv.compile(schema)
         const valid = validate(value)
         if(valid) this.errorObj = 'Valid'
@@ -47,10 +47,11 @@ export default {
     },
   },
   mounted() {
-    if(this.dataObj) this.getMergedAncestorProperties( this.dataObj.classId ).then( schema => {
+    if(this.dataObj) PoucdbServices.getMergedAncestorProperties( this.dataObj.classId ).then( schema => {
       const validate = ajv.compile(schema)
-      const valid = validate(value)
-      this.errorObj = validate.errors
+      const valid = validate(this.dataObj)
+      if(valid) this.errorObj = 'Valid'
+      else this.errorObj = validate.errors
     })
   },
 }

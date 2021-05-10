@@ -117,7 +117,6 @@
         },
         "title": "Buyer",
         "type": "string"
-        
       },
       "sellerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -3130,7 +3129,7 @@
           {
             "displayType": "Table",
             "name": "Backlog Table",
-            "XviewId": ""
+            "viewId": "wkt3pyiwxkim"
           }
         ]
       }
@@ -3610,6 +3609,25 @@
     },
     "baseClassId": "pae2bfbrab5n",
     "type": "object"
+  },  
+  {
+    "_id": "wkt3pyiwxkim",
+    "docType": "object",
+    "name": "Backlog View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautdot1",
+    "queryId": "seidi2adi4wf",
+    "properties": {
+      "_id": {},
+      "name": {},
+      "description": {},
+      "startDate": {},
+      "buyerId": {},
+      "currentStepId": {}
+    },
+    "baseClassId": "i1gjptcb2skq",
+    "type": "object"
   },
 
 
@@ -3907,6 +3925,27 @@
       ],
       "sort": [
         "name"
+      ]
+    }
+  },
+  {
+    "_id": "seidi2adi4wf",
+    "docType": "object",
+    "name": "Backlog Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautdot1",
+    "mongoQuery": {
+      "selector": {
+        "$and": [
+          {"ownerId": "$fk" },
+          {"classId": "i1gjptcb2skq" }
+        ]
+      },
+      "fields": [
+        "_id",
+        "name",
+        "description",
+        "classId"
       ]
     }
   },

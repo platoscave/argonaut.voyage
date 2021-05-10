@@ -21,12 +21,12 @@
 
 <script>
 import JsonSchemaForm from './JsonSchemaForm';
-import QueryMixin from "../../lib/queryMixin";
+import PoucdbServices from "../../dataServices/pouchdbServices"
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
   name: "ar-form", 
-  mixins: [WidgetMixin, QueryMixin], 
+  mixins: [WidgetMixin], 
   components: {
     'ar-jsonschema-form': JsonSchemaForm
   },
@@ -68,7 +68,7 @@ export default {
     },
 
     async viewIdHandeler() {
-      if (this.viewId) this.viewObj = await this.getMaterializedView(this.viewId)
+      if (this.viewId) this.viewObj = await PoucdbServices.getMaterializedView(this.viewId)
     }
   },
   watch: {

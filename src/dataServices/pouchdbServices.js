@@ -1,6 +1,6 @@
 
 import PouchDB from 'pouchdb-browser'
-import pouchdbFind from 'pouchdb-find'
+//import pouchdbFind from 'pouchdb-find'
 
 const db = new PouchDB('argonaut');
 

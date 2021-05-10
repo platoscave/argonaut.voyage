@@ -50,9 +50,6 @@
 </template>
 
 <script>
-/* eslint-disable no-unused-vars */
-/* eslint-disable vue/no-unused-components */
-
 import WidgetSelector from "./WidgetSelector.js";
 
 export default {

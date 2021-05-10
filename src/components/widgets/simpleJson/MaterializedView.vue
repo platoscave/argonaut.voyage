@@ -6,11 +6,11 @@
 
 <script>
 import WidgetMixin from "../../../lib/widgetMixin"
-import QueryMixin from "../../../lib/queryMixin"
+import PoucdbServices from "../../../dataServices/pouchdbServices"
 
 export default {
   name: 'ar-materialized-view',
-  mixins: [WidgetMixin, QueryMixin], 
+  mixins: [WidgetMixin], 
   props: {
     hashLevel: Number,
   }, 
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     async selectedObjIdHandeler() {
-      if (this.selectedObjId) this.viewObj = await this.getMaterializedView(this.selectedObjId)
+      if (this.selectedObjId) this.viewObj = await PoucdbServices.getMaterializedView(this.selectedObjId)
     }
   },
   watch: {

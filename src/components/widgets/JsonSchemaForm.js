@@ -1,10 +1,9 @@
 import Tiptap from './Tiptap';
 import Select from './partials/Select';
-import QueryMixin from "../../lib/queryMixin";
+//import PoucdbServices from "../../dataServices/pouchdbServices"
 
 export default {
   name: 'ar-jsonschema-form',
-  mixins: [QueryMixin], 
   components: {
     'tiptap': Tiptap,
     'ar-select': Select

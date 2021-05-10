@@ -145,7 +145,7 @@ export default {
           //sort: ["name"],
         }); */
 
-        debugger
+        //debugger
         //console.log(PouchdbServices)
         const res = await PoucdbServices.getTheData('sfmg5u3wtpds')
         console.log(res);
