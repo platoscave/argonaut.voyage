@@ -11,8 +11,8 @@
 
 <script>
 import ProcessObject3d from "../../lib/processObject3d.js";
+import PoucdbServices from "../../dataServices/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
-import QueryMixin from "../../lib/queryMixin";
 import WidgetMixin from "../../lib/widgetMixin";
 
 // eslint-disable-next-line no-unused-vars
@@ -20,7 +20,7 @@ const HEIGHT = 200, DEPTH = 100;
 
 export default {
   name: "ar-process-model",
-  mixins: [SceneMixin, WidgetMixin, QueryMixin],
+  mixins: [SceneMixin, WidgetMixin],
   props: {
     hashLevel: Number,
     viewId: String,
@@ -47,7 +47,7 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await this.getTheData(viewObj.queryId);
+      let resArr = await PoucdbServices.getTheData(viewObj.queryId, { _id: this.selectedObjId});
 
       // Create the ProcessObject3d (extends Object3d)
       let zPos = 0;
@@ -67,7 +67,7 @@ export default {
         promisesArr.push(
           rootProcessObj3d.drawSteps(
             this.selectableMeshArr,
-            this.getTheData,
+            PoucdbServices.getTheData,
             this.glModelObject3D,
             "aiw54neadp14" // First step queryId
           )

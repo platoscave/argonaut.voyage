@@ -2354,7 +2354,7 @@
       "unhappy"
     ],
     "firstStepId": "oltp4kpj4fvi",
-    "ownerId": "bikeshop1111"
+    "ownerId": "demouser9999"
   },
   {
     "_id": "h3q1vchxahoh",
@@ -3695,7 +3695,7 @@
     "mongoQuery": {
       "selector": {
         "$and": [
-          {"ownerId": "bikeshop1111" },
+          {"ownerId": "$fk" },
           {"classId": "dwl1kwhalwj4" }
         ]
       },
@@ -3917,33 +3917,43 @@
   {
     "_id": "kvnnqloyehbg",
     "docType": "object",
-    "name": "Demo Menu",
+    "name": "Personal Menu",
     "description": "<p></p>",
     "classId": "inbumnx4vx5w",
     "ownerId": "argonautdot1",
     "menuArr": [
       {
-        "name": "argonaut.one",
+        "name": "Home",
         "icon": "el-icon-s-home",
-        "nextLevelSelectedObjId": "argonautdot1" ,
-        "pageId": ""
+        "pageId": "2kjjzqr2i5o5"
       },
       {
-        "name": "ACME Bicyle Shop",
+        "name": "Backlog",
         "icon": "el-icon-s-home",
-        "nextLevelSelectedObjId": "bikeshop1111" ,
-        "pageId": "uhekisbbbjh5"
+        "pageId": "oa2wxqmzh44v"
       },
       {
-        "name": "ACME Healthcare Clinic",
-        "icon": "el-icon-s-home",
-        "nextLevelSelectedObjId": "clinic111111" ,
-        "pageId": ""
-      },
-      {
-        "name": "Demo Backlog",
-        "icon": "el-icon-s-home",
-        "pageId": ""
+        "name": "Modeling",
+        "icon": "el-icon-picture",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Class Model",
+            "pageId": "4lk3hxyyfac3"
+          },
+          {
+            "name": "Process Model",
+            "pageId": "dsimhnp5euui"
+          },
+          {
+            "name": "Organization",
+            "pageId": "4q5nx5ek5gww"
+          },
+          {
+            "name": "App Resources",
+            "pageId": "kdeacjjhiaym"
+          }
+        ]
       }
     ]
   },

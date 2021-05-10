@@ -27,12 +27,10 @@
 </template>
 
 <script>
-import QueryMixin from "../../../lib/queryMixin";
-import { PouchdbServices } from "../../../dataServices/pouchdbServices";
+import { PoucdbServices } from "../../../dataServices/pouchdbServices";
 
 export default {
   name: "ar-select",
-  mixins: [QueryMixin],
   props: {
     property: Object,
     value: String,
@@ -60,7 +58,7 @@ export default {
       // Execute the query
       if (this.property && this.property.mongoQuery) {
         //this.$pouch.debug.enable('*')
-        this.items = await this.getTheData(this.property.mongoQuery);
+        this.items = await PoucdbServices.getTheData(this.property.mongoQuery);
       }
     },
   },

@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import QueryMixin from "../../lib/queryMixin"
+import PoucdbServices from "../../dataServices/pouchdbServices"
 import WidgetMixin from "../../lib/widgetMixin"
 
 export default {
   name: "ar-tree",
-  mixins: [QueryMixin, WidgetMixin],
+  mixins: [WidgetMixin],
   components: {
   },
   props: {
@@ -116,7 +116,7 @@ export default {
           // Get the viewObj
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
-          const resArr = await this.getTheData(this.viewObj.queryId, {_id: this.selectedObjId});
+          const resArr = await PoucdbServices.getTheData(this.viewObj.queryId, {_id: this.selectedObjId});
 
           // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
           getGetPropertyFromAnscetors(resArr, 'pageId')
@@ -128,7 +128,7 @@ export default {
           //TODO remove condition?
           if (node.data.subQueryIds) {
             let promiseArr = node.data.subQueryIds.map((queryId) => {
-              return this.getTheData(queryId, node.data);
+              return PoucdbServices.getTheData(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat()

@@ -19,23 +19,21 @@ export default class PoucdbServices {
       return resolveObj;
     };
 
-    const resolveQueryVariables = (mongoQuery, resolveObj) => {
-
-      // Replace variables in the mongoQueryClone
-      let selector = mongoQuery.selector;
+    const resolveQueryVariables = (selector, resolveObj) => {
+      // Replace variables in the selector
       for (var key in selector) {
         const value = selector[key]
         // This is a complex query. Recusive call on each of the items
         if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, resolveObj))
         // This is a request for the value itself (not a path)
-        else if (value === '$') mongoQuery.selector[key] = resolveObj
+        else if (value === '$') selector[key] = resolveObj
         // Replace $fk with id from resolve obj
-        else if (value === "$fk") mongoQuery.selector[key] = resolveObj._id;
+        else if (value === "$fk") selector[key] = resolveObj._id;
         // Apply dot notation using resolveObj
         else if (value.startsWith("$")) {
-          mongoQuery.selector[key] = getDescendantProp(value, resolveObj);
+          selector[key] = getDescendantProp(value, resolveObj);
           // not found? force empty results (null would cause everything to be retreived)
-          if (!mongoQuery.selector[key]) mongoQuery.selector[key] = 'xxx'
+          if (!selector[key]) selector[key] = 'xxx'
         }
       }
     }
@@ -49,20 +47,22 @@ export default class PoucdbServices {
       // Clone the query
       let mongoQueryClone = JSON.parse(JSON.stringify(queryObj.mongoQuery))
       // Resolve the variables in the query
-      resolveQueryVariables(mongoQueryClone, resolveObj)
+      resolveQueryVariables(mongoQueryClone.selector, resolveObj)
       //console.log(mongoQueryClone)
 
       // Execute the mongoQuery
       const results = await db.find(mongoQueryClone)
 
-      return results.docs.map((item) => {
+      return results.docs.map( (item) => {
         item.label = item.title ? item.title : item.name;
         if (queryObj.subQueryIds) {
           item.subQueryIds = queryObj.subQueryIds;
           // If the query has subQueryIds, assume it may have children
-          //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+          //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
           item.isLeaf = false;
         }
+        else  item.isLeaf = true;
+          
         // If the query retreives an icon, use it. Otherwise use the query icon.
         if (!item.icon) item.icon = queryObj.icon;
         // If the query retreives a pageId, use it. Otherwise use the query pageId.

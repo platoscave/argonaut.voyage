@@ -11,13 +11,13 @@
 
 <script>
 import ClassObject3d from "../../lib/classObject3d.js";
+import PoucdbServices from "../../dataServices/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
-import QueryMixin from "../../lib/queryMixin";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
   name: "ar-class-model",
-  mixins: [SceneMixin, WidgetMixin, QueryMixin],
+  mixins: [SceneMixin, WidgetMixin],
   props: {
     hashLevel: Number,
     viewId: String,
@@ -45,7 +45,7 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await this.getTheData(viewObj.queryId);
+      let resArr = await PoucdbServices.getTheData(viewObj.queryId);
 
       // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(resArr[0], true);
@@ -55,7 +55,7 @@ export default {
       // Tell root class to draw the subclasses
       await rootClassObj3d.drawSubclasses(
         this.selectableMeshArr,
-        this.getTheData,
+        PoucdbServices.getTheData,
         '2jfs4is4icct'
       );
 
@@ -71,7 +71,7 @@ export default {
       // Tell root class and its subclasses to draw the objects
       await rootClassObj3d.drawObjects(
         this.selectableMeshArr,
-        this.getTheData,
+        PoucdbServices.getTheData,
         'x1lrv2xdq2tu'
       );
 
