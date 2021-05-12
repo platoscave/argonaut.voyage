@@ -2,7 +2,7 @@
 import PouchDB from 'pouchdb-browser'
 //import pouchdbFind from 'pouchdb-find'
 
-const db = new PouchDB('argonaut');
+const db = new PouchDB('blockprocess');
 
 
 export default class PoucdbServices {

@@ -28,7 +28,7 @@ export default {
   pouch: {
     dataObj: function () {
       return {
-        database: "argonaut",
+        database: "blockprocess",
         selector: { _id: this.selectedObjId },
         first: true,
       };

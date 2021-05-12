@@ -6,6 +6,7 @@
       :key="propertyName"
       :prop="propertyName"
       :label="property.title"
+      :fit="true"
     >
     </el-table-column>
   </el-table>
@@ -27,32 +28,33 @@ export default {
       selectedObjId: null,
       pageId: null,
       viewObj: {},
-      selector: {},
+      mongoQuery: {},
       tableData: [],
     };
   },
   pouch: {
     dataObj: function () {
       return {
-        database: "argonaut",
+        database: "blockprocess",
         selector: { _id: this.selectedObjId },
         first: true,
       };
-    } /* 
+    }/*  ,
     tableData: function () {
       return {
-        database: "argonaut",
-        selector: this.selector,
+        database: "blockprocess",
+        selector: this.mongoQuery,
       };
-    }, */,
+    }, */
   },
   methods: {
     async viewIdHandeler() {
       if (this.viewId) {
         this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);
         console.log(this.viewObj);
-        const mongoQuery = await this.$pouch.get(this.viewObj.queryId);
-        this.selector = mongoQuery.mongoQuery;
+        this.tableData = await PoucdbServices.getTheData(this.viewObj.queryId, {_id: this.selectedObjId});
+        //const mongoQuery = await this.$pouch.get(this.viewObj.queryId);
+        //this.mongoQuery = mongoQuery.mongoQuery;
       }
     },
   },

@@ -44,10 +44,10 @@ export default {
     },
     async populateFromStatic() {
       try {
-        const response = await fetch("argonaut.json");
-        const argonautData = await response.json();
+        const response = await fetch("blockprocess.json");
+        const blockprocessData = await response.json();
         await this.clearCache();
-        await this.$pouch.bulkDocs(argonautData);
+        await this.$pouch.bulkDocs(blockprocessData);
         await this.$pouch.createIndex({
           index: {
             fields: ["parentId", "title"],
@@ -76,8 +76,8 @@ export default {
       // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv
       //const data = await IndexedDBApiService.GetAll(this.$store);
 
-      const response = await fetch("argonaut.json");
-      const argonautData = await response.json();
+      const response = await fetch("blockprocess.json");
+      const blockprocessData = await response.json();
 
       const processClasses = [
         "cq4bjkzqc2qp",
@@ -88,7 +88,7 @@ export default {
         "s41na42wsxez",
         "dwl1kwhalwj4",
       ];
-      const filterData = argonautData.filter((item) => {
+      const filterData = blockprocessData.filter((item) => {
         return processClasses.includes(item.classId);
       });
 
@@ -96,7 +96,7 @@ export default {
       const csv_mime_type = "text/json";
       const blob = new Blob([jsonString], { type: csv_mime_type });
       const anchor = document.createElement("a");
-      anchor.setAttribute("download", "argonautFiltered.json");
+      anchor.setAttribute("download", "blockprocessFiltered.json");
       const url = URL.createObjectURL(blob);
       anchor.setAttribute("href", url);
       anchor.click();
@@ -128,7 +128,7 @@ export default {
         // https://stackoverflow.com/questions/52532232/how-to-get-specific-data-from-an-array-using-pouchdb-find
 
         /* const res = await this.$pouch.find({
-          database: "argonaut",
+          database: "blockprocess",
           selector: {
             nextStepIds: {
               $elemMatch: {

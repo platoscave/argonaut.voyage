@@ -46,7 +46,7 @@ export default {
   pouch: {
     dataObj: function () {
       return {
-        database: "argonaut",
+        database: "blockprocess",
         selector: { _id: this.selectedObjId },
         first: true,
       };
@@ -57,7 +57,7 @@ export default {
       try {
         const valid = await this.$refs["schemaForm"].validate()
         console.log(valid)
-        this.$argonaut.upsert(this.selectedObjId, () => {
+        this.$blockprocess.upsert(this.selectedObjId, () => {
           return newDataObj
         }).catch((err) =>
           this.$message({ showClose: true, message: err, type: "error" })

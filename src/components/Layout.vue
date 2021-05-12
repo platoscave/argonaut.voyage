@@ -16,7 +16,7 @@
       split-to="columns"
       :allow-resize="true"
       v-on:update:size="paneResizeStop"
-      :size="pageSettings ? pageSettings.paneSize : 300"
+      :size="300"
       :min-size="40"
       resizerColor="#2196f3"
     >
@@ -109,7 +109,7 @@ export default {
   pouch: {
     pageObj: function () {
       return {
-        database: "argonaut",
+        database: "blockprocess",
         selector: { _id: this.pageId },
         first: true,
       };

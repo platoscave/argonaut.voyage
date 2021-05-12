@@ -37,18 +37,17 @@
         >
         </el-option>
       </el-select>
-      <div class="ar-right-align">argonaut.one</div>
+      <div class="ar-right-align">blockprocess.one</div>
     </div>
-
-    <settings-dlg v-model="dialogVisible"> </settings-dlg>
+    <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
   </div>
 </template>
 
 <script>
-
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
+import PouchDB from 'pouchdb-browser'
 
 export default {
   name: "App",
@@ -65,8 +64,8 @@ export default {
   pouch: {
     users: function () {
       return {
-        database: "argonaut",
-        selector: { classId: 'hdt3hmnsaghk'},
+        database: "blockprocess",
+        selector: { classId: "hdt3hmnsaghk" },
         fields: ["_id", "name"],
         sort: ["name"],
       };
@@ -83,29 +82,39 @@ export default {
   methods: {
     updateCurrentNetwork(value) {
       this.$settings.upsert("appSettings", (doc) => {
-        doc.currentNetwork = value
-        return doc
+        doc.currentNetwork = value;
+        return doc;
       });
     },
     updateCurrentUser(value) {
       this.$settings.upsert("appSettings", (doc) => {
-        doc.currentUser = value
-        return doc
+        doc.currentUser = value;
+        return doc;
       });
     },
   },
 
-  mounted: function () {
-    // fill in defaults for new users. Put will fail if record exsits
-    this.$settings
-      .put({
+  mounted: async function () {
+
+    // If blockprocess is not filled yet, populate it from the static file
+    const blockprocess = new PouchDB("blockprocess");
+    let details = await blockprocess.info();
+    if (details.doc_count == 0 && details.update_seq == 0) {
+      await this.$refs["settingsDlg"].populateFromStatic();
+    }
+    
+    
+    // Fill in defaults for new users.
+    details = await this.$settings.info();
+    if (details.doc_count == 0 && details.update_seq == 0) {
+      await this.$settings.put({
         _id: "appSettings",
         currentNetwork: "sandbox",
-        currentUser: "demouser1111",
+        currentUser: "demouser0001",
       })
-      .catch(() => {}); // dont care if this fails
+    }
 
-    if (!window.location.hash) window.location.hash = "#/.mbatzlqr1qsx.3";
+    if (!window.location.hash) window.location.hash = "#/blockprocess.uhekisbbbjh5";
   },
 };
 </script>
@@ -197,7 +206,7 @@ div.el-tooltip__popper.is-dark {
 .el-select {
   width: 175px;
 }
-.el-select >>> .el-input__inner{
+.el-select >>> .el-input__inner {
   font-size: 16px;
 }
 .ar-left-align {
