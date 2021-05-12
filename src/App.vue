@@ -110,7 +110,7 @@ export default {
       await this.$settings.put({
         _id: "appSettings",
         currentNetwork: "sandbox",
-        currentUser: "demouser0001",
+        currentUser: "demouser1111",
       })
     }
 
