@@ -1,59 +1,30 @@
 <template>
-  <el-table
-    class="eltable"
-    :data="tableData"
-    style="width: 100%"
-    highlight-current-row
-    @current-change="(currentRow) => updateNextLevelHash( { _id: currentRow._id, pageId: currentRow.pageId })"
-  >
-    <el-table-column
-      v-for="(property, propertyName) in viewObj.properties"
-      :key="propertyName"
-      :prop="propertyName"
-      :label="property.title"
-      :fit="true"
+    <!-- The table -->
+    <ar-sub-table
+      ref="schemaTable"
+      class="json-schema-form"
+      v-model="tableData"
+      :properties="viewObj.properties"
+      :requiredArr="viewObj.required"
+      :form-read-only="formReadOnly"
+      :omit-empty-fields="omitEmptyFields"
+      :hash-level="hashLevel"
+      v-on:change="onChange"
     >
-      <template slot-scope="scope">
-        <ar-control-selector
-          :property="property"
-          :propertyName="propertyName"
-          :value="scope.row[propertyName]"
-          :readonly="formReadOnly"
-          :hash-level="hashLevel"
-          @:input="$emit('input', $event)"
-        ></ar-control-selector>
-      </template>
-    </el-table-column>
-  </el-table>
+    </ar-sub-table>
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
+import SubTable from "./controls/SubTable"
 import PoucdbServices from "../../dataServices/pouchdbServices";
 import WidgetMixin from "../../lib/widgetMixin";
-import ControlSelector from "./controls/ControlSelector";
-import Enum from './controls/Enum';
-import Form from './Form';
-import Image from './controls/Image';
-import Json from './controls/Json';
-import ObjectArray from './controls/ObjectArray';
-import Select from './controls/Select';
-import StringArray from './controls/StringArray';
-import Tiptap from './Tiptap';
+
 
 export default {
   name: "ar-table",
   mixins: [WidgetMixin],
   components: {
-    "ar-control-selector": ControlSelector,
-    'ar-enum': Enum,
-    'ar-form': Form,
-    'ar-image': Image,
-    'ar-json': Json,
-    'ar-object-array': ObjectArray,
-    'ar-select': Select,
-    'ar-string-array': StringArray,
-    'ar-tiptap': Tiptap,
+    "ar-sub-table": SubTable
   },
   props: {
     hashLevel: Number,
@@ -66,7 +37,8 @@ export default {
       viewObj: {},
       mongoQuery: {},
       tableData: [],
-      formReadOnly: true
+      formReadOnly: true,
+      omitEmptyFields: false,
     };
   },
   pouch: {
@@ -84,7 +56,20 @@ export default {
       };
     }, */,
   },
-  methods: {
+  methods: {    
+    async onChange(newDataObj) {
+      try {
+        const valid = await this.$refs["schemaForm"].validate()
+        console.log(valid)
+        this.$blockprocess.upsert(this.selectedObjId, () => {
+          return newDataObj
+        }).catch((err) =>
+          this.$message({ showClose: true, message: err, type: "error" })
+        );
+      } catch (err) {
+        this.valid = false;
+      }
+    },
     async viewIdHandeler() {
       if (this.viewId) {
         this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);

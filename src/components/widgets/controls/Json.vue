@@ -1,37 +1,42 @@
 <template>
-
-  <highlight-code
-    v-if="readonly"
-    class="highlight-code"
-    readonly
-    lang="json"
-  > {{value}}
-  </highlight-code>
-
   <ar-tiptap
-    v-else
-    v-on:update="$emit('input', $event)"
-    v-bind:value="'<pre><code>' + value + '</code></pre>'"
+    v-on:input="$emit('input', $event)"
+    :value="'<pre><code>' + value + '</code></pre>'"
+    :readonly="readonly"
   ></ar-tiptap>
   
 </template>
 
 <script>
-import Tiptap from '../Tiptap';
+import Tiptap from './TiptapEditor';
 
 export default {
   name: "ar-json",  
   components: {
     'ar-tiptap': Tiptap,
-  },
+  },  
   props: {
-    property: Object,
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
+    property: {
+      type: Object,
+      default: () => {},
+    },
     readonly: Boolean,
-    required: Boolean,
   },
+  mounted() {
+    console.log(this.value)
+  }
 };
 </script>
 
 <style scoped>
+
+.ar-readonly-div >>> .hljs{
+  background: unset;
+  line-height: 20px;
+  font-size: 14px;
+}
 </style>

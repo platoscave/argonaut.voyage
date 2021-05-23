@@ -1,17 +1,8 @@
 export default {
   functional: true,
   name: 'ar-control-selector',
-  props: {
-    property: Object,
-    propertyName: String,
-    value: [Number, String, Array, Object, Boolean],
-    readonly: Boolean,
-    required: Boolean
-  },
-
 
   render(createElement, context) {
-
 
     // Determin the control type
     const getControlName = (property) => {
@@ -29,16 +20,13 @@ export default {
           else if (property.contentMediaType === 'text/javascript' ||
             property.contentMediaType.startsWith('application/')) return 'ar-json'
 
-          // Unknown
-          else return [createElement('div', 'Unknown contentMediaType: ' + property.contentMediaType)]
-
         }
 
         // Select
-        else if (property.mongoQuery) return 'ar-select'
+        else if (property.mongoQuery) return 'ar-select-string-query'
 
         // Enumeration
-        else if (property.enum) return 'ar-enum'
+        else if (property.enum) return 'ar-select-string'
 
         // Date time
         else if (property.format === 'date-time') return 'el-date-picker'
@@ -48,22 +36,32 @@ export default {
       }
 
       // Number
-      else if (property.type === 'number') return 'el-input-number'
+      else if (property.type === 'number') return 'ar-number'
+
+      // Integer
+      else if (property.type === 'integer') return 'ar-number'
 
       // Boolean
       else if (property.type === 'boolean') return 'el-checkbox'
 
       // Object
-      else if (property.type === 'object' && property.properties)  return 'ar-form'
+      else if (property.type === 'object' && property.properties) return 'ar-nested-object'
 
       // Array
       else if (property.type === 'array' && property.items) {
 
-        // objects in a subform
-        if (property.items.type === 'object' && property.items.properties) return 'ar-object-array'
+        // objects
+        if (property.items.type === 'object' && property.items.properties){
+
+          // objects in a subform
+          if (property.displayAs === 'Table') return 'ar-table-array'
+          // objects in a table
+          else return 'ar-form-array'
+
+        }
 
         // multi select
-        else if (property.items.type === 'string')  return 'ar-string-array'
+        else if (property.items.type === 'string') return 'ar-select-array'
 
       }
 
@@ -71,12 +69,27 @@ export default {
       return 'ar-json'
     }
 
-    // All controls get ar-control class
-    context.class = 'ar-control'
+    // Merge property attrs with context.data attrs so that control elements can use them
+
+    // hoist things like placeholder and type: "date" "textarea" "datetime"
+    let schemaAttrs = context.data.attrs.property.attrs
+    Object.assign(context.data.attrs, schemaAttrs)
+
+    // transmogrify certain attributes
+    context.data.props = {}
+    let propertyAttrs = context.data.attrs.property
+
+    if (propertyAttrs.type === 'string') {
+      // note lowercase l
+      if (propertyAttrs.minLength) context.data.attrs.minlength = propertyAttrs.minLength
+      if (propertyAttrs.maxLength) context.data.attrs.maxlength = propertyAttrs.maxLength
+      if(schemaAttrs && schemaAttrs['show-word-limit']) context.data.props['show-word-limit'] = true
+    }
 
     return createElement(
-      getControlName( context.props.property),
-      context
+      getControlName(context.props.property),
+      context.data,
+      context.children
     )
 
   }
