@@ -272,6 +272,7 @@ import json from "highlight.js/lib/languages/json";
 import xml from "highlight.js/lib/languages/xml";
 
 export default {
+  name: 'ar-tiptap',
   components: {
     EditorContent,
     EditorMenuBar,

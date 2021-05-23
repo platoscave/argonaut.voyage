@@ -132,6 +132,9 @@ body {
 .ar-full-height {
   height: 100%;
 }
+
+/* Various global fixes */
+
 /* Fix message box */
 .el-message__content {
   color: #eee !important;
@@ -162,6 +165,32 @@ div.el-tooltip__popper.is-dark {
   font-size: 16px;
   line-height: 28px;
 }
+
+
+
+/* Controls */
+.ar-control > input {
+  background-color: #ffffff08;
+  border-color: #00adff42;
+  font-size: 16px;
+  height: 30px;
+}
+.ar-control > input[readonly] {
+  border-style: none;
+}
+
+.ar-rodiv.ar-control {
+  background-color: #ffffff08;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 4px;
+  border-style: none;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+
+
 /* Dark mode scroll bars */
 ::-webkit-scrollbar {
   width: 8px;
@@ -188,6 +217,7 @@ div.el-tooltip__popper.is-dark {
   background-color: #666;
 }
 </style>
+
 <style scoped>
 .ar-main {
   height: calc(100vh - 40px);
@@ -198,7 +228,7 @@ div.el-tooltip__popper.is-dark {
 }
 .ar-footer {
   background: #ffffff08;
-  border-top-color: #00adff42;
+  border-top-color: #524f4f;
   border-top-width: 1px;
   border-top-style: solid;
   height: 39px;

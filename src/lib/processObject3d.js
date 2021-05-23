@@ -51,10 +51,10 @@ export default class ProcessObject3d extends Object3D {
   }
 
 
-  async drawSteps(selectableMeshArr, getTheData, glModelObject3D, queryId) {
+  async drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId) {
 
     // Execute the query
-    let resArr = await getTheData(queryId, this.userData)
+    let resArr = await executeQuery(queryId, this.userData)
 
     // Draw the first step
     let stepObj3d = new StepObject3d(resArr[0]);
@@ -62,7 +62,7 @@ export default class ProcessObject3d extends Object3D {
     this.add(stepObj3d)
 
     // Tell it to draw next steps
-    return stepObj3d.drawSteps(selectableMeshArr, getTheData, glModelObject3D, 'ybjrgmdjybzl') // Next Step QueryId
+    return stepObj3d.drawSteps(selectableMeshArr, executeQuery, glModelObject3D, 'ybjrgmdjybzl') // Next Step QueryId
   }
 
 

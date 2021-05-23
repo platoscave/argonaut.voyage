@@ -1,9 +1,8 @@
 <template>
-  <div v-if="readOnly || items.length < 2" class="control-background" readonly="readonly">
-    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : '' }}
+  <div v-if="readonly || items.length < 2" class="ar-rodiv">
+    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : "" }}
   </div>
   <el-radio-group
-   class="control-background"
     v-else-if="items.length < 5"
     v-on:update="$emit('input', $event)"
     v-bind:value="value"
@@ -27,14 +26,18 @@
 </template>
 
 <script>
-import { PoucdbServices } from "../../../dataServices/pouchdbServices";
+import { PoucdbServices } from "../../../dataServices/pouchdbServices.js";
+import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
   name: "ar-select",
+  mixins: [WidgetMixin],
   props: {
     property: Object,
     value: String,
-    readOnly: Boolean,
+    readonly: Boolean,
+    required: Boolean,
+    hashLevel: Number
   },
   data() {
     return {
@@ -44,13 +47,13 @@ export default {
 
   pouch: {
     dataObj: function () {
-      if(this.value) {
+      if (this.value) {
         return {
           database: "blockprocess",
           selector: { _id: this.value },
           first: true,
         };
-      } else return ''
+      } else return "";
     },
   },
   methods: {
@@ -58,7 +61,9 @@ export default {
       // Execute the query
       if (this.property && this.property.mongoQuery) {
         //this.$pouch.debug.enable('*')
-        this.items = await PoucdbServices.getTheData(this.property.mongoQuery);
+        console.log(PoucdbServices)
+        debugger
+        this.items = await PoucdbServices.executeQuery(this.property.mongoQuery, { _id: this.selectedObjId});
       }
     },
   },

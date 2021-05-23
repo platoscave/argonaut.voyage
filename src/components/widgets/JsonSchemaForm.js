@@ -1,5 +1,5 @@
 import Tiptap from './Tiptap';
-import Select from './partials/Select';
+import Select from './controls/Select';
 //import PoucdbServices from "../../dataServices/pouchdbServices"
 
 export default {

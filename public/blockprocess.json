@@ -3619,11 +3619,10 @@
     "queryId": "seidi2adi4wf",
     "properties": {
       "_id": {},
-      "name": {},
-      "description": {},
-      "startDate": {},
+      "currentStepId": {},
       "buyerId": {},
-      "currentStepId": {}
+      "name": {},
+      "startDate": {}
     },
     "baseClassId": "i1gjptcb2skq",
     "type": "object"
@@ -3937,15 +3936,9 @@
       "selector": {
         "$and": [
           {"ownerId": "$fk" },
-          {"classId": "i1gjptcb2skq" }
+          {"classId": "w3mzeetidb5n" }
         ]
-      },
-      "fields": [
-        "_id",
-        "name",
-        "description",
-        "classId"
-      ]
+      }
     }
   },
 
@@ -4099,7 +4092,7 @@
     "docType": "object",
     "name": "Let's meetup at the wattering hole",
     "description": "<p>Do you have time for a get-together? </p>",
-    "classId": "i1gjptcb2skq",
+    "classId": "w3mzeetidb5n",
     "ownerId": "demouser1123",
     "amount": 0.0,
     "currency": "EUR",
@@ -4109,6 +4102,6 @@
     "sellerId": "demouser1123",
     "assetId": "",
     "processId": "cie1pllxq5mu",
-    "currentStepId": {}
+    "currentStepId": "oltp4kpj4fvi"
   }
 ]

@@ -9,7 +9,7 @@ export default class PoucdbServices {
 
 
   // nodeData is used to resolve $ variables in queries
-  static async getTheData(query, nodeData = {}) {
+  static async executeQuery(query, nodeData = {}) {
 
     // Get obj a property using dot noatation
     const getDescendantProp = (desc, resolveObj) => {

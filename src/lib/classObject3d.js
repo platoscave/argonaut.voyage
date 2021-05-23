@@ -36,10 +36,10 @@ export default class ClassObject3d extends Object3D {
     }
   }
 
-  async drawSubclasses(selectableMeshArr, getTheData, queryId ) {
+  async drawSubclasses(selectableMeshArr, executeQuery, queryId ) {
 
     // Execute the query
-    let resArr = await getTheData(queryId, this.userData)
+    let resArr = await executeQuery(queryId, this.userData)
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -70,7 +70,7 @@ export default class ClassObject3d extends Object3D {
 
       // Tell the child to draw its children
       if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, getTheData, queryId ))
+        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, executeQuery, queryId ))
     })
 
 
@@ -170,10 +170,10 @@ export default class ClassObject3d extends Object3D {
   }
 
 
-  async drawObjects(selectableMeshArr, getTheData, queryId ) {
+  async drawObjects(selectableMeshArr, executeQuery, queryId ) {
 
     // Execute the query
-    let resArr = await getTheData(queryId, this.userData)
+    let resArr = await executeQuery(queryId, this.userData)
 
 
     // Create the objects
@@ -206,7 +206,7 @@ export default class ClassObject3d extends Object3D {
         //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
         //if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, getTheData, queryId ))
+        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, executeQuery, queryId ))
       }
     });
     return Promise.all(objectPronmises);

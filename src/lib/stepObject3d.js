@@ -28,10 +28,10 @@ export default class StepObject3d extends Object3D {
   }
 
 
-  async drawSteps(selectableMeshArr, getTheData, glModelObject3D, queryId) {
+  async drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId) {
 
     // Execute the query
-    let resArr = await getTheData(queryId, this.userData)
+    let resArr = await executeQuery(queryId, this.userData)
 
     // Create the next steps
     let propmisesArr = []
@@ -52,7 +52,7 @@ export default class StepObject3d extends Object3D {
 
         // Tell it to draw it's next steps
         // TODO recursion check
-        propmisesArr.push(stepObj3d.drawSteps(selectableMeshArr, getTheData, glModelObject3D, queryId))
+        propmisesArr.push(stepObj3d.drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId))
       }
 
     })

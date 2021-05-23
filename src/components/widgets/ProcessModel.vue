@@ -47,7 +47,7 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await PoucdbServices.getTheData(viewObj.queryId, { _id: this.selectedObjId});
+      let resArr = await PoucdbServices.executeQuery(viewObj.queryId, { _id: this.selectedObjId});
 
       // Create the ProcessObject3d (extends Object3d)
       let zPos = 0;
@@ -67,7 +67,7 @@ export default {
         promisesArr.push(
           rootProcessObj3d.drawSteps(
             this.selectableMeshArr,
-            PoucdbServices.getTheData,
+            PoucdbServices.executeQuery,
             this.glModelObject3D,
             "aiw54neadp14" // First step queryId
           )

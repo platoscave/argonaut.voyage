@@ -147,7 +147,7 @@ export default {
 
         //debugger
         //console.log(PouchdbServices)
-        const res = await PoucdbServices.getTheData('sfmg5u3wtpds')
+        const res = await PoucdbServices.executeQuery('sfmg5u3wtpds')
         console.log(res);
         this.$message({
           message: "Success",

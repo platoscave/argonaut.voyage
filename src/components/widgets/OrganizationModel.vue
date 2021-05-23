@@ -38,7 +38,7 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await PoucdbServices.getTheData(viewObj.queryId);
+      let resArr = await PoucdbServices.executeQuery(viewObj.queryId);
 
       // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(resArr[0], true);
@@ -48,7 +48,7 @@ export default {
       // Tell root class to draw the subclasses
       await rootClassObj3d.drawSubclasses(
         this.selectableMeshArr,
-        PoucdbServices.getTheData,
+        PoucdbServices.executeQuery,
         '2jfs4is4icct'
       );
 
@@ -64,7 +64,7 @@ export default {
       // Tell root class and its subclasses to draw the objects
       await rootClassObj3d.drawObjects(
         this.selectableMeshArr,
-        PoucdbServices.getTheData,
+        PoucdbServices.executeQuery,
         'x1lrv2xdq2tu'
       );
 
