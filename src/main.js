@@ -13,9 +13,13 @@ import debugPouch from "pouchdb-debug"
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
-import Page from './components/Page.vue'
 Vue.component('ar-layout', Layout)
+import Page from './components/Page.vue'
 Vue.component('ar-page', Page)
+import SubForm from './components/widgets/controls/SubForm';
+Vue.component('ar-sub-form', SubForm)
+import SubTable from './components/widgets/controls/SubTable';
+Vue.component('ar-sub-table', SubTable)
 
 Vue.use( ElementUI, { locale })
 PouchDB.plugin(pouchdbFind)

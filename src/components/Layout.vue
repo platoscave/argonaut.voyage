@@ -16,7 +16,7 @@
       split-to="columns"
       :allow-resize="true"
       v-on:update:size="paneResizeStop"
-      :size="300"
+      :size="pageSettings.paneSize ? pageSettings.paneSize : 200"
       :min-size="40"
       resizerColor="#2196f3"
     >

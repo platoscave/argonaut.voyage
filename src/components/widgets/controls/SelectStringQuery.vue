@@ -1,11 +1,14 @@
 <template>
-  <div v-if="readonly || items.length < 2" class="ar-rodiv">
+  <div
+    v-if="readonly || items.length < 2"
+    class="ar-readonly-div"
+  >
     {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : "" }}
   </div>
   <el-radio-group
     v-else-if="items.length < 5"
-    v-on:update="$emit('input', $event)"
-    v-bind:value="value"
+    v-on:input="$emit('input', $event)"
+    :value="value"
   >
     <el-radio
       v-for="item in items"
@@ -14,7 +17,7 @@
       :value="item._id"
     ></el-radio>
   </el-radio-group>
-  <el-select v-else v-on:update="$emit('input', $event)" v-bind:value="value">
+  <el-select v-else class="ar-select" v-on:input="$emit('input', $event)" :value="value">
     <el-option
       v-for="item in items"
       :key="item._id"
@@ -26,18 +29,24 @@
 </template>
 
 <script>
-import { PoucdbServices } from "../../../dataServices/pouchdbServices.js";
+import  PoucdbServices from "../../../dataServices/pouchdbServices";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
-  name: "ar-select",
+  name: "ar-select-string-query",
   mixins: [WidgetMixin],
   props: {
-    property: Object,
-    value: String,
+    value: {
+      type: String,
+      default: '',
+    },
+    property: {
+      type: Object,
+      default: () => {},
+    },
+    required: Boolean,    
     readonly: Boolean,
-    required: Boolean,
-    hashLevel: Number
+    hashLevel: Number,
   },
   data() {
     return {
@@ -61,9 +70,12 @@ export default {
       // Execute the query
       if (this.property && this.property.mongoQuery) {
         //this.$pouch.debug.enable('*')
-        console.log(PoucdbServices)
-        debugger
-        this.items = await PoucdbServices.executeQuery(this.property.mongoQuery, { _id: this.selectedObjId});
+        //console.log(PoucdbServices);
+        //debugger;
+        this.items = await PoucdbServices.executeQuery(
+          this.property.mongoQuery,
+          { _id: this.selectedObjId }
+        );
       }
     },
   },
@@ -79,4 +91,28 @@ export default {
 </script>
 
 <style scoped>
+
+/* Readonly div */
+.ar-readonly-div {
+  background-color: #ffffff08;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 4px;
+  border-style: none;
+  font-size: 16px;
+  line-height: 30px;
+  min-height: 30px;
+}
+
+/* help!!! cant get the blue border to come back */
+/* div.el-select > div > input {
+  background-color: #ffffff08;
+  border-color: #00adff42;
+  border-style: solid;
+  font-size: 16px;
+  height: 30px;
+}
+input[readonly] {
+  border-style: solid;
+} */
 </style>
