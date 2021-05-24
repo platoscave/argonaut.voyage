@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "element-theme-dark": "^1.0.3",
     "element-ui": "^2.15.0",
+    "eosjs": "^22.0.0",
     "pouch-vue": "^0.3.5",
     "pouchdb-browser": "^7.2.2",
     "pouchdb-debug": "^7.2.1",

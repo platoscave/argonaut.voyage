@@ -11,7 +11,7 @@
 
 <script>
 import ClassObject3d from "../../lib/classObject3d.js";
-import PoucdbServices from "../../dataServices/pouchdbServices"
+import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 

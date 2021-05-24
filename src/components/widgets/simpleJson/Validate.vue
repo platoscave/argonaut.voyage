@@ -6,7 +6,7 @@
 
 <script>
 import WidgetMixin from "../../../lib/widgetMixin"
-import PoucdbServices from "../../../dataServices/pouchdbServices"
+import PoucdbServices from "../../../services/pouchdbServices"
 import Ajv from "ajv"
 import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json"
 

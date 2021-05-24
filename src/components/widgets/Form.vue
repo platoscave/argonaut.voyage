@@ -24,7 +24,7 @@
 
 <script>
 import SubForm from "./controls/SubForm"
-import PoucdbServices from "../../dataServices/pouchdbServices"
+import PoucdbServices from "../../services/pouchdbServices"
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {

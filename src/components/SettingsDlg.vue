@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import PoucdbServices from "../dataServices/pouchdbServices"
+import PoucdbServices from "../services/pouchdbServices"
 
 export default {
   name: "settings-dlg",

@@ -16,7 +16,7 @@
 
 <script>
 import SubTable from "./controls/SubTable"
-import PoucdbServices from "../../dataServices/pouchdbServices";
+import PoucdbServices from "../../services/pouchdbServices";
 import WidgetMixin from "../../lib/widgetMixin";
 
 

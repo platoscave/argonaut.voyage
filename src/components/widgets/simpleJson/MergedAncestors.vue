@@ -6,7 +6,7 @@
 
 <script>
 import WidgetMixin from "../../../lib/widgetMixin"
-import PoucdbServices from "../../../dataServices/pouchdbServices"
+import PoucdbServices from "../../../services/pouchdbServices"
 
 
 

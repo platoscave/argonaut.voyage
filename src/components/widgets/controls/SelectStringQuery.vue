@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import  PoucdbServices from "../../../dataServices/pouchdbServices";
+import  PoucdbServices from "../../../services/pouchdbServices";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
