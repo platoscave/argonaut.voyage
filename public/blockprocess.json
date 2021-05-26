@@ -1960,7 +1960,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS54DNgfqCZifsFGKY6J2UGL8Yxyie8XLh2jSW96bgUK3fDyRpsK",
+              "_id": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
               "weight": 1
             }
           ],
@@ -1975,7 +1975,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS54DNgfqCZifsFGKY6J2UGL8Yxyie8XLh2jSW96bgUK3fDyRpsK",
+              "_id": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
               "weight": 1
             }
           ],
@@ -2029,61 +2029,361 @@
     "_id": "demouser1111",
     "docType": "object",
     "name": "Mom",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
-    "_id": "demouser1124",
+    "_id": "demouser1112",
     "docType": "object",
     "name": "Pop",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "demouser1113",
     "docType": "object",
     "name": "Assistant",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "demouser1114",
     "docType": "object",
     "name": "Receptionist One",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "demouser1115",
     "docType": "object",
     "name": "Nurse One",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "demouser1116",
     "docType": "object",
     "name": "Nurse Two",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
-    "_id": "demouser1121",
+    "_id": "demouser1117",
     "docType": "object",
     "name": "Physician One",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "demouser1118",
+    "docType": "object",
+    "name": "Physician Two",
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "demouser1119",
+    "docType": "object",
+    "name": "Consumer One",
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "demouser1122",
     "docType": "object",
-    "name": "Physician Two",
-    "classId": "hdt3hmnsaghk"
-  },
-  {
-    "_id": "demouser1123",
-    "docType": "object",
-    "name": "Consumer One",
-    "classId": "hdt3hmnsaghk"
-  },
-  {
-    "_id": "demouser1124",
-    "docType": "object",
     "name": "Consumer Two",
-    "classId": "hdt3hmnsaghk"
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "_id": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
   },
   {
     "_id": "blockprocess",
@@ -2095,6 +2395,40 @@
     "subParagraphIds": "xqxkmto5njxi",
     "propositionIds": [
       "cie1pllxq5mu"
+    ],
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "platoscave11",
+                "permission": "owner"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "platoscave11",
+                "permission": "active"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      }
     ]
   },
   {
@@ -2107,26 +2441,6 @@
     "pageId": "2kjjzqr2i5o5",
     "propositionIds": [
       "cie1pllxq5mu", "ynaxakdc423e"
-    ]
-  },
-  {
-    "_id": "clinic111111",
-    "docType": "object",
-    "name": "ACME Health Care Clinic",
-    "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: #76448A; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Health Care Clinic</h1><p><i>Stay fit, live long.</i></p><h2>Call for an appointment</h2></div><div class=\"flex xs3\"><h1>Image</h1></div></div>",
-    "classId": "be1ub1vtofjo",
-    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtklEQVQ4T5WSsUtbURTGz3dfiFEzFKFL1Xtv8p4g2sFOFdql0E5tQTJlkHZ16FQo/gOdnBw6dA4dhKKTdHDKIJKpUy2heUneTYKLIBLakERzT3liIAlJSO50z3e+8zv3XA6o57hSPgPECRHN9eo99wYTvyoac9bV0AdQiQ+wt5/Icd4RUV/uzmdthuHsFU35y2gA8Y5vgsfDXuAp/YsJX/sArtb7zIiHBYJ5jUCrlnA0DCCIU8SUt8DvMO+QbcBT+goCW50O7Ii5R8qC7Xckla6VTLA06Fp/uB5vRVsPQn2mPXN9fnn+d9DjSpkfCfBU4hsRxe6Lmr4pb08FcJf1Yaw5/z4sasf+ZQrVIDURwNP6hBltEDtLRr/NUpY9KQ+JRRQC0YIpv+yCho7gqcSpb8rPB7tprWORTifnV6sbYwFJpXIA9pm5XjLmR2heUeo1s1iwxB9LleDJWICr1AuwWCTY3cbNzdPQPBuJ/AQ5n0lwzQ+C7FhAN+lJecBCHIQxrE37lUp6ok/smlZk8g2BN+9iRq5QKR0PBbhKXxRN8GjaLQz9ntZ/kJSyTkBTWJ5ulZlAjoj/B4u9x9M8LUgYAAAAAElFTkSuQmCC",
-    "pageId": "4devwsepaig1"
-  },
-  {
-    "_id": "clinreceptio",
-    "docType": "object",
-    "name": "Clinic Reception",
-    "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>Client</div></div><p>The Neuralquest client</p>",
-    "classId": "dasprps1lrwf",
-    "ownerId": "clinic111111",
-    "authorizedForStateIds": [
-      "tfkyaytuac1g"
     ],
     "permissions": [
       {
@@ -2153,7 +2467,95 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser1124",
+                "actor": "blockprocess",
+                "permission": "active"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "_id": "clinic111111",
+    "docType": "object",
+    "name": "ACME Health Care Clinic",
+    "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: #76448A; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Health Care Clinic</h1><p><i>Stay fit, live long.</i></p><h2>Call for an appointment</h2></div><div class=\"flex xs3\"><h1>Image</h1></div></div>",
+    "classId": "be1ub1vtofjo",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtklEQVQ4T5WSsUtbURTGz3dfiFEzFKFL1Xtv8p4g2sFOFdql0E5tQTJlkHZ16FQo/gOdnBw6dA4dhKKTdHDKIJKpUy2heUneTYKLIBLakERzT3liIAlJSO50z3e+8zv3XA6o57hSPgPECRHN9eo99wYTvyoac9bV0AdQiQ+wt5/Icd4RUV/uzmdthuHsFU35y2gA8Y5vgsfDXuAp/YsJX/sArtb7zIiHBYJ5jUCrlnA0DCCIU8SUt8DvMO+QbcBT+goCW50O7Ii5R8qC7Xckla6VTLA06Fp/uB5vRVsPQn2mPXN9fnn+d9DjSpkfCfBU4hsRxe6Lmr4pb08FcJf1Yaw5/z4sasf+ZQrVIDURwNP6hBltEDtLRr/NUpY9KQ+JRRQC0YIpv+yCho7gqcSpb8rPB7tprWORTifnV6sbYwFJpXIA9pm5XjLmR2heUeo1s1iwxB9LleDJWICr1AuwWCTY3cbNzdPQPBuJ/AQ5n0lwzQ+C7FhAN+lJecBCHIQxrE37lUp6ok/smlZk8g2BN+9iRq5QKR0PBbhKXxRN8GjaLQz9ntZ/kJSyTkBTWJ5ulZlAjoj/B4u9x9M8LUgYAAAAAElFTkSuQmCC",
+    "pageId": "4devwsepaig1",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "blockprocess",
+                "permission": "owner"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "blockprocess",
+                "permission": "active"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "_id": "clinreceptio",
+    "docType": "object",
+    "name": "Clinic Reception",
+    "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>Client</div></div><p>The Neuralquest client</p>",
+    "classId": "dasprps1lrwf",
+    "ownerId": "clinic111111",
+    "authorizedForStateIds": [
+      "tfkyaytuac1g"
+    ],
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "clinic111111",
+                "permission": "owner"
+              },
+              "weight": 1
+            }
+          ]
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "demouser1114",
                 "permission": "active"
               },
               "weight": 1
@@ -2182,7 +2584,7 @@
           "accounts": [
             {
               "permission": {
-                "actor": "blockprocess",
+                "actor": "clinic111111",
                 "permission": "owner"
               },
               "weight": 1
@@ -2198,7 +2600,28 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser1111",
+                "actor": "demouser1121",
+                "permission": "active"
+              },
+              "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1122",
+                "permission": "active"
+              },
+              "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1115",
+                "permission": "active"
+              },
+              "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1116",
                 "permission": "active"
               },
               "weight": 1
@@ -2211,8 +2634,8 @@
   {
     "_id": "jotcvffqbzfp",
     "docType": "object",
-    "name": "Service Desk",
-    "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>The Standard Model</div></div><p>The Neuralquest client</p>",
+    "name": "Messaging",
+    "description": "",
     "classId": "dasprps1lrwf",
     "ownerId": "blockprocess",
     "authorizedForStateIds": [
@@ -2256,7 +2679,7 @@
   {
     "_id": "bikefrondesk",
     "docType": "object",
-    "name": "Front Desk",
+    "name": "Shop Front Desk",
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/ACMEBicyleShop.png' width='100%' height='100px'><div class='headline'>Front Desk</div></div>",
     "classId": "dasprps1lrwf",
     "parentOrgId": "bikeshop1111",
@@ -2289,6 +2712,13 @@
                 "permission": "active"
               },
               "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1112",
+                "permission": "active"
+              },
+              "weight": 1
             }
           ]
         }
@@ -2298,7 +2728,7 @@
   {
     "_id": "bikeworkshop",
     "docType": "object",
-    "name": "Workshop",
+    "name": "Shop Workshop",
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/ACMEBicyleShop.png' width='100%' height='100px'><div class='headline'>Workshop</div></div><p>ACME Workshop</p>",
     "classId": "dasprps1lrwf",
     "parentOrgId": "bikeshop1111",
@@ -2327,7 +2757,21 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser1124",
+                "actor": "demouser1111",
+                "permission": "active"
+              },
+              "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1112",
+                "permission": "active"
+              },
+              "weight": 1
+            },
+            {
+              "permission": {
+                "actor": "demouser1113",
                 "permission": "active"
               },
               "weight": 1
@@ -3782,8 +4226,7 @@
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "subQueryIds": [
-      "o4jhldcqvbep",
-      "1dbriehwtyyp"
+      "o4jhldcqvbep"
     ],
     "mongoQuery": {
       "selector": {
@@ -3807,12 +4250,11 @@
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "subQueryIds": [
-      "o4jhldcqvbep",
-      "1dbriehwtyyp"
+      "o4jhldcqvbep"
     ],
     "mongoQuery": {
       "selector": {
-        "parentOrgId": "$fk"
+        "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
       },
       "fields": [
         "_id",
@@ -3822,15 +4264,13 @@
         "classId",
         "icon"
       ],
-      "sort": [
-        "name"
-      ]
+      "sort": ["name"]
     }
   },
   {
     "_id": "1dbriehwtyyp",
     "docType": "object",
-    "name": "Organizational Unit Permission Query",
+    "name": "REUSE Organizational Unit Permission Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "mongoQuery": {

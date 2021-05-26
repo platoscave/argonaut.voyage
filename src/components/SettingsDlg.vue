@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import PoucdbServices from "../services/pouchdbServices"
+import PoucdbServices from "../services/pouchdbServices";
 
 export default {
   name: "settings-dlg",
@@ -147,7 +147,24 @@ export default {
 
         //debugger
         //console.log(PouchdbServices)
-        const res = await PoucdbServices.executeQuery('sfmg5u3wtpds')
+        const bikeOrg = await this.$pouch.get('bikeshop1111');
+        //console.log("$permissions.0.required_auth.accounts.0.permission.actor")
+        console.log(bikeOrg)
+        const res = await PoucdbServices.executeQuery({
+            //manyToOneArrayProp: "permissions",
+            selector: {
+              "permissions.0.required_auth.accounts.0.permission.actor": "$fk",
+            },
+            fields: [
+              "_id",
+              "name",
+              "docType",
+              "permissions",
+              "classId",
+              "icon",
+            ],
+            sort: ["name"],
+        }, bikeOrg);
         console.log(res);
         this.$message({
           message: "Success",
