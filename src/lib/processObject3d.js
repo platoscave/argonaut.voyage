@@ -120,6 +120,7 @@ export default class ProcessObject3d extends Object3D {
   getMesh() {
     const x = 0, y = 0
 
+    // Rounded rect
     let shape = new Shape()
     shape.moveTo(x, y + RADIUS)
       .lineTo(x, y + HEIGHT - RADIUS)

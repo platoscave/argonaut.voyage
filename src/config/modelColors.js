@@ -126,4 +126,14 @@ module.exports = {
     color:  0xEFEFEF // grey, class connectors
   },
 
+
+
+
+  // Organization Model
+
+
+  'dwl1kwhalwj4': {
+    color:  0x00A300, // Interface
+  },
+
 }

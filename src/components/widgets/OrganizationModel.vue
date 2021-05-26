@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ClassObject3d from "../../lib/classObject3d.js";
+import OrgObject3d from "../../lib/orgObject3d.js";
 import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
@@ -31,8 +31,8 @@ export default {
   },
   methods: {
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
-    async drawClasses() {
-      // Get the root class from the store
+    async drawOrganization() {
+      // Get the root organization from the store
 
       // Get the viewObj
       const viewObj = await this.$pouch.get(this.viewId);
@@ -40,29 +40,29 @@ export default {
       // Execute the query
       let resArr = await PoucdbServices.executeQuery(viewObj.queryId);
 
-      // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(resArr[0], true);
-      this.glModelObject3D.add(rootClassObj3d);
-      this.selectableMeshArr.push(rootClassObj3d.children[0]);
+      // Create the OrgObject3d (extends Object3d)
+      let rootOrgObj3d = new OrgObject3d(resArr[0], true);
+      this.glModelObject3D.add(rootOrgObj3d);
+      this.selectableMeshArr.push(rootOrgObj3d.children[0]);
 
-      // Tell root class to draw the subclasses
-      await rootClassObj3d.drawSubclasses(
+      // Tell root class to draw the organizational units
+      await rootOrgObj3d.drawOrgUnits(
         this.selectableMeshArr,
         PoucdbServices.executeQuery,
-        '2jfs4is4icct'
+        'o4jhldcqvbep'
       );
 
       // Set the x positions
-      const clidrenMaxX = rootClassObj3d.setPositionX(0);
-      rootClassObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
-
+      const clidrenMaxX = rootOrgObj3d.setPositionX(0);
+      rootOrgObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
+/* 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
-      rootClassObj3d.drawClassAssocs(this.glModelObject3D);
+      rootOrgObj3d.drawClassAssocs(this.glModelObject3D);
 
       // Tell root class and its subclasses to draw the objects
-      await rootClassObj3d.drawObjects(
+      await rootOrgObj3d.drawObjects(
         this.selectableMeshArr,
         PoucdbServices.executeQuery,
         'x1lrv2xdq2tu'
@@ -71,9 +71,9 @@ export default {
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
-      rootClassObj3d.drawObjectAssocs(this.glModelObject3D);
-
-      return rootClassObj3d;
+      rootOrgObj3d.drawObjectAssocs(this.glModelObject3D);
+ */
+      return rootOrgObj3d;
     },
   },
 
@@ -84,7 +84,7 @@ export default {
     this.addLoadingText();
 
     try {
-      //await this.drawClasses();
+      await this.drawOrganization();
 
       this.removeLoadingText();
 
