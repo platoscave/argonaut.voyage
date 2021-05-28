@@ -36,7 +36,7 @@ export default class OrgObject3d extends Object3D {
     }
   }
 
-  async drawOrgUnits(selectableMeshArr, executeQuery, queryId ) {
+  async drawOrgUnits(selectableMeshArr, executeQuery, queryId) {
 
     // Execute the query
     let resArr = await executeQuery(queryId, this.userData)
@@ -70,7 +70,7 @@ export default class OrgObject3d extends Object3D {
 
       // Tell the child to draw its children
       if (orgObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(orgObj3d.drawOrgUnits(selectableMeshArr, executeQuery, queryId ))
+        childrenPronmises.push(orgObj3d.drawOrgUnits(selectableMeshArr, executeQuery, queryId))
     })
 
 
@@ -85,18 +85,18 @@ export default class OrgObject3d extends Object3D {
     // Position the children.
     // The child x position is relative to this, so we start with 0
     let childX = 0, childrenMaxX = 0
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        childrenMaxX = subObjObj3d.setPositionX(childX)
+    this.children.forEach((subOrgObj3d) => {
+      if (subOrgObj3d.type === 'Object3D') {
+        childrenMaxX = subOrgObj3d.setPositionX(childX)
         childX = childrenMaxX + WIDTH * 2
       }
     });
 
     // Shift all the children to the left by 50%
     const leftShift = (childrenMaxX) / 2
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        subObjObj3d.translateX(-leftShift)
+    this.children.forEach((subOrgObj3d) => {
+      if (subOrgObj3d.type === 'Object3D') {
+        subOrgObj3d.translateX(-leftShift)
       }
     });
     // Shift this to the right by the same value
@@ -104,10 +104,10 @@ export default class OrgObject3d extends Object3D {
 
     // Find the first and last children x values after left shift
     let firstX = -1, lastX = -1
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        if (firstX === -1) firstX = subObjObj3d.position.x
-        lastX = subObjObj3d.position.x
+    this.children.forEach((subOrgObj3d) => {
+      if (subOrgObj3d.type === 'Object3D') {
+        if (firstX === -1) firstX = subOrgObj3d.position.x
+        lastX = subOrgObj3d.position.x
       }
     });
 
@@ -123,101 +123,40 @@ export default class OrgObject3d extends Object3D {
     return xPos + childrenMaxX
   }
 
-  drawObjAssocs(glModelObject3D) {
 
-    for (let key in this.userData.assocs) {
-
-      const assoc = this.userData.assocs[key]
-
-      const { [assoc.name]: assocProps } = modelColors
-      if (!assocProps) continue
-      const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
-
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
-      if (!destObj3d) console.log('Assoc destination not found: ' + assoc.destId)
-      if (!destObj3d) continue
-
-      // Get positions in world coordinates
-      let sourcePos = new Vector3()
-      this.getWorldPosition(sourcePos)
-      let destPos = new Vector3()
-      destObj3d.getWorldPosition(destPos)
-
-      // Get the difference vector
-      let difVec = destPos.clone()
-      difVec.sub(sourcePos)
-
-      const sourceBack = this.getSidePos('back', new Vector3())
-      const destBack = this.getSidePos('back', difVec)
-
-      let points = []
-      points.push(sourceBack) // move startpoint to the edge
-      points.push(new Vector3(0, 0, depth))
-      let beforeLastPos = destBack.clone()
-      beforeLastPos.z = depth
-      points.push(beforeLastPos)
-      points.push(destBack)
-
-      this.add(this.drawTube(points, assoc.name, assoc.name, true))
-
-    }
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        subObjObj3d.drawObjAssocs(glModelObject3D)
-      }
-    });
-
-  }
-
-
-  async drawObjects(selectableMeshArr, executeQuery, queryId ) {
+  async getActivePermissionedAccounts(selectableMeshArr, executeQuery, queryId, activePermAccArr) {
 
     // Execute the query
     let resArr = await executeQuery(queryId, this.userData)
 
-
-    // Create the objects
-    //let objectsArr = []
-    let zPos = WIDTH * 4
-    resArr.forEach(userData => {
-      let objectObj3d = new UserObject3d(userData);
-      //objectsArr.push(objectObj3d)
-      selectableMeshArr.push(objectObj3d.children[0])
-      objectObj3d.translateZ(zPos)
-      this.add(objectObj3d)
-      zPos += WIDTH * 2
+    resArr.forEach( item => {
+      let user = activePermAccArr.find(user => {
+        user._id === item._id
+      })
+      if(user) user.activePermArr.push(this._id)
+      else {
+        item.activePermArr = [this._id]
+        activePermAccArr.push(item)
+      }
     })
 
-    // If this org has objects, draw beam from here to the end
-    if (resArr.length) {
-      let points = []
-      points.push(new Vector3(0, 0, 0))
-      points.push(new Vector3(0, 0, WIDTH * 2 * (resArr.length + 1)))
-      let beam = this.drawBeam(points, 'orgConnectors')
-      beam.translateY(-HEIGHT / 4)
-      this.add(beam)
-    }
-
-
-    let objectPronmises = []
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        // TODO whats going on here?
-        //if(!subObjObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
-        //if(!subObjObj3d.drawObjects) console.log(this)
-        if(subObjObj3d.drawObjects)
-        objectPronmises.push(subObjObj3d.drawObjects(selectableMeshArr, executeQuery, queryId ))
+    let objectPrommises = []
+    this.children.forEach((subOrgObj3d) => {
+      if (subOrgObj3d.type === 'Object3D') {
+        // TODO is this safe?
+        if (subOrgObj3d.getActivePermissionedAccounts)
+          objectPrommises.push(subOrgObj3d.getActivePermissionedAccounts(selectableMeshArr, executeQuery, queryId, activePermAccArr))
       }
     });
-    return Promise.all(objectPronmises);
+    return Promise.all(objectPrommises);
 
   }
 
   drawObjectAssocs(glModelObject3D) {
-    this.children.forEach((subObjObj3d) => {
-      if (subObjObj3d.type === 'Object3D') {
-        if(subObjObj3d.drawObjectAssocs)
-        subObjObj3d.drawObjectAssocs(glModelObject3D)
+    this.children.forEach((subOrgObj3d) => {
+      if (subOrgObj3d.type === 'Object3D') {
+        if (subOrgObj3d.drawObjectAssocs)
+          subOrgObj3d.drawObjectAssocs(glModelObject3D)
       }
     });
   }
@@ -245,7 +184,7 @@ export default class OrgObject3d extends Object3D {
 
     //const { org: colorProp = { color: 0xEFEFEF }  } = modelColors
     console.log(this.userData.classId)
-    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
 
     const material = new MeshLambertMaterial({ color: colorProp.color })
 

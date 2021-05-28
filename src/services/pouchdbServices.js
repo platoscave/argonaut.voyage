@@ -82,7 +82,7 @@ export default class PoucdbServices {
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
     if (queryObj.mongoQuery.manyToOneArrayProp) {
-      const manyArr = nodeData[queryObj.mongoQuery.manyToOneArrayProp]
+      const manyArr = getDescendantProp(queryObj.mongoQuery.manyToOneArrayProp, nodeData)
       if (!manyArr) return []
       let promiseArr = manyArr.map((item) => {
         return executeQuery(queryObj, item)

@@ -11,9 +11,13 @@
 
 <script>
 import OrgObject3d from "../../lib/orgObject3d.js";
-import PoucdbServices from "../../services/pouchdbServices"
+import UserObject3d from "../../lib/userObject3d.js";
+import PoucdbServices from "../../services/pouchdbServices";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
+
+// eslint-disable-next-line no-unused-vars
+const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
 export default {
   name: "ar-organization-model",
@@ -25,9 +29,15 @@ export default {
   data() {
     return {
       selectedObjId: null,
-      skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
-
-    }
+      skyboxArray: [
+        "grass/sbox_px.jpg",
+        "grass/sbox_nx.jpg",
+        "grass/sbox_py.jpg",
+        "grass/sbox_ny.jpg",
+        "grass/sbox_pz.jpg",
+        "grass/sbox_nz.jpg",
+      ],
+    };
   },
   methods: {
     // Tell the root class to draw itself, and each of it's subclasses, recursivily
@@ -38,7 +48,9 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await PoucdbServices.executeQuery(viewObj.queryId);
+      let resArr = await PoucdbServices.executeQuery(viewObj.queryId, {
+        _id: this.selectedObjId,
+      });
 
       // Create the OrgObject3d (extends Object3d)
       let rootOrgObj3d = new OrgObject3d(resArr[0], true);
@@ -49,28 +61,44 @@ export default {
       await rootOrgObj3d.drawOrgUnits(
         this.selectableMeshArr,
         PoucdbServices.executeQuery,
-        'o4jhldcqvbep'
+        "o4jhldcqvbep"
       );
 
       // Set the x positions
-      const clidrenMaxX = rootOrgObj3d.setPositionX(0);
-      rootOrgObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
-/* 
+      const childrenMaxX = rootOrgObj3d.setPositionX(0);
+      rootOrgObj3d.translateX(-childrenMaxX / 2); // move route obj to the center
+
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
-      rootOrgObj3d.drawClassAssocs(this.glModelObject3D);
+      //rootOrgObj3d.drawClassAssocs(this.glModelObject3D);
 
-      // Tell root class and its subclasses to draw the objects
-      await rootOrgObj3d.drawObjects(
+      // Tell root org and its oug units to collect it's active permission userIds
+      let activePermAccArr = [];
+      await rootOrgObj3d.getActivePermissionedAccounts(
         this.selectableMeshArr,
         PoucdbServices.executeQuery,
-        'x1lrv2xdq2tu'
+        "1dbriehwtyyp",
+        activePermAccArr
       );
+
+      console.log(activePermAccArr);
+
+      let xPos = -activePermAccArr.length * WIDTH * 2 / 2
+      activePermAccArr.forEach((item) => {
+        // Create the UserObject3d (extends Object3d)
+        let userObj3d = new UserObject3d(item);
+        this.glModelObject3D.add(userObj3d);
+        this.selectableMeshArr.push(userObj3d.children[0]);
+        userObj3d.translateX(xPos);
+        userObj3d.translateZ(-DEPTH * 4);
+        userObj3d.translateY(HEIGHT * 2);
+        xPos += WIDTH * 2
+      });
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
-
+      /*
       rootOrgObj3d.drawObjectAssocs(this.glModelObject3D);
  */
       return rootOrgObj3d;
@@ -88,11 +116,10 @@ export default {
 
       this.removeLoadingText();
 
-      if(this.nextLevelSelectedObjId) {
-        this.highlight(this.nextLevelSelectedObjId)
-        this.moveCameraToPos(this.nextLevelSelectedObjId)
+      if (this.nextLevelSelectedObjId) {
+        this.highlight(this.nextLevelSelectedObjId);
+        this.moveCameraToPos(this.nextLevelSelectedObjId);
       }
-      
     } catch (err) {
       this.removeLoadingText();
 

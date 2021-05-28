@@ -147,13 +147,15 @@ export default {
 
         //debugger
         //console.log(PouchdbServices)
-        const bikeOrg = await this.$pouch.get('bikeshop1111');
-        //console.log("$permissions.0.required_auth.accounts.0.permission.actor")
+        const bikeOrg = await this.$pouch.get('bikeworkshop');
+        console.log("$permissions.0.required_auth.accounts.0.permission.actor")
         console.log(bikeOrg)
         const res = await PoucdbServices.executeQuery({
             //manyToOneArrayProp: "permissions",
+            manyToOneArrayProp: "$permissions.1.required_auth.accounts",
             selector: {
-              "permissions.0.required_auth.accounts.0.permission.actor": "$fk",
+              //"_id": "$required_auth.accounts.1.permission.actor",
+              "_id": "$permission.actor",
             },
             fields: [
               "_id",

@@ -2458,22 +2458,6 @@
             }
           ]
         }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "blockprocess",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ]
-        }
       }
     ]
   },
@@ -2496,22 +2480,6 @@
               "permission": {
                 "actor": "blockprocess",
                 "permission": "owner"
-              },
-              "weight": 1
-            }
-          ]
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "blockprocess",
-                "permission": "active"
               },
               "weight": 1
             }
@@ -4204,7 +4172,7 @@
       "ybjrgmdjybzl"
     ],
     "mongoQuery": {
-      "manyToOneArrayProp": "nextStepIds",
+      "manyToOneArrayProp": "$nextStepIds",
       "selector": {
         "_id": "$stepId"
       },
@@ -4226,7 +4194,8 @@
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "subQueryIds": [
-      "o4jhldcqvbep"
+      "o4jhldcqvbep",
+      "1dbriehwtyyp"
     ],
     "mongoQuery": {
       "selector": {
@@ -4250,7 +4219,8 @@
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "subQueryIds": [
-      "o4jhldcqvbep"
+      "o4jhldcqvbep",
+      "1dbriehwtyyp"
     ],
     "mongoQuery": {
       "selector": {
@@ -4270,13 +4240,13 @@
   {
     "_id": "1dbriehwtyyp",
     "docType": "object",
-    "name": "REUSE Organizational Unit Permission Query",
+    "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "mongoQuery": {
-      "manyToOneArrayProp": "permissions",
+      "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
       "selector": {
-        "_id": "$required_auth.accounts.0.permission.actor"
+        "_id": "$permission.actor"
       },
       "fields": [
         "_id",

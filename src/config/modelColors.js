@@ -132,8 +132,11 @@ module.exports = {
   // Organization Model
 
 
-  'dwl1kwhalwj4': {
-    color:  0x00A300, // Interface
+  'zx5ffzoa5euy': {
+    color:  0x00A300, // Commercial Org
   },
+  'dasprps1lrwf': {
+    color:  0x5200A3, // Organizational Unit
+  }
 
 }

@@ -26,7 +26,6 @@ export default class UserObject3d extends Object3D {
     textMesh.translateY(-HEIGHT / 4)
     objectMesh.add(textMesh)
 
-    objectMesh.rotateY(Math.PI / 2)
 
   }
 
@@ -144,13 +143,17 @@ export default class UserObject3d extends Object3D {
   getMesh() {
     const x = 0, y = 0
 
+    // Rounded rect
     let shape = new Shape()
-
-    shape.moveTo(x, y)
-      .lineTo(x, y + HEIGHT / 2)
-      .lineTo(x + WIDTH / 2, y + HEIGHT)
-      .lineTo(x + WIDTH, y + HEIGHT / 2)
-      .lineTo(x + WIDTH, y)
+    shape.moveTo(x, y + RADIUS)
+      .lineTo(x, y + HEIGHT - RADIUS)
+      .quadraticCurveTo(x, y + HEIGHT, x + RADIUS, y + HEIGHT)
+      .lineTo(x + WIDTH - RADIUS, y + HEIGHT)
+      .quadraticCurveTo(x + WIDTH, y + HEIGHT, x + WIDTH, y + HEIGHT - RADIUS)
+      .lineTo(x + WIDTH, y + RADIUS)
+      .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
+      .lineTo(x + RADIUS, y)
+      .quadraticCurveTo(x, y, x, y + RADIUS)
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: 2, bevelThickness: 2 }
