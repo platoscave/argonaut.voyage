@@ -82,9 +82,8 @@ export default {
         activePermAccArr
       );
 
-      console.log(activePermAccArr);
-
-      let xPos = -activePermAccArr.length * WIDTH * 2 / 2
+      // Create the userObj3d
+      let xPos = -(activePermAccArr.length - 1) * WIDTH * 2 / 2
       activePermAccArr.forEach((item) => {
         // Create the UserObject3d (extends Object3d)
         let userObj3d = new UserObject3d(item);
@@ -98,9 +97,9 @@ export default {
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
-      /*
-      rootOrgObj3d.drawObjectAssocs(this.glModelObject3D);
- */
+
+      rootOrgObj3d.drawToUserAssocs(this.glModelObject3D);
+
       return rootOrgObj3d;
     },
   },

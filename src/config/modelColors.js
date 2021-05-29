@@ -137,6 +137,9 @@ module.exports = {
   },
   'dasprps1lrwf': {
     color:  0x5200A3, // Organizational Unit
+  },
+  'active': {
+    color:  0xAAEFAA,
   }
 
 }

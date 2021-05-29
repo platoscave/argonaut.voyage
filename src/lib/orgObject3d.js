@@ -131,13 +131,9 @@ export default class OrgObject3d extends Object3D {
 
     resArr.forEach( item => {
       let user = activePermAccArr.find(user => {
-        user._id === item._id
+        return user._id === item._id
       })
-      if(user) user.activePermArr.push(this._id)
-      else {
-        item.activePermArr = [this._id]
-        activePermAccArr.push(item)
-      }
+      if(!user) activePermAccArr.push(item)
     })
 
     let objectPrommises = []
@@ -152,14 +148,67 @@ export default class OrgObject3d extends Object3D {
 
   }
 
-  drawObjectAssocs(glModelObject3D) {
+
+
+  drawToUserAssocs(glModelObject3D) {
+
+    const drawAssocs = userAccId => {
+
+      const destObj3d = glModelObject3D.getObjectByProperty('_id', userAccId)
+      if (!destObj3d) console.log('Assoc destination not found: ', this._id, userAccId)
+      //if (!destObj3d) console.log(this)
+      if (!destObj3d) return
+
+      // Get positions in world coordinates
+      let sourcePos = new Vector3()
+      this.getWorldPosition(sourcePos)
+      let destPos = new Vector3()
+      destObj3d.getWorldPosition(destPos)
+
+      const points = this.addCorners(sourcePos, destPos)
+
+      this.add(this.drawTube(points, 'active', 'active', true))
+
+    }
+
+    this.userData.permissions.forEach( permission => {
+      if(permission.perm_name === 'active') {
+        permission.required_auth.accounts.forEach( account => {
+          drawAssocs(account.permission.actor)
+        })
+      }
+    })
+
+
     this.children.forEach((subOrgObj3d) => {
       if (subOrgObj3d.type === 'Object3D') {
-        if (subOrgObj3d.drawObjectAssocs)
-          subOrgObj3d.drawObjectAssocs(glModelObject3D)
+        if (subOrgObj3d.drawToUserAssocs)
+          subOrgObj3d.drawToUserAssocs(glModelObject3D)
       }
     });
+
+
   }
+
+  addCorners(sourcePos, destPos) {
+    let points = []
+    
+    let difVec = destPos.clone().sub(sourcePos)
+
+    let sourceBackPos = this.getSidePos('back', new Vector3())
+    let sourceBusPos = new Vector3(0, 0, -DEPTH * 4)
+    let destBottomPos = this.getSidePos('bottom', difVec)
+    let destBusPos = difVec.clone().setY(sourceBackPos.y)
+
+    points.push(sourceBackPos)
+    points.push(sourceBusPos)
+    points.push(destBusPos)
+    points.push(destBottomPos)
+
+    return points
+
+  }
+
 
   getMesh() {
     const x = 0, y = 0
