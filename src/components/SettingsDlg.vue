@@ -11,8 +11,13 @@
       >
     </el-row>
     <el-row>
+      <el-button type="primary" @click="accountsCacheToEos"
+        >Copy Accounts From Cache to EOS</el-button
+      >
+    </el-row>
+    <el-row>
       <el-button type="primary" @click="onReadFilterDownLoad"
-        >Read Filter Doenload</el-button
+        >Read, Filter, Download</el-button
       >
     </el-row>
     <el-row>
@@ -26,6 +31,7 @@
 
 <script>
 import PoucdbServices from "../services/pouchdbServices";
+import EosServices from "../services/eosServices";
 
 export default {
   name: "settings-dlg",
@@ -72,6 +78,17 @@ export default {
         this.$message({ message: err, type: "error" });
       }
     },
+
+    async accountsCacheToEos() {
+      try {
+        await EosServices.addAccounts();
+
+      } catch (err) {
+        console.error(err);
+        this.$message({ message: err, type: "error" });
+      }
+    },
+
     async onReadFilterDownLoad() {
       // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv
       //const data = await IndexedDBApiService.GetAll(this.$store);
@@ -147,26 +164,14 @@ export default {
 
         //debugger
         //console.log(PouchdbServices)
-        const bikeOrg = await this.$pouch.get('bikeworkshop');
-        console.log("$permissions.0.required_auth.accounts.0.permission.actor")
-        console.log(bikeOrg)
+        //const bikeOrg = await this.$pouch.get('bikeworkshop');
+        //console.log("$permissions.0.required_auth.accounts.0.permission.actor")
+        //console.log(bikeOrg)
         const res = await PoucdbServices.executeQuery({
-            //manyToOneArrayProp: "permissions",
-            manyToOneArrayProp: "$permissions.1.required_auth.accounts",
-            selector: {
-              //"_id": "$required_auth.accounts.1.permission.actor",
-              "_id": "$permission.actor",
-            },
-            fields: [
-              "_id",
-              "name",
-              "docType",
-              "permissions",
-              "classId",
-              "icon",
-            ],
-            sort: ["name"],
-        }, bikeOrg);
+            database: "blockprocess",
+            selector: { classId: "ikjyhlqewxs3" },
+            "extendTo": "instances"
+        });
         console.log(res);
         this.$message({
           message: "Success",

@@ -9,7 +9,7 @@ export default class PoucdbServices {
 
 
   // nodeData is used to resolve $ variables in queries
-  static async executeQuery(query, nodeData = {}) {
+  static async executeQuery(mongoQuery /* mongoQuery or queryId */, nodeData = null) {
 
     // Get obj a property using dot noatation
     const getDescendantProp = (desc, resolveObj) => {
@@ -39,13 +39,13 @@ export default class PoucdbServices {
     }
 
     // Get / Execute the query
-    const executeQuery = async (queryObj, resolveObj) => {
+    const executeQuery = async (mongoQuery, resolveObj) => {
       // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
       // Bizar: I change the indexes and sorting is done automaticly
-      delete queryObj.mongoQuery.sort;
+      delete mongoQuery.sort;
 
       // Clone the query
-      let mongoQueryClone = JSON.parse(JSON.stringify(queryObj.mongoQuery))
+      let mongoQueryClone = JSON.parse(JSON.stringify(mongoQuery))
       // Resolve the variables in the query
       resolveQueryVariables(mongoQueryClone.selector, resolveObj)
       //console.log(mongoQueryClone)
@@ -55,8 +55,8 @@ export default class PoucdbServices {
 
       return results.docs.map( (item) => {
         item.label = item.title ? item.title : item.name;
-        if (queryObj.subQueryIds) {
-          item.subQueryIds = queryObj.subQueryIds;
+        if (mongoQuery.subQueryIds) {
+          item.subQueryIds = mongoQuery.subQueryIds;
           // If the query has subQueryIds, assume it may have children
           //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
           item.isLeaf = false;
@@ -64,28 +64,64 @@ export default class PoucdbServices {
         else  item.isLeaf = true;
           
         // If the query retreives an icon, use it. Otherwise use the query icon.
-        if (!item.icon) item.icon = queryObj.icon;
+        if (!item.icon) item.icon = mongoQuery.icon;
         // If the query retreives a pageId, use it. Otherwise use the query pageId.
-        if (!item.pageId) item.pageId = queryObj.pageId
+        if (!item.pageId) item.pageId = mongoQuery.pageId
         return item;
       })
     }
 
 
-    // START HERE
-    let queryObj = {}
-    // Get the queryObj
-    if (typeof query === 'string') queryObj = await db.get(query)
-    else queryObj.mongoQuery = query
+    const collectSubclasses = async (classId) => {
 
+      const subClasses = async classId =>{
+        let subClassesArr = await db.find( { selector: { parentId: classId }})
+        let promisses = []
+        subClassesArr.docs.forEach (subClass => {
+          promisses.push(subClasses(subClass._id))
+        })
+        let arrayOfResultArrays = await Promise.all(promisses)
+  
+        let results = []
+        results = results.concat(subClassesArr.docs, arrayOfResultArrays.flat())
+        return results
+      }
+
+      const rootClass = await db.get(classId)
+      let results = await subClasses(classId)
+      results.splice(0,0,rootClass)
+      return results
+
+    }
+
+    // START HERE
+    // Get the queryObj
+    //if(!mongoQuery) debugger
+    if (typeof mongoQuery === 'string') mongoQuery = await db.get(mongoQuery)
     // In the case of a many to one query we interate over the many array
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
-    if (queryObj.mongoQuery.manyToOneArrayProp) {
-      const manyArr = getDescendantProp(queryObj.mongoQuery.manyToOneArrayProp, nodeData)
+    if (mongoQuery.manyToOneArrayProp) {
+      if(!nodeData) throw 'manyToOneArrayProp query must have a nodeData'
+
+      const manyArr = getDescendantProp(mongoQuery.manyToOneArrayProp, nodeData)
       if (!manyArr) return []
       let promiseArr = manyArr.map((item) => {
-        return executeQuery(queryObj, item)
+        return executeQuery(mongoQuery, item)
+      })
+      const arrayOfResultArrays = await Promise.all(promiseArr)
+      // TODO results may still have to be sorted
+      return arrayOfResultArrays.flat()
+
+    } else if(mongoQuery.extendTo === 'instances') {
+      if(!mongoQuery.selector.classId) throw 'extendTo instances query must select with a classId'
+
+      const rootClassId = mongoQuery.selector.classId
+      const subClasses = await collectSubclasses(rootClassId)
+
+      let promiseArr = subClasses.map(classObj => {
+        mongoQuery.selector.classId = classObj._id
+        return executeQuery(mongoQuery, classObj)
       })
       const arrayOfResultArrays = await Promise.all(promiseArr)
       // TODO results may still have to be sorted
@@ -94,7 +130,7 @@ export default class PoucdbServices {
     } else {
       // Otherwise just execute the query. 
       // Use node.data as basis for resolving query varialbles
-      return executeQuery(queryObj, nodeData)
+      return executeQuery(mongoQuery, nodeData)
     }
   }
 

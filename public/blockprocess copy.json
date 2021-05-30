@@ -4054,7 +4054,7 @@
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "_id": "gzthjuyjca4s"
       },
@@ -4065,6 +4065,7 @@
         "properties",
         "parentId"
       ]
+    }
   },
   {
     "_id": "2jfs4is4icct",
@@ -4078,7 +4079,7 @@
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "parentId": "$fk"
       },
@@ -4092,6 +4093,7 @@
       "sort": [
         "title"
       ]
+    }
   },
   {
     "_id": "x1lrv2xdq2tu",
@@ -4100,13 +4102,14 @@
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
-    
+    "mongoQuery": {
       "selector": {
         "classId": "$fk"
       },
       "sort": [
         "name"
       ]
+    }
   },
   {
     "_id": "sfmg5u3wtpds",
@@ -4117,7 +4120,7 @@
     "subQueryIds": [
       "aiw54neadp14"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "$and": [
           {"ownerId": "$fk" },
@@ -4131,6 +4134,7 @@
         "firstStepId",
         "returnActions"
       ]
+    }
   },
   {
     "_id": "aiw54neadp14",
@@ -4142,7 +4146,7 @@
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "_id": "$firstStepId"
       },
@@ -4155,6 +4159,7 @@
       "sort": [
         "name"
       ]
+    }
   },
   {
     "_id": "ybjrgmdjybzl",
@@ -4166,7 +4171,7 @@
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    
+    "mongoQuery": {
       "manyToOneArrayProp": "$nextStepIds",
       "selector": {
         "_id": "$stepId"
@@ -4180,6 +4185,7 @@
       "sort": [
         "name"
       ]
+    }
   },
   {
     "_id": "vbinebvkz1sq",
@@ -4191,7 +4197,7 @@
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "_id": "$fk"
       },
@@ -4204,6 +4210,7 @@
         "permissions",
         "icon"
       ]
+    }
   },
   {
     "_id": "o4jhldcqvbep",
@@ -4215,7 +4222,7 @@
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
       },
@@ -4228,6 +4235,7 @@
         "icon"
       ],
       "sort": ["name"]
+    }
   },
   {
     "_id": "1dbriehwtyyp",
@@ -4235,7 +4243,7 @@
     "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
-    
+    "mongoQuery": {
       "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
       "selector": {
         "_id": "$permission.actor"
@@ -4251,6 +4259,7 @@
       "sort": [
         "name"
       ]
+    }
   },
   {
     "_id": "szyxk43kmjsg",
@@ -4264,7 +4273,7 @@
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "parentId": "nrioirgelhpi"
       },
@@ -4275,6 +4284,7 @@
         "properties",
         "parentId"
       ]
+    }
   },
   {
     "_id": "kmcvgaw2jtjw",
@@ -4288,7 +4298,7 @@
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    
+    "mongoQuery": {
       "selector": {
         "parentId": "$fk"
       },
@@ -4302,6 +4312,7 @@
       "sort": [
         "title"
       ]
+    }
   },
   {
     "_id": "u1pryedcjljz",
@@ -4309,7 +4320,7 @@
     "name": "Off Balance Sheet Objects Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
-    
+    "mongoQuery": {
       "selector": {
         "classId": "$fk"
       },
@@ -4323,6 +4334,7 @@
       "sort": [
         "name"
       ]
+    }
   },
   {
     "_id": "seidi2adi4wf",
@@ -4330,13 +4342,14 @@
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
-    
+    "mongoQuery": {
       "selector": {
         "$and": [
           {"ownerId": "$fk" },
           {"classId": "w3mzeetidb5n" }
         ]
       }
+    }
   },
 
 
