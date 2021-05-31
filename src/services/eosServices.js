@@ -25,7 +25,7 @@ const settingsDb = new PouchDB('settings');
 
 
 // Main action call to blockchain
-async function takeAction(store, actions) {
+async function takeAction(actions) {
 
 
   let appSettings = await settingsDb.get('appSettings')
@@ -43,42 +43,31 @@ async function takeAction(store, actions) {
     textEncoder: new TextEncoder()
   })
 
-  return new Promise(async (resolve, reject) => {
-    // Main call to blockchain after setting action, account_name and data
-    try {
-      console.log('actions', actions)
-      const resultWithConfig = await api.transact({
-        actions: actions
-      }, {
-        blocksBehind: 3,
-        expireSeconds: 30
-      })
-      store.commit('SET_SNACKBAR', {
-        snackbar: true,
-        text: 'EOS Transaction Succeded: ' + actions[0].name,
-        color: 'success'
-      })
-      resolve(resultWithConfig)
-    } catch (err) {
-      let text = 'EOS Transaction Failed: ' + actions[0].name
-      if (err instanceof RpcError) {
-        store.commit('SET_SNACKBAR', {
-          snackbar: true,
-          text: text + '\n' + err.json.error.details[0].message,
-          color: 'error'
-        })
-        reject(new Error(JSON.stringify(err.json, null, 2)))
-      }
-      else {
-        store.commit('SET_SNACKBAR', {
-          snackbar: true,
-          text: text,
-          color: 'error'
-        })
-        reject(err)
-      }
+  //return new Promise(async (resolve, reject) => {
+  // Main call to blockchain after setting action, account_name and data
+  try {
+    console.log('actions', actions)
+    const resultWithConfig = await api.transact({
+      actions: actions
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30
+    })
+
+    return resultWithConfig
+
+  } catch (err) {
+    //let text = 'EOS Transaction Failed: ' + actions[0].name
+    if (err instanceof RpcError) {
+      console.error(err)
+      throw 'EOS Transaction Failed:\n' +err.json.error.details[0].message
+      //reject(new Error(JSON.stringify(err.json, null, 2)))
     }
-  })
+    else {
+      throw err
+    }
+  }
+  //})
 }
 
 class EosApiService {
@@ -400,18 +389,32 @@ class EosApiService {
 
     let appSettings = await settingsDb.get('appSettings')
     let currentUserId = appSettings.currentUser
-    
+
+    const accountPermissions = account => {
+      let permissionsObj = {}
+      account.permissions.forEach(permission => {
+        permissionsObj[permission.perm_name] = permission.required_auth
+      })
+      return permissionsObj
+    }
+
+
     const addAccount = async account => {
       let action = {
         account: 'eosio',
-        name: 'newaccount',
+        name: 'Xnewaccount',
         authorization: [{
           actor: currentUserId,
           permission: 'active',
         }],
-        data: account
+        data: {
+          creator: currentUserId,
+          name: account._id,
+          ...accountPermissions(account)
+        }
 
       }
+
       // Only needed when the eos system contract is running
       /*, {
           account: 'eosio',
@@ -442,6 +445,8 @@ class EosApiService {
           }
       }*/
       try {
+        //console.log(action)
+
         const result = await takeAction( [action] )
         console.log(result)
         //this.$message({ message: "Account Added: " + account._id, type: "success" });
@@ -457,8 +462,13 @@ class EosApiService {
       selector: { classId: "ikjyhlqewxs3" },
       "extendTo": "instances"
     })
-    console.log(users)
-    users.forEach( user =>{
+    // Remove platoscave (it's already there)
+    const pcIdx = users.findIndex(item => {
+      return item._id === 'platoscave11'
+    })
+    users.splice(pcIdx, 1)
+
+    users.forEach(user => {
       addAccount(user)
     })
 
