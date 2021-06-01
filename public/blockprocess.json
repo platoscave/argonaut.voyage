@@ -1979,21 +1979,8 @@
               "weight": 1
             }
           ],
-          "accounts": [
-            {
-              "permission": {
-                "actor": "eoscafeblock",
-                "permission": "claimrewards"
-              },
-              "weight": 1
-            }
-          ],
-          "waits": [
-            {
-              "wait_sec": "3600",
-              "weight": 1
-            }
-          ]
+          "accounts": [],
+          "waits": []
         }
       }
     ],
@@ -2041,7 +2028,9 @@
               "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2077,7 +2066,9 @@
               "_id": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2113,7 +2104,9 @@
               "_id": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2149,7 +2142,9 @@
               "_id": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2185,7 +2180,9 @@
               "_id": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2221,7 +2218,9 @@
               "_id": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2257,7 +2256,9 @@
               "_id": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2293,7 +2294,9 @@
               "_id": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2329,7 +2332,9 @@
               "_id": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2365,7 +2370,9 @@
               "_id": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2410,7 +2417,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2456,7 +2465,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2483,7 +2494,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2512,7 +2525,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2528,7 +2543,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2557,7 +2574,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2594,7 +2613,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2623,7 +2644,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2639,7 +2662,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2665,7 +2690,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2688,7 +2715,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2714,7 +2743,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2744,7 +2775,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]

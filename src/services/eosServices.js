@@ -31,8 +31,10 @@ async function takeAction(actions) {
   let appSettings = await settingsDb.get('appSettings')
   const network = appSettings.currentNetwork;
   const rpc = new JsonRpc(networks[network].endpoint);
+  
 
-  const actor = appSettings.currentUser;
+  //const actor = appSettings.currentUser;
+  const actor = 'eosio';
   const privateKey = testAccounts[actor].privateKey
   const signatureProvider = new JsSignatureProvider([privateKey])
 
@@ -60,6 +62,7 @@ async function takeAction(actions) {
     //let text = 'EOS Transaction Failed: ' + actions[0].name
     if (err instanceof RpcError) {
       console.error(err)
+      debugger
       throw 'EOS Transaction Failed:\n' +err.json.error.details[0].message
       //reject(new Error(JSON.stringify(err.json, null, 2)))
     }
@@ -387,8 +390,10 @@ class EosApiService {
 
   static async addAccounts() {
 
+    await this.getAccountInfo('eosio')
     let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    //let currentUserId = appSettings.currentUser
+    let currentUserId = 'eosio'
 
     const accountPermissions = account => {
       let permissionsObj = {}
@@ -402,13 +407,13 @@ class EosApiService {
     const addAccount = async account => {
       let action = {
         account: 'eosio',
-        name: 'Xnewaccount',
+        name: 'newaccount',
         authorization: [{
-          actor: currentUserId,
+          actor: 'eosio',
           permission: 'active',
         }],
         data: {
-          creator: currentUserId,
+          creator: 'eosio',
           name: account._id,
           ...accountPermissions(account)
         }
@@ -468,9 +473,11 @@ class EosApiService {
     })
     users.splice(pcIdx, 1)
 
-    users.forEach(user => {
+
+    addAccount(users[0])
+    /* users.forEach(user => {
       addAccount(user)
-    })
+    }) */
 
 
   }
@@ -656,22 +663,19 @@ class EosApiService {
     return JSON.parse(result.rows[0].stacktable)
   }
 
-  static async getAccountInfo(store, accountId) {
-    const network = store.state.network;
+  static async getAccountInfo(accountId) {
+    let appSettings = await settingsDb.get('appSettings')
+    const network = appSettings.currentNetwork;
     const rpc = new JsonRpc(networks[network].endpoint);
     return new Promise(async (resolve, reject) => {
       try {
         const resultWithConfig = await rpc.get_account(accountId)
+        console.log(resultWithConfig)
         resolve(resultWithConfig)
+
       } catch (error) {
-        let text = 'account not found'
         console.log(JSON.stringify(error.json, null, 2))
-        if (error instanceof RpcError) text = error.json.error.details[0].message
-        store.commit('SET_SNACKBAR', {
-          snackbar: true,
-          text: text,
-          color: 'error'
-        })
+        if (error instanceof RpcError) console.log(error.json.error.details[0].message)
         reject(error)
       }
     })
