@@ -4,11 +4,11 @@
     "types": [],
     "structs": [
         {
-            "name": "commons_str",
+            "name": "document_str",
             "base": "",
             "fields": [
                 {
-                    "name": "key",
+                    "name": "_id",
                     "type": "name"
                 },
                 {
@@ -20,32 +20,8 @@
                     "type": "name"
                 },
                 {
-                    "name": "common",
+                    "name": "document",
                     "type": "string"
-                }
-            ]
-        },
-        {
-            "name": "erase",
-            "base": "",
-            "fields": [
-                {
-                    "name": "payload",
-                    "type": "erase_str"
-                }
-            ]
-        },
-        {
-            "name": "erase_str",
-            "base": "",
-            "fields": [
-                {
-                    "name": "username",
-                    "type": "name"
-                },
-                {
-                    "name": "key",
-                    "type": "name"
                 }
             ]
         },
@@ -70,34 +46,6 @@
             ]
         },
         {
-            "name": "nextstep",
-            "base": "",
-            "fields": [
-                {
-                    "name": "payload",
-                    "type": "nextstep_str"
-                }
-            ]
-        },
-        {
-            "name": "nextstep_str",
-            "base": "",
-            "fields": [
-                {
-                    "name": "username",
-                    "type": "name"
-                },
-                {
-                    "name": "agreementid",
-                    "type": "name"
-                },
-                {
-                    "name": "action",
-                    "type": "string"
-                }
-            ]
-        },
-        {
             "name": "upsert",
             "base": "",
             "fields": [
@@ -116,7 +64,7 @@
                     "type": "name"
                 },
                 {
-                    "name": "common",
+                    "name": "document",
                     "type": "string"
                 }
             ]
@@ -124,18 +72,8 @@
     ],
     "actions": [
         {
-            "name": "erase",
-            "type": "erase",
-            "ricardian_contract": ""
-        },
-        {
             "name": "eraseall",
             "type": "eraseall",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "nextstep",
-            "type": "nextstep",
             "ricardian_contract": ""
         },
         {
@@ -146,8 +84,8 @@
     ],
     "tables": [
         {
-            "name": "commonstable",
-            "type": "commons_str",
+            "name": "documents",
+            "type": "document_str",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

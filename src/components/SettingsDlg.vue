@@ -11,12 +11,27 @@
       >
     </el-row>
     <el-row>
-      <el-button type="primary" @click="accountsCacheToEos"
-        >Copy Accounts From Cache to EOS</el-button
+      <el-button type="primary" @click="addTestAccounts"
+        >Add Tests Accounts to EOS</el-button
       >
     </el-row>
     <el-row>
-      <el-button type="primary" @click="onReadFilterDownLoad"
+      <el-button type="primary" @click="loadProcessUniverse"
+        >Load Process Universe in EOS</el-button
+      >
+    </el-row>
+    <el-row>
+      <el-button type="primary" @click="eraseAllEos"
+        >Erase Documents Table in EOS</el-button
+      >
+    </el-row>
+    <el-row>
+      <el-button type="primary" @click="testEos"
+        >Call Test Function</el-button
+      >
+    </el-row>
+    <el-row>
+      <el-button type="primary" @click="loadProcessUniverse"
         >Read, Filter, Download</el-button
       >
     </el-row>
@@ -40,6 +55,7 @@ export default {
   },
 
   methods: {
+
     async clearCache() {
       try {
         await this.$pouch.destroy();
@@ -48,6 +64,8 @@ export default {
         this.$message({ message: err, type: "error" });
       }
     },
+
+
     async populateFromStatic() {
       try {
         const response = await fetch("blockprocess.json");
@@ -79,15 +97,36 @@ export default {
       }
     },
 
-    async accountsCacheToEos() {
-      try {
-        await EosServices.addAccounts();
+    async addTestAccounts() {
+      EosServices.addTestAccounts(this.$message)
+    },
 
+    async loadProcessUniverse() {
+      EosServices.loadProcessUniverse(this.$message)
+    },
+
+
+
+    async eraseAllEos() {
+      try {
+        await EosServices.eraseAllEos();
+        this.$message({ message: "EOS documents table erased", type: "success" });
       } catch (err) {
-        console.error(err);
         this.$message({ message: err, type: "error" });
       }
     },
+
+    async testEos() {
+      try {
+        await EosServices.testEos();
+        this.$message({ message: "Test function called", type: "success" });
+      } catch (err) {
+        this.$message({ message: err, type: "error" });
+      }
+    },
+
+
+
 
     async onReadFilterDownLoad() {
       // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv

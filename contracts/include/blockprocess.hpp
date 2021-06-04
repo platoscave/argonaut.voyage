@@ -7,6 +7,8 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
+#include "rapidjson/reader.h"
+#include "rapidjson/error/en.h" // rapidjson::ParseResult
 //#include <chrono>
 //#include <ctime>
 // #include <src/nlohmann/json-schema.hpp>
@@ -21,29 +23,30 @@ using namespace eosio;
 
 CONTRACT blockprocess : public contract {
   private:
-    TABLE commons_str {
-      name key;
+    TABLE document_str {
+      name _id;
       name parentid;
       name classid;
-      std::string common;
+      std::string document;
       
-      uint64_t primary_key() const { return key.value; }
+      uint64_t primary_key() const { return _id.value; }
       uint64_t by_parentid() const { return parentid.value; }
       uint64_t by_classid() const { return classid.value; }
     };
     
-    typedef multi_index<name("commonstable"), commons_str, 
-      indexed_by<name("byparentid"), const_mem_fun<commons_str, uint64_t, &commons_str::by_parentid>>, 
-      indexed_by<name("byclassid"), const_mem_fun<commons_str, uint64_t, &commons_str::by_classid>>> commonstable_def;
+    typedef multi_index<name("documents"), document_str, 
+      indexed_by<name("byparentid"), const_mem_fun<document_str, uint64_t, &document_str::by_parentid>>, 
+      indexed_by<name("byclassid"), const_mem_fun<document_str, uint64_t, &document_str::by_classid>>> documents_def;
       
-    commonstable_def commons_tbl;
+    documents_def doc_tbl;
 
+  /*
     struct processstate_str {
       name processid;
       name stateid;
       bool done;
       time_point_sec updated_at;
-
+  */
 
     /*std::string isoTimestamp() {
       char buffer[32];
@@ -51,44 +54,45 @@ CONTRACT blockprocess : public contract {
       std::strftime(buffer, sizeof(buffer), "%FT%TZ", std::gmtime(&current_time));
       return buffer;
     }*/
-
+    /*
       std::string toJson() {
         return "{\n    \"processId\": \"" + processid.to_string() + "\", " + 
           "\n    \"stateid\": \"" + stateid.to_string() + "\", " + 
           "\n    \"done\": " + (done ? "true" : "false") + "\", " + 
           "\n    \"updated_at\": \"" + "isoTimestamp()" + "\"\n}";
       }
-
-    };
   
+    };
+  */
 
-    bool isA( name parentId, name saughtId );
+//    bool isA( name parentId, name saughtId );
 
   public:
     using contract::contract;
     blockprocess(name receiver, name code, 
       datastream<const char*> ds):contract(receiver, code, ds), 
-      commons_tbl(receiver, receiver.value) {}
+      doc_tbl(receiver, receiver.value) {}
     
     struct upsert_str {
       name username;
-      std::string common;
-      EOSLIB_SERIALIZE( upsert_str, (username) (common) )
+      std::string document;
+      EOSLIB_SERIALIZE( upsert_str, (username) (document) )
     };
     ACTION upsert(upsert_str payload);
-    
-    struct erase_str {
-      name username;
-      name key;
-      EOSLIB_SERIALIZE( erase_str, (username) (key))
-    };
-    ACTION erase(erase_str payload);
     
     struct eraseall_str {
       name username;
       EOSLIB_SERIALIZE( eraseall_str, (username) )
     };
     ACTION eraseall(eraseall_str payload);
+
+/*
+    struct erase_str {
+      name username;
+      name _id;
+      EOSLIB_SERIALIZE( erase_str, (username) (_id))
+    };
+    ACTION erase(erase_str payload);
    
     struct nextstep_str {
       name username;
@@ -104,5 +108,5 @@ CONTRACT blockprocess : public contract {
       EOSLIB_SERIALIZE( nextstep_str, (username) (agreementid) (action))
     };
     ACTION nextstep(nextstep_str payload);
-   
+   */
 };

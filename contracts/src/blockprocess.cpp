@@ -18,80 +18,68 @@ ACTION blockprocess::upsert(upsert_str payload) {
   // or require the contract athority. _self is the account that constructed the contract
   // require_auth( get_self() );
 
-  // See https://nlohmann.github.io/json/
-  // annoying problem https://www.bcskill.com/index.php/archives/714.html
 
-  //auto parsedJson = json::parse(payload.common, nullptr, false);
+  const char* charDoc = payload.document.c_str();
+
   Document parsedJson;
+  ParseResult ok = parsedJson.Parse(charDoc);
 
-std::string str = payload.common;
-const char * c = str.c_str();
-
-  parsedJson.Parse(c);
-
-  //check(!parsedJson.is_discarded(), "Invalid Json:\n" + payload.common);
+  check(ok, ("JSON parse error: %s (%u)",
+            GetParseError_En(ok.Code()), ok.Offset()));
   
-  // print("UPSERT: ", parsedJson.dump(4), "\n");
 
-  // Get the key from payload
-  check(parsedJson.HasMember("key"), "Proposed upsert has no key:\n");
+  // Get the _id from payload
+  check(parsedJson.HasMember("_id"), "Proposed upsert has no _id:\n");
+  auto _id = name(parsedJson["_id"].GetString());
 
+  print("UPSERT: ", parsedJson["_id"].GetString());
 
-  auto key = name(parsedJson["name"].GetString());
-
-  auto classId = name("aaaaaaaaaaaa");
-  auto parentId = name("aaaaaaaaaaaa");
-
-  if(key != name("gzthjuyjca4s")){ // Exception for the root
+ 
+  auto classId = UINT64_MAX;
+  auto parentId = UINT64_MAX;
+ 
+/*
+  if(_id != name("gzthjuyjca4s")){ // Exception for the root
     if(parsedJson.HasMember("classId")) {
       // Use the value from payload as foreign key
       classId = name(parsedJson["classId"].GetString());
       // Make sure the foreigne key exsits
-      auto common_iterator = commons_tbl.find( classId.value );
-      check( common_iterator != commons_tbl.end(), "classId not found:\n");
+      auto docs_iter = doc_tbl.find( classId.value );
+      check( docs_iter != doc_tbl.end(), "classId not found:\n");
 
       // Collect schema from classes
-      // Validate common
+      // Validate document
     }
     else if(parsedJson.HasMember("parentId")) {
       // Use the value from payload as foreign key
       parentId = name(parsedJson["parentId"].GetString());
       // Make sure the foreigne key exsits
-      auto common_iterator = commons_tbl.find( parentId.value );
-      check( common_iterator != commons_tbl.end(), "parentId not found: " + payload.common);
+      auto docs_iter = doc_tbl.find( parentId.value );
+      check( docs_iter != doc_tbl.end(), "parentId not found: " + payload.document);
     }
-    else check( false, "Must have either parentId or classId: " + payload.common);
+    else check( false, "Must have either parentId or classId: " + payload.document);
   }
-
-  auto common_iterator = commons_tbl.find( key.value );
-  if( common_iterator == commons_tbl.end() )
+  
+*/
+  auto docs_iter = doc_tbl.find( _id.value );
+  if( docs_iter == doc_tbl.end() )
   {
     // username - payer: usually the user
     // [&]: labda function, annomonus
-    commons_tbl.emplace(username, [&]( auto& new_common ) {
-      new_common.key = key;
-      new_common.parentid = parentId;
-      new_common.classid = classId;
-      new_common.common = payload.common;
+    doc_tbl.emplace(username, [&]( auto& new_doc ) {
+      new_doc._id = _id;
+      new_doc.parentid = parentId;
+      new_doc.classid = classId;
+      new_doc.document = payload.document;
     });
   }
   else {
-    commons_tbl.modify( common_iterator, _self, [&]( auto& existing_common ) {
-      existing_common.parentid = parentId;
-      existing_common.classid = classId;
-      existing_common.common = payload.common;
+    doc_tbl.modify( docs_iter, _self, [&]( auto& existing_doc ) {
+      existing_doc.parentid = parentId;
+      existing_doc.classid = classId;
+      existing_doc.document = payload.document;
     });
   }
-}
-
-ACTION blockprocess::erase(erase_str payload) {
-  name username = payload.username;
-  name key = payload.key;
-  require_auth(username);
-
-  auto common_iterator = commons_tbl.find(key.value);
-  if(common_iterator != commons_tbl.end()) commons_tbl.erase(common_iterator);
-
 }
 
 ACTION blockprocess::eraseall(eraseall_str payload) {
@@ -99,10 +87,21 @@ ACTION blockprocess::eraseall(eraseall_str payload) {
   name username = payload.username;
   require_auth(username);
 
-  for(auto common_iterator = commons_tbl.begin(); common_iterator != commons_tbl.end();) {
+  for(auto docs_iter = doc_tbl.begin(); docs_iter != doc_tbl.end();) {
       // delete element and update iterator reference
-      common_iterator = commons_tbl.erase(common_iterator);
+      docs_iter = doc_tbl.erase(docs_iter);
   }
+
+}
+
+/*
+ACTION blockprocess::erase(erase_str payload) {
+  name username = payload.username;
+  name _id = payload._id;
+  require_auth(username);
+
+  auto docs_iter = doc_tbl.find(_id.value);
+  if(docs_iter != doc_tbl.end()) doc_tbl.erase(docs_iter);
 
 }
 
@@ -115,12 +114,12 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
 
   print("{ \"nextstep\": ", payload.toJson(), ",\n");
 
-/*
+
   // Get the agreement
-  auto commons_iterator = commons_tbl.find( agreementid.value );
-  check(commons_iterator != commons_tbl.end(), "Couldn't find the agreement: " + agreementid.to_string());
-  auto parsedAgreement = json::parse(commons_iterator->common, nullptr, false);
-  check(!parsedAgreement.is_discarded(), "Invalid Json: " + commons_iterator->common);
+  auto docs_iter = doc_tbl.find( agreementid.value );
+  check(docs_iter != doc_tbl.end(), "Couldn't find the agreement: " + agreementid.to_string());
+  auto parsedAgreement = json::parse(docs_iter->document, nullptr, false);
+  check(!parsedAgreement.is_discarded(), "Invalid Json: " + docs_iter->document);
 
 
   // Get the agreement process stack
@@ -144,10 +143,10 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
     if ( currentProcessState.stateid == name("gczvalloctae") ) { // Initialize state
         
       // Get the process obj
-      auto commons_iterator = commons_tbl.find( currentProcessState.processid.value );
-      check(commons_iterator != commons_tbl.end(), "Couldn't find the process obj: " + currentProcessState.processid.to_string());
-      auto parsedProcessJson = json::parse(commons_iterator->common, nullptr, false);
-      check(!parsedProcessJson.is_discarded(), "Invalid Json: " + commons_iterator->common);
+      auto docs_iter = doc_tbl.find( currentProcessState.processid.value );
+      check(docs_iter != doc_tbl.end(), "Couldn't find the process obj: " + currentProcessState.processid.to_string());
+      auto parsedProcessJson = json::parse(docs_iter->document, nullptr, false);
+      check(!parsedProcessJson.is_discarded(), "Invalid Json: " + docs_iter->document);
 
       // Get the substateId from processObj
       check(parsedProcessJson.HasMember("substateId"), "Stack process has no substateId:\n" + parsedProcessJson.dump(4));
@@ -195,10 +194,10 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
       check( !action.empty(), "No action provided: " + agreementid.to_string());
 
       // Get stateObj from processStackObj.stateId
-      auto commons_iterator = commons_tbl.find( currentProcessState.stateid.value );
-      check(commons_iterator != commons_tbl.end(), "Couldn't find the state obj: " + currentProcessState.stateid.to_string());
-      auto parsedStateJson = json::parse(commons_iterator->common, nullptr, false);
-      check(!parsedStateJson.is_discarded(), "Invalid Json: " + commons_iterator->common);
+      auto docs_iter = doc_tbl.find( currentProcessState.stateid.value );
+      check(docs_iter != doc_tbl.end(), "Couldn't find the state obj: " + currentProcessState.stateid.to_string());
+      auto parsedStateJson = json::parse(docs_iter->document, nullptr, false);
+      check(!parsedStateJson.is_discarded(), "Invalid Json: " + docs_iter->document);
 
 
       // Get the nextStateIds from state obj
@@ -275,16 +274,16 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
     }
 
   // } while (executeType || delegateType || stateId == name("gczvalloctae")); // Initialize
-   */ 
+    
 }
 
-// Recusivly get the common. Check to see if the parentId equals saughtId.
-bool blockprocess::isA ( name key, name saughtId ) {
-  auto iterator = commons_tbl.find( key.value );
-  check(iterator != commons_tbl.end(), "key could not be found: " + key.to_string());
+// Recusivly get the document. Check to see if the parentId equals saughtId.
+bool blockprocess::isA ( name _id, name saughtId ) {
+  auto iterator = doc_tbl.find( _id.value );
+  check(iterator != doc_tbl.end(), "_id could not be found: " + _id.to_string());
   if(iterator->classid == saughtId || iterator->parentid == saughtId) return true;
   else if (iterator->parentid != name("aaaaaaaaaaaa")) return isA (iterator->parentid, saughtId);
   return false; // no parent class, we are at the root
 }
-
+*/
 

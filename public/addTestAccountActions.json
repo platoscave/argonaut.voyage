@@ -1,0 +1,1124 @@
+[
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1113",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1113",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1113",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1124",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1124",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1124",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1125",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1125",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1125",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1111",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1111",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1111",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1115",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1115",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1115",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1121",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1121",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1121",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1122",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1122",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1122",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1123",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1123",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1123",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1112",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1112",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1112",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "demouser1114",
+                "owner": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "keys": [
+                        {
+                            "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+                            "weight": 1
+                        }
+                    ],
+                    "accounts": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "demouser1114",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "demouser1114",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "clinconsulti",
+                "owner": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "clinic111111",
+                                "permission": "owner"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "demouser1121",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1125",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1115",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1121",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "clinconsulti",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "clinconsulti",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "clinreceptio",
+                "owner": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "clinic111111",
+                                "permission": "owner"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "demouser1114",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "clinreceptio",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "clinreceptio",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "jotcvffqbzfp",
+                "owner": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "blockprocess",
+                                "permission": "owner"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "jotcvffqbzfp",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "jotcvffqbzfp",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "bikefrondesk",
+                "owner": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "bikeshop1111",
+                                "permission": "owner"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "demouser1111",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1112",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "bikefrondesk",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "bikefrondesk",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ],
+    [
+        {
+            "account": "eosio",
+            "name": "newaccount",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "creator": "currentUserId",
+                "name": "bikeworkshop",
+                "owner": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "bikeshop1111",
+                                "permission": "owner"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                },
+                "active": {
+                    "threshold": 1,
+                    "accounts": [
+                        {
+                            "permission": {
+                                "actor": "demouser1111",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1112",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        },
+                        {
+                            "permission": {
+                                "actor": "demouser1113",
+                                "permission": "active"
+                            },
+                            "weight": 1
+                        }
+                    ],
+                    "keys": [],
+                    "waits": []
+                }
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "buyrambytes",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "payer": "currentUserId",
+                "receiver": "bikeworkshop",
+                "bytes": 2000
+            }
+        },
+        {
+            "account": "eosio",
+            "name": "delegatebw",
+            "authorization": [
+                {
+                    "actor": "currentUserId",
+                    "permission": "active"
+                }
+            ],
+            "data": {
+                "from": "currentUserId",
+                "receiver": "bikeworkshop",
+                "stake_net_quantity": "1.0000 SYS",
+                "stake_cpu_quantity": "1.0000 SYS",
+                "transfer": false
+            }
+        }
+    ]
+]

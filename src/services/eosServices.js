@@ -31,10 +31,9 @@ async function takeAction(actions) {
   let appSettings = await settingsDb.get('appSettings')
   const network = appSettings.currentNetwork;
   const rpc = new JsonRpc(networks[network].endpoint);
-  
 
-  //const actor = appSettings.currentUser;
-  const actor = 'eosio';
+
+  const actor = appSettings.currentUser;
   const privateKey = testAccounts[actor].privateKey
   const signatureProvider = new JsSignatureProvider([privateKey])
 
@@ -45,10 +44,8 @@ async function takeAction(actions) {
     textEncoder: new TextEncoder()
   })
 
-  //return new Promise(async (resolve, reject) => {
   // Main call to blockchain after setting action, account_name and data
   try {
-    console.log('actions', actions)
     const resultWithConfig = await api.transact({
       actions: actions
     }, {
@@ -59,22 +56,21 @@ async function takeAction(actions) {
     return resultWithConfig
 
   } catch (err) {
-    //let text = 'EOS Transaction Failed: ' + actions[0].name
     if (err instanceof RpcError) {
-      console.error(err)
-      debugger
-      throw 'EOS Transaction Failed:\n' +err.json.error.details[0].message
-      //reject(new Error(JSON.stringify(err.json, null, 2)))
+      console.log('actions in error', actions)
+      throw 'EOS Transaction Failed:\n' + err.json.error.details[0].message
     }
     else {
       throw err
     }
   }
-  //})
 }
 
 class EosApiService {
-  static upsertCommon(store, action, common) {
+
+
+  static async upsertDocument( document) {
+
     const getRandomKey = () => {
       // base32 encoded 64-bit integers. This means they are limited to the characters a-z, 1-5, and '.' for the first 12 characters.
       // If there is a 13th character then it is restricted to the first 16 characters ('.' and a-p).
@@ -85,678 +81,174 @@ class EosApiService {
       }
       return randomKey
     }
-    if (!common.key) common.key = getRandomKey()
+    if (!document._id) document._id = getRandomKey()
 
-    const accountName = 'eoscommonsio' // also, the name of the table we're tring to update
-    const actor = store.state.currentUserId; // The user performing the action
+    
+
+    let appSettings = await settingsDb.get('appSettings')
+    let currentUserId = appSettings.currentUser
+
     const actions = [{
-      account: accountName,
-      name: action,
+      account: 'blockprocess',
+      name: 'upsert',
       authorization: [{
-        actor: actor,
+        actor: currentUserId,
         permission: 'active'
       }],
       data: {
         payload: {
-          username: actor,
-          common: JSON.stringify(common)
+          username: currentUserId,
+          document: JSON.stringify(document)
         }
       }
     }]
-    return takeAction(store, actions)
-  }
-
-  static eraseCommon(store, key) {
-    const accountName = 'eoscommonsio' // also, the name of the table we're tring to update
-    const actor = store.state.currentUserId; // The user performing the action
-    const actions = [{
-      account: accountName,
-      name: 'erase',
-      authorization: [{
-        actor: actor,
-        permission: 'active'
-      }],
-      data: {
-        payload: {
-          username: actor,
-          key: key
-        }
-      }
-    }]
-    return takeAction(store, actions)
+    return takeAction(actions)
   }
 
 
-  static async createAccounts(actor, accountsArr) {
-    console.log('data', accountsArr)
+  //////////////////////////////////////////////////////////
+  // Utility functions
+  //////////////////////////////////////////////////////////
 
-    const actions = accountsArr.map(account => {
-      return {
-        account: 'eosio',
-        name: 'newaccount',
-        authorization: [{
-          actor: actor,
-          permission: 'active',
-        }],
-        data: account
 
+
+  static async addTestAccounts(message) {
+
+    // Prime EOS with test accounts from the cache
+    // Acounts must be created in the right order because eos does a referential integrity check
+    // We do each of the accounts in its own transaction in case the account aready exists
+    // I get get_block_info 404 (Not Found) when I run this locally but it doesnt seem to matter
+
+
+    const addAccount = async actionArr => {
+      // buyrambytes and delegatebw only needed when the eos system contract is running
+      actionArr.splice(1, 2)
+      try {
+        await takeAction(actionArr)
+        message({ message: actionArr[0].data.name + ' Added', type: "succes" });
+      } catch (err) {
+        console.error(err) // Dont care
+        message({ message: err, type: "error" });
       }
-      // Only needed when the eos system contract is running
-      /*, {
-          account: 'eosio',
-          name: 'buyrambytes',
-          authorization: [{
-              actor: actor,
-              permission: 'active',
-          }],
-          data: {
-              payer: actor,
-              receiver: newAccount,
-              bytes: 8192,
-          },
-      },
-      {
-          account: 'eosio',
-          name: 'delegatebw',
-          authorization: [{
-              actor: actor,
-              permission: 'active',
-          }],
-          data: {
-              from: actor,
-              receiver: newAccount,
-              stake_net_quantity: '1.0000 SYS',
-              stake_cpu_quantity: '1.0000 SYS',
-              transfer: false,
-          }
-      }*/
+    }
+
+    // START HERE
+    let appSettings = await settingsDb.get('appSettings')
+    let currentUserId = appSettings.currentUser
+
+    const response = await fetch("addTestAccountActions.json");
+    let accountActionsStr = await response.text();
+    accountActionsStr = accountActionsStr.replace(/currentUserId/g, currentUserId)
+    const accountActionsArr = JSON.parse(accountActionsStr)
+    console.log(accountActionsArr)
+
+
+    let promisesArr = []
+    accountActionsArr.forEach(actionArr => {
+      promisesArr.push(addAccount(actionArr))
     })
-    const result = await takeAction(actions)
-    return result
+    await Promise.all(promisesArr)
+    console.log('accounts added')
+
   }
 
-  static bumpState(store, agreementId, action) {
-    const accountName = 'eoscommonsio' // also, the name of the table we're tring to update
-    const actor = store.state.currentUserId; // The user performing the action
-    const actions = [{
-      account: accountName,
-      name: 'bumpstate',
-      authorization: [{
-        actor: actor,
-        permission: 'active'
-      }],
-      data: {
-        payload: {
-          username: actor,
-          agreementid: agreementId,
-          action: action
-        }
-      }
-    }]
-    return takeAction(store, actions)
-  }
-  // Query Tables
 
+  static async loadProcessUniverse(message) {
 
-  static async getCommonByKey(store, keyValue) {
-    return this.queryByIndex(store, 'key', keyValue).then(result => {
-      if (result.length == 0) {
-        console.error('Key Not found: ' + keyValue)
-        return []
-      }
-      return result[0]
-    })
-  }
+    let appSettings = await settingsDb.get('appSettings')
+    let currentUserId = appSettings.currentUser
 
-  static async queryByIndex(store, indexName, keyValue) {
-
-    // Recursivly findout if obj is a classId
-    const isA = async (objId, classId) => {
-      const testSuperClass = async superclassId => {
-        const superclass = await this.getCommonByKey(store, superclassId)
-        if (!superclass.parentId) return false // we are at the root
-        if (superclass.parentId === classId) return true
-        return await testSuperClass(superclass.parentId)
-      }
-
-      const obj = await this.getCommonByKey(store, objId)
-      if (obj.classId === classId) return true
-      return await testSuperClass(obj.classId)
-    }
-
-    try {
-      // sb = new eosjs.Serialize.SerialBuffer();                                                  
-      // sb.pushName('testacc');                                                                                                                                     
-      // eosjs.Numeric.binaryToDecimal(sb.getUint8Array(8));
-      // See https://github.com/EOSIO/eosjs/issues/154
-      const lowerBoundBigNumber = new BigNumber(encodeName(keyValue, false))
-      const upperBound = decodeName(lowerBoundBigNumber.plus(1).toString(), false)
-      // console.log('indexName: ', indexName, 'key: ', key, lowerBoundBigNumber.toString(), lowerBoundBigNumber.plus(1).toString())
-
-      let index = 0
-      if (indexName === 'key') index = 'first'
-      else if (indexName === 'parentId') index = 'second'
-      else if (indexName === 'classId') index = 'third'
-      else throw 'Add index: ' + indexName
-
-
-      const network = store.state.network;
-      const rpc = new JsonRpc(networks[network].endpoint);
-
-      const CODE = 'eoscommonsio' // contract who owns the table, to keep table names unqique amongst different contracts. We all use the same table space.
-      const SCOPE = 'eoscommonsio' // scope of the table. Can be used to give each participating acount its own table. Otherwise the same as code
-      const TABLE = 'commonstable' // name of the table as specified by the contract abi
-
-      const result = await rpc.get_table_rows({
-        'json': true,
-        'code': CODE, // contract who owns the table
-        'scope': SCOPE, // scope of the table
-        'table': TABLE, // name of the table as specified by the contract abi
-        'limit': 500,
-        'key_type': 'name', // account name type
-        'index_position': index,
-        'lower_bound': keyValue,
-        'upper_bound': upperBound // must be numericlly equal to key plus one
-      })
-      let results = result.rows.map(row => {
-        return JSON.parse(row.common)
-      })
-      let enrichedResults = []
-      results.forEach(async result => {
-        // is an Acount?
-        const accountClassIds = ['dasprps1lrwf', 'ikjyhlqewxs3', 'dasprps1lrwf', 'hdt3hmnsaghk', 'pae2bfbrab5n', 'be1ub1vtofjo', 't5punszz4lhv', 'zx5ffzoa5euy']
-        if (accountClassIds.includes(result.classId)) {
-          enrichedResults.push(this.getAccountInfo(store, result.key).then(accountInfo => {
-            return Object.assign(result, accountInfo)
-          }, () => {
-            return result // ingore key not found
-          }))
-        }
-        else enrichedResults.push(result)
-      })
-
-      return Promise.all(enrichedResults)
-    } catch (err) {
-      console.error(err)
-      return []
-    }
-  }
-
-  static async getAuthorizedAccounts(store, agreementId) {
-    // Get accounts that are authorized for the current state of an agreement
-
-    const agreementObj = await this.getCommonByKey(store, agreementId)
-    // Get the last process stack object
-    if (!agreementObj.processStack) {
-      console.log('Agreement has no process stack', agreementObj)
-      return []
-    }
-    let processStackObj = agreementObj.processStack[0]
-
-    // get all org unit accounts for seller account
-    const network = store.state.network;
-    const rpc = new JsonRpc(networks[network].endpoint);
-
-    // const sellerOrgunitAccounts = await rpc.get_controlled_accounts(agreementObj.sellerId)
-    const sellerOrgunitAccounts = []
-
-    let orgsAuthorizedForStateArr = sellerOrgunitAccounts.filter(sellerOrgunitAccount => {
-      return sellerOrgunitAccount.authorizedForStateIds.includes(processStackObj.stateId)
-    })
-
-    let accountIdsArr = []
-    orgsAuthorizedForStateArr.forEach(accountObj => {
-      accountObj.permissions.forEach(permissionObj => {
-        permissionObj.required_auth.accounts.forEach(account => {
-          if (account.permission.permission === 'active') accountIdsArr.push(account.permission.actor)
-        })
-      })
-    })
-
-    /// console.log('accountIdsArr', accountIdsArr)
-    return accountIdsArr
-  }
-
-  static async ImportFromEOS() {
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
-      }
-    }
-
-    const createFnPromise = (common) => {
-      return () => this.upsertCommon(common)
-    }
-  }
-
-  static async StaticAllToEos(store) {
-
-    const actor = store.state.currentUserId; // The user performing the action
-
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
-      }
-    }
-
-    const createFnPromise = (actions) => {
-      return () => takeAction(store, actions).then(result => { console.log(result) })
-    }
-
-    return axios('commons.json', {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      data: {}
-    }).then(response => {
-      let loadEOSPromissesArr = []
-      let actions = []
-      let parentId = ""
-      let classId = ""
-      let skip = true
-      response.data.forEach(async subClassObj => {
-        /*if((subClassObj.parentId != parentId || subClassObj.classId != classId) && actions.length) {
-            loadEOSPromissesArr.push(createFnPromise(actions))
-            actions = []
-        }*/
-        actions = []
-        parentId = subClassObj.parentId
-        classId = subClassObj.classId
-        actions.push({
-          account: 'eoscommonsio',
+    const upsertActions = tenDocs => {
+      return tenDocs.map(item => {
+        return {
+          account: 'blockprocess',
           name: 'upsert',
           authorization: [{
-            actor: actor,
+            actor: currentUserId,
             permission: 'active'
           }],
           data: {
             payload: {
-              username: actor,
-              common: JSON.stringify(subClassObj)
+              username: currentUserId,
+              document: JSON.stringify(item)
             }
           }
-        })
-        if (subClassObj.key === 'uqefmsegqvhs') skip = false
-        if (!skip) loadEOSPromissesArr.push(createFnPromise(actions))
-
+        }
       })
+    }
 
-      doAllSequentually(loadEOSPromissesArr).then(() => {
-        console.log('finished StaticAllToEos')
-        return true
+
+    const doAllSequentually = async (fnPromiseArr) => {
+      for (let i = 0; i < fnPromiseArr.length; i++) {
+        await fnPromiseArr[i]()
+      }
+    }
+
+
+    // START HERE
+
+    const response = await fetch("blockprocess.json");
+    const blockprocessArr = await response.json();
+    //console.log(blockprocessArr)
+
+
+    let promiseFunctionArr = []
+    for (let idx = 0; idx < blockprocessArr.length; idx += 10) {
+      let tenDocs = []
+      for (let subIdx = 0; subIdx < 10; subIdx++) {
+        tenDocs.push(blockprocessArr[idx + subIdx])
+      }
+      let tenActionsArr = upsertActions(tenDocs)
+      promiseFunctionArr.push(async () => {
+        try {
+          await takeAction(tenActionsArr)
+          message({ message: 'Upsert ten', type: "succes" });
+        } catch (err) {
+          console.error(err) // Dont care
+          message({ message: err, type: "error" });
+        }
       })
-    })
+    }
+    doAllSequentually(promiseFunctionArr)
+
   }
 
-  static async addAccounts() {
 
-    await this.getAccountInfo('eosio')
+  static async eraseAllEos() {
+
     let appSettings = await settingsDb.get('appSettings')
-    //let currentUserId = appSettings.currentUser
-    let currentUserId = 'eosio'
+    let currentUserId = appSettings.currentUser
 
-    const accountPermissions = account => {
-      let permissionsObj = {}
-      account.permissions.forEach(permission => {
-        permissionsObj[permission.perm_name] = permission.required_auth
-      })
-      return permissionsObj
-    }
-
-
-    const addAccount = async account => {
-      let action = {
-        account: 'eosio',
-        name: 'newaccount',
-        authorization: [{
-          actor: 'eosio',
-          permission: 'active',
-        }],
-        data: {
-          creator: 'eosio',
-          name: account._id,
-          ...accountPermissions(account)
-        }
-
-      }
-
-      // Only needed when the eos system contract is running
-      /*, {
-          account: 'eosio',
-          name: 'buyrambytes',
-          authorization: [{
-              actor: actor,
-              permission: 'active',
-          }],
-          data: {
-              payer: actor,
-              receiver: newAccount,
-              bytes: 8192,
-          },
-      },
-      {
-          account: 'eosio',
-          name: 'delegatebw',
-          authorization: [{
-              actor: actor,
-              permission: 'active',
-          }],
-          data: {
-              from: actor,
-              receiver: newAccount,
-              stake_net_quantity: '1.0000 SYS',
-              stake_cpu_quantity: '1.0000 SYS',
-              transfer: false,
-          }
-      }*/
-      try {
-        //console.log(action)
-
-        const result = await takeAction( [action] )
-        console.log(result)
-        //this.$message({ message: "Account Added: " + account._id, type: "success" });
-
-      } catch (err) {
-        console.error(err)
-        //this.$message({ message: err, type: "error" });
-      }
-    }
-
-
-    let users = await PoucdbServices.executeQuery({
-      selector: { classId: "ikjyhlqewxs3" },
-      "extendTo": "instances"
-    })
-    // Remove platoscave (it's already there)
-    const pcIdx = users.findIndex(item => {
-      return item._id === 'platoscave11'
-    })
-    users.splice(pcIdx, 1)
-
-
-    addAccount(users[0])
-    /* users.forEach(user => {
-      addAccount(user)
-    }) */
-
-
-  }
-  static async IndexedDBAllToEos(store) {
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
-      }
-    }
-
-    const createFnPromise = (actions) => {
-      return () => takeAction(store, actions).then(result => { console.log(result) })
-    }
-
-    // Recusivly nagigate class model
-    const addSubclasses = async (classId) => {
-
-      // Get the subclasses for this class
-      let classesQueryObj = {
-        query: {
-          where: [{
-            docProp: 'parentId',
-            operator: 'eq',
-            value: classId
-          }]
-        }
-      }
-      const classesArr = await store.dispatch('query', classesQueryObj)
-      if (classesArr.length) {
-        classesArr.forEach(async subClassObj => {
-          const actions = []
-          actions.push({
-            account: accountName,
-            name: 'upsert',
-            authorization: [{
-              actor: actor,
-              permission: 'active'
-            }],
-            data: {
-              payload: {
-                username: actor,
-                common: JSON.stringify(subClassObj)
-              }
-            }
-          })
-          loadEOSPromissesArr.push(createFnPromise(actions))
-        })
-        let promises = []
-        classesArr.forEach(async subClassObj => {
-          promises.push(addSubclasses(subClassObj.key))
-        })
-        await Promise.all(promises)
-      }
-
-      // Get the objects for this class
-      let objectsQueryObj = {
-        query: {
-          where: [{
-            docProp: 'classId',
-            operator: 'eq',
-            value: classId
-          }]
-        }
-      }
-      const objectsArr = await store.dispatch('query', objectsQueryObj)
-      if (objectsArr.length) {
-        objectsArr.forEach(async obj => {
-          const actions = []
-          actions.push({
-            account: accountName,
-            name: 'upsert',
-            authorization: [{
-              actor: actor,
-              permission: 'active'
-            }],
-            data: {
-              payload: {
-                username: actor,
-                common: JSON.stringify(obj)
-              }
-            }
-          })
-          loadEOSPromissesArr.push(createFnPromise(actions))
-        })
-      }
-    }
-
-
-    const accountName = 'eoscommonsio' // also, the name of the table we're tring to update
-    const actor = store.state.currentUserId; // The user performing the action
-    let loadEOSPromissesArr = []
-
-    const root = await store.dispatch('getCommonByKey', 'gzthjuyjca4s'); // get the root
-
-    await this.upsertCommon(store, 'upsert', root).then(result => { console.log(result) })
-
-    await addSubclasses('gzthjuyjca4s')
-    doAllSequentually(loadEOSPromissesArr)
-
-  }
-
-  static async SaveDirtyToEos(store) {
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
-      }
-    }
-
-    const createFnPromise = (common) => {
-      return () => this.upsertCommon(common)
-    }
-  }
-
-  static async ImportFromEOSX() {
-
-  }
-
-  static XEraseAllEos(store) {
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
-      }
-    }
-
-    const createFnPromise = (key) => {
-      return () => this.eraseCommon(store, key)
-    }
-
-    return axios('commons.json', {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      data: {}
-    }).then(response => {
-      let loadEOSPromissesArr = []
-      response.data.forEach(common => {
-        // console.log(common)
-        loadEOSPromissesArr.push(createFnPromise(common.key))
-      })
-      doAllSequentually(loadEOSPromissesArr).then(() => {
-        console.log('finished eraseall')
-        return true
-      })
-    })
-
-  }
-  static EraseAllEos(store) {
-    const accountName = 'eoscommonsio' // also, the name of the table we're tring to update
-    const actor = store.state.currentUserId; // The user performing the action
     const actions = [{
-      account: accountName,
+      account: 'blockprocess',
       name: 'eraseall',
       authorization: [{
-        actor: actor,
+        actor: currentUserId,
         permission: 'active'
       }],
       data: {
         payload: {
-          username: actor
+          username: currentUserId
         }
       }
     }]
-    takeAction(store, actions).then(result => { console.log(result) })
-  }
-  static async getStackTable(store, agreementId) {
-    const accountName = 'eoscommonsio' // also, the name of the scope
-    const table = 'stacktable' // name of the table as specified by the contract abi
-    const index = 'first' // the key
-    const network = store.state.network;
-    const rpc = new JsonRpc(networks[network].endpoint);
-
-    const result = await rpc.get_table_rows({
-      'json': true,
-      'code': accountName, // contract who owns the table
-      'scope': accountName, // scope of the table
-      'table': table,
-      'limit': 500,
-      'key_type': 'name', // account name type
-      'index_position': index,
-      'lower_bound': agreementId
-    })
-    console.log('stacktable', result)
-    return JSON.parse(result.rows[0].stacktable)
+    return takeAction(actions)
   }
 
-  static async getAccountInfo(accountId) {
-    let appSettings = await settingsDb.get('appSettings')
-    const network = appSettings.currentNetwork;
-    const rpc = new JsonRpc(networks[network].endpoint);
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resultWithConfig = await rpc.get_account(accountId)
-        console.log(resultWithConfig)
-        resolve(resultWithConfig)
 
-      } catch (error) {
-        console.log(JSON.stringify(error.json, null, 2))
-        if (error instanceof RpcError) console.log(error.json.error.details[0].message)
-        reject(error)
-      }
-    })
 
-  }
 
-  static async getAbi(store, account) {
-    const network = store.state.network;
-    const rpc = new JsonRpc(networks[network].endpoint);
-    const result = await rpc.get_abi(account)
-    console.log(result)
-    return result
-  }
 
-  static async addAgreement(store, agreementObj) {
+  static async testEos() {
 
     const printTraces = result => {
       console.log(result.console)
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
-    /* const eraseResult =  await this.eraseCommon(store, 'lmxjrogzeld1')
-    console.log('eraseResult', eraseResult)
-  
-    let objId = 'lmxjrogzeld1' //purchase agreement
-    // let objId = 'gzthjuyjca4s' //root
-    const common = await store.dispatch(
-        "getCommonByKey",
-        objId
-    ); */
-    const result = await this.upsertCommon(store, 'addagreement', agreementObj)
-    // const result = await this.bumpState(store, 'lmxjrogzeld1', '') 
+    const document = await blockProcessDb.get('gzthjuyjca4s')
 
-    console.log('transaction', result)
-    printTraces(result.processed.action_traces[0])
-
-
-    return result
-
-  }
-
-  static async bumpAgreementState(store) {
-
-    const printTraces = result => {
-      console.log(result.console)
-      if (result.inline_traces.length) printTraces(result.inline_traces[0])
-    }
-
-    const result = await this.bumpState(store, 'lmxjrogzeld1', 'unhappy')
-    console.log('results')
-    printTraces(result.processed.action_traces[0])
-
-    return result
-
-  }
-
-  static async test(store) {
-
-    const printTraces = result => {
-      console.log(result.console)
-      if (result.inline_traces.length) printTraces(result.inline_traces[0])
-    }
-
-    /*
-            const result = await this.bumpState(store, 'lmxjrogzeld1' )
-            console.log('results')
-            printTraces(result.processed.action_traces[0])
-    
-            */
-
-    const eraseResult = await this.eraseCommon(store, 'lmxjrogzeld1')
-    console.log('eraseResult', eraseResult)
-
-    let objId = 'lmxjrogzeld1' //purchase agreement
-    // let objId = 'gzthjuyjca4s' //root
-    const common = await store.dispatch(
-      "getCommonByKey",
-      objId
-    );
-    const result = await this.upsertCommon(store, 'addagreement', common)
-    // const result = await this.bumpState(store, 'lmxjrogzeld1', '') 
+    const result = await this.upsertDocument(document)
 
     console.log('results')
     printTraces(result.processed.action_traces[0])

@@ -1,48 +1,32 @@
-{
-    "account_name": "eosio",
-    "head_block_num": 1198760,
-    "head_block_time": "2021-05-31T12:59:35.500",
-    "privileged": true,
-    "last_code_update": "1970-01-01T00:00:00.000",
-    "created": "2018-06-01T12:00:00.000",
-    "ram_quota": -1,
-    "net_weight": -1,
-    "cpu_weight": -1,
-    "net_limit": {
-        "used": -1,
-        "available": -1,
-        "max": -1
-    },
-    "cpu_limit": {
-        "used": -1,
-        "available": -1,
-        "max": -1
-    },
-    "ram_usage": 2724,
-    "permissions": [
-        {
-            "perm_name": "active",
-            "parent": "owner",
-            "required_auth": {
+[
+    {
+        "account": "eosio",
+        "name": "newaccount",
+        "authorization": [
+            {
+                "actor": "platoscave11",
+                "permission": "active"
+            }
+        ],
+        "data": {
+            "creator": "platoscave11",
+            "name": "demouser1111",
+            "owner": {
                 "threshold": 1,
                 "keys": [
                     {
-                        "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+                        "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
                         "weight": 1
                     }
                 ],
                 "accounts": [],
                 "waits": []
-            }
-        },
-        {
-            "perm_name": "owner",
-            "parent": "",
-            "required_auth": {
+            },
+            "active": {
                 "threshold": 1,
                 "keys": [
                     {
-                        "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+                        "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
                         "weight": 1
                     }
                 ],
@@ -50,10 +34,5 @@
                 "waits": []
             }
         }
-    ],
-    "total_resources": null,
-    "self_delegated_bandwidth": null,
-    "refund_request": null,
-    "voter_info": null,
-    "rex_info": null
-}
+    }
+]
