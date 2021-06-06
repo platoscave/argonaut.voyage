@@ -23,9 +23,10 @@ ACTION blockprocess::upsert(upsert_str payload) {
 
   Document parsedJson;
   ParseResult ok = parsedJson.Parse(charDoc);
-
-  check(ok, ("JSON parse error: %s (%u)",
-            GetParseError_En(ok.Code()), ok.Offset()));
+  print("ok: ", GetParseError_En(ok.Code()));
+  //check(ok, ("JSON parse error: %s (%u)",
+  //          GetParseError_En(ok.Code()), ok.Offset()));
+  check(ok, "JSON parse error:");
   
 
   // Get the _id from payload
@@ -35,8 +36,8 @@ ACTION blockprocess::upsert(upsert_str payload) {
   print("UPSERT: ", parsedJson["_id"].GetString());
 
  
-  auto classId = UINT64_MAX;
-  auto parentId = UINT64_MAX;
+  auto classId = name(".............");
+  auto parentId = name(".............");
  
 /*
   if(_id != name("gzthjuyjca4s")){ // Exception for the root

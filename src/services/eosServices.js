@@ -193,16 +193,16 @@ class EosApiService {
 
 
     let promiseFunctionArr = []
-    for (let idx = 0; idx < blockprocessArr.length; idx += 10) {
+    for (let idx = 0; idx < blockprocessArr.length; idx += 1) {
       let tenDocs = []
-      for (let subIdx = 0; subIdx < 10; subIdx++) {
+      for (let subIdx = 0; subIdx < 1; subIdx++) {
         tenDocs.push(blockprocessArr[idx + subIdx])
       }
       let tenActionsArr = upsertActions(tenDocs)
       promiseFunctionArr.push(async () => {
         try {
           await takeAction(tenActionsArr)
-          message({ message: 'Upsert ten', type: "succes" });
+          message({ message: 'Upsert ten', type: "success" });
         } catch (err) {
           console.error(err) // Dont care
           message({ message: err, type: "error" });
@@ -240,13 +240,20 @@ class EosApiService {
 
 
   static async testEos() {
+    
+/*     const high = new BigNumber('18446744073709551616')
+    debugger
+    console.log(high.toString())
+    const upperBound = decodeName(0, false)
+    console.log(upperBound)
 
+return */
     const printTraces = result => {
       console.log(result.console)
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
-    const document = await blockProcessDb.get('gzthjuyjca4s')
+    const document = await blockProcessDb.get('ikjyhlqewxs3')
 
     const result = await this.upsertDocument(document)
 

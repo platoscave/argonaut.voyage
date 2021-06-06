@@ -24,3 +24,4 @@ pnpm-debug.log*
 
 # Test keypairs
 src/config/testaccounts.js
+contracts/blockprocess.wasm
