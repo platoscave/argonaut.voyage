@@ -153,7 +153,7 @@ class EosApiService {
   }
 
 
-  static async loadProcessUniverse(message) {
+  static async staticToEos(message) {
 
     let appSettings = await settingsDb.get('appSettings')
     let currentUserId = appSettings.currentUser
@@ -214,6 +214,66 @@ class EosApiService {
   }
 
 
+
+  static async cacheToEos(message) {
+
+    let appSettings = await settingsDb.get('appSettings')
+    let currentUserId = appSettings.currentUser
+
+    const upsertActions = tenDocs => {
+      return tenDocs.map(item => {
+        return {
+          account: 'blockprocess',
+          name: 'upsert',
+          authorization: [{
+            actor: currentUserId,
+            permission: 'active'
+          }],
+          data: {
+            payload: {
+              username: currentUserId,
+              document: JSON.stringify(item.doc)
+            }
+          }
+        }
+      })
+    }
+
+
+    // START HERE
+    var pageSize = 10;
+    var lastSeq = 0;
+    const fetchNextPage = async () => {
+      const changes = await blockProcessDb.changes({
+        since: lastSeq,
+        limit: pageSize,
+        include_docs: true
+      })
+      console.log('\nFound the following changes:');
+      //changes.results.forEach(function (change) {
+        console.log(JSON.stringify(changes));
+      //});
+      let tenActionsArr = upsertActions(changes.results)
+      await takeAction(tenActionsArr)
+
+      if (changes.results.length < pageSize) {
+        // done!
+      } else {
+        lastSeq = changes.last_seq;
+        return fetchNextPage();
+      }
+    }
+
+
+    fetchNextPage().catch(function (err) {
+      message({ message: err, type: "error" });
+    });
+    //console.log(blockprocessArr)
+
+
+  }
+
+
   static async eraseAllEos() {
 
     let appSettings = await settingsDb.get('appSettings')
@@ -239,7 +299,7 @@ class EosApiService {
 
 
 
-  static async testEos() {
+  static async testEos(testObject) {
     
 /*     const high = new BigNumber('18446744073709551616')
     debugger
@@ -253,9 +313,9 @@ return */
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
-    const document = await blockProcessDb.get('ikjyhlqewxs3')
+    //const document = await blockProcessDb.get('ikjyhlqewxs3')
 
-    const result = await this.upsertDocument(document)
+    const result = await this.upsertDocument(testObject)
 
     console.log('results')
     printTraces(result.processed.action_traces[0])

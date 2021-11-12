@@ -11,6 +11,7 @@
       :render-content="renderContent"
       :default-expanded-keys="pageSettings ? pageSettings.expandedNodes : []"
       @node-click="updateNextLevelHash"
+      @node-contextmenu="showContextMenu"
       @node-expand="handleNodeExpand"
       @node-collapse="handleNodeCollapse"
       draggable
@@ -24,6 +25,16 @@
       :allow-drag="allowDrag"
     >
     </el-tree>
+    <ki-context 
+      ref="kiContext"
+      minWidth='1em'
+      maxWidth='15em'
+      backgroundColor='#fbfbfb'
+      fontSize='15px'
+      textColor='#35495e'
+      iconColor='#41b883'
+      borderRadius='0.1'
+    />
   </div>
 </template>
 
@@ -157,6 +168,37 @@ export default {
           domProps: { innerHTML: node.label },
         }),
       ]);
+    },
+
+    showContextMenu(event, nodeData, node, nodeCmp ){
+      //event.stopPropagation()
+      //event.preventDefault()
+      
+      let items = [
+        {
+          icon: "arrow-up",
+          text: 'Default',
+          click: () => {
+            alert('Option0!')
+          }
+        },
+        {
+          icon: 'arrow-right',
+          text: 'With divider',
+          divider: true,
+          click: () => {
+            alert('Option2!')
+          }
+        },
+        {
+          icon: 'arrow-down',
+          text: 'Disabled',
+          disabled: true,
+          click: () => {
+            alert('Option3!')
+          }
+        },
+      ];
     },
 
 

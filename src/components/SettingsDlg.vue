@@ -16,8 +16,13 @@
       >
     </el-row>
     <el-row>
-      <el-button type="primary" @click="loadProcessUniverse"
-        >Load Process Universe in EOS</el-button
+      <el-button type="primary" @click="staticToEos"
+        >From Static to EOS</el-button
+      >
+    </el-row>
+    <el-row>
+      <el-button type="primary" @click="cacheToEos"
+        >From Cache to EOS</el-button
       >
     </el-row>
     <el-row>
@@ -31,7 +36,7 @@
       >
     </el-row>
     <el-row>
-      <el-button type="primary" @click="loadProcessUniverse"
+      <el-button type="primary" @click="staticToEos"
         >Read, Filter, Download</el-button
       >
     </el-row>
@@ -41,12 +46,17 @@
     <el-row>
       <el-button type="primary" @click="testQuery">Test Query</el-button>
     </el-row>
+    <p></p>
+    <el-row>
+      <el-button type="primary" @click="generatecpp">Generate Cpp</el-button>
+    </el-row>
   </el-dialog>
 </template>
 
 <script>
 import PoucdbServices from "../services/pouchdbServices";
 import EosServices from "../services/eosServices";
+import GenerateCpp from "../services/generateCpp";
 
 export default {
   name: "settings-dlg",
@@ -101,8 +111,12 @@ export default {
       EosServices.addTestAccounts(this.$message)
     },
 
-    async loadProcessUniverse() {
-      EosServices.loadProcessUniverse(this.$message)
+    async staticToEos() {
+      EosServices.staticToEos(this.$message)
+    },
+
+    async cacheToEos() {
+      EosServices.cacheToEos(this.$message)
     },
 
 
@@ -118,7 +132,10 @@ export default {
 
     async testEos() {
       try {
-        await EosServices.testEos();
+
+        const response = await fetch("testObject.json");
+        const testObject = await response.json();
+        await EosServices.testEos(testObject);
         this.$message({ message: "Test function called", type: "success" });
       } catch (err) {
         this.$message({ message: err, type: "error" });
@@ -216,6 +233,23 @@ export default {
           message: "Success",
           type: "success",
         });
+      } catch (err) {
+        console.error(err);
+        this.$message({ message: err, type: "error" });
+      }
+    },
+    async generatecpp() {
+      try {
+              const data = await GenerateCpp.GenerateCpp(this.$store);
+      const csv_mime_type = "text/cpp";
+      const blob = new Blob([data], { type: csv_mime_type });
+      const anchor = document.createElement("a");
+      anchor.setAttribute("download", "commons.cpp");
+      const url = URL.createObjectURL(blob);
+      anchor.setAttribute("href", url);
+      anchor.click();
+      URL.revokeObjectURL(url);
+        this.$message({ message: "Cpp Generated", type: "success" });
       } catch (err) {
         console.error(err);
         this.$message({ message: err, type: "error" });

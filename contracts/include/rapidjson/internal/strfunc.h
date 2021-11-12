@@ -43,8 +43,8 @@ inline SizeType StrLen(const char* s) {
 
 template <>
 inline SizeType StrLen(const wchar_t* s) {
-    //return SizeType(std::wcslen(s));
-    return 0;
+    return SizeType(wcslen(s));
+    //return 0;
 
 }
 
