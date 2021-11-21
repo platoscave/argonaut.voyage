@@ -23,7 +23,7 @@
     "three": "^0.126.0",
     "tiptap": "^1.32.0",
     "tiptap-extensions": "^1.35.0",
-    "vue": "^2.6.12",
+    "vue": "^2.6.14",
     "vue-highlight.js": "^3.1.0",
     "vue-resize-split-pane": "^0.1.5"
   },
@@ -34,7 +34,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
     "root": true,
