@@ -14,8 +14,8 @@ import {
   ShapeGeometry
 } from 'three'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import modelColors from '../config/modelColors'
-import fontJson from '../assets/helvetiker_regular.typeface.json'
+import modelColors from '../../../config/modelColors'
+import fontJson from '../../../assets/helvetiker_regular.typeface.json'
 const font = new Font(fontJson)
 
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50

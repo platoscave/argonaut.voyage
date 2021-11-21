@@ -1,6 +1,6 @@
 import { Vector3, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '../config/modelColors'
+import modelColors from '../../../config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
 const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50

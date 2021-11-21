@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ClassObject3d from "../../lib/classObject3d.js";
+import ClassObject3d from "./3dDiagrams/classObject3d.js";
 import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";

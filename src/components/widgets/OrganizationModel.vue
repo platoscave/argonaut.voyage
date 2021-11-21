@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import OrgObject3d from "../../lib/orgObject3d.js";
-import UserObject3d from "../../lib/userObject3d.js";
+import OrgObject3d from "./3dDiagrams/orgObject3d.js";
+import UserObject3d from "./3dDiagrams/userObject3d.js";
 import PoucdbServices from "../../services/pouchdbServices";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
