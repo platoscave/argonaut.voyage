@@ -1,4 +1,4 @@
-import { Vector3, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
+import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, MeshFaceMaterial, BufferGeometry, Geometry, CylinderGeometry, TextureLoader } from 'three'
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
 
@@ -31,7 +31,7 @@ export default class UserObject3d extends Object3D {
 
 
   getMesh() {
-    const x = 0, y = 0
+    /* const x = 0, y = 0
 
     // Rounded rect
     let shape = new Shape()
@@ -50,10 +50,29 @@ export default class UserObject3d extends Object3D {
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
-
-    const { 'object': colorProp = { color: 0xEFEFEF }  } = modelColors
+*/
+    const { 'object': colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
+    //return new Mesh(geometry, material) 
 
-    return new Mesh(geometry, material)
+
+    // Avatar
+    const cylindergeometry = new CylinderGeometry( HEIGHT/2, HEIGHT/2, DEPTH/2, 32 );
+    cylindergeometry.rotateX(Math.PI/2)
+    cylindergeometry.rotateZ(Math.PI/2)
+
+    const texture = new TextureLoader().load( 'avatar1.jpg' );
+    //texture.rotation  = Math.PI/2
+    const cylinderMaterial = new MeshBasicMaterial( { map: texture } );
+    //const cylinderMaterial = new MeshBasicMaterial( {color: 0xffff00} );
+
+    const materials = [
+      material, // side
+      cylinderMaterial, // top
+      cylinderMaterial // bottom
+    ]
+    return new Mesh( cylindergeometry, materials );
+
   }
+
 }
