@@ -37,8 +37,17 @@
     </rs-panes>
 
     <!-- Studio layout -->
-    <ar-studio class="ar-full-height" v-else>
+    <ar-studio
+      class="ar-full-height"
+      v-else
+      v-on:leftsize="leftSizeStop"
+      v-on:rightsize="rightSizeStop"
+      v-bind:left-size="pageSettings.leftSize"
+      v-bind:right-size="pageSettings.rightSize"
+    >
       <!-- Background content -->
+      <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
+            It's almost like we need a second pageId-->
       <ar-class-model
         v-if="pageObj.divider === 'Class Model'"
         slot="diagram"
@@ -68,12 +77,11 @@
         v-bind:hash-level="hashLevel"
         v-bind:tabs="pageObj.tabs"
       ></ar-page>
-
       <!-- Slave content -->
       <ar-layout
         slot="drawer-right"
         class="ar-full-height right"
-        :hash-level="hashLevel + 1"
+        v-bind:hash-level="hashLevel + 1"
       ></ar-layout>
     </ar-studio>
   </div>
@@ -107,14 +115,14 @@ export default {
     };
   },
   pouch: {
-    pageObj: function () {
+    pageObj: function() {
       return {
         database: "blockprocess",
         selector: { _id: this.pageId },
         first: true,
       };
     },
-    pageSettings: function () {
+    pageSettings: function() {
       return {
         database: "settings",
         selector: { _id: this.pageId },
@@ -126,6 +134,18 @@ export default {
     paneResizeStop(paneSize) {
       this.$settings.upsert(this.pageId, (doc) => {
         doc.paneSize = paneSize;
+        return doc;
+      });
+    },
+    leftSizeStop(leftSize) {
+      this.$settings.upsert(this.pageId, (doc) => {
+        doc.leftSize = leftSize;
+        return doc;
+      });
+    },
+    rightSizeStop(rightSize) {
+      this.$settings.upsert(this.pageId, (doc) => {
+        doc.rightSize = rightSize;
         return doc;
       });
     },
