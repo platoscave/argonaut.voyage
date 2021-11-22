@@ -1,17 +1,27 @@
 <template>
   <!-- Studio -->
-  <div>
+  <div @mousemove="onMouseMove" @mouseup="onMouseUp">
     <!-- Full page background -->
     <div class="diagram">
       <slot name="diagram"></slot>
     </div>
 
     <!-- Left drawer -->
-    <div class="drawer-left" v-bind:class="{ 'left-open': leftOpen }">
+    <div
+      class="drawer-left"
+      v-bind:style="{
+        left: sizeLeft > minWidthLeft ? 0 + 'px' : sizeLeft - minWidthLeft + 'px',
+        width: sizeLeft < minWidthLeft ? minWidthLeft + 'px' : sizeLeft + 'px',
+      }"
+    >
       <div class="drawer-content">
         <slot name="drawer-left"></slot>
       </div>
-      <div class="left-handle" @click="leftOpen = !leftOpen">
+      <div
+        class="left-handle"
+        @dblclick="sizeLeft === minWidthLeft ? sizeLeft = 0 : sizeLeft = minWidthLeft"
+        @mousedown="onMouseDownLeft"
+      >
         <svg class="handle-icon">
           <use
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -22,11 +32,21 @@
     </div>
 
     <!-- Right drawer -->
-    <div class="drawer-right" v-bind:class="{ 'right-open': rightOpen }">
+    <div
+      class="drawer-right"
+      v-bind:style="{
+        right: sizeRight > minWidthRight ? 0 + 'px' : sizeRight - minWidthRight + 'px',
+        width: sizeRight < minWidthRight ? minWidthRight + 'px' : sizeRight + 'px',
+      }"
+    >
       <div class="drawer-content">
         <slot name="drawer-right" class="drawer-content"></slot>
       </div>
-      <div class="right-handle" @click="rightOpen = !rightOpen">
+      <div
+        class="right-handle"
+        @dblclick="sizeRight === minWidthRight ? sizeRight = 0 : sizeRight = minWidthRight"
+        @mousedown="onMouseDownRight"
+      >
         <svg class="handle-icon">
           <use
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -40,12 +60,54 @@
 <script>
 export default {
   name: "ar-studio",
-  props: {},
+  props: {
+    leftSize: {
+      type: Number,
+      default: 300,
+    },
+    rightSize: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
-      leftOpen: true,
-      rightOpen: false,
+      minWidthLeft: 300,
+      minWidthRight: 450,
+      sizeLeft: this.leftSize,
+      sizeRight: this.rightSize,
+      moving: '',
     };
+  },
+  methods: {
+    // TODO add touch functionality. See ResizeSplitPane
+
+    onMouseDownLeft() {
+      this.moving = 'left';
+    },
+    onMouseDownRight() {
+      this.moving = 'right';
+    },
+    onMouseMove(evt) {
+      if (this.moving === 'left') {
+        let rect = this.$el.getBoundingClientRect();
+        this.sizeLeft = evt.clientX - rect.left;
+      }
+      if (this.moving === 'right') {
+        let rect = this.$el.getBoundingClientRect();
+        this.sizeRight = rect.right - evt.clientX;
+      }
+    },
+    onMouseUp() {
+      if (this.moving === 'left') {
+        this.$emit("leftsize", this.sizeLeft);
+        this.moving = '';
+      }
+      if (this.moving === 'right') {
+        this.$emit("rightsize", this.sizeRight);
+        this.moving = '';
+      }
+    },
   },
 };
 </script>
@@ -62,22 +124,12 @@ export default {
   position: absolute;
   left: -300px;
   min-width: 300px;
-  transition-property: left;
-  transition-duration: 1s;
-}
-.left-open {
-  left: 0px;
 }
 .drawer-right {
   z-index: 10;
   position: absolute;
   right: -450px;
   width: 450px;
-  transition-property: right;
-  transition-duration: 1s;
-}
-.right-open {
-  right: 0px;
 }
 .drawer-content {
   background: #232323db;
@@ -98,12 +150,14 @@ export default {
   top: calc(50% - 20px);
   left: 100%;
   z-index: 10;
+  cursor: pointer;
 }
 .right-handle {
   position: absolute;
   top: calc(50% - 20px);
   right: 100%;
   z-index: 10;
+  cursor: pointer;
 }
 .handle-icon {
   width: 20px;
