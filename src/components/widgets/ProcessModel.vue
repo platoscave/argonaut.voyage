@@ -75,7 +75,7 @@ export default {
       });
       await Promise.all(promisesArr)
 
-
+let maxXYVec
       // Set the Y positions
       processArr.forEach((rootProcessObj3d) => {
         rootProcessObj3d.setPositionY()

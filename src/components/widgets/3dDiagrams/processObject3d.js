@@ -71,12 +71,15 @@ export default class ProcessObject3d extends Object3D {
     const stepObj = this.children.find( item => {
       return item.constructor.name === 'StepObject3d' // WARNING may not work after mimify
     })
+    let maxXYVec
     if (stepObj) {
       // Tell first step to position its children
-      const maxXYVec = stepObj.setPositionY(0);
+      maxXYVec = stepObj.setPositionY(0);
       stepObj.translateX(-maxXYVec.x / 2); // move first step to the left
       stepObj.translateY( -HEIGHT * 4); // move first step down
+      return maxXYVec
     }
+    return new Vector3( 0, 0, 0 );
   }
 
 
