@@ -1,4 +1,4 @@
-import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
+import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, SphereGeometry, MeshBasicMaterial } from 'three'
 import StepObject3d from "./stepObject3d";
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
@@ -28,13 +28,13 @@ export default class ProcessObject3d extends Object3D {
 
     // Draw the initialize and end state tubes
     if (isRoot) {
-      const destVec = this.getSidePos('left')
+      /* const destVec = this.getSidePos('left')
       let points = []
       points.push(destVec.clone().add(new Vector3(-WIDTH * 4, HEIGHT, 0)))
       points.push(destVec.clone().add(new Vector3(-WIDTH * 3, HEIGHT, 0)))
       points.push(destVec.clone().add(new Vector3(-WIDTH * 1, 0, 0)))
       points.push(destVec)
-      this.add(this.drawTube(points, 'happy', '', true))
+      this.add(this.drawTube(points, 'happy', '', true)) */
 
       const sourceVec = this.getSidePos('right')
       let height = 0
@@ -45,6 +45,15 @@ export default class ProcessObject3d extends Object3D {
         points.push(sourceVec.clone().add(new Vector3(WIDTH * 3, height, 0)))
         points.push(sourceVec.clone().add(new Vector3(WIDTH * 4, height, 0)))
         this.add(this.drawTube(points, item, item, true))
+
+        const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
+        const lastPoint = points[points.length-1]
+        geometry.translate(lastPoint.x , lastPoint.y , lastPoint.z )
+        const { [item]: colorProp = { color: 0xEFEFEF } } = modelColors
+        const material = new MeshLambertMaterial({ color: colorProp.color })
+        const sphere = new Mesh(geometry, material);
+        this.add(sphere);
+
         height += HEIGHT
       })
     }
@@ -68,7 +77,7 @@ export default class ProcessObject3d extends Object3D {
 
   setPositionY() {
     // Find the first step
-    const stepObj = this.children.find( item => {
+    const stepObj = this.children.find(item => {
       return item.constructor.name === 'StepObject3d' // WARNING may not work after mimify
     })
     let maxXYVec
@@ -76,21 +85,21 @@ export default class ProcessObject3d extends Object3D {
       // Tell first step to position its children
       maxXYVec = stepObj.setPositionY(0);
       stepObj.translateX(-maxXYVec.x / 2); // move first step to the left
-      stepObj.translateY( -HEIGHT * 4); // move first step down
+      stepObj.translateY(-HEIGHT * 4); // move first step down
       return maxXYVec
     }
-    return new Vector3( 0, 0, 0 );
+    return new Vector3(0, 0, 0);
   }
 
 
   drawStepConnectors(glModelObject3D) {
 
     // Find the first step
-    const stepObj3d = this.children.find( item => {
+    const stepObj3d = this.children.find(item => {
       return item.constructor.name === 'StepObject3d'  // WARNING may not work after mimify
     })
 
-    if(!stepObj3d) return
+    if (!stepObj3d) return
 
     // Get positions in world coordinates
     let sourcePos = new Vector3()
@@ -102,7 +111,7 @@ export default class ProcessObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceBottom= this.getSidePos('bottom', new Vector3())
+    const sourceBottom = this.getSidePos('bottom', new Vector3())
     sourceBottom.setX(sourceBottom.x - WIDTH / 4)
     const destLeft = this.getSidePos('left', difVec)
 
@@ -141,7 +150,7 @@ export default class ProcessObject3d extends Object3D {
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

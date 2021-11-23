@@ -11,12 +11,12 @@
 
 <script>
 import ProcessObject3d from "./3dDiagrams/processObject3d.js";
-import PoucdbServices from "../../services/pouchdbServices"
+import PoucdbServices from "../../services/pouchdbServices";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 
 // eslint-disable-next-line no-unused-vars
-const HEIGHT = 200, DEPTH = 100;
+const HEIGHT = 200, WIDTH = 400, DEPTH = 100;
 
 export default {
   name: "ar-process-model",
@@ -47,18 +47,20 @@ export default {
       const viewObj = await this.$pouch.get(this.viewId);
 
       // Execute the query
-      let resArr = await PoucdbServices.executeQuery(viewObj.queryId, { _id: this.selectedObjId});
+      let resArr = await PoucdbServices.executeQuery(viewObj.queryId, {
+        _id: this.selectedObjId,
+      });
 
       // Create the ProcessObject3d (extends Object3d)
-      let zPos = 0;
+      //let zPos = 0;
       let processArr = [];
       resArr.forEach((item) => {
         let rootProcessObj3d = new ProcessObject3d(item, true);
-        processArr.push(rootProcessObj3d)
-        rootProcessObj3d.translateZ(zPos);
+        processArr.push(rootProcessObj3d);
+        //rootProcessObj3d.translateZ(zPos);
         this.glModelObject3D.add(rootProcessObj3d);
         this.selectableMeshArr.push(rootProcessObj3d.children[0]);
-        zPos -= DEPTH * 20;
+        //zPos -= DEPTH * 20;
       });
 
       let promisesArr = [];
@@ -73,27 +75,35 @@ export default {
           )
         );
       });
-      await Promise.all(promisesArr)
+      await Promise.all(promisesArr);
 
-let maxXYVec
+      let maxXArr = [];
+      let totalWidth = 0
       // Set the Y positions
       processArr.forEach((rootProcessObj3d) => {
-        rootProcessObj3d.setPositionY()
-      })
+        let maxXYVec = rootProcessObj3d.setPositionY();
+        maxXArr.push(maxXYVec.x);
+        totalWidth += maxXYVec.x
+      });
+
+
+      // Arrange Processes
+      let xPos = - totalWidth / 2
+      processArr.forEach((rootProcessObj3d, idx) => {
+        rootProcessObj3d.translateX(xPos);
+        xPos += maxXArr[idx] + maxXArr[idx + 1] / 2 + WIDTH * 4
+      });
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
       processArr.forEach((rootProcessObj3d) => {
-        rootProcessObj3d.drawStepConnectors(this.glModelObject3D)
-      })
+        rootProcessObj3d.drawStepConnectors(this.glModelObject3D);
+      });
     },
-
   },
 
-
-  mounted: async function () {
-
+  mounted: async function() {
     this.addLoadingText();
 
     try {
