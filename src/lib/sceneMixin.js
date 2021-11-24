@@ -29,8 +29,6 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 const font = new Font(fontJson)
 
-let camera, controls, skyBox, glRenderer, cssRenderer, glScene, cssScene, axesHelper
-
 export default {
 
   name: 'Scene',
@@ -48,61 +46,70 @@ export default {
   },
   data() {
     return {
-      skyboxArray: [],
-      // skyboxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
-      // skyboxArray: ["milkyway/posx.jpg", "milkyway/posy.jpg", "milkyway/negy.jpg", "milkyway/posz.jpg", "milkyway/negz.jpg"],
-      // skyboxArray: ["islands/skybox_e.jpg", "islands/skybox_w.jpg", "islands/skybox_t.jpg", "islands/skybox_b.jpg", "islands/skybox_n.jpg", "islands/skybox_s.jpg", ],
-      // skyboxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']     
+      skyBoxArray: [],
+      // this.skyBoxArray: ['grass/sbox_px.jpg','grass/sbox_nx.jpg','grass/sbox_py.jpg','grass/sbox_ny.jpg','grass/sbox_pz.jpg','grass/sbox_nz.jpg']
+      // this.skyBoxArray: ["milkyway/posx.jpg", "milkyway/posy.jpg", "milkyway/negy.jpg", "milkyway/posz.jpg", "milkyway/negz.jpg"],
+      // this.skyBoxArray: ["islands/this.skyBox_e.jpg", "islands/this.skyBox_w.jpg", "islands/this.skyBox_t.jpg", "islands/this.skyBox_b.jpg", "islands/this.skyBox_n.jpg", "islands/this.skyBox_s.jpg", ],
+      // this.skyBoxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']     
       orbit: false,
       glModelObject3D: null,
       cssModelObject3D: null,
       selectableMeshArr: [],
       heighlight: false,
-      nextLevelSelectedObjId: ''
+      nextLevelSelectedObjId: '',
+      camera: null,
+      controls: null,
+      skyBox: null,
+      glRenderer: null,
+      cssRenderer: null,
+      glScene: null,
+      cssScene: null,
+      axesHelper: null,
+
     }
   },
   methods: {
     loadScene() {
     
-      //if(glScene) return
+      //if(this.glScene) return
       // world
-      glScene = new Scene()
+      this.glScene = new Scene()
       this.glModelObject3D = new Object3D()
-      glScene.add(this.glModelObject3D)
+      this.glScene.add(this.glModelObject3D)
 
-      cssScene = new Scene();
+      this.cssScene = new Scene();
       this.cssModelObject3D = new Object3D()
-      cssScene.add(this.cssModelObject3D)
+      this.cssScene.add(this.cssModelObject3D)
 
 
-      // camera
-      camera = new PerspectiveCamera(60, 3 / 2, 1, 100000)
-      camera.position.z = 4000
+      // this.camera
+      this.camera = new PerspectiveCamera(60, 3 / 2, 1, 100000)
+      this.camera.position.z = 4000
 
       // glRenderer
-      glRenderer = this.createGlRenderer()
+      this.glRenderer = this.createGlRenderer()
       // cssRenderer
-      cssRenderer = this.createCssRenderer()
-      this.$el.appendChild(cssRenderer.domElement);
-      cssRenderer.domElement.appendChild(glRenderer.domElement);
+      this.cssRenderer = this.createCssRenderer()
+      this.$el.appendChild(this.cssRenderer.domElement);
+      this.cssRenderer.domElement.appendChild(this.glRenderer.domElement);
 
-      // controls
-      controls = new OrbitControls(camera, this.$el)
-      controls.autoRotateSpeed = 0.1245
-      controls.minPolarAngle = Math.PI / 4
-      controls.maxPolarAngle = Math.PI / 1.5
-      controls.screenSpacePanning = true;
-      controls.enableDamping = true;
+      // this.controls
+      this.controls = new OrbitControls(this.camera, this.$el)
+      this.controls.autoRotateSpeed = 0.1245
+      this.controls.minPolarAngle = Math.PI / 4
+      this.controls.maxPolarAngle = Math.PI / 1.5
+      this.controls.screenSpacePanning = true;
+      this.controls.enableDamping = true;
 
       // lights
       let light1 = new DirectionalLight(0xffffff, 0.8)
       light1.position.set(-1, 1, 1).normalize()
-      glScene.add(light1)
-      glScene.add(new AmbientLight(0x969696, 0.8))
+      this.glScene.add(light1)
+      this.glScene.add(new AmbientLight(0x969696, 0.8))
 
       // axesHelper
-      axesHelper = new AxesHelper(100)
-      glScene.add(axesHelper)
+      this.axesHelper = new AxesHelper(100)
+      this.glScene.add(this.axesHelper)
 
       // raycaster
       this.raycaster = new Raycaster()
@@ -118,56 +125,56 @@ export default {
             side: BackSide
           }))
         }
-        skyBox = new Mesh(skyGeometry, materialArray)
-        glScene.add(skyBox)
+        this.skyBox = new Mesh(skyGeometry, materialArray)
+        this.glScene.add(this.skyBox)
       }
 
       // see http://threejs.org/examples/webgl_multiple_views.html for rendering on 3d tv
 
-      glScene.name = 'glScene'
+      this.glScene.name = 'glScene'
       this.$el.addEventListener('click', this.onClick, false)
 
-      glScene.add(new Stats())
+      this.glScene.add(new Stats())
       //this.$nextTick(() => this.$nextTick(() => this.onResize()))
       this.render()
       this.animate()
     },
 
     render() {
-      glRenderer.render(glScene, camera)
-      cssRenderer.render(cssScene, camera)
+      this.glRenderer.render(this.glScene, this.camera)
+      this.cssRenderer.render(this.cssScene, this.camera)
     },
 
     animate() {
-      requestAnimationFrame(this.animate.bind(this))
+      this.animationFrame = requestAnimationFrame(this.animate.bind(this))
       TWEEN.update()
-      skyBox.position.set(camera.position.x, camera.position.y, camera.position.z) // keep skybox centred around the camera
-      controls.update()
-      axesHelper.position.set(controls.target.x, controls.target.y, controls.target.z)
-      glRenderer.render(glScene, camera)
-      cssRenderer.render(cssScene, camera)
+      this.skyBox.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z) // keep this.skyBox centred around the this.camera
+      this.controls.update()
+      this.axesHelper.position.set(this.controls.target.x, this.controls.target.y, this.controls.target.z)
+      this.glRenderer.render(this.glScene, this.camera)
+      this.cssRenderer.render(this.cssScene, this.camera)
     },
 
     onOrbit() {
       this.orbit = !this.orbit
-      controls.autoRotate = this.orbit
+      this.controls.autoRotate = this.orbit
     },
 
     onResize() {
       // add event liteners https://stackoverflow.com/questions/49380830/vue-js-how-to-get-window-size-whenever-it-changes
-      if (!glRenderer) return
+      if (!this.glRenderer) return
       if (this.width === undefined || this.height === undefined) {
         // console.log('this.$el', this.$el)
         let rect = this.$el.getBoundingClientRect()
         //console.log(rect)
-        camera.aspect = rect.width / rect.height
-        camera.updateProjectionMatrix()
-        glRenderer.setSize(rect.width, rect.height)
-        cssRenderer.setSize(rect.width, rect.height)
+        this.camera.aspect = rect.width / rect.height
+        this.camera.updateProjectionMatrix()
+        this.glRenderer.setSize(rect.width, rect.height)
+        this.cssRenderer.setSize(rect.width, rect.height)
         this.render()
       } else {
-        glRenderer.setSize(this.width, this.height)
-        cssRenderer.setSize(this.width, this.height)
+        this.glRenderer.setSize(this.width, this.height)
+        this.cssRenderer.setSize(this.width, this.height)
       }
     },
 
@@ -182,7 +189,7 @@ export default {
       let mouse = new Vector2(x, y)
 
       // update the picking ray with the camera and mouse position
-      this.raycaster.setFromCamera(mouse, camera)
+      this.raycaster.setFromCamera(mouse, this.camera)
       let intersects = this.raycaster.intersectObjects(this.selectableMeshArr)
       if (intersects.length > 0) {
         let selectedMesh = intersects[0].object
@@ -219,15 +226,16 @@ export default {
     moveCameraToPos(_id) {
       let selectedModelObj = this.glModelObject3D.getObjectByProperty('_id', _id)
       if (!selectedModelObj) return
-      if (!glScene) return
+      if (!this.glScene) return
+      if (!this.controls) return
 
-      glScene.updateMatrixWorld()
+      this.glScene.updateMatrixWorld()
       let newTargetPos = new Vector3()
       newTargetPos.setFromMatrixPosition(selectedModelObj.matrixWorld)
 
-      new TWEEN.Tween(controls.target).easing(TWEEN.Easing.Quadratic.Out).to(newTargetPos, 1500).start()
+      new TWEEN.Tween(this.controls.target).easing(TWEEN.Easing.Quadratic.Out).to(newTargetPos, 1500).start()
 
-      let cameraPos = controls.object.position.clone()
+      let cameraPos = this.controls.object.position.clone()
 
       // Make camera pos in front of and slightly higher than center, relative to the first child mesh. 
       // Apply the mesh's world matrix to translate to world coords
@@ -237,7 +245,7 @@ export default {
       cameraTween.easing(TWEEN.Easing.Quadratic.Out)
       cameraTween.onUpdate(() => {
         // console.log('cameraPos', cameraPos)
-        controls.object.position.set(cameraPos.x, cameraPos.y, cameraPos.z)
+        this.controls.object.position.set(cameraPos.x, cameraPos.y, cameraPos.z)
       })
       cameraTween.start()
     },
@@ -249,12 +257,12 @@ export default {
       let textMesh = new Mesh(text3d, textMaterial)
       textMesh.name = 'Loading Message'
       textMesh.position.set(0, 400, 0)
-      glScene.add(textMesh)
+      this.glScene.add(textMesh)
     },
 
     removeLoadingText() {
-      let mesh = glScene.getObjectByName('Loading Message')
-      glScene.remove(mesh)
+      let mesh = this.glScene.getObjectByName('Loading Message')
+      this.glScene.remove(mesh)
       //mesh.dispose() how
     },
 
@@ -284,7 +292,7 @@ export default {
     ///////////////////////////////////////////////////////////////////
     createGlRenderer: function () {
 
-      var glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
+      let glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
 
       glRenderer.setClearColor(0xECF8FF);
       glRenderer.setPixelRatio(window.devicePixelRatio);
@@ -307,7 +315,7 @@ export default {
     ///////////////////////////////////////////////////////////////////
     createCssRenderer: function () {
 
-      var cssRenderer = new CSS3DRenderer();
+      let cssRenderer = new CSS3DRenderer();
 
       //cssRenderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -341,6 +349,10 @@ export default {
     
   },
   beforeDestroy() {
+
+    // Important: Must release animationFrame for garbage collection to work
+    cancelAnimationFrame(this.animationFrame);// Stop the animation
+    
     window.removeEventListener("resize", this.onResize)
   },
 }
