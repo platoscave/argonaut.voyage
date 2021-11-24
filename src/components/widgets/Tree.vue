@@ -25,16 +25,7 @@
       :allow-drag="allowDrag"
     >
     </el-tree>
-    <ki-context 
-      ref="kiContext"
-      minWidth='1em'
-      maxWidth='15em'
-      backgroundColor='#fbfbfb'
-      fontSize='15px'
-      textColor='#35495e'
-      iconColor='#41b883'
-      borderRadius='0.1'
-    />
+
   </div>
 </template>
 

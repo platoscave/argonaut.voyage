@@ -3114,12 +3114,32 @@
     "ownerId": "blockprocess",
     "tabs": [
       {
-        "name": "Process Model",
+        "name": "Propositions",
         "widgets": [
           {
             "displayType": "Tree",
             "name": "Process Model Tree",
             "viewId": "pepmfz4be5uu"
+          }
+        ]
+      },
+      {
+        "name": "Processes",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Process Model Tree",
+            "viewId": "pepmfz4be5uu"
+          }
+        ]
+      },
+      {
+        "name": "Organization",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Organization Tree",
+            "viewId": "nmeh5awdy4jm"
           }
         ]
       }
@@ -4182,7 +4202,7 @@
   {
     "_id": "sfmg5u3wtpds",
     "docType": "object",
-    "name": "Processes Query",
+    "name": "Owned Processes Query",
     "classId": "q234ooehrk5v",
     "ownerId": "blockprocess",
     "subQueryIds": [
@@ -4449,7 +4469,7 @@
             "pageId": "4q5nx5ek5gww"
           },
           {
-            "name": "App Resources",
+            "name": "Resources Tree",
             "pageId": "kdeacjjhiaym"
           }
         ]
@@ -4542,7 +4562,7 @@
             "pageId": "4q5nx5ek5gww"
           },
           {
-            "name": "App Resources",
+            "name": "Resources Tree",
             "pageId": "kdeacjjhiaym"
           }
         ]

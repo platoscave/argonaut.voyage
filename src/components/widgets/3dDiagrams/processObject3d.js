@@ -7,7 +7,7 @@ const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
 
 export default class ProcessObject3d extends Object3D {
 
-  constructor(userData, isRoot) {
+  constructor(userData) {
     super()
 
     // Mixin utility methodes: Beam, Tube, Text etc
@@ -25,40 +25,39 @@ export default class ProcessObject3d extends Object3D {
     textMesh.translateZ(DEPTH * 0.6)
     classMesh.add(textMesh)
 
-
-    // Draw the initialize and end state tubes
-    if (isRoot) {
-      /* const destVec = this.getSidePos('left')
-      let points = []
-      points.push(destVec.clone().add(new Vector3(-WIDTH * 4, HEIGHT, 0)))
-      points.push(destVec.clone().add(new Vector3(-WIDTH * 3, HEIGHT, 0)))
-      points.push(destVec.clone().add(new Vector3(-WIDTH * 1, 0, 0)))
-      points.push(destVec)
-      this.add(this.drawTube(points, 'happy', '', true)) */
-
-      const sourceVec = this.getSidePos('right')
-      let height = 0
-      this.userData.returnActions.forEach(item => {
-        let points = []
-        points.push(sourceVec)
-        points.push(sourceVec.clone().add(new Vector3(WIDTH * 1, 0, 0)))
-        points.push(sourceVec.clone().add(new Vector3(WIDTH * 3, height, 0)))
-        points.push(sourceVec.clone().add(new Vector3(WIDTH * 4, height, 0)))
-        this.add(this.drawTube(points, item, item, true))
-
-        const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
-        const lastPoint = points[points.length-1]
-        geometry.translate(lastPoint.x , lastPoint.y , lastPoint.z )
-        const { [item]: colorProp = { color: 0xEFEFEF } } = modelColors
-        const material = new MeshLambertMaterial({ color: colorProp.color })
-        const sphere = new Mesh(geometry, material);
-        this.add(sphere);
-
-        height += HEIGHT
-      })
-    }
   }
 
+  drawEndStates(processWidth) {
+    /* const destVec = this.getSidePos('left')
+    let points = []
+    points.push(destVec.clone().add(new Vector3(-WIDTH * 4, HEIGHT, 0)))
+    points.push(destVec.clone().add(new Vector3(-WIDTH * 3, HEIGHT, 0)))
+    points.push(destVec.clone().add(new Vector3(-WIDTH * 1, 0, 0)))
+    points.push(destVec)
+    this.add(this.drawTube(points, 'happy', '', true)) */
+
+    const endX = processWidth / 2 + WIDTH          
+
+    const sourceVec = this.getSidePos('right')
+    let height = 0
+    this.userData.returnActions.forEach(item => {
+      let points = []
+      points.push(sourceVec)
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2) * .2, 0, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2) * .7, height, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2 - 40), height, 0)))
+      this.add(this.drawTube(points, item, item, true))
+
+      const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
+      geometry.translate(endX, height, 0)
+      const { [item]: colorProp = { color: 0xEFEFEF } } = modelColors
+      const material = new MeshLambertMaterial({ color: colorProp.color })
+      const sphere = new Mesh(geometry, material);
+      this.add(sphere);
+
+      height += HEIGHT
+    })
+  }
 
   async drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId) {
 
@@ -122,7 +121,7 @@ export default class ProcessObject3d extends Object3D {
     points.push(new Vector3(destLeft.x - WIDTH / 2, destLeft.y, destLeft.z))
     points.push(destLeft)
 
-    this.add(this.drawTube(points, 'happy', '', true))
+    this.add(this.drawTube(points, 'happy', 'initial step', true))
 
     // Tell first step to draw its connectors
     stepObj3d.drawStepConnectors(glModelObject3D, this)

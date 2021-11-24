@@ -128,10 +128,12 @@ export default class OrgObject3d extends Object3D {
     // Execute the query
     let resArr = await executeQuery(queryId, this.userData)
 
+    // Collect users with active permission
     resArr.forEach( item => {
       let user = activePermAccArr.find(user => {
         return user._id === item._id
       })
+      // If not found, add it
       if(!user) activePermAccArr.push(item)
     })
 
