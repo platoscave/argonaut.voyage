@@ -36,16 +36,16 @@ export default class ProcessObject3d extends Object3D {
     points.push(destVec)
     this.add(this.drawTube(points, 'happy', '', true)) */
 
-    const endX = processWidth / 2 + WIDTH          
+    const endX = processWidth / 2 + WIDTH
 
     const sourceVec = this.getSidePos('right')
     let height = 0
     this.userData.returnActions.forEach(item => {
       let points = []
       points.push(sourceVec)
-      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2) * .2, 0, 0)))
-      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2) * .7, height, 0)))
-      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH/2 - 40), height, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .2, 0, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .7, height, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 - 40), height, 0)))
       this.add(this.drawTube(points, item, item, true))
 
       const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
@@ -73,6 +73,14 @@ export default class ProcessObject3d extends Object3D {
     return stepObj3d.drawSteps(selectableMeshArr, executeQuery, glModelObject3D, 'ybjrgmdjybzl') // Next Step QueryId
   }
 
+  drawStepToUserConnectors(glModelObject3D) {
+
+    // Find the first step
+    const stepObj = this.children.find(item => {
+      return item.constructor.name === 'StepObject3d' // WARNING may not work after mimify
+    })
+    stepObj.drawStepToUserConnectors(glModelObject3D)
+  }
 
   setPositionY() {
     // Find the first step

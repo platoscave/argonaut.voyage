@@ -150,14 +150,14 @@ export default {
   top: calc(50% - 20px);
   left: 100%;
   z-index: 10;
-  cursor: pointer;
+  cursor: col-resize;
 }
 .right-handle {
   position: absolute;
   top: calc(50% - 20px);
   right: 100%;
   z-index: 10;
-  cursor: pointer;
+  cursor: col-resize;
 }
 .handle-icon {
   width: 20px;

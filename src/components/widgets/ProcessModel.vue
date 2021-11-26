@@ -43,9 +43,13 @@ export default {
     };
   },
   methods: {
+
+
     async drawPropositions( zPos ) {
 
     },
+
+
     async drawProcesses( zPos ) {
 
       // Get the viewObj so we can use its query
@@ -59,18 +63,18 @@ export default {
       // Create the ProcessObject3ds (extends Object3d)
       let processArr = [];
       resArr.forEach((item) => {
-        let rootProcessObj3d = new ProcessObject3d(item, true);
-        rootProcessObj3d.translateZ( zPos);
-        processArr.push(rootProcessObj3d);
-        this.glModelObject3D.add(rootProcessObj3d);
-        this.selectableMeshArr.push(rootProcessObj3d.children[0]);
+        let processObj3d = new ProcessObject3d(item, true);
+        processObj3d.translateZ( zPos);
+        processArr.push(processObj3d);
+        this.glModelObject3D.add(processObj3d);
+        this.selectableMeshArr.push(processObj3d.children[0]);
       });
 
       // Tell processes to draw the first step, which will then draw their next steps
       let promisesArr = [];
-      processArr.forEach((rootProcessObj3d) => {
+      processArr.forEach((processObj3d) => {
         promisesArr.push(
-          rootProcessObj3d.drawSteps(
+          processObj3d.drawSteps(
             this.selectableMeshArr,
             PoucdbServices.executeQuery,
             this.glModelObject3D,
@@ -83,31 +87,33 @@ export default {
       // Set the Y positions of the steps
       let maxXArr = [];
       let totalWidth = 0;
-      processArr.forEach((rootProcessObj3d) => {
-        let maxXYVec = rootProcessObj3d.setPositionY();
+      processArr.forEach((processObj3d) => {
+        let maxXYVec = processObj3d.setPositionY();
         maxXArr.push(maxXYVec.x);
         totalWidth += maxXYVec.x;
       });
 
       // Arrange Processes side by side, now that we know how wide they are
       let xPos = -totalWidth / 2;
-      processArr.forEach((rootProcessObj3d, idx) => {
-        rootProcessObj3d.translateX(xPos);
+      processArr.forEach((processObj3d, idx) => {
+        processObj3d.translateX(xPos);
         xPos += maxXArr[idx] + maxXArr[idx + 1] / 2 + WIDTH * 4;
       });
 
       // Draw the end states
-      processArr.forEach((rootProcessObj3d, idx) => {
-        rootProcessObj3d.drawEndStates(maxXArr[idx]);
+      processArr.forEach((processObj3d, idx) => {
+        processObj3d.drawEndStates(maxXArr[idx]);
       });
 
       // Important! Must update world matrixes, after you change positions, otherwise obj3d matrixes will be incorrect
       this.glModelObject3D.updateMatrixWorld(true);
 
-      // Let the steps draaw their connectors
-      processArr.forEach((rootProcessObj3d) => {
-        rootProcessObj3d.drawStepConnectors(this.glModelObject3D);
+      // Let the steps to draw their connectors to their next steps
+      processArr.forEach((processObj3d) => {
+        processObj3d.drawStepConnectors(this.glModelObject3D);
       });
+
+      return processArr
     },
 
 
@@ -168,6 +174,14 @@ export default {
       rootOrgObj3d.drawToUserAssocs(this.glModelObject3D);
     },
 
+
+    drawStepToUserConnectors(processArr) {
+      // Let the steps to draw their connectors to their next steps
+      processArr.forEach((processObj3d) => {
+        processObj3d.drawStepToUserConnectors(this.glModelObject3D);
+      });
+    }
+
   },
 
   mounted: async function() {
@@ -178,10 +192,11 @@ export default {
 
       await this.drawPropositions(0);
 
-      await this.drawProcesses( -DEPTH * 30 );
+      const processArr = await this.drawProcesses( -DEPTH * 30 );
 
       await this.drawOrgUnits( -DEPTH * 60 );
 
+      this.drawStepToUserConnectors(processArr)
 
       this.removeLoadingText();
 

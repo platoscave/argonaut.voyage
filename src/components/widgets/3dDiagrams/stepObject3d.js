@@ -38,10 +38,10 @@ export default class StepObject3d extends Object3D {
     resArr.forEach(userData => {
 
       // If the stepObj already exists, make sure it is to the right of us
-      let stepObj3d =  glModelObject3D.getObjectByProperty('_id', userData._id)
-      if(stepObj3d) {
+      let stepObj3d = glModelObject3D.getObjectByProperty('_id', userData._id)
+      if (stepObj3d) {
         // TODO not sure this always works
-        if(stepObj3d.position.x < this.position.x *1.1) stepObj3d.translateX(WIDTH * 2)
+        if (stepObj3d.position.x < this.position.x * 1.1) stepObj3d.translateX(WIDTH * 2)
       }
       else {
         // Create the step
@@ -141,8 +141,8 @@ export default class StepObject3d extends Object3D {
 
   }
 
-  drawTubeRightSideToBottom (returnProcessObj3d, label) {
-    
+  drawTubeRightSideToBottom(returnProcessObj3d, label) {
+
     // Get sourcePos in world coordinates
     let sourcePos = new Vector3()
     this.getWorldPosition(sourcePos)
@@ -171,6 +171,56 @@ export default class StepObject3d extends Object3D {
   }
 
 
+  drawStepToUserConnectors(glModelObject3D) {
+
+    console.log(this.userData)
+    if (this.userData.authorizedOrgUnitId) {
+      let destUserObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.authorizedOrgUnitId)
+      this.drawTubeBackSideToFrontSide(destUserObj3d, 'authorizedOrgUnitId')
+    }
+
+    this.userData.nextStepIds.forEach(nextStepActionId => {
+
+      if (nextStepActionId.stepId) {
+
+        let destStepObj3d = glModelObject3D.getObjectByProperty('_id', nextStepActionId.stepId)
+
+        // Tell the step to draw its user connectors
+        destStepObj3d.drawStepToUserConnectors(glModelObject3D)
+
+      }
+    })
+  }
+
+  drawTubeBackSideToFrontSide(userObj3d) {
+
+    // Get sourcePos in world coordinates
+    let sourcePos = new Vector3()
+    this.getWorldPosition(sourcePos)
+
+    // Get destPos in world coordinates
+    let destPos = new Vector3()
+    userObj3d.getWorldPosition(destPos)
+
+    // Get the difference vector
+    let difVec = destPos.clone()
+    difVec.sub(sourcePos)
+
+    const sourceBackPos = this.getSidePos('back', new Vector3())
+    const destFrontPos = this.getSidePos('front', difVec)
+
+    let points = []
+
+    points.push(sourceBackPos)
+    points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
+    points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
+    points.push(destFrontPos)
+
+    this.add(this.drawTube(points, 'active', 'authorizedOrgUnitId', true))
+
+  }
+
+
   getMesh() {
     const x = 0, y = 0
 
@@ -189,7 +239,7 @@ export default class StepObject3d extends Object3D {
     geometry.name = this.userData.label + " - 3d geometry"
     geometry.center()
 
-    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

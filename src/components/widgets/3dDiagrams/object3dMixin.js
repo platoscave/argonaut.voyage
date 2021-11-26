@@ -99,7 +99,7 @@ export default {
     geometries.push(new TubeGeometry(path, 300, 7, 8, false))
 
     if (arrow) {
-      let coneGeometry = new CylinderGeometry(0, 40, 100, 40, 40, false)
+      let coneGeometry = new CylinderGeometry(5, 30, 100, 40, 40, false)
       coneGeometry.translate(0, 50, 0)
 
       // Cone is currently pointing upwards

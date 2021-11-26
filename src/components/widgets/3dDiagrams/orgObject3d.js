@@ -233,7 +233,7 @@ export default class OrgObject3d extends Object3D {
     geometry.center()
 
     //const { org: colorProp = { color: 0xEFEFEF }  } = modelColors
-    console.log(this.userData.classId)
+    //console.log(this.userData.classId)
     const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
 
     const material = new MeshLambertMaterial({ color: colorProp.color })
