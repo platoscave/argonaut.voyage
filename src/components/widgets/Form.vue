@@ -72,6 +72,8 @@ export default {
 
     async viewIdHandeler() {
       if (this.viewId) this.viewObj = await PoucdbServices.getMaterializedView(this.viewId)
+      console.log('MaterializedView')
+      console.dir(this.viewObj)
     }
   },
   watch: {

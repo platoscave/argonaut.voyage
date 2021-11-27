@@ -3491,7 +3491,7 @@
         ]
       },
       {
-        "name": "Materialized View",
+        "name": "View",
         "widgets": [
           {
             "displayType": "Materialized View"

@@ -37,7 +37,7 @@
         >
         </el-option>
       </el-select>
-      <div class="ar-right-align logo is-animetion">
+      <div class="ar-right-align logo is-animation">
         <span>a</span>
         <span>r</span>
         <span>g</span>
@@ -53,7 +53,7 @@
         <span>a</span>
         <span>g</span>
         <span>e</span>
-        </div>
+      </div>
     </div>
     <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
   </div>
@@ -63,7 +63,7 @@
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
-import PouchDB from 'pouchdb-browser'
+import PouchDB from "pouchdb-browser";
 
 export default {
   name: "App",
@@ -78,7 +78,7 @@ export default {
     };
   },
   pouch: {
-    users: function () {
+    users: function() {
       return {
         database: "argonautdb",
         selector: { classId: "hdt3hmnsaghk" },
@@ -86,7 +86,7 @@ export default {
         sort: ["name"],
       };
     },
-    appSettings: function () {
+    appSettings: function() {
       return {
         database: "settings",
         selector: { _id: "appSettings" },
@@ -110,16 +110,14 @@ export default {
     },
   },
 
-  mounted: async function () {
-
+  mounted: async function() {
     // If argonautdb is not filled yet, populate it from the static file
     const argonautdb = new PouchDB("argonautdb");
     let details = await argonautdb.info();
     if (details.doc_count == 0 && details.update_seq == 0) {
       await this.$refs["settingsDlg"].populateFromStatic();
     }
-    
-    
+
     // Fill in defaults for new users.
     details = await this.$settings.info();
     if (details.doc_count == 0 && details.update_seq == 0) {
@@ -127,10 +125,11 @@ export default {
         _id: "appSettings",
         currentNetwork: "sandbox",
         currentUser: "demouser1111",
-      })
+      });
     }
 
-    if (!window.location.hash) window.location.hash = "#/argonautvoya.uhekisbbbjh5";
+    if (!window.location.hash)
+      window.location.hash = "#/argonautvoya.uhekisbbbjh5";
   },
 };
 </script>
@@ -182,8 +181,6 @@ div.el-tooltip__popper.is-dark {
   line-height: 28px;
 }
 
-
-
 /* Controls */
 .ar-control > input {
   background-color: #ffffff08;
@@ -204,8 +201,6 @@ div.el-tooltip__popper.is-dark {
   font-size: 16px;
   line-height: 30px;
 }
-
-
 
 /* Dark mode scroll bars */
 ::-webkit-scrollbar {
@@ -234,7 +229,14 @@ div.el-tooltip__popper.is-dark {
 }
 </style>
 
+
+
+
+
 <style scoped>
+/* Scoped styles */
+
+
 .ar-main {
   height: calc(100vh - 40px);
   padding: 0px;
@@ -277,33 +279,79 @@ div.el-tooltip__popper.is-dark {
 }
 
 /* Animante logo */
-.logo.is-animetion {
-  margin-top: 0.6em;
+.logo.is-animation {
+  margin-top: 0.3em;
 }
 
-.logo.is-animetion span {
+.logo.is-animation span {
   display: inline-block;
-  animation: wave-text 1s ease-in-out infinite;
+  animation: wave-text 3s ease-in-out infinite;
 }
 
-.logo.is-animetion {
-  span:nth-of-type(1){ animation-delay: 0.0s; }
-  span:nth-of-type(2){ animation-delay: 0.1s; }
-  span:nth-of-type(3){ animation-delay: 0.2s; }
-  span:nth-of-type(4){ animation-delay: 0.3s; }
-  span:nth-of-type(5){ animation-delay: 0.4s; }
+.logo.is-animation {
+  span:nth-of-type(1) {
+    animation-delay: 0s;
+  }
+  span:nth-of-type(2) {
+    animation-delay: 0.1s;
+  }
+  span:nth-of-type(3) {
+    animation-delay: 0.2s;
+  }
+  span:nth-of-type(4) {
+    animation-delay: 0.3s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.4s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.5s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.6s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.7s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.8s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 0.9s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.0s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.0s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.1s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.2s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.3s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.4s;
+  }
+  span:nth-of-type(5) {
+    animation-delay: 1.5s;
+  }
+  
 }
 
-@keyframes wave-text{
-  00%{
+@keyframes wave-text {
+  00% {
     transform: translateY(0em);
   }
-  60%{
-    transform: translateY(-0.6em);
+  60% {
+    transform: translateY(-0.3em);
   }
-  100%{
+  100% {
     transform: translateY(0em);
   }
 }
-
 </style>
