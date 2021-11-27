@@ -25,19 +25,17 @@
       :allow-drag="allowDrag"
     >
     </el-tree>
-
   </div>
 </template>
 
 <script>
-import PoucdbServices from "../../services/pouchdbServices"
-import WidgetMixin from "../../lib/widgetMixin"
+import PoucdbServices from "../../services/pouchdbServices";
+import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
   name: "ar-tree",
   mixins: [WidgetMixin],
-  components: {
-  },
+  components: {},
   props: {
     hashLevel: Number,
     viewId: String,
@@ -48,11 +46,11 @@ export default {
       defaultProps: {
         isLeaf: "isLeaf",
       },
-      nextLevelSelectedObjId: ''
-    }
+      nextLevelSelectedObjId: "",
+    };
   },
   pouch: {
-    pageSettings: function () {
+    pageSettings: function() {
       return {
         database: "settings",
         selector: { _id: this.pageId },
@@ -91,26 +89,24 @@ export default {
     },
 
     async loadNode(node, resolve) {
-
       // Get PageId or Icon from item anscestors
       const getProp = async (id, prop) => {
-        const classObj = await this.$pouch.get(id)
-        if(classObj[prop]) return classObj[prop]
-        return getProp(classObj.parentId, prop)
-      }
+        const classObj = await this.$pouch.get(id);
+        if (classObj[prop]) return classObj[prop];
+        return getProp(classObj.parentId, prop);
+      };
       // For each resArr, Get PageId or Icon from item anscestors
       const getGetPropertyFromAnscetors = async (resArr, prop) => {
-        let promisesArr = []
-        resArr.forEach(item => {
-          if(item[prop]) promisesArr.push(item[prop])
-          else promisesArr.push(getProp(item.classId, prop))
-        })
+        let promisesArr = [];
+        resArr.forEach((item) => {
+          if (item[prop]) promisesArr.push(item[prop]);
+          else promisesArr.push(getProp(item.classId, prop));
+        });
         const propArr = await Promise.all(promisesArr);
-        resArr.forEach( (item, idx) => {
-          item[prop] = propArr[idx]
-        })
-      }
-
+        resArr.forEach((item, idx) => {
+          item[prop] = propArr[idx];
+        });
+      };
 
       try {
         // root level
@@ -118,11 +114,14 @@ export default {
           // Get the viewObj
           this.viewObj = await this.$pouch.get(this.viewId);
           // Execute the query
-          const resArr = await PoucdbServices.executeQuery(this.viewObj.queryId, {_id: this.selectedObjId});
+          const resArr = await PoucdbServices.executeQuery(
+            this.viewObj.queryId,
+            { _id: this.selectedObjId }
+          );
 
           // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
-          getGetPropertyFromAnscetors(resArr, 'pageId')
-          getGetPropertyFromAnscetors(resArr, 'icon')
+          getGetPropertyFromAnscetors(resArr, "pageId");
+          getGetPropertyFromAnscetors(resArr, "icon");
 
           resolve(resArr);
         }
@@ -133,13 +132,13 @@ export default {
               return PoucdbServices.executeQuery(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
-            let flatResArr = resArr.flat()
+            let flatResArr = resArr.flat();
 
             // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
-            getGetPropertyFromAnscetors(flatResArr, 'pageId')
-            getGetPropertyFromAnscetors(flatResArr, 'icon')
+            getGetPropertyFromAnscetors(flatResArr, "pageId");
+            getGetPropertyFromAnscetors(flatResArr, "icon");
 
-            resolve(resArr.flat())
+            resolve(resArr.flat());
           } else resolve([]);
         }
       } catch (err) {
@@ -161,37 +160,45 @@ export default {
       ]);
     },
 
-    showContextMenu(event, nodeData, node, nodeCmp ){
+    showContextMenu(event, nodeData, node, nodeCmp) {
       //event.stopPropagation()
       //event.preventDefault()
-      
+
       let items = [
         {
           icon: "arrow-up",
-          text: 'Default',
+          text: "Default",
           click: () => {
-            alert('Option0!')
-          }
+            alert("Option0!");
+          },
         },
         {
-          icon: 'arrow-right',
-          text: 'With divider',
+          icon: "arrow-right",
+          text: "With divider",
           divider: true,
           click: () => {
-            alert('Option2!')
-          }
+            alert("Option2!");
+          },
         },
         {
-          icon: 'arrow-down',
-          text: 'Disabled',
+          icon: "arrow-down",
+          text: "Disabled",
           disabled: true,
           click: () => {
-            alert('Option3!')
-          }
+            alert("Option3!");
+          },
         },
       ];
+      alert('right click')
+      /* if (node.level == 1) {
+        this.menuVisible = true;
+        let menu = document.querySelector("#menu");
+        /* Menu positioning based on mouse click position * /
+        //menu.style.left = event.clientX + 20 + "px";
+        //.style.top = event.clientY - 10 + "px";
+        alert('right click')
+      } */
     },
-
 
     // The tree node expands, update page settings
     handleNodeExpand(data) {
@@ -226,18 +233,16 @@ export default {
         });
       }
     },
-
   },
 
   watch: {
-    nextLevelSelectedObjId: function (selectedObjId) {
-        // TODO select unselect is a bit buggy
-        //this.$refs["tree"].setCurrentKey(null);
-        this.$refs["tree"].setCurrentKey(selectedObjId);
+    nextLevelSelectedObjId: function(selectedObjId) {
+      // TODO select unselect is a bit buggy
+      //this.$refs["tree"].setCurrentKey(null);
+      this.$refs["tree"].setCurrentKey(selectedObjId);
     },
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

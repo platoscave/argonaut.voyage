@@ -173,7 +173,6 @@ export default class StepObject3d extends Object3D {
 
   drawStepToUserConnectors(glModelObject3D) {
 
-    console.log(this.userData)
     if (this.userData.authorizedOrgUnitId) {
       let destUserObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.authorizedOrgUnitId)
       this.drawTubeBackSideToFrontSide(destUserObj3d, 'authorizedOrgUnitId')
@@ -190,8 +189,10 @@ export default class StepObject3d extends Object3D {
 
       }
     })
+
   }
 
+  
   drawTubeBackSideToFrontSide(userObj3d) {
 
     // Get sourcePos in world coordinates

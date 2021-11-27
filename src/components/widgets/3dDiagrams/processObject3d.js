@@ -63,7 +63,8 @@ export default class ProcessObject3d extends Object3D {
 
     // Execute the query
     let resArr = await executeQuery(queryId, this.userData)
-
+console.log(this.userData.name)
+console.log(resArr)
     // Draw the first step
     let stepObj3d = new StepObject3d(resArr[0]);
     selectableMeshArr.push(stepObj3d.children[0])

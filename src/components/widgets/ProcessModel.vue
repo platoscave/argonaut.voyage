@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import PropositionObject3d from "./3dDiagrams/propositionObject3d";
 import ProcessObject3d from "./3dDiagrams/processObject3d.js";
 import OrgObject3d from "./3dDiagrams/orgObject3d.js";
 import UserObject3d from "./3dDiagrams/userObject3d.js";
@@ -46,17 +47,35 @@ export default {
 
 
     async drawPropositions( zPos ) {
+      // Get the processes from the store
+      // Owned Processes Query
+      let resArr = await PoucdbServices.executeQuery("f41heqslym5e", {
+        _id: this.selectedObjId,
+      });
 
+      // Create the ProcessObject3ds (extends Object3d)
+      let propositionsArr = [];
+      let xPos = resArr.length * -WIDTH
+      resArr.forEach((item) => {
+        let propositionObj3d = new PropositionObject3d(item, true);
+        propositionObj3d.translateX( xPos);
+        propositionObj3d.translateZ( zPos);
+        propositionsArr.push(propositionObj3d);
+        this.glModelObject3D.add(propositionObj3d);
+        this.selectableMeshArr.push(propositionObj3d.children[0]);
+
+        xPos += WIDTH * 2 
+      });
+
+      return propositionsArr
     },
 
 
     async drawProcesses( zPos ) {
 
-      // Get the viewObj so we can use its query
-      const viewObj = await this.$pouch.get(this.viewId);
-
       // Get the processes from the store
-      let resArr = await PoucdbServices.executeQuery(viewObj.queryId, {
+      // Owned Processes Query
+      let resArr = await PoucdbServices.executeQuery("sfmg5u3wtpds", {
         _id: this.selectedObjId,
       });
 
@@ -114,6 +133,14 @@ export default {
       });
 
       return processArr
+    },
+
+
+    drawPropositionToProcessConnectors(propositionArr) {
+      // Let the Propositions to draw their connectors to their Process
+      propositionArr.forEach((propositionObj3d) => {
+        propositionObj3d.drawPropositionToProcessConnectors(this.glModelObject3D);
+      });
     },
 
 
@@ -190,9 +217,11 @@ export default {
       this.addLoadingText();
       
 
-      await this.drawPropositions(0);
+      const propositionsArr = await this.drawPropositions(0);
 
       const processArr = await this.drawProcesses( -DEPTH * 30 );
+
+      this.drawPropositionToProcessConnectors(propositionsArr)
 
       await this.drawOrgUnits( -DEPTH * 60 );
 

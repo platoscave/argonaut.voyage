@@ -706,6 +706,48 @@
     "parentId": "i1gjptcb2skq",
     "type": "object"
   },
+
+
+
+  {
+    "_id": "iqdfuo2tnze2",
+    "docType": "object",
+    "name": "Purchase Proposition",
+    "description": "<p>Purchase Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "ynaxakdc423e",
+    "assetIds": []
+  },
+  {
+    "_id": "wub2e4kpjchk",
+    "docType": "object",
+    "name": "Rental Proposition",
+    "description": "<p>Rental Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "",
+    "assetIds": []
+  },
+  {
+    "_id": "2cmgcvskdj3a",
+    "docType": "object",
+    "name": "Repair Proposition",
+    "description": "<p>Repair Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "",
+    "assetIds": []
+  },
+
+
+
   {
     "_id": "dasprps1lrwf",
     "docType": "class",
@@ -1026,11 +1068,13 @@
     "properties": {
       "startDate": {
         "title": "Start Date",
-        "type": "date"
+        "type": "date",
+        "format": "date-time"
       },
       "endDate": {
         "title": "End Date",
-        "type": "date"
+        "type": "date",
+        "format": "date-time"
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1050,7 +1094,7 @@
         "title": "Process",
         "type": "string"
       },
-      "assetsArr":{
+      "assetIds":{
         "title": "Assets",
         "items": {
           "type": "string"
@@ -3143,9 +3187,9 @@
         "name": "Propositions",
         "widgets": [
           {
-            "displayType": "Tree",
-            "name": "Process Model Tree",
-            "viewId": "pepmfz4be5uu"
+            "displayType": "Table",
+            "name": "Propositions Table",
+            "viewId": "g1q2rky4uxcb"
           }
         ]
       },
@@ -3154,7 +3198,7 @@
         "widgets": [
           {
             "displayType": "Tree",
-            "name": "Process Model Tree",
+            "name": "Process Tree",
             "viewId": "pepmfz4be5uu"
           }
         ]
@@ -3721,6 +3765,21 @@
     "ownerId": "blockprocess",
     "queryId": "sfmg5u3wtpds",
     "type": "object"
+  },   
+  {
+    "_id": "g1q2rky4uxcb",
+    "docType": "object",
+    "name": "Proposition Table View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "blockprocess",
+    "queryId": "f41heqslym5e",
+    "properties": {
+      "name": {},
+      "startDate": {}
+    },
+    "baseClassId": "2jrkeqdvvmom",
+    "type": "object"
   },  
   {
     "_id": "nmeh5awdy4jm",
@@ -3884,7 +3943,7 @@
       "processId": {
         "readOnly": false
       },
-      "assetsArr":{
+      "assetIds":{
         "readOnly": false
       }
     },
@@ -4312,6 +4371,26 @@
         "classId",
         "firstStepId",
         "returnActions"
+      ]
+  },
+  {
+    "_id": "f41heqslym5e",
+    "docType": "object",
+    "name": "Owned Propositions Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "blockprocess",   
+      "selector": {
+        "$and": [
+          {"ownerId": "$fk" },
+          {"classId": "2jrkeqdvvmom" }
+        ]
+      },
+      "fields": [
+        "_id",
+        "name",
+        "startDate",
+        "endDate",
+        "processId"
       ]
   },
   {
