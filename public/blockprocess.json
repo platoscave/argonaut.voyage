@@ -4667,6 +4667,11 @@
         "pageId": ""
       },
       {
+        "name": "Work Shop",
+        "icon": "el-icon-s-custom",
+        "pageId": ""
+      },
+      {
         "name": "Organization",
         "icon": "el-icon-user-solid",
         "menuArr": [
@@ -4728,10 +4733,6 @@
           {
             "name": "Process Model",
             "pageId": "dsimhnp5euui"
-          },
-          {
-            "name": "Organization",
-            "pageId": "4q5nx5ek5gww"
           },
           {
             "name": "Resources Tree",

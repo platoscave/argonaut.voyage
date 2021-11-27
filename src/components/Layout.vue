@@ -93,7 +93,6 @@ import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
 import ClassModel from "./widgets/ClassModel.vue";
 import ProcessModel from "./widgets/ProcessModel.vue";
-import OrganizationModel from "./widgets/OrganizationModel.vue";
 
 export default {
   name: "ar-layout",
@@ -103,7 +102,6 @@ export default {
     "ar-studio": Studio,
     "ar-class-model": ClassModel,
     "ar-process-model": ProcessModel,
-    "ar-organization-model": OrganizationModel,
   },
   props: {
     hashLevel: Number,
