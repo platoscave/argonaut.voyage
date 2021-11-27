@@ -78,10 +78,10 @@ export default {
 
     async populateFromStatic() {
       try {
-        const response = await fetch("blockprocess.json");
-        const blockprocessData = await response.json();
+        const response = await fetch("argonautdb.json");
+        const argonautData = await response.json();
         await this.clearCache();
-        await this.$pouch.bulkDocs(blockprocessData);
+        await this.$pouch.bulkDocs(argonautData);
         await this.$pouch.createIndex({
           index: {
             fields: ["parentId", "title"],
@@ -149,8 +149,8 @@ export default {
       // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv
       //const data = await IndexedDBApiService.GetAll(this.$store);
 
-      const response = await fetch("blockprocess.json");
-      const blockprocessData = await response.json();
+      const response = await fetch("argonautdb.json");
+      const argonautData = await response.json();
 
       const processClasses = [
         "cq4bjkzqc2qp",
@@ -161,7 +161,7 @@ export default {
         "s41na42wsxez",
         "dwl1kwhalwj4",
       ];
-      const filterData = blockprocessData.filter((item) => {
+      const filterData = argonautData.filter((item) => {
         return processClasses.includes(item.classId);
       });
 
@@ -169,7 +169,7 @@ export default {
       const csv_mime_type = "text/json";
       const blob = new Blob([jsonString], { type: csv_mime_type });
       const anchor = document.createElement("a");
-      anchor.setAttribute("download", "blockprocessFiltered.json");
+      anchor.setAttribute("download", "argonautFiltered.json");
       const url = URL.createObjectURL(blob);
       anchor.setAttribute("href", url);
       anchor.click();
@@ -201,7 +201,7 @@ export default {
         // https://stackoverflow.com/questions/52532232/how-to-get-specific-data-from-an-array-using-pouchdb-find
 
         /* const res = await this.$pouch.find({
-          database: "blockprocess",
+          database: "argonautdb",
           selector: {
             nextStepIds: {
               $elemMatch: {
@@ -224,7 +224,7 @@ export default {
         //console.log("$permissions.0.required_auth.accounts.0.permission.actor")
         //console.log(bikeOrg)
         const res = await PoucdbServices.executeQuery({
-            database: "blockprocess",
+            database: "argonautdb",
             selector: { classId: "ikjyhlqewxs3" },
             "extendTo": "instances"
         });

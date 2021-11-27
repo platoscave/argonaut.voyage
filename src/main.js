@@ -47,7 +47,7 @@ Vue.use(VueHighlightJS, {
 
 Vue.use(PouchVue, {
   pouch: PouchDB,
-  defaultDB: 'blockprocess',
+  defaultDB: 'argonautdb',
   //debug: '*'
 });
 Vue.prototype.$settings= new PouchDB('settings');

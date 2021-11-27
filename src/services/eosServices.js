@@ -18,7 +18,7 @@ import PouchDB from 'pouchdb-browser'
 import PoucdbServices from "../services/pouchdbServices";
 
 
-const blockProcessDb = new PouchDB('blockprocess');
+const argonautDb = new PouchDB('argonautdb');
 const settingsDb = new PouchDB('settings');
 
 // See https://eosio.github.io/eosjs/latest/how-to-guides/index
@@ -89,7 +89,7 @@ class EosApiService {
     let currentUserId = appSettings.currentUser
 
     const actions = [{
-      account: 'blockprocess',
+      account: 'argonautvoya',
       name: 'upsert',
       authorization: [{
         actor: currentUserId,
@@ -161,7 +161,7 @@ class EosApiService {
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
         return {
-          account: 'blockprocess',
+          account: 'argonautvoya',
           name: 'upsert',
           authorization: [{
             actor: currentUserId,
@@ -187,16 +187,16 @@ class EosApiService {
 
     // START HERE
 
-    const response = await fetch("blockprocess.json");
-    const blockprocessArr = await response.json();
-    //console.log(blockprocessArr)
+    const response = await fetch("argonautdb.json");
+    const argonautArr = await response.json();
+    //console.log(argonautArr)
 
 
     let promiseFunctionArr = []
-    for (let idx = 0; idx < blockprocessArr.length; idx += 1) {
+    for (let idx = 0; idx < argonautArr.length; idx += 1) {
       let tenDocs = []
       for (let subIdx = 0; subIdx < 1; subIdx++) {
-        tenDocs.push(blockprocessArr[idx + subIdx])
+        tenDocs.push(argonautArr[idx + subIdx])
       }
       let tenActionsArr = upsertActions(tenDocs)
       promiseFunctionArr.push(async () => {
@@ -223,7 +223,7 @@ class EosApiService {
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
         return {
-          account: 'blockprocess',
+          account: 'argonautvoya',
           name: 'upsert',
           authorization: [{
             actor: currentUserId,
@@ -244,7 +244,7 @@ class EosApiService {
     var pageSize = 10;
     var lastSeq = 0;
     const fetchNextPage = async () => {
-      const changes = await blockProcessDb.changes({
+      const changes = await argonautDb.changes({
         since: lastSeq,
         limit: pageSize,
         include_docs: true
@@ -268,7 +268,7 @@ class EosApiService {
     fetchNextPage().catch(function (err) {
       message({ message: err, type: "error" });
     });
-    //console.log(blockprocessArr)
+    //console.log(argonautArr)
 
 
   }
@@ -280,7 +280,7 @@ class EosApiService {
     let currentUserId = appSettings.currentUser
 
     const actions = [{
-      account: 'blockprocess',
+      account: 'argonautvoya',
       name: 'eraseall',
       authorization: [{
         actor: currentUserId,
@@ -313,7 +313,7 @@ return */
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
-    //const document = await blockProcessDb.get('ikjyhlqewxs3')
+    //const document = await argonautDb.get('ikjyhlqewxs3')
 
     const result = await this.upsertDocument(testObject)
 

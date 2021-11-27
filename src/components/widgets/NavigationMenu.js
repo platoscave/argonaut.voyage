@@ -12,14 +12,14 @@ export default {
   pouch: {
     menuObj: function () {
       return {
-        database: "blockprocess",
+        database: "argonautdb",
         selector: { _id: this.menuId },
         first: true,
       };
     },
     currentObj: function () {
       return {
-        database: "blockprocess",
+        database: "argonautdb",
         selector: { _id: this.selectedObjId },
         first: true,
       };

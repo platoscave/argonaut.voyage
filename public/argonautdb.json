@@ -201,7 +201,7 @@
     "docType": "class",
     "title": "Accounts",
     "parentId": "gzthjuyjca4s",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -706,6 +706,48 @@
     "parentId": "i1gjptcb2skq",
     "type": "object"
   },
+
+
+
+  {
+    "_id": "iqdfuo2tnze2",
+    "docType": "object",
+    "name": "Purchase Proposition",
+    "description": "<p>Purchase Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "ynaxakdc423e",
+    "assetIds": []
+  },
+  {
+    "_id": "wub2e4kpjchk",
+    "docType": "object",
+    "name": "Rental Proposition",
+    "description": "<p>Rental Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "",
+    "assetIds": []
+  },
+  {
+    "_id": "2cmgcvskdj3a",
+    "docType": "object",
+    "name": "Repair Proposition",
+    "description": "<p>Repair Proposition</p>",
+    "classId": "2jrkeqdvvmom",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2019-08-10T14:49:54.500",
+    "processId": "",
+    "assetIds": []
+  },
+
+
+
   {
     "_id": "dasprps1lrwf",
     "docType": "class",
@@ -714,37 +756,6 @@
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODBDQUY3RkM2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODBDQUY3RkQ2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MENBRjdGQTY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MENBRjdGQjY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj6+XOUAAAGRSURBVHjafFK/T8JAFH7XHtFECg0xwZ3EOLnILOpWaqJ/gLOLf4B/ibuDm4NiKN1EnHFxk4RRogugwcHSu/PelcPSUl7ycnfvu/vej/uIEAIIIaDt4ublfhryE8YFJM00COSo0bg62zudB5EgbufXXfEtg4NAiPeY4xnjiMfv02QWxjn8BABvw1QBsFOK8JUEqioDwF7H6gCwOUyJXWI8aSkC0zTBklFSjAg0AxLkSYSvJBBs+nh52zvSQ1SZxf8QEY/fJ8lfkFaRbuvD7nal+9rrV2P4WHo/k+Bgv6YSCsHBMAzpJnDOpHN5z1AdPT13SGYLG5YFntesQoa57nE31cJDszmSqyobs2ptUEo/XcfZ8nz/IwzDcjQToqqZ7ceqAsaY7dbr8MtC/WmwZlJo+b56FARBue44KdxrtWyq1chDBl/DkcZhs1SaZ8J1GY7v5jMwcxQsKw96qHhe0EcGTnVfOUqhWCgsPNK/swpXBJPJpHPXaNR4TOc4TBlvz/C2xA+X4B2tgwXxLBFNJv4nwABEa91VFnwXcgAAAABJRU5ErkJggg==",
     "parentId": "ikjyhlqewxs3",
     "pageId": "t2grmjaab5fn",
-    "properties": {
-      "authorizedForStateIds": {
-        "items": {
-          "properties": {
-            "processId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
-                  "classId": "dlpwvptczyeb"
-                },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
-                "extendTo": "instances"
-              },
-              "title": "Authorized for Step",
-              "type": "string"
-              
-            }
-          },
-          "type": "object"
-        },
-        "title": "Authorized for States",
-        "type": "array"
-        
-      }
-    },
     "type": "object"
   },
   {
@@ -939,6 +950,25 @@
         "type": "array"
         
       },
+      "authorizedOrgUnitId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "mongoQuery": {
+          "selector": {
+            "classId": "dasprps1lrwf"
+          },
+          "fields": [
+            "_id",
+            "name"
+          ],
+          "sort": [
+            "name"
+          ],
+          "extendTo": "instances"
+        },
+        "title": "Authorized Organizational Unit",
+        "type": "string"
+        
+      },
       "deligateProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
@@ -1023,6 +1053,53 @@
         "title": "First Step",
         "type": "string"
         
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "2jrkeqdvvmom",
+    "docType": "class",
+    "title": "Propositions",
+    "description": "<p>Proposition</p>",
+    "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
+    "parentId": "nrioirgelhpi",
+    "pageId": "xpjvqoapcv3l",
+    "properties": {
+      "startDate": {
+        "title": "Start Date",
+        "type": "date",
+        "format": "date-time"
+      },
+      "endDate": {
+        "title": "End Date",
+        "type": "date",
+        "format": "date-time"
+      },
+      "processId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "mongoQuery": {
+          "selector": {
+            "classId": "dwl1kwhalwj4"
+          },
+          "fields": [
+            "_id",
+            "name"
+          ],
+          "sort": [
+            "name"
+          ],
+          "extendTo": "instances"
+        },
+        "title": "Process",
+        "type": "string"
+      },
+      "assetIds":{
+        "title": "Assets",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
       }
     },
     "type": "object"
@@ -1960,7 +2037,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
+              "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
               "weight": 1
             }
           ],
@@ -1975,25 +2052,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
+              "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
               "weight": 1
             }
           ],
-          "accounts": [
-            {
-              "permission": {
-                "actor": "eoscafeblock",
-                "permission": "claimrewards"
-              },
-              "weight": 1
-            }
-          ],
-          "waits": [
-            {
-              "wait_sec": "3600",
-              "weight": 1
-            }
-          ]
+          "accounts": [],
+          "waits": []
         }
       }
     ],
@@ -2038,10 +2102,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+              "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2051,7 +2117,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+              "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
               "weight": 1
             }
           ],
@@ -2074,10 +2140,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+              "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2087,7 +2155,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+              "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
               "weight": 1
             }
           ],
@@ -2110,10 +2178,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+              "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2123,7 +2193,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+              "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
               "weight": 1
             }
           ],
@@ -2146,10 +2216,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+              "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2159,7 +2231,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+              "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
               "weight": 1
             }
           ],
@@ -2182,10 +2254,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+              "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2195,7 +2269,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+              "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
               "weight": 1
             }
           ],
@@ -2206,7 +2280,7 @@
     ]
   },
   {
-    "_id": "demouser1116",
+    "_id": "demouser1121",
     "docType": "object",
     "name": "Nurse Two",
     "classId": "hdt3hmnsaghk",
@@ -2218,47 +2292,13 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
-              "weight": 1
-            }
-          ]
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+              "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
               "weight": 1
             }
           ],
           "accounts": [],
           "waits": []
         }
-      }
-    ]
-  },
-  {
-    "_id": "demouser1117",
-    "docType": "object",
-    "name": "Physician One",
-    "classId": "hdt3hmnsaghk",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
-              "weight": 1
-            }
-          ]
-        }
       },
       {
         "perm_name": "active",
@@ -2267,79 +2307,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
-  },
-  {
-    "_id": "demouser1118",
-    "docType": "object",
-    "name": "Physician Two",
-    "classId": "hdt3hmnsaghk",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
-              "weight": 1
-            }
-          ]
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
-  },
-  {
-    "_id": "demouser1119",
-    "docType": "object",
-    "name": "Consumer One",
-    "classId": "hdt3hmnsaghk",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
-              "weight": 1
-            }
-          ]
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "_id": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+              "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
               "weight": 1
             }
           ],
@@ -2352,7 +2320,7 @@
   {
     "_id": "demouser1122",
     "docType": "object",
-    "name": "Consumer Two",
+    "name": "Physician One",
     "classId": "hdt3hmnsaghk",
     "permissions": [
       {
@@ -2362,10 +2330,12 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
               "weight": 1
             }
-          ]
+          ],
+          "accounts": [],
+          "waits": []
         }
       },
       {
@@ -2375,7 +2345,7 @@
           "threshold": 1,
           "keys": [
             {
-              "_id": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
               "weight": 1
             }
           ],
@@ -2386,9 +2356,123 @@
     ]
   },
   {
-    "_id": "blockprocess",
+    "_id": "demouser1123",
     "docType": "object",
-    "name": "blockprocess.one",
+    "name": "Physician Two",
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "demouser1124",
+    "docType": "object",
+    "name": "Consumer One",
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "demouser1125",
+    "docType": "object",
+    "name": "Consumer Two",
+    "classId": "hdt3hmnsaghk",
+    "permissions": [
+      {
+        "perm_name": "owner",
+        "parent": "",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "keys": [
+            {
+              "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+              "weight": 1
+            }
+          ],
+          "accounts": [],
+          "waits": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "argonautvoya",
+    "docType": "object",
+    "name": "argonaut.voyage",
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: navy; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div><div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: blue; height: 300px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div>",
     "classId": "be1ub1vtofjo",
     "icon": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI0IiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGc+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJNIDEyLjQ3MjQzNSwwLjQ1NDUxNDU4IDEyLjY2MTgzNSwxNy4xNDk5NTcgMS41NzA5MjM4LDE4LjAwNzMzOCBaIi8+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJtIDE0LjI3NzY2NiwzLjMzMDI1MiAwLjQwNDE2MSwxMy41MjMyMzggOC4wMDgwMTYsMC41ODg2NDcgeiIvPgogICAgPHBhdGggZmlsbD0iIzgwODBmZiIgZD0iTSAwLjE0MTQwNTMyLDE5LjQ2MjE3OCA5LjY1MjUxNjMsMjMuODcyMTIyIDIzLjk3NjcxMSwxOC4zNjkxOTggWiIvPgogIDwvZz4KPC9zdmc+Cg==",
@@ -2410,7 +2494,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2426,7 +2512,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2451,12 +2539,32 @@
           "accounts": [
             {
               "permission": {
-                "actor": "blockprocess",
+                "actor": "argonautvoya",
                 "permission": "owner"
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "argonautvoya",
+                "permission": "active"
+              },
+              "weight": 1
+            }
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2478,12 +2586,32 @@
           "accounts": [
             {
               "permission": {
-                "actor": "blockprocess",
+                "actor": "argonautvoya",
                 "permission": "owner"
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
+        }
+      },
+      {
+        "perm_name": "active",
+        "parent": "owner",
+        "required_auth": {
+          "threshold": 1,
+          "accounts": [
+            {
+              "permission": {
+                "actor": "argonautvoya",
+                "permission": "active"
+              },
+              "weight": 1
+            }
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2495,9 +2623,6 @@
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>Client</div></div><p>The Neuralquest client</p>",
     "classId": "dasprps1lrwf",
     "ownerId": "clinic111111",
-    "authorizedForStateIds": [
-      "tfkyaytuac1g"
-    ],
     "permissions": [
       {
         "perm_name": "owner",
@@ -2512,7 +2637,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2528,7 +2655,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2540,9 +2669,6 @@
     "description": "<div class='nqSpanColumn' style='position: relative;'><img src='app/resources/img/Neuralquest/lefkasHome1.png' width='100%' height='100px'><div class='headline'>Server</div></div><p>The Neuralquest server</p>",
     "classId": "dasprps1lrwf",
     "ownerId": "clinic111111",
-    "authorizedForStateIds": [
-      "tfkyaytuac1g"
-    ],
     "permissions": [
       {
         "perm_name": "owner",
@@ -2557,7 +2683,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2575,7 +2703,7 @@
             },
             {
               "permission": {
-                "actor": "demouser1122",
+                "actor": "demouser1125",
                 "permission": "active"
               },
               "weight": 1
@@ -2589,12 +2717,14 @@
             },
             {
               "permission": {
-                "actor": "demouser1116",
+                "actor": "demouser1121",
                 "permission": "active"
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2605,10 +2735,7 @@
     "name": "Messaging",
     "description": "",
     "classId": "dasprps1lrwf",
-    "ownerId": "blockprocess",
-    "authorizedForStateIds": [
-      "oltp4kpj4fvi"
-    ],
+    "ownerId": "argonautvoya",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2618,12 +2745,14 @@
           "accounts": [
             {
               "permission": {
-                "actor": "blockprocess",
+                "actor": "argonautvoya",
                 "permission": "owner"
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2639,7 +2768,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2665,7 +2796,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2688,7 +2821,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2714,7 +2849,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       },
       {
@@ -2744,7 +2881,9 @@
               },
               "weight": 1
             }
-          ]
+          ],
+          "keys": [],
+          "waits": []
         }
       }
     ]
@@ -2802,7 +2941,7 @@
     "name": "Sucess",
     "description": "<p>Sucess</p>",
     "classId": "s41na42wsxez",
-    "ownerId": "blockprocess"
+    "ownerId": "argonautvoya"
   },
   {
     "_id": "zdwdoqpxks2s",
@@ -2832,7 +2971,7 @@
       "product escrow",
       "payment escrow"
     ],
-    "ownerId": "blockprocess"
+    "ownerId": "argonautvoya"
   },
   {
     "_id": "h15wtpxaetki",
@@ -2848,7 +2987,7 @@
     "execute": [
       "return payment"
     ],
-    "ownerId": "blockprocess"
+    "ownerId": "argonautvoya"
   },
   {
     "_id": "uqefmsegqvhs",
@@ -2913,6 +3052,7 @@
         "action": "happy"
       }
     ],
+    "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
   {
@@ -2943,6 +3083,7 @@
         "stepId": "pvk5ngmorf4z"
       }
     ],
+    "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
   {
@@ -2969,7 +3110,7 @@
     "name": "Initialize",
     "description": "<p>Initialize</p>",
     "classId": "1jrqyjoabx1a",
-    "ownerId": "blockprocess"
+    "ownerId": "argonautvoya"
   },
 
 
@@ -2980,7 +3121,7 @@
     "name": "Demo Menu Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Navigation Menu",
@@ -3020,7 +3161,7 @@
     "name": "Process Umiverse Model Tree Page",
     "classId": "pejdgrwd5qso",
     "divider": "Class Model",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Class Model",
@@ -3040,15 +3181,35 @@
     "name": "Process Model Tree Page",
     "classId": "pejdgrwd5qso",
     "divider": "Process Model",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
-        "name": "Process Model",
+        "name": "Propositions",
+        "widgets": [
+          {
+            "displayType": "Table",
+            "name": "Propositions Table",
+            "viewId": "g1q2rky4uxcb"
+          }
+        ]
+      },
+      {
+        "name": "Processes",
         "widgets": [
           {
             "displayType": "Tree",
-            "name": "Process Model Tree",
+            "name": "Process Tree",
             "viewId": "pepmfz4be5uu"
+          }
+        ]
+      },
+      {
+        "name": "Organization",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Organization Tree",
+            "viewId": "nmeh5awdy4jm"
           }
         ]
       }
@@ -3060,7 +3221,7 @@
     "name": "Organization Model Tree Page",
     "classId": "pejdgrwd5qso",
     "divider": "Organization",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Process Model",
@@ -3080,7 +3241,7 @@
     "name": "Class Model Page",
     "classId": "pejdgrwd5qso",
     "divider": "None",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Class Details",
@@ -3114,7 +3275,7 @@
     "docType": "object",
     "name": "Process Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Process Details",
@@ -3145,11 +3306,46 @@
     ]
   },
   {
+    "_id": "xpjvqoapcv3l",
+    "docType": "object",
+    "name": "Proposition Form Page",
+    "classId": "pejdgrwd5qso",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Proposition Details",
+        "widgets": [
+          {
+            "displayType": "Form",
+            "name": "Process",
+            "viewId": "2r2krfiy4p3b"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "2vnljdsieyjw",
     "docType": "object",
     "name": "Step Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Step Details",
@@ -3185,7 +3381,7 @@
     "name": "Off Balance Sheet Resources Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Resources Tree",
@@ -3204,7 +3400,7 @@
     "docType": "object",
     "name": "Menu Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Menu Details",
@@ -3239,7 +3435,7 @@
     "docType": "object",
     "name": "Page Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Page Details",
@@ -3274,7 +3470,7 @@
     "docType": "object",
     "name": "View Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "View Details",
@@ -3317,7 +3513,7 @@
     "docType": "object",
     "name": "Query Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Query Details",
@@ -3352,7 +3548,7 @@
     "docType": "object",
     "name": "Document Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Document Details",
@@ -3387,7 +3583,7 @@
     "docType": "object",
     "name": "User Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "User Details",
@@ -3422,7 +3618,7 @@
     "docType": "object",
     "name": "Organization Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Organization Details",
@@ -3457,7 +3653,7 @@
     "docType": "object",
     "name": "Organizational Unit Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Organizational Unit Details",
@@ -3493,7 +3689,7 @@
     "name": "Human Resources Form Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Members Table",
@@ -3512,7 +3708,7 @@
     "docType": "object",
     "name": "Planning Form Page",
     "classId": "pejdgrwd5qso",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Planing Calendar",
@@ -3532,7 +3728,7 @@
     "name": "Backlog Form Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "tabs": [
       {
         "name": "Backlog Table",
@@ -3556,7 +3752,7 @@
     "name": "Process Umiverse Tree View",
     "description": "<p>Descibes the class model hierarchy, including a children array</p>",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "queryId": "tllcmvjazmz2",
     "type": "object"
   },  
@@ -3566,8 +3762,23 @@
     "name": "Process Tree View",
     "description": "<p></p>",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "queryId": "sfmg5u3wtpds",
+    "type": "object"
+  },   
+  {
+    "_id": "g1q2rky4uxcb",
+    "docType": "object",
+    "name": "Proposition Table View",
+    "description": "<p></p>",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "f41heqslym5e",
+    "properties": {
+      "name": {},
+      "startDate": {}
+    },
+    "baseClassId": "2jrkeqdvvmom",
     "type": "object"
   },  
   {
@@ -3576,7 +3787,7 @@
     "name": "Organization Tree View",
     "description": "<p></p>",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "queryId": "vbinebvkz1sq",
     "type": "object"
   },
@@ -3585,7 +3796,7 @@
     "docType": "object",
     "name": "Class Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3685,7 +3896,7 @@
     "docType": "object",
     "name": "Process Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {},
       "name": {
@@ -3710,12 +3921,42 @@
     "type": "object"
   },
   {
+    "_id": "2r2krfiy4p3b",
+    "docType": "object",
+    "name": "Proposition Form View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "properties": {
+      "_id": {},
+      "name": {
+        "readOnly": false
+      },
+      "description": {
+        "readOnly": false
+      },
+      "startDate": {
+        "readOnly": false
+      },
+      "endDate": {
+        "readOnly": false
+      },
+      "processId": {
+        "readOnly": false
+      },
+      "assetIds":{
+        "readOnly": false
+      }
+    },
+    "baseClassId": "dwl1kwhalwj4",
+    "type": "object"
+  },
+  {
     "_id": "golecsaxijss",
     "docType": "object",
     "name": "Off Balance Sheet Resources Tree View",
     "description": "<p></p>",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "queryId": "szyxk43kmjsg",
     "type": "object"
   },
@@ -3724,7 +3965,7 @@
     "docType": "object",
     "name": "Step Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {},
       "name": {
@@ -3760,7 +4001,7 @@
     "docType": "object",
     "name": "Menu Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {},
       "name": {
@@ -3808,7 +4049,7 @@
     "docType": "object",
     "name": "Page Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3865,7 +4106,7 @@
     "docType": "object",
     "name": "View Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3898,7 +4139,7 @@
     "docType": "object",
     "name": "Query Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {
         "title": "_id",
@@ -3952,7 +4193,7 @@
     "docType": "object",
     "name": "Document Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "name": {
         "readOnly": false
@@ -3978,7 +4219,7 @@
     "docType": "object",
     "name": "Account Form View",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "properties": {
       "_id": {},
       "name": {
@@ -4027,7 +4268,7 @@
     "name": "Backlog View",
     "description": "<p></p>",
     "classId": "pylvseoljret",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "queryId": "seidi2adi4wf",
     "properties": {
       "_id": {},
@@ -4047,14 +4288,14 @@
     "docType": "object",
     "name": "Root Class Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "_id": "gzthjuyjca4s"
       },
@@ -4065,21 +4306,20 @@
         "properties",
         "parentId"
       ]
-    }
   },
   {
     "_id": "2jfs4is4icct",
     "docType": "object",
     "name": "Subclasses Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "parentId": "$fk"
       },
@@ -4093,34 +4333,32 @@
       "sort": [
         "title"
       ]
-    }
   },
   {
     "_id": "x1lrv2xdq2tu",
     "docType": "object",
     "name": "Objects Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
-    "mongoQuery": {
+    
       "selector": {
         "classId": "$fk"
       },
       "sort": [
         "name"
       ]
-    }
   },
   {
     "_id": "sfmg5u3wtpds",
     "docType": "object",
-    "name": "Processes Query",
+    "name": "Owned Processes Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "subQueryIds": [
       "aiw54neadp14"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "$and": [
           {"ownerId": "$fk" },
@@ -4134,19 +4372,38 @@
         "firstStepId",
         "returnActions"
       ]
-    }
+  },
+  {
+    "_id": "f41heqslym5e",
+    "docType": "object",
+    "name": "Owned Propositions Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",   
+      "selector": {
+        "$and": [
+          {"ownerId": "$fk" },
+          {"classId": "2jrkeqdvvmom" }
+        ]
+      },
+      "fields": [
+        "_id",
+        "name",
+        "startDate",
+        "endDate",
+        "processId"
+      ]
   },
   {
     "_id": "aiw54neadp14",
     "docType": "object",
     "name": "First Step Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "_id": "$firstStepId"
       },
@@ -4154,24 +4411,24 @@
         "_id",
         "name",
         "classId",
-        "nextStepIds"
+        "nextStepIds",
+        "authorizedOrgUnitId"
       ],
       "sort": [
         "name"
       ]
-    }
   },
   {
     "_id": "ybjrgmdjybzl",
     "docType": "object",
     "name": "Next Steps Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    "mongoQuery": {
+    
       "manyToOneArrayProp": "$nextStepIds",
       "selector": {
         "_id": "$stepId"
@@ -4180,24 +4437,24 @@
         "_id",
         "name",
         "classId",
-        "nextStepIds"
+        "nextStepIds",
+        "authorizedOrgUnitId"
       ],
       "sort": [
         "name"
       ]
-    }
   },
   {
     "_id": "vbinebvkz1sq",
     "docType": "object",
     "name": "Organization Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "subQueryIds": [
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "_id": "$fk"
       },
@@ -4210,19 +4467,18 @@
         "permissions",
         "icon"
       ]
-    }
   },
   {
     "_id": "o4jhldcqvbep",
     "docType": "object",
     "name": "Organizational Unit Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "subQueryIds": [
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
       },
@@ -4235,15 +4491,14 @@
         "icon"
       ],
       "sort": ["name"]
-    }
   },
   {
     "_id": "1dbriehwtyyp",
     "docType": "object",
     "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
-    "mongoQuery": {
+    "ownerId": "argonautvoya",
+    
       "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
       "selector": {
         "_id": "$permission.actor"
@@ -4259,21 +4514,20 @@
       "sort": [
         "name"
       ]
-    }
   },
   {
     "_id": "szyxk43kmjsg",
     "docType": "object",
     "name": "Off Balance Sheet Classes Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "parentId": "nrioirgelhpi"
       },
@@ -4284,21 +4538,20 @@
         "properties",
         "parentId"
       ]
-    }
   },
   {
     "_id": "kmcvgaw2jtjw",
     "docType": "object",
     "name": "Off Balance Sheet Subclasses Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "pageId": "24cnex2saye1",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    "mongoQuery": {
+    
       "selector": {
         "parentId": "$fk"
       },
@@ -4312,15 +4565,14 @@
       "sort": [
         "title"
       ]
-    }
   },
   {
     "_id": "u1pryedcjljz",
     "docType": "object",
     "name": "Off Balance Sheet Objects Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
-    "mongoQuery": {
+    "ownerId": "argonautvoya",
+    
       "selector": {
         "classId": "$fk"
       },
@@ -4334,22 +4586,20 @@
       "sort": [
         "name"
       ]
-    }
   },
   {
     "_id": "seidi2adi4wf",
     "docType": "object",
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "blockprocess",
-    "mongoQuery": {
+    "ownerId": "argonautvoya",
+    
       "selector": {
         "$and": [
           {"ownerId": "$fk" },
           {"classId": "w3mzeetidb5n" }
         ]
       }
-    }
   },
 
 
@@ -4361,7 +4611,7 @@
     "name": "Personal Menu",
     "description": "<p></p>",
     "classId": "inbumnx4vx5w",
-    "ownerId": "blockprocess",
+    "ownerId": "argonautvoya",
     "menuArr": [
       {
         "name": "Home",
@@ -4391,7 +4641,7 @@
             "pageId": "4q5nx5ek5gww"
           },
           {
-            "name": "App Resources",
+            "name": "Resources Tree",
             "pageId": "kdeacjjhiaym"
           }
         ]
@@ -4413,6 +4663,11 @@
       },
       {
         "name": "Front Desk",
+        "icon": "el-icon-s-custom",
+        "pageId": ""
+      },
+      {
+        "name": "Work Shop",
         "icon": "el-icon-s-custom",
         "pageId": ""
       },
@@ -4480,11 +4735,7 @@
             "pageId": "dsimhnp5euui"
           },
           {
-            "name": "Organization",
-            "pageId": "4q5nx5ek5gww"
-          },
-          {
-            "name": "App Resources",
+            "name": "Resources Tree",
             "pageId": "kdeacjjhiaym"
           }
         ]

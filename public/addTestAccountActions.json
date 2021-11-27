@@ -890,7 +890,7 @@
                     "accounts": [
                         {
                             "permission": {
-                                "actor": "blockprocess",
+                                "actor": "argonautvoya",
                                 "permission": "owner"
                             },
                             "weight": 1

@@ -115,7 +115,7 @@ export default {
   pouch: {
     pageObj: function() {
       return {
-        database: "blockprocess",
+        database: "argonautdb",
         selector: { _id: this.pageId },
         first: true,
       };

@@ -58,7 +58,7 @@ export default {
     dataObj: function () {
       if (this.value) {
         return {
-          database: "blockprocess",
+          database: "argonautdb",
           selector: { _id: this.value },
           first: true,
         };

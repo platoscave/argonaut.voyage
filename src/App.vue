@@ -37,7 +37,23 @@
         >
         </el-option>
       </el-select>
-      <div class="ar-right-align">blockprocess.one</div>
+      <div class="ar-right-align logo is-animetion">
+        <span>a</span>
+        <span>r</span>
+        <span>g</span>
+        <span>o</span>
+        <span>n</span>
+        <span>a</span>
+        <span>u</span>
+        <span>t</span>
+        <span>.</span>
+        <span>v</span>
+        <span>o</span>
+        <span>y</span>
+        <span>a</span>
+        <span>g</span>
+        <span>e</span>
+        </div>
     </div>
     <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
   </div>
@@ -64,7 +80,7 @@ export default {
   pouch: {
     users: function () {
       return {
-        database: "blockprocess",
+        database: "argonautdb",
         selector: { classId: "hdt3hmnsaghk" },
         fields: ["_id", "name"],
         sort: ["name"],
@@ -96,9 +112,9 @@ export default {
 
   mounted: async function () {
 
-    // If blockprocess is not filled yet, populate it from the static file
-    const blockprocess = new PouchDB("blockprocess");
-    let details = await blockprocess.info();
+    // If argonautdb is not filled yet, populate it from the static file
+    const argonautdb = new PouchDB("argonautdb");
+    let details = await argonautdb.info();
     if (details.doc_count == 0 && details.update_seq == 0) {
       await this.$refs["settingsDlg"].populateFromStatic();
     }
@@ -114,7 +130,7 @@ export default {
       })
     }
 
-    if (!window.location.hash) window.location.hash = "#/blockprocess.uhekisbbbjh5";
+    if (!window.location.hash) window.location.hash = "#/argonautvoya.uhekisbbbjh5";
   },
 };
 </script>
@@ -259,4 +275,35 @@ div.el-tooltip__popper.is-dark {
   transform: translateY(-50%);
   line-height: 100%;
 }
+
+/* Animante logo */
+.logo.is-animetion {
+  margin-top: 0.6em;
+}
+
+.logo.is-animetion span {
+  display: inline-block;
+  animation: wave-text 1s ease-in-out infinite;
+}
+
+.logo.is-animetion {
+  span:nth-of-type(1){ animation-delay: 0.0s; }
+  span:nth-of-type(2){ animation-delay: 0.1s; }
+  span:nth-of-type(3){ animation-delay: 0.2s; }
+  span:nth-of-type(4){ animation-delay: 0.3s; }
+  span:nth-of-type(5){ animation-delay: 0.4s; }
+}
+
+@keyframes wave-text{
+  00%{
+    transform: translateY(0em);
+  }
+  60%{
+    transform: translateY(-0.6em);
+  }
+  100%{
+    transform: translateY(0em);
+  }
+}
+
 </style>
