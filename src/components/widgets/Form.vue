@@ -19,19 +19,22 @@
       circle
       @click="formReadOnly = !formReadOnly"
     ></el-button>
+    <highlight-code lang="json" class="highlight-code">
+      {{ viewObj }}
+    </highlight-code>
   </div>
 </template>
 
 <script>
-import SubForm from "./controls/SubForm"
-import PoucdbServices from "../../services/pouchdbServices"
+import SubForm from "./controls/SubForm";
+import PoucdbServices from "../../services/pouchdbServices";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: "ar-form", 
-  mixins: [WidgetMixin], 
+  name: "ar-form",
+  mixins: [WidgetMixin],
   components: {
-    'ar-sub-form': SubForm
+    "ar-sub-form": SubForm,
   },
   props: {
     hashLevel: Number,
@@ -43,11 +46,11 @@ export default {
       formReadOnly: true,
       omitEmptyFields: false,
       valid: false,
-      viewObj: {}
+      viewObj: {},
     };
   },
   pouch: {
-    dataObj: function () {
+    dataObj: function() {
       return {
         database: "argonautdb",
         selector: { _id: this.selectedObjId },
@@ -58,35 +61,37 @@ export default {
   methods: {
     async onChange(newDataObj) {
       try {
-        const valid = await this.$refs["schemaForm"].validate()
-        console.log(valid)
-        this.$argonautdb.upsert(this.selectedObjId, () => {
-          return newDataObj
-        }).catch((err) =>
-          this.$message({ showClose: true, message: err, type: "error" })
-        );
+        const valid = await this.$refs["schemaForm"].validate();
+        console.log(valid);
+        this.$argonautdb
+          .upsert(this.selectedObjId, () => {
+            return newDataObj;
+          })
+          .catch((err) =>
+            this.$message({ showClose: true, message: err, type: "error" })
+          );
       } catch (err) {
         this.valid = false;
       }
     },
 
     async viewIdHandeler() {
-      if (this.viewId) this.viewObj = await PoucdbServices.getMaterializedView(this.viewId)
-      console.log('MaterializedView')
-      console.dir(this.viewObj)
-    }
+      if (this.viewId)
+        this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);
+      console.log("MaterializedView");
+      console.dir(this.viewObj);
+    },
   },
   watch: {
     // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
     // Thats why we need both mounted and watch
-    viewId: 'viewIdHandeler'
+    viewId: "viewIdHandeler",
   },
-  mounted: function (){
-    this.viewIdHandeler()
-  }
-}
+  mounted: function() {
+    this.viewIdHandeler();
+  },
+};
 </script>
-
 
 <style scoped>
 .fab {
@@ -103,4 +108,3 @@ export default {
   padding: 10px;
 }
 </style>
-

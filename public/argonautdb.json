@@ -1347,7 +1347,7 @@
     "_id": "q234ooehrk5v",
     "docType": "class",
     "title": "Mongo Queries",
-    "description": "<p>Queriwes used by views</p>",
+    "description": "<p>Queries used by views</p>",
     "parentId": "nrioirgelhpi",
     "pageId": "qcd1eefe432r",
     "properties": {
@@ -1362,28 +1362,21 @@
       },
       "subQueryIds": {
         "items": {
-          "properties": {
-            "queryId": {
-              "title": "Subquery",
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
-                  "classId": "q234ooehrk5v"
-                },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
-                "extendTo": "instances"
-              },
-              "type": "string"
-              
-            }
+          "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+          "mongoQuery": {
+            "selector": {
+              "classId": "q234ooehrk5v"
+            },
+            "fields": [
+              "_id",
+              "name"
+            ],
+            "sort": [
+              "name"
+            ],
+            "extendTo": "instances"
           },
-          "type": "object"
+          "type": "string"
         },
         "title": "Sub-Queries",
         "type": "array"
@@ -1407,37 +1400,32 @@
         "type": "string"
         
       },
-      "mongoQuery": {
-        "properties": {
-          "selector": {
-            "title": "Selector",
-            "properties": {}
-          },
-          "fields": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Fields",
-            "type": "array"
-          },
-          "sort": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Sort",
-            "type": "array"
-          },
-          "extendTo": {
-            "enum": [
-              "Instances",
-              "Subclasses"
-            ],
-            "title": "Extend To",
-            "type": "string"
-          }
+      "selector": {
+        "title": "Selector",
+        "properties": {}
+      },
+      "fields": {
+        "items": {
+          "type": "string"
         },
-        "title": "Mongo Query",
-        "type": "object"
+        "title": "Fields",
+        "type": "array"
+      },
+      "sort": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Sort",
+        "type": "array"
+      },
+      "extendTo": {
+        "enum": [
+          "None",
+          "Instances",
+          "Subclasses"
+        ],
+        "title": "Extend To",
+        "type": "string"
       }
     },
     "type": "object"
@@ -4157,31 +4145,23 @@
       "pageId": {
         "readOnly": false
       },
-      "mongoQuery": {
+      "selector": {
         "properties": {
-          "selector": {
-            "properties": {
-              "readOnly": false
-            }
-          },
-          "fields": {
-            "readOnly": false
-          },
-          "sort": {
-            "readOnly": false
-          },
-          "extendTo": {
-            "readOnly": false
-          }
+          "readOnly": false
         }
+      },
+      "fields": {
+        "readOnly": false
+      },
+      "sort": {
+        "readOnly": false
+      },
+      "extendTo": {
+        "readOnly": false
       },
       "subQueryIds": {
         "items": {
-          "properties": {
-            "queryId": {
-              "readOnly": false
-            }
-          }
+          "readOnly": false
         }
       }
     },

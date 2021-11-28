@@ -101,6 +101,9 @@ export default {
           message: "Static File Loaded and Imported",
           type: "success",
         });
+        // reload page
+        location.reload();
+        
       } catch (err) {
         console.error(err);
         this.$message({ message: err, type: "error" });
