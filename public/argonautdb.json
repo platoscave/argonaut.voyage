@@ -82,12 +82,12 @@
     "properties": {
       "startDate": {
         "title": "Request Date",
-        "type": "date"
+        "type": "string"
         
       },
       "expirationDate": {
         "title": "Expiration Date",
-        "type": "date"
+        "type": "string"
         
       },
       "amount": {
@@ -256,7 +256,7 @@
       "head_block_time": {
         "format": "date-time",
         "title": "Head Block Time",
-        "type": "date"
+        "type": "string"
         
       },
       "privileged": {
@@ -267,13 +267,13 @@
       "last_code_update": {
         "format": "date-time",
         "title": "Last Code Update",
-        "type": "date"
+        "type": "string"
         
       },
       "created": {
         "format": "date-time",
         "title": "Created",
-        "type": "date"
+        "type": "string"
         
       },
       "ram_quota": {
@@ -573,7 +573,7 @@
     "properties": {
       "stateDate": {
         "title": "Step Date",
-        "type": "date"
+        "type": "string"
         
       },
       "action": {
@@ -1016,25 +1016,6 @@
         "type": "array"
         
       },
-      "agreementClassId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
-            "classId": "i1gjptcb2skq"
-          },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
-          "extendTo": "instances"
-        },
-        "title": "Step",
-        "type": "string"
-        
-      },
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
@@ -1068,12 +1049,12 @@
     "properties": {
       "startDate": {
         "title": "Start Date",
-        "type": "date",
+        "type": "string",
         "format": "date-time"
       },
       "endDate": {
         "title": "End Date",
-        "type": "date",
+        "type": "string",
         "format": "date-time"
       },
       "processId": {
@@ -1097,6 +1078,18 @@
       "assetIds":{
         "title": "Assets",
         "items": {
+          "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+          "mongoQuery": {
+            "selector": {
+              "classId": "3ihg3mjdbqzv"
+            },
+            "fields": [
+              "_id",
+              "name"
+            ],
+            "extendTo": "instances"
+          },
+          "title": "Deligate to Process",
           "type": "string"
         },
         "type": "array"
@@ -2886,7 +2879,6 @@
     "name": "Messaging",
     "description": "<p>Service Request Process</p>",
     "classId": "dwl1kwhalwj4",
-    "agreementClassId": "w3mzeetidb5n",
     "returnActions": [
       "happy",
       "unhappy"
@@ -2900,7 +2892,6 @@
     "name": "Bicycle Shop Process",
     "description": "<p>Bicycle Shop Purchase Process</p>",
     "classId": "dwl1kwhalwj4",
-    "agreementClassId": "w3mzeetidb5n",
     "returnActions": [
       "happy",
       "unhappy"
@@ -2914,7 +2905,6 @@
     "name": "Purchase Process",
     "description": "<p>Purchase</p>",
     "classId": "dwl1kwhalwj4",
-    "agreementClassId": "w3mzeetidb5n",
     "returnActions": [
       "happy",
       "unhappy",
@@ -3010,6 +3000,7 @@
         "stepId": "h15wtpxaetki"
       }
     ],
+    "deligateProcessId": "h3q1vchxahoh",
     "ownerId": "bikeshop1111"
   },
   {
@@ -3893,9 +3884,6 @@
       "description": {
         "readOnly": false
       },
-      "agreementClassId": {
-        "readOnly": false
-      },
       "returnActions": {
         "items": {
           "readOnly": false
@@ -3935,7 +3923,7 @@
         "readOnly": false
       }
     },
-    "baseClassId": "dwl1kwhalwj4",
+    "baseClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
