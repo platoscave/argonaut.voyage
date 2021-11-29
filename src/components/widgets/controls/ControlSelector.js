@@ -26,7 +26,7 @@ export default {
         else if (property.mongoQuery) return 'ar-select-string-query'
 
         // Enumeration
-        else if (property.enum) return 'ar-select-string'
+        else if (property.enum) return 'ar-select-string-enum'
 
         // Date time
         else if (property.format === 'date-time') return 'el-date-picker'
@@ -51,17 +51,22 @@ export default {
       else if (property.type === 'array' && property.items) {
 
         // objects
-        if (property.items.type === 'object' && property.items.properties){
+        if (property.items.type === 'object' && property.items.properties) {
 
-          // objects in a subform
-          if (property.displayAs === 'Table') return 'ar-table-array'
           // objects in a table
+          if (property.displayAs === 'Table') return 'ar-table-array'
+          // objects in a subform
           else return 'ar-form-array'
 
         }
 
         // multi select
-        else if (property.items.type === 'string') return 'ar-select-array'
+        else if (property.items.type === 'string') {
+//debugger
+          if (property.items.mongoQuery) return 'ar-select-array-query'
+
+          else return 'ar-select-array-enum'
+        }
 
       }
 
@@ -83,7 +88,7 @@ export default {
       // note lowercase l
       if (propertyAttrs.minLength) context.data.attrs.minlength = propertyAttrs.minLength
       if (propertyAttrs.maxLength) context.data.attrs.maxlength = propertyAttrs.maxLength
-      if(schemaAttrs && schemaAttrs['show-word-limit']) context.data.props['show-word-limit'] = true
+      if (schemaAttrs && schemaAttrs['show-word-limit']) context.data.props['show-word-limit'] = true
     }
 
     return createElement(

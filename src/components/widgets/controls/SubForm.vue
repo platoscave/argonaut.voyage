@@ -57,7 +57,7 @@
 <script>
 /* eslint-disable vue/no-unused-components */
 import ControlSelector from "./ControlSelector";
-import SelectString from "./SelectString";
+import SelectStringEnum from "./SelectStringEnum";
 import Form from "./SubForm";
 import Image from "./Image";
 import Json from "./Json";
@@ -65,15 +65,16 @@ import NestedObject from "./NestedObject";
 import Number from "./Number";
 import FormArray from "./FormArray";
 import TableArray from "./TableArray";
+import SelectArrayEnum from "./SelectArrayEnum";
 import SelectStringQuery from './SelectStringQuery';
-import SelectArray from "./SelectArray";
+import SelectArrayQuery from './SelectArrayQuery';
 import Tiptap from "./TiptapEditor";
 
 export default {
   name: "ar-sub-form",
   components: {
     "ar-control-selector": ControlSelector,
-    "ar-select-string": SelectString,
+    "ar-select-string-enum": SelectStringEnum,
     "ar-sub-form": Form,
     "ar-image": Image,
     "ar-json": Json,
@@ -81,8 +82,9 @@ export default {
     "ar-number": Number,
     "ar-form-array": FormArray,
     "ar-table-array": TableArray,
+    "ar-select-array-enum": SelectArrayEnum,
     'ar-select-string-query': SelectStringQuery,
-    "ar-select-array": SelectArray,
+    'ar-select-array-query': SelectArrayQuery,
     "ar-tiptap": Tiptap,
   },
   props: {

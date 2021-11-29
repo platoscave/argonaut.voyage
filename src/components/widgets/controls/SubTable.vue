@@ -55,15 +55,16 @@
 /* eslint-disable vue/no-unused-components */
 import WidgetMixin from "../../../lib/widgetMixin";
 import ControlSelector from "./ControlSelector";
-import SelectString from "./SelectString";
+import SelectStringEnum from "./SelectStringEnum";
 import Form from "./SubForm";
 import Image from "./Image";
 import Json from "./Json";
 import NestedObject from "./NestedObject";
 import Number from "./Number";
 import FormArray from "./FormArray";
+import SelectArrayEnum from "./SelectArrayEnum";
 import SelectStringQuery from './SelectStringQuery';
-import SelectArray from "./SelectArray";
+import SelectArrayQuery from './SelectArrayQuery';
 import Tiptap from "./TiptapEditor";
 
 export default {
@@ -71,15 +72,16 @@ export default {
   mixins: [WidgetMixin],
   components: {
     "ar-control-selector": ControlSelector,
-    "ar-select-string": SelectString,
+    "ar-select-string-enum": SelectStringEnum,
     "ar-sub-form": Form,
     "ar-image": Image,
     "ar-json": Json,
     "ar-nested-object": NestedObject,
     "ar-number": Number,
     "ar-form-array": FormArray,
+    "ar-select-array-enum": SelectArrayEnum,
     'ar-select-string-query': SelectStringQuery,
-    "ar-select-array": SelectArray,
+    'ar-select-array-query': SelectArrayQuery,
     "ar-tiptap": Tiptap,
   },
   props: {

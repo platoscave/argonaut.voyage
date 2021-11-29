@@ -15,7 +15,13 @@
       :value="item"
     ></el-checkbox>
   </el-checkbox-group>
-  <el-select class="ar-multiple" v-else v-on:input="$emit('input', $event)" :value="value" multiple>
+  <el-select
+    class="ar-multiple"
+    v-else
+    v-on:input="$emit('input', $event)"
+    :value="value"
+    multiple
+  >
     <el-option
       v-for="item in property.items.enum"
       :key="item"
@@ -28,7 +34,7 @@
 
 <script>
 export default {
-  name: "ar-select-array",
+  name: "ar-select-array-enum",
   props: {
     value: {
       type: Array,
@@ -45,7 +51,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* Readonly div */
 .ar-readonly-div {
   background-color: #ffffff08;
@@ -80,7 +85,7 @@ export default {
 } */
 
 /* Fix multiselect */
-.ar-multiple >>>  .el-tag {
+.ar-multiple >>> .el-tag {
   background-color: #ffffff08;
 }
 .ar-multiple >>> .el-select__tags-text {
@@ -88,6 +93,6 @@ export default {
 }
 .ar-multiple >>> .el-icon-close {
   background-color: #ff4000a3;
-  color: #eee
+  color: #eee;
 }
 </style>

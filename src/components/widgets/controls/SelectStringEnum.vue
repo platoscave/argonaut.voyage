@@ -1,9 +1,6 @@
 <template>
-  <div
-    v-if="readonly || property.enum.length < 2"
-    class="ar-readonly-div"
-  >
-    {{value}}
+  <div v-if="readonly || property.enum.length < 2" class="ar-readonly-div">
+    {{ value }}
   </div>
 
   <el-radio-group
@@ -31,11 +28,11 @@
 
 <script>
 export default {
-  name: "ar-select-string",
+  name: "ar-select-string-enum",
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     property: {
       type: Object,
@@ -47,7 +44,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* Readonly div */
 .ar-readonly-div {
   background-color: #ffffff08;
