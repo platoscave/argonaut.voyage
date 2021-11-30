@@ -17,8 +17,8 @@ export default {
   },  
   props: {
     value: {
-      type: String,
-      default: '',
+      type: Object,
+      default: () => {},
     },
     property: {
       type: Object,

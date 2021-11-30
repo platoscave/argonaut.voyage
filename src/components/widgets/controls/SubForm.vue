@@ -40,6 +40,7 @@
           <ar-control-selector
             class="ar-control"
             v-on:input="newValue => $set(value, propertyName, newValue)"
+            v-on:change="$emit('change', value)"
             :property="property"
             :value="getValue(propertyName, property.type)"
             :readonly="formReadOnly || property.readOnly"
@@ -220,7 +221,7 @@ label.el-checkbox.ar-control {
   border-style: solid;
   border-width: 1px;
   font-size: 16px;
-  line-height: 30px;
+  line-height: 24px;
 }
 
 /* Select 
@@ -230,6 +231,21 @@ label.el-checkbox.ar-control {
   font-size: 16px;
   height: 30px;
 }*/
+
+/* Label height */
+.ar-json-schema-form >>> label {
+  line-height: 24px;
+}
+
+/* Item bottom margin */
+.ar-json-schema-form >>> .el-form-item  {
+  margin-bottom: 6px;
+}
+
+/* Description */
+.ar-json-schema-form >>> .el-form-item__content {
+  line-height: 24px;
+}
 
 /* Textarea */
 .ar-control >>> .el-textarea__inner {
@@ -248,8 +264,8 @@ label.el-checkbox.ar-control {
   border-radius: 4px;
   border-style: none;
   font-size: 16px;
-  line-height: 30px;
-  min-height: 30px;
+  line-height: 24px;
+  min-height: 24px;
 }
 
 /* Readonly border style */
