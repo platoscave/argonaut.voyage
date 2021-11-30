@@ -1,9 +1,6 @@
 <template>
-  <div
-    v-if="readonly || items.length < 2"
-    class="ar-readonly-div"
-  >
-    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : "" }}
+  <div v-if="readonly" class="ar-readonly-div">
+    {{ valueLabel }}
   </div>
   <el-radio-group
     v-else-if="items.length < 5"
@@ -13,15 +10,21 @@
     <el-radio
       v-for="item in items"
       :key="item._id"
-      :label="item.name ? item.name : item.title"
+      :label="item.label"
       :value="item._id"
     ></el-radio>
   </el-radio-group>
-  <el-select v-else class="ar-select" v-on:input="$emit('input', $event)" :value="value">
+  <el-select
+    v-else
+    class="ar-select"
+    v-on:input="$emit('input', $event)"
+    :value="value"
+    :clearable = "required ? false : true"
+  >
     <el-option
       v-for="item in items"
       :key="item._id"
-      :label="item.name ? item.name : item.title"
+      :label="item.label"
       :value="item._id"
     >
     </el-option>
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-import  PoucdbServices from "../../../services/pouchdbServices";
+import PoucdbServices from "../../../services/pouchdbServices";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -38,13 +41,13 @@ export default {
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     property: {
       type: Object,
       default: () => {},
     },
-    required: Boolean,    
+    required: Boolean,
     readonly: Boolean,
     hashLevel: Number,
   },
@@ -54,24 +57,22 @@ export default {
     };
   },
 
-  pouch: {
-    dataObj: function () {
-      if (this.value) {
-        return {
-          database: "argonautdb",
-          selector: { _id: this.value },
-          first: true,
-        };
-      } else return "";
+  computed: {
+    // Get the label for the value
+    valueLabel: function() {
+      if (!this.value) return "";
+      let valueObj = this.items.find((obj) => {
+        return obj._id === this.value;
+      });
+      if (!valueObj) return this.value;
+      return valueObj.label;
     },
   },
+
   methods: {
     async propertyHandeler() {
       // Execute the query
       if (this.property && this.property.mongoQuery) {
-        //this.$pouch.debug.enable('*')
-        //console.log(PoucdbServices);
-        //debugger;
         this.items = await PoucdbServices.executeQuery(
           this.property.mongoQuery,
           { _id: this.selectedObjId }
@@ -79,19 +80,20 @@ export default {
       }
     },
   },
+
   watch: {
     // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
     // Thats why we need both mounted and watch
     property: "propertyHandeler",
   },
-  mounted: function () {
+
+  mounted: function() {
     this.propertyHandeler();
   },
 };
 </script>
 
 <style scoped>
-
 /* Readonly div */
 .ar-readonly-div {
   background-color: #ffffff08;

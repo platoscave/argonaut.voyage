@@ -186,10 +186,13 @@ div.el-tooltip__popper.is-dark {
   background-color: #ffffff08;
   border-color: #00adff42;
   font-size: 16px;
-  height: 30px;
+  height: 24px;
 }
 .ar-control > input[readonly] {
   border-style: none;
+}
+label{
+  line-height: 24px;
 }
 
 .ar-rodiv.ar-control {
@@ -200,6 +203,7 @@ div.el-tooltip__popper.is-dark {
   border-style: none;
   font-size: 16px;
   line-height: 30px;
+  margin-right: 10px;
 }
 
 /* Dark mode scroll bars */

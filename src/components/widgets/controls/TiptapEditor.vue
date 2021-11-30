@@ -279,7 +279,10 @@ export default {
     ToolbarButton
   },
   props: {
-    value: [String, Object],
+    value: {
+      type : [String, Object],
+      default: ""
+    },
     readonly: {
       type: Boolean,
       default: false,

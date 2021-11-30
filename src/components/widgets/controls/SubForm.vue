@@ -2,7 +2,7 @@
   <!-- :model and :rules are needed for validation rules -->
   <el-form
     ref="elementUiForm"
-    class="json-schema-form"
+    class="ar-json-schema-form"
     :model="this.value"
     :rules="validationRules"
     labelWidth="150px"
@@ -195,7 +195,7 @@ export default {
 </script>
 
 <style scoped>
-.json-schema-form {
+.ar-json-schema-form {
   max-width: 750px;
 }
 /* Input Control */
@@ -203,7 +203,7 @@ export default {
   background-color: #ffffff08;
   border-color: #00adff42;
   font-size: 16px;
-  height: 30px;
+  height: 24px;
 }
 /* TODO how do we get rid of hover? */
 .Xar-control >>> .el-input__inner:hover {

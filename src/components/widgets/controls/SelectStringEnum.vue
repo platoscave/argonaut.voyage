@@ -9,6 +9,7 @@
     :value="value"
   >
     <el-radio
+      class="ar-radio"
       v-for="item in property.enum"
       :key="item"
       :label="item"

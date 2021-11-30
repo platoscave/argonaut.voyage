@@ -1,6 +1,8 @@
 <template>
-  <div v-if="readonly || items.length < 2" class="ar-readonly-div">
-    {{ dataObj ? (dataObj.name ? dataObj.name : dataObj.title) : "" }}
+  <div v-if="readonly" class="ar-readonly-div">
+    <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
+      <div>{{item.label}}</div>
+    </div>
   </div>
   <el-checkbox-group
     v-else-if="items.length < 5"
@@ -40,8 +42,8 @@ export default {
   mixins: [WidgetMixin],
   props: {
     value: {
-      type: String,
-      default: "",
+      type: Array,
+      default: () => [],
     },
     property: {
       type: Object,
@@ -57,18 +59,19 @@ export default {
     };
   },
 
-  pouch: {
-    dataObj: function() {
-      if (this.value) {
-        return {
-          database: "argonautdb",
-          selector: { _id: this.value },
-          first: true,
-        };
-      } else return "";
+  computed: {
+
+    // Get the objs that have an _id in the value array so we have access to the label
+    filteredObjs: function() {
+      return this.items.filter((obj) => {
+        return this.value.includes(obj._id);
+      });
     },
+
   },
+
   methods: {
+
     async propertyHandeler() {
       // Execute the query
       if (this.property && this.property.items.mongoQuery) {
@@ -81,12 +84,15 @@ export default {
         );
       }
     },
+
   },
+
   watch: {
     // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
     // Thats why we need both mounted and watch
     property: "propertyHandeler",
   },
+
   mounted: function() {
     this.propertyHandeler();
   },

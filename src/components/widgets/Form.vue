@@ -3,7 +3,7 @@
     <!-- The form -->
     <ar-sub-form
       ref="schemaForm"
-      class="json-schema-form"
+      class="ar-json-schema-form"
       v-model="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
@@ -17,7 +17,7 @@
       class="fab"
       icon="el-icon-edit"
       circle
-      @click="formReadOnly = !formReadOnly"
+      @click="onEditButton"
     ></el-button>
     <highlight-code lang="json" class="highlight-code">
       {{ viewObj }}
@@ -81,6 +81,21 @@ export default {
       console.log("MaterializedView");
       console.dir(this.viewObj);
     },
+    onEditButton() {
+      if (this.formReadOnly) {
+        if (this.omitEmptyFields) {
+          this.omitEmptyFields = false;
+          this.formReadOnly = false;
+        }
+        else {
+          this.omitEmptyFields = true;
+          this.formReadOnly = true;
+        }
+      } else {
+        this.formReadOnly = true;
+        this.omitEmptyFields = false;
+      }
+    },
   },
   watch: {
     // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
@@ -103,7 +118,7 @@ export default {
   background: #e91e63;
   z-index: 20;
 }
-.json-schema-form {
+.ar-json-schema-form {
   max-width: 750px;
   padding: 10px;
 }

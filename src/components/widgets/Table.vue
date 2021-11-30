@@ -2,7 +2,7 @@
     <!-- The table -->
     <ar-sub-table
       ref="schemaTable"
-      class="json-schema-form"
+      class="ar-json-schema-form"
       v-model="tableData"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
