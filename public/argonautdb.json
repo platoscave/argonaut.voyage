@@ -1090,6 +1090,7 @@
       },
       "tabs": {
         "description": "",
+        "additionalItems": true,
         "items": {
           "additionalProperties": false,
           "properties": {
@@ -1128,6 +1129,7 @@
               
             },
             "widgets": {
+              "additionalItems": true,
               "items": {
                 "additionalProperties": false,
                 "properties": {
@@ -1519,17 +1521,66 @@
                     "title": "Icon",
                     "type": "string"
                     
+                  },
+
+                  "menuArr": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "placeholder": "Provide a name",
+                          "maxLength": 1000,
+                          "title": "Name",
+                          "type": "string"
+                          
+                        },
+                        "pageId": {
+                          "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                          "mongoQuery": {
+                            "selector": {
+                              "classId": "pejdgrwd5qso"
+                            },
+                            "fields": [
+                              "_id",
+                              "name"
+                            ],
+                            "sort": [
+                              "name"
+                            ],
+                            "extendTo": "Instances"
+                          },
+                          "title": "Page",
+                          "type": "string"
+                          
+                        },
+                        "icon": {
+                          "maxLength": 2000,
+                          "contentEncoding": "base64",
+                          "contentMediaType": "image/svg+xml",
+                          "minLength": 0,
+                          "title": "Icon",
+                          "type": "string"
+                          
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "title": "Menu Items",
+                    "additionalItems": true,
+                    "type": "array"
                   }
                 },
                 "type": "object"
               },
               "title": "Menu Items",
+              "additionalItems": true,
               "type": "array"
             }
           },
           "type": "object"
         },
         "title": "Menu Items",
+        "additionalItems": true,
         "type": "array"
       }
     },

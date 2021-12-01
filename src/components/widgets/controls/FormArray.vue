@@ -6,11 +6,11 @@
       :key="idx"
       :class="{
         'ar-subform-background': true,
-        'not-readonly': !readonly && property.additionalItems,
+        'not-readonly': !formReadOnly && property.additionalItems,
       }"
     >
       <ar-sub-form
-        :draggable="!readonly && property.additionalItems"
+        :draggable="!formReadOnly && property.additionalItems"
         :properties="property.items.properties"
         :value="item"
         :requiredArr="property.required"
@@ -22,14 +22,14 @@
       ></ar-sub-form>
       <!-- Delete icon -->
       <i
-        v-if="!readonly && property.additionalItems"
+        v-if="!formReadOnly && property.additionalItems"
         class="el-icon-close"
         @click="value.splice(idx, 1)"
       ></i>
     </div>
     <!-- Add icon -->
     <i
-      v-if="!readonly && property.additionalItems"
+      v-if="!formReadOnly && property.additionalItems"
       class="el-icon-plus"
       @click="value.push({})"
     ></i>
@@ -53,6 +53,7 @@ export default {
     readonly: Boolean,
     formReadOnly: Boolean,
     omitEmptyFields: Boolean,
+    additionalItems: Boolean,
     hashLevel: Number,
   },
 };
