@@ -25,7 +25,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "subclasses"
+          "extendTo": "Subclasses"
         },
         "title": "Class",
         "type": "string"
@@ -113,7 +113,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Buyer",
         "type": "string"
@@ -131,7 +131,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Seller",
         "type": "string"
@@ -150,7 +150,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Asset",
         "type": "string"
@@ -169,7 +169,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Agreememt Process",
         "type": "string"
@@ -188,7 +188,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Step",
         "type": "string"
@@ -216,7 +216,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Page",
         "type": "string"
@@ -236,7 +236,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "type": "string"
         
@@ -594,7 +594,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Step",
         "type": "string"
@@ -613,7 +613,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Process",
         "type": "string"
@@ -642,7 +642,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Owner",
         "type": "string"
@@ -778,7 +778,6 @@
       "description": {
         "title": "What",
         "placeholder": "<p>[What do you do that is different?]</p>"
-        
       },
       "how": {
         "placeholder": "<p>[How do you achive your goal?]</p>",
@@ -787,7 +786,6 @@
         "minLength": 0,
         "title": "How",
         "type": "string"
-        
       },
       "why": {
         "placeholder": "<p>[Vision]</p>",
@@ -796,8 +794,7 @@
         "minLength": 0,
         "title": "Why",
         "type": "string"
-        
-      },
+      }
     },
     "type": "object",
     "pageId": "44yiclbxugop"
@@ -905,7 +902,7 @@
                 "sort": [
                   "name"
                 ],
-                "extendTo": "instances"
+                "extendTo": "Instances"
               },
               "title": "Step",
               "type": "string"
@@ -934,7 +931,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Authorized Organizational Unit",
         "type": "string"
@@ -953,7 +950,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Deligate to Process",
         "type": "string"
@@ -1000,7 +997,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "First Step",
         "type": "string"
@@ -1041,7 +1038,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Process",
         "type": "string"
@@ -1058,7 +1055,7 @@
               "_id",
               "name"
             ],
-            "extendTo": "instances"
+            "extendTo": "Instances"
           },
           "title": "Deligate to Process",
           "type": "string"
@@ -1124,7 +1121,7 @@
                 "sort": [
                   "name"
                 ],
-                "extendTo": "instances"
+                "extendTo": "Instances"
               },
               "title": "Page",
               "type": "string"
@@ -1185,7 +1182,7 @@
                       "sort": [
                         "name"
                       ],
-                      "extendTo": "instances"
+                      "extendTo": "Instances"
                     },
                     "title": "Page",
                     "type": "string"
@@ -1204,7 +1201,7 @@
                       "sort": [
                         "name"
                       ],
-                      "extendTo": "instances"
+                      "extendTo": "Instances"
                     },
                     "title": "View",
                     "type": "string"
@@ -1223,7 +1220,7 @@
                       "sort": [
                         "name"
                       ],
-                      "extendTo": "instances"
+                      "extendTo": "Instances"
                     },
                     "title": "Menu",
                     "type": "string"
@@ -1271,7 +1268,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "type": "string"
         
@@ -1290,7 +1287,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "type": "string"
         
@@ -1338,7 +1335,7 @@
             "sort": [
               "name"
             ],
-            "extendTo": "instances"
+            "extendTo": "Instances"
           },
           "type": "string"
         },
@@ -1358,7 +1355,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Page",
         "type": "string"
@@ -1387,9 +1384,11 @@
           "None",
           "Instances",
           "Subclasses",
-          "Properties"
+          "Properties",
+          "Id Array"
         ],
         "title": "Extend To",
+        "description": "<p><strong>Extend To</strong></p><ul><li><strong>Instances</strong>: Given a class, return all its objects, including subclasses objects.</li><li><strong>Subclasses</strong>: Given a class, return all its subclasses including itsself.</li><li><strong>Id Array</strong>: Given an object, return all of the object identified in the manyToOne array.</li></ul>",
         "type": "string"
       }
     },
@@ -1418,7 +1417,7 @@
                 "sort": [
                   "name"
                 ],
-                "extendTo": "instances"
+                "extendTo": "Instances"
               },
               "title": "Sub Ducument",
               "type": "string"
@@ -1467,7 +1466,7 @@
                 "sort": [
                   "name"
                 ],
-                "extendTo": "instances"
+                "extendTo": "Instances"
               },
               "title": "Page",
               "type": "string"
@@ -1506,7 +1505,7 @@
                       "sort": [
                         "name"
                       ],
-                      "extendTo": "instances"
+                      "extendTo": "Instances"
                     },
                     "title": "Page",
                     "type": "string"
@@ -1614,7 +1613,7 @@
                 "sort": [
                   "name"
                 ],
-                "extendTo": "instances"
+                "extendTo": "Instances"
               },
               "title": "Step",
               "type": "string"
@@ -1644,7 +1643,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "First Step",
         "type": "string"
@@ -3794,7 +3793,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Page",
         "type": "string",
@@ -3813,7 +3812,7 @@
           "sort": [
             "name"
           ],
-          "extendTo": "instances"
+          "extendTo": "Instances"
         },
         "title": "Super Class",
         "type": "string",

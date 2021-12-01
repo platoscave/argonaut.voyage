@@ -216,7 +216,7 @@ label.el-checkbox.ar-control {
   border-style: solid;
   border-width: 1px;
   font-size: 16px;
-  line-height: 30px;
+  line-height: 24px;
 }
 
 /* Select 
@@ -244,8 +244,8 @@ label.el-checkbox.ar-control {
   border-radius: 4px;
   border-style: none;
   font-size: 16px;
-  line-height: 30px;
-  min-height: 30px;
+  line-height: 24px;
+  min-height: 24px;
 }
 
 /* Readonly border style */

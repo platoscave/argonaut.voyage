@@ -225,7 +225,6 @@
     <editor-content
       class="editor-content"
       :editor="editor"
-      v-bind:value="value"
       v-on:input="$emit('input', $event)"
       v-on:inputjson="$emit('inputjson', $event)"
       v-on:change="$emit('change', $event)"
@@ -352,7 +351,13 @@ export default {
   watch: {
     // immediate: true doesn't work. Too early. Tiptap hasn't been initialized yet
     // Thats why we need both mounted and watch
-    readonly: 'readonlyHandeler'
+    readonly: 'readonlyHandeler',
+
+    value: {
+      handler(value) {
+        this.editor.setContent(value);
+      }
+    }
   },
   mounted: function (){
     this.readonlyHandeler()

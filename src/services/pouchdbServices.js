@@ -53,7 +53,7 @@ export default class PoucdbServices {
       // Execute the mongoQuery
       const results = await db.find(mongoQueryClone)
 
-      return results.docs.map( (item) => {
+      return results.docs.map((item) => {
         item.label = item.title ? item.title : item.name;
         if (mongoQuery.subQueryIds) {
           item.subQueryIds = mongoQuery.subQueryIds;
@@ -61,8 +61,8 @@ export default class PoucdbServices {
           //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
           item.isLeaf = false;
         }
-        else  item.isLeaf = true;
-          
+        else item.isLeaf = true;
+
         // If the query retreives an icon, use it. Otherwise use the query icon.
         if (!item.icon) item.icon = mongoQuery.icon;
         // If the query retreives a pageId, use it. Otherwise use the query pageId.
@@ -74,14 +74,14 @@ export default class PoucdbServices {
 
     const collectSubclasses = async (classId) => {
 
-      const subClasses = async classId =>{
-        let subClassesArr = await db.find( { selector: { parentId: classId }})
+      const subClasses = async classId => {
+        let subClassesArr = await db.find({ selector: { parentId: classId } })
         let promisses = []
-        subClassesArr.docs.forEach (subClass => {
+        subClassesArr.docs.forEach(subClass => {
           promisses.push(subClasses(subClass._id))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
-  
+
         let results = []
         results = results.concat(subClassesArr.docs, arrayOfResultArrays.flat())
         return results
@@ -89,7 +89,7 @@ export default class PoucdbServices {
 
       const rootClass = await db.get(classId)
       let results = await subClasses(classId)
-      results.splice(0,0,rootClass)
+      results.splice(0, 0, rootClass)
       return results
 
     }
@@ -102,7 +102,7 @@ export default class PoucdbServices {
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
     if (mongoQuery.manyToOneArrayProp) {
-      if(!nodeData) throw 'manyToOneArrayProp query must have a nodeData'
+      if (!nodeData) throw 'manyToOneArrayProp query must have a nodeData'
 
       const manyArr = getDescendantProp(mongoQuery.manyToOneArrayProp, nodeData)
       if (!manyArr) return []
@@ -113,8 +113,8 @@ export default class PoucdbServices {
       // TODO results may still have to be sorted
       return arrayOfResultArrays.flat()
 
-    } else if(mongoQuery.extendTo === 'instances') {
-      if(!mongoQuery.selector.classId) throw 'extendTo instances query must select with a classId'
+    } else if (mongoQuery.extendTo === 'Instances') {
+      if (!mongoQuery.selector.classId) throw 'extendTo Instances query must select a classId'
 
       const rootClassId = mongoQuery.selector.classId
       const subClasses = await collectSubclasses(rootClassId)
@@ -126,6 +126,21 @@ export default class PoucdbServices {
       const arrayOfResultArrays = await Promise.all(promiseArr)
       // TODO results may still have to be sorted
       return arrayOfResultArrays.flat()
+
+    } else if (mongoQuery.extendTo === 'Properties') {
+      // Do not use
+      // Unfortunatly this doesn't work. We need the class being selected by the query.
+      // This often involves nodeData to resolve query varialbles, which we don't have access to.
+
+      const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
+      
+      let resArray = []
+      for (let key in mergedAncestorProperties.properties) {
+        resArray.push({_id: key, label: key})
+      }
+
+      // TODO results may still have to be sorted
+      return resArray
 
     } else {
       // Otherwise just execute the query. 

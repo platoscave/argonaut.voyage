@@ -229,7 +229,7 @@ export default {
         const res = await PoucdbServices.executeQuery({
             database: "argonautdb",
             selector: { classId: "ikjyhlqewxs3" },
-            "extendTo": "instances"
+            "extendTo": "Instances"
         });
         console.log(res);
         this.$message({
