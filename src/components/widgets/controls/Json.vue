@@ -1,6 +1,7 @@
 <template>
   <ar-tiptap
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="'<pre><code>' + JSON.stringify(value, null, 2) + '</code></pre>'"
     :readonly="readonly"
   ></ar-tiptap>

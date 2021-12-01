@@ -38,6 +38,7 @@
         <ar-control-selector
           class="ar-control"
           v-on:input="(newValue) => $set(scope.row, propertyName, newValue)"
+          v-on:change="$emit('change', $event)"
           :property="property"
           :value="getValue(scope.row, propertyName, property.type)"
           :readonly="formReadOnly || property.readOnly"

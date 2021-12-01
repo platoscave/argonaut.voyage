@@ -1386,7 +1386,8 @@
         "enum": [
           "None",
           "Instances",
-          "Subclasses"
+          "Subclasses",
+          "Properties"
         ],
         "title": "Extend To",
         "type": "string"

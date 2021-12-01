@@ -18,6 +18,7 @@
         :omit-empty-fields="omitEmptyFields"
         :hash-level="hashLevel"
         v-on:input="$emit('input', $event)"
+        v-on:change="$emit('change', $event)"
       ></ar-sub-form>
       <!-- Delete icon -->
       <i

@@ -6,6 +6,7 @@
   <el-radio-group
     v-else-if="property.enum.length < 5"
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
   >
     <el-radio
@@ -16,7 +17,12 @@
       :value="item"
     ></el-radio>
   </el-radio-group>
-  <el-select v-else v-on:input="$emit('input', $event)" :value="value">
+  <el-select
+    v-else
+    v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
+    :value="value"
+  >
     <el-option
       v-for="item in property.enum"
       :key="item"

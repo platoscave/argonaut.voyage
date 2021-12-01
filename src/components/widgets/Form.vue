@@ -1,10 +1,12 @@
 <template>
   <div v-if="dataObj && viewObj">
     <!-- The form -->
+    <!-- .lazy update dataObj after onChange-->
+    <!-- v-on:change="onChange" -->
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
-      v-model="dataObj"
+      v-model.lazy="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
       :form-read-only="formReadOnly"
@@ -59,13 +61,16 @@ export default {
     },
   },
   methods: {
-    async onChange(newDataObj) {
+    async onChange() {
       try {
+        console.log(this.dataObj);
+
         const valid = await this.$refs["schemaForm"].validate();
         console.log(valid);
         this.$argonautdb
           .upsert(this.selectedObjId, () => {
-            return newDataObj;
+        debugger
+            return this.dataObj;
           })
           .catch((err) =>
             this.$message({ showClose: true, message: err, type: "error" })
@@ -78,8 +83,8 @@ export default {
     async viewIdHandeler() {
       if (this.viewId)
         this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);
-      console.log("MaterializedView");
-      console.dir(this.viewObj);
+      /* console.log("MaterializedView");
+      console.dir(this.viewObj); */
     },
     onEditButton() {
       if (this.formReadOnly) {
@@ -101,6 +106,11 @@ export default {
     // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
     // Thats why we need both mounted and watch
     viewId: "viewIdHandeler",
+
+/*     dataObj: {
+      handler: "onChange",
+      deep: true
+    } */
   },
   mounted: function() {
     this.viewIdHandeler();

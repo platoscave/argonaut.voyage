@@ -36,11 +36,14 @@
             - required is used by Select to optionaly add a 'not selected' option
             - hash-level is used by a Select with a mongoQuery (to get selectedObjectId from hash)
             - form-read-only and omit-empty-fields are passed in case we're creating a subForm
+            - Note that we are setting value here which is likely illigal, but it seems to work.
+              We are not even sending input events to our parent.
+              The alternative would be to $set a data item, and listen for changes, then send input events 
            -->
           <ar-control-selector
             class="ar-control"
             v-on:input="newValue => $set(value, propertyName, newValue)"
-            v-on:change="$emit('change', value)"
+            v-on:change="$emit('change', $event)"
             :property="property"
             :value="getValue(propertyName, property.type)"
             :readonly="formReadOnly || property.readOnly"

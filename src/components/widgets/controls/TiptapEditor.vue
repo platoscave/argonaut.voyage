@@ -228,6 +228,7 @@
       v-bind:value="value"
       v-on:input="$emit('input', $event)"
       v-on:inputjson="$emit('inputjson', $event)"
+      v-on:change="$emit('change', $event)"
     />
   </div>
 </template>

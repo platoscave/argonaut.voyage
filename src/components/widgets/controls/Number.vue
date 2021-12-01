@@ -6,6 +6,7 @@
   <el-input-number
     v-else
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
     :min="property.minimum"
     :max="property.maximum"

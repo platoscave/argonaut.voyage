@@ -5,6 +5,7 @@
     <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
       <ar-tiptap
         v-on:input="$emit('input', $event)"
+        v-on:change="$emit('change', $event)"
         :value="'<pre><code>' + svgMarkup + '</code></pre>'"
       ></ar-tiptap>
     </div>

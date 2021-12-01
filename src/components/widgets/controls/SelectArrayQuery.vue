@@ -7,6 +7,7 @@
   <el-checkbox-group
     v-else-if="items.length < 5"
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
   >
     <el-checkbox
@@ -20,6 +21,7 @@
     v-else
     class="ar-multiple"
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
     multiple
   >

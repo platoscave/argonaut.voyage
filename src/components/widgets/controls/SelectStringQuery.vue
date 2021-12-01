@@ -5,6 +5,7 @@
   <el-radio-group
     v-else-if="items.length < 5"
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
   >
     <el-radio
@@ -18,6 +19,7 @@
     v-else
     class="ar-select"
     v-on:input="$emit('input', $event)"
+    v-on:change="$emit('change', $event)"
     :value="value"
     :clearable = "required ? false : true"
   >
