@@ -68,9 +68,8 @@ export default {
         const valid = await this.$refs["schemaForm"].validate();
         console.log(valid);
         this.$argonautdb
-          .upsert(this.selectedObjId, () => {
-        debugger
-            return this.dataObj;
+          .upsert(this.selectedObjId, (doc) => {
+            return Object.assign(doc, this.dataObj);
           })
           .catch((err) =>
             this.$message({ showClose: true, message: err, type: "error" })
