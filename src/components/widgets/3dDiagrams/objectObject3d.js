@@ -35,7 +35,7 @@ export default class StepObject3d extends Object3D {
 
     //if(this._id !== '4caczktyxzm5') return
 
-    const fks = ['stepId', 'firstStepId', 'updaterId', 'processId', 'assetId', 'buyerId', 'sellerId', 'sellerProcessId', /* 'ownerId',  */'agreementClassId', 'viewId', /* 'pageId',  */'queryId', 'baseClassId', 'menuId']
+    const fks = ['stepId', 'firstStepId', 'updaterId', 'processId', 'assetId', 'consumerId', 'providerId', 'sellerProcessId', /* 'ownerId',  */'agreementClassId', 'viewId', /* 'pageId',  */'queryId', 'baseClassId', 'menuId']
 
     const drawAssocs = properties => {
       for (let key in properties) {

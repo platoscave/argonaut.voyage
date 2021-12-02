@@ -75,7 +75,7 @@ export default class PoucdbServices {
     const collectSubclasses = async (classId) => {
 
       const subClasses = async classId => {
-        let subClassesArr = await db.find({ selector: { parentId: classId } })
+        let subClassesArr = await db.find({ selector: { superClassId: classId } })
         let promisses = []
         subClassesArr.docs.forEach(subClass => {
           promisses.push(subClasses(subClass._id))
@@ -181,9 +181,9 @@ export default class PoucdbServices {
 
     const classObj = await db.get(_id)
 
-    if (classObj.parentId) {
+    if (classObj.superClassId) {
 
-      const parentClassObj = await this.getMergedAncestorProperties(classObj.parentId)
+      const parentClassObj = await this.getMergedAncestorProperties(classObj.superClassId)
       // Ovwewrite parentClassObj with this classObj and return the result
       this.deepMerge(parentClassObj, classObj)
       return parentClassObj

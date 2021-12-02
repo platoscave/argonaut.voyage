@@ -93,7 +93,7 @@ export default {
       const getProp = async (id, prop) => {
         const classObj = await this.$pouch.get(id);
         if (classObj[prop]) return classObj[prop];
-        return getProp(classObj.parentId, prop);
+        return getProp(classObj.superClassId, prop);
       };
       // For each resArr, Get PageId or Icon from item anscestors
       const getGetPropertyFromAnscetors = async (resArr, prop) => {

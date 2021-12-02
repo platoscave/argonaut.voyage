@@ -65,7 +65,7 @@ CONTRACT blockprocess : public contract {
     };
   */
 
-//    bool isA( name parentId, name saughtId );
+//    bool isA( name superClassId, name saughtId );
 
   public:
     using contract::contract;

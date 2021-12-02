@@ -78,7 +78,7 @@
     "docType": "class",
     "title": "Agreements",
     "description": "<p>Contracts between accounts about resources</p>",
-    "parentId": "gzthjuyjca4s",
+    "superClassId": "gzthjuyjca4s",
     "properties": {
       "startDate": {
         "title": "Request Date",
@@ -100,7 +100,7 @@
         "type": "string"
         
       },
-      "buyerId": {
+      "consumerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -118,7 +118,7 @@
         "title": "Buyer",
         "type": "string"
       },
-      "sellerId": {
+      "providerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -200,7 +200,7 @@
     "_id": "ikjyhlqewxs3",
     "docType": "class",
     "title": "Accounts",
-    "parentId": "gzthjuyjca4s",
+    "superClassId": "gzthjuyjca4s",
     "ownerId": "argonautvoya",
     "properties": {
       "pageId": {
@@ -569,7 +569,7 @@
     "docType": "class",
     "title": "Transactions",
     "description": "<p>Contracts between accounts about resources</p>",
-    "parentId": "gzthjuyjca4s",
+    "superClassId": "gzthjuyjca4s",
     "properties": {
       "stateDate": {
         "title": "Step Date",
@@ -627,7 +627,7 @@
     "docType": "class",
     "title": "Resources",
     "description": "<p>Things owned by users/organizations</p>",
-    "parentId": "gzthjuyjca4s",
+    "superClassId": "gzthjuyjca4s",
     "properties": {
       "ownerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -659,7 +659,7 @@
     "docType": "class",
     "title": "Repair",
     "description": "<p>Repair Agreements between owners</p>",
-    "parentId": "i1gjptcb2skq",
+    "superClassId": "i1gjptcb2skq",
     "type": "object"
   },
   {
@@ -667,7 +667,7 @@
     "docType": "class",
     "title": "Purchase",
     "description": "<p>Purchase Agreements between owners</p>",
-    "parentId": "i1gjptcb2skq",
+    "superClassId": "i1gjptcb2skq",
     "type": "object"
   },
   {
@@ -675,7 +675,7 @@
     "docType": "class",
     "title": "Rental",
     "description": "<p>Rental Agreements between owners</p>",
-    "parentId": "i1gjptcb2skq",
+    "superClassId": "i1gjptcb2skq",
     "type": "object"
   },
   {
@@ -683,7 +683,7 @@
     "docType": "class",
     "title": "Messaging",
     "description": "<p>Messaging Agreements between owners</p>",
-    "parentId": "i1gjptcb2skq",
+    "superClassId": "i1gjptcb2skq",
     "properties": {
       "classification": {
         "enum": [
@@ -703,7 +703,7 @@
     "docType": "class",
     "title": "Membership",
     "description": "<p>Menbership Agreements between user and organizations</p>",
-    "parentId": "i1gjptcb2skq",
+    "superClassId": "i1gjptcb2skq",
     "type": "object"
   },
 
@@ -754,7 +754,7 @@
     "title": "Organizational Units",
     "description": "<p>Organizational units owned by organizations</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODBDQUY3RkM2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODBDQUY3RkQ2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MENBRjdGQTY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MENBRjdGQjY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj6+XOUAAAGRSURBVHjafFK/T8JAFH7XHtFECg0xwZ3EOLnILOpWaqJ/gLOLf4B/ibuDm4NiKN1EnHFxk4RRogugwcHSu/PelcPSUl7ycnfvu/vej/uIEAIIIaDt4ublfhryE8YFJM00COSo0bg62zudB5EgbufXXfEtg4NAiPeY4xnjiMfv02QWxjn8BABvw1QBsFOK8JUEqioDwF7H6gCwOUyJXWI8aSkC0zTBklFSjAg0AxLkSYSvJBBs+nh52zvSQ1SZxf8QEY/fJ8lfkFaRbuvD7nal+9rrV2P4WHo/k+Bgv6YSCsHBMAzpJnDOpHN5z1AdPT13SGYLG5YFntesQoa57nE31cJDszmSqyobs2ptUEo/XcfZ8nz/IwzDcjQToqqZ7ceqAsaY7dbr8MtC/WmwZlJo+b56FARBue44KdxrtWyq1chDBl/DkcZhs1SaZ8J1GY7v5jMwcxQsKw96qHhe0EcGTnVfOUqhWCgsPNK/swpXBJPJpHPXaNR4TOc4TBlvz/C2xA+X4B2tgwXxLBFNJv4nwABEa91VFnwXcgAAAABJRU5ErkJggg==",
-    "parentId": "ikjyhlqewxs3",
+    "superClassId": "ikjyhlqewxs3",
     "pageId": "t2grmjaab5fn",
     "type": "object"
   },
@@ -764,7 +764,7 @@
     "title": "Users",
     "description": "<p>Users own resourses</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTI0OTU2Mjc1NDE0MTFFMUIxRUJDMTA5NzgzMTIzMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTI0OTU2Mjg1NDE0MTFFMUIxRUJDMTA5NzgzMTIzMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5MjQ5NTYyNTU0MTQxMUUxQjFFQkMxMDk3ODMxMjMyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MjQ5NTYyNjU0MTQxMUUxQjFFQkMxMDk3ODMxMjMyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuG7TDUAAAHRSURBVHjafFJNaBNREP7e/iUSNiQSLHrReC54yK0ieMq1B68etMSDCEJAFPSQmIM9KC1GjUiDiFfvgrZYC60imEvwJP60FyMSQ1LT/G2y09nNJm6STT4Yvpl5M+/NzxNEhAG27wXJ7CHBrrwQeMF8iXmJ+TlzQpKRP3fnn3DnwDIGspXRqbKuE5V0enOLucl8s29XNnSyzsdzJLhgmkD4FCtNQvw6Gw0T8SRzy0Q42gN6BsahuA27MuIEsgI7jhNDlk3MvkBYUcLA3u95vPp8BR3DhyO+OiLBMkq1KPxzNazlatc49InnDDbTAaLvoAePn5IbK9mHQz2be0RTZ+CUYb9sqzx6C7KqDnUM2MHkBdyFpnSG1cEZy6e7wE5GwJT8f0fec+/0fVqn8xcN/KmexMuPSRhcid/fxuWFVYSO/8CHZ12cTeEM5xS9t2DVTwqOHd3FjQtX0e5GoO6X8WVLw0/SYMqqtePi7BZsl8a1BeALNSAFAwid0NBqyHwkz17j/8YEXt8XUPhB1WcNEag26e3icv325MxcK3mX4m/7leUbyy+WA502U/b3jbGc9spRvLZgS7cvzowLmALJ00tjMgMja+TPEpsSVxhve4BDAQYA4h0NK1GHkjIAAAAASUVORK5CYII=",
-    "parentId": "ikjyhlqewxs3",
+    "superClassId": "ikjyhlqewxs3",
     "pageId": "z1wmobr423zh",
     "type": "object"
   },
@@ -773,7 +773,7 @@
     "docType": "class",
     "title": "Organizations",
     "description": "<p>Organizations owned by users/organizations</p>",
-    "parentId": "ikjyhlqewxs3",
+    "superClassId": "ikjyhlqewxs3",
     "properties": {
       "description": {
         "title": "What",
@@ -804,7 +804,7 @@
     "docType": "class",
     "title": "Balance Sheet",
     "description": "<p>Balance sheet owned by users/organizations</p>",
-    "parentId": "ync5iiwvtsf3",
+    "superClassId": "ync5iiwvtsf3",
     "properties": {
       "value": {
         "title": "Value",
@@ -828,7 +828,7 @@
     "docType": "class",
     "title": "Off Balance Sheet",
     "description": "<p>Other things owned by users/organizations</p>",
-    "parentId": "ync5iiwvtsf3",
+    "superClassId": "ync5iiwvtsf3",
     "type": "object"
   },
   {
@@ -836,7 +836,7 @@
     "docType": "class",
     "title": "Non-Profit",
     "description": "<p>Non-profit organizations</p>",
-    "parentId": "pae2bfbrab5n",
+    "superClassId": "pae2bfbrab5n",
     "type": "object"
   },
   {
@@ -844,7 +844,7 @@
     "docType": "class",
     "title": "Goverment",
     "description": "<p>Goverment</p>",
-    "parentId": "pae2bfbrab5n",
+    "superClassId": "pae2bfbrab5n",
     "type": "object"
   },
   {
@@ -852,7 +852,7 @@
     "docType": "class",
     "title": "Commercial",
     "description": "<p>Comercial organizations</p>",
-    "parentId": "pae2bfbrab5n",
+    "superClassId": "pae2bfbrab5n",
     "type": "object"
   },
   {
@@ -860,7 +860,7 @@
     "docType": "class",
     "title": "Assets",
     "description": "<p>Assets owned by users/organizations</p>",
-    "parentId": "5jdnjqxsqmgn",
+    "superClassId": "5jdnjqxsqmgn",
     "type": "object"
   },
   {
@@ -868,7 +868,7 @@
     "docType": "class",
     "title": "Liabilities and Stockholder's Equity",
     "description": "<p>Liabilities owned by users/organizations</p>",
-    "parentId": "5jdnjqxsqmgn",
+    "superClassId": "5jdnjqxsqmgn",
     "type": "object"
   },
   {
@@ -877,7 +877,7 @@
     "title": "Steps",
     "description": "<p>Steps</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "2vnljdsieyjw",
     "properties": {
       "nextStepIds": {
@@ -973,7 +973,7 @@
     "title": "Processes",
     "description": "<p>Processes</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "z2xnjsqcs5bj",
     "properties": {
       "returnActions": {
@@ -1012,7 +1012,7 @@
     "title": "Propositions",
     "description": "<p>Proposition</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "xpjvqoapcv3l",
     "properties": {
       "startDate": {
@@ -1071,7 +1071,7 @@
     "title": "Pages",
     "description": "<p>Describes the Tab-Widget-View Reference structure</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NUEzQUFDMTYxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NUEzQUFDMTcxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1QTNBQUMxNDEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1QTNBQUMxNTEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpD5Z40AAAHySURBVHjajJNRa1MxFMf/yc2USYsDVzbnupeCDz6OTmtvsW4vgjKtoqBFwYJ+i734vA8xFN/6YLu2K+vGNhl70TF9EfsFXEGQglbr1ptkSW7TVrStBy7JPSfnf345ScjynZU9IURcSgw0SgBC6R6lJNHrZ9wT8Rs3ZyGVAiGkv4BDsL524OpCveuY94uj1fRQqXyAhI7+naxdOok6VBUiklL6RpHcMwKzS1OYW4iilH+HxQcxaPF+JL6IIblrSZjX5CbYUiT8N8fG5se+JFbEUQ1RGFIR5Zj08xF9cQGXb82htPoet+9fsdwDmkpQWTtIMesQR8KMZ84zHP9sYXe3CkpJuwddIU0nhMS15CWMTo6AdSMEzaMmLj4J4epiDJHvEVNFWgHSUQAXAhNnQ/hW+QpmG6Y6a4Li2CdZzeaQTM7j3Pg4qp8/wdwTv3PmyCfcELiipo1GY6dYLMJxnD9QHz56jLc72zg1chqHX2pw4y5cN2HG2mHNh1FbYel0+pmajxUKhX0j0iZ6/eolnmYyptp0OIxsNtsRn56Z6Z5KuVw2k3q9vhUMBuc9z0MqlQLnXDVLdLbXeze0qC6Wz+e7TVQkzzWJcu7rf71AfwPfhxa2BNYUyXYgELhuqw9MJuTHv25KRJPg/4wTOewdD7ETAQYAteK9N9YYuvoAAAAASUVORK5CYII=",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "icfdprzi442m",
     "properties": {
       "divider": {
@@ -1249,7 +1249,7 @@
     "title": "Views",
     "description": "<p>Views are important. They determine who gets to see/update what.</p><p>These are some of the things we do with queries</p><ul><li>Retrieve a set of children</li><li>Provide an icon for the tree node based on queryName</li><li>Determine popup menu/toolbar/buttons options: add/delete/associate/disassociate/copy/deepcopy for the tree node/table row based on queryName</li><li>Determine when buttons are hidden/disabled based on authorization, selected subDoc, mutually exclusive properties</li><li>Provide filtering for tables/trees</li><li>Determine drop allowed for DnD, which associations/disassociation</li><li>Find tree path based on given node for tree expand: reverse navigation</li></ul><p>&nbsp;</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDQ2OENGNTYxMDdDMTFFM0FGOUJCRTk2Mzc1ODMxMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDQ2OENGNTcxMDdDMTFFM0FGOUJCRTk2Mzc1ODMxMjgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpENDY4Q0Y1NDEwN0MxMUUzQUY5QkJFOTYzNzU4MzEyOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpENDY4Q0Y1NTEwN0MxMUUzQUY5QkJFOTYzNzU4MzEyOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PnZsAM4AAAKZSURBVHjajFNbS1RRFP72OfuMMzqOTk5EIDqZQ0EzyNB46SXEsNGgMYp66WdUEoOUhZaO4m+IHnqT8PLSdJGgZtIoG80KHEMjKMHRYCTyXFv7xDEfurhhs1l7rfWd7/vWPqy6P72hGWalZVnYzWKMQZGlb7LE/CLmorkv0QTDNCH9p9mkLUsSesZnKiUmExgB6NRY5ea4nP4ETgjsL82Cn04IwydrIHpckAUfAWDB71ZwKOCFzGCj7iC8DSgADFHrcdlABmVMxkkCBa21btq12O1SqUchBsniOLjjXX5xEZBkmKYBYShjEj4uLaKwtmazEHeBQADxzlPQyS2Vvv6DKZAc71/OTCM1OACfrwIry8soKyvDemEdsaYWRBubcZTOQqFg1wqAZPE+NCZb28Z3nTkLhXN4vV7EGpvg8ZTauhVFgYu24nL9NpTY6STBFCY6l5MTY6RARm72NbZUFeEjEQSDQWQzz7cbReyYa9rCdgDEOzrwLJNFsK4OmqZi8/sm6utDCEciqPD5sEZeGLpu11ZbGzaAYMidsT1MPwAnBiNDKSrUYJJpnCtobWtDItGFifExzM/NwdJVXHQp0FxuizETXJF+IZyOt2M6m0Wk/QL2hxrsyX/+MIvixhLu3b2DEi4jcuIcqg9HIZEHX/JzeP+UZJdyViy/kUZ4ZAol9LiCkUZED3ixz+/BwYYWLORySC5X4W3uDeoojgbLsddfgtpwjEZOz//rtc7jm73xWP7m+ZimG5mFJ6NYJXFyBcfC1Cg0Xc+sXE/ExPmO4lWh28cx/3gUqqq9YjW3H2GLHsWl4iS6+4dDV7uvvLBMc4/ttSStD6SGmnt7kvnevlv1lJt2cqDcYGro2J/+HWGAMx1he+5fuZ8CDAD/Sv46ZbrYXQAAAABJRU5ErkJggg==",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "properties": {
       "properties": {
         "title": "Properties",
@@ -1311,7 +1311,7 @@
     "docType": "class",
     "title": "Mongo Queries",
     "description": "<p>Queries used by views</p>",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "qcd1eefe432r",
     "properties": {
       "icon": {
@@ -1401,7 +1401,7 @@
     "docType": "class",
     "title": "Paragraphs",
     "description": "<p>Ordinary HTML pages</p>",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "properties": {
       "subParagraphIds": {
         "items": {
@@ -1441,7 +1441,7 @@
     "docType": "class",
     "title": "Menus",
     "description": "<p>Custom Menus/p>",
-    "parentId": "nrioirgelhpi",
+    "superClassId": "nrioirgelhpi",
     "pageId": "ewpdfwn1bghg",
     "properties": {
       "menuArr": {
@@ -1591,7 +1591,7 @@
     "docType": "class",
     "title": "Intangible Assets",
     "description": "<p>Intangible Assets owned by users/organizations</p>",
-    "parentId": "3ihg3mjdbqzv",
+    "superClassId": "3ihg3mjdbqzv",
     "type": "object"
   },
   {
@@ -1599,7 +1599,7 @@
     "docType": "class",
     "title": "Investments",
     "description": "<p>Investments owned by users/organizations</p>",
-    "parentId": "3ihg3mjdbqzv",
+    "superClassId": "3ihg3mjdbqzv",
     "type": "object"
   },
   {
@@ -1607,7 +1607,7 @@
     "docType": "class",
     "title": "Property, Plant and Equipment",
     "description": "<p>Property, Plant and Equipment owned by users/organizations</p>",
-    "parentId": "3ihg3mjdbqzv",
+    "superClassId": "3ihg3mjdbqzv",
     "type": "object"
   },
   {
@@ -1615,7 +1615,7 @@
     "docType": "class",
     "title": "Current Assets",
     "description": "<p>Current Assets owned by users/organizations</p>",
-    "parentId": "3ihg3mjdbqzv",
+    "superClassId": "3ihg3mjdbqzv",
     "type": "object"
   },
   {
@@ -1623,7 +1623,7 @@
     "docType": "class",
     "title": "Stockholder's Equity",
     "description": "<p>Stockholder's Equity owned by users/organizations</p>",
-    "parentId": "sgefdtu1bttq",
+    "superClassId": "sgefdtu1bttq",
     "type": "object"
   },
   {
@@ -1631,7 +1631,7 @@
     "docType": "class",
     "title": "Liabilities",
     "description": "<p>Liabilities owned by users/organizations</p>",
-    "parentId": "sgefdtu1bttq",
+    "superClassId": "sgefdtu1bttq",
     "type": "object"
   },
   {
@@ -1640,7 +1640,7 @@
     "title": "Open",
     "description": "<p>Open</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
-    "parentId": "dlpwvptczyeb",
+    "superClassId": "dlpwvptczyeb",
     "properties": {
       "nextStepIds": {
         "items": {
@@ -1709,7 +1709,7 @@
     "title": "Closed",
     "description": "<p>Closed</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
-    "parentId": "dlpwvptczyeb",
+    "superClassId": "dlpwvptczyeb",
     "type": "object"
   },
   {
@@ -1717,7 +1717,7 @@
     "docType": "class",
     "title": "Goodwill",
     "description": "<p>Goodwill owned by users/organizations</p>",
-    "parentId": "3st1rw53qugx",
+    "superClassId": "3st1rw53qugx",
     "type": "object"
   },
   {
@@ -1725,7 +1725,7 @@
     "docType": "class",
     "title": "Trade Names",
     "description": "<p>Trade Names owned by users/organizations</p>",
-    "parentId": "3st1rw53qugx",
+    "superClassId": "3st1rw53qugx",
     "type": "object"
   },
   {
@@ -1733,7 +1733,7 @@
     "docType": "class",
     "title": "Equipment",
     "description": "<p>Equipment owned by users/organizations</p>",
-    "parentId": "xpra3jnokvas",
+    "superClassId": "xpra3jnokvas",
     "type": "object"
   },
   {
@@ -1741,7 +1741,7 @@
     "docType": "class",
     "title": "Land",
     "description": "<p>Land owned by users/organizations</p>",
-    "parentId": "xpra3jnokvas",
+    "superClassId": "xpra3jnokvas",
     "type": "object"
   },
   {
@@ -1749,7 +1749,7 @@
     "docType": "class",
     "title": "Less: Accum Deprecation",
     "description": "<p>Less: Accum Deprecation owned by users/organizations</p>",
-    "parentId": "xpra3jnokvas",
+    "superClassId": "xpra3jnokvas",
     "type": "object"
   },
   {
@@ -1757,7 +1757,7 @@
     "docType": "class",
     "title": "Land Improvements",
     "description": "<p>Land Improvements owned by users/organizations</p>",
-    "parentId": "xpra3jnokvas",
+    "superClassId": "xpra3jnokvas",
     "type": "object"
   },
   {
@@ -1765,7 +1765,7 @@
     "docType": "class",
     "title": "Buildings",
     "description": "<p>Buildings owned by users/organizations</p>",
-    "parentId": "xpra3jnokvas",
+    "superClassId": "xpra3jnokvas",
     "type": "object"
   },
   {
@@ -1773,7 +1773,7 @@
     "docType": "class",
     "title": "Petty Cash",
     "description": "<p>Petty Cash owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "type": "object"
   },
   {
@@ -1781,7 +1781,7 @@
     "docType": "class",
     "title": "Temporary Investments",
     "description": "<p>Temporary Investments owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "type": "object"
   },
   {
@@ -1789,7 +1789,7 @@
     "docType": "class",
     "title": "Prepaid Insurance",
     "description": "<p>Prepaid Insurance owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "type": "object"
   },
   {
@@ -1797,7 +1797,7 @@
     "docType": "class",
     "title": "Inventory",
     "description": "<p>Inventory owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "properties": {
       "imageUrl": {
         "format": "uri",
@@ -1816,7 +1816,7 @@
     "docType": "class",
     "title": "Accounts Receivible -net",
     "description": "<p>Accounts Receivible -net owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "type": "object"
   },
   {
@@ -1824,7 +1824,7 @@
     "docType": "class",
     "title": "Supplies",
     "description": "<p>Supplies owned by users/organizations</p>",
-    "parentId": "zbi1e31jzb1u",
+    "superClassId": "zbi1e31jzb1u",
     "type": "object"
   },
   {
@@ -1832,7 +1832,7 @@
     "docType": "class",
     "title": "Retained Earnings",
     "description": "<p>Retained Earnings owned by users/organizations</p>",
-    "parentId": "4r2rhlh4gvqw",
+    "superClassId": "4r2rhlh4gvqw",
     "type": "object"
   },
   {
@@ -1840,7 +1840,7 @@
     "docType": "class",
     "title": "Accum Other Comprehensive Income",
     "description": "<p>Accum Other Comprehensive Income owned by users/organizations</p>",
-    "parentId": "4r2rhlh4gvqw",
+    "superClassId": "4r2rhlh4gvqw",
     "type": "object"
   },
   {
@@ -1848,7 +1848,7 @@
     "docType": "class",
     "title": "Less: Treasury Stock",
     "description": "<p>Less: Treasury Stock owned by users/organizations</p>",
-    "parentId": "4r2rhlh4gvqw",
+    "superClassId": "4r2rhlh4gvqw",
     "type": "object"
   },
   {
@@ -1856,7 +1856,7 @@
     "docType": "class",
     "title": "Common Stock",
     "description": "<p>Common Stock owned by users/organizations</p>",
-    "parentId": "4r2rhlh4gvqw",
+    "superClassId": "4r2rhlh4gvqw",
     "type": "object"
   },
   {
@@ -1864,7 +1864,7 @@
     "docType": "class",
     "title": "Long-Term Libilities",
     "description": "<p>Long-Term Libilities owned by users/organizations</p>",
-    "parentId": "u4prbnlw4emq",
+    "superClassId": "u4prbnlw4emq",
     "type": "object"
   },
   {
@@ -1872,7 +1872,7 @@
     "docType": "class",
     "title": "Current Libilities",
     "description": "<p>Current Libilities owned by users/organizations</p>",
-    "parentId": "u4prbnlw4emq",
+    "superClassId": "u4prbnlw4emq",
     "type": "object"
   },
   {
@@ -1881,7 +1881,7 @@
     "title": "User Input",
     "description": "<p>User Input</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAuMDAwMDAwMDAwMDAwMDEiIGhlaWdodD0iNTAuMDAwMDAwMDAwMDAwMDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMDAwZmYiIGlkPSJzdmdfMSIgZD0ibTQ4Ljg4MiwyMi41ODVsLTQuMjcxLC0xLjQxMmMtMC4xNzYsLTAuOTA4IC0wLjQxNiwtMS44MDQgLTAuNzE0LC0yLjY3M2wyLjk5OCwtMy4zNjJsLTAuMjkyLC0wLjYwM2MtMC41MDYsLTEuMDQzIC0xLjA5NCwtMi4wNTkgLTEuNzQ2LC0zLjAxOGwtMC4zNzYsLTAuNTUzbC00LjM5MSwwLjkxNGMtMC42MDksLTAuNyAtMS4yNjksLTEuMzU5IC0xLjk2OCwtMS45NjlsMC45MTQsLTQuMzkxbC0wLjU1MywtMC4zNzZjLTAuOTYzLC0wLjY1NSAtMS45NzksLTEuMjQyIC0zLjAxNywtMS43NDVsLTAuNjAyLC0wLjI5MmwtMy4zNjQsMi45OTljLTAuODcxLC0wLjI5OSAtMS43NjYsLTAuNTM4IC0yLjY3MywtMC43MTRsLTEuNDEzLC00LjI3MWwtMC42NjYsLTAuMDQ5Yy0xLjE1NSwtMC4wODQgLTIuMzQsLTAuMDg0IC0zLjQ5NSwwbC0wLjY2NywwLjA0OGwtMS40MTMsNC4yNzJjLTAuOTA3LDAuMTc2IC0xLjgwMiwwLjQxNSAtMi42NzMsMC43MTRsLTMuMzYzLC0yLjk5OWwtMC42MDMsMC4yOTNjLTEuMDQ0LDAuNTA4IC0yLjA2LDEuMDk1IC0zLjAxNywxLjc0NmwtMC41NTMsMC4zNzdsMC45MTQsNC4zOWMtMC43LDAuNjA5IC0xLjM1OSwxLjI2OSAtMS45NjgsMS45NjhsLTQuMzksLTAuOTEzbC0wLjM3NiwwLjU1M2MtMC42NTMsMC45NiAtMS4yNDEsMS45NzUgLTEuNzQ3LDMuMDE4bC0wLjI5MiwwLjYwM2wyLjk5OCwzLjM2Yy0wLjI5OCwwLjg2OSAtMC41MzcsMS43NjQgLTAuNzEzLDIuNjczbC00LjI3MSwxLjQxMmwtMC4wNDksMC42NjdjLTAuMDQyLDAuNTc5IC0wLjA3LDEuMTU5IC0wLjA3LDEuNzQ4czAuMDI4LDEuMTY5IDAuMDcsMS43NDhsMC4wNDgsMC42NjdsNC4yNzEsMS40MTJjMC4xNzYsMC45MDggMC40MTYsMS44MDQgMC43MTQsMi42NzNsLTIuOTk4LDMuMzYybDAuMjkyLDAuNjAzYzAuNTA2LDEuMDQzIDEuMDk0LDIuMDU5IDEuNzQ2LDMuMDE4bDAuMzc2LDAuNTUzbDQuMzkxLC0wLjkxNGMwLjYwOSwwLjcgMS4yNjksMS4zNTkgMS45NjgsMS45NjlsLTAuOTE0LDQuMzkxbDAuNTUzLDAuMzc2YzAuOTYzLDAuNjU1IDEuOTc5LDEuMjQyIDMuMDE3LDEuNzQ1bDAuNjAyLDAuMjkybDMuMzYzLC0yLjk5N2MwLjg3MSwwLjI5OSAxLjc2NiwwLjUzOCAyLjY3MywwLjcxNGwxLjQxMyw0LjI3MWwwLjY2NywwLjA0OGMwLjU3OCwwLjA0MSAxLjE2LDAuMDY5IDEuNzQ4LDAuMDY5czEuMTcsLTAuMDI4IDEuNzQ4LC0wLjA3bDAuNjY3LC0wLjA0OGwxLjQxMiwtNC4yNzFjMC45MDksLTAuMTc2IDEuODA0LC0wLjQxNSAyLjY3MywtMC43MTRsMy4zNjMsMi45OTlsMC42MDMsLTAuMjkzYzEuMDQ0LC0wLjUwOCAyLjA2LC0xLjA5NSAzLjAxNywtMS43NDZsMC41NTMsLTAuMzc3bC0wLjkxNCwtNC4zOWMwLjcsLTAuNjA5IDEuMzU5LC0xLjI2OSAxLjk2OCwtMS45NjhsNC4zOSwwLjkxM2wwLjM3NiwtMC41NTNjMC42NTMsLTAuOTYgMS4yNDEsLTEuOTc1IDEuNzQ3LC0zLjAxOGwwLjI5MiwtMC42MDNsLTIuOTk5LC0zLjM2MWMwLjI5OCwtMC44NjkgMC41MzgsLTEuNzY1IDAuNzE0LC0yLjY3M2w0LjI3MSwtMS40MTJsMC4wNDgsLTAuNjY3YzAuMDQzLC0wLjU3OSAwLjA3MSwtMS4xNTkgMC4wNzEsLTEuNzQ4cy0wLjAyOCwtMS4xNjkgLTAuMDcsLTEuNzQ4bC0wLjA0OCwtMC42Njd6bS0xLjkwNiwzLjM1M2wtNC4xMzUsMS4zNjdsLTAuMDk4LDAuNTk5Yy0wLjE5MiwxLjE4NyAtMC41MDMsMi4zNTIgLTAuOTI0LDMuNDYybC0wLjIxNSwwLjU2N2wyLjg5OSwzLjI1MmMtMC4yODksMC41NTIgLTAuNjAxLDEuMDkyIC0wLjkzNiwxLjYxN2wtNC4yNDcsLTAuODg0bC0wLjM4NCwwLjQ2OWMtMC43NjEsMC45MyAtMS42MTksMS43ODcgLTIuNTQ5LDIuNTQ5bC0wLjQ2OSwwLjM4NGwwLjg4NCw0LjI0OGMtMC41MjQsMC4zMzMgLTEuMDY0LDAuNjQ2IC0xLjYxNiwwLjkzNmwtMy4yNTIsLTIuOWwtMC41NjcsMC4yMTZjLTEuMTExLDAuNDIxIC0yLjI3NSwwLjczMSAtMy40NjEsMC45MjRsLTAuNTk5LDAuMDk4bC0xLjM2Nyw0LjEzNWMtMC42MjIsMC4wMzEgLTEuMjU1LDAuMDMxIC0xLjg3NywwbC0xLjM2OCwtNC4xMzVsLTAuNTk5LC0wLjA5OGMtMS4xODMsLTAuMTkxIC0yLjM0NywtMC41MDMgLTMuNDYyLC0wLjkyNWwtMC41NjcsLTAuMjE0bC0zLjI1MywyLjg5OGMtMC41NDksLTAuMjg3IC0xLjA5LC0wLjYwMSAtMS42MTYsLTAuOTM2bDAuODg0LC00LjI0N2wtMC40NjksLTAuMzg0Yy0wLjkyOSwtMC43NjEgLTEuNzg3LC0xLjYxOCAtMi41NDgsLTIuNTQ5bC0wLjM4NCwtMC40N2wtNC4yNDgsMC44ODVjLTAuMzM0LC0wLjUyNSAtMC42NDcsLTEuMDY1IC0wLjkzNiwtMS42MTdsMi44OTksLTMuMjUybC0wLjIxNSwtMC41NjdjLTAuNDIxLC0xLjExIC0wLjczMiwtMi4yNzUgLTAuOTI0LC0zLjQ2MmwtMC4wOTgsLTAuNTk5bC00LjEzNSwtMS4zNjdjLTAuMDE1LC0wLjMxIC0wLjAyNCwtMC42MjMgLTAuMDI0LC0wLjkzOHMwLjAwOSwtMC42MjggMC4wMjQsLTAuOTM4bDQuMTM1LC0xLjM2N2wwLjA5OCwtMC41OTljMC4xOTIsLTEuMTg4IDAuNTAzLC0yLjM1MyAwLjkyNCwtMy40NjJsMC4yMTUsLTAuNTY3bC0yLjg5OSwtMy4yNTJjMC4yODksLTAuNTUyIDAuNjAxLC0xLjA5MiAwLjkzNiwtMS42MTdsNC4yNDcsMC44ODRsMC4zODQsLTAuNDY5YzAuNzYxLC0wLjkzIDEuNjE5LC0xLjc4NyAyLjU0OSwtMi41NDlsMC40NjksLTAuMzg0bC0wLjg4NCwtNC4yNDhjMC41MjQsLTAuMzMzIDEuMDY0LC0wLjY0NiAxLjYxNiwtMC45MzZsMy4yNTIsMi44OTlsMC41NjcsLTAuMjE0YzEuMTE1LC0wLjQyMiAyLjI4LC0wLjczMyAzLjQ2MiwtMC45MjVsMC41OTksLTAuMDk4bDEuMzY3LC00LjEzNWMwLjYyMiwtMC4wMzEgMS4yNTUsLTAuMDMxIDEuODc3LDBsMS4zNjgsNC4xMzVsMC41OTksMC4wOThjMS4xODMsMC4xOTEgMi4zNDcsMC41MDMgMy40NjIsMC45MjVsMC41NjcsMC4yMTRsMy4yNTMsLTIuODk4YzAuNTQ5LDAuMjg3IDEuMDksMC42MDEgMS42MTYsMC45MzZsLTAuODg0LDQuMjQ3bDAuNDY5LDAuMzg0YzAuOTI5LDAuNzYxIDEuNzg3LDEuNjE4IDIuNTQ4LDIuNTQ5bDAuMzg0LDAuNDdsNC4yNDgsLTAuODg1YzAuMzM0LDAuNTI1IDAuNjQ3LDEuMDY1IDAuOTM2LDEuNjE3bC0yLjg5OSwzLjI1MmwwLjIxNSwwLjU2N2MwLjQyMSwxLjExIDAuNzMyLDIuMjc1IDAuOTI0LDMuNDYybDAuMDk4LDAuNTk5bDQuMTM1LDEuMzY3YzAuMDE0LDAuMzEgMC4wMjMsMC42MjMgMC4wMjMsMC45MzhzLTAuMDA5LDAuNjI4IC0wLjAyNCwwLjkzOHoiLz4KICA8cGF0aCBmaWxsPSIjMDAwMGZmIiBpZD0ic3ZnXzIiIGQ9Im0yNSwxNWMtOC42ODYsMCAtMTUuNTE1LDkuMDE4IC0xNS44MDEsOS40MDJsLTAuNDQ3LDAuNTk4bDAuNDQ2LDAuNTk4YzAuMjg3LDAuMzg0IDcuMTE2LDkuNDAyIDE1LjgwMiw5LjQwMnMxNS41MTUsLTkuMDE4IDE1LjgwMSwtOS40MDJsMC40NDcsLTAuNTk4bC0wLjQ0NiwtMC41OThjLTAuMjg3LC0wLjM4NCAtNy4xMTYsLTkuNDAyIC0xNS44MDIsLTkuNDAyem0wLDE4Yy02LjQ3MSwwIC0xMi4wNzYsLTYuMDQ5IC0xMy43MTUsLThjMS42NCwtMS45NTEgNy4yNDUsLTggMTMuNzE1LC04czEyLjA3Niw2LjA0OSAxMy43MTUsOGMtMS42MzksMS45NTEgLTcuMjQ0LDggLTEzLjcxNSw4eiIvPgogIDxwYXRoIGZpbGw9IiMwMDAwZmYiIGlkPSJzdmdfMyIgZD0ibTI1LDE5Yy0zLjMwOSwwIC02LDIuNjkxIC02LDZzMi42OTEsNiA2LDZzNiwtMi42OTEgNiwtNnMtMi42OTEsLTYgLTYsLTZ6bTAsMTBjLTIuMjA2LDAgLTQsLTEuNzk0IC00LC00czEuNzk0LC00IDQsLTRzNCwxLjc5NCA0LDRzLTEuNzk0LDQgLTQsNHoiLz4KIDwvZz4KPC9zdmc+",
-    "parentId": "1jrqyjoabx1a",
+    "superClassId": "1jrqyjoabx1a",
     "type": "object"
   },
   {
@@ -1890,7 +1890,7 @@
     "title": "Execute",
     "description": "<p>Execute</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiNiZjAwMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "1jrqyjoabx1a",
+    "superClassId": "1jrqyjoabx1a",
     "properties": {
       "execute": {
         "items": {
@@ -1909,7 +1909,7 @@
     "title": "Delegate",
     "description": "<p>Delegate</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiNmZmU1MDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "1jrqyjoabx1a",
+    "superClassId": "1jrqyjoabx1a",
     "type": "object"
   },
   {
@@ -1917,7 +1917,7 @@
     "docType": "class",
     "title": "Taxes Payable",
     "description": "<p>Taxes Payable owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1925,7 +1925,7 @@
     "docType": "class",
     "title": "Accounts Payable",
     "description": "<p>Accounts Payable owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1933,7 +1933,7 @@
     "docType": "class",
     "title": "Wages Payable",
     "description": "<p>Wages Payable owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1941,7 +1941,7 @@
     "docType": "class",
     "title": "Waranty Liability",
     "description": "<p>Waranty Liability owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1949,7 +1949,7 @@
     "docType": "class",
     "title": "Notes Payable",
     "description": "<p>Notes Payable owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1957,7 +1957,7 @@
     "docType": "class",
     "title": "Intrest Payable",
     "description": "<p>Intrest Payable owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1965,7 +1965,7 @@
     "docType": "class",
     "title": "Unearned Revenues",
     "description": "<p>Unearned Revenues owned by users/organizations</p>",
-    "parentId": "yiajzp3bwqsc",
+    "superClassId": "yiajzp3bwqsc",
     "type": "object"
   },
   {
@@ -1973,7 +1973,7 @@
     "docType": "class",
     "title": "Bonds Payable",
     "description": "<p>Bonds Payable owned by users/organizations</p>",
-    "parentId": "thrjrlfgcjrt",
+    "superClassId": "thrjrlfgcjrt",
     "type": "object"
   },
   {
@@ -1981,7 +1981,7 @@
     "docType": "class",
     "title": "Notes Payable",
     "description": "<p>Notes Payable owned by users/organizations</p>",
-    "parentId": "thrjrlfgcjrt",
+    "superClassId": "thrjrlfgcjrt",
     "type": "object"
   },
   {
@@ -1990,7 +1990,7 @@
     "title": "Seller States",
     "description": "<p>Seller</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiM2NDk1ZWQiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "ahp433id2bo3",
+    "superClassId": "ahp433id2bo3",
     "type": "object"
   },
   {
@@ -1999,7 +1999,7 @@
     "title": "Buyer States",
     "description": "<p>Buyer</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGNjMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
-    "parentId": "ahp433id2bo3",
+    "superClassId": "ahp433id2bo3",
     "type": "object"
   },
 
@@ -3850,7 +3850,7 @@
         "type": "string",
         "readOnly": false
       },
-      "parentId": {
+      "superClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "mongoQuery": {
           "selector": {
@@ -4257,7 +4257,7 @@
     "properties": {
       "_id": {},
       "currentStepId": {},
-      "buyerId": {},
+      "consumerId": {},
       "name": {},
       "startDate": {}
     },
@@ -4288,7 +4288,7 @@
         "title",
         "docType",
         "properties",
-        "parentId"
+        "superClassId"
       ]
   },
   {
@@ -4305,14 +4305,14 @@
     ],
     
       "selector": {
-        "parentId": "$fk"
+        "superClassId": "$fk"
       },
       "fields": [
         "_id",
         "title",
         "docType",
         "properties",
-        "parentId"
+        "superClassId"
       ],
       "sort": [
         "title"
@@ -4513,14 +4513,14 @@
     ],
     
       "selector": {
-        "parentId": "nrioirgelhpi"
+        "superClassId": "nrioirgelhpi"
       },
       "fields": [
         "_id",
         "title",
         "docType",
         "properties",
-        "parentId"
+        "superClassId"
       ]
   },
   {
@@ -4537,14 +4537,14 @@
     ],
     
       "selector": {
-        "parentId": "$fk"
+        "superClassId": "$fk"
       },
       "fields": [
         "_id",
         "title",
         "docType",
         "properties",
-        "parentId"
+        "superClassId"
       ],
       "sort": [
         "title"
@@ -4743,8 +4743,8 @@
     "currency": "EUR",
     "startDate": "2021-05-10",
     "expirationDate": {},
-    "buyerId": "demouser1124",
-    "sellerId": "demouser1123",
+    "consumerId": "demouser1124",
+    "providerId": "demouser1123",
     "assetId": "",
     "processId": "cie1pllxq5mu",
     "currentStepId": "oltp4kpj4fvi"

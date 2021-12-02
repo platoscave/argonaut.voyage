@@ -84,7 +84,7 @@ export default {
         await this.$pouch.bulkDocs(argonautData);
         await this.$pouch.createIndex({
           index: {
-            fields: ["parentId", "title"],
+            fields: ["superClassId", "title"],
           },
         });
         await this.$pouch.createIndex({

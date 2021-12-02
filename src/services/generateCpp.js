@@ -11,8 +11,8 @@ class GenerateCpp {
         // Recusivly merge all the ancestor classes, starting with the root. Sub class properties take precedence over parent class
         /* const getMergeAncestorClasses = async classId => {
             let classObj = await store.dispatch("getCommonByKey", classId)
-            if (classObj.parentId) {
-                let parentClassObj = await getMergeAncestorClasses(classObj.parentId)
+            if (classObj.superClassId) {
+                let parentClassObj = await getMergeAncestorClasses(classObj.superClassId)
                 return _.mergeWith(parentClassObj, classObj, (a, b) => {
                     if (_.isArray(a)) return a.concat(b) // Arrays must be concanated instead of merged
                 })

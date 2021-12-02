@@ -37,7 +37,7 @@ ACTION blockprocess::upsert(upsert_str payload) {
 
  
   auto classId = name(".............");
-  auto parentId = name(".............");
+  auto superClassId = name(".............");
  
 /*
   if(_id != name("gzthjuyjca4s")){ // Exception for the root
@@ -51,14 +51,14 @@ ACTION blockprocess::upsert(upsert_str payload) {
       // Collect schema from classes
       // Validate document
     }
-    else if(parsedJson.HasMember("parentId")) {
+    else if(parsedJson.HasMember("superClassId")) {
       // Use the value from payload as foreign key
-      parentId = name(parsedJson["parentId"].GetString());
+      superClassId = name(parsedJson["superClassId"].GetString());
       // Make sure the foreigne key exsits
-      auto docs_iter = doc_tbl.find( parentId.value );
-      check( docs_iter != doc_tbl.end(), "parentId not found: " + payload.document);
+      auto docs_iter = doc_tbl.find( superClassId.value );
+      check( docs_iter != doc_tbl.end(), "superClassId not found: " + payload.document);
     }
-    else check( false, "Must have either parentId or classId: " + payload.document);
+    else check( false, "Must have either superClassId or classId: " + payload.document);
   }
   
 */
@@ -69,14 +69,14 @@ ACTION blockprocess::upsert(upsert_str payload) {
     // [&]: labda function, annomonus
     doc_tbl.emplace(username, [&]( auto& new_doc ) {
       new_doc._id = _id;
-      new_doc.parentid = parentId;
+      new_doc.parentid = superClassId;
       new_doc.classid = classId;
       new_doc.document = payload.document;
     });
   }
   else {
     doc_tbl.modify( docs_iter, _self, [&]( auto& existing_doc ) {
-      existing_doc.parentid = parentId;
+      existing_doc.parentid = superClassId;
       existing_doc.classid = classId;
       existing_doc.document = payload.document;
     });
@@ -278,7 +278,7 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
     
 }
 
-// Recusivly get the document. Check to see if the parentId equals saughtId.
+// Recusivly get the document. Check to see if the superClassId equals saughtId.
 bool blockprocess::isA ( name _id, name saughtId ) {
   auto iterator = doc_tbl.find( _id.value );
   check(iterator != doc_tbl.end(), "_id could not be found: " + _id.to_string());

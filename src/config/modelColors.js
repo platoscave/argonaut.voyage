@@ -41,11 +41,11 @@ module.exports = {
     color: 0x31b17a,
     depth: 5
   }, 
-  buyerId: {
+  consumerId: {
     color: 0xdbdb58,
     depth: 6
   }, 
-  sellerId: {
+  providerId: {
     color: 0x88e5d7,
     depth: 7
   }, 

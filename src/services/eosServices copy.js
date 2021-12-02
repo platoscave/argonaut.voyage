@@ -241,9 +241,9 @@ class EosApiService {
         const isA = async (objId, classId) => {
             const testSuperClass = async superclassId => {
                 const superclass = await this.getCommonByKey(store, superclassId)
-                if (!superclass.parentId) return false // we are at the root
-                if (superclass.parentId === classId) return true
-                return await testSuperClass(superclass.parentId)
+                if (!superclass.superClassId) return false // we are at the root
+                if (superclass.superClassId === classId) return true
+                return await testSuperClass(superclass.superClassId)
             }
 
             const obj = await this.getCommonByKey(store, objId)
@@ -262,7 +262,7 @@ class EosApiService {
 
             let index = 0
             if (indexName === 'key') index = 'first'
-            else if (indexName === 'parentId') index = 'second'
+            else if (indexName === 'superClassId') index = 'second'
             else if (indexName === 'classId') index = 'third'
             else throw 'Add index: ' + indexName
 
@@ -324,7 +324,7 @@ class EosApiService {
         const network = store.state.network;
         const rpc = new JsonRpc(networks[network].endpoint);
         
-        // const sellerOrgunitAccounts = await rpc.get_controlled_accounts(agreementObj.sellerId)
+        // const sellerOrgunitAccounts = await rpc.get_controlled_accounts(agreementObj.providerId)
         const sellerOrgunitAccounts = []
 
         let orgsAuthorizedForStateArr = sellerOrgunitAccounts.filter(sellerOrgunitAccount => {
@@ -378,16 +378,16 @@ class EosApiService {
         }).then(response => {
             let loadEOSPromissesArr = []
             let actions = []
-            let parentId = ""
+            let superClassId = ""
             let classId = ""
             let skip = true
             response.data.forEach(async subClassObj => {
-                /*if((subClassObj.parentId != parentId || subClassObj.classId != classId) && actions.length) {
+                /*if((subClassObj.superClassId != superClassId || subClassObj.classId != classId) && actions.length) {
                     loadEOSPromissesArr.push(createFnPromise(actions))
                     actions = []
                 }*/
                 actions = []
-                parentId = subClassObj.parentId
+                superClassId = subClassObj.superClassId
                 classId = subClassObj.classId
                 actions.push({
                     account: 'eoscommonsio',
@@ -459,7 +459,7 @@ class EosApiService {
             let classesQueryObj = {
                 query: {
                     where: [{
-                        docProp: 'parentId',
+                        docProp: 'superClassId',
                         operator: 'eq',
                         value: classId
                     }]
