@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { db } from '../services/dexieServices';
 import PoucdbServices from "../services/pouchdbServices";
 import EosServices from "../services/eosServices";
 import GenerateCpp from "../services/generateCpp";
@@ -66,37 +67,12 @@ export default {
 
   methods: {
 
-    async clearCache() {
-      try {
-        await this.$pouch.destroy();
-        this.$message({ message: "Cache Cleared", type: "success" });
-      } catch (err) {
-        this.$message({ message: err, type: "error" });
-      }
-    },
-
-
     async populateFromStatic() {
       try {
         const response = await fetch("argonautdb.json");
         const argonautData = await response.json();
-        await this.clearCache();
-        await this.$pouch.bulkDocs(argonautData);
-        await this.$pouch.createIndex({
-          index: {
-            fields: ["superClassId", "title"],
-          },
-        });
-        await this.$pouch.createIndex({
-          index: {
-            fields: ["classId", "name"],
-          },
-        });
-        await this.$pouch.createIndex({
-          index: {
-            fields: ["ownerId", "name"],
-          },
-        });
+        await db.state.clear()
+        await db.state.bulkPut(argonautData)
         this.$message({
           message: "Static File Loaded and Imported",
           type: "success",

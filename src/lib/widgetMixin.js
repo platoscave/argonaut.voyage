@@ -1,3 +1,5 @@
+import { db } from "../services/dexieServices";
+
 export default {
   data() {
     return {
@@ -10,51 +12,69 @@ export default {
   },
   methods: {
 
-    // Insert selectObjId and pageId into next level hash
-    updateNextLevelHash(nodeData) {
+    // This method can be called when a user selects a tree node or a table row
+    // The nodeData._id will be placed in next level selectObjId
+    // If the nodeData has a pageId it will be placed in next level pageId
+    async updateNextLevelHash(nodeData) {
+      
+      // Get next level state array
+      let nextLevelStateStr = hashArr[this.hashLevel + 2];
+      if (!nextLevelStateStr) nextLevelStateStr = "";
+      const nextLevelStateArr = nextLevelStateStr.split(".");
       const hashArr = window.location.hash.split("/");
 
-      // Get our selectedObjId in case we need it later on
-      const ourPageStateStr = hashArr[this.hashLevel + 1];
-      const ourPageStateArr = ourPageStateStr.split(".");
-      const ourSelectObjId = ourPageStateArr[0]
+      // Remove erveything from the hashArr that comes after this level as it no longer valid
+      hashArr.splice(this.hashLevel + 2);
 
-      // Get next level
-      let nextPageStateStr = hashArr[this.hashLevel + 2];
-      if (!nextPageStateStr) nextPageStateStr = "";
-      const nextPageStateArr = nextPageStateStr.split(".");
+      let newNextLevelSelectObjId = nextLevelStateArr[0]
+      let newNextLevelPageId = nextLevelStateArr[1]
+      let newNextLevelSelectedTab = nextLevelStateArr[2]
+      let newAfterNextLevelSelectObjId = ''
 
-      // Next level selectedObjId
-      // If nodeData has an id use it, otherwise use this level selectedObjId
-      if(nodeData._id) nextPageStateArr[0] = nodeData._id
-      else nextPageStateArr[0] = ourSelectObjId
 
-      // Next level pageId
-      if(!nodeData.pageId) {
-        // Remove pageId and tab if there is one. Page will find its own tab
-        nextPageStateArr.splice(1);
-        // Remove erveything that comes after the next level as it no longer valid
-        hashArr.splice(this.hashLevel + 3);
+      // Set next level selectedObjId
+      // If nodeData has an id use it, otherwise use this level selectedObjId (this is needed for the menu)
+      if (nodeData._id) newNextLevelSelectObjId = nodeData._id
+
+      // If there is a pageId and it is different than the current one, use it
+      if (nodeData.pageId && nextLevelStateArr[1] !== nodeData.pageId) {
+        newNextLevelPageId = nodeData.pageId;
+
+        // See if we can get a selected tab from the last time we visited this page
+        const pageSettings = await db.settings.get(nodeData.pageId);
+        if (pageSettings && pageSettings.selectedTab) newNextLevelSelectedTab = pageSettings.selectedTab;
+        else newNextLevelSelectedTab = 0
+
+        // See if we can get a after next level selected object from the last time we visited this page
+        if (pageSettings && pageSettings.nextLevelSelectObjId) newAfterNextLevelSelectObjId = pageSettings.nextLevelSelectObjId
+
+        console.log("widgetMixin", this.hashLevel, nodeData.pageId, pageSettings);
       }
-      // If nodeData has a pageId and it is different than the current one, replace it
-      if (nodeData.pageId && nextPageStateArr[1] !== nodeData.pageId) {
-        nextPageStateArr[1] = nodeData.pageId;
-        // Remove tab if there is one. Page will find its own tab
-        nextPageStateArr.splice(2);
-        // Remove erveything that comes after the next level as it no longer valid
-        hashArr.splice(this.hashLevel + 3);
+
+      // Update the next level selectedObj in pageSettings for this ourPageId in the settings db
+      const updated = await db.settings.update(this.pageId, {
+        nextLevelSelectObjId: newNextLevelSelectObjId,
+      });
+      if (!updated) {
+        await db.settings.add({
+          pageId: this.pageId,
+          nextLevelSelectObjId: newNextLevelSelectObjId,
+        });
       }
 
       // Write back to window location hash
-      nextPageStateStr = nextPageStateArr.join(".");
-      hashArr[this.hashLevel + 2] = nextPageStateStr;
+      nextLevelStateStr = [newNextLevelSelectObjId, newNextLevelPageId, newNextLevelSelectedTab].join(".");
+      hashArr[this.hashLevel + 2] = nextLevelStateStr;
+      if(newAfterNextLevelSelectObjId) hashArr[this.hashLevel + 3] = newAfterNextLevelSelectObjId;
       const hash = hashArr.join("/");
       window.location.hash = hash;
     },
 
     handleHashChange: function () {
+      //if(this.hashLevel === 1) console.log("widgetMixin", nodeData.pageId, pageSettings);
+
       const hashArr = window.location.hash.split("/")
-      
+
       const ourLevelStr = hashArr[this.hashLevel + 1];
       if (ourLevelStr) {
         const ourLevelArr = ourLevelStr.split(".")
@@ -70,7 +90,7 @@ export default {
         this.nextLevelPageId = nextLevelArr[1]
       }
     },
-    
+
   },
 
   mounted() {

@@ -1,11 +1,7 @@
 <template>
-<!-- <div v-if="pageSettings"> -->
-  <!-- Tabbar -->
+  <!-- With tabbar -->
   <div v-if="tabs.length > 1">
-    <el-tabs
-      :value="pageSettings ? pageSettings.selectedTab : '0'"
-      @input="updateHashWithSelectedTab"
-    >
+    <el-tabs :value="selectedTab" @tab-click="updateHashWithSelectedTab">
       <el-tab-pane
         v-for="(tab, tabNum) in tabs"
         :key="tabNum.toString()"
@@ -24,15 +20,12 @@
         <div class="ar-full-height" v-if="tab.pageId">
           <ar-layout :hash-level="hashLevel + 1"></ar-layout>
         </div>
-
       </el-tab-pane>
     </el-tabs>
   </div>
-  <!-- </div> -->
 
   <!-- No tabbar -->
   <div class="ar-full-height" v-else-if="tabs.length === 1">
-
     <!-- This tab has widgets -->
     <div class="ar-full-height" v-if="tabs[0].widgets">
       <ar-widget-selector
@@ -45,11 +38,11 @@
     <div class="ar-full-height" v-if="tabs[0].pageId">
       <ar-layout :hash-level="hashLevel + 1"></ar-layout>
     </div>
-
   </div>
 </template>
 
 <script>
+import { db } from "../services/dexieServices";
 import WidgetSelector from "./WidgetSelector.js";
 
 export default {
@@ -67,31 +60,35 @@ export default {
   },
   data() {
     return {
-      pageId: String
-    }
-  },
-
-  pouch: {
-    pageSettings: function () {
-      return {
-        database: "settings",
-        selector: { _id: this.pageId },
-        first: true,
-      };
-    },
+      pageId: "",
+      selectedTab: "0",
+    };
   },
 
   methods: {
-
     // Insert tabNum into hash, for our hashLevel
-    updateHashWithSelectedTab(tabNum) {
+    async updateHashWithSelectedTab(obj) {
+      const selectedTab = obj.name;
+
+      // Update the tabNum in pageSettings for this pageId in the settings db
+      const updated = await db.settings.update(this.pageId, {
+        selectedTab: selectedTab,
+      });
+      if (!updated) {
+        await db.settings.add({
+          pageId: this.pageId,
+          selectedTab: selectedTab,
+        });
+      }
+
+      // Update the tabNum in the window location hash
       let hashArr = window.location.hash.split("/");
       let ourPageStateStr = hashArr[this.hashLevel + 1];
       let ourPageStateArr = ourPageStateStr.split(".");
       // if tabNum is '0' remove it from the hash for esthetic reasons
-      if (tabNum === "0" && ourPageStateArr.length === 3)
+      if (selectedTab === "0" && ourPageStateArr.length === 3)
         ourPageStateArr.splice(2, 1);
-      else ourPageStateArr[2] = tabNum;
+      else ourPageStateArr[2] = selectedTab;
       ourPageStateStr = ourPageStateArr.join(".");
       hashArr[this.hashLevel + 1] = ourPageStateStr;
       //TODO remove following levels, fill with defaults
@@ -99,41 +96,23 @@ export default {
       window.location.hash = hash;
     },
 
-    // If the hash provides a selectedTab, use it to set pageSettings for this pageId in the settings db
+    // If the hash provides a selectedTab, use it to
     async handleHashChange() {
       const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
       if (!ourLevelStr) return;
       const ourLeveArr = ourLevelStr.split(".");
-      let selectedTab = ourLeveArr[2];
-      if (!selectedTab) selectedTab = "0";
       this.selectedObjId = ourLeveArr[0];
       this.pageId = ourLeveArr[1];
-
-      // Set the selectedTab in pageSetting for this pageId in the settings db
-      // This will then be refected in the pageSettings object under pouch
-      this.$settings.upsert(this.pageId, (doc) => {
-          doc.selectedTab = selectedTab
-          return doc
-        })
+      this.selectedTab = ourLeveArr[2] ? ourLeveArr[2] : "0";
     },
   },
 
-  mounted() {
+  async mounted() {
     window.addEventListener("hashchange", this.handleHashChange, false);
-    this.handleHashChange();
   },
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false);
   },
-/*   watch: {
-    pageSettings: {
-      handler: function (val, oldVal) {
-        //console.log(this.pageSettings);
-        console.log("new: %s, old: %s", val ? val.selectedTab : false , oldVal ? oldVal.selectedTab : false );
-      },
-      immediate: true,
-    },
-  }, */
 };
 </script>
 <style scoped>
