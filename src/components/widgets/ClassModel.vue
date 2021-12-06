@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bind:style="{cursor: cursor}">
     <el-button
       class="fab"
       icon="el-icon-refresh"

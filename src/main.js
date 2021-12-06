@@ -10,6 +10,8 @@ import pouchdbFind from 'pouchdb-find'
 import pouchdbLiveFind from 'pouchdb-live-find'
 import pouchdbUpsert from 'pouchdb-upsert'
 import debugPouch from "pouchdb-debug"
+import VueRx from "vue-rx"
+import { Observable } from "rxjs"
 
 // Defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
@@ -21,12 +23,14 @@ Vue.component('ar-sub-form', SubForm)
 import SubTable from './components/widgets/controls/SubTable';
 Vue.component('ar-sub-table', SubTable)
 
-Vue.use( ElementUI, { locale })
+Vue.use(ElementUI, { locale })
 PouchDB.plugin(pouchdbFind)
 PouchDB.plugin(pouchdbLiveFind)
 PouchDB.plugin(pouchdbUpsert)
 //PouchDB.plugin(debugPouch)
 debugPouch(PouchDB);
+
+Vue.use(VueRx, { Observable })
 
 
 import VueHighlightJS from 'vue-highlight.js';
@@ -36,12 +40,12 @@ import json from 'highlight.js/lib/languages/json';
 import xml from 'highlight.js/lib/languages/xml';
 import 'highlight.js/styles/vs2015.css';
 Vue.use(VueHighlightJS, {
-	// Register only languages that you want
-	languages: {
+  // Register only languages that you want
+  languages: {
     javascript,
     json,
     xml
-	}
+  }
 });
 
 
@@ -50,7 +54,7 @@ Vue.use(PouchVue, {
   defaultDB: 'argonautdb',
   //debug: '*'
 });
-Vue.prototype.$settings= new PouchDB('settings');
+//Vue.prototype.$settings = new PouchDB('settings');
 
 Vue.config.productionTip = false
 

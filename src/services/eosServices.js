@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { db } from "../services/dexieServices";
 import {
   Api,
   JsonRpc,
@@ -19,7 +20,7 @@ import PoucdbServices from "../services/pouchdbServices";
 
 
 const argonautDb = new PouchDB('argonautdb');
-const settingsDb = new PouchDB('settings');
+//const settingsDb = new PouchDB('settings');
 
 // See https://eosio.github.io/eosjs/latest/how-to-guides/index
 
@@ -28,7 +29,7 @@ const settingsDb = new PouchDB('settings');
 async function takeAction(actions) {
 
 
-  let appSettings = await settingsDb.get('appSettings')
+  let appSettings = await db.settings.get('appSettings')
   const network = appSettings.currentNetwork;
   const rpc = new JsonRpc(networks[network].endpoint);
 

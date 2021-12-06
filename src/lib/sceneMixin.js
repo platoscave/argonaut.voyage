@@ -65,7 +65,7 @@ export default {
       glScene: null,
       cssScene: null,
       axesHelper: null,
-
+      cursor: 'default'
     }
   },
   methods: {
@@ -133,6 +133,9 @@ export default {
 
       this.glScene.name = 'glScene'
       this.$el.addEventListener('click', this.onClick, false)
+      this.$el.addEventListener('pointerdown', this.onMouseDown, false)
+      this.$el.addEventListener('mousemove', this.onMouseMove, false)
+      this.$el.addEventListener('pointerup', this.onMouseUp, false)
 
       this.glScene.add(new Stats())
       //this.$nextTick(() => this.$nextTick(() => this.onResize()))
@@ -180,7 +183,7 @@ export default {
 
     onClick(event) {
       // see https://threejs.org/docs/#api/core/Raycaster.setFromCamera
-      event.preventDefault()
+      //event.preventDefault()
 
       // get 2D coordinates of the mouse, in normalized device coordinates (NDC)
       let box = event.target.getBoundingClientRect()
@@ -195,6 +198,32 @@ export default {
         let selectedMesh = intersects[0].object
         this.updateNextLevelHash(selectedMesh.parent.userData)
       }
+    },
+
+    onMouseDown(event) {
+      if (event.button === 0) this.cursor = 'grabbing'
+      if (event.button === 2)  this.cursor = 'move'
+    },
+
+    onMouseMove(event) {
+
+      // get 2D coordinates of the mouse, in normalized device coordinates (NDC)
+      let box = event.target.getBoundingClientRect()
+      let x = (event.offsetX / box.width) * 2 - 1
+      let y = -(event.offsetY / box.height) * 2 + 1
+      let mouse = new Vector2(x, y)
+  
+      var raycaster = new Raycaster();
+      raycaster.setFromCamera( mouse, this.camera );
+      var intersects = raycaster.intersectObjects( this.selectableMeshArr );
+
+      if (intersects.length > 0) this.cursor = 'pointer'
+      else this.cursor = 'default'
+  
+    },
+
+    onMouseUp() {
+      this.cursor = 'default'
     },
 
     highlight(_id) {
@@ -354,5 +383,9 @@ export default {
     cancelAnimationFrame(this.animationFrame);// Stop the animation
     
     window.removeEventListener("resize", this.onResize)
+    this.$el.removeEventListener('click', this.onClick, false)
+    this.$el.removeEventListener('pointerdown', this.onMouseDown, false)
+    this.$el.removeEventListener('mousemove', this.onMouseMove, false)
+    this.$el.removeEventListener('pointerup', this.onMouseUp, false)
   },
 }

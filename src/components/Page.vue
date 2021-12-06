@@ -44,9 +44,11 @@
 <script>
 import { db } from "../services/dexieServices";
 import WidgetSelector from "./WidgetSelector.js";
+import WidgetMixin from "../lib/widgetMixin";
 
 export default {
   name: "ar-page",
+  mixins: [WidgetMixin],
   components: {
     "ar-widget-selector": WidgetSelector,
   },
@@ -96,23 +98,8 @@ export default {
       window.location.hash = hash;
     },
 
-    // If the hash provides a selectedTab, use it to
-    async handleHashChange() {
-      const ourLevelStr = window.location.hash.split("/")[this.hashLevel + 1];
-      if (!ourLevelStr) return;
-      const ourLeveArr = ourLevelStr.split(".");
-      this.selectedObjId = ourLeveArr[0];
-      this.pageId = ourLeveArr[1];
-      this.selectedTab = ourLeveArr[2] ? ourLeveArr[2] : "0";
-    },
   },
 
-  async mounted() {
-    window.addEventListener("hashchange", this.handleHashChange, false);
-  },
-  beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange, false);
-  },
 };
 </script>
 <style scoped>

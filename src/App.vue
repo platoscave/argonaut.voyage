@@ -11,7 +11,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select Network"
-        :value="appSettings ? appSettings.currentNetwork : ''"
+        :value="currentNetwork"
         @input="updateCurrentNetwork"
       >
         <el-option
@@ -26,7 +26,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select User"
-        :value="appSettings ? appSettings.currentUser : ''"
+        :value="currentUserId"
         @input="updateCurrentUser"
       >
         <el-option
@@ -60,10 +60,11 @@
 </template>
 
 <script>
+import { db } from "./services/dexieServices";
+import { liveQuery } from "dexie";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
-import PouchDB from "pouchdb-browser";
 
 export default {
   name: "App",
@@ -75,58 +76,48 @@ export default {
     return {
       dialogVisible: false,
       networks: Object.keys(networks),
+      currentNetwork: "sandbox",
+      currentUserId: "demouser1111",
     };
   },
-  pouch: {
-    users: function() {
-      return {
-        database: "argonautdb",
-        selector: { classId: "hdt3hmnsaghk" },
-        fields: ["_id", "name"],
-        sort: ["name"],
-      };
-    },
-    appSettings: function() {
-      return {
-        database: "settings",
-        selector: { _id: "appSettings" },
-        first: true,
-      };
-    },
+  subscriptions() {
+    return {
+      users: liveQuery(() =>
+        db.state
+          .where("classId")
+          .equals("hdt3hmnsaghk")
+          .toArray()
+      ),
+    };
   },
 
   methods: {
-    updateCurrentNetwork(value) {
-      this.$settings.upsert("appSettings", (doc) => {
-        doc.currentNetwork = value;
-        return doc;
+    async updateCurrentNetwork(currentNetwork) {
+      await db.settings.update(this.pageId, {
+        currentNetwork: currentNetwork,
       });
     },
-    updateCurrentUser(value) {
-      this.$settings.upsert("appSettings", (doc) => {
-        doc.currentUser = value;
-        return doc;
+    async updateCurrentUser(currentUserId) {
+      await db.settings.update(this.pageId, {
+        currentUserId: currentUserId,
       });
     },
   },
 
   mounted: async function() {
+    
     // If argonautdb is not filled yet, populate it from the static file
-    const argonautdb = new PouchDB("argonautdb");
-    let details = await argonautdb.info();
-    if (details.doc_count == 0 && details.update_seq == 0) {
-      await this.$refs["settingsDlg"].populateFromStatic();
-    }
+    const count = await db.state.count();
+    if (!count) await this.$refs["settingsDlg"].populateFromStatic();
 
-    // Fill in defaults for new users.
-    details = await this.$settings.info();
-    if (details.doc_count == 0 && details.update_seq == 0) {
-      await this.$settings.put({
-        _id: "appSettings",
-        currentNetwork: "sandbox",
-        currentUser: "demouser1111",
-      });
-    }
+    // See if we can get app settings from the last time we visited this page
+    const appSettings = await db.settings.get("application");
+    if (appSettings) {
+      if (appSettings.currentNetwork)
+        this.currentNetwork = appSettings.currentNetwork;
+      if (appSettings.currentUserId)
+        this.currentUserId = appSettings.currentUserId;
+    } else await db.settings.add({ pageId: "application" });
 
     if (!window.location.hash)
       window.location.hash = "#/argonautvoya.uhekisbbbjh5";
@@ -191,7 +182,7 @@ div.el-tooltip__popper.is-dark {
 .ar-control > input[readonly] {
   border-style: none;
 }
-label{
+label {
   line-height: 24px;
 }
 
@@ -233,13 +224,8 @@ label{
 }
 </style>
 
-
-
-
-
 <style scoped>
 /* Scoped styles */
-
 
 .ar-main {
   height: calc(100vh - 40px);
@@ -324,10 +310,10 @@ label{
     animation-delay: 0.9s;
   }
   span:nth-of-type(5) {
-    animation-delay: 1.0s;
+    animation-delay: 1s;
   }
   span:nth-of-type(5) {
-    animation-delay: 1.0s;
+    animation-delay: 1s;
   }
   span:nth-of-type(5) {
     animation-delay: 1.1s;
@@ -344,7 +330,6 @@ label{
   span:nth-of-type(5) {
     animation-delay: 1.5s;
   }
-  
 }
 
 @keyframes wave-text {

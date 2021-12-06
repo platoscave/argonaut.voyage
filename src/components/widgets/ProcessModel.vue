@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bind:style="{cursor: cursor}">
     <el-button
       class="fab"
       icon="el-icon-refresh"
@@ -41,6 +41,7 @@ export default {
         "islands/skybox_n.jpg",
         "islands/skybox_s.jpg",
       ],
+      cursor: 'default'
     };
   },
   methods: {

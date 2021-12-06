@@ -16,7 +16,7 @@
       split-to="columns"
       :allow-resize="true"
       v-on:update:size="paneResizeStop"
-      :size="pageSettings.paneSize ? pageSettings.paneSize : 200"
+      :size="layoutSettings.paneSize"
       :min-size="40"
       resizerColor="#2196f3"
     >
@@ -42,8 +42,8 @@
       v-else
       v-on:leftsize="leftSizeStop"
       v-on:rightsize="rightSizeStop"
-      v-bind:left-size="pageSettings.leftSize"
-      v-bind:right-size="pageSettings.rightSize"
+      v-bind:left-size="layoutSettings.leftSize"
+      v-bind:right-size="layoutSettings.rightSize"
     >
       <!-- Background content -->
       <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { db } from "../services/dexieServices";
 import WidgetMixin from "../lib/widgetMixin";
 import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
@@ -108,8 +109,11 @@ export default {
   },
   data() {
     return {
-      leftOpen: true,
-      rightOpen: false,
+      layoutSettings: {
+        paneSize: 200,
+        leftSize: 300,
+        rightSize: 300,
+      },
     };
   },
   pouch: {
@@ -120,33 +124,37 @@ export default {
         first: true,
       };
     },
-    pageSettings: function() {
-      return {
-        database: "settings",
-        selector: { _id: this.pageId },
-        first: true,
-      };
-    },
   },
   methods: {
-    paneResizeStop(paneSize) {
-      this.$settings.upsert(this.pageId, (doc) => {
-        doc.paneSize = paneSize;
-        return doc;
+    async paneResizeStop(paneSize) {
+      this.layoutSettings.paneSize = paneSize;
+      await db.settings.update(this.pageId, {
+        layoutSettings: this.layoutSettings,
       });
     },
-    leftSizeStop(leftSize) {
-      this.$settings.upsert(this.pageId, (doc) => {
-        doc.leftSize = leftSize;
-        return doc;
+    async leftSizeStop(leftSize) {
+      this.layoutSettings.leftSize = leftSize;
+      await db.settings.update(this.pageId, {
+        layoutSettings: this.layoutSettings,
       });
     },
-    rightSizeStop(rightSize) {
-      this.$settings.upsert(this.pageId, (doc) => {
-        doc.rightSize = rightSize;
-        return doc;
+    async rightSizeStop(rightSize) {
+      this.layoutSettings.rightSize = rightSize;
+      await db.settings.update(this.pageId, {
+        layoutSettings: this.layoutSettings,
       });
     },
+  },
+  async mounted() {
+    console.log("Layout ", this.hashLevel, this.pageId);
+    if (this.pageId) {
+      // See if we can get a layout settings from the last time we visited this page
+      const pageSettings = await db.settings.get(this.pageId);
+      if (pageSettings) {
+        if (pageSettings.layoutSettings)
+          this.layoutSettings = pageSettings.layoutSettings;
+      } else await db.settings.add({ pageId: this.pageId });
+    }
   },
 };
 </script>
