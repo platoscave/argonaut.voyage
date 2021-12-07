@@ -15,7 +15,7 @@ export default class PoucdbServices {
   // nodeData is used to resolve $ variables in queries
   static async executeQuery(mongoQuery /* mongoQuery or queryId */, nodeData = null) {
 
-    // Get obj a property using dot noatation
+    // Get obj a property using dot notation
     const getDescendantProp = (desc, resolveObj) => {
       desc = desc.substring(1) // assume starts with a $
       var arr = desc.split(".");
@@ -79,7 +79,10 @@ export default class PoucdbServices {
     const collectSubclasses = async (classId) => {
 
       const subClasses = async classId => {
-        let subClassesArr = await db.state.find({ selector: { superClassId: classId } })
+        let subClassesArr = await db.state
+          .where("superClassId")
+          .equals(classId)
+          .toArray()
         let promisses = []
         subClassesArr.docs.forEach(subClass => {
           promisses.push(subClasses(subClass._id))
@@ -137,10 +140,10 @@ export default class PoucdbServices {
       // This often involves nodeData to resolve query varialbles, which we don't have access to.
 
       const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
-      
+
       let resArray = []
       for (let key in mergedAncestorProperties.properties) {
-        resArray.push({_id: key, label: key})
+        resArray.push({ _id: key, label: key })
       }
 
       // TODO results may still have to be sorted
