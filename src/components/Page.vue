@@ -1,7 +1,7 @@
 <template>
   <!-- With tabbar -->
   <div v-if="tabs.length > 1">
-    <el-tabs :value="selectedTab" @tab-click="updateHashWithSelectedTab">
+    <el-tabs :value="selectedTab ? selectedTab : '0'" @tab-click="updateHashWithSelectedTab">
       <el-tab-pane
         v-for="(tab, tabNum) in tabs"
         :key="tabNum.toString()"
