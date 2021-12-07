@@ -18,7 +18,7 @@ import modelColors from '../../../config/modelColors'
 import fontJson from '../../../assets/helvetiker_regular.typeface.json'
 const font = new Font(fontJson)
 
-const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
+const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 export default {
 
   drawBeam(points, colorName, label, arrow) {
@@ -32,7 +32,7 @@ export default {
       let HALF_PI = Math.PI * 0.5
       let distance = p1.distanceTo(p2)
       let position = p2.clone().add(p1).divideScalar(2)
-      let cylinder = new CylinderGeometry(15, 15, distance, 10, 10, false)
+      let cylinder = new CylinderGeometry(DEPTH * 0.15, DEPTH * 0.15, distance, 10, 10, false)
       let orientation = new Matrix4()// a new orientation matrix to offset pivot
       let offsetRotation = new Matrix4()// a matrix to fix pivot rotation
       // let offsetPosition = new Matrix4()// a matrix to fix pivot position
@@ -44,12 +44,12 @@ export default {
       geometries.push(cylinder)
 
       // sphere at the left end
-      let sphereGeometryLeft = new SphereGeometry(15)
+      let sphereGeometryLeft = new SphereGeometry(DEPTH * 0.15)
       sphereGeometryLeft.translate(p1.x, p1.y, p1.z);
       geometries.push(sphereGeometryLeft)
 
       // sphere at the right end
-      let sphereGeometryRight = new SphereGeometry(15)
+      let sphereGeometryRight = new SphereGeometry(DEPTH * 0.15)
       sphereGeometryRight.translate(p2.x, p2.y, p2.z);
       geometries.push(sphereGeometryRight)
     }
@@ -57,7 +57,7 @@ export default {
     // TODO See drawTube arrow
     if (arrow) {
       const lastPoint = points[points.length -1]
-      let coneGeometry = new CylinderGeometry(0, 40, 100, 40, 40, false)
+      let coneGeometry = new CylinderGeometry(DEPTH * 0.05, DEPTH * 0.3, DEPTH, 40, 40, false)
       coneGeometry.translate(lastPoint.x, lastPoint.y, lastPoint.z)
       geometries.push(coneGeometry)
     }
@@ -89,18 +89,18 @@ export default {
     // Shorten the last vector to make room for the arrow
     if (arrow) {
       let offset = direction.clone()
-      offset.multiplyScalar(100)
+      offset.multiplyScalar(DEPTH)
       points[points.length -1].sub(offset)
     }
 
     let path = new CatmullRomCurve3(this.straightenPoints(points))
     // path.curveType = 'centripetal';
     let geometries = []
-    geometries.push(new TubeGeometry(path, 300, 7, 8, false))
+    geometries.push(new TubeGeometry(path, 300, DEPTH * 0.07, 16, false))
 
     if (arrow) {
-      let coneGeometry = new CylinderGeometry(5, 30, 100, 40, 40, false)
-      coneGeometry.translate(0, 50, 0)
+      let coneGeometry = new CylinderGeometry(DEPTH * 0.05, DEPTH * 0.3, DEPTH, 40, 40, false)
+      coneGeometry.translate(0, DEPTH * 0.5, 0)
 
       // Cone is currently pointing upwards
       var coneVector = new Vector3(0, 1, 0);
@@ -182,7 +182,7 @@ export default {
     else textPos = pt1
     labelMesh.translateX(textPos.x)
     labelMesh.translateY(textPos.y)
-    labelMesh.translateZ(textPos.z + 10)
+    labelMesh.translateZ(textPos.z + DEPTH * 0.1)
     
     return labelMesh
   },

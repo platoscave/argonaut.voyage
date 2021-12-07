@@ -19,9 +19,9 @@ import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 
 // eslint-disable-next-line no-unused-vars
-const HEIGHT = 200,
-  WIDTH = 400,
-  DEPTH = 100;
+const HEIGHT = 2,
+  WIDTH = 4,
+  DEPTH = 1;
 
 export default {
   name: "ar-process-model",

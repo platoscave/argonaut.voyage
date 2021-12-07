@@ -3,7 +3,7 @@ import StepObject3d from "./stepObject3d";
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
 
-const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
+const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class ProcessObject3d extends Object3D {
 
@@ -45,7 +45,7 @@ export default class ProcessObject3d extends Object3D {
       points.push(sourceVec)
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .2, 0, 0)))
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .7, height, 0)))
-      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 - 40), height, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 -WIDTH * 0.1), height, 0)))
       this.add(this.drawTube(points, item, item, true))
 
       const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
@@ -63,8 +63,8 @@ export default class ProcessObject3d extends Object3D {
 
     // Execute the query
     let resArr = await executeQuery(queryId, this.userData)
-console.log(this.userData.name)
-console.log(resArr)
+    console.log(this.userData.name)
+    console.log(resArr)
     // Draw the first step
     let stepObj3d = new StepObject3d(resArr[0]);
     selectableMeshArr.push(stepObj3d.children[0])
@@ -153,7 +153,7 @@ console.log(resArr)
       .quadraticCurveTo(x, y, x, y + RADIUS)
 
     // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: 2, bevelThickness: 2 }
+    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()

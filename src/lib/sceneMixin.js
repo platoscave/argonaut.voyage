@@ -84,7 +84,7 @@ export default {
 
       // this.camera
       this.camera = new PerspectiveCamera(60, 3 / 2, 1, 100000)
-      this.camera.position.z = 4000
+      this.camera.position.z = 40
 
       // glRenderer
       this.glRenderer = this.createGlRenderer()
@@ -108,7 +108,7 @@ export default {
       this.glScene.add(new AmbientLight(0x969696, 0.8))
 
       // axesHelper
-      this.axesHelper = new AxesHelper(100)
+      this.axesHelper = new AxesHelper(1)
       this.glScene.add(this.axesHelper)
 
       // raycaster
@@ -268,7 +268,7 @@ export default {
 
       // Make camera pos in front of and slightly higher than center, relative to the first child mesh. 
       // Apply the mesh's world matrix to translate to world coords
-      var newCameraPos = new Vector3(0, 300, 2000).applyMatrix4(selectedModelObj.children[0].matrixWorld)
+      var newCameraPos = new Vector3(0, 3, 20).applyMatrix4(selectedModelObj.children[0].matrixWorld)
 
       let cameraTween = new TWEEN.Tween(cameraPos).to(newCameraPos, 1500)
       cameraTween.easing(TWEEN.Easing.Quadratic.Out)
@@ -281,11 +281,11 @@ export default {
 
     addLoadingText(text) {
       let textMaterial = new MeshLambertMaterial({ color: 0xEFEFEF })
-      let text3d = new TextGeometry(text || 'Loading...', { size: 200, font: font })
+      let text3d = new TextGeometry(text || 'Loading...', { size: 2, font: font, height: 0.5 })
       text3d.center()
       let textMesh = new Mesh(text3d, textMaterial)
       textMesh.name = 'Loading Message'
-      textMesh.position.set(0, 400, 0)
+      textMesh.position.set(0, 4, 0)
       this.glScene.add(textMesh)
     },
 

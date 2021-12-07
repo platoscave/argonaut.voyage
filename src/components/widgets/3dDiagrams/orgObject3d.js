@@ -3,7 +3,7 @@ import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
-const WIDTH = 400, HEIGHT = 200, DEPTH = 100, RADIUS = 50
+const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class OrgObject3d extends Object3D {
 
@@ -227,7 +227,7 @@ export default class OrgObject3d extends Object3D {
       .quadraticCurveTo(x, y, x, y + RADIUS)
 
     // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 }
+    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
