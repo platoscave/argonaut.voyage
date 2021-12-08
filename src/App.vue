@@ -86,7 +86,7 @@ export default {
         db.state
           .where("classId")
           .equals("hdt3hmnsaghk")
-          .toArray()
+          .sortBy('name')
       ),
     };
   },

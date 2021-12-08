@@ -132,6 +132,8 @@ export default {
       // see http://threejs.org/examples/webgl_multiple_views.html for rendering on 3d tv
 
       this.glScene.name = 'glScene'
+      // TODO change to touch events
+      // See https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent
       this.$el.addEventListener('click', this.onClick, false)
       this.$el.addEventListener('pointerdown', this.onMouseDown, false)
       this.$el.addEventListener('mousemove', this.onMouseMove, false)

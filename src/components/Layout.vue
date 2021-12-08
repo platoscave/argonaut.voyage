@@ -146,7 +146,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("Layout ", this.hashLevel, this.pageId);
     if (this.pageId) {
       // See if we can get a layout settings from the last time we visited this page
       const pageSettings = await db.settings.get(this.pageId);

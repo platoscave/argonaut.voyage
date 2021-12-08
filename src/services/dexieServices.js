@@ -1,15 +1,18 @@
 // db.js
 import Dexie from 'dexie';
+import { liveQuery } from "dexie";
+import { map } from 'rxjs/operators';
+import * as Rx from "rxjs";
 
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
-  state: '_id, classId, superClassId', // Primary key and indexed props
+  state: '_id, classId, superClassId, ownerId', // Primary key and indexed props
   settings: 'pageId'
 });
 
 
 
-export default class PoucdbServices {
+export class argoQuery {
 
 
   // nodeData is used to resolve $ variables in queries
@@ -50,29 +53,39 @@ export default class PoucdbServices {
 
       // Clone the query
       let mongoQueryClone = JSON.parse(JSON.stringify(mongoQuery))
-      // Resolve the variables in the query
+      // Resolve the $variables in the query
       resolveQueryVariables(mongoQueryClone.selector, resolveObj)
       //console.log(mongoQueryClone)
 
-      // Execute the mongoQuery
-      const results = await db.state.find(mongoQueryClone)
+      // Execute the query
+      return Rx.from(liveQuery(() => {
 
-      return results.docs.map((item) => {
-        item.label = item.title ? item.title : item.name;
-        if (mongoQuery.subQueryIds) {
-          item.subQueryIds = mongoQuery.subQueryIds;
-          // If the query has subQueryIds, assume it may have children
-          //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
-          item.isLeaf = false;
-        }
-        else item.isLeaf = true;
+        const collection = db.state.where(mongoQuery.selector)
+        if (mongoQuery.sort) return collection.sortBy(mongoQuery.sort)
+        else return collection.toArray()
 
-        // If the query retreives an icon, use it. Otherwise use the query icon.
-        if (!item.icon) item.icon = mongoQuery.icon;
-        // If the query retreives a pageId, use it. Otherwise use the query pageId.
-        if (!item.pageId) item.pageId = mongoQuery.pageId
-        return item;
-      })
+      })).pipe(map(data => {
+
+        // Add some attributes to each item for the bennifit of Tree
+        return data.map(item => {
+          item.label = item.title ? item.title : item.name;
+          if (mongoQuery.subQueryIds && mongoQuery.subQueryIds.length) {
+            item.subQueryIds = mongoQuery.subQueryIds;
+            // If the query has subQueryIds, assume it may have children
+            //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
+            item.isLeaf = false;
+          }
+          else item.isLeaf = true;
+
+          // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
+          // If the item has an icon, use it. Otherwise use the query icon.
+          if (!item.icon) item.icon = mongoQuery.icon;
+          // If the item has a pageId, use it. Otherwise use the query pageId.
+          if (!item.pageId) item.pageId = mongoQuery.pageId
+          return item;
+          
+        })
+      }))
     }
 
 

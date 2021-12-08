@@ -31,9 +31,7 @@
       >
     </el-row>
     <el-row>
-      <el-button type="primary" @click="testEos"
-        >Call Test Function</el-button
-      >
+      <el-button type="primary" @click="testEos">Call Test Function</el-button>
     </el-row>
     <el-row>
       <el-button type="primary" @click="staticToEos"
@@ -54,8 +52,7 @@
 </template>
 
 <script>
-import { db } from '../services/dexieServices';
-import PoucdbServices from "../services/pouchdbServices";
+import { db, argoQuery } from "../services/dexieServices";
 import EosServices from "../services/eosServices";
 import GenerateCpp from "../services/generateCpp";
 
@@ -66,20 +63,18 @@ export default {
   },
 
   methods: {
-
     async populateFromStatic() {
       try {
         const response = await fetch("argonautdb.json");
         const argonautData = await response.json();
-        await db.state.clear()
-        await db.state.bulkPut(argonautData)
+        await db.state.clear();
+        await db.state.bulkPut(argonautData);
         this.$message({
           message: "Static File Loaded and Imported",
           type: "success",
         });
         // reload page
         location.reload();
-        
       } catch (err) {
         console.error(err);
         this.$message({ message: err, type: "error" });
@@ -87,23 +82,24 @@ export default {
     },
 
     async addTestAccounts() {
-      EosServices.addTestAccounts(this.$message)
+      EosServices.addTestAccounts(this.$message);
     },
 
     async staticToEos() {
-      EosServices.staticToEos(this.$message)
+      EosServices.staticToEos(this.$message);
     },
 
     async cacheToEos() {
-      EosServices.cacheToEos(this.$message)
+      EosServices.cacheToEos(this.$message);
     },
-
-
 
     async eraseAllEos() {
       try {
         await EosServices.eraseAllEos();
-        this.$message({ message: "EOS documents table erased", type: "success" });
+        this.$message({
+          message: "EOS documents table erased",
+          type: "success",
+        });
       } catch (err) {
         this.$message({ message: err, type: "error" });
       }
@@ -111,7 +107,6 @@ export default {
 
     async testEos() {
       try {
-
         const response = await fetch("testObject.json");
         const testObject = await response.json();
         await EosServices.testEos(testObject);
@@ -120,9 +115,6 @@ export default {
         this.$message({ message: err, type: "error" });
       }
     },
-
-
-
 
     async onReadFilterDownLoad() {
       // https://stackoverflow.com/questions/54793997/export-indexeddb-object-store-to-csv
@@ -166,48 +158,16 @@ export default {
     },
     async testQuery() {
       try {
-        /* 
-        {
-          "$and": [
-            { "classId": "pejdgrwd5qso" },
-            { "_id": {"$gt": null} },
-            { "_id": {"$exists": true} },
-            { "name": {"$gt": null} },
-            { "name": {"$exists": true} }
-          ]
-        }
-        */
-        // https://stackoverflow.com/questions/52532232/how-to-get-specific-data-from-an-array-using-pouchdb-find
-
-        /* const res = await this.$pouch.find({
-          database: "argonautdb",
+        const observableResults = await argoQuery.executeQuery({
           selector: {
-            nextStepIds: {
-              $elemMatch: {
-                stepId: { $exists: true },
-              },
-            },
-            /* $and: [
-              { _id: "3r5kgovlor1o" },
-              {'nextStepIds.[].stepId': '3edgchx5lgu3' },
-              //{'nextStepIds.[].stepId': { $exists: true }},
-            ], * /
+            classId: "hdt3hmnsaghk",
           },
-          fields: ["_id", "nextStepIds"],
-          //sort: ["name"],
-        }); */
-
-        //debugger
-        //console.log(PouchdbServices)
-        //const bikeOrg = await this.$pouch.get('bikeworkshop');
-        //console.log("$permissions.0.required_auth.accounts.0.permission.actor")
-        //console.log(bikeOrg)
-        const res = await PoucdbServices.executeQuery({
-            database: "argonautdb",
-            selector: { classId: "ikjyhlqewxs3" },
-            "extendTo": "Instances"
+          sort : 'name'
         });
-        console.log(res);
+        observableResults.subscribe({
+          next: (result) => console.log("Got result:", result),
+          error: (error) => console.error(error),
+        });
         this.$message({
           message: "Success",
           type: "success",
@@ -219,15 +179,15 @@ export default {
     },
     async generatecpp() {
       try {
-              const data = await GenerateCpp.GenerateCpp(this.$store);
-      const csv_mime_type = "text/cpp";
-      const blob = new Blob([data], { type: csv_mime_type });
-      const anchor = document.createElement("a");
-      anchor.setAttribute("download", "commons.cpp");
-      const url = URL.createObjectURL(blob);
-      anchor.setAttribute("href", url);
-      anchor.click();
-      URL.revokeObjectURL(url);
+        const data = await GenerateCpp.GenerateCpp(this.$store);
+        const csv_mime_type = "text/cpp";
+        const blob = new Blob([data], { type: csv_mime_type });
+        const anchor = document.createElement("a");
+        anchor.setAttribute("download", "commons.cpp");
+        const url = URL.createObjectURL(blob);
+        anchor.setAttribute("href", url);
+        anchor.click();
+        URL.revokeObjectURL(url);
         this.$message({ message: "Cpp Generated", type: "success" });
       } catch (err) {
         console.error(err);
@@ -245,5 +205,3 @@ export default {
   color: black;
 }
 </style>
-
-
