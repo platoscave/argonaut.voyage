@@ -162,7 +162,7 @@ export default {
           selector: {
             classId: "hdt3hmnsaghk",
           },
-          sort : 'name'
+          sort: 'name'
         });
         observableResults.subscribe({
           next: (result) => console.log("Got result:", result),

@@ -1,3 +1,5 @@
+import { db } from "../../services/dexieServices";
+import { liveQuery } from "dexie";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -9,7 +11,7 @@ export default {
     menuId: String,
   },
 
-  pouch: {
+  /* pouch: {
     menuObj: function () {
       return {
         database: "argonautdb",
@@ -24,6 +26,18 @@ export default {
         first: true,
       };
     },
+  }, */
+
+
+  subscriptions() {
+    return {
+      menuObj: liveQuery(() =>
+        db.state.where({ _id: this.menuId }).first()
+      ),
+      currentObj: liveQuery(() =>
+        db.state.where({ _id: this.selectedObjId }).first()
+      ),
+    };
   },
 
   computed: {

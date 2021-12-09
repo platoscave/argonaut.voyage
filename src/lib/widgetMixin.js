@@ -3,11 +3,11 @@ import { db } from "../services/dexieServices";
 export default {
   data() {
     return {
-      selectedObjId: null,
-      pageId: null,
-      selectedTab: "0",
-      nextLevelSelectedObjId: null,
-      nextLevelPageId: null,
+      selectedObjId: '',
+      pageId: '',
+      selectedTab: '0',
+      nextLevelSelectedObjId: '',
+      nextLevelPageId: '',
     }
   },
   methods: {

@@ -16,7 +16,7 @@ export class argoQuery {
 
 
   // nodeData is used to resolve $ variables in queries
-  static async executeQuery(mongoQuery /* mongoQuery or queryId */, nodeData = null) {
+  static async executeQuery(queryObj /* queryObj or queryId */, nodeData = null) {
 
     // Get obj a property using dot notation
     const getDescendantProp = (desc, resolveObj) => {
@@ -46,31 +46,30 @@ export class argoQuery {
     }
 
     // Get / Execute the query
-    const executeQuery = async (mongoQuery, resolveObj) => {
-      // temp hack: https://github.com/pouchdb/pouchdb/issues/6399
-      // Bizar: I change the indexes and sorting is done automaticly
-      delete mongoQuery.sort;
+    const executeQuery = async (queryObj, resolveObj) => {
 
       // Clone the query
-      let mongoQueryClone = JSON.parse(JSON.stringify(mongoQuery))
+      let queryObjClone = JSON.parse(JSON.stringify(queryObj))
       // Resolve the $variables in the query
-      resolveQueryVariables(mongoQueryClone.selector, resolveObj)
-      //console.log(mongoQueryClone)
+      resolveQueryVariables(queryObjClone.selector, resolveObj)
+      //console.log(queryObjClone)
 
       // Execute the query
       return Rx.from(liveQuery(() => {
 
-        const collection = db.state.where(mongoQuery.selector)
-        if (mongoQuery.sort) return collection.sortBy(mongoQuery.sort)
-        else return collection.toArray()
+        const collection$ = db.state.where(queryObj.selector)
+        if (queryObj.sort) return collection$.sortBy(queryObj.sort)
+        else return collection$.toArray()
 
       })).pipe(map(data => {
 
         // Add some attributes to each item for the bennifit of Tree
         return data.map(item => {
+
           item.label = item.title ? item.title : item.name;
-          if (mongoQuery.subQueryIds && mongoQuery.subQueryIds.length) {
-            item.subQueryIds = mongoQuery.subQueryIds;
+
+          if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+            item.subQueryIds = queryObj.subQueryIds;
             // If the query has subQueryIds, assume it may have children
             //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
             item.isLeaf = false;
@@ -79,11 +78,12 @@ export class argoQuery {
 
           // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
           // If the item has an icon, use it. Otherwise use the query icon.
-          if (!item.icon) item.icon = mongoQuery.icon;
+          if (!item.icon) item.icon = queryObj.icon;
+
           // If the item has a pageId, use it. Otherwise use the query pageId.
-          if (!item.pageId) item.pageId = mongoQuery.pageId
+          if (!item.pageId) item.pageId = queryObj.pageId
           return item;
-          
+
         })
       }))
     }
@@ -116,38 +116,40 @@ export class argoQuery {
 
     // START HERE
     // Get the queryObj
-    //if(!mongoQuery) debugger
-    if (typeof mongoQuery === 'string') mongoQuery = await db.state.get(mongoQuery)
+    if (typeof queryObj === 'string') queryObj = await db.state.get(queryObj)
     // In the case of a many to one query we interate over the many array
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
-    if (mongoQuery.manyToOneArrayProp) {
+    if (queryObj.manyToOneArrayProp) {
+
       if (!nodeData) throw 'manyToOneArrayProp query must have a nodeData'
 
-      const manyArr = getDescendantProp(mongoQuery.manyToOneArrayProp, nodeData)
-      if (!manyArr) return []
-      let promiseArr = manyArr.map((item) => {
-        return executeQuery(mongoQuery, item)
+      const manyIdsArr = getDescendantProp(queryObj.manyToOneArrayProp, nodeData)
+      if (!manyIdsArr) return []
+      let promiseArr = manyIdsArr.map((item) => {
+        return executeQuery(queryObj, item)
       })
       const arrayOfResultArrays = await Promise.all(promiseArr)
       // TODO results may still have to be sorted
       return arrayOfResultArrays.flat()
 
-    } else if (mongoQuery.extendTo === 'Instances') {
-      if (!mongoQuery.selector.classId) throw 'extendTo Instances query must select a classId'
+    } else if (queryObj.extendTo === 'Instances') {
 
-      const rootClassId = mongoQuery.selector.classId
+      if (!queryObj.selector.classId) throw 'extendTo Instances query must select a classId'
+
+      const rootClassId = queryObj.selector.classId
       const subClasses = await collectSubclasses(rootClassId)
 
       let promiseArr = subClasses.map(classObj => {
-        mongoQuery.selector.classId = classObj._id
-        return executeQuery(mongoQuery, classObj)
+        queryObj.selector.classId = classObj._id
+        return executeQuery(queryObj, classObj)
       })
       const arrayOfResultArrays = await Promise.all(promiseArr)
       // TODO results may still have to be sorted
       return arrayOfResultArrays.flat()
 
-    } else if (mongoQuery.extendTo === 'Properties') {
+    } else if (queryObj.extendTo === 'Properties') {
+
       // Do not use
       // Unfortunatly this doesn't work. We need the class being selected by the query.
       // This often involves nodeData to resolve query varialbles, which we don't have access to.
@@ -163,9 +165,10 @@ export class argoQuery {
       return resArray
 
     } else {
+
       // Otherwise just execute the query. 
-      // Use node.data as basis for resolving query varialbles
-      return executeQuery(mongoQuery, nodeData)
+      return executeQuery(queryObj, nodeData)
+
     }
   }
 

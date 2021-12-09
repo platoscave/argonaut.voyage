@@ -83,10 +83,7 @@ export default {
   subscriptions() {
     return {
       users: liveQuery(() =>
-        db.state
-          .where("classId")
-          .equals("hdt3hmnsaghk")
-          .sortBy('name')
+        db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name")
       ),
     };
   },
@@ -105,7 +102,6 @@ export default {
   },
 
   mounted: async function() {
-    
     // If argonautdb is not filled yet, populate it from the static file
     const count = await db.state.count();
     if (!count) await this.$refs["settingsDlg"].populateFromStatic();
