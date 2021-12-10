@@ -17,7 +17,7 @@ export default {
     // If the nodeData has a pageId it will be placed in next level pageId
     async updateNextLevelHash(nodeData) {
       const hashArr = window.location.hash.split("/");
-      
+
       // Get next level state array
       let nextLevelStateStr = hashArr[this.hashLevel + 2];
       if (!nextLevelStateStr) nextLevelStateStr = "";
@@ -65,7 +65,7 @@ export default {
     },
 
     handleHashChange: function () {
-
+      
       const hashArr = window.location.hash.split("/")
 
       const ourLevelStr = hashArr[this.hashLevel + 1];
@@ -82,13 +82,16 @@ export default {
         this.nextLevelSelectedObjId = nextLevelArr[0]
         this.nextLevelPageId = nextLevelArr[1]
       }
+
     },
 
   },
 
   mounted() {
-    window.addEventListener("hashchange", this.handleHashChange, false);
+    
     this.handleHashChange();
+    window.addEventListener("hashchange", this.handleHashChange, false);
+    
   },
   beforeDestroy() {
     window.removeEventListener("hashchange", this.handleHashChange, false)

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { db } from "../../services/dexieServices";
+import { liveQuery } from "dexie";
 import PropositionObject3d from "./3dDiagrams/propositionObject3d";
 import ProcessObject3d from "./3dDiagrams/processObject3d.js";
 import OrgObject3d from "./3dDiagrams/orgObject3d.js";

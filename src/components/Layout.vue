@@ -89,6 +89,7 @@
 
 <script>
 import { db } from "../services/dexieServices";
+import { liveQuery } from "dexie";
 import WidgetMixin from "../lib/widgetMixin";
 import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
@@ -115,15 +116,17 @@ export default {
         rightSize: 300,
       },
     };
-  },
-  pouch: {
-    pageObj: function() {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.pageId },
-        first: true,
-      };
-    },
+  }, 
+
+  subscriptions() {
+    // We need this extra handleHashChange because for some reason the data vars get nuked
+    // right before subscriptions are created, regardless wether I put handleHashChange in
+    // created or mounted or not. Any thoughts?
+    this.handleHashChange();
+
+    return {
+      pageObj: liveQuery(() => db.state.where({ _id: this.pageId }).first()),
+    };
   },
   methods: {
     async paneResizeStop(paneSize) {

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { db } from "../../services/dexieServices";
+import { liveQuery } from "dexie";
 import ClassObject3d from "./3dDiagrams/classObject3d.js";
 import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";

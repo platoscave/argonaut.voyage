@@ -1,5 +1,6 @@
 //import Vue from 'vue'
 //const JSZip = require("jszip");
+import { db } from "./dexieServices";
 import PoucdbServices from "./pouchdbServices"
 
 class GenerateCpp {

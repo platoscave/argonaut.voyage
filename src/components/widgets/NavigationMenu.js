@@ -11,33 +11,22 @@ export default {
     menuId: String,
   },
 
-  /* pouch: {
-    menuObj: function () {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.menuId },
-        first: true,
-      };
-    },
-    currentObj: function () {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.selectedObjId },
-        first: true,
-      };
-    },
-  }, */
-
-
   subscriptions() {
+
+    // We need this extra handleHashChange because for some reason the data vars get nuked
+    // right before subscriptions are created, regardless if I put handleHashChange in
+    // created or mounted or not. Any thoughts?
+    this.handleHashChange();
+
     return {
       menuObj: liveQuery(() =>
         db.state.where({ _id: this.menuId }).first()
       ),
       currentObj: liveQuery(() =>
-        db.state.where({ _id: this.selectedObjId }).first()
-      ),
-    };
+        db.state.where({ _id: this.selectedObjId}).first()
+      )
+    }
+
   },
 
   computed: {
@@ -56,7 +45,7 @@ export default {
         }
       }
 
-      return findIndexPathForPageId( this.nextLevelPageId, this.menuObj.menuArr, '')
+      return findIndexPathForPageId(this.nextLevelPageId, this.menuObj.menuArr, '')
     }
   },
 
@@ -72,7 +61,7 @@ export default {
         if (item.icon.startsWith('data:image/')) {
           labelArr.push(createElement("img", {
             attrs: { src: this.currentObj.icon },
-            style: { }
+            style: {}
           }))
         }
         else labelArr.push(createElement('i', { class: item.icon }))
@@ -112,7 +101,7 @@ export default {
             },
             on: {
               click: () => {
-                this.updateNextLevelHash( { _id: item.nextLevelSelectedObjId, pageId: item.pageId })
+                this.updateNextLevelHash({ _id: item.nextLevelSelectedObjId, pageId: item.pageId })
               }
             }
           }, labelElement(item, index === '' ? true : false)))

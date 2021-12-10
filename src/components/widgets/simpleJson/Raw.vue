@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { db } from "../../../services/dexieServices";
+import { liveQuery } from "dexie";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {

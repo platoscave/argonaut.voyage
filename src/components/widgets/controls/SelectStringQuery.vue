@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { db } from "../../../services/dexieServices";
+import { liveQuery } from "dexie";
 import PoucdbServices from "../../../services/pouchdbServices";
 import WidgetMixin from "../../../lib/widgetMixin";
 
