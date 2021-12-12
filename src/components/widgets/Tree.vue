@@ -85,7 +85,7 @@ export default {
     async loadNode(node, resolve) {
       // Get PageId or Icon from item anscestors
       const getProp = async (id, prop) => {
-        const classObj = await this.$pouch.get(id);
+        const classObj = await db.state.get(id);
         if (classObj[prop]) return classObj[prop];
         return getProp(classObj.superClassId, prop);
       };
@@ -106,14 +106,14 @@ export default {
         // root level
         if (node.level === 0) {
           // Get the viewObj
-          this.viewObj = await this.$pouch.get(this.viewId);
+          this.viewObj = await db.state.get(this.viewId);
           // Execute the query
           const resArr = await PoucdbServices.executeQuery(
             this.viewObj.queryId,
             { _id: this.selectedObjId }
           );
 
-          // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
+          // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the argoQuery
           getGetPropertyFromAnscetors(resArr, "pageId");
           getGetPropertyFromAnscetors(resArr, "icon");
 
@@ -128,7 +128,7 @@ export default {
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat();
 
-            // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the mongoQuery
+            // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the argoQuery
             getGetPropertyFromAnscetors(flatResArr, "pageId");
             getGetPropertyFromAnscetors(flatResArr, "icon");
 

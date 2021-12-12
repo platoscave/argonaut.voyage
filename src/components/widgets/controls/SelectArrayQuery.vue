@@ -1,7 +1,7 @@
 <template>
   <div v-if="readonly" class="ar-readonly-div">
     <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
-      <div>{{item.label}}</div>
+      <div>{{ item.label }}</div>
     </div>
   </div>
   <el-checkbox-group
@@ -36,9 +36,8 @@
 </template>
 
 <script>
-import { db } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
-import PoucdbServices from "../../../services/pouchdbServices";
+import { argoQuery } from "../../../services/dexieServices";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -57,49 +56,35 @@ export default {
     readonly: Boolean,
     hashLevel: Number,
   },
-  data() {
+
+  subscriptions() {
+    // Watch the property as observable
+    const property$ = this.$watchAsObservable("property", {
+      immediate: true,
+    }).pipe(pluck("newValue"));
+    // Whenever it changes, reset the live query with the new property
+    const items$ = property$.pipe(
+      switchMap((property) =>
+        argoQuery.executeQuery(property.items.argoQuery, {
+          _id: this.selectedObjId,
+        })
+      )
+    );
     return {
-      items: [],
+      items: items$,
     };
   },
 
   computed: {
-
     // Get the objs that have an _id in the value array so we have access to the label
     filteredObjs: function() {
+      if (!(this.value && this.items)) return "";
       return this.items.filter((obj) => {
         return this.value.includes(obj._id);
       });
     },
-
   },
 
-  methods: {
-
-    async propertyHandeler() {
-      // Execute the query
-      if (this.property && this.property.items.mongoQuery) {
-        //this.$pouch.debug.enable('*')
-        //console.log(PoucdbServices);
-        //debugger;
-        this.items = await PoucdbServices.executeQuery(
-          this.property.items.mongoQuery,
-          { _id: this.selectedObjId }
-        );
-      }
-    },
-
-  },
-
-  watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    property: "propertyHandeler",
-  },
-
-  mounted: function() {
-    this.propertyHandeler();
-  },
 };
 </script>
 

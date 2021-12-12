@@ -5,10 +5,8 @@
 </template>
 
 <script>
-import { db } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
+import { argoQuery } from "../../../services/dexieServices"
 import WidgetMixin from "../../../lib/widgetMixin"
-import PoucdbServices from "../../../services/pouchdbServices"
 
 
 
@@ -24,8 +22,9 @@ export default {
     };
   },
   methods: {
+    
     async selectedObjIdHandeler() {
-      if (this.selectedObjId) this.classObj = await PoucdbServices.getMergedAncestorProperties(this.selectedObjId)
+      if (this.selectedObjId) this.classObj = await argoQuery.getMergedAncestorProperties(this.selectedObjId)
     }
   },
   watch: {

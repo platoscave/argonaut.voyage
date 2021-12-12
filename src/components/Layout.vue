@@ -90,6 +90,7 @@
 <script>
 import { db } from "../services/dexieServices";
 import { liveQuery } from "dexie";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../lib/widgetMixin";
 import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
@@ -115,17 +116,23 @@ export default {
         leftSize: 300,
         rightSize: 300,
       },
+      pageId: "",
     };
-  }, 
+  },
 
   subscriptions() {
-    // We need this extra handleHashChange because for some reason the data vars get nuked
-    // right before subscriptions are created, regardless wether I put handleHashChange in
-    // created or mounted or not. Any thoughts?
-    this.handleHashChange();
-
+    // Watch the pageId as observable
+    const pageId$ = this.$watchAsObservable("pageId", { immediate: true }).pipe(
+      pluck("newValue")
+    );
+    // Whenever it changes, reset the live query with the new pageId
+    const pageObj$ = pageId$.pipe(
+      switchMap((pageId) =>
+        liveQuery(() => db.state.where({ _id: pageId }).first())
+      )
+    );
     return {
-      pageObj: liveQuery(() => db.state.where({ _id: this.pageId }).first()),
+      pageObj: pageObj$,
     };
   },
   methods: {

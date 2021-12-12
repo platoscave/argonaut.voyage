@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import { db } from "../../../services/dexieServices";
+import { db, argoQuery } from "../../../services/dexieServices";
 import { liveQuery } from "dexie";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin"
-import PoucdbServices from "../../../services/pouchdbServices"
 import Ajv from "ajv"
 import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json"
 
@@ -27,20 +27,26 @@ export default {
       errorObj: {}
     };
   },
-  pouch: {
-    dataObj: function () {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.selectedObjId },
-        first: true,
-      };
-    },
+  subscriptions() {
+    // Watch the selectedObjId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
+      immediate: true,
+    }).pipe(pluck("newValue"));
+    // Whenever it changes, reset the live query with the new selectedObjId
+    const dataObj$ = selectedObjId$.pipe(
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id:  selectedObjId ? selectedObjId : '' }).first())
+      )
+    );
+    return {
+      dataObj: dataObj$,
+    };
   },
   watch: {
     dataObj: function (value) {
       // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
       // Thats why we need both mounted and watch
-      if(value) PoucdbServices.getMergedAncestorProperties( value.classId ).then( schema => {
+      if(value) argoQuery.getMergedAncestorProperties( value.classId ).then( schema => {
         const validate = ajv.compile(schema)
         const valid = validate(value)
         if(valid) this.errorObj = 'Valid'
@@ -49,7 +55,7 @@ export default {
     },
   },
   mounted() {
-    if(this.dataObj) PoucdbServices.getMergedAncestorProperties( this.dataObj.classId ).then( schema => {
+    if(this.dataObj) argoQuery.getMergedAncestorProperties( this.dataObj.classId ).then( schema => {
       const validate = ajv.compile(schema)
       const valid = validate(this.dataObj)
       if(valid) this.errorObj = 'Valid'

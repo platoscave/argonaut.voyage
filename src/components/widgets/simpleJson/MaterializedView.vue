@@ -5,10 +5,8 @@
 </template>
 
 <script>
-import { db } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
+import { argoQuery } from "../../../services/dexieServices"
 import WidgetMixin from "../../../lib/widgetMixin"
-import PoucdbServices from "../../../services/pouchdbServices"
 
 export default {
   name: 'ar-materialized-view',
@@ -23,7 +21,7 @@ export default {
   },
   methods: {
     async selectedObjIdHandeler() {
-      if (this.selectedObjId) this.viewObj = await PoucdbServices.getMaterializedView(this.selectedObjId)
+      if (this.selectedObjId) this.viewObj = await argoQuery.getMaterializedView(this.selectedObjId)
     }
   },
   watch: {

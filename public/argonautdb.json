@@ -10,26 +10,18 @@
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "title": "_id",
         "type": "string"
-        
       },
       "classId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "gzthjuyjca4s"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Subclasses"
         },
         "title": "Class",
         "type": "string"
-        
       },
       "description": {
         "placholder": "Add a description",
@@ -38,7 +30,6 @@
         "minLength": 0,
         "title": "Description",
         "type": "string"
-        
       },
       "docType": {
         "enum": [
@@ -54,7 +45,6 @@
         "minLength": 0,
         "title": "Icon",
         "type": "string"
-        
       },
       "name": {
         "placeholder": "Provide a name",
@@ -62,7 +52,6 @@
         "minLength": 0,
         "title": "Name",
         "type": "string"
-        
       }
     },
     "required": [
@@ -83,36 +72,26 @@
       "startDate": {
         "title": "Request Date",
         "type": "string"
-        
       },
       "expirationDate": {
         "title": "Expiration Date",
         "type": "string"
-        
       },
       "amount": {
         "title": "Amount",
         "type": "number"
-        
       },
       "currency": {
         "title": "Currency",
         "type": "string"
-        
       },
       "consumerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Buyer",
@@ -120,74 +99,47 @@
       },
       "providerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Seller",
         "type": "string"
-        
       },
       "assetId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "3ihg3mjdbqzv"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Asset",
         "type": "string"
-        
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Agreememt Process",
         "type": "string"
-        
       },
       "currentStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dlpwvptczyeb"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Step",
@@ -205,108 +157,82 @@
     "properties": {
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "pejdgrwd5qso"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Page",
         "type": "string"
-        
       },
       "subParagraphIds": {
         "title": "First Paragraph",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "siutzqsj5dgc"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "type": "string"
-        
       },
       "account_name": {
         "maxLength": 12,
         "minLength": 12,
         "title": "Account Name",
         "type": "string"
-        
       },
       "head_block_num": {
         "title": "Head Block Number",
         "type": "number"
-        
       },
       "head_block_time": {
         "format": "date-time",
         "title": "Head Block Time",
         "type": "string"
-        
       },
       "privileged": {
         "title": "Privileged",
         "type": "boolean"
-        
       },
       "last_code_update": {
         "format": "date-time",
         "title": "Last Code Update",
         "type": "string"
-        
       },
       "created": {
         "format": "date-time",
         "title": "Created",
         "type": "string"
-        
       },
       "ram_quota": {
         "title": "Ram Quota",
         "type": "number"
-        
       },
       "net_weight": {
         "title": "Net Weight",
         "type": "number"
-        
       },
       "cpu_weight": {
         "title": "Cpu Weight",
         "type": "number"
-        
       },
       "net_limit": {
         "properties": {
           "used": {
             "title": "Used",
             "type": "number"
-            
           },
           "available": {
             "title": "Available",
             "type": "number"
-            
           },
           "max": {
             "title": "Maximum",
             "type": "number"
-            
           }
         },
         "type": "object"
@@ -316,17 +242,14 @@
           "used": {
             "title": "Used",
             "type": "number"
-            
           },
           "available": {
             "title": "Available",
             "type": "number"
-            
           },
           "max": {
             "title": "Maximum",
             "type": "number"
-            
           }
         },
         "type": "object"
@@ -334,7 +257,6 @@
       "ram_usage": {
         "title": "Ram Usage",
         "type": "number"
-        
       },
       "permissions": {
         "items": {
@@ -344,21 +266,18 @@
               "minLength": 1,
               "title": "Permission Name",
               "type": "string"
-              
             },
             "parent": {
               "maxLength": 12,
               "minLength": 1,
               "title": "Parent Permission",
               "type": "string"
-              
             },
             "required_auth": {
               "properties": {
                 "threshold": {
                   "title": "Threshold",
                   "type": "number"
-                  
                 },
                 "keys": {
                   "items": {
@@ -368,12 +287,10 @@
                         "minLength": 0,
                         "title": "Key",
                         "type": "string"
-                        
                       },
                       "weight": {
                         "title": "Weight",
                         "type": "number"
-                        
                       }
                     },
                     "type": "object"
@@ -391,14 +308,12 @@
                             "minLength": 0,
                             "title": "Actor",
                             "type": "string"
-                            
                           },
                           "permission": {
                             "maxLength": 12,
                             "minLength": 0,
                             "title": "Permission",
                             "type": "string"
-                            
                           }
                         },
                         "title": "Permission",
@@ -407,7 +322,6 @@
                       "weight": {
                         "title": "Weight",
                         "type": "number"
-                        
                       }
                     },
                     "type": "object"
@@ -421,19 +335,16 @@
                       "wait_sec": {
                         "title": "Wait Seconds",
                         "type": "string"
-                        
                       },
                       "weight": {
                         "title": "Weight",
                         "type": "number"
-                        
                       }
                     },
                     "type": "object"
                   },
                   "title": "Waits",
                   "type": "array"
-                  
                 }
               },
               "title": "Required Authorization",
@@ -451,22 +362,18 @@
           "owner": {
             "title": "Owner",
             "type": "string"
-            
           },
           "net_weigh": {
             "title": "Net Weight",
             "type": "string"
-            
           },
           "cpu_weight": {
             "title": "CPU Weight",
             "type": "string"
-            
           },
           "ram_bytes": {
             "title": "Ram Bytes",
             "type": "number"
-            
           }
         },
         "title": "Total Resources",
@@ -477,22 +384,18 @@
           "from": {
             "title": "From",
             "type": "string"
-            
           },
           "to": {
             "title": "To",
             "type": "string"
-          
           },
           "cpu_weight": {
             "title": "CPU Weight",
             "type": "string"
-            
           },
           "cpu_weigh": {
             "title": "CPU Weight",
             "type": "string"
-            
           }
         },
         "title": "Self Delegated Bandwidth",
@@ -501,7 +404,6 @@
       "refund_request": {
         "title": "Refund Request",
         "type": "string"
-        
       },
       "voter_info": {
         "title": "Voter Info",
@@ -509,52 +411,42 @@
           "owner": {
             "title": "Owner",
             "type": "string"
-            
           },
           "proxy": {
             "title": "Proxy",
             "type": "string"
-            
           },
           "producer": {
             "title": "Producer",
             "type": "array"
-            
           },
           "staked": {
             "title": "Staked",
             "type": "number"
-            
           },
           "last_vote_weight": {
             "title": "Last Vote Weight",
             "type": "string"
-            
           },
           "proxied_vote_weight": {
             "title": "Proxied Vote Weight",
             "type": "string"
-            
           },
           "is_proxy": {
             "title": "Is Proxy",
             "type": "boolean"
-            
           },
           "flags1": {
             "title": "Flags 1",
             "type": "number"
-            
           },
           "reserved2": {
             "title": "Reserved 2",
             "type": "number"
-            
           },
           "reserved3": {
             "title": "Reserved 3",
             "type": "string"
-            
           }
         },
         "type": "object"
@@ -574,50 +466,34 @@
       "stateDate": {
         "title": "Step Date",
         "type": "string"
-        
       },
       "action": {
         "title": "Action",
         "type": "string"
-        
       },
       "stepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dlpwvptczyeb"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Step",
         "type": "string"
-        
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Process",
         "type": "string"
-        
       }
     },
     "type": "object"
@@ -631,22 +507,15 @@
     "properties": {
       "ownerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Owner",
         "type": "string"
-        
       }
     },
     "required": [
@@ -693,7 +562,6 @@
         ],
         "title": "Classification",
         "type": "string"
-        
       }
     },
     "type": "object"
@@ -706,9 +574,6 @@
     "superClassId": "i1gjptcb2skq",
     "type": "object"
   },
-
-
-
   {
     "_id": "iqdfuo2tnze2",
     "docType": "object",
@@ -745,9 +610,6 @@
     "processId": "",
     "assetIds": []
   },
-
-
-
   {
     "_id": "dasprps1lrwf",
     "docType": "class",
@@ -809,7 +671,6 @@
       "value": {
         "title": "Value",
         "type": "number"
-        
       },
       "currency": {
         "enum": [
@@ -818,7 +679,6 @@
         ],
         "title": "Currency",
         "type": "string"
-        
       }
     },
     "type": "object"
@@ -887,26 +747,18 @@
               "maxLength": 100,
               "title": "Action",
               "type": "string"
-              
             },
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
+              "argoQuery": {
+                "where": {
                   "classId": "dlpwvptczyeb"
                 },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
+                "sortBy": "name",
                 "extendTo": "Instances"
               },
               "title": "Step",
               "type": "string"
-              
             }
           },
           "required": [
@@ -916,45 +768,30 @@
         },
         "title": "Next Steps",
         "type": "array"
-        
       },
       "authorizedOrgUnitId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dasprps1lrwf"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Authorized Organizational Unit",
         "type": "string"
-        
       },
       "deligateProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Deligate to Process",
         "type": "string"
-        
       },
       "execute": {
         "items": {
@@ -962,7 +799,6 @@
         },
         "title": "Execute",
         "type": "array"
-        
       }
     },
     "type": "object"
@@ -982,26 +818,18 @@
           "type": "string"
         },
         "type": "array"
-        
       },
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "1jrqyjoabx1a"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "First Step",
         "type": "string"
-        
       }
     },
     "type": "object"
@@ -1027,34 +855,24 @@
       },
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Process",
         "type": "string"
       },
-      "assetIds":{
+      "assetIds": {
         "title": "Assets",
         "items": {
           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-          "mongoQuery": {
-            "selector": {
+          "argoQuery": {
+            "where": {
               "classId": "3ihg3mjdbqzv"
             },
-            "fields": [
-              "_id",
-              "name"
-            ],
             "extendTo": "Instances"
           },
           "title": "Deligate to Process",
@@ -1086,7 +904,6 @@
         ],
         "title": "Divider",
         "type": "string"
-        
       },
       "tabs": {
         "description": "",
@@ -1100,33 +917,24 @@
               "contentMediaType": "text/html",
               "title": "Description",
               "type": "string"
-              
             },
             "name": {
               "placeholder": "Provide a name",
               "maxLength": 1000,
               "title": "Tab Name",
               "type": "string"
-              
             },
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
+              "argoQuery": {
+                "where": {
                   "classId": "pejdgrwd5qso"
                 },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
+                "sortBy": "name",
                 "extendTo": "Instances"
               },
               "title": "Page",
               "type": "string"
-              
             },
             "widgets": {
               "additionalItems": true,
@@ -1139,7 +947,6 @@
                     "contentMediaType": "text/html",
                     "title": "Description",
                     "type": "string"
-                    
                   },
                   "displayType": {
                     "default": "Form",
@@ -1162,71 +969,48 @@
                     ],
                     "title": "Display Type",
                     "type": "string"
-                    
                   },
                   "name": {
                     "placeholder": "Provide a name",
                     "maxLength": 1000,
                     "title": "Name",
                     "type": "string"
-                    
                   },
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "mongoQuery": {
-                      "selector": {
+                    "argoQuery": {
+                      "where": {
                         "classId": "pejdgrwd5qso"
                       },
-                      "fields": [
-                        "_id",
-                        "name"
-                      ],
-                      "sort": [
-                        "name"
-                      ],
+                      "sortBy": "name",
                       "extendTo": "Instances"
                     },
                     "title": "Page",
                     "type": "string"
-                    
                   },
                   "viewId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "mongoQuery": {
-                      "selector": {
+                    "argoQuery": {
+                      "where": {
                         "classId": "pylvseoljret"
                       },
-                      "fields": [
-                        "_id",
-                        "name"
-                      ],
-                      "sort": [
-                        "name"
-                      ],
+                      "sortBy": "name",
                       "extendTo": "Instances"
                     },
                     "title": "View",
                     "type": "string"
-                    
                   },
                   "menuId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "mongoQuery": {
-                      "selector": {
+                    "argoQuery": {
+                      "where": {
                         "classId": "inbumnx4vx5w"
                       },
-                      "fields": [
-                        "_id",
-                        "name"
-                      ],
-                      "sort": [
-                        "name"
-                      ],
+                      "sortBy": "name",
                       "extendTo": "Instances"
                     },
                     "title": "Menu",
                     "type": "string"
-                    
                   }
                 },
                 "type": "object"
@@ -1254,45 +1038,30 @@
       "properties": {
         "title": "Properties",
         "type": "object"
-        
       },
       "queryId": {
         "title": "Initial Query",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "q234ooehrk5v"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "type": "string"
-        
       },
       "baseClassId": {
         "title": "Base Class",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "gzthjuyjca4s"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "type": "string"
-        
       },
       "required": {
         "items": {
@@ -1300,7 +1069,6 @@
         },
         "title": "Required",
         "type": "array"
-        
       }
     },
     "pageId": "qwhjia43h1s4",
@@ -1321,22 +1089,15 @@
         "minLength": 0,
         "title": "Icon",
         "type": "string"
-        
       },
       "subQueryIds": {
         "items": {
           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-          "mongoQuery": {
-            "selector": {
+          "argoQuery": {
+            "where": {
               "classId": "q234ooehrk5v"
             },
-            "fields": [
-              "_id",
-              "name"
-            ],
-            "sort": [
-              "name"
-            ],
+            "sortBy": "name",
             "extendTo": "Instances"
           },
           "type": "string"
@@ -1346,40 +1107,30 @@
       },
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "pejdgrwd5qso"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Page",
         "type": "string"
-        
       },
-      "selector": {
-        "title": "Selector",
+      "where": {
+        "title": "Where Keys",
         "properties": {}
       },
-      "fields": {
-        "items": {
-          "type": "string"
+      "sortBy": {
+        "title": "Sort By",
+         "argoQuery": {
+          "where": {
+            "classId": "pejdgrwd5qso"
+          },
+          "sortBy": "name",
+          "extendTo": "Properties"
         },
-        "title": "Fields",
-        "type": "array"
-      },
-      "sort": {
-        "items": {
-          "type": "string"
-        },
-        "title": "Sort",
-        "type": "array"
+        "type": "string"
       },
       "extendTo": {
         "enum": [
@@ -1408,29 +1159,21 @@
           "properties": {
             "documentId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
+              "argoQuery": {
+                "where": {
                   "classId": "siutzqsj5dgc"
                 },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
+                "sortBy": "name",
                 "extendTo": "Instances"
               },
               "title": "Sub Ducument",
               "type": "string"
-              
             }
           },
           "type": "object"
         },
         "title": "Sub Paragraph",
         "type": "array"
-        
       }
     },
     "pageId": "nnksb2zyphob",
@@ -1453,26 +1196,18 @@
               "maxLength": 1000,
               "title": "Name",
               "type": "string"
-              
             },
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
+              "argoQuery": {
+                "where": {
                   "classId": "pejdgrwd5qso"
                 },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
+                "sortBy": "name",
                 "extendTo": "Instances"
               },
               "title": "Page",
               "type": "string"
-              
             },
             "icon": {
               "maxLength": 2000,
@@ -1481,7 +1216,6 @@
               "minLength": 0,
               "title": "Icon",
               "type": "string"
-              
             },
             "menuArr": {
               "items": {
@@ -1492,26 +1226,18 @@
                     "maxLength": 1000,
                     "title": "Name",
                     "type": "string"
-                    
                   },
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                    "mongoQuery": {
-                      "selector": {
+                    "argoQuery": {
+                      "where": {
                         "classId": "pejdgrwd5qso"
                       },
-                      "fields": [
-                        "_id",
-                        "name"
-                      ],
-                      "sort": [
-                        "name"
-                      ],
+                      "sortBy": "name",
                       "extendTo": "Instances"
                     },
                     "title": "Page",
                     "type": "string"
-                    
                   },
                   "icon": {
                     "maxLength": 2000,
@@ -1520,9 +1246,7 @@
                     "minLength": 0,
                     "title": "Icon",
                     "type": "string"
-                    
                   },
-
                   "menuArr": {
                     "items": {
                       "additionalProperties": false,
@@ -1532,26 +1256,18 @@
                           "maxLength": 1000,
                           "title": "Name",
                           "type": "string"
-                          
                         },
                         "pageId": {
                           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                          "mongoQuery": {
-                            "selector": {
+                          "argoQuery": {
+                            "where": {
                               "classId": "pejdgrwd5qso"
                             },
-                            "fields": [
-                              "_id",
-                              "name"
-                            ],
-                            "sort": [
-                              "name"
-                            ],
+                            "sortBy": "name",
                             "extendTo": "Instances"
                           },
                           "title": "Page",
                           "type": "string"
-                          
                         },
                         "icon": {
                           "maxLength": 2000,
@@ -1560,7 +1276,6 @@
                           "minLength": 0,
                           "title": "Icon",
                           "type": "string"
-                          
                         }
                       },
                       "type": "object"
@@ -1649,26 +1364,18 @@
               "maxLength": 100,
               "title": "Action",
               "type": "string"
-              
             },
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "mongoQuery": {
-                "selector": {
+              "argoQuery": {
+                "where": {
                   "classId": "dlpwvptczyeb"
                 },
-                "fields": [
-                  "_id",
-                  "name"
-                ],
-                "sort": [
-                  "name"
-                ],
+                "sortBy": "name",
                 "extendTo": "Instances"
               },
               "title": "Step",
               "type": "string"
-              
             }
           },
           "required": [
@@ -1679,26 +1386,18 @@
         },
         "title": "Next States",
         "type": "array"
-        
       },
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "1jrqyjoabx1a"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "First Step",
         "type": "string"
-        
       }
     },
     "type": "object"
@@ -1806,7 +1505,6 @@
         "media": {
           "type": "image/png"
         }
-        
       }
     },
     "type": "object"
@@ -1898,7 +1596,6 @@
         },
         "title": "Execute",
         "type": "array"
-        
       }
     },
     "type": "object"
@@ -2002,10 +1699,6 @@
     "superClassId": "ahp433id2bo3",
     "type": "object"
   },
-
-
-
-
   {
     "_id": "platoscave11",
     "docType": "object",
@@ -2885,10 +2578,6 @@
       }
     ]
   },
-
-
-
-
   {
     "_id": "cie1pllxq5mu",
     "docType": "object",
@@ -3107,9 +2796,6 @@
     "classId": "1jrqyjoabx1a",
     "ownerId": "argonautvoya"
   },
-
-
-
   {
     "_id": "vwkdlll4t5vy",
     "docType": "object",
@@ -3607,7 +3293,7 @@
         ]
       }
     ]
-  },  
+  },
   {
     "_id": "44yiclbxugop",
     "docType": "object",
@@ -3642,7 +3328,7 @@
         ]
       }
     ]
-  },  
+  },
   {
     "_id": "t2grmjaab5fn",
     "docType": "object",
@@ -3737,10 +3423,6 @@
       }
     ]
   },
-
-
-
-
   {
     "_id": "vzhw2vpaflmw",
     "docType": "object",
@@ -3750,7 +3432,7 @@
     "ownerId": "argonautvoya",
     "queryId": "tllcmvjazmz2",
     "type": "object"
-  },  
+  },
   {
     "_id": "pepmfz4be5uu",
     "docType": "object",
@@ -3760,7 +3442,7 @@
     "ownerId": "argonautvoya",
     "queryId": "sfmg5u3wtpds",
     "type": "object"
-  },   
+  },
   {
     "_id": "g1q2rky4uxcb",
     "docType": "object",
@@ -3775,7 +3457,7 @@
     },
     "baseClassId": "2jrkeqdvvmom",
     "type": "object"
-  },  
+  },
   {
     "_id": "nmeh5awdy4jm",
     "docType": "object",
@@ -3833,17 +3515,11 @@
       },
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "pejdgrwd5qso"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Page",
@@ -3852,17 +3528,11 @@
       },
       "superClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "mongoQuery": {
-          "selector": {
+        "argoQuery": {
+          "where": {
             "classId": "gzthjuyjca4s"
           },
-          "fields": [
-            "_id",
-            "name"
-          ],
-          "sort": [
-            "name"
-          ],
+          "sortBy": "name",
           "extendTo": "Instances"
         },
         "title": "Super Class",
@@ -3935,7 +3605,7 @@
       "processId": {
         "readOnly": false
       },
-      "assetIds":{
+      "assetIds": {
         "readOnly": false
       }
     },
@@ -4149,15 +3819,12 @@
       "pageId": {
         "readOnly": false
       },
-      "selector": {
+      "where": {
         "properties": {
           "readOnly": false
         }
       },
-      "fields": {
-        "readOnly": false
-      },
-      "sort": {
+      "sortBy": {
         "readOnly": false
       },
       "extendTo": {
@@ -4245,7 +3912,7 @@
     },
     "baseClassId": "pae2bfbrab5n",
     "type": "object"
-  },  
+  },
   {
     "_id": "wkt3pyiwxkim",
     "docType": "object",
@@ -4264,9 +3931,6 @@
     "baseClassId": "i1gjptcb2skq",
     "type": "object"
   },
-
-
-
   {
     "_id": "tllcmvjazmz2",
     "docType": "object",
@@ -4279,17 +3943,9 @@
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    
-      "selector": {
-        "_id": "gzthjuyjca4s"
-      },
-      "fields": [
-        "_id",
-        "title",
-        "docType",
-        "properties",
-        "superClassId"
-      ]
+    "where": {
+      "_id": "gzthjuyjca4s"
+    }
   },
   {
     "_id": "2jfs4is4icct",
@@ -4303,20 +3959,10 @@
       "2jfs4is4icct",
       "x1lrv2xdq2tu"
     ],
-    
-      "selector": {
-        "superClassId": "$fk"
-      },
-      "fields": [
-        "_id",
-        "title",
-        "docType",
-        "properties",
-        "superClassId"
-      ],
-      "sort": [
-        "title"
-      ]
+    "where": {
+      "superClassId": "$fk"
+    },
+    "sortBy": "title"
   },
   {
     "_id": "x1lrv2xdq2tu",
@@ -4325,13 +3971,10 @@
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
     "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
-    
-      "selector": {
-        "classId": "$fk"
-      },
-      "sort": [
-        "name"
-      ]
+    "where": {
+      "classId": "$fk"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "sfmg5u3wtpds",
@@ -4342,40 +3985,21 @@
     "subQueryIds": [
       "aiw54neadp14"
     ],
-    
-      "selector": {
-        "$and": [
-          {"ownerId": "$fk" },
-          {"classId": "dwl1kwhalwj4" }
-        ]
-      },
-      "fields": [
-        "_id",
-        "name",
-        "classId",
-        "firstStepId",
-        "returnActions"
-      ]
+    "where": {
+      "classId": "dwl1kwhalwj4",
+      "ownerId": "$fk"
+    }
   },
   {
     "_id": "f41heqslym5e",
     "docType": "object",
     "name": "Owned Propositions Query",
     "classId": "q234ooehrk5v",
-    "ownerId": "argonautvoya",   
-      "selector": {
-        "$and": [
-          {"ownerId": "$fk" },
-          {"classId": "2jrkeqdvvmom" }
-        ]
-      },
-      "fields": [
-        "_id",
-        "name",
-        "startDate",
-        "endDate",
-        "processId"
-      ]
+    "ownerId": "argonautvoya",
+    "where": {
+      "classId": "2jrkeqdvvmom",
+      "ownerId": "$fk"
+    }
   },
   {
     "_id": "aiw54neadp14",
@@ -4387,20 +4011,10 @@
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    
-      "selector": {
-        "_id": "$firstStepId"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "classId",
-        "nextStepIds",
-        "authorizedOrgUnitId"
-      ],
-      "sort": [
-        "name"
-      ]
+    "where": {
+      "_id": "$firstStepId"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "ybjrgmdjybzl",
@@ -4412,21 +4026,11 @@
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    
-      "manyToOneArrayProp": "$nextStepIds",
-      "selector": {
-        "_id": "$stepId"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "classId",
-        "nextStepIds",
-        "authorizedOrgUnitId"
-      ],
-      "sort": [
-        "name"
-      ]
+    "manyToOneArrayProp": "$nextStepIds",
+    "where": {
+      "_id": "$stepId"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "vbinebvkz1sq",
@@ -4438,19 +4042,9 @@
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    
-      "selector": {
-        "_id": "$fk"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "classId",
-        "firstStepId",
-        "returnActions",
-        "permissions",
-        "icon"
-      ]
+    "where": {
+      "_id": "$fk"
+    }
   },
   {
     "_id": "o4jhldcqvbep",
@@ -4462,19 +4056,10 @@
       "o4jhldcqvbep",
       "1dbriehwtyyp"
     ],
-    
-      "selector": {
-        "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "docType",
-        "permissions",
-        "classId",
-        "icon"
-      ],
-      "sort": ["name"]
+    "where": {
+      "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "1dbriehwtyyp",
@@ -4482,22 +4067,11 @@
     "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    
-      "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
-      "selector": {
-        "_id": "$permission.actor"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "docType",
-        "permissions",
-        "classId",
-        "icon"
-      ],
-      "sort": [
-        "name"
-      ]
+    "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
+    "where": {
+      "_id": "$permission.actor"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "szyxk43kmjsg",
@@ -4511,17 +4085,9 @@
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    
-      "selector": {
-        "superClassId": "nrioirgelhpi"
-      },
-      "fields": [
-        "_id",
-        "title",
-        "docType",
-        "properties",
-        "superClassId"
-      ]
+    "where": {
+      "superClassId": "nrioirgelhpi"
+    }
   },
   {
     "_id": "kmcvgaw2jtjw",
@@ -4535,20 +4101,10 @@
       "kmcvgaw2jtjw",
       "u1pryedcjljz"
     ],
-    
-      "selector": {
-        "superClassId": "$fk"
-      },
-      "fields": [
-        "_id",
-        "title",
-        "docType",
-        "properties",
-        "superClassId"
-      ],
-      "sort": [
-        "title"
-      ]
+    "where": {
+      "superClassId": "$fk"
+    },
+    "sortBy": "title"
   },
   {
     "_id": "u1pryedcjljz",
@@ -4556,20 +4112,10 @@
     "name": "Off Balance Sheet Objects Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    
-      "selector": {
-        "classId": "$fk"
-      },
-      "fields": [
-        "_id",
-        "name",
-        "docType",
-        "properties",
-        "classId"
-      ],
-      "sort": [
-        "name"
-      ]
+    "where": {
+      "classId": "$fk"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "seidi2adi4wf",
@@ -4577,18 +4123,11 @@
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    
-      "selector": {
-        "$and": [
-          {"ownerId": "$fk" },
-          {"classId": "w3mzeetidb5n" }
-        ]
-      }
+    "where": {
+      "classId": "w3mzeetidb5n",
+      "ownerId": "$fk"
+    }
   },
-
-
-
-
   {
     "_id": "kvnnqloyehbg",
     "docType": "object",
@@ -4726,12 +4265,6 @@
       }
     ]
   },
-
-
-
-
-
-
   {
     "_id": "5tgedfn44q4m",
     "docType": "object",

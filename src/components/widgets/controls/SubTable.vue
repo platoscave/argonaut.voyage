@@ -32,7 +32,7 @@
             We also hoist paroperties.attrs so that they play nicely with control elements.
             - readonly is used by standard input elements to disable input and in css to remove blue border
             - required is used by Select to optionaly add a 'not selected' option
-            - hash-level is used by a Select with a mongoQuery (to get selectedObjectId from hash)
+            - hash-level is used by a Select with a argoQuery (to get selectedObjectId from hash)
             - form-read-only and omit-empty-fields are passed in case we're creating a subForm
            -->
         <ar-control-selector

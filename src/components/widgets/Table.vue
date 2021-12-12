@@ -15,10 +15,8 @@
 </template>
 
 <script>
-import { db } from "../../services/dexieServices";
-import { liveQuery } from "dexie";
+import { argoQuery } from "../../services/dexieServices"
 import SubTable from "./controls/SubTable"
-import PoucdbServices from "../../services/pouchdbServices";
 import WidgetMixin from "../../lib/widgetMixin";
 
 
@@ -37,26 +35,11 @@ export default {
       selectedObjId: null,
       pageId: null,
       viewObj: {},
-      mongoQuery: {},
+      argoQuery: {},
       tableData: [],
       formReadOnly: true,
       omitEmptyFields: false,
     };
-  },
-  pouch: {
-    dataObj: function () {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.selectedObjId },
-        first: true,
-      };
-    } /*  ,
-    tableData: function () {
-      return {
-        database: "argonautdb",
-        selector: this.mongoQuery,
-      };
-    }, */,
   },
   methods: {    
     async onChange(newDataObj) {
@@ -74,13 +57,11 @@ export default {
     },
     async viewIdHandeler() {
       if (this.viewId) {
-        this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);
+        this.viewObj = await argoQuery.getMaterializedView(this.viewId);
         //console.log(this.viewObj);
-        this.tableData = await PoucdbServices.executeQuery(this.viewObj.queryId, {
+        this.tableData = await argoQuery.executeQuery(this.viewObj.queryId, {
           _id: this.selectedObjId,
         });
-        //const mongoQuery = await this.$pouch.get(this.viewObj.queryId);
-        //this.mongoQuery = mongoQuery.mongoQuery;
       }
     },
   },

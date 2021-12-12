@@ -1,5 +1,6 @@
 import { db } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -12,21 +13,22 @@ export default {
   },
 
   subscriptions() {
-
-    // We need this extra handleHashChange because for some reason the data vars get nuked
-    // right before subscriptions are created, regardless if I put handleHashChange in
-    // created or mounted or not. Any thoughts?
-    this.handleHashChange();
-
+    // Watch the pageId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", { immediate: true }).pipe(
+      pluck("newValue")
+    );
+    // Whenever it changes, reset the live query with the new selectedObjId
+    const currentObj$ = selectedObjId$.pipe(
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
+      )
+    );
     return {
       menuObj: liveQuery(() =>
         db.state.where({ _id: this.menuId }).first()
       ),
-      currentObj: liveQuery(() =>
-        db.state.where({ _id: this.selectedObjId}).first()
-      )
-    }
-
+      currentObj: currentObj$,
+    };
   },
 
   computed: {

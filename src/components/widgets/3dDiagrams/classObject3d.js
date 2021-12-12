@@ -46,7 +46,7 @@ export default class ClassObject3d extends Object3D {
       item.assocs = []
       for (let key in item.properties) {
         const prop = item.properties[key]
-        if (prop.mongoQuery) item.assocs.push({ name: key, destId: prop.mongoQuery.selector.classId })
+        if (prop.argoQuery) item.assocs.push({ name: key, destId: prop.argoQuery.where.classId })
       }
       return item;
     })

@@ -21,7 +21,7 @@
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
     :value="value"
-    :clearable = "required ? false : true"
+    :clearable="required ? false : true"
   >
     <el-option
       v-for="item in items"
@@ -34,9 +34,8 @@
 </template>
 
 <script>
-import { db } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
-import PoucdbServices from "../../../services/pouchdbServices";
+import { argoQuery } from "../../../services/dexieServices";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -55,44 +54,33 @@ export default {
     readonly: Boolean,
     hashLevel: Number,
   },
-  data() {
+
+  subscriptions() {
+    // Watch the property as observable
+    const property$ = this.$watchAsObservable("property", {
+      immediate: true,
+    }).pipe(pluck("newValue"));
+    // Whenever it changes, reset the live query with the new property
+    const items$ = property$.pipe(
+      switchMap((property) =>
+        argoQuery.executeQuery(property.argoQuery, { _id: this.selectedObjId })
+      )
+    );
     return {
-      items: [],
+      items: items$,
     };
   },
 
   computed: {
     // Get the label for the value
     valueLabel: function() {
-      if (!this.value) return "";
+      if (!(this.value && this.items)) return "";
       let valueObj = this.items.find((obj) => {
         return obj._id === this.value;
       });
       if (!valueObj) return this.value;
       return valueObj.label;
     },
-  },
-
-  methods: {
-    async propertyHandeler() {
-      // Execute the query
-      if (this.property && this.property.mongoQuery) {
-        this.items = await PoucdbServices.executeQuery(
-          this.property.mongoQuery,
-          { _id: this.selectedObjId }
-        );
-      }
-    },
-  },
-
-  watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    property: "propertyHandeler",
-  },
-
-  mounted: function() {
-    this.propertyHandeler();
   },
 };
 </script>

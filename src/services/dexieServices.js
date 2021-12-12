@@ -15,50 +15,70 @@ db.version(1).stores({
 export class argoQuery {
 
 
-  // nodeData is used to resolve $ variables in queries
-  static async executeQuery(queryObj /* queryObj or queryId */, nodeData = null) {
+  // contextObj is used to resolve $ variables in queries
+  static async executeQuery(queryObj /* queryObj or queryId */, contextObj = null) {
 
     // Get obj a property using dot notation
-    const getDescendantProp = (desc, resolveObj) => {
+    const getDescendantProp = (desc, contextObj) => {
       desc = desc.substring(1) // assume starts with a $
       var arr = desc.split(".");
-      while (arr.length && (resolveObj = resolveObj[arr.shift()]));
-      return resolveObj;
+      while (arr.length && (contextObj = contextObj[arr.shift()]));
+      return contextObj;
     };
 
-    const resolveQueryVariables = (selector, resolveObj) => {
-      // Replace variables in the selector
-      for (var key in selector) {
-        const value = selector[key]
+    const resolveQueryVariables = (where, contextObj) => {
+      // Replace variables in the where
+      for (var key in where) {
+        const value = where[key]
         // This is a complex query. Recusive call on each of the items
-        if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, resolveObj))
+        if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, contextObj))
         // This is a request for the value itself (not a path)
-        else if (value === '$') selector[key] = resolveObj
+        else if (value === '$') where[key] = contextObj
         // Replace $fk with id from resolve obj
-        else if (value === "$fk") selector[key] = resolveObj._id;
-        // Apply dot notation using resolveObj
+        else if (value === "$fk") where[key] = contextObj._id;
+        // Apply dot notation using contextObj
         else if (value.startsWith("$")) {
-          selector[key] = getDescendantProp(value, resolveObj);
+          where[key] = getDescendantProp(value, contextObj);
           // not found? force empty results (null would cause everything to be retreived)
-          if (!selector[key]) selector[key] = 'xxx'
+          if (!where[key]) where[key] = 'xxx'
         }
       }
     }
 
-    // Get / Execute the query
-    const executeQuery = async (queryObj, resolveObj) => {
+    const resolve$Vars = (whereClause, contextObj) => {
+      let retObj = {}
+      // Replace variables in the whereClause
+      for (var key in whereClause) {
+        const value = whereClause[key]
+        // This is a query on the contextObj
+        if (value === '$') retObj[key] = contextObj
+        // Replace $fk with id from contextObj
+        else if (value === "$fk") retObj[key] = contextObj._id;
+        // Apply dot notation using contextObj
+        else if (value.startsWith("$")) {
+          retObj[key] = getDescendantProp(value, contextObj);
+          // not found? force empty results (null would cause everything to be retreived)
+          if (!whereClause[key]) retObj[key] = 'xxx'
+        }
+        else retObj[key] = value
+      }
+      return retObj
+    }
+
+/*     // Get / Execute the query
+    const executeQuery = async (queryObj, contextObj) => {
 
       // Clone the query
       let queryObjClone = JSON.parse(JSON.stringify(queryObj))
       // Resolve the $variables in the query
-      resolveQueryVariables(queryObjClone.selector, resolveObj)
+      resolveQueryVariables(queryObjClone.where, contextObj)
       //console.log(queryObjClone)
 
       // Execute the query
       return Rx.from(liveQuery(() => {
 
-        const collection$ = db.state.where(queryObj.selector)
-        if (queryObj.sort) return collection$.sortBy(queryObj.sort)
+        const collection$ = db.state.where(queryObj.where)
+        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
 
       })).pipe(map(data => {
@@ -86,24 +106,43 @@ export class argoQuery {
 
         })
       }))
-    }
+    } */
 
+    const addTreeVariables = item => {
+
+      item.label = item.title ? item.title : item.name;
+
+      if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+        item.subQueryIds = queryObj.subQueryIds;
+        // If the query has subQueryIds, assume it may have children
+        //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
+        item.isLeaf = false;
+      }
+      else item.isLeaf = true;
+
+      // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
+      // If the item has an icon, use it. Otherwise use the query icon.
+      if (!item.icon) item.icon = queryObj.icon;
+
+      // If the item has a pageId, use it. Otherwise use the query pageId.
+      if (!item.pageId) item.pageId = queryObj.pageId
+      return item;
+
+    }
 
     const collectSubclasses = async (classId) => {
 
       const subClasses = async classId => {
-        let subClassesArr = await db.state
-          .where("superClassId")
-          .equals(classId)
-          .toArray()
+        let subClassesArr = await db.state.where({ 'superClassId': classId }).toArray()
+
         let promisses = []
-        subClassesArr.docs.forEach(subClass => {
+        subClassesArr.forEach(subClass => {
           promisses.push(subClasses(subClass._id))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
 
         let results = []
-        results = results.concat(subClassesArr.docs, arrayOfResultArrays.flat())
+        results = results.concat(subClassesArr, arrayOfResultArrays.flat())
         return results
       }
 
@@ -120,39 +159,39 @@ export class argoQuery {
     // In the case of a many to one query we interate over the many array
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
+    console.log('manyToOneArrayProp', queryObj)
+    if(queryObj === undefined ) debugger
+
     if (queryObj.manyToOneArrayProp) {
+      if (!contextObj) throw 'manyToOneArrayProp query must have a contextObj'
 
-      if (!nodeData) throw 'manyToOneArrayProp query must have a nodeData'
-
-      const manyIdsArr = getDescendantProp(queryObj.manyToOneArrayProp, nodeData)
+      const manyIdsArr = getDescendantProp(queryObj.manyToOneArrayProp, contextObj)
       if (!manyIdsArr) return []
-      let promiseArr = manyIdsArr.map((item) => {
-        return executeQuery(queryObj, item)
-      })
-      const arrayOfResultArrays = await Promise.all(promiseArr)
-      // TODO results may still have to be sorted
-      return arrayOfResultArrays.flat()
+
+      const collection$ = db.state.where('classId').anyOf(manyIdsArr)
+      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
+      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+      else return collection$.toArray()
 
     } else if (queryObj.extendTo === 'Instances') {
 
-      if (!queryObj.selector.classId) throw 'extendTo Instances query must select a classId'
+      if (!queryObj.where.classId) throw 'extendTo Instances query must select a classId'
 
-      const rootClassId = queryObj.selector.classId
-      const subClasses = await collectSubclasses(rootClassId)
+      const rootClassId = queryObj.where.classId
+      const subClassesArr = await collectSubclasses(rootClassId)
 
-      let promiseArr = subClasses.map(classObj => {
-        queryObj.selector.classId = classObj._id
-        return executeQuery(queryObj, classObj)
-      })
-      const arrayOfResultArrays = await Promise.all(promiseArr)
-      // TODO results may still have to be sorted
-      return arrayOfResultArrays.flat()
+      let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
+
+      const collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
+      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
+      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+      else return collection$.toArray()
 
     } else if (queryObj.extendTo === 'Properties') {
 
       // Do not use
       // Unfortunatly this doesn't work. We need the class being selected by the query.
-      // This often involves nodeData to resolve query varialbles, which we don't have access to.
+      // This often involves contextObj to resolve query varialbles, which we don't have access to.
 
       const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
 
@@ -167,7 +206,11 @@ export class argoQuery {
     } else {
 
       // Otherwise just execute the query. 
-      return executeQuery(queryObj, nodeData)
+      const resolvedWhere = resolve$Vars(queryObj.where, contextObj)            
+      const collection$ = db.state.where(resolvedWhere)
+      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
+      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+      else return collection$.toArray()
 
     }
   }

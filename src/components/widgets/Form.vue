@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import { db } from "../../services/dexieServices";
+import { db, argoQuery } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
+import { pluck, switchMap } from "rxjs/operators";
 import SubForm from "./controls/SubForm";
-import PoucdbServices from "../../services/pouchdbServices";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -50,17 +50,23 @@ export default {
       formReadOnly: true,
       omitEmptyFields: false,
       valid: false,
-      viewObj: {},
+      viewObj: {}
     };
   },
-  pouch: {
-    dataObj: function() {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.selectedObjId },
-        first: true,
-      };
-    },
+  subscriptions() {
+    // Watch the selectedObjId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
+      immediate: true,
+    }).pipe(pluck("newValue"));
+    // Whenever it changes, reset the live query with the new selectedObjId
+    const dataObj$ = selectedObjId$.pipe(
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id:  selectedObjId ? selectedObjId : '' }).first())
+      )
+    );
+    return {
+      dataObj: dataObj$,
+    };
   },
   methods: {
     async onChange() {
@@ -83,9 +89,7 @@ export default {
 
     async viewIdHandeler() {
       if (this.viewId)
-        this.viewObj = await PoucdbServices.getMaterializedView(this.viewId);
-      /* console.log("MaterializedView");
-      console.dir(this.viewObj); */
+        this.viewObj = await argoQuery.getMaterializedView(this.viewId);
     },
     onEditButton() {
       if (this.formReadOnly) {
@@ -108,7 +112,7 @@ export default {
     // Thats why we need both mounted and watch
     viewId: "viewIdHandeler",
 
-/*     dataObj: {
+/*  dataObj: {
       handler: "onChange",
       deep: true
     } */

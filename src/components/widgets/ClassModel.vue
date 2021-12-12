@@ -11,7 +11,6 @@
 
 <script>
 import { db } from "../../services/dexieServices";
-import { liveQuery } from "dexie";
 import ClassObject3d from "./3dDiagrams/classObject3d.js";
 import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
@@ -44,7 +43,7 @@ export default {
       // Get the root class from the store
 
       // Get the viewObj
-      const viewObj = await this.$pouch.get(this.viewId);
+      const viewObj = await db.state.get(this.viewId);
 
       // Execute the query
       let resArr = await PoucdbServices.executeQuery(viewObj.queryId);

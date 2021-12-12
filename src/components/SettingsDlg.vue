@@ -159,10 +159,10 @@ export default {
     async testQuery() {
       try {
         const observableResults = await argoQuery.executeQuery({
-          selector: {
+          where: {
             classId: "hdt3hmnsaghk",
           },
-          sort: 'name'
+          sortBy: 'name'
         });
         observableResults.subscribe({
           next: (result) => console.log("Got result:", result),

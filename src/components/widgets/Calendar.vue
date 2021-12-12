@@ -7,25 +7,32 @@
 <script>
 import { db } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
+import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: 'ar-calendar',
-  mixins: [WidgetMixin], 
+  name: "ar-calendar",
+  mixins: [WidgetMixin],
   props: {
     hashLevel: Number,
-    viewId: String
+    viewId: String,
   },
-  pouch: {
-    dataObj: function () {
-      return {
-        database: "argonautdb",
-        selector: { _id: this.selectedObjId },
-        first: true,
-      };
-    },
+  subscriptions() {
+    // Watch the pageId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
+      immediate: true,
+    }).pipe(pluck("newValue"));
+    // Whenever it changes, reset the live query with the new selectedObjId
+    const currentObj$ = selectedObjId$.pipe(
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
+      )
+    );
+    return {
+      dataObj: currentObj$,
+    };
   },
-}
+};
 </script>
 
 <style scoped>

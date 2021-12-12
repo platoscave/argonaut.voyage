@@ -23,7 +23,7 @@ export default {
         }
 
         // Select
-        else if (property.mongoQuery) return 'ar-select-string-query'
+        else if (property.argoQuery) return 'ar-select-string-query'
 
         // Enumeration
         else if (property.enum) return 'ar-select-string-enum'
@@ -63,7 +63,7 @@ export default {
         // multi select
         else if (property.items.type === 'string') {
 //debugger
-          if (property.items.mongoQuery) return 'ar-select-array-query'
+          if (property.items.argoQuery) return 'ar-select-array-query'
 
           else return 'ar-select-array-enum'
         }
