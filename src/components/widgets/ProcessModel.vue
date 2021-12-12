@@ -10,13 +10,11 @@
 </template>
 
 <script>
-import { db } from "../../services/dexieServices";
-import { liveQuery } from "dexie";
+import { argoQuery } from "../../services/dexieServices";
 import PropositionObject3d from "./3dDiagrams/propositionObject3d";
 import ProcessObject3d from "./3dDiagrams/processObject3d.js";
 import OrgObject3d from "./3dDiagrams/orgObject3d.js";
 import UserObject3d from "./3dDiagrams/userObject3d.js";
-import PoucdbServices from "../../services/pouchdbServices";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 
@@ -52,10 +50,10 @@ export default {
     async drawPropositions( zPos ) {
       // Get the processes from the store
       // Owned Processes Query
-      let resArr = await PoucdbServices.executeQuery("f41heqslym5e", {
+      let resArr = await argoQuery.executeQuery("f41heqslym5e", {
         _id: this.selectedObjId,
       });
-
+debugger
       // Create the ProcessObject3ds (extends Object3d)
       let propositionsArr = [];
       let xPos = resArr.length * -WIDTH
@@ -78,7 +76,7 @@ export default {
 
       // Get the processes from the store
       // Owned Processes Query
-      let resArr = await PoucdbServices.executeQuery("sfmg5u3wtpds", {
+      let resArr = await argoQuery.executeQuery("sfmg5u3wtpds", {
         _id: this.selectedObjId,
       });
 
@@ -98,7 +96,7 @@ export default {
         promisesArr.push(
           processObj3d.drawSteps(
             this.selectableMeshArr,
-            PoucdbServices.executeQuery,
+            argoQuery.executeQuery,
             this.glModelObject3D,
             "aiw54neadp14" // First step queryId
           )
@@ -150,7 +148,7 @@ export default {
     async drawOrgUnits( zPos ) {
 
       // Execute the Organization Query
-      let resArr = await PoucdbServices.executeQuery('vbinebvkz1sq', {
+      let resArr = await argoQuery.executeQuery('vbinebvkz1sq', {
         _id: this.selectedObjId,
       });
 
@@ -163,7 +161,7 @@ export default {
       // Tell root class to draw the organizational units
       await rootOrgObj3d.drawOrgUnits(
         this.selectableMeshArr,
-        PoucdbServices.executeQuery,
+        argoQuery.executeQuery,
         "o4jhldcqvbep"
       );
 
@@ -180,7 +178,7 @@ export default {
       let activePermAccArr = [];
       await rootOrgObj3d.getActivePermissionedAccounts(
         this.selectableMeshArr,
-        PoucdbServices.executeQuery,
+        argoQuery.executeQuery,
         "1dbriehwtyyp",
         activePermAccArr
       );
@@ -228,7 +226,7 @@ export default {
 
       await this.drawOrgUnits( -DEPTH * 60 );
 
-      this.drawStepToUserConnectors(processArr)
+      //this.drawStepToUserConnectors(processArr)
 
       this.removeLoadingText();
 

@@ -5,7 +5,7 @@ import PouchDB from 'pouchdb-browser'
 const db = new PouchDB('argonautdb');
 
 
-export default class PoucdbServices {
+export default class argoQuery {
 
 
   // nodeData is used to resolve $ variables in queries

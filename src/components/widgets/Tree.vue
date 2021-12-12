@@ -29,9 +29,7 @@
 </template>
 
 <script>
-import { db } from "../../services/dexieServices";
-import { liveQuery } from "dexie";
-import PoucdbServices from "../../services/pouchdbServices";
+import { db, argoQuery } from "../../services/dexieServices";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -108,7 +106,7 @@ export default {
           // Get the viewObj
           this.viewObj = await db.state.get(this.viewId);
           // Execute the query
-          const resArr = await PoucdbServices.executeQuery(
+          const resArr = await argoQuery.executeQuery(
             this.viewObj.queryId,
             { _id: this.selectedObjId }
           );
@@ -123,7 +121,7 @@ export default {
           //TODO remove condition?
           if (node.data.subQueryIds) {
             let promiseArr = node.data.subQueryIds.map((queryId) => {
-              return PoucdbServices.executeQuery(queryId, node.data);
+              return argoQuery.executeQuery(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat();

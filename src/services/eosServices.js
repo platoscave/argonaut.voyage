@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { db } from "../services/dexieServices";
+import { db, argoQuery } from "../services/dexieServices";
 import {
   Api,
   JsonRpc,
@@ -15,11 +15,8 @@ import {
   encodeName,
   decodeName
 } from '../lib/format.js'
-import PouchDB from 'pouchdb-browser'
-import PoucdbServices from "../services/pouchdbServices";
 
 
-const argonautDb = new PouchDB('argonautdb');
 //const settingsDb = new PouchDB('settings');
 
 // See https://eosio.github.io/eosjs/latest/how-to-guides/index
@@ -245,7 +242,7 @@ class EosApiService {
     var pageSize = 10;
     var lastSeq = 0;
     const fetchNextPage = async () => {
-      const changes = await argonautDb.changes({
+      const changes = await db.changes({
         since: lastSeq,
         limit: pageSize,
         include_docs: true
@@ -314,7 +311,7 @@ return */
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
-    //const document = await argonautDb.get('ikjyhlqewxs3')
+    //const document = await db.state.get('ikjyhlqewxs3')
 
     const result = await this.upsertDocument(testObject)
 

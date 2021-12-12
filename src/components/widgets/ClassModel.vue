@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import { db } from "../../services/dexieServices";
+import { db, argoQuery } from "../../services/dexieServices";
 import ClassObject3d from "./3dDiagrams/classObject3d.js";
-import PoucdbServices from "../../services/pouchdbServices"
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 
@@ -46,7 +45,7 @@ export default {
       const viewObj = await db.state.get(this.viewId);
 
       // Execute the query
-      let resArr = await PoucdbServices.executeQuery(viewObj.queryId);
+      let resArr = await argoQuery.executeQuery(viewObj.queryId);
 
       // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(resArr[0], true);
@@ -56,7 +55,7 @@ export default {
       // Tell root class to draw the subclasses
       await rootClassObj3d.drawSubclasses(
         this.selectableMeshArr,
-        PoucdbServices.executeQuery,
+        argoQuery.executeQuery,
         '2jfs4is4icct'
       );
 
@@ -72,7 +71,7 @@ export default {
       // Tell root class and its subclasses to draw the objects
       await rootClassObj3d.drawObjects(
         this.selectableMeshArr,
-        PoucdbServices.executeQuery,
+        argoQuery.executeQuery,
         'x1lrv2xdq2tu'
       );
 

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { db } from "../../../services/dexieServices";
 import { liveQuery } from "dexie";
 import { pluck, switchMap } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";

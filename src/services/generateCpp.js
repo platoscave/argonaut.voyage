@@ -1,7 +1,6 @@
 //import Vue from 'vue'
 //const JSZip = require("jszip");
-import { db } from "./dexieServices";
-import PoucdbServices from "./pouchdbServices"
+import { db, argoQuery } from "./dexieServices";
 
 class GenerateCpp {
 
@@ -24,7 +23,7 @@ class GenerateCpp {
         // let zip = new JSZip();
         // PR: gzthjuyjca4s
         // Pages: 
-        let classObj = await PoucdbServices.getMergedAncestorProperties('pejdgrwd5qso')
+        let classObj = await argoQuery.getMergedAncestorProperties('pejdgrwd5qso')
         return this.hpp(classObj)
 
     }

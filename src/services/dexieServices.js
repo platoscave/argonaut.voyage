@@ -1,8 +1,6 @@
 // db.js
 import Dexie from 'dexie';
 import { liveQuery } from "dexie";
-import { map } from 'rxjs/operators';
-import * as Rx from "rxjs";
 
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
@@ -65,49 +63,6 @@ export class argoQuery {
       return retObj
     }
 
-/*     // Get / Execute the query
-    const executeQuery = async (queryObj, contextObj) => {
-
-      // Clone the query
-      let queryObjClone = JSON.parse(JSON.stringify(queryObj))
-      // Resolve the $variables in the query
-      resolveQueryVariables(queryObjClone.where, contextObj)
-      //console.log(queryObjClone)
-
-      // Execute the query
-      return Rx.from(liveQuery(() => {
-
-        const collection$ = db.state.where(queryObj.where)
-        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-        else return collection$.toArray()
-
-      })).pipe(map(data => {
-
-        // Add some attributes to each item for the bennifit of Tree
-        return data.map(item => {
-
-          item.label = item.title ? item.title : item.name;
-
-          if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
-            item.subQueryIds = queryObj.subQueryIds;
-            // If the query has subQueryIds, assume it may have children
-            //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
-            item.isLeaf = false;
-          }
-          else item.isLeaf = true;
-
-          // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
-          // If the item has an icon, use it. Otherwise use the query icon.
-          if (!item.icon) item.icon = queryObj.icon;
-
-          // If the item has a pageId, use it. Otherwise use the query pageId.
-          if (!item.pageId) item.pageId = queryObj.pageId
-          return item;
-
-        })
-      }))
-    } */
-
     const addTreeVariables = item => {
 
       item.label = item.title ? item.title : item.name;
@@ -159,8 +114,8 @@ export class argoQuery {
     // In the case of a many to one query we interate over the many array
     // Execute the query for each of the items
     // use the item as basis for resolving query variables
-    console.log('manyToOneArrayProp', queryObj)
-    if(queryObj === undefined ) debugger
+    //console.log('queryObj', queryObj)
+
 
     if (queryObj.manyToOneArrayProp) {
       if (!contextObj) throw 'manyToOneArrayProp query must have a contextObj'
