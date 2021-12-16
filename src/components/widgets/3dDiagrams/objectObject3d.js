@@ -14,14 +14,14 @@ export default class StepObject3d extends Object3D {
     Object.assign(this, object3dMixin);
 
     this._id = userData._id
-    this.name = userData.label + ' - object3d'
+    this.name = userData.name + ' - object3d'
     this.userData = userData
 
     let objectMesh = this.getMesh()
-    objectMesh.name = userData.label + ' - 3d mesh'
+    objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
 
-    let textMesh = this.getTextMesh(userData.label)
+    let textMesh = this.getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     textMesh.translateY(-HEIGHT / 4)
     objectMesh.add(textMesh)

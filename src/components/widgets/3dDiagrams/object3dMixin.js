@@ -21,7 +21,7 @@ const font = new Font(fontJson)
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 export default {
 
-  drawBeam(points, colorName, label, arrow) {
+  drawBeam(points, colorName, name, arrow) {
 
     let geometries = []
 
@@ -72,13 +72,13 @@ export default {
     const mesh = new Mesh(mergedGeometry, material)
 
     // TODO only two points
-    if(label) mesh.add(this.drawLabel(label, points[1], points[2]))
+    if(name) mesh.add(this.drawLabel(name, points[1], points[2]))
 
     return mesh
 
   },
 
-  drawTube(points, colorName, label, arrow) {
+  drawTube(points, colorName, name, arrow) {
 
     const beforeLastPoint = points[points.length -2]
     const lastPoint = points[points.length -1]
@@ -132,7 +132,7 @@ export default {
     let mesh = new Mesh(mergedGeometry, material)
     mesh.name = 'tube - ' + colorName
 
-    if(label) mesh.add(this.drawLabel(label, points[1], points[2]))
+    if(name) mesh.add(this.drawLabel(name, points[1], points[2]))
 
     return mesh
 
@@ -174,9 +174,9 @@ export default {
     return pos
   },
 
-  drawLabel(label, pt1, pt2) {
+  drawLabel(name, pt1, pt2) {
 
-    let labelMesh = this.getTextMesh(label)
+    let labelMesh = this.getTextMesh(name)
     let textPos = new Vector3()
     if (pt2) textPos.lerpVectors(pt1, pt2, 0.5)
     else textPos = pt1
@@ -189,7 +189,7 @@ export default {
 
   getTextMesh( name = 'unnamed', size = HEIGHT / 6 ) {
 
-    const { label: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { name: colorProp = { color: 0xEFEFEF }  } = modelColors
     let textMaterial = new MeshLambertMaterial({ color: colorProp.color })
     textMaterial.side = DoubleSide
 

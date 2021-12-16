@@ -14,14 +14,14 @@ export default class StepObject3d extends Object3D {
     Object.assign(this, object3dMixin);
 
     this._id = userData._id
-    this.name = userData.label + ' - object3d'
+    this.name = userData.name + ' - object3d'
     this.userData = userData
 
     let objectMesh = this.getMesh()
-    objectMesh.name = userData.label + ' - 3d mesh'
+    objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
 
-    let textMesh = this.getTextMesh(userData.label)
+    let textMesh = this.getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     textMesh.translateX(WIDTH / 16)
     objectMesh.add(textMesh)
@@ -109,7 +109,7 @@ export default class StepObject3d extends Object3D {
   }
 
 
-  drawTubeRightSideToLeftSide(stepObj3d, label) {
+  drawTubeRightSideToLeftSide(stepObj3d, name) {
 
     // Get sourcePos in world coordinates
     let sourcePos = new Vector3()
@@ -137,11 +137,11 @@ export default class StepObject3d extends Object3D {
       points.push(destLeftPos)
     }
 
-    this.add(this.drawTube(points, label, label, true))
+    this.add(this.drawTube(points, name, name, true))
 
   }
 
-  drawTubeRightSideToBottom(returnProcessObj3d, label) {
+  drawTubeRightSideToBottom(returnProcessObj3d, name) {
 
     // Get sourcePos in world coordinates
     let sourcePos = new Vector3()
@@ -167,7 +167,7 @@ export default class StepObject3d extends Object3D {
     points.push(new Vector3(destBottomPos.x, destBottomPos.y - HEIGHT * 2, destBottomPos.z))
     points.push(destBottomPos)
 
-    this.add(this.drawTube(points, label, label, true))
+    this.add(this.drawTube(points, name, name, true))
   }
 
 
@@ -237,7 +237,7 @@ export default class StepObject3d extends Object3D {
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.label + " - 3d geometry"
+    geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
     const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
