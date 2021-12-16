@@ -85,7 +85,7 @@ export default {
       // Get PageId or Icon from item anscestors, recursivly
       const getAnscestorsProp = async (id, prop) => {
         const classObj = await db.state.get(id);
-        console.log("getProp", classObj._id, classObj.title, classObj.pageId);
+        //console.log("getProp", classObj._id, classObj.title, classObj.pageId, classObj.icon ? classObj.icon.substr(classObj.icon.length - 50) : 'no icon');
         if (classObj[prop]) return classObj[prop];
         return getAnscestorsProp(classObj.superClassId, prop);
       };
@@ -101,12 +101,13 @@ export default {
             item.isLeaf = false;
           } else item.isLeaf = true;
 
-          console.log(
+          /* console.log(
             "addTreeVariables before",
             item._id,
             item.label,
-            item.pageId
-          );
+            item.pageId,
+            item.icon ? item.icon.substr(item.icon.length - 50) : 'no icon'
+          ); */
 
           // If the queryObj has a pageId, use it. Otherwise use the item pageId.
           if (queryObj.pageId) item.pageId = queryObj.pageId;
@@ -114,25 +115,27 @@ export default {
           if (!item.pageId)
             item.pageId = await getAnscestorsProp(item.classId, "pageId");
 
-          console.log(
-            "addTreeVariables after ",
-            item._id,
-            item.label,
-            item.pageId
-          );
-
           // If the queryObj has an icon, use it. Otherwise use the item icon.
           if (queryObj.icon) item.icon = queryObj.icon;
           // Still no icon, ask the anscetors
           if (!item.icon)
             item.icon = await getAnscestorsProp(item.classId, "icon");
+
+          console.log(
+            "addTreeVariables after ",
+            item._id,
+            item.label,
+            item.pageId,
+            item.icon ? item.icon.substr(item.icon.length - 50) : 'no icon'
+          
+          );
         });
       };
 
       const executeQueryAddVars = async (queryId, nodeData) => {
         const queryObj = await db.state.get(queryId);
         const resArr = await argoQuery.executeQuery( queryObj, nodeData)
-        addTreeVariables(resArr, queryObj);
+        await addTreeVariables(resArr, queryObj);
         return resArr;
       };
 
@@ -164,6 +167,7 @@ export default {
     },
 
     renderContent(createElement, { node, data, store }) {
+      console.log('nodeData', node.label, data.icon ? data.icon.substr(data.icon.length - 50) : 'no icon')
       return createElement("span", [
         createElement("img", {
           attrs: { src: data.icon },
