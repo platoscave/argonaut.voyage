@@ -50,10 +50,12 @@ export default {
     async drawPropositions( zPos ) {
       // Get the processes from the store
       // Owned Processes Query
+
       let resArr = await argoQuery.executeQuery("f41heqslym5e", {
         _id: this.selectedObjId,
       });
-debugger
+      debugger
+
       // Create the ProcessObject3ds (extends Object3d)
       let propositionsArr = [];
       let xPos = resArr.length * -WIDTH
@@ -226,7 +228,7 @@ debugger
 
       await this.drawOrgUnits( -DEPTH * 60 );
 
-      //this.drawStepToUserConnectors(processArr)
+      this.drawStepToUserConnectors(processArr)
 
       this.removeLoadingText();
 

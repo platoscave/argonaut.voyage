@@ -24,25 +24,6 @@ export class argoQuery {
       return contextObj;
     };
 
-    const resolveQueryVariables = (where, contextObj) => {
-      // Replace variables in the where
-      for (var key in where) {
-        const value = where[key]
-        // This is a complex query. Recusive call on each of the items
-        if (Array.isArray(value)) value.forEach(item => resolveQueryVariables(item, contextObj))
-        // This is a request for the value itself (not a path)
-        else if (value === '$') where[key] = contextObj
-        // Replace $fk with id from resolve obj
-        else if (value === "$fk") where[key] = contextObj._id;
-        // Apply dot notation using contextObj
-        else if (value.startsWith("$")) {
-          where[key] = getDescendantProp(value, contextObj);
-          // not found? force empty results (null would cause everything to be retreived)
-          if (!where[key]) where[key] = 'xxx'
-        }
-      }
-    }
-
     const resolve$Vars = (whereClause, contextObj) => {
       let retObj = {}
       // Replace variables in the whereClause
@@ -77,10 +58,14 @@ export class argoQuery {
 
       // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
       // If the item has an icon, use it. Otherwise use the query icon.
-      if (!item.icon) item.icon = queryObj.icon;
+      //if (!item.icon) item.icon = queryObj.icon;
+      if (queryObj.icon) item.icon = queryObj.icon;
 
+      //console.log('treevars', item.label, item)
       // If the item has a pageId, use it. Otherwise use the query pageId.
-      if (!item.pageId) item.pageId = queryObj.pageId
+      console.log('addTreeVariables before', item._id, item.label, item.pageId )
+      //if (queryObj.pageId) item.pageId = queryObj.pageId
+      console.log('addTreeVariables after ', item._id, item.label, item.pageId )
       return item;
 
     }
@@ -124,7 +109,7 @@ export class argoQuery {
       if (!manyIdsArr) return []
 
       const collection$ = db.state.where('classId').anyOf(manyIdsArr)
-      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
+      //collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
       if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
       else return collection$.toArray()
 
@@ -138,7 +123,7 @@ export class argoQuery {
       let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
 
       const collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
-      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
+      //collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
       if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
       else return collection$.toArray()
 
@@ -161,12 +146,13 @@ export class argoQuery {
     } else {
 
       // Otherwise just execute the query. 
-      const resolvedWhere = resolve$Vars(queryObj.where, contextObj)            
-      const collection$ = db.state.where(resolvedWhere)
-      collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
-      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-      else return collection$.toArray()
-
+      const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
+      //return liveQuery(() => {
+        const collection$ = db.state.where(resolvedWhere)
+        //collection$.modify(addTreeVariables)  // Do not use .modify. It updates the store, bot just the local copies
+        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+        else return collection$.toArray()
+      //})
     }
   }
 

@@ -4,7 +4,7 @@ import ClassModel from './widgets/ClassModel.vue'
 import Document from './widgets/Document.vue'
 import Form from './widgets/Form.vue'
 import MaterializedView from './widgets/simpleJson/MaterializedView.vue'
-import MergedAncestors from './widgets/simpleJson/MergedAncestors.vue'
+import MergedAncestorsForm from './widgets/MergedAncestorsForm.vue'
 import NavigationMenu from './widgets/NavigationMenu.js'
 import PageEditor from './widgets/PageEditor.vue'
 import ProcessModel from './widgets/ProcessModel.vue'
@@ -24,7 +24,7 @@ export default {
     'ar-document': Document,
     'ar-form': Form,
     'ar-materialized-view': MaterializedView,
-    'ar-merged-ancestors': MergedAncestors,
+    'ar-merged-ancestors-form': MergedAncestorsForm,
     'ar-naigation-menu': NavigationMenu,
     'ar-page-editor': PageEditor,
     'ar-process-model': ProcessModel,
@@ -75,8 +75,8 @@ export default {
       else if (widget.displayType === 'Materialized View') {
         return createElement('ar-materialized-view', elementProps)
       }
-      else if (widget.displayType === 'Merged Ancestors') {
-        return createElement('ar-merged-ancestors', elementProps)
+      else if (widget.displayType === 'Merged Ancestors Form') {
+        return createElement('ar-merged-ancestors-form', elementProps)
       }
       else if (widget.displayType === 'Navigation Menu') {
         return createElement('ar-naigation-menu', elementProps)

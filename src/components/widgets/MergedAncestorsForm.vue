@@ -30,12 +30,12 @@
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
-import { pluck, switchMap, mergeMap, iif, of } from "rxjs/operators";
+import { pluck, switchMap } from "rxjs/operators";
 import SubForm from "./controls/SubForm";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: "ar-form",
+  name: "ar-merged-ancestors-form",
   mixins: [WidgetMixin],
   components: {
     "ar-sub-form": SubForm,
@@ -54,6 +54,7 @@ export default {
     };
   },
   subscriptions() {
+
     // Watch the selectedObjId as observable
     const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
       immediate: true,
@@ -67,19 +68,15 @@ export default {
       })
     )
 
-    // Watch the viewId as observable
-    const viewId$ = this.$watchAsObservable("viewId", {
-      immediate: true,
-    }).pipe(pluck("newValue"));
-
-     // Whenever viewId changes, reset the live query with the new viewId
-    const viewObj$ = viewId$.pipe(
-      switchMap((viewId) =>
-        liveQuery(() => db.state.where({ _id:  viewId ? viewId : '' }).first())
+    // Whenever dataObj changes, fetch the getMergedAncestorProperties promise with the new classId
+    const viewObj$ = dataObj$.pipe(
+      switchMap(
+        (dataObj) =>
+          argoQuery.getMergedAncestorProperties(
+            dataObj.classId ? dataObj.classId : ""
+          )
       )
-    )
-
-
+    );
 
     return {
       dataObj: dataObj$,
@@ -105,15 +102,6 @@ export default {
       }
     },
 
-    async viewIdHandeler() {
-      if (this.viewId === "5ucwmdby4wox") {
-        const mergedProps = await argoQuery.getMergedAncestorProperties(
-          this.dataObj.classId
-        );
-        this.viewObj = mergedProps;
-      } else if (this.viewId)
-        this.viewObj = await argoQuery.getMaterializedView(this.viewId);
-    },
     onEditButton() {
       if (this.formReadOnly) {
         if (this.omitEmptyFields) {
@@ -128,30 +116,8 @@ export default {
         this.omitEmptyFields = false;
       }
     },
-    async onClassView() {
-      debugger;
-      const mergedProps = await argoQuery.getMergedAncestorProperties(
-        this.dataObj.classId
-      );
-      debugger;
-      this.viewObj = mergedProps;
-    },
   },
-  /* watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    viewId: "viewIdHandeler",
 
-
-  dataObj: {
-      handler: "onClassView",
-      deep: true,
-      immediate: true
-    }
-  },
-  mounted: function() {
-    this.viewIdHandeler();
-  }, */
 };
 </script>
 

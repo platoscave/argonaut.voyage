@@ -23,6 +23,7 @@ export default {
         liveQuery(() => db.state.where({ _id: selectedObjId }).first())
       )
     );
+    //TODO does the this.menuId ever change?
     return {
       menuObj: liveQuery(() =>
         db.state.where({ _id: this.menuId }).first()
@@ -103,7 +104,8 @@ export default {
             },
             on: {
               click: () => {
-                this.updateNextLevelHash({ _id: item.nextLevelSelectedObjId, pageId: item.pageId })
+                const nextLevelSelectedObjId = item.nextLevelSelectedObjId ? item.nextLevelSelectedObjId :this.selectedObjId
+                this.updateNextLevelHash({ _id: nextLevelSelectedObjId, pageId: item.pageId })
               }
             }
           }, labelElement(item, index === '' ? true : false)))

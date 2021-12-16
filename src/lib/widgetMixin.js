@@ -62,6 +62,8 @@ export default {
       hashArr[this.hashLevel + 2] = nextLevelStateStr;
       const hash = hashArr.join("/");
       window.location.hash = hash;
+
+      console.log('updateNextLevelHash', this.hashLevel, nodeData.lable, newNextLevelPageId)
     },
 
     handleHashChange: function () {
@@ -82,12 +84,13 @@ export default {
         this.nextLevelSelectedObjId = nextLevelArr[0]
         this.nextLevelPageId = nextLevelArr[1]
       }
-
+      
+      //console.log('handleHashChange', this.hashLevel, this.nextLevelSelectedObjId)
     },
 
   },
 
-  mounted() {
+  created() {
     
     this.handleHashChange();
     window.addEventListener("hashchange", this.handleHashChange, false);

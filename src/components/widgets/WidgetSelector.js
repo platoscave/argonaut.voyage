@@ -13,7 +13,7 @@ export default {
       else if (displayType === 'Form') return 'ar-form'
       else if (displayType === 'HTML Page') return 'ar-tiptap'
       else if (displayType === 'Materialized View') return 'ar-materialized-view'
-      else if (displayType === 'Merged Ancestors') return 'ar-merged-ancestors'
+      else if (displayType === 'Merged Ancestors Form') return 'ar-merged-ancestors-form'
       else if (displayType === 'Navigation Menu') return 'ar-naigation-menu'
       else if (displayType === 'Page Editor') return 'ar-page-editor'
       else if (displayType === 'Process Model') return 'ar-process-model'

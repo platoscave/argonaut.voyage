@@ -81,23 +81,59 @@ export default {
     },
 
     async loadNode(node, resolve) {
-      // Get PageId or Icon from item anscestors
-      const getProp = async (id, prop) => {
+      //
+      // Get PageId or Icon from item anscestors, recursivly
+      const getAnscestorsProp = async (id, prop) => {
         const classObj = await db.state.get(id);
+        console.log("getProp", classObj._id, classObj.title, classObj.pageId);
         if (classObj[prop]) return classObj[prop];
-        return getProp(classObj.superClassId, prop);
+        return getAnscestorsProp(classObj.superClassId, prop);
       };
-      // For each resArr, Get PageId or Icon from item anscestors
-      const getGetPropertyFromAnscetors = async (resArr, prop) => {
-        let promisesArr = [];
-        resArr.forEach((item) => {
-          if (item[prop]) promisesArr.push(item[prop]);
-          else promisesArr.push(getProp(item.classId, prop));
+
+      const addTreeVariables = async (items, queryObj) => {
+        items.forEach(async (item) => {
+          item.label = item.title ? item.title : item.name; //TODO value?
+
+          if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+            item.subQueryIds = queryObj.subQueryIds;
+            // If the query has subQueryIds, assume it may have children
+            //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+            item.isLeaf = false;
+          } else item.isLeaf = true;
+
+          console.log(
+            "addTreeVariables before",
+            item._id,
+            item.label,
+            item.pageId
+          );
+
+          // If the queryObj has a pageId, use it. Otherwise use the item pageId.
+          if (queryObj.pageId) item.pageId = queryObj.pageId;
+          // Still no pageId, ask the anscetors
+          if (!item.pageId)
+            item.pageId = await getAnscestorsProp(item.classId, "pageId");
+
+          console.log(
+            "addTreeVariables after ",
+            item._id,
+            item.label,
+            item.pageId
+          );
+
+          // If the queryObj has an icon, use it. Otherwise use the item icon.
+          if (queryObj.icon) item.icon = queryObj.icon;
+          // Still no icon, ask the anscetors
+          if (!item.icon)
+            item.icon = await getAnscestorsProp(item.classId, "icon");
         });
-        const propArr = await Promise.all(promisesArr);
-        resArr.forEach((item, idx) => {
-          item[prop] = propArr[idx];
-        });
+      };
+
+      const executeQueryAddVars = async (queryId, nodeData) => {
+        const queryObj = await db.state.get(queryId);
+        const resArr = await argoQuery.executeQuery( queryObj, nodeData)
+        addTreeVariables(resArr, queryObj);
+        return resArr;
       };
 
       try {
@@ -106,31 +142,19 @@ export default {
           // Get the viewObj
           this.viewObj = await db.state.get(this.viewId);
           // Execute the query
-          const resArr = await argoQuery.executeQuery(
-            this.viewObj.queryId,
-            { _id: this.selectedObjId }
-          );
-
-          // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the argoQuery
-          getGetPropertyFromAnscetors(resArr, "pageId");
-          getGetPropertyFromAnscetors(resArr, "icon");
-
+          const resArr = await executeQueryAddVars(this.viewObj.queryId, {_id: this.selectedObjId});
           resolve(resArr);
         }
-        if (node.level > 0) {
-          //TODO remove condition?
+        // node.level > 0
+        else {
           if (node.data.subQueryIds) {
             let promiseArr = node.data.subQueryIds.map((queryId) => {
-              return argoQuery.executeQuery(queryId, node.data);
+              // Execute the query
+              return executeQueryAddVars(queryId, node.data)
             });
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat();
-
-            // Get the pageIds / icons from anscetors, incase the result item didn't have one, neither did the argoQuery
-            getGetPropertyFromAnscetors(flatResArr, "pageId");
-            getGetPropertyFromAnscetors(flatResArr, "icon");
-
-            resolve(resArr.flat());
+            resolve(flatResArr)
           } else resolve([]);
         }
       } catch (err) {

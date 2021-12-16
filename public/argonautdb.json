@@ -4,6 +4,7 @@
     "docType": "class",
     "title": "Process Universe",
     "description": "<p>The root of all classes and objects</p>",
+    "pageId": "mb2bdqadowve",
     "properties": {
       "_id": {
         "description": "<p>Base32 identifier.</p>",
@@ -60,7 +61,8 @@
       "classId"
     ],
     "type": "object",
-    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+"
+    "XXXicon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+",
+    "icon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg=="
   },
   {
     "_id": "i1gjptcb2skq",
@@ -958,7 +960,7 @@
                       "Form",
                       "HTML Page",
                       "Materialized View",
-                      "Merged Ancestors",
+                      "Merged Ancestors Form",
                       "Navigation Menu",
                       "Page Editor",
                       "Process Model",
@@ -1185,7 +1187,6 @@
     "title": "Menus",
     "description": "<p>Custom Menus/p>",
     "superClassId": "nrioirgelhpi",
-    "pageId": "ewpdfwn1bghg",
     "properties": {
       "menuArr": {
         "items": {
@@ -2919,7 +2920,7 @@
   {
     "_id": "24cnex2saye1",
     "docType": "object",
-    "name": "Class Model Page",
+    "name": "Class Details Page",
     "classId": "pejdgrwd5qso",
     "divider": "None",
     "ownerId": "argonautvoya",
@@ -2940,12 +2941,40 @@
             "displayType": "Raw"
           }
         ]
-      },
+      }
+    ]
+  },
+
+  {
+    "_id": "mb2bdqadowve",
+    "docType": "object",
+    "name": "Object Details Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "argonautvoya",
+    "tabs": [
       {
-        "name": "Merged Ancestors",
+        "name": "Details",
         "widgets": [
           {
-            "displayType": "Merged Ancestors"
+            "displayType": "Merged Ancestors Form",
+            "viewId": "5ucwmdby4wox"
+          }
+        ]
+      },
+      {
+        "name": "Raw",
+        "widgets": [
+          {
+            "displayType": "Raw"
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "widgets": [
+          {
+            "displayType": "Validate"
           }
         ]
       }
@@ -3172,7 +3201,7 @@
         ]
       },
       {
-        "name": "View",
+        "name": "Materialized View",
         "widgets": [
           {
             "displayType": "Materialized View"
@@ -4087,7 +4116,8 @@
     ],
     "where": {
       "superClassId": "nrioirgelhpi"
-    }
+    },
+    "sortBy": "title"
   },
   {
     "_id": "kmcvgaw2jtjw",
