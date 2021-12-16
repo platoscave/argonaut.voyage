@@ -96,7 +96,7 @@
           "sortBy": "name",
           "extendTo": "Instances"
         },
-        "title": "Buyer",
+        "title": "Consumer",
         "type": "string"
       },
       "providerId": {
@@ -108,7 +108,7 @@
           "sortBy": "name",
           "extendTo": "Instances"
         },
-        "title": "Seller",
+        "title": "Provider",
         "type": "string"
       },
       "assetId": {
@@ -619,7 +619,6 @@
     "description": "<p>Organizational units owned by organizations</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODBDQUY3RkM2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODBDQUY3RkQ2OUEzMTFFM0ExRDBGQzcyRDA1NTZFMEYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MENBRjdGQTY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MENBRjdGQjY5QTMxMUUzQTFEMEZDNzJEMDU1NkUwRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pj6+XOUAAAGRSURBVHjafFK/T8JAFH7XHtFECg0xwZ3EOLnILOpWaqJ/gLOLf4B/ibuDm4NiKN1EnHFxk4RRogugwcHSu/PelcPSUl7ycnfvu/vej/uIEAIIIaDt4ublfhryE8YFJM00COSo0bg62zudB5EgbufXXfEtg4NAiPeY4xnjiMfv02QWxjn8BABvw1QBsFOK8JUEqioDwF7H6gCwOUyJXWI8aSkC0zTBklFSjAg0AxLkSYSvJBBs+nh52zvSQ1SZxf8QEY/fJ8lfkFaRbuvD7nal+9rrV2P4WHo/k+Bgv6YSCsHBMAzpJnDOpHN5z1AdPT13SGYLG5YFntesQoa57nE31cJDszmSqyobs2ptUEo/XcfZ8nz/IwzDcjQToqqZ7ceqAsaY7dbr8MtC/WmwZlJo+b56FARBue44KdxrtWyq1chDBl/DkcZhs1SaZ8J1GY7v5jMwcxQsKw96qHhe0EcGTnVfOUqhWCgsPNK/swpXBJPJpHPXaNR4TOc4TBlvz/C2xA+X4B2tgwXxLBFNJv4nwABEa91VFnwXcgAAAABJRU5ErkJggg==",
     "superClassId": "ikjyhlqewxs3",
-    "pageId": "t2grmjaab5fn",
     "type": "object"
   },
   {
@@ -629,7 +628,6 @@
     "description": "<p>Users own resourses</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTI0OTU2Mjc1NDE0MTFFMUIxRUJDMTA5NzgzMTIzMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTI0OTU2Mjg1NDE0MTFFMUIxRUJDMTA5NzgzMTIzMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5MjQ5NTYyNTU0MTQxMUUxQjFFQkMxMDk3ODMxMjMyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MjQ5NTYyNjU0MTQxMUUxQjFFQkMxMDk3ODMxMjMyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuG7TDUAAAHRSURBVHjafFJNaBNREP7e/iUSNiQSLHrReC54yK0ieMq1B68etMSDCEJAFPSQmIM9KC1GjUiDiFfvgrZYC60imEvwJP60FyMSQ1LT/G2y09nNJm6STT4Yvpl5M+/NzxNEhAG27wXJ7CHBrrwQeMF8iXmJ+TlzQpKRP3fnn3DnwDIGspXRqbKuE5V0enOLucl8s29XNnSyzsdzJLhgmkD4FCtNQvw6Gw0T8SRzy0Q42gN6BsahuA27MuIEsgI7jhNDlk3MvkBYUcLA3u95vPp8BR3DhyO+OiLBMkq1KPxzNazlatc49InnDDbTAaLvoAePn5IbK9mHQz2be0RTZ+CUYb9sqzx6C7KqDnUM2MHkBdyFpnSG1cEZy6e7wE5GwJT8f0fec+/0fVqn8xcN/KmexMuPSRhcid/fxuWFVYSO/8CHZ12cTeEM5xS9t2DVTwqOHd3FjQtX0e5GoO6X8WVLw0/SYMqqtePi7BZsl8a1BeALNSAFAwid0NBqyHwkz17j/8YEXt8XUPhB1WcNEag26e3icv325MxcK3mX4m/7leUbyy+WA502U/b3jbGc9spRvLZgS7cvzowLmALJ00tjMgMja+TPEpsSVxhve4BDAQYA4h0NK1GHkjIAAAAASUVORK5CYII=",
     "superClassId": "ikjyhlqewxs3",
-    "pageId": "z1wmobr423zh",
     "type": "object"
   },
   {
@@ -660,8 +658,7 @@
         "type": "string"
       }
     },
-    "type": "object",
-    "pageId": "44yiclbxugop"
+    "type": "object"
   },
   {
     "_id": "5jdnjqxsqmgn",
@@ -740,7 +737,6 @@
     "description": "<p>Steps</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "superClassId": "nrioirgelhpi",
-    "pageId": "2vnljdsieyjw",
     "properties": {
       "nextStepIds": {
         "items": {
@@ -812,7 +808,6 @@
     "description": "<p>Processes</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "nrioirgelhpi",
-    "pageId": "z2xnjsqcs5bj",
     "properties": {
       "returnActions": {
         "title": "Return Actions",
@@ -843,7 +838,6 @@
     "description": "<p>Proposition</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGZmMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "nrioirgelhpi",
-    "pageId": "xpjvqoapcv3l",
     "properties": {
       "startDate": {
         "title": "Start Date",
@@ -892,7 +886,6 @@
     "description": "<p>Describes the Tab-Widget-View Reference structure</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NUEzQUFDMTYxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NUEzQUFDMTcxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1QTNBQUMxNDEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1QTNBQUMxNTEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpD5Z40AAAHySURBVHjajJNRa1MxFMf/yc2USYsDVzbnupeCDz6OTmtvsW4vgjKtoqBFwYJ+i734vA8xFN/6YLu2K+vGNhl70TF9EfsFXEGQglbr1ptkSW7TVrStBy7JPSfnf345ScjynZU9IURcSgw0SgBC6R6lJNHrZ9wT8Rs3ZyGVAiGkv4BDsL524OpCveuY94uj1fRQqXyAhI7+naxdOok6VBUiklL6RpHcMwKzS1OYW4iilH+HxQcxaPF+JL6IIblrSZjX5CbYUiT8N8fG5se+JFbEUQ1RGFIR5Zj08xF9cQGXb82htPoet+9fsdwDmkpQWTtIMesQR8KMZ84zHP9sYXe3CkpJuwddIU0nhMS15CWMTo6AdSMEzaMmLj4J4epiDJHvEVNFWgHSUQAXAhNnQ/hW+QpmG6Y6a4Li2CdZzeaQTM7j3Pg4qp8/wdwTv3PmyCfcELiipo1GY6dYLMJxnD9QHz56jLc72zg1chqHX2pw4y5cN2HG2mHNh1FbYel0+pmajxUKhX0j0iZ6/eolnmYyptp0OIxsNtsRn56Z6Z5KuVw2k3q9vhUMBuc9z0MqlQLnXDVLdLbXeze0qC6Wz+e7TVQkzzWJcu7rf71AfwPfhxa2BNYUyXYgELhuqw9MJuTHv25KRJPg/4wTOewdD7ETAQYAteK9N9YYuvoAAAAASUVORK5CYII=",
     "superClassId": "nrioirgelhpi",
-    "pageId": "icfdprzi442m",
     "properties": {
       "divider": {
         "default": "None",
@@ -1073,7 +1066,6 @@
         "type": "array"
       }
     },
-    "pageId": "qwhjia43h1s4",
     "type": "object"
   },
   {
@@ -1082,7 +1074,6 @@
     "title": "Mongo Queries",
     "description": "<p>Queries used by views</p>",
     "superClassId": "nrioirgelhpi",
-    "pageId": "qcd1eefe432r",
     "properties": {
       "icon": {
         "maxLength": 2000,
@@ -1685,8 +1676,8 @@
   {
     "_id": "cq4bjkzqc2qp",
     "docType": "class",
-    "title": "Seller States",
-    "description": "<p>Seller</p>",
+    "title": "Provider States",
+    "description": "<p>Provider</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiM2NDk1ZWQiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "ahp433id2bo3",
     "type": "object"
@@ -1694,8 +1685,8 @@
   {
     "_id": "xsaq3l5hncb2",
     "docType": "class",
-    "title": "Buyer States",
-    "description": "<p>Buyer</p>",
+    "title": "Consumer States",
+    "description": "<p>Consumer</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGNjMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "ahp433id2bo3",
     "type": "object"
@@ -2220,7 +2211,6 @@
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: green; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Bicycle Shop</h1><p><i>Enjoy the fresh air.</i></p><h2>For Rent Sale or Repair</h2></div><div class=\"flex xs6\"><img src=\"bicycle-788733_960_720.jpg\" height=\"500\"></div></div>",
     "classId": "zx5ffzoa5euy",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB5klEQVQ4T61Tv2sUURD+Zt7undFYqKTKsW/v7p0YDqwEGxst/EUKbcQiYKGIAUGRVIqKTYpYiBjQSiEGSSPIgYX5C+wEUSx8t7e3kassDAlL4vneyIKBxICFl2mGGeZ988038wgDGg34HjsLYKKoCeYRAIIgeG+t7Teq1WMiwuLU9/ZS+9PfjLcwaES1cWE/DZEFhOFsuVxeW19dvSJgFvgJKHUqSZLlzSDbRjBxPOkEUwz6srXQaxA9t2n6aBtAvVI3FLhx8ZQz4YJ4UT7kcxvd4jjeFQpeiHdjpNRTAXbDuZZdWmpTXeszLHRdQM9AuASSg/A0A0jdZumDQ6OjB34F4TwR3ohzt8HcIlHvAD8pih5TI4rflvbuOZ/n+T5ybg4+mKLAXyaBBmQGnqbBckuEriqhV57cHZtlp40xZem712R0dd52OxMFExG5ycxrIjgiwA8GxCs+myRJZqJowWbZRVOtnrSdzmKhQ03rl2S0nsv7/Wu9Xi8vko04PirAcZumD/+I5Qpvovg+SFq22/1QxM2R5vDPoZVZqlVqDSh3j4UXCbLfw49RqXTDWru+We1KpTJUUuETJvkMkWWATyj4uxtrVEbrw+KClfa3tv3XeRcb48ANf03TjwD8zp7y/3ysgRn8BlTuy14MbVpqAAAAAElFTkSuQmCC",
-    "pageId": "2kjjzqr2i5o5",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2267,7 +2257,6 @@
     "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: #76448A; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>ACME Health Care Clinic</h1><p><i>Stay fit, live long.</i></p><h2>Call for an appointment</h2></div><div class=\"flex xs3\"><h1>Image</h1></div></div>",
     "classId": "be1ub1vtofjo",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABtklEQVQ4T5WSsUtbURTGz3dfiFEzFKFL1Xtv8p4g2sFOFdql0E5tQTJlkHZ16FQo/gOdnBw6dA4dhKKTdHDKIJKpUy2heUneTYKLIBLakERzT3liIAlJSO50z3e+8zv3XA6o57hSPgPECRHN9eo99wYTvyoac9bV0AdQiQ+wt5/Icd4RUV/uzmdthuHsFU35y2gA8Y5vgsfDXuAp/YsJX/sArtb7zIiHBYJ5jUCrlnA0DCCIU8SUt8DvMO+QbcBT+goCW50O7Ii5R8qC7Xckla6VTLA06Fp/uB5vRVsPQn2mPXN9fnn+d9DjSpkfCfBU4hsRxe6Lmr4pb08FcJf1Yaw5/z4sasf+ZQrVIDURwNP6hBltEDtLRr/NUpY9KQ+JRRQC0YIpv+yCho7gqcSpb8rPB7tprWORTifnV6sbYwFJpXIA9pm5XjLmR2heUeo1s1iwxB9LleDJWICr1AuwWCTY3cbNzdPQPBuJ/AQ5n0lwzQ+C7FhAN+lJecBCHIQxrE37lUp6ok/smlZk8g2BN+9iRq5QKR0PBbhKXxRN8GjaLQz9ntZ/kJSyTkBTWJ5ulZlAjoj/B4u9x9M8LUgYAAAAAElFTkSuQmCC",
-    "pageId": "4devwsepaig1",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2981,111 +2970,6 @@
     ]
   },
   {
-    "_id": "z2xnjsqcs5bj",
-    "docType": "object",
-    "name": "Process Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Process Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Process",
-            "viewId": "qtubgorhvukr"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "xpjvqoapcv3l",
-    "docType": "object",
-    "name": "Proposition Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Proposition Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Process",
-            "viewId": "2r2krfiy4p3b"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "2vnljdsieyjw",
-    "docType": "object",
-    "name": "Step Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Step Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "State Form",
-            "viewId": "wfejmbcgmmpm"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "_id": "kdeacjjhiaym",
     "docType": "object",
     "name": "Off Balance Sheet Resources Page",
@@ -3106,154 +2990,6 @@
     ]
   },
   {
-    "_id": "ewpdfwn1bghg",
-    "docType": "object",
-    "name": "Menu Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Menu Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Menu",
-            "viewId": "men1b5cmjprt"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "icfdprzi442m",
-    "docType": "object",
-    "name": "Page Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Page Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Page Form",
-            "viewId": "mdqg4rkzezxa"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "qwhjia43h1s4",
-    "docType": "object",
-    "name": "View Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "View Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "View Form",
-            "viewId": "sudhaobvgvq3"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Materialized View",
-        "widgets": [
-          {
-            "displayType": "Materialized View"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "qcd1eefe432r",
-    "docType": "object",
-    "name": "Query Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Query Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Query Form",
-            "viewId": "dsae2kl342hk"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "_id": "nnksb2zyphob",
     "docType": "object",
     "name": "Document Form Page",
@@ -3267,111 +3003,6 @@
             "displayType": "Document",
             "name": "Document Form",
             "viewId": "wh1nnojktarq"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "z1wmobr423zh",
-    "docType": "object",
-    "name": "User Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "User Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "User Form",
-            "viewId": "mairnfr3iilv"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "44yiclbxugop",
-    "docType": "object",
-    "name": "Organization Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Organization Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Organization Form",
-            "viewId": "mairnfr3iilv"
-          }
-        ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "_id": "t2grmjaab5fn",
-    "docType": "object",
-    "name": "Organizational Unit Form Page",
-    "classId": "pejdgrwd5qso",
-    "ownerId": "argonautvoya",
-    "tabs": [
-      {
-        "name": "Organizational Unit Details",
-        "widgets": [
-          {
-            "displayType": "Form",
-            "name": "Organizational Unit Form",
-            "viewId": "mairnfr3iilv"
           }
         ]
       },
@@ -3586,62 +3217,6 @@
     "type": "object"
   },
   {
-    "_id": "qtubgorhvukr",
-    "docType": "object",
-    "name": "Process Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {},
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "returnActions": {
-        "items": {
-          "readOnly": false
-        }
-      },
-      "firstStepId": {
-        "readOnly": false
-      }
-    },
-    "baseClassId": "dwl1kwhalwj4",
-    "type": "object"
-  },
-  {
-    "_id": "2r2krfiy4p3b",
-    "docType": "object",
-    "name": "Proposition Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {},
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "startDate": {
-        "readOnly": false
-      },
-      "endDate": {
-        "readOnly": false
-      },
-      "processId": {
-        "readOnly": false
-      },
-      "assetIds": {
-        "readOnly": false
-      }
-    },
-    "baseClassId": "2jrkeqdvvmom",
-    "type": "object"
-  },
-  {
     "_id": "golecsaxijss",
     "docType": "object",
     "name": "Off Balance Sheet Resources Tree View",
@@ -3649,223 +3224,6 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautvoya",
     "queryId": "szyxk43kmjsg",
-    "type": "object"
-  },
-  {
-    "_id": "wfejmbcgmmpm",
-    "docType": "object",
-    "name": "Step Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {},
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "nextStepIds": {
-        "items": {
-          "properties": {
-            "action": {
-              "readOnly": false
-            },
-            "stepId": {
-              "readOnly": false
-            }
-          }
-        }
-      },
-      "deligateProcessId": {
-        "readOnly": false
-      },
-      "execute": {
-        "readOnly": false
-      }
-    },
-    "baseClassId": "dlpwvptczyeb",
-    "type": "object"
-  },
-  {
-    "_id": "men1b5cmjprt",
-    "docType": "object",
-    "name": "Menu Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {},
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "menuArr": {
-        "items": {
-          "properties": {
-            "name": {
-              "readOnly": false
-            },
-            "pageId": {
-              "readOnly": false
-            },
-            "icon": {
-              "readOnly": false
-            },
-            "menuArr": {
-              "items": {
-                "properties": {
-                  "name": {
-                    "readOnly": false
-                  },
-                  "pageId": {
-                    "readOnly": false
-                  },
-                  "icon": {
-                    "readOnly": false
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "baseClassId": "inbumnx4vx5w",
-    "type": "object"
-  },
-  {
-    "_id": "mdqg4rkzezxa",
-    "docType": "object",
-    "name": "Page Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {
-        "title": "_id",
-        "type": "string"
-      },
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "divider": {
-        "readOnly": false
-      },
-      "tabs": {
-        "items": {
-          "properties": {
-            "name": {
-              "readOnly": false
-            },
-            "pageId": {
-              "readOnly": false
-            },
-            "widgets": {
-              "items": {
-                "properties": {
-                  "name": {
-                    "readOnly": false
-                  },
-                  "description": {
-                    "readOnly": false
-                  },
-                  "displayType": {
-                    "readOnly": false
-                  },
-                  "viewId": {
-                    "readOnly": false
-                  },
-                  "menuId": {
-                    "readOnly": false
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "baseClassId": "pejdgrwd5qso",
-    "type": "object"
-  },
-  {
-    "_id": "sudhaobvgvq3",
-    "docType": "object",
-    "name": "View Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {
-        "title": "_id",
-        "type": "string"
-      },
-      "description": {
-        "readOnly": false
-      },
-      "name": {
-        "readOnly": false
-      },
-      "queryId": {
-        "readOnly": false
-      },
-      "baseClassId": {
-        "readOnly": false
-      },
-      "required": {
-        "readOnly": false
-      },
-      "properties": {
-        "readOnly": false
-      }
-    },
-    "baseClassId": "pylvseoljret",
-    "type": "object"
-  },
-  {
-    "_id": "dsae2kl342hk",
-    "docType": "object",
-    "name": "Query Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {
-        "title": "_id",
-        "type": "string"
-      },
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "icon": {
-        "readOnly": false
-      },
-      "pageId": {
-        "readOnly": false
-      },
-      "where": {
-        "properties": {
-          "readOnly": false
-        }
-      },
-      "sortBy": {
-        "readOnly": false
-      },
-      "extendTo": {
-        "readOnly": false
-      },
-      "subQueryIds": {
-        "items": {
-          "readOnly": false
-        }
-      }
-    },
-    "baseClassId": "q234ooehrk5v",
     "type": "object"
   },
   {
@@ -3892,54 +3250,6 @@
       }
     },
     "baseClassId": "siutzqsj5dgc",
-    "type": "object"
-  },
-  {
-    "_id": "mairnfr3iilv",
-    "docType": "object",
-    "name": "Account Form View",
-    "classId": "pylvseoljret",
-    "ownerId": "argonautvoya",
-    "properties": {
-      "_id": {},
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
-      "how": {
-        "readOnly": false
-      },
-      "why": {
-        "readOnly": false
-      },
-      "pageId": {
-        "readOnly": false
-      },
-      "subParagraphIds": {
-        "readOnly": false
-      },
-      "parentOrgId": {},
-      "permissions": {},
-      "account_name": {},
-      "head_block_num": {},
-      "head_block_time": {},
-      "privileged": {},
-      "last_code_update": {},
-      "created": {},
-      "ram_quota": {},
-      "net_weight": {},
-      "cpu_weight": {},
-      "net_limit": {},
-      "cpu_limit": {},
-      "ram_usage": {},
-      "total_resources": {},
-      "self_delegated_bandwidth": {},
-      "refund_request": {},
-      "voter_info": {}
-    },
-    "baseClassId": "pae2bfbrab5n",
     "type": "object"
   },
   {
@@ -4168,8 +3478,7 @@
     "menuArr": [
       {
         "name": "Home",
-        "icon": "el-icon-s-home",
-        "pageId": "2kjjzqr2i5o5"
+        "icon": "el-icon-s-home"
       },
       {
         "name": "Backlog",
@@ -4211,8 +3520,7 @@
     "menuArr": [
       {
         "name": "Home",
-        "icon": "el-icon-s-home",
-        "pageId": "2kjjzqr2i5o5"
+        "icon": "el-icon-s-home"
       },
       {
         "name": "Front Desk",
