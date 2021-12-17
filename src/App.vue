@@ -37,23 +37,11 @@
         >
         </el-option>
       </el-select>
-      <div class="ar-right-align logo is-animation">
-        <span>a</span>
-        <span>r</span>
-        <span>g</span>
-        <span>o</span>
-        <span>n</span>
-        <span>a</span>
-        <span>u</span>
-        <span>t</span>
-        <span>.</span>
-        <span>v</span>
-        <span>o</span>
-        <span>y</span>
-        <span>a</span>
-        <span>g</span>
-        <span>e</span>
-      </div>
+      <span class="logo ar-right-align">
+        Argonaut.Voyage
+      </span>
+      <el-button size="mini" type="danger" disabled class="ar-right-align">Cancel</el-button>
+      <el-button size="mini" type="success" disabled class="ar-right-align">Send</el-button>
     </div>
     <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
   </div>
@@ -264,79 +252,8 @@ label {
   line-height: 100%;
 }
 
-/* Animante logo */
-.logo.is-animation {
-  margin-top: 0.3em;
+.logo {
+  font-family: 'Courgette', cursive;
 }
 
-.logo.is-animation span {
-  display: inline-block;
-  animation: wave-text 3s ease-in-out infinite;
-}
-
-.logo.is-animation {
-  span:nth-of-type(1) {
-    animation-delay: 0s;
-  }
-  span:nth-of-type(2) {
-    animation-delay: 0.1s;
-  }
-  span:nth-of-type(3) {
-    animation-delay: 0.2s;
-  }
-  span:nth-of-type(4) {
-    animation-delay: 0.3s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.4s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.5s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.6s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.7s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.8s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 0.9s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1.1s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1.2s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1.3s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1.4s;
-  }
-  span:nth-of-type(5) {
-    animation-delay: 1.5s;
-  }
-}
-
-@keyframes wave-text {
-  00% {
-    transform: translateY(0em);
-  }
-  60% {
-    transform: translateY(-0.3em);
-  }
-  100% {
-    transform: translateY(0em);
-  }
-}
 </style>

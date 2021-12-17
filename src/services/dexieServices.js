@@ -44,32 +44,6 @@ export class argoQuery {
       return retObj
     }
 
-    const addTreeVariables = item => {
-
-      item.label = item.title ? item.title : item.name;
-
-      if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
-        item.subQueryIds = queryObj.subQueryIds;
-        // If the query has subQueryIds, assume it may have children
-        //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node (only for tree nodes)
-        item.isLeaf = false;
-      }
-      else item.isLeaf = true;
-
-      // TODO The wrong way arround: must test. this is a result of dexie not having selected attrs
-      // If the item has an icon, use it. Otherwise use the query icon.
-      //if (!item.icon) item.icon = queryObj.icon;
-      if (queryObj.icon) item.icon = queryObj.icon;
-
-      //console.log('treevars', item.label, item)
-      // If the item has a pageId, use it. Otherwise use the query pageId.
-      console.log('addTreeVariables before', item._id, item.label, item.pageId )
-      //if (queryObj.pageId) item.pageId = queryObj.pageId
-      console.log('addTreeVariables after ', item._id, item.label, item.pageId )
-      return item;
-
-    }
-
     const collectSubclasses = async (classId) => {
 
       const subClasses = async classId => {
@@ -108,10 +82,11 @@ export class argoQuery {
       const manyIdsArr = getDescendantProp(queryObj.manyToOneArrayProp, contextObj)
       if (!manyIdsArr) return []
 
-      const collection$ = db.state.where('classId').anyOf(manyIdsArr)
-      //collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
-      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-      else return collection$.toArray()
+      //return liveQuery(() => {
+        const collection$ = db.state.where('classId').anyOf(manyIdsArr)
+        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+        else return collection$.toArray()
+      //})
 
     } else if (queryObj.extendTo === 'Instances') {
 
@@ -122,10 +97,25 @@ export class argoQuery {
 
       let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
 
-      const collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
-      //collection$.modify(addTreeVariables)  // Dexie wont allow me to chain this for some reason
-      if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-      else return collection$.toArray()
+      //return liveQuery(() => {
+        const collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
+        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+        else return collection$.toArray()
+      //})    
+    } else if (queryObj.extendTo === 'Subclasses') {
+
+      if (!queryObj.where.classId) throw 'extendTo Subclasses query must select a classId'
+
+      const rootClassId = queryObj.where.classId
+      const subClassesArr = await collectSubclasses(rootClassId)
+
+      let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
+
+      //return liveQuery(() => {
+        const collection$ = db.state.where('_id').anyOf(subClasseIdsArr)
+        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+        else return collection$.toArray()
+      //})
 
     } else if (queryObj.extendTo === 'Properties') {
 
@@ -149,7 +139,6 @@ export class argoQuery {
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
       //return liveQuery(() => {
         const collection$ = db.state.where(resolvedWhere)
-        //collection$.modify(addTreeVariables)  // Do not use .modify. It updates the store, bot just the local copies
         if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
       //})
@@ -200,7 +189,7 @@ export class argoQuery {
 
   }
 
-  // Get the view, then get the merged ancestors of the basClassId it points to.
+  // Get the view, then get the merged ancestors of the baseClassId it points to.
   // Finally merge the view with the merged ancestors
   static async getMaterializedView(viewId) {
 

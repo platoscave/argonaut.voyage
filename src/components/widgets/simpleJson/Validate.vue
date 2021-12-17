@@ -1,7 +1,13 @@
 <template>
-  <highlight-code lang="json" class="highlight-code">
-    {{ errorObj }}
-  </highlight-code>
+  <div>
+    <highlight-code lang="json" class="highlight-code">
+      {{ errorObj }}
+    </highlight-code>
+    <h1>Schema</h1>
+    <highlight-code lang="json" class="highlight-code">
+      {{ viewObj }}
+    </highlight-code>
+  </div>
 </template>
 
 <script>
@@ -65,9 +71,9 @@ export default {
     return {
       dataObj: dataObj$,
       errorObj: errorObj$,
+      schemaObj: schema$
     };
   },
-
 };
 </script>
 

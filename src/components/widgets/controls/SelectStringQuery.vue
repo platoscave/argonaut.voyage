@@ -68,13 +68,13 @@ export default {
       deep: true
     })
       .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((property) => (property && property.items && property.items.argoQuery))) //filter out falsy values
+      .pipe(filter((property) => (property && property.argoQuery))) //filter out falsy values
       .pipe(distinctUntilChanged()); // emit only when changed
 
     // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const items$ = property$.pipe(
       switchMap((property) =>
-        argoQuery.executeQuery(property.items.argoQuery, {
+        argoQuery.executeQuery(property.argoQuery, {
           _id: this.selectedObjId,
         })
       )

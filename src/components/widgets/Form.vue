@@ -21,9 +21,9 @@
       circle
       @click="onEditButton"
     ></el-button>
-    <highlight-code lang="json" class="highlight-code">
+    <!-- <highlight-code lang="json" class="highlight-code">
       {{ viewObj }}
-    </highlight-code>
+    </highlight-code> -->
   </div>
 </template>
 

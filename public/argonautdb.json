@@ -1371,12 +1371,11 @@
             }
           },
           "required": [
-            "action",
-            "stepId"
+            "action"
           ],
           "type": "object"
         },
-        "title": "Next States",
+        "title": "Next Steps",
         "type": "array"
       },
       "firstStepId": {
