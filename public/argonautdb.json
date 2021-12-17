@@ -737,68 +737,6 @@
     "description": "<p>Steps</p>",
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "superClassId": "nrioirgelhpi",
-    "properties": {
-      "nextStepIds": {
-        "items": {
-          "properties": {
-            "action": {
-              "maxLength": 100,
-              "title": "Action",
-              "type": "string"
-            },
-            "stepId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "argoQuery": {
-                "where": {
-                  "classId": "dlpwvptczyeb"
-                },
-                "sortBy": "name",
-                "extendTo": "Instances"
-              },
-              "title": "Step",
-              "type": "string"
-            }
-          },
-          "required": [
-            "action"
-          ],
-          "type": "object"
-        },
-        "title": "Next Steps",
-        "type": "array"
-      },
-      "authorizedOrgUnitId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "argoQuery": {
-          "where": {
-            "classId": "dasprps1lrwf"
-          },
-          "sortBy": "name",
-          "extendTo": "Instances"
-        },
-        "title": "Authorized Organizational Unit",
-        "type": "string"
-      },
-      "deligateProcessId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "argoQuery": {
-          "where": {
-            "classId": "dwl1kwhalwj4"
-          },
-          "sortBy": "name",
-          "extendTo": "Instances"
-        },
-        "title": "Deligate to Process",
-        "type": "string"
-      },
-      "execute": {
-        "items": {
-          "type": "string"
-        },
-        "title": "Execute",
-        "type": "array"
-      }
-    },
     "type": "object"
   },
   {
@@ -1030,10 +968,6 @@
     "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDQ2OENGNTYxMDdDMTFFM0FGOUJCRTk2Mzc1ODMxMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDQ2OENGNTcxMDdDMTFFM0FGOUJCRTk2Mzc1ODMxMjgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpENDY4Q0Y1NDEwN0MxMUUzQUY5QkJFOTYzNzU4MzEyOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpENDY4Q0Y1NTEwN0MxMUUzQUY5QkJFOTYzNzU4MzEyOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PnZsAM4AAAKZSURBVHjajFNbS1RRFP72OfuMMzqOTk5EIDqZQ0EzyNB46SXEsNGgMYp66WdUEoOUhZaO4m+IHnqT8PLSdJGgZtIoG80KHEMjKMHRYCTyXFv7xDEfurhhs1l7rfWd7/vWPqy6P72hGWalZVnYzWKMQZGlb7LE/CLmorkv0QTDNCH9p9mkLUsSesZnKiUmExgB6NRY5ea4nP4ETgjsL82Cn04IwydrIHpckAUfAWDB71ZwKOCFzGCj7iC8DSgADFHrcdlABmVMxkkCBa21btq12O1SqUchBsniOLjjXX5xEZBkmKYBYShjEj4uLaKwtmazEHeBQADxzlPQyS2Vvv6DKZAc71/OTCM1OACfrwIry8soKyvDemEdsaYWRBubcZTOQqFg1wqAZPE+NCZb28Z3nTkLhXN4vV7EGpvg8ZTauhVFgYu24nL9NpTY6STBFCY6l5MTY6RARm72NbZUFeEjEQSDQWQzz7cbReyYa9rCdgDEOzrwLJNFsK4OmqZi8/sm6utDCEciqPD5sEZeGLpu11ZbGzaAYMidsT1MPwAnBiNDKSrUYJJpnCtobWtDItGFifExzM/NwdJVXHQp0FxuizETXJF+IZyOt2M6m0Wk/QL2hxrsyX/+MIvixhLu3b2DEi4jcuIcqg9HIZEHX/JzeP+UZJdyViy/kUZ4ZAol9LiCkUZED3ixz+/BwYYWLORySC5X4W3uDeoojgbLsddfgtpwjEZOz//rtc7jm73xWP7m+ZimG5mFJ6NYJXFyBcfC1Cg0Xc+sXE/ExPmO4lWh28cx/3gUqqq9YjW3H2GLHsWl4iS6+4dDV7uvvLBMc4/ttSStD6SGmnt7kvnevlv1lJt2cqDcYGro2J/+HWGAMx1he+5fuZ8CDAD/Sv46ZbrYXQAAAABJRU5ErkJggg==",
     "superClassId": "nrioirgelhpi",
     "properties": {
-      "properties": {
-        "title": "Properties",
-        "type": "object"
-      },
       "queryId": {
         "title": "Initial Query",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -1054,7 +988,7 @@
             "classId": "gzthjuyjca4s"
           },
           "sortBy": "name",
-          "extendTo": "Instances"
+          "extendTo": "Subclasses"
         },
         "type": "string"
       },
@@ -1064,6 +998,10 @@
         },
         "title": "Required",
         "type": "array"
+      },
+      "properties": {
+        "title": "Properties",
+        "type": "object"
       }
     },
     "type": "object"
@@ -1116,7 +1054,7 @@
       },
       "sortBy": {
         "title": "Sort By",
-         "argoQuery": {
+        "argoQuery": {
           "where": {
             "classId": "pejdgrwd5qso"
           },
@@ -1377,18 +1315,6 @@
         },
         "title": "Next Steps",
         "type": "array"
-      },
-      "firstStepId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "argoQuery": {
-          "where": {
-            "classId": "1jrqyjoabx1a"
-          },
-          "sortBy": "name",
-          "extendTo": "Instances"
-        },
-        "title": "First Step",
-        "type": "string"
       }
     },
     "type": "object"
@@ -1598,6 +1524,20 @@
     "description": "<p>Delegate</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiNmZmU1MDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "1jrqyjoabx1a",
+    "properties": {
+      "deligateProcessId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "argoQuery": {
+          "where": {
+            "classId": "dwl1kwhalwj4"
+          },
+          "sortBy": "name",
+          "extendTo": "Instances"
+        },
+        "title": "Deligate to Process",
+        "type": "string"
+      }
+    },
     "type": "object"
   },
   {
@@ -1675,16 +1615,30 @@
   {
     "_id": "cq4bjkzqc2qp",
     "docType": "class",
-    "title": "Provider States",
+    "title": "Provider",
     "description": "<p>Provider</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiM2NDk1ZWQiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "ahp433id2bo3",
+    "properties": {
+      "authorizedOrgUnitId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "argoQuery": {
+          "where": {
+            "classId": "dasprps1lrwf"
+          },
+          "sortBy": "name",
+          "extendTo": "Instances"
+        },
+        "title": "Authorized Organizational Unit",
+        "type": "string"
+      }
+    },
     "type": "object"
   },
   {
     "_id": "xsaq3l5hncb2",
     "docType": "class",
-    "title": "Consumer States",
+    "title": "Consumer",
     "description": "<p>Consumer</p>",
     "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMwMGNjMDAiIGlkPSJzdmdfMSIgZD0ibTE1LjM3NSw3bC01LjM3NSwtNC40NmMtMC4zMDUsLTAuMjUzIC0wLjUzOSwtMC41NCAtMSwtMC41NGMtMC42MjUsMCAtMSwwLjUxNiAtMSwxbDAsM2wtNywwYy0wLjU1LDAgLTEsMC40NSAtMSwxbDAsMmMwLDAuNTUgMC40NSwxIDEsMWw3LDBsMCwzYzAsMC40ODQgMC4zNzUsMSAxLDFjMC40NjEsMCAwLjY5NSwtMC4yODcgMSwtMC41NGw1LjM3NSwtNC40NmMwLjM4MywtMC4zMTIgMC42MjUsLTAuNTU1IDAuNjI1LC0xcy0wLjI0MiwtMC42ODcgLTAuNjI1LC0xeiIvPgogPC9nPgo8L3N2Zz4=",
     "superClassId": "ahp433id2bo3",
@@ -2932,7 +2886,6 @@
       }
     ]
   },
-
   {
     "_id": "mb2bdqadowve",
     "docType": "object",
@@ -3140,8 +3093,7 @@
         "maxLength": 1000,
         "minLength": 0,
         "title": "Name",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "description": {
         "placholder": "Add a description",
@@ -3149,16 +3101,14 @@
         "contentMediaType": "text/html",
         "minLength": 0,
         "title": "Description",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "docType": {
         "enum": [
           "class"
         ],
         "title": "Doc Type",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "icon": {
         "maxLength": 2000,
@@ -3166,8 +3116,7 @@
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -3179,8 +3128,7 @@
           "extendTo": "Instances"
         },
         "title": "Page",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "superClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
@@ -3189,24 +3137,21 @@
             "classId": "gzthjuyjca4s"
           },
           "sortBy": "name",
-          "extendTo": "Instances"
+          "extendTo": "Subclasses"
         },
         "title": "Super Class",
-        "type": "string",
-        "readOnly": false
+        "type": "string"
       },
       "required": {
         "items": {
           "type": "string"
         },
         "title": "Required",
-        "type": "array",
-        "readOnly": false
+        "type": "array"
       },
       "properties": {
         "title": "Properties",
-        "type": "object",
-        "readOnly": false
+        "type": "object"
       }
     },
     "query": "classes",
@@ -3228,18 +3173,12 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautvoya",
     "properties": {
-      "name": {
-        "readOnly": false
-      },
-      "description": {
-        "readOnly": false
-      },
+      "name": {},
+      "description": {},
       "subParagraphIds": {
         "items": {
           "properties": {
-            "documentId": {
-              "readOnly": false
-            }
+            "documentId": {}
           }
         }
       }

@@ -1,11 +1,12 @@
 <template>
   <div>
+    <h3>Errors</h3>
     <highlight-code lang="json" class="highlight-code">
       {{ errorObj }}
     </highlight-code>
-    <h1>Schema</h1>
+    <h3>Schema</h3>
     <highlight-code lang="json" class="highlight-code">
-      {{ viewObj }}
+      {{ schemaObj }}
     </highlight-code>
   </div>
 </template>
