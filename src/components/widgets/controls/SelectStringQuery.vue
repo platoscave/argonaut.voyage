@@ -11,7 +11,7 @@
     <el-radio
       v-for="item in items"
       :key="item._id"
-      :label="item.label"
+      :label="item.title ? item.title : item.name"
       :value="item._id"
     ></el-radio>
   </el-radio-group>
@@ -26,7 +26,7 @@
     <el-option
       v-for="item in items"
       :key="item._id"
-      :label="item.label"
+      :label="item.title ? item.title : item.name"
       :value="item._id"
     >
     </el-option>
@@ -35,7 +35,7 @@
 
 <script>
 import { argoQuery } from "../../../services/dexieServices";
-import { pluck, switchMap } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -54,21 +54,35 @@ export default {
     readonly: Boolean,
     hashLevel: Number,
   },
+  data() {
+    return {
+      items: []
+    }
+  },
 
   subscriptions() {
-    // Watch the property as observable
+    //
+    // Watch the selectedObjId as observable
     const property$ = this.$watchAsObservable("property", {
       immediate: true,
-    }).pipe(pluck("newValue"));
-    // Whenever it changes, reset the live query with the new property
+      deep: true
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((property) => (property && property.items && property.items.argoQuery))) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const items$ = property$.pipe(
       switchMap((property) =>
-        argoQuery.executeQuery(property.argoQuery, { _id: this.selectedObjId })
+        argoQuery.executeQuery(property.items.argoQuery, {
+          _id: this.selectedObjId,
+        })
       )
     );
+
     return {
-      items: items$,
-    };
+      items: items$
+    }
   },
 
   computed: {
@@ -79,7 +93,7 @@ export default {
         return obj._id === this.value;
       });
       if (!valueObj) return this.value;
-      return valueObj.label;
+      return valueObj.title ? valueObj.title : valueObj.name
     },
   },
 };

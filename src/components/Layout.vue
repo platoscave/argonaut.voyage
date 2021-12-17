@@ -90,7 +90,7 @@
 <script>
 import { db } from "../services/dexieServices";
 import { liveQuery } from "dexie";
-import { pluck, switchMap } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../lib/widgetMixin";
 import ResSplitPane from "vue-resize-split-pane";
 import Studio from "./StudioLayout";
@@ -121,20 +121,27 @@ export default {
   },
 
   subscriptions() {
+    //
     // Watch the pageId as observable
-    const pageId$ = this.$watchAsObservable("pageId", { immediate: true }).pipe(
-      pluck("newValue")
-    );
-    // Whenever it changes, reset the live query with the new pageId
+    const pageId$ = this.$watchAsObservable("pageId", {
+      immediate: true,
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((pageId) => pageId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const pageObj$ = pageId$.pipe(
       switchMap((pageId) =>
         liveQuery(() => db.state.where({ _id: pageId }).first())
       )
     );
+
     return {
-      pageObj: pageObj$,
-    };
+      pageObj: pageObj$
+    }
   },
+
   methods: {
     async paneResizeStop(paneSize) {
       this.layoutSettings.paneSize = paneSize;

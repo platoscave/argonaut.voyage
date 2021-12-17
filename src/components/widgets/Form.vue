@@ -30,7 +30,7 @@
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
-import { pluck, switchMap, mergeMap, iif, of } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged} from "rxjs/operators";
 import SubForm from "./controls/SubForm";
 import WidgetMixin from "../../lib/widgetMixin";
 
@@ -53,39 +53,46 @@ export default {
       viewObj: {},
     };
   },
+
+
   subscriptions() {
+    //
     // Watch the selectedObjId as observable
     const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
       immediate: true,
-    }).pipe(pluck("newValue"));
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
 
     // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const dataObj$ = selectedObjId$.pipe(
-      switchMap((selectedObjId) => {
-        console.log('selectedObjId',selectedObjId)
-        return liveQuery(() => db.state.where({ _id:  selectedObjId ? selectedObjId : '' }).first())
-      })
-    )
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
+      )
+    );
+
 
     // Watch the viewId as observable
     const viewId$ = this.$watchAsObservable("viewId", {
       immediate: true,
-    }).pipe(pluck("newValue"));
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((viewId) => viewId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
 
-     // Whenever viewId changes, reset the live query with the new viewId
+    // Whenever viewId changes, reset the live query with the new viewId
     const viewObj$ = viewId$.pipe(
       switchMap((viewId) =>
-        liveQuery(() => db.state.where({ _id:  viewId ? viewId : '' }).first())
+        liveQuery(() => db.state.where({ _id: viewId }).first())
       )
-    )
-
-
-
+    );
     return {
       dataObj: dataObj$,
-      viewObj: viewObj$,
-    };
+      viewObj: viewObj$
+    }
   },
+
   methods: {
     async onChange() {
       try {

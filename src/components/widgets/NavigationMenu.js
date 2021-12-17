@@ -1,6 +1,6 @@
 import { db } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
-import { pluck, switchMap } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -13,23 +13,29 @@ export default {
   },
 
   subscriptions() {
-    // Watch the pageId as observable
-    const selectedObjId$ = this.$watchAsObservable("selectedObjId", { immediate: true }).pipe(
-      pluck("newValue")
-    );
-    // Whenever it changes, reset the live query with the new selectedObjId
-    const currentObj$ = selectedObjId$.pipe(
+    //
+    // Watch the selectedObjId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
+      immediate: true,
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
+    const dataObj$ = selectedObjId$.pipe(
       switchMap((selectedObjId) =>
         liveQuery(() => db.state.where({ _id: selectedObjId }).first())
       )
     );
-    //TODO does the this.menuId ever change?
+
     return {
+      dataObj: dataObj$,
+      //TODO does the this.menuId ever change?
       menuObj: liveQuery(() =>
         db.state.where({ _id: this.menuId }).first()
       ),
-      currentObj: currentObj$,
-    };
+    }
   },
 
   computed: {
@@ -63,7 +69,7 @@ export default {
       if (item.icon) {
         if (item.icon.startsWith('data:image/')) {
           labelArr.push(createElement("img", {
-            attrs: { src: this.currentObj.icon },
+            attrs: { src: this.dataObj.icon },
             style: {}
           }))
         }
@@ -116,14 +122,14 @@ export default {
 
     // START HERE
     // Create the menu element
-    if (!this.menuObj || !this.currentObj) return // hasn't been filled yet
+    if (!this.menuObj || !this.dataObj) return // hasn't been filled yet
 
     return createElement('el-menu', {
       props: {
         'unique-opened': true,
         'default-active': this.defaultActive
       },
-    }, [createElement('h3', { style: { 'padding-left': '20px' } }, labelElement(this.currentObj)),
+    }, [createElement('h3', { style: { 'padding-left': '20px' } }, labelElement(this.dataObj)),
     ...createSubMenu(this.menuObj.menuArr, '')])
   },
 

@@ -1,7 +1,7 @@
 <template>
   <div v-if="readonly" class="ar-readonly-div">
     <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
-      <div>{{ item.label }}</div>
+      <div>{{ item.title ? item.title : item.name }}</div>
     </div>
   </div>
   <el-checkbox-group
@@ -13,7 +13,7 @@
     <el-checkbox
       v-for="item in items"
       :key="item._id"
-      :label="item.name ? item.name : item.title"
+      :label="item.title ? item.title : item.name"
       :value="item._id"
     ></el-checkbox>
   </el-checkbox-group>
@@ -28,7 +28,7 @@
     <el-option
       v-for="item in items"
       :key="item._id"
-      :label="item.name ? item.name : item.title"
+      :label="item.title ? item.title : item.name"
       :value="item._id"
     >
     </el-option>
@@ -37,7 +37,7 @@
 
 <script>
 import { argoQuery } from "../../../services/dexieServices";
-import { pluck, switchMap } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -56,13 +56,24 @@ export default {
     readonly: Boolean,
     hashLevel: Number,
   },
+  data() {
+    return {
+      items: []
+    }
+  },
 
   subscriptions() {
-    // Watch the property as observable
+    //
+    // Watch the selectedObjId as observable
     const property$ = this.$watchAsObservable("property", {
       immediate: true,
-    }).pipe(pluck("newValue"));
-    // Whenever it changes, reset the live query with the new property
+      deep: true
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((property) => (property && property.items && property.items.argoQuery))) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const items$ = property$.pipe(
       switchMap((property) =>
         argoQuery.executeQuery(property.items.argoQuery, {
@@ -70,9 +81,10 @@ export default {
         })
       )
     );
+
     return {
-      items: items$,
-    };
+      items: items$
+    }
   },
 
   computed: {
