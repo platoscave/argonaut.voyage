@@ -1,27 +1,29 @@
 <template>
-  <!-- :model and :rules are needed for validation rules -->
+  <!-- Validation rules are provided by a Computed 
+  :model and :rules are needed for validation rules! -->
   <el-form
     ref="elementUiForm"
     class="ar-json-schema-form"
     :model="this.value"
     :rules="validationRules"
-    labelWidth="150px"
+    labelWidth="100px"
     labelPosition="left"
     size="small"
-    :show-message="!formReadOnly"
+    :show-message="formMode.startsWith('Edit')"
   >
     <div v-for="(property, propertyName) in properties" :key="propertyName">
-      <!-- Skip form item if omitEmptyFields is true and value is empty -->
-      <!-- :prop is needed for validation rules -->
+      <!-- Skip form item if formMode is Readonly Dense and value is empty -->
+      <!-- :prop is needed for validation rules! -->
       <el-form-item
-        v-if="!(omitEmptyFields && !value[propertyName])"
+        v-if="!(formMode === 'Readonly Dense' && !value[propertyName])"
         :label="property.title"
         :prop="propertyName"
       >
         <!-- Label with tooltip. If no description is provided then :label from above is used. -->
         <span v-if="property.description" slot="label">
           <span>{{ property.title + " " }}</span>
-          <el-tooltip :content="property.description">
+          <el-tooltip>
+            <div slot="content" v-html="property.description"></div>
             <i class="el-icon-info"></i>
           </el-tooltip>
         </span>
@@ -29,28 +31,23 @@
         <!-- The control -->
         <template>
           <!-- 
-            ar-control-selector is a functional component that that gets replaced by a control depending on 
-            property type. 
-            We also hoist paroperties.attrs so that they play nicely with control elements.
-            - readonly is used by standard input elements to disable input and in css to remove blue border
-            - required is used by Select to optionaly add a 'not selected' option
-            - hash-level is used by a Select with a argoQuery (to get selectedObjectId from hash)
-            - form-read-only and omit-empty-fields are passed in case we're creating a subForm
-            - Note that we are setting value here which is likely illigal, but it seems to work.
-              We are not even sending input events to our parent.
-              The alternative would be to $set a data item, and listen for changes, then send input events 
+            ar-control-selector is a functional component that that replaces itself with a control component
+            depending on property type. It also performs some magic on certain property.attrs
+            - readonly is used by standard input elements to disable input and by css to remove blue border
+            - required is used by Selects to optionaly add a clear button (or a None option in the case of radio buttons)
+            - hash-level is used by Selects with a argoQuery (to get selectedObjectId from hash)
+            - property and form-mode are passed in case we're creating a subForm
+            - We use the v-model pattern to send/recieve data to/from child components. 
+              Below, we watch for changes to value and emit input events accordingly.
            -->
           <ar-control-selector
             class="ar-control"
-            v-on:input="newValue => $set(value, propertyName, newValue)"
-            v-on:change="$emit('change', $event)"
+            v-model="value[propertyName]"
             :property="property"
-            :value="getValue(propertyName, property.type)"
-            :readonly="formReadOnly || property.readOnly"
+            :readonly="formMode.startsWith('Readonly')"
             :required="requiredArr.includes(propertyName)"
             :hash-level="hashLevel"
-            :form-read-only="formReadOnly"
-            :omit-empty-fields="omitEmptyFields"
+            :form-mode="formMode"
           ></ar-control-selector>
         </template>
       </el-form-item>
@@ -70,8 +67,8 @@ import Number from "./Number";
 import FormArray from "./FormArray";
 import TableArray from "./TableArray";
 import SelectArrayEnum from "./SelectArrayEnum";
-import SelectStringQuery from './SelectStringQuery';
-import SelectArrayQuery from './SelectArrayQuery';
+import SelectStringQuery from "./SelectStringQuery";
+import SelectArrayQuery from "./SelectArrayQuery";
 import Tiptap from "./TiptapEditor";
 
 export default {
@@ -87,8 +84,8 @@ export default {
     "ar-form-array": FormArray,
     "ar-table-array": TableArray,
     "ar-select-array-enum": SelectArrayEnum,
-    'ar-select-string-query': SelectStringQuery,
-    'ar-select-array-query': SelectArrayQuery,
+    "ar-select-string-query": SelectStringQuery,
+    "ar-select-array-query": SelectArrayQuery,
     "ar-tiptap": Tiptap,
   },
   props: {
@@ -104,22 +101,22 @@ export default {
       type: Array,
       default: () => [],
     },
-    formReadOnly: Boolean,
-    omitEmptyFields: Boolean,
+    formMode: String,
     hashLevel: Number,
   },
   computed: {
     // Create the validation rules Object
-    validationRules: function () {
+    validationRules: function() {
       // no rules for readonly
-      if (this.formReadOnly) return {};
+      if (
+        this.formMode === "Readonly Dense" ||
+        this.formMode === "Readonly Full"
+      )
+        return {};
 
       let rulesObj = {};
       for (var propertyName in this.properties) {
         const property = this.properties[propertyName];
-
-        // no rules for readonly
-        if (property.readonly) continue;
 
         let rulesArr = [];
 
@@ -167,34 +164,24 @@ export default {
       return rulesObj;
     },
   },
-  methods: {
-    // In the case of object or array and a value is not provided, we must $set an empty value.
-    // Otherwise the update from subForm will fail. This may lead to empty objects and arrays
-    // which we may want to delete afterwards to save some space
-    getValue(propertyName, type) {
-      if (!this.value[propertyName]) {
-        if (type === "object") this.$set(this.value, propertyName, {});
-        if (type === "array") this.$set(this.value, propertyName, []);
-      }
-      return this.value[propertyName];
-    },
 
+  methods: {
     validate() {
-      return this.$refs['elementUiForm'].validate()
+      return this.$refs["elementUiForm"].validate();
     },
     resetFields() {
-      this.$refs['elementUiForm'].resetFields();
+      this.$refs["elementUiForm"].resetFields();
     },
   },
-  // Debug helper
-  /* watch: {
+  
+  watch: {
     value: {
-      handler: function (val) {
-        console.log(val);
+      handler(newVal) {
+        this.$emit("input", newVal);
       },
       deep: true,
     },
-  }, */
+  },
 };
 </script>
 
@@ -241,7 +228,7 @@ label.el-checkbox.ar-control {
 }
 
 /* Item bottom margin */
-.ar-json-schema-form >>> .el-form-item  {
+.ar-json-schema-form >>> .el-form-item {
   margin-bottom: 6px;
 }
 
@@ -294,7 +281,6 @@ label.el-checkbox.ar-control[readonly],
 .el-icon-info {
   color: #00adffb3;
 }
-
 </style>
 <style>
 /* Error succes borders: lighter */

@@ -27,25 +27,23 @@
       <!-- The control -->
       <template slot-scope="scope">
         <!-- 
-            ar-control-selector is a functional component that that gets replaced by a control depending on 
-            property type. 
-            We also hoist paroperties.attrs so that they play nicely with control elements.
-            - readonly is used by standard input elements to disable input and in css to remove blue border
-            - required is used by Select to optionaly add a 'not selected' option
-            - hash-level is used by a Select with a argoQuery (to get selectedObjectId from hash)
-            - form-read-only and omit-empty-fields are passed in case we're creating a subForm
-           -->
+          ar-control-selector is a functional component that that replaces itself with a control component
+          depending on property type. It also performs some magic on certain property.attrs
+          - readonly is used by standard input elements to disable input and by css to remove blue border
+          - required is used by Selects to optionaly add a clear button (or a None option in the case of radio buttons)
+          - hash-level is used by Selects with a argoQuery (to get selectedObjectId from hash)
+          - property and form-mode are passed in case we're creating a subForm
+          - We use the v-model pattern to send/recieve data to/from child components. 
+            Below, we watch for changes to value and emit input events accordingly.
+          -->
         <ar-control-selector
-          class="ar-control"
-          v-on:input="(newValue) => $set(scope.row, propertyName, newValue)"
-          v-on:change="$emit('change', $event)"
-          :property="property"
-          :value="getValue(scope.row, propertyName, property.type)"
-          :readonly="formReadOnly || property.readOnly"
-          :required="requiredArr.includes(propertyName)"
-          :hash-level="hashLevel"
-          :form-read-only="formReadOnly"
-          :omit-empty-fields="omitEmptyFields"
+            class="ar-control"
+            v-model="scope.row[propertyName]"
+            :property="property"
+            :readonly="formMode.startsWith('Readonly')"
+            :required="requiredArr.includes(propertyName)"
+            :hash-level="hashLevel"
+            :form-mode="formMode"
         ></ar-control-selector>
       </template>
     </el-table-column>
@@ -64,8 +62,8 @@ import NestedObject from "./NestedObject";
 import Number from "./Number";
 import FormArray from "./FormArray";
 import SelectArrayEnum from "./SelectArrayEnum";
-import SelectStringQuery from './SelectStringQuery';
-import SelectArrayQuery from './SelectArrayQuery';
+import SelectStringQuery from "./SelectStringQuery";
+import SelectArrayQuery from "./SelectArrayQuery";
 import Tiptap from "./TiptapEditor";
 
 export default {
@@ -81,8 +79,8 @@ export default {
     "ar-number": Number,
     "ar-form-array": FormArray,
     "ar-select-array-enum": SelectArrayEnum,
-    'ar-select-string-query': SelectStringQuery,
-    'ar-select-array-query': SelectArrayQuery,
+    "ar-select-string-query": SelectStringQuery,
+    "ar-select-array-query": SelectArrayQuery,
     "ar-tiptap": Tiptap,
   },
   props: {
@@ -98,15 +96,18 @@ export default {
       type: Array,
       default: () => [],
     },
-    formReadOnly: Boolean,
-    omitEmptyFields: Boolean,
+    formMode: String,
     hashLevel: Number,
   },
   computed: {
     // Create the validation rules Object
-    validationRules: function () {
+    validationRules: function() {
       // no rules for readonly
-      if (this.formReadOnly) return {};
+      if (
+        this.formMode === "Readonly Dense" ||
+        this.formMode === "Readonly Full"
+      )
+        return {};
 
       let rulesObj = {};
       for (var propertyName in this.properties) {
@@ -161,18 +162,8 @@ export default {
       return rulesObj;
     },
   },
-  methods: {
-    // In the case of object or array and a value is not provided, we must $set an empty value.
-    // Otherwise the update from subForm will fail. This may lead to empty objects and arrays
-    // which we may want to delete afterwards to save some space
-    getValue(row, propertyName, type) {
-      if (!row[propertyName]) {
-        if (type === "object") this.$set(row, propertyName, {});
-        if (type === "array") this.$set(row, propertyName, []);
-      }
-      return row[propertyName];
-    },
 
+  methods: {
     validate() {
       return this.$refs["elementUiTable"].validate();
     },
@@ -180,20 +171,19 @@ export default {
       this.$refs["elementUiTable"].resetFields();
     },
   },
-  // Debug helper
-  /* watch: {
+  
+  watch: {
     value: {
-      handler: function (val) {
-        console.log(val);
+      handler(newVal) {
+        this.$emit("input", newVal);
       },
       deep: true,
     },
-  }, */
+  },
 };
 </script>
 
 <style scoped>
-
 /* Input Control */
 .ar-control >>> input {
   background-color: #ffffff08;
@@ -271,7 +261,6 @@ label.el-checkbox.ar-control[readonly],
 .el-icon-info {
   color: #00adffb3;
 }
-
 </style>
 <style>
 /* Error succes borders: lighter */
@@ -289,15 +278,14 @@ label.el-checkbox.ar-control[readonly],
 }
 </style>
 <style>
-.el-table__body tr > td{
+.el-table__body tr > td {
   padding: 3px;
   vertical-align: top;
 }
 .el-table .cell {
   padding: 3px;
 }
-.el-table th{
+.el-table th {
   padding: 0 0 0 16px;
 }
-
 </style>

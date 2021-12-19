@@ -1,14 +1,11 @@
 <template>
   <ar-sub-form
     class="ar-subform-background"
+    v-model="value"
     :properties="property.properties"
-    :value="value"
     :requiredArr="property.required"
-    :form-read-only="formReadOnly"
-    :omit-empty-fields="omitEmptyFields"
+    :form-mode="formMode"
     :hash-level="hashLevel"
-    v-on:input="$emit('input', $event)"
-    v-on:change="$emit('change', $event)"
   ></ar-sub-form>
 </template>
 
@@ -26,9 +23,16 @@ export default {
       type: Object,
       default: () => {},
     },
-    formReadOnly: Boolean,
-    omitEmptyFields: Boolean,
+    formMode: String,
     hashLevel: Number,
+  },
+  watch: {
+    value: {
+      handler(newVal) {
+        this.$emit("input", newVal);
+      },
+      deep: true,
+    },
   },
 };
 </script>

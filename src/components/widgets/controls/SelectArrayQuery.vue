@@ -37,7 +37,7 @@
 
 <script>
 import { argoQuery } from "../../../services/dexieServices";
-import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged, defaultIfEmpty } from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -81,6 +81,8 @@ export default {
         })
       )
     );
+
+    items$.pipe(defaultIfEmpty([]))
 
     return {
       items: items$

@@ -1,41 +1,49 @@
 <template>
-  <div v-if="readonly" class="ar-readonly-div">
-    {{ valueLabel }}
-  </div>
-  <el-radio-group
-    v-else-if="items.length < 5"
-    v-on:input="$emit('input', $event)"
-    v-on:change="$emit('change', $event)"
-    :value="value"
-  >
-    <el-radio
-      v-for="item in items"
-      :key="item._id"
-      :label="item.title ? item.title : item.name"
-      :value="item._id"
-    ></el-radio>
-  </el-radio-group>
-  <el-select
-    v-else
-    class="ar-select"
-    v-on:input="$emit('input', $event)"
-    v-on:change="$emit('change', $event)"
-    :value="value"
-    :clearable="required ? false : true"
-  >
-    <el-option
-      v-for="item in items"
-      :key="item._id"
-      :label="item.title ? item.title : item.name"
-      :value="item._id"
+  <div v-if="items">
+    <div v-if="readonly" class="ar-readonly-div">
+      {{ valueLabel }}
+    </div>
+    <el-radio-group
+      v-else-if="items.length < 5"
+      v-on:input="$emit('input', $event)"
+      v-on:change="$emit('change', $event)"
+      :value="value"
     >
-    </el-option>
-  </el-select>
+      <el-radio
+        v-for="item in items"
+        :key="item._id"
+        :label="item.title ? item.title : item.name"
+        :value="item._id"
+      ></el-radio>
+    </el-radio-group>
+    <el-select
+      v-else
+      class="ar-select"
+      v-on:input="$emit('input', $event)"
+      v-on:change="$emit('change', $event)"
+      :value="value"
+      :clearable="required ? false : true"
+    >
+      <el-option
+        v-for="item in items"
+        :key="item._id"
+        :label="item.title ? item.title : item.name"
+        :value="item._id"
+      >
+      </el-option>
+    </el-select>
+  </div>
 </template>
 
 <script>
 import { argoQuery } from "../../../services/dexieServices";
-import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
+import {
+  pluck,
+  switchMap,
+  filter,
+  distinctUntilChanged,
+  defaultIfEmpty,
+} from "rxjs/operators";
 import WidgetMixin from "../../../lib/widgetMixin";
 
 export default {
@@ -56,8 +64,8 @@ export default {
   },
   data() {
     return {
-      items: []
-    }
+      items: [],
+    };
   },
 
   subscriptions() {
@@ -65,10 +73,10 @@ export default {
     // Watch the selectedObjId as observable
     const property$ = this.$watchAsObservable("property", {
       immediate: true,
-      deep: true
+      deep: true,
     })
       .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((property) => (property && property.argoQuery))) //filter out falsy values
+      .pipe(filter((property) => property && property.argoQuery)) //filter out falsy values
       .pipe(distinctUntilChanged()); // emit only when changed
 
     // Whenever selectedObjId changes, reset the live query with the new selectedObjId
@@ -80,9 +88,11 @@ export default {
       )
     );
 
+    items$.pipe(defaultIfEmpty([]));
+
     return {
-      items: items$
-    }
+      items: items$,
+    };
   },
 
   computed: {
@@ -93,7 +103,7 @@ export default {
         return obj._id === this.value;
       });
       if (!valueObj) return this.value;
-      return valueObj.title ? valueObj.title : valueObj.name
+      return valueObj.title ? valueObj.title : valueObj.name;
     },
   },
 };

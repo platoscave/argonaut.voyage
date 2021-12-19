@@ -9,8 +9,7 @@
       v-model.lazy="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
-      :form-read-only="formReadOnly"
-      :omit-empty-fields="omitEmptyFields"
+      :form-mode="formMode"
       :hash-level="hashLevel"
       v-on:change="onChange"
     >
@@ -30,7 +29,7 @@
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
-import { pluck, switchMap, filter, distinctUntilChanged} from "rxjs/operators";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import SubForm from "./controls/SubForm";
 import WidgetMixin from "../../lib/widgetMixin";
 
@@ -47,13 +46,11 @@ export default {
   data() {
     return {
       selectedObjId: null,
-      formReadOnly: true,
-      omitEmptyFields: false,
+      formMode: "Readonly Dense",
       valid: false,
       viewObj: {},
     };
   },
-
 
   subscriptions() {
     //
@@ -72,7 +69,6 @@ export default {
       )
     );
 
-
     // Watch the viewId as observable
     const viewId$ = this.$watchAsObservable("viewId", {
       immediate: true,
@@ -84,13 +80,13 @@ export default {
     // Whenever viewId changes, reset the live query with the new viewId
     const viewObj$ = viewId$.pipe(
       switchMap((viewId) =>
-        liveQuery(() => db.state.where({ _id: viewId }).first())
+        argoQuery.getMaterializedView(viewId)
       )
     );
     return {
       dataObj: dataObj$,
-      viewObj: viewObj$
-    }
+      viewObj: viewObj$,
+    };
   },
 
   methods: {
@@ -122,18 +118,11 @@ export default {
         this.viewObj = await argoQuery.getMaterializedView(this.viewId);
     },
     onEditButton() {
-      if (this.formReadOnly) {
-        if (this.omitEmptyFields) {
-          this.omitEmptyFields = false;
-          this.formReadOnly = false;
-        } else {
-          this.omitEmptyFields = true;
-          this.formReadOnly = true;
-        }
-      } else {
-        this.formReadOnly = true;
-        this.omitEmptyFields = false;
-      }
+      if (this.formMode === "Readonly Dense") this.formMode = "Readonly Full";
+      else if (this.formMode === "Readonly Full")
+        this.formMode = "Edit Permitted";
+      else if (this.formMode === "Edit Permitted") this.formMode = "Edit Full";
+      else this.formMode = "Readonly Dense";
     },
     async onClassView() {
       debugger;

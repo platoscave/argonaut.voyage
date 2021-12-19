@@ -6,16 +6,16 @@
       v-model="tableData"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
-      :form-read-only="formReadOnly"
-      :omit-empty-fields="omitEmptyFields"
+      :form-mode="formMode"
       :hash-level="hashLevel"
-      v-on:change="onChange"
     >
     </ar-sub-table>
 </template>
 
 <script>
-import { argoQuery } from "../../services/dexieServices"
+import { db, argoQuery } from "../../services/dexieServices";
+import { liveQuery } from "dexie";
+import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import SubTable from "./controls/SubTable"
 import WidgetMixin from "../../lib/widgetMixin";
 
@@ -37,10 +37,47 @@ export default {
       viewObj: {},
       argoQuery: {},
       tableData: [],
-      formReadOnly: true,
-      omitEmptyFields: false,
+      formMode: "Readonly Dense",
     };
   },
+
+  subscriptions() {
+    //
+    // Watch the selectedObjId as observable
+    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
+      immediate: true,
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
+    const dataObj$ = selectedObjId$.pipe(
+      switchMap((selectedObjId) =>
+        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
+      )
+    );
+
+    // Watch the viewId as observable
+    const viewId$ = this.$watchAsObservable("viewId", {
+      immediate: true,
+    })
+      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(filter((viewId) => viewId)) //filter out falsy values
+      .pipe(distinctUntilChanged()); // emit only when changed
+
+    // Whenever viewId changes, reset the live query with the new viewId
+    const viewObj$ = viewId$.pipe(
+      switchMap((viewId) =>
+        liveQuery(() => db.state.where({ _id: viewId }).first())
+      )
+    );
+    return {
+      dataObj: dataObj$,
+      viewObj: viewObj$,
+    };
+  },
+
   methods: {    
     async onChange(newDataObj) {
       try {
@@ -55,23 +92,6 @@ export default {
         this.valid = false;
       }
     },
-    async viewIdHandeler() {
-      if (this.viewId) {
-        this.viewObj = await argoQuery.getMaterializedView(this.viewId);
-        //console.log(this.viewObj);
-        this.tableData = await argoQuery.executeQuery(this.viewObj.queryId, {
-          _id: this.selectedObjId,
-        });
-      }
-    },
-  },
-  watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    viewId: "viewIdHandeler",
-  },
-  mounted: function () {
-    this.viewIdHandeler();
   },
 };
 </script>

@@ -6,13 +6,12 @@
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
-      v-model.lazy="dataObj"
+      :value="dataObj"
+      @input="onInput"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
-      :form-read-only="formReadOnly"
-      :omit-empty-fields="omitEmptyFields"
+      :form-mode="formMode"
       :hash-level="hashLevel"
-      v-on:change="onChange"
     >
     </ar-sub-form>
     <el-button
@@ -49,10 +48,10 @@ export default {
   data() {
     return {
       selectedObjId: null,
-      formReadOnly: true,
-      omitEmptyFields: false,
+      formMode: "Readonly Dense",
       valid: false,
       viewObj: {},
+      dataObj: {}
     };
   },
 
@@ -71,14 +70,16 @@ export default {
       switchMap((selectedObjId) =>
         liveQuery(() => db.state.where({ _id: selectedObjId }).first())
       )
-    );
+    )
 
     // Whenever dataObj changes, fetch the getMergedAncestorProperties promise with the new classId
     const viewObj$ = dataObj$.pipe(
       switchMap((dataObj) =>
         argoQuery.getMergedAncestorProperties(dataObj.classId)
       )
-    );
+    )
+
+    dataObj$.pipe(distinctUntilChanged())
 
     return {
       dataObj: dataObj$,
@@ -87,37 +88,27 @@ export default {
   },
 
   methods: {
-    async onChange() {
+    async onInput(updateDataObj) {
       try {
-        console.log(this.dataObj);
+        console.log(updateDataObj);
 
         const valid = await this.$refs["schemaForm"].validate();
-        console.log(valid);
-        this.$argonautdb
-          .upsert(this.selectedObjId, (doc) => {
-            return Object.assign(doc, this.dataObj);
-          })
-          .catch((err) =>
-            this.$message({ showClose: true, message: err, type: "error" })
-          );
+        console.log('valid', valid);
+        //db.state.update(updateDataObj._id, updateDataObj);
+
       } catch (err) {
         this.valid = false;
+        this.$message({ showClose: true, message: err, type: "error" })
       }
     },
 
     onEditButton() {
-      if (this.formReadOnly) {
-        if (this.omitEmptyFields) {
-          this.omitEmptyFields = false;
-          this.formReadOnly = false;
-        } else {
-          this.omitEmptyFields = true;
-          this.formReadOnly = true;
-        }
-      } else {
-        this.formReadOnly = true;
-        this.omitEmptyFields = false;
-      }
+      if (this.formMode === "Readonly Dense") this.formMode = "Readonly Full";
+      else if (this.formMode === "Readonly Full")
+        //this.formMode = "Edit Permitted";
+        this.formMode = "Edit Full";
+      else if (this.formMode === "Edit Permitted") this.formMode = "Edit Full";
+      else this.formMode = "Readonly Dense";
     },
   },
 };

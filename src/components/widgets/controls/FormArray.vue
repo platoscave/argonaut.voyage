@@ -6,30 +6,27 @@
       :key="idx"
       :class="{
         'ar-subform-background': true,
-        'not-readonly': !formReadOnly && property.additionalItems,
+        'not-readonly': formMode.startsWith('Edit') && property.additionalItems,
       }"
     >
       <ar-sub-form
-        :draggable="!formReadOnly && property.additionalItems"
+        v-model="value[idx]"
+        :draggable="formMode.startsWith('Edit') && property.additionalItems"
         :properties="property.items.properties"
-        :value="item"
         :requiredArr="property.required"
-        :form-read-only="formReadOnly"
-        :omit-empty-fields="omitEmptyFields"
+        :form-mode="formMode"
         :hash-level="hashLevel"
-        v-on:input="$emit('input', $event)"
-        v-on:change="$emit('change', $event)"
       ></ar-sub-form>
       <!-- Delete icon -->
       <i
-        v-if="!formReadOnly && property.additionalItems"
+        v-if="formMode.startsWith('Edit') && property.additionalItems"
         class="el-icon-close"
         @click="value.splice(idx, 1)"
       ></i>
     </div>
     <!-- Add icon -->
     <i
-      v-if="!formReadOnly && property.additionalItems"
+      v-if="formMode.startsWith('Edit') && property.additionalItems"
       class="el-icon-plus"
       @click="value.push({})"
     ></i>
@@ -51,10 +48,17 @@ export default {
       default: () => {},
     },
     readonly: Boolean,
-    formReadOnly: Boolean,
-    omitEmptyFields: Boolean,
+    formMode: String,
     additionalItems: Boolean,
     hashLevel: Number,
+  },
+  watch: {
+    value: {
+      handler(newVal) {
+        this.$emit("input", newVal);
+      },
+      deep: true,
+    },
   },
 };
 </script>

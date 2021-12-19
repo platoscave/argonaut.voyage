@@ -1,4 +1,7 @@
 <template>
+  <!-- TODO This is nonsense. Enums are single select by definition 
+     To be removed  
+  -->
   <div v-if="readonly" class="ar-readonly-div">
     {{ value.join(", ") }}
   </div>
