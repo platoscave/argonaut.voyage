@@ -882,13 +882,13 @@
                     "type": "string"
                   },
                   "displayType": {
-                    "default": "Form",
+                    "default": "View Form",
                     "enum": [
                       "Balance Sheet",
                       "Calendar",
                       "Class Model",
                       "Document",
-                      "Form",
+                      "View Form",
                       "HTML Page",
                       "Materialized View",
                       "Merged Ancestors Form",
@@ -896,7 +896,7 @@
                       "Page Editor",
                       "Process Model",
                       "Raw",
-                      "Table",
+                      "View Table",
                       "Tree",
                       "Validate"
                     ],
@@ -2811,7 +2811,7 @@
         "name": "Propositions",
         "widgets": [
           {
-            "displayType": "Table",
+            "displayType": "View Table",
             "name": "Propositions Table",
             "viewId": "g1q2rky4uxcb"
           }
@@ -2871,7 +2871,7 @@
         "name": "Class Details",
         "widgets": [
           {
-            "displayType": "Form",
+            "displayType": "View Form",
             "viewId": "5ucwmdby4wox"
           }
         ]
@@ -2988,7 +2988,7 @@
         "name": "Members Table",
         "widgets": [
           {
-            "displayType": "Table",
+            "displayType": "View Table",
             "name": "Members Table",
             "XviewId": ""
           }
@@ -3027,7 +3027,7 @@
         "name": "Backlog Table",
         "widgets": [
           {
-            "displayType": "Table",
+            "displayType": "View Table",
             "name": "Backlog Table",
             "viewId": "wkt3pyiwxkim"
           }

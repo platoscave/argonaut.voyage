@@ -59,7 +59,7 @@
 /* eslint-disable vue/no-unused-components */
 import ControlSelector from "./ControlSelector";
 import SelectStringEnum from "./SelectStringEnum";
-import Form from "./SubForm";
+import SubForm from "./SubForm";
 import Image from "./Image";
 import Json from "./Json";
 import NestedObject from "./NestedObject";
@@ -76,13 +76,13 @@ export default {
   components: {
     "ar-control-selector": ControlSelector,
     "ar-select-string-enum": SelectStringEnum,
-    "ar-sub-form": Form,
+    "ar-sub-form": SubForm,
     "ar-image": Image,
     "ar-json": Json,
     "ar-nested-object": NestedObject,
     "ar-number": Number,
-    "ar-form-array": FormArray,
-    "ar-table-array": TableArray,
+    "ar-view-form-array": FormArray,
+    "ar-view-table-array": TableArray,
     "ar-select-array-enum": SelectArrayEnum,
     "ar-select-string-query": SelectStringQuery,
     "ar-select-array-query": SelectArrayQuery,

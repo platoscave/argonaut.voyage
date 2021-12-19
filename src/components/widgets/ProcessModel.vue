@@ -11,10 +11,10 @@
 
 <script>
 import { argoQuery } from "../../services/dexieServices";
-import PropositionObject3d from "./3dDiagrams/propositionObject3d";
-import ProcessObject3d from "./3dDiagrams/processObject3d.js";
-import OrgObject3d from "./3dDiagrams/orgObject3d.js";
-import UserObject3d from "./3dDiagrams/userObject3d.js";
+import PropositionObject3d from "./diagramObj3ds/propositionObj3d";
+import ProcessObject3d from "./diagramObj3ds/processObj3d.js";
+import OrgObject3d from "./diagramObj3ds/orgObj3d.js";
+import UserObject3d from "./diagramObj3ds/userObj3d.js";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 

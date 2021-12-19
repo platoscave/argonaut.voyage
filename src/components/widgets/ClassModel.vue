@@ -11,7 +11,7 @@
 
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
-import ClassObject3d from "./3dDiagrams/classObject3d.js";
+import ClassObject3d from "./diagramObj3ds/classObj3d.js";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
 

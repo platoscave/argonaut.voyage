@@ -10,7 +10,7 @@
 </template>
 
 <script>
-//import Form from "./SubForm"; // must be declared globally
+//import SubForm from "./SubForm"; // must be declared globally
 
 export default {
   name: "ar-nested-object",

@@ -1,5 +1,5 @@
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import ObjectObject3d from "./objectObject3d";
+import ObjectObject3d from "./objectObj3d";
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
 

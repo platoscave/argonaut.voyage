@@ -10,7 +10,7 @@ export default {
       else if (displayType === 'Calendar') return 'ar-calendar'
       else if (displayType === 'Class Model') return 'ar-class-model'
       else if (displayType === 'Document') return 'ar-document'
-      else if (displayType === 'Form') return 'ar-form'
+      else if (displayType === 'View Form') return 'ar-view-form'
       else if (displayType === 'HTML Page') return 'ar-tiptap'
       else if (displayType === 'Materialized View') return 'ar-materialized-view'
       else if (displayType === 'Merged Ancestors Form') return 'ar-merged-ancestors-form'
@@ -18,7 +18,7 @@ export default {
       else if (displayType === 'Page Editor') return 'ar-page-editor'
       else if (displayType === 'Process Model') return 'ar-process-model'
       else if (displayType === 'Raw') return 'ar-raw'
-      else if (displayType === 'Table') return 'ar-table'
+      else if (displayType === 'ViewTable') return 'ar-view-table'
       else if (displayType === 'Tree') return 'ar-tree'
       else if (displayType === 'Validate') return 'ar-validate'
     }

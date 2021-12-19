@@ -21,7 +21,7 @@ import WidgetMixin from "../../lib/widgetMixin";
 
 
 export default {
-  name: "ar-table",
+  name: "ar-view-table",
   mixins: [WidgetMixin],
   components: {
     "ar-sub-table": SubTable

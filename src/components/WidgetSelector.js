@@ -2,14 +2,14 @@ import BalanceSheet from './widgets/BalanceSheet.vue'
 import Calendar from './widgets/Calendar.vue'
 import ClassModel from './widgets/ClassModel.vue'
 import Document from './widgets/Document.vue'
-import Form from './widgets/Form.vue'
+import ViewForm from './widgets/ViewForm.vue'
 import MaterializedView from './widgets/simpleJson/MaterializedView.vue'
 import MergedAncestorsForm from './widgets/MergedAncestorsForm.vue'
 import NavigationMenu from './widgets/NavigationMenu.js'
 import PageEditor from './widgets/PageEditor.vue'
 import ProcessModel from './widgets/ProcessModel.vue'
 import Raw from './widgets/simpleJson/Raw.vue'
-import Table from './widgets/Table.vue'
+import ViewTable from './widgets/ViewTable.vue'
 import Tiptap from './widgets/Tiptap.vue'
 import Tree from './widgets/Tree.vue'
 import Validate from './widgets/simpleJson/Validate.vue'
@@ -22,14 +22,14 @@ export default {
     'ar-calendar': Calendar,
     'ar-class-model': ClassModel,
     'ar-document': Document,
-    'ar-form': Form,
+    'ar-view-form': ViewForm,
     'ar-materialized-view': MaterializedView,
     'ar-merged-ancestors-form': MergedAncestorsForm,
     'ar-naigation-menu': NavigationMenu,
     'ar-page-editor': PageEditor,
     'ar-process-model': ProcessModel,
     'ar-raw': Raw,
-    'ar-table': Table,
+    'ar-view-table': ViewTable,
     'ar-tiptap': Tiptap,
     'ar-tree': Tree,
     'ar-validate': Validate
@@ -66,8 +66,8 @@ export default {
       else if (widget.displayType === 'Document') {
         return createElement('ar-document', elementProps)
       }
-      else if (widget.displayType === 'Form') {
-        return createElement('ar-form', elementProps)
+      else if (widget.displayType === 'View Form') {
+        return createElement('ar-view-form', elementProps)
       }
       else if (widget.displayType === 'HTML Page') {
         return createElement('ar-tiptap', elementProps)
@@ -90,8 +90,8 @@ export default {
       else if (widget.displayType === 'Raw') {
         return createElement('ar-raw', elementProps)
       }
-      else if (widget.displayType === 'Table') {
-        return createElement('ar-table', elementProps)
+      else if (widget.displayType === 'ViewTable') {
+        return createElement('ar-view-table', elementProps)
       }
       else if (widget.displayType === 'Tree') {
         return createElement('ar-tree', elementProps)

@@ -34,7 +34,7 @@ import SubForm from "./controls/SubForm";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: "ar-form",
+  name: "ar-view-form",
   mixins: [WidgetMixin],
   components: {
     "ar-sub-form": SubForm,

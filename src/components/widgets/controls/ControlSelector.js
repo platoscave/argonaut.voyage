@@ -54,9 +54,9 @@ export default {
         if (property.items.type === 'object' && property.items.properties) {
 
           // objects in a table
-          if (property.displayAs === 'Table') return 'ar-table-array'
+          if (property.displayAs === 'Table') return 'ar-view-table-array'
           // objects in a subform
-          else return 'ar-form-array'
+          else return 'ar-view-form-array'
 
         }
 

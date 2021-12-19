@@ -10,10 +10,10 @@
 </template>
 
 <script>
-//import Form from "./SubForm"; // must be declared globally
+//import SubForm from "./SubForm"; // must be declared globally
 
 export default {
-  name: "ar-table-array",
+  name: "ar-view-table-array",
   props: {
     value: {
       type: Array,
