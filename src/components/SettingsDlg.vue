@@ -55,6 +55,7 @@
 import { db, argoQuery } from "../services/dexieServices";
 import EosServices from "../services/eosServices";
 import GenerateCpp from "../services/generateCpp";
+import jp from "jsonpath"
 
 export default {
   name: "settings-dlg",
@@ -157,17 +158,33 @@ export default {
       alert(randomKey);
     },
     async testQuery() {
-      try {
-        const observableResults = await argoQuery.executeQuery({
-          where: {
-            classId: "hdt3hmnsaghk",
-          },
-          sortBy: 'name'
+      /* try {
+        const filterFunc = obj => {
+          const pathRes = jp.query(obj, "$.permissions[?(@.perm_name == 'owner')].required_auth..accounts[*][?(@.permission == 'owner')].actor")
+          console.log(pathRes)
+          return (pathRes[0] === 'bikeshop1111')
+        }
+
+        const results = await db.state.where({ classId: "dasprps1lrwf"} ).filter(filterFunc).toArray()
+
+        console.log("Got result:", results)
+        this.$message({
+          message: "Success",
+          type: "success",
         });
-        observableResults.subscribe({
+      } catch (err) {
+        console.error(err);
+        this.$message({ message: err, type: "error" });
+      } */
+      try {
+        const contextObj = await db.state.get("bikeshop1111")
+        const observableResults = await argoQuery.executeQuery("o4jhldcqvbep", contextObj);
+        console.log("Got result:", observableResults)
+
+        /* observableResults.subscribe({
           next: (result) => console.log("Got result:", result),
           error: (error) => console.error(error),
-        });
+        }); */
         this.$message({
           message: "Success",
           type: "success",

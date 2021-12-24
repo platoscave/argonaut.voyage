@@ -254,6 +254,7 @@ label {
 
 .logo {
   font-family: 'Courgette', cursive;
+  font-weight: bold;
 }
 
 </style>

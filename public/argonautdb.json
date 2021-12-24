@@ -11,6 +11,13 @@
         "title": "_id",
         "type": "string"
       },
+      "name": {
+        "placeholder": "Provide a name",
+        "maxLength": 1000,
+        "minLength": 0,
+        "title": "Name",
+        "type": "string"
+      },
       "classId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
@@ -44,13 +51,6 @@
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Icon",
-        "type": "string"
-      },
-      "name": {
-        "placeholder": "Provide a name",
-        "maxLength": 1000,
-        "minLength": 0,
-        "title": "Name",
         "type": "string"
       }
     },
@@ -1013,12 +1013,52 @@
     "description": "<p>Queries used by views</p>",
     "superClassId": "nrioirgelhpi",
     "properties": {
-      "icon": {
-        "maxLength": 2000,
-        "contentEncoding": "base64",
-        "contentMediaType": "image/svg+xml",
-        "minLength": 0,
-        "title": "Icon",
+      "idsArrayPath": {
+        "title": "Ids Array",
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "indexName": {
+            "title": "Index Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "where": {
+        "title": "Where Keys",
+        "type": "object"
+      },
+      "filter": {
+        "title": "Filter",
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "equals": {
+            "title": "Equals",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "sortBy": {
+        "title": "Sort By",
+        "type": "string"
+      },
+      "extendTo": {
+        "enum": [
+          "None",
+          "Instances",
+          "Subclasses",
+          "Properties",
+          "Id Array"
+        ],
+        "title": "Extend To",
+        "description": "<p><strong>Extend To</strong></p><ul><li><strong>Instances</strong>: Given a class, return all its objects, including subclasses objects.</li><li><strong>Subclasses</strong>: Given a class, return all its subclasses including itsself.</li><li><strong>Id Array</strong>: Given an object, return all of the object identified in the manyToOne array.</li></ul>",
         "type": "string"
       },
       "subQueryIds": {
@@ -1048,31 +1088,12 @@
         "title": "Page",
         "type": "string"
       },
-      "where": {
-        "title": "Where Keys",
-        "properties": {}
-      },
-      "sortBy": {
-        "title": "Sort By",
-        "argoQuery": {
-          "where": {
-            "classId": "pejdgrwd5qso"
-          },
-          "sortBy": "name",
-          "extendTo": "Properties"
-        },
-        "type": "string"
-      },
-      "extendTo": {
-        "enum": [
-          "None",
-          "Instances",
-          "Subclasses",
-          "Properties",
-          "Id Array"
-        ],
-        "title": "Extend To",
-        "description": "<p><strong>Extend To</strong></p><ul><li><strong>Instances</strong>: Given a class, return all its objects, including subclasses objects.</li><li><strong>Subclasses</strong>: Given a class, return all its subclasses including itsself.</li><li><strong>Id Array</strong>: Given an object, return all of the object identified in the manyToOne array.</li></ul>",
+      "icon": {
+        "maxLength": 2000,
+        "contentEncoding": "base64",
+        "contentMediaType": "image/svg+xml",
+        "minLength": 0,
+        "title": "Icon",
         "type": "string"
       }
     },
@@ -3036,6 +3057,31 @@
     ]
   },
   {
+    "_id": "wsnkyzzdqebq",
+    "docType": "object",
+    "name": "Balance Sheet Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Balance Sheet",
+        "widgets": [
+          {
+            "displayType": "View Form",
+            "name": "Assests",
+            "viewId": "qyej5e2ichqp"
+          },
+          {
+            "displayType": "View Form",
+            "name": "Libilities",
+            "viewId": "mwwmy5f2tfyt"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "vzhw2vpaflmw",
     "docType": "object",
     "name": "Process Umiverse Tree View",
@@ -3203,6 +3249,131 @@
     "baseClassId": "i1gjptcb2skq",
     "type": "object"
   },
+
+  {
+    "_id": "qyej5e2ichqp",
+    "docType": "object",
+    "name": "Assests View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "properties": {
+      "currentAssets": {
+        "title": "Current Assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "investments": {
+        "title": "Investments",
+        "type": "number"
+      },
+      "property": {
+        "title": "Property, plant and equipment",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "intangibleAssets": {
+        "title": "Intangible assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "otherAssets": {
+        "title": "Other assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "mwwmy5f2tfyt",
+    "docType": "object",
+    "name": "Libilities View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "seidi2adi4wf",
+    "properties": {
+      "currentAssets": {
+        "title": "Current Assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "investments": {
+        "title": "Investments",
+        "type": "number"
+      },
+      "property": {
+        "title": "Property, plant and equipment",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "intangibleAssets": {
+        "title": "Intangible assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "otherAssets": {
+        "title": "Other assets",
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "baseClassId": "i1gjptcb2skq",
+    "type": "object"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     "_id": "tllcmvjazmz2",
     "docType": "object",
@@ -3298,9 +3469,9 @@
     "subQueryIds": [
       "ybjrgmdjybzl"
     ],
-    "manyToOneArrayProp": "$nextStepIds",
-    "where": {
-      "_id": "$stepId"
+    "idsArrayPath": {
+      "path": "$.nextStepIds[*].stepId",
+      "indexName": "_id"
     },
     "sortBy": "name"
   },
@@ -3329,7 +3500,11 @@
       "1dbriehwtyyp"
     ],
     "where": {
-      "permissions.0.required_auth.accounts.0.permission.actor": "$fk"
+      "classId": "dasprps1lrwf"
+    },
+    "filter": {
+      "path": "$.permissions[?(@.perm_name == 'owner')].required_auth..accounts[*][?(@.permission == 'owner')].actor",
+      "equals": "$fk"
     },
     "sortBy": "name"
   },
@@ -3339,9 +3514,9 @@
     "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    "manyToOneArrayProp": "$permissions.1.required_auth.accounts",
-    "where": {
-      "_id": "$permission.actor"
+    "idsArrayPath": {
+      "path": "$.permissions[?(@.perm_name == 'active')].required_auth..accounts[*][?(@.permission == 'active')].actor",
+      "indexName": "_id"
     },
     "sortBy": "name"
   },
@@ -3468,7 +3643,7 @@
         "icon": "el-icon-user-solid",
         "menuArr": [
           {
-            "name": "Human Resources",
+            "name": "Members",
             "pageId": "rctffnyuy2kn"
           },
           {
@@ -3503,7 +3678,7 @@
               },
               {
                 "name": "Balance Sheet",
-                "pageId": ""
+                "pageId": "wsnkyzzdqebq"
               },
               {
                 "name": "Cash Flow",

@@ -1,10 +1,12 @@
 // db.js
 import Dexie from 'dexie';
 import { liveQuery } from "dexie";
+import jp from "jsonpath"
 
+Dexie.debug = true
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
-  state: '_id, classId, superClassId, ownerId', // Primary key and indexed props
+  state: '_id, classId, superClassId, ownerId, permissions.required_auth.accounts.permission.actor', // Primary key and indexed props
   settings: 'pageId'
 });
 
@@ -17,6 +19,7 @@ export class argoQuery {
   static async executeQuery(queryObj /* queryObj or queryId */, contextObj = null) {
 
     // Get obj a property using dot notation
+    // TODO use Dexie.getByKeyPath(obj, "address.street") instead
     const getDescendantProp = (desc, contextObj) => {
       desc = desc.substring(1) // assume starts with a $
       var arr = desc.split(".");
@@ -75,15 +78,14 @@ export class argoQuery {
     // use the item as basis for resolving query variables
     //console.log('queryObj', queryObj)
 
+    if (queryObj.idsArrayPath && queryObj.idsArrayPath.path) {
+      if (!contextObj) throw 'idsArrayPath query must have a contextObj'
 
-    if (queryObj.manyToOneArrayProp) {
-      if (!contextObj) throw 'manyToOneArrayProp query must have a contextObj'
-
-      const manyIdsArr = getDescendantProp(queryObj.manyToOneArrayProp, contextObj)
-      if (!manyIdsArr) return []
+      // Obtain idObjectsArr from the context (the selectedObj)
+      const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
 
       //return liveQuery(() => {
-        const collection$ = db.state.where('classId').anyOf(manyIdsArr)
+        const collection$ = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
         if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
       //})
@@ -137,8 +139,14 @@ export class argoQuery {
 
       // Otherwise just execute the query. 
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
+
       //return liveQuery(() => {
-        const collection$ = db.state.where(resolvedWhere)
+        let collection$ = db.state.where(resolvedWhere)
+        if(queryObj.filter) {
+          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals}, contextObj)
+          const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+          collection$ = collection$.filter(filterFunc)
+        }
         if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
       //})

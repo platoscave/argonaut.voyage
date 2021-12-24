@@ -1,12 +1,13 @@
 <template>
   <div v-if="dataObj && viewObj">
+    <h3 v-if="widgetName">{{widgetName}}</h3>
     <!-- The form -->
     <!-- .lazy update dataObj after onChange-->
-    <!-- v-on:change="onChange" -->
+    <!-- v-on:change="onChange"-->
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
-      v-model.lazy="dataObj"
+      v-model="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
       :form-mode="formMode"
@@ -42,6 +43,7 @@ export default {
   props: {
     hashLevel: Number,
     viewId: String,
+    widgetName: String
   },
   data() {
     return {

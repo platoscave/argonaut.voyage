@@ -1,6 +1,6 @@
 <template>
   <!-- Validation rules are provided by a Computed 
-  :model and :rules are needed for validation rules! -->
+  :model and :rules are needed for validation rules. Do not mess with them!-->
   <el-form
     ref="elementUiForm"
     class="ar-json-schema-form"
@@ -28,9 +28,8 @@
           </el-tooltip>
         </span>
 
-        <!-- The control -->
-        <template>
-          <!-- 
+        <!-- 
+            The control
             ar-control-selector is a functional component that that replaces itself with a control component
             depending on property type. It also performs some magic on certain property.attrs
             - readonly is used by standard input elements to disable input and by css to remove blue border
@@ -40,24 +39,24 @@
             - We use the v-model pattern to send/recieve data to/from child components. 
               Below, we watch for changes to value and emit input events accordingly.
            -->
-          <ar-control-selector
-            class="ar-control"
-            v-model="value[propertyName]"
-            :property="property"
-            :readonly="formMode.startsWith('Readonly')"
-            :required="requiredArr.includes(propertyName)"
-            :hash-level="hashLevel"
-            :form-mode="formMode"
-          ></ar-control-selector>
-        </template>
+        <ar-control-selector
+          class="ar-control"
+          v-model="value[propertyName]"
+          :property="property"
+          :readonly="formMode.startsWith('Readonly')"
+          :required="requiredArr.includes(propertyName)"
+          :hash-level="hashLevel"
+          :form-mode="formMode"
+        ></ar-control-selector>
       </el-form-item>
     </div>
   </el-form>
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import ControlSelector from "./ControlSelector";
+/* eslint-disable vue/no-unused-components */
+// on behalf of the control selector
 import SelectStringEnum from "./SelectStringEnum";
 import SubForm from "./SubForm";
 import Image from "./Image";
@@ -173,7 +172,7 @@ export default {
       this.$refs["elementUiForm"].resetFields();
     },
   },
-  
+
   watch: {
     value: {
       handler(newVal) {

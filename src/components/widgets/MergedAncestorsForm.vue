@@ -91,10 +91,14 @@ export default {
     async onInput(updateDataObj) {
       try {
         console.log(updateDataObj);
+        const updateDataObjectString = JSON.stringify(updateDataObj)
+        const dataObjString = JSON.stringify(this.dataObj)
+
+        if(updateDataObjectString === dataObjString ) return
 
         const valid = await this.$refs["schemaForm"].validate();
         console.log('valid', valid);
-        //db.state.update(updateDataObj._id, updateDataObj);
+        db.state.update(updateDataObj._id, updateDataObj);
 
       } catch (err) {
         this.valid = false;

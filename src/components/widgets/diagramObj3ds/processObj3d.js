@@ -1,3 +1,4 @@
+import { argoQuery } from "../../../services/dexieServices";
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, SphereGeometry, MeshBasicMaterial } from 'three'
 import StepObject3d from "./stepObj3d";
 import object3dMixin from './object3dMixin'
@@ -59,19 +60,21 @@ export default class ProcessObject3d extends Object3D {
     })
   }
 
-  async drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId) {
-
+  async drawSteps(selectableMeshArr, glModelObject3D) {
+  
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
-    console.log(this.userData.name)
-    console.log(resArr)
+    const stepObjArr = await argoQuery.executeQuery("aiw54neadp14", this.userData) // First step queryId
+    const firstStepObj = stepObjArr[0]
+    if(!firstStepObj) return []
+    
     // Draw the first step
-    let stepObj3d = new StepObject3d(resArr[0]);
+    let stepObj3d = new StepObject3d(firstStepObj);
     selectableMeshArr.push(stepObj3d.children[0])
     this.add(stepObj3d)
 
     // Tell it to draw next steps
-    return stepObj3d.drawSteps(selectableMeshArr, executeQuery, glModelObject3D, 'ybjrgmdjybzl') // Next Step QueryId
+    return stepObj3d.drawSteps(selectableMeshArr, glModelObject3D)
+
   }
 
   drawStepToUserConnectors(glModelObject3D) {

@@ -139,8 +139,9 @@ export default {
       this.$el.addEventListener('mousemove', this.onMouseMove, false)
       this.$el.addEventListener('pointerup', this.onMouseUp, false)
 
-      this.glScene.add(new Stats())
-      //this.$nextTick(() => this.$nextTick(() => this.onResize()))
+      //this.stats = Stats()
+      //this.$el.appendChild(this.stats.dom)
+
       this.render()
       this.animate()
     },
@@ -158,6 +159,8 @@ export default {
       this.axesHelper.position.set(this.controls.target.x, this.controls.target.y, this.controls.target.z)
       this.glRenderer.render(this.glScene, this.camera)
       this.cssRenderer.render(this.cssScene, this.camera)
+
+      if(this.stats) this.stats.update()
     },
 
     onOrbit() {

@@ -54,7 +54,6 @@ export default {
       let resArr = await argoQuery.executeQuery("f41heqslym5e", {
         _id: this.selectedObjId,
       });
-      debugger
 
       // Create the ProcessObject3ds (extends Object3d)
       let propositionsArr = [];
@@ -77,8 +76,7 @@ export default {
     async drawProcesses( zPos ) {
 
       // Get the processes from the store
-      // Owned Processes Query
-      let resArr = await argoQuery.executeQuery("sfmg5u3wtpds", {
+      let resArr = await argoQuery.executeQuery("sfmg5u3wtpds", { // Owned Processes Query
         _id: this.selectedObjId,
       });
 
@@ -96,12 +94,7 @@ export default {
       let promisesArr = [];
       processArr.forEach((processObj3d) => {
         promisesArr.push(
-          processObj3d.drawSteps(
-            this.selectableMeshArr,
-            argoQuery.executeQuery,
-            this.glModelObject3D,
-            "aiw54neadp14" // First step queryId
-          )
+          processObj3d.drawSteps( this.selectableMeshArr, this.glModelObject3D )
         );
       });
       await Promise.all(promisesArr);
@@ -218,10 +211,9 @@ export default {
 
     try {
       this.addLoadingText();
-      
 
       const propositionsArr = await this.drawPropositions(0);
-
+      
       const processArr = await this.drawProcesses( -DEPTH * 30 );
 
       this.drawPropositionToProcessConnectors(propositionsArr)
@@ -229,7 +221,7 @@ export default {
       await this.drawOrgUnits( -DEPTH * 60 );
 
       this.drawStepToUserConnectors(processArr)
-
+/* */
       this.removeLoadingText();
 
       if (this.nextLevelSelectedObjId) {

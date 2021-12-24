@@ -1,3 +1,4 @@
+import { argoQuery } from "../../../services/dexieServices";
 import { Vector3, Vector2, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
@@ -28,10 +29,10 @@ export default class StepObject3d extends Object3D {
   }
 
 
-  async drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId) {
+  async drawSteps(selectableMeshArr, glModelObject3D) {
 
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
+    let resArr = await argoQuery.executeQuery('ybjrgmdjybzl', this.userData) // Next Step QueryId
 
     // Create the next steps
     let propmisesArr = []
@@ -52,7 +53,7 @@ export default class StepObject3d extends Object3D {
 
         // Tell it to draw it's next steps
         // TODO recursion check
-        propmisesArr.push(stepObj3d.drawSteps(selectableMeshArr, executeQuery, glModelObject3D, queryId))
+        propmisesArr.push(stepObj3d.drawSteps(selectableMeshArr, glModelObject3D))
       }
 
     })

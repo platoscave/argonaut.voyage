@@ -1,7 +1,10 @@
 <template>
   <!-- With tabbar -->
   <div v-if="tabs.length > 1">
-    <el-tabs :value="selectedTab ? selectedTab : '0'" @tab-click="updateHashWithSelectedTab">
+    <el-tabs
+      :value="selectedTab ? selectedTab : '0'"
+      @tab-click="updateHashWithSelectedTab"
+    >
       <el-tab-pane
         v-for="(tab, tabNum) in tabs"
         :key="tabNum.toString()"
@@ -10,10 +13,17 @@
       >
         <!-- This tab has widgets -->
         <div class="ar-full-height" v-if="tab.widgets">
-          <ar-widget-selector
-            :hash-level="hashLevel"
-            :widgets="tab.widgets"
-          ></ar-widget-selector>
+          <div v-for="(widget, widNum) in tab.widgets" :key="widNum">
+
+            <!-- Create a widget depending on display type -->
+            <ar-widget-selector
+              :display-type="widget.displayType"
+              :hash-level="hashLevel"
+              :view-id="widget.viewId"
+              :menu-id="widget.menuId"
+              :widget-name="widget.name"
+            ></ar-widget-selector>
+          </div>
         </div>
 
         <!-- This tab has a sub-page -->
@@ -26,12 +36,20 @@
 
   <!-- No tabbar -->
   <div class="ar-full-height" v-else-if="tabs.length === 1">
+
     <!-- This tab has widgets -->
     <div class="ar-full-height" v-if="tabs[0].widgets">
-      <ar-widget-selector
-        :hash-level="hashLevel"
-        :widgets="tabs[0].widgets"
-      ></ar-widget-selector>
+      <div v-for="(widget, widNum) in tabs[0].widgets" :key="widNum">
+        
+        <!-- Create a widget depending on display type -->
+        <ar-widget-selector
+          :display-type="widget.displayType"
+          :hash-level="hashLevel"
+          :view-id="widget.viewId"
+          :menu-id="widget.menuId"
+          :widget-name="widget.name"
+        ></ar-widget-selector>
+      </div>
     </div>
 
     <!-- This tab has a sub-page -->
@@ -43,14 +61,47 @@
 
 <script>
 import { db } from "../services/dexieServices";
-import WidgetSelector from "./WidgetSelector.js";
+import WidgetSelector from "./widgets/WidgetSelector.js";
 import WidgetMixin from "../lib/widgetMixin";
+
+/* eslint-disable vue/no-unused-components */
+// on behalf of WidgetSelector
+import BalanceSheet from "./widgets/BalanceSheet.vue";
+import Calendar from "./widgets/Calendar.vue";
+import ClassModel from "./widgets/ClassModel.vue";
+import Document from "./widgets/Document.vue";
+import ViewForm from "./widgets/ViewForm.vue";
+import MaterializedView from "./widgets/simpleJson/MaterializedView.vue";
+import MergedAncestorsForm from "./widgets/MergedAncestorsForm.vue";
+import NavigationMenu from "./widgets/NavigationMenu.js";
+import PageEditor from "./widgets/PageEditor.vue";
+import ProcessModel from "./widgets/ProcessModel.vue";
+import Raw from "./widgets/simpleJson/Raw.vue";
+import ViewTable from "./widgets/ViewTable.vue";
+import Tiptap from "./widgets/Tiptap.vue";
+import Tree from "./widgets/Tree.vue";
+import Validate from "./widgets/simpleJson/Validate.vue";
 
 export default {
   name: "ar-page",
   mixins: [WidgetMixin],
   components: {
     "ar-widget-selector": WidgetSelector,
+    "ar-balance-sheet": BalanceSheet,
+    "ar-calendar": Calendar,
+    "ar-class-model": ClassModel,
+    "ar-document": Document,
+    "ar-view-form": ViewForm,
+    "ar-materialized-view": MaterializedView,
+    "ar-merged-ancestors-form": MergedAncestorsForm,
+    "ar-naigation-menu": NavigationMenu,
+    "ar-page-editor": PageEditor,
+    "ar-process-model": ProcessModel,
+    "ar-raw": Raw,
+    "ar-view-table": ViewTable,
+    "ar-tiptap": Tiptap,
+    "ar-tree": Tree,
+    "ar-validate": Validate,
   },
 
   props: {
@@ -97,9 +148,7 @@ export default {
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },
-
   },
-
 };
 </script>
 <style scoped>
