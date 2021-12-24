@@ -19,19 +19,6 @@ export default {
       viewObj: {}
     };
   },
-  methods: {
-    async selectedObjIdHandeler() {
-      if (this.selectedObjId) this.viewObj = await argoQuery.getMaterializedView(this.selectedObjId)
-    }
-  },
-  watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    selectedObjId: 'selectedObjIdHandeler'
-  },
-  mounted: function (){
-    this.selectedObjIdHandeler()
-  }
 }
 </script>
 

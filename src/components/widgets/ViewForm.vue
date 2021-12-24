@@ -135,21 +135,6 @@ export default {
       this.viewObj = mergedProps;
     },
   },
-  /* watch: {
-    // immediate: true doesn't work. Too early. Pouch hasn't been initialized yet
-    // Thats why we need both mounted and watch
-    viewId: "viewIdHandeler",
-
-
-  dataObj: {
-      handler: "onClassView",
-      deep: true,
-      immediate: true
-    }
-  },
-  mounted: function() {
-    this.viewIdHandeler();
-  }, */
 };
 </script>
 

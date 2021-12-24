@@ -4,12 +4,6 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-chalk/index.css' // include this for missing icons in nav menu, remove when fixed
 import 'element-theme-dark'
-import * as PouchVue from 'pouch-vue';
-import PouchDB from 'pouchdb-browser'
-import pouchdbFind from 'pouchdb-find'
-import pouchdbLiveFind from 'pouchdb-live-find'
-import pouchdbUpsert from 'pouchdb-upsert'
-import debugPouch from "pouchdb-debug"
 import VueRx from "vue-rx"
 import { Observable } from "rxjs"
 
@@ -24,12 +18,6 @@ import SubTable from './components/widgets/controls/SubTable';
 Vue.component('ar-sub-table', SubTable)
 
 Vue.use(ElementUI, { locale })
-PouchDB.plugin(pouchdbFind)
-PouchDB.plugin(pouchdbLiveFind)
-PouchDB.plugin(pouchdbUpsert)
-//PouchDB.plugin(debugPouch)
-debugPouch(PouchDB);
-
 Vue.use(VueRx, { Observable })
 
 
@@ -47,14 +35,6 @@ Vue.use(VueHighlightJS, {
     xml
   }
 });
-
-
-Vue.use(PouchVue, {
-  pouch: PouchDB,
-  defaultDB: 'argonautdb',
-  //debug: '*'
-});
-//Vue.prototype.$settings = new PouchDB('settings');
 
 Vue.config.productionTip = false
 

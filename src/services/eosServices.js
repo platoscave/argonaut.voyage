@@ -17,7 +17,6 @@ import {
 } from '../lib/format.js'
 
 
-//const settingsDb = new PouchDB('settings');
 
 // See https://eosio.github.io/eosjs/latest/how-to-guides/index
 
