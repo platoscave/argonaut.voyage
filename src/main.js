@@ -7,7 +7,7 @@ import 'element-theme-dark'
 import VueRx from "vue-rx"
 import { Observable } from "rxjs"
 
-// Defined galobaly due to their recusive nature
+// Components defined galobaly due to their recusive nature
 import Layout from './components/Layout.vue';
 Vue.component('ar-layout', Layout)
 import Page from './components/Page.vue'
@@ -21,8 +21,8 @@ Vue.use(ElementUI, { locale })
 Vue.use(VueRx, { Observable })
 
 
-import VueHighlightJS from 'vue-highlight.js';
 // Highlight.js languages (Only required languages)
+import VueHighlightJS from 'vue-highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
 import json from 'highlight.js/lib/languages/json';
 import xml from 'highlight.js/lib/languages/xml';
@@ -36,6 +36,7 @@ Vue.use(VueHighlightJS, {
   }
 });
 
+// Context menu
 import kiContext from '@kiyoaki_w/vue-context'
 Vue.use(kiContext)
 import { library } from '@fortawesome/fontawesome-svg-core'

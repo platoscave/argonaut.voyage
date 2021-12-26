@@ -207,31 +207,25 @@ export default {
   max-width: 500px;
 }
 .l1 {
-  font-size: 1.3em;
-  font-weight: bold;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.l2 {
   font-size: 1.2em;
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.l3 {
+.l2 {
   font-size: 1.1em;
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.l4 {
+.l3 {
   font-size: 1em;
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 .title {
-  padding-left: 10px;
+  padding-left: 20px;
 }
 .value {
   float: right;
@@ -242,7 +236,7 @@ export default {
 /* Readonly div */
 .ar-readonly-div {
   background-color: #ffffff08;
-  padding-left: 10px;
+  padding-left: 20px;
   padding-right: 10px;
   border-radius: 4px;
   border-style: none;

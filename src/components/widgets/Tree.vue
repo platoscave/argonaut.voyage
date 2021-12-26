@@ -26,6 +26,7 @@
     >
     </el-tree>
     <ki-context
+      class="context-menu"
       ref="kiContext"
       minWidth="1em"
       maxWidth="20em"
@@ -33,7 +34,8 @@
       fontSize="15px"
       textColor="#eee"
       iconColor="#41b883"
-      borderRadius="0.5"
+      borderColor="#41b883"
+      borderRadius="5px"
     />
   </div>
 </template>
@@ -58,7 +60,6 @@ export default {
       },
       expandedNodes: [],
       nextLevelSelectedObjId: "",
-      isPopup: false
     };
   },
   methods: {
@@ -113,9 +114,12 @@ export default {
           } else item.isLeaf = true;
 
           // If the queryObj has a pageId, use it. Otherwise use the item pageId.
-          if (queryObj.pageId) item.pageId = queryObj.pageId;
+          if (queryObj.nodesPageId) item.pageId = queryObj.nodesPageId;
           // Still no pageId, use the default object page based on merged anscestors
-          if (!item.pageId) item.pageId = "mb2bdqadowve";
+          if (!item.pageId) {
+            if(item.data.classId) item.pageId = "mb2bdqadowve" // merged anscestors page
+            else item.pagId = "24cnex2saye1" // class details page
+          }
 
           // If the queryObj has an icon, use it. Otherwise use the item icon.
           if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
@@ -252,21 +256,9 @@ export default {
         ];
       }
       this.$refs.kiContext.show(event, items);
-      this.isPopup = true;
-      //alert("right click");
-      /* if (node.level == 1) {
-        this.menuVisible = true;
-        let menu = document.querySelector("#menu");
-        /* Menu positioning based on mouse click position * /
-        //menu.style.left = event.clientX + 20 + "px";
-        //.style.top = event.clientY - 10 + "px";
-        alert('right click')
-      } */
     },
     hideContextMenu() {
       this.$refs.kiContext.hide();
-      this.isPopup = false;
-      
     },
 
     // The tree node expands, update page settings
@@ -299,6 +291,16 @@ export default {
     },
   },
 
+  // Click outside to close context menu
+  // see https://stackoverflow.com/questions/36170425/detect-click-outside-element
+  created() {
+    this.__handlerRef__ = this.hideContextMenu.bind(this);
+    document.body.addEventListener("click", this.__handlerRef__);
+  },
+  destroyed() {
+    document.body.removeEventListener("click", this.__handlerRef__);
+  },
+
   async mounted() {
     // See if we can get expanded nodes from the last time we visited this page
     const pageSettings = await db.settings.get(this.pageId);
@@ -320,4 +322,7 @@ export default {
 </script>
 
 <style scoped>
+.context-menu >>> .menu{
+  border-color: #524f4f
+}
 </style>

@@ -2909,7 +2909,7 @@
   {
     "_id": "mb2bdqadowve",
     "docType": "object",
-    "name": "Object Details Page",
+    "name": "Merged Ancestors Page",
     "classId": "pejdgrwd5qso",
     "divider": "None",
     "ownerId": "argonautvoya",
@@ -2918,8 +2918,7 @@
         "name": "Details",
         "widgets": [
           {
-            "displayType": "Merged Ancestors Form",
-            "viewId": "5ucwmdby4wox"
+            "displayType": "Merged Ancestors Form"
           }
         ]
       },
