@@ -117,8 +117,8 @@ export default {
           if (queryObj.nodesPageId) item.pageId = queryObj.nodesPageId;
           // Still no pageId, use the default object page based on merged anscestors
           if (!item.pageId) {
-            if(item.data.classId) item.pageId = "mb2bdqadowve" // merged anscestors page
-            else item.pagId = "24cnex2saye1" // class details page
+            if(item.classId) item.pageId = "mb2bdqadowve" // merged anscestors page
+            else item.pageId = "24cnex2saye1" // class details page
           }
 
           // If the queryObj has an icon, use it. Otherwise use the item icon.
