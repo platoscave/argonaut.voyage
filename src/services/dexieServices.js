@@ -6,7 +6,7 @@ import jp from "jsonpath"
 Dexie.debug = true
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
-  state: '_id, classId, superClassId, ownerId, permissions.required_auth.accounts.permission.actor', // Primary key and indexed props
+  state: '_id, classId, superClassId, ownerId', // Primary key and indexed props
   settings: 'pageId'
 });
 
@@ -18,15 +18,6 @@ export class argoQuery {
   // contextObj is used to resolve $ variables in queries
   static async executeQuery(queryObj /* queryObj or queryId */, contextObj = null) {
 
-    // Get obj a property using dot notation
-    // TODO use Dexie.getByKeyPath(obj, "address.street") instead
-    const getDescendantProp = (desc, contextObj) => {
-      desc = desc.substring(1) // assume starts with a $
-      var arr = desc.split(".");
-      while (arr.length && (contextObj = contextObj[arr.shift()]));
-      return contextObj;
-    };
-
     const resolve$Vars = (whereClause, contextObj) => {
       let retObj = {}
       // Replace variables in the whereClause
@@ -36,12 +27,6 @@ export class argoQuery {
         if (value === '$') retObj[key] = contextObj
         // Replace $fk with id from contextObj
         else if (value === "$fk") retObj[key] = contextObj._id;
-        // Apply dot notation using contextObj
-        else if (value.startsWith("$")) {
-          retObj[key] = getDescendantProp(value, contextObj);
-          // not found? force empty results (null would cause everything to be retreived)
-          if (!whereClause[key]) retObj[key] = 'xxx'
-        }
         else retObj[key] = value
       }
       return retObj

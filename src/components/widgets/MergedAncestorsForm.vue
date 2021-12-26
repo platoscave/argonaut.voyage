@@ -1,13 +1,10 @@
 <template>
   <div v-if="dataObj && viewObj">
     <!-- The form -->
-    <!-- .lazy update dataObj after onChange-->
-    <!-- v-on:change="onChange" -->
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
-      :value="dataObj"
-      @input="onInput"
+      v-model="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
       :form-mode="formMode"
@@ -20,9 +17,6 @@
       circle
       @click="onEditButton"
     ></el-button>
-    <!-- <highlight-code lang="json" class="highlight-code">
-      {{ viewObj }}
-    </highlight-code> -->
   </div>
 </template>
 
@@ -88,13 +82,12 @@ export default {
   },
 
   methods: {
-    async onInput(updateDataObj) {
+    async onInput(updateDataObj, oldValue) {
       try {
         console.log(updateDataObj);
-        const updateDataObjectString = JSON.stringify(updateDataObj)
-        const dataObjString = JSON.stringify(this.dataObj)
-
-        if(updateDataObjectString === dataObjString ) return
+        if (JSON.stringify(updateDataObj) === JSON.stringify(oldValue)) {
+          return;
+        }
 
         const valid = await this.$refs["schemaForm"].validate();
         console.log('valid', valid);
@@ -113,6 +106,14 @@ export default {
         this.formMode = "Edit Full";
       else if (this.formMode === "Edit Permitted") this.formMode = "Edit Full";
       else this.formMode = "Readonly Dense";
+    },
+  },
+  watch: {
+    value: {
+      handler(newVal, oldVal) {
+        this.onInput(newVal, oldVal)
+      },
+      deep: true,
     },
   },
 };

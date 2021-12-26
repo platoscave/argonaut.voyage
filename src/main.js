@@ -36,6 +36,14 @@ Vue.use(VueHighlightJS, {
   }
 });
 
+import kiContext from '@kiyoaki_w/vue-context'
+Vue.use(kiContext)
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faArrowRight, faArrowLeft, faArrowUp, faArrowDown, faPlusCircle, faMinusCircle, faClone } from '@fortawesome/free-solid-svg-icons'
+library.add(faArrowRight, faArrowLeft, faArrowUp, faArrowDown, faPlusCircle, faMinusCircle, faClone)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.config.productionTip = false
 
 new Vue({

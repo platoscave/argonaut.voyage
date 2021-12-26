@@ -62,7 +62,7 @@ export default {
 
         // multi select
         else if (property.items.type === 'string') {
-//debugger
+
           if (property.items.argoQuery) return 'ar-select-array-query'
 
           else return 'ar-select-array-enum'

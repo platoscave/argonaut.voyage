@@ -25,6 +25,16 @@
       :allow-drag="allowDrag"
     >
     </el-tree>
+    <ki-context
+      ref="kiContext"
+      minWidth="1em"
+      maxWidth="20em"
+      backgroundColor="#232323"
+      fontSize="15px"
+      textColor="#eee"
+      iconColor="#41b883"
+      borderRadius="0.5"
+    />
   </div>
 </template>
 
@@ -48,6 +58,7 @@ export default {
       },
       expandedNodes: [],
       nextLevelSelectedObjId: "",
+      isPopup: false
     };
   },
   methods: {
@@ -82,12 +93,12 @@ export default {
 
     async loadNode(node, resolve) {
       //
-      // Get PageId or Icon from item anscestors, recursivly
-      const getAnscestorsProp = async (id, prop) => {
+      // Get Icon from item anscestors, recursivly
+      const getAnscestorsIcon = async (id) => {
         const classObj = await db.state.get(id);
         //console.log("getProp", classObj._id, classObj.title, classObj.pageId, classObj.icon ? classObj.icon.substr(classObj.icon.length - 50) : 'no icon');
-        if (classObj[prop]) return classObj[prop];
-        return getAnscestorsProp(classObj.superClassId, prop);
+        if (classObj.classIcon) return classObj.classIcon;
+        return await getAnscestorsIcon(classObj.superClassId);
       };
 
       const addTreeVariables = async (items, queryObj) => {
@@ -101,40 +112,31 @@ export default {
             item.isLeaf = false;
           } else item.isLeaf = true;
 
-          /* console.log(
-            "addTreeVariables before",
-            item._id,
-            item.label,
-            item.pageId,
-            item.icon ? item.icon.substr(item.icon.length - 50) : 'no icon'
-          ); */
-
           // If the queryObj has a pageId, use it. Otherwise use the item pageId.
           if (queryObj.pageId) item.pageId = queryObj.pageId;
-          // Still no pageId, ask the anscetors
-          if (!item.pageId)
-            item.pageId = await getAnscestorsProp(item.classId, "pageId");
+          // Still no pageId, use the default object page based on merged anscestors
+          if (!item.pageId) item.pageId = "mb2bdqadowve";
 
           // If the queryObj has an icon, use it. Otherwise use the item icon.
-          if (queryObj.icon) item.icon = queryObj.icon;
+          if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
           // Still no icon, ask the anscetors
-          if (!item.icon)
-            item.icon = await getAnscestorsProp(item.classId, "icon");
+          if (!item.icon) {
+            item.icon = await getAnscestorsIcon(item.classId);
 
-          console.log(
-            "addTreeVariables after ",
-            item._id,
-            item.label,
-            item.pageId,
-            item.icon ? item.icon.substr(item.icon.length - 50) : 'no icon'
-          
-          );
+            console.log(
+              "addTreeVariables after ",
+              item._id,
+              item.label,
+              item.pageId,
+              item.icon ? item.icon.substr(item.icon.length - 50) : "no icon"
+            );
+          }
         });
       };
 
       const executeQueryAddVars = async (queryId, nodeData) => {
         const queryObj = await db.state.get(queryId);
-        const resArr = await argoQuery.executeQuery( queryObj, nodeData)
+        const resArr = await argoQuery.executeQuery(queryObj, nodeData);
         await addTreeVariables(resArr, queryObj);
         return resArr;
       };
@@ -145,7 +147,9 @@ export default {
           // Get the viewObj
           this.viewObj = await db.state.get(this.viewId);
           // Execute the query
-          const resArr = await executeQueryAddVars(this.viewObj.queryId, {_id: this.selectedObjId});
+          const resArr = await executeQueryAddVars(this.viewObj.queryId, {
+            _id: this.selectedObjId,
+          });
           resolve(resArr);
         }
         // node.level > 0
@@ -153,11 +157,12 @@ export default {
           if (node.data.subQueryIds) {
             let promiseArr = node.data.subQueryIds.map((queryId) => {
               // Execute the query
-              return executeQueryAddVars(queryId, node.data)
+              return executeQueryAddVars(queryId, node.data);
             });
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat();
-            resolve(flatResArr)
+            console.log("flatResArr", flatResArr);
+            resolve(flatResArr);
           } else resolve([]);
         }
       } catch (err) {
@@ -167,10 +172,13 @@ export default {
     },
 
     renderContent(createElement, { node, data, store }) {
-      console.log('nodeData', node.label, data.icon ? data.icon.substr(data.icon.length - 50) : 'no icon')
+      const icon = data.icon
+      if (!icon) {
+        console.log("nodeData", node.label, data, data.icon);
+      }
       return createElement("span", [
         createElement("img", {
-          attrs: { src: data.icon },
+          attrs: { src: icon },
           style: { "vertical-align": "middle" },
         }),
         createElement("span", {
@@ -183,33 +191,69 @@ export default {
     showContextMenu(event, nodeData, node, nodeCmp) {
       //event.stopPropagation()
       //event.preventDefault()
-
-      let items = [
-        {
-          icon: "arrow-up",
-          text: "Default",
-          click: () => {
-            alert("Option0!");
+      let items = [];
+      if (nodeData.classId) {
+        items = [
+          {
+            icon: "plus-circle",
+            text: "Add Object",
+            click: () => {
+              alert("Option0!");
+            },
           },
-        },
-        {
-          icon: "arrow-right",
-          text: "With divider",
-          divider: true,
-          click: () => {
-            alert("Option2!");
+          {
+            icon: "clone",
+            text: "Clone Object",
+            divider: true,
+            click: () => {
+              alert("Option2!");
+            },
           },
-        },
-        {
-          icon: "arrow-down",
-          text: "Disabled",
-          disabled: true,
-          click: () => {
-            alert("Option3!");
+          {
+            icon: "minus-circle",
+            text: "Delete Object",
+            click: () => {
+              alert("Option3!");
+            },
           },
-        },
-      ];
-      alert("right click");
+        ];
+      } else {
+        items = [
+          {
+            icon: "plus-circle",
+            text: "Add Subclass",
+            click: () => {
+              alert("Option0!");
+            },
+          },
+          {
+            icon: "clone",
+            text: "Clone Class",
+            click: () => {
+              alert("Option2!");
+            },
+          },
+          {
+            icon: "plus-circle",
+            text: "Add Object",
+            divider: true,
+            click: () => {
+              alert("Option2!");
+            },
+          },
+          {
+            icon: "minus-circle",
+            text: "Delete Class",
+            iconColor: "red",
+            click: () => {
+              alert("Option3!");
+            },
+          },
+        ];
+      }
+      this.$refs.kiContext.show(event, items);
+      this.isPopup = true;
+      //alert("right click");
       /* if (node.level == 1) {
         this.menuVisible = true;
         let menu = document.querySelector("#menu");
@@ -218,6 +262,11 @@ export default {
         //.style.top = event.clientY - 10 + "px";
         alert('right click')
       } */
+    },
+    hideContextMenu() {
+      this.$refs.kiContext.hide();
+      this.isPopup = false;
+      
     },
 
     // The tree node expands, update page settings
@@ -270,4 +319,5 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

@@ -1,9 +1,7 @@
 <template>
   <div v-if="dataObj && viewObj">
-    <h3 v-if="widgetName">{{widgetName}}</h3>
+    <h3 v-if="widgetName">{{ widgetName }}</h3>
     <!-- The form -->
-    <!-- .lazy update dataObj after onChange-->
-    <!-- v-on:change="onChange"-->
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
@@ -21,9 +19,6 @@
       circle
       @click="onEditButton"
     ></el-button>
-    <!-- <highlight-code lang="json" class="highlight-code">
-      {{ viewObj }}
-    </highlight-code> -->
   </div>
 </template>
 
@@ -43,7 +38,7 @@ export default {
   props: {
     hashLevel: Number,
     viewId: String,
-    widgetName: String
+    widgetName: String,
   },
   data() {
     return {
@@ -81,9 +76,7 @@ export default {
 
     // Whenever viewId changes, reset the live query with the new viewId
     const viewObj$ = viewId$.pipe(
-      switchMap((viewId) =>
-        argoQuery.getMaterializedView(viewId)
-      )
+      switchMap((viewId) => argoQuery.getMaterializedView(viewId))
     );
     return {
       dataObj: dataObj$,
@@ -92,9 +85,13 @@ export default {
   },
 
   methods: {
-    async onChange() {
+    async onChange(value, oldValue) {
       try {
         console.log(this.dataObj);
+
+        if (JSON.stringify(value) === JSON.stringify(oldValue)) {
+          return;
+        }
 
         const valid = await this.$refs["schemaForm"].validate();
         console.log(valid);
@@ -110,29 +107,12 @@ export default {
       }
     },
 
-    async viewIdHandeler() {
-      if (this.viewId === "5ucwmdby4wox") {
-        const mergedProps = await argoQuery.getMergedAncestorProperties(
-          this.dataObj.classId
-        );
-        this.viewObj = mergedProps;
-      } else if (this.viewId)
-        this.viewObj = await argoQuery.getMaterializedView(this.viewId);
-    },
     onEditButton() {
       if (this.formMode === "Readonly Dense") this.formMode = "Readonly Full";
       else if (this.formMode === "Readonly Full")
         this.formMode = "Edit Permitted";
       else if (this.formMode === "Edit Permitted") this.formMode = "Edit Full";
       else this.formMode = "Readonly Dense";
-    },
-    async onClassView() {
-      debugger;
-      const mergedProps = await argoQuery.getMergedAncestorProperties(
-        this.dataObj.classId
-      );
-      debugger;
-      this.viewObj = mergedProps;
     },
   },
 };
