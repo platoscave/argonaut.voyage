@@ -9,8 +9,10 @@ export default {
     const getWidgetName = (displayType) => {
       if (displayType === 'Balance Sheet') return 'ar-balance-sheet'
       else if (displayType === 'Calendar') return 'ar-calendar'
+      else if (displayType === 'Cash Flows') return 'ar-cash-flows'
       else if (displayType === 'Class Model') return 'ar-class-model'
       else if (displayType === 'Document') return 'ar-document'
+      else if (displayType === 'Income Statement') return 'ar-income-statement'
       else if (displayType === 'HTML Page') return 'ar-tiptap'
       else if (displayType === 'Materialized View') return 'ar-materialized-view'
       else if (displayType === 'Merged Ancestors Form') return 'ar-merged-ancestors-form'

@@ -884,9 +884,10 @@
                     "enum": [
                       "Balance Sheet",
                       "Calendar",
+                      "Cash Flows",
                       "Class Model",
                       "Document",
-                      "View Form",
+                      "Income Statement",
                       "HTML Page",
                       "Materialized View",
                       "Merged Ancestors Form",
@@ -894,9 +895,10 @@
                       "Page Editor",
                       "Process Model",
                       "Raw",
-                      "View Table",
                       "Tree",
-                      "Validate"
+                      "Validate",
+                      "View Form",
+                      "View Table"
                     ],
                     "title": "Display Type",
                     "type": "string"
@@ -2807,7 +2809,7 @@
     "ownerId": "argonautvoya",
     "tabs": [
       {
-        "name": "Class Model",
+        "name": "Process Universe",
         "widgets": [
           {
             "displayType": "Tree",
@@ -2863,11 +2865,11 @@
     "docType": "object",
     "name": "Organization Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Organization",
+    "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
       {
-        "name": "Process Model",
+        "name": "Organization Model",
         "widgets": [
           {
             "displayType": "Tree",
@@ -2999,7 +3001,7 @@
   {
     "_id": "rctffnyuy2kn",
     "docType": "object",
-    "name": "Human Resources Form Page",
+    "name": "Members Tree Page",
     "classId": "pejdgrwd5qso",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
@@ -3008,7 +3010,7 @@
         "name": "Members Table",
         "widgets": [
           {
-            "displayType": "View Table",
+            "displayType": "Tree",
             "name": "Members Table",
             "XviewId": ""
           }
@@ -3056,6 +3058,24 @@
     ]
   },
   {
+    "_id": "icwqlwniw2ci",
+    "docType": "object",
+    "name": "Income Statement Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Income Statement",
+        "widgets": [
+          {
+            "displayType": "Income Statement"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "wsnkyzzdqebq",
     "docType": "object",
     "name": "Balance Sheet Page",
@@ -3068,6 +3088,24 @@
         "widgets": [
           {
             "displayType": "Balance Sheet"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "xhxcnse1bzf5",
+    "docType": "object",
+    "name": "Cash Flows Page",
+    "classId": "pejdgrwd5qso",
+    "divider": "None",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Cash Flows",
+        "widgets": [
+          {
+            "displayType": "Cash Flows"
           }
         ]
       }
@@ -3463,7 +3501,7 @@
         "pageId": "",
         "menuArr": [
           {
-            "name": "Class Model",
+            "name": "Process Universe",
             "pageId": "4lk3hxyyfac3"
           },
           {
@@ -3485,7 +3523,7 @@
   {
     "_id": "ltsslbsdftpg",
     "docType": "object",
-    "name": "Generic Menu",
+    "name": "Commercial Menu",
     "classId": "inbumnx4vx5w",
     "ownerId": "bikeshop1111",
     "menuArr": [
@@ -3509,7 +3547,7 @@
         "menuArr": [
           {
             "name": "Members",
-            "pageId": "rctffnyuy2kn"
+            "pageId": "4q5nx5ek5gww"
           },
           {
             "name": "Scheduling",
@@ -3539,14 +3577,18 @@
             "menuArr": [
               {
                 "name": "Income Statement",
-                "pageId": ""
+                "pageId": "icwqlwniw2ci"
               },
               {
                 "name": "Balance Sheet",
                 "pageId": "wsnkyzzdqebq"
               },
               {
-                "name": "Cash Flow",
+                "name": "Cash Flows",
+                "pageId": "xhxcnse1bzf5"
+              },
+              {
+                "name": "Stockholders' Equity",
                 "pageId": ""
               }
             ]
@@ -3559,7 +3601,92 @@
         "pageId": "",
         "menuArr": [
           {
-            "name": "Class Model",
+            "name": "Process Universe",
+            "pageId": "4lk3hxyyfac3"
+          },
+          {
+            "name": "Process Model",
+            "pageId": "dsimhnp5euui"
+          },
+          {
+            "name": "Resources Tree",
+            "pageId": "kdeacjjhiaym"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "vg2mtbkranid",
+    "docType": "object",
+    "name": "Non-profit Menu",
+    "classId": "inbumnx4vx5w",
+    "ownerId": "bikeshop1111",
+    "menuArr": [
+      {
+        "name": "Home",
+        "icon": "el-icon-s-home"
+      },
+      {
+        "name": "Organization",
+        "icon": "el-icon-user-solid",
+        "menuArr": [
+          {
+            "name": "Members",
+            "pageId": "4q5nx5ek5gww"
+          },
+          {
+            "name": "Features"
+          },
+          {
+            "name": "Backlog",
+            "pageId": "oa2wxqmzh44v"
+          }
+        ]
+      },
+      {
+        "name": "Accounting",
+        "icon": "el-icon-picture-outline",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Invoice",
+            "pageId": ""
+          },
+          {
+            "name": "Purchase",
+            "pageId": ""
+          },
+          {
+            "name": "Financials",
+            "menuArr": [
+              {
+                "name": "Activities",
+                "pageId": "icwqlwniw2ci"
+              },
+              {
+                "name": "Financial Position",
+                "pageId": "wsnkyzzdqebq"
+              },
+              {
+                "name": "Fuctional Exspense",
+                "pageId": ""
+              },
+              {
+                "name": "Cash Flows",
+                "pageId": "xhxcnse1bzf5"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Modeling",
+        "icon": "el-icon-picture",
+        "pageId": "",
+        "menuArr": [
+          {
+            "name": "Process Universe",
             "pageId": "4lk3hxyyfac3"
           },
           {

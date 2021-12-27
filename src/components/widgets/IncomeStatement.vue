@@ -290,7 +290,7 @@ import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
-  name: "ar-balance-sheet",
+  name: "ar-income-statement",
   mixins: [WidgetMixin],
   props: {
     hashLevel: Number,

@@ -68,19 +68,21 @@ import WidgetMixin from "../lib/widgetMixin";
 // on behalf of WidgetSelector
 import BalanceSheet from "./widgets/BalanceSheet.vue";
 import Calendar from "./widgets/Calendar.vue";
+import CashFlows from "./widgets/CashFlows.vue";
 import ClassModel from "./widgets/ClassModel.vue";
 import Document from "./widgets/Document.vue";
-import ViewForm from "./widgets/ViewForm.vue";
+import IncomeStatement from "./widgets/IncomeStatement.vue";
 import MaterializedView from "./widgets/simpleJson/MaterializedView.vue";
 import MergedAncestorsForm from "./widgets/MergedAncestorsForm.vue";
 import NavigationMenu from "./widgets/NavigationMenu.js";
 import PageEditor from "./widgets/PageEditor.vue";
 import ProcessModel from "./widgets/ProcessModel.vue";
 import Raw from "./widgets/simpleJson/Raw.vue";
-import ViewTable from "./widgets/ViewTable.vue";
 import Tiptap from "./widgets/Tiptap.vue";
 import Tree from "./widgets/Tree.vue";
 import Validate from "./widgets/simpleJson/Validate.vue";
+import ViewForm from "./widgets/ViewForm.vue";
+import ViewTable from "./widgets/ViewTable.vue";
 
 export default {
   name: "ar-page",
@@ -89,19 +91,21 @@ export default {
     "ar-widget-selector": WidgetSelector,
     "ar-balance-sheet": BalanceSheet,
     "ar-calendar": Calendar,
+    "ar-cash-flows": CashFlows,
     "ar-class-model": ClassModel,
     "ar-document": Document,
-    "ar-view-form": ViewForm,
+    "ar-income-statement": IncomeStatement,
     "ar-materialized-view": MaterializedView,
     "ar-merged-ancestors-form": MergedAncestorsForm,
     "ar-naigation-menu": NavigationMenu,
     "ar-page-editor": PageEditor,
     "ar-process-model": ProcessModel,
     "ar-raw": Raw,
-    "ar-view-table": ViewTable,
     "ar-tiptap": Tiptap,
     "ar-tree": Tree,
     "ar-validate": Validate,
+    "ar-view-form": ViewForm,
+    "ar-view-table": ViewTable,
   },
 
   props: {
