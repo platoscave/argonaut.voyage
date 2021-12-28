@@ -1,6 +1,6 @@
 <template>
   <!-- Validation rules are provided by a Computed 
-  :model and :rules are needed for validation rules. Do not mess with them!-->
+  :model and :rules are needed for validation rules. Do not mess with them! You will spend a week trying to figure out why it doesn't work-->
   <el-form
     ref="elementUiForm"
     class="ar-json-schema-form"
@@ -15,7 +15,15 @@
       <!-- Skip form item if formMode is Readonly Dense and value is empty -->
       <!-- :prop is needed for validation rules! -->
       <el-form-item
-        v-if="!(formMode === 'Readonly Dense' && !value[propertyName])"
+        v-if="
+          !(
+            formMode === 'Readonly Dense' &&
+            (!value[propertyName] || // empty value
+            (property.type === 'array' && !value[propertyName].length) || // empty array
+              (property.type === 'object' &&
+                !Object.keys(value[propertyName]).length)) // empty object
+          )
+        "
         :label="property.title"
         :prop="propertyName"
       >
