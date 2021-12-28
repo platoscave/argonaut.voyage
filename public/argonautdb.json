@@ -3580,15 +3580,23 @@
                 "pageId": "icwqlwniw2ci"
               },
               {
+                "name": "Statement of comprehensive income",
+                "pageId": ""
+              },
+              {
                 "name": "Balance Sheet",
                 "pageId": "wsnkyzzdqebq"
+              },
+              {
+                "name": "Stockholders' Equity",
+                "pageId": ""
               },
               {
                 "name": "Cash Flows",
                 "pageId": "xhxcnse1bzf5"
               },
               {
-                "name": "Stockholders' Equity",
+                "name": "Notes to the financial statements",
                 "pageId": ""
               }
             ]
