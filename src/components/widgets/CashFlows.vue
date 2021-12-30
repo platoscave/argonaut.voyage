@@ -1,6 +1,6 @@
 <template>
   <div name="CashFlows" class="ar-full-height ar-full-page">
-    <div class="ar-readonly-div">
+    <div class="ar-lightgrey-background">
       <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
       <div>Statement of Cash Flows</div>
       <div>For the year ended December 31 2021</div>
@@ -111,7 +111,7 @@
       </tr>
     </table>
 
-    <div class="l1 ar-readonly-div">Ratios</div>
+    <div class="l1 ar-lightgrey-background">Ratios</div>
     <table>
       <tr>
         <td>Cash flows from operating activities</td>
@@ -207,16 +207,5 @@ table {
 }
 .sumrow {
   font-weight: bold;
-}
-/* Readonly div */
-.ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 20px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
 }
 </style>

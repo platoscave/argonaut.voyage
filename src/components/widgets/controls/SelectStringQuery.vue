@@ -1,6 +1,6 @@
 <template>
   <div v-if="items">
-    <div v-if="readonly" class="ar-readonly-div">
+    <div v-if="readonly" class="ar-lightgrey-background">
       {{ valueLabel }}
     </div>
     <el-radio-group
@@ -110,17 +110,6 @@ export default {
 </script>
 
 <style scoped>
-/* Readonly div */
-.ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
-}
 
 /* help!!! cant get the blue border to come back */
 /* div.el-select > div > input {

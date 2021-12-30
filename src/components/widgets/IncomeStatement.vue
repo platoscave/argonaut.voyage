@@ -1,7 +1,7 @@
 <template>
   <div name="IncomeStatement" class="ar-full-height ar-full-page">
     <div>
-      <div class="ar-readonly-div">
+      <div class="ar-lightgrey-background">
         <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
         <div>Income Statement</div>
         <div>December 31 2021</div>
@@ -76,7 +76,7 @@
         </tr>
       </table>
 
-      <div class="l1 ar-readonly-div">Ratios</div>
+      <div class="l1 ar-lightgrey-background">Ratios</div>
 
       <table>
         <tr>
@@ -113,7 +113,7 @@
     </div>
 
     <div>
-      <div class="ar-readonly-div">
+      <div class="ar-lightgrey-background">
         <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
         <div>Statement of Financial Position</div>
         <div>December 31 2021</div>
@@ -357,16 +357,5 @@ th td {
 }
 .sumrow {
   font-weight: bold;
-}
-/* Readonly div */
-.ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 20px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
 }
 </style>

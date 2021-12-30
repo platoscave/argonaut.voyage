@@ -226,18 +226,6 @@ label.el-checkbox.ar-control {
   line-height: 30px; */
 }
 
-/* Readonly div */
-.ar-control >>> .ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
-}
-
 /* Readonly border style */
 .ar-control >>> input[readonly],
 label.el-checkbox.ar-control[readonly],

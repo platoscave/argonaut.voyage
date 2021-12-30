@@ -1,5 +1,5 @@
 <template>
-  <div v-if="readonly" class="ar-readonly-div">
+  <div v-if="readonly" class="ar-number-div">
     {{ Number.parseFloat(value).toFixed(precision) }}
   </div>
 
@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 /* Readonly div */
-.ar-readonly-div {
+.ar-number-div {
   background-color: #ffffff08;
   padding-left: 10px;
   padding-right: 10px;

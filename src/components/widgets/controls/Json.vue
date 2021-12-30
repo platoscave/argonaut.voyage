@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 
-.ar-readonly-div >>> .hljs{
+.ar-lightgrey-background >>> .hljs{
   background: unset;
   line-height: 20px;
   font-size: 14px;

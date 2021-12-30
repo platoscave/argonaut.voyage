@@ -24,9 +24,7 @@ export default {
 
     // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const dataObj$ = selectedObjId$.pipe(
-      switchMap((selectedObjId) =>
-        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
-      )
+      switchMap(this.getOrgTree)
     );
 
     return {
@@ -37,7 +35,11 @@ export default {
       ),
     }
   },
-
+  methods: {
+    async getOrgTree(_id) {
+      return db.state.where({ _id: _id }).first()
+    }
+  },
   computed: {
     // Get the index if the menuItem that corresponds to the next level pageId
     // We do this in computed because menuObj is async

@@ -2,7 +2,7 @@
   <!-- TODO This is nonsense. Enums are single select by definition 
      To be removed  
   -->
-  <div v-if="readonly" class="ar-readonly-div">
+  <div v-if="readonly" class="ar-lightgrey-background">
     {{ value.join(", ") }}
   </div>
 
@@ -56,17 +56,6 @@ export default {
 </script>
 
 <style scoped>
-/* Readonly div */
-.ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
-}
 
 /* checkbox background*/
 .el-checkbox-group {

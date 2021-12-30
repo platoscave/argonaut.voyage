@@ -110,6 +110,7 @@ export default {
 </script>
 
 <style>
+/*  Some global styles */
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -126,7 +127,16 @@ body {
   overflow: auto; 
   padding: 20px;
 }
-
+.ar-lightgrey-background {
+  background-color: #ffffff08;
+  padding-left: 20px;
+  padding-right: 10px;
+  border-radius: 4px;
+  border-style: none;
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 24px;
+}
 /* Various global fixes */
 
 /* Fix message box */

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="readonly" class="ar-readonly-div">
+  <div v-if="readonly" class="ar-lightgrey-background">
     <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
       <div>{{ item.title ? item.title : item.name }}</div>
     </div>
@@ -103,17 +103,6 @@ export default {
 </script>
 
 <style scoped>
-/* Readonly div */
-.ar-readonly-div {
-  background-color: #ffffff08;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-style: none;
-  font-size: 16px;
-  line-height: 24px;
-  min-height: 24px;
-}
 
 /* checkbox background*/
 .el-checkbox-group {
