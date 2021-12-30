@@ -122,6 +122,10 @@ body {
 .ar-full-height {
   height: 100%;
 }
+.ar-full-page {
+  overflow: auto; 
+  padding: 20px;
+}
 
 /* Various global fixes */
 

@@ -124,7 +124,11 @@ export default {
     // Create the menu element
     if (!this.menuObj || !this.dataObj) return // hasn't been filled yet
 
-    return createElement('el-menu', {
+    return createElement('el-menu', {  
+      style: {
+        height: '100%',
+        overflow: 'auto',
+      },
       props: {
         'unique-opened': true,
         'default-active': this.defaultActive

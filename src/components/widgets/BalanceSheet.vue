@@ -1,285 +1,325 @@
 <template>
-  <div style="scroll: auto;">
+  <div name="BalanceSheet" class="ar-full-height ar-full-page">
     <div>
-      <div>
-        <div class="column">
-          <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
-          <div>Balance Sheet</div>
-          <div>December 31 2021</div>
-        </div>
-        <div class="column" style="max-width: 200px;">
-          <div>
-            <span>Working capital</span>
-            <span class="value">0%</span>
-          </div>
-          <div>
-            <span>Current ratio</span>
-            <span class="value">0%</span>
-          </div>
-          <div>
-            <span>Quick ratio</span>
-            <span class="value">0%</span>
-          </div>
-          <div>
-            <span>Debt to equity ratio</span>
-            <span class="value">0%</span>
-          </div>
-          <div>
-            <span>Debt to total assets</span>
-            <span class="value">0%</span>
-          </div>
-        </div>
+      <div class="ar-readonly-div">
+        <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
+        <div>Balance Sheet</div>
+        <div>December 31 2021</div>
       </div>
+      <table>
+        <tr>
+          <td>
+            <table>
+              <tr class="l1">
+                <td>Assests</td>
+              </tr>
+              <tr>
+                <td class="l2">Current Assets</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Cash and cash equivalents</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Short-term investments</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Accounts receivable -net</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Inventory</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Supplies</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Prepaid expenses</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="l2">Total current Assets</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
+              <tr>
+                <td class="l2">Investments</td>
+                <td class="value">0</td>
+              </tr>
 
-      <div>
-        <div class="column">
-          <div class="l1">Assests</div>
-          <div class="ar-readonly-div">
-            <div class="l2">Current Assets</div>
-            <div>
-              <span class="title">Cash and cash equivalents</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Short-term investments</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Accounts receivable -net</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Inventory</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Supplies</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Prepaid expenses</span>
-              <span class="value">0</span>
-            </div>
-            <div class="l2">
-              <span>Total Current Assets</span>
-              <span class="value sum">0</span>
-            </div>
-          </div>
-          <div class="l2 ar-readonly-div">
-            <span>Investments</span>
-            <span class="value">0</span>
-          </div>
-          <div class="ar-readonly-div">
-            <div class="l2">Property Plant and Equipment -net</div>
-            <div>
-              <span class="title">Land</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Land Improvements</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Buildings</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Equipment</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Less: accumulated deprication</span>
-              <span class="value">(0)</span>
-            </div>
-            <div class="l2">
-              <span>Total Property Plant and Equipment</span>
-              <span class="value sum">0</span>
-            </div>
-          </div>
-          <div class="ar-readonly-div">
-            <div class="l2">Intangible Assests</div>
-            <div>
-              <span class="title">Goodwill</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Other intangible assests</span>
-              <span class="value">0</span>
-            </div>
-            <div class="l2">
-              <span>Total Intangible Assests</span>
-              <span class="value sum">0</span>
-            </div>
-          </div>
-          <div class="l2 ar-readonly-div">
-            <span>Other Assests</span>
-            <span class="value">0</span>
-          </div>
-        </div>
+              <tr>
+                <td class="l2">Property Plant and Equipment -net</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Land</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Land Improvements</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Buildings</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Buildings</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Equipment</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Less: accumulated deprication</td>
+                <td class="value sub">-0</td>
+              </tr>
+              <tr>
+                <td class="l2">Total Property Plant and Equipment -net</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
 
-        <div class="column">
-          <div class="l1">Liabilities and Stockholders' Equity</div>
-          <div class="ar-readonly-div">
-            <div class="l2">Liabilities</div>
-            <div class="ar-readonly-div">
-              <div class="l3">Current Liabilities</div>
-              <div>
-                <span class="title">Short-term loans payable</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">current portion of long-term debt</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Accounts payable</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Accrued Compensation and benifits</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Income taxes payable</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Other accrued libilities</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Defered revenues</span>
-                <span class="value">0</span>
-              </div>
-              <div class="l3">
-                <span>Total Current Libilitie</span>
-                <span class="value sum">0</span>
-              </div>
-            </div>
-            <div class="ar-readonly-div">
-              <div class="l3">Long-term Liabilities</div>
-              <div>
-                <span class="title">Notes payable</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Bonds payable</span>
-                <span class="value">0</span>
-              </div>
-              <div>
-                <span class="title">Defered income tax</span>
-                <span class="value">0</span>
-              </div>
-              <div class="l3">
-                <span>Total Long-term Libilities</span>
-                <span class="value sum">0</span>
-              </div>
-            </div>
-            <div class="l2">
-              <span>Total Libilities</span>
-              <span class="value sum">0</span>
-            </div>
-          </div>
-          <div class="ar-readonly-div">
-            <div class="l2">Stockholders' Equity</div>
-            <div>
-              <span class="title">Common stock</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Retained earnings</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Accum other comprehensive income</span>
-              <span class="value">0</span>
-            </div>
-            <div>
-              <span class="title">Less: treasury stock</span>
-              <span class="value">(0)</span>
-            </div>
-            <div class="l2">
-              <span>Total Stockholders' Equity</span>
-              <span class="value sum">0</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="column">
-          <div class="l1">
-            <span>Total Assests</span>
-            <span class="value sum">0</span>
-          </div>
-        </div>
+              <tr>
+                <td class="l2">Intangible Assests</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Goodwill</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title-indent">Other intangible assests</td>
+                <td class="value">0</td>
+              </tr>
 
-        <div class="column">
-          <div class="l1">
-            <span>Total Liabilities and Stockholders' Equity</span>
-            <span class="value sum">0</span>
-          </div>
-        </div>
-      </div>
+              <tr>
+                <td class="l2">Total Intangible Assests</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
+              <tr>
+                <td class="l2">Other Assests</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="l1">Total Assests</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+            <tr class="l1">
+              <td>Liabilities and Stockholders' Equity</td>
+            </tr>
+
+            <tr>
+              <td class="l2">Liabilities</td>
+            </tr>
+
+            <tr>
+              <td class="l3">Current Liabilities</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Short-term loans payable</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">
+                Current portion of long-term debt
+              </td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Accounts payable</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">
+                Accrued Compensation and benifits
+              </td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Income taxes payable</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Other accrued libilities</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Defered revenues</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="l3">Total Current Liabilities</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+
+            <tr>
+              <td class="l2">Total Liabilities</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+
+            <tr>
+              <td class="l3">Long-term Liabilities</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Notes payable</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Bonds payable</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent-indent">Defered income tax</td>
+              <td class="value">0</td>
+            </tr>
+
+            <tr>
+              <td class="l3">Total Long-term Liabilities</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+
+            <tr>
+              <td class="l2">Total Liabilities</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+
+            <tr>
+              <td class="l2">Stockholders' Equity</td>
+            </tr>
+            <tr>
+              <td class="title-indent">Common stock</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent">Retained earnings</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent">Accum other comprehensive income</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent">Less: treasury stock</td>
+              <td class="value sub">0</td>
+            </tr>
+
+            <tr>
+              <td class="l2">Total Stockholders' Equity</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+
+            <tr>
+              <td class="l1">Total Liabilities and Stockholders' Equity</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+          </td>
+        </tr>
+      </table>
+
+      <div class="l1 ar-readonly-div">Ratios</div>
+      <table>
+        <tr>
+          <td>Working capital</td>
+          <td class="value">0%</td>
+        </tr>
+        <tr>
+          <td>Current ratio</td>
+          <td class="value">0%</td>
+        </tr>
+        <tr>
+          <td>Quick ratio</td>
+          <td class="value">0%</td>
+        </tr>
+        <tr>
+          <td>Debt to equity ratio</td>
+          <td class="value">0%</td>
+        </tr>
+        <tr>
+          <td>Debt to total assets</td>
+          <td class="value">0%</td>
+        </tr>
+      </table>
     </div>
-
     <div>
-      <div class="column">
+      <div class="ar-readonly-div">
         <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
         <div>Statement of Financial Position</div>
         <div>December 31 2021</div>
       </div>
-      <div>
-        <div class="column">
-          <div class="l1">Assests</div>
-          <div class="ar-readonly-div">
-            <div class="l2">
-              <span>Cash and cash equivalents</span>
-              <span class="value">0</span>
-            </div>
-            <div class="l2">
-              <span>Short-term investments</span>
-              <span class="value">0</span>
-            </div>
-          </div>
-        </div>
+      <table>
+        <tr>
+          <td>
+            <table>
+              <tr class="l1">
+                <td>Assests</td>
+              </tr>
+              <tr>
+                <td class="title">Cash and cash equivalents</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title">Short-term investments</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="l1">Total Assests</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tr class="l1">
+                <td>Liabilities and Net Assets</td>
+              </tr>
+              <tr>
+                <td class="title">Accrued expenses</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title">Net assets</td>
+                <td class="value">0</td>
+              </tr>
+              <tr>
+                <td class="title">Without donor restrictions</td>
+                <td class="value">0</td>
+              </tr>
 
-        <div class="column">
-          <div class="l1">Liabilities and Net Assets</div>
-          <div class="ar-readonly-div">
-            <div class="l2">
-              <span>Accrued expenses</span>
-              <span class="value">0</span>
-            </div>
+              <tr>
+                <td class="l1">Total Liabilities and Net Assets</td>
+                <td class="value"><span class="sum">0</span></td>
+              </tr>
+            </table>
+
+            <!-- <div class="l1"></div>
             <div class="ar-readonly-div">
-              <div class="l2">Net assets</div>
-              <div>
-                <span class="title">Without donor restrictions</span>
+              <div class="l2">
+                <span></span>
                 <span class="value">0</span>
               </div>
-              <div class="l2">
-                <span>Total Assets</span>
-                <span class="value sum">0</span>
+              <div class="ar-readonly-div">
+                <div class="l2">Net assets</div>
+                <div>
+                  <span class="title">Without donor restrictions</span>
+                  <span class="value">0</span>
+                </div>
+                <div class="l2">
+                  <span>Total Assets</span>
+                  <span class="value sum">0</span>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="column">
-          <div class="l1">
-            <span>Total Assests</span>
-            <span class="value sum">0</span>
-          </div>
-        </div>
-
-        <div class="column">
-          <div class="l1">
-            <span>Total Liabilities and Net Assets</span>
-            <span class="value sum">0</span>
-          </div>
-        </div>
-      </div>
+            </div> -->
+          </td>
+        </tr>
+      </table>
     </div>
+    <p></p>
+    <p></p>
   </div>
 </template>
 
@@ -322,12 +362,16 @@ export default {
 </script>
 
 <style scoped>
-.column {
-  display: inline-block;
-  width: 45%;
-  padding: 10px;
-  vertical-align: top;
-  max-width: 500px;
+table {
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+th {
+  max-width: 150px;
+}
+th td {
+  padding-left: 20px;
 }
 .l1 {
   font-size: 1.2em;
@@ -338,23 +382,38 @@ export default {
 .l2 {
   font-size: 1.1em;
   font-weight: bold;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-left: 20px !important;
 }
 .l3 {
   font-size: 1em;
   font-weight: bold;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-left: 40px !important;
 }
 .title {
   padding-left: 20px;
+  padding-left: 20px;
+}
+.title-indent {
+  padding-left: 40px !important;
+  padding-left: 20px;
+}
+.title-indent-indent {
+  padding-left: 60px !important;
+  padding-left: 20px;
 }
 .value {
-  float: right;
+  text-align: right;
+  padding-left: 20px;
 }
 .sum {
   border-top-style: solid;
+}
+.sub {
+  color: #fa5151;
 }
 /* Readonly div */
 .ar-readonly-div {

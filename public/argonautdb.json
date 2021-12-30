@@ -446,47 +446,6 @@
     "classIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHZpZXdCb3g9IjAgMCA3MDAgNzAwIgogICB3aWR0aD0iNzAwIgogICBoZWlnaHQ9IjcwMCI+CiAgPGcKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNS41OTMyMiw5NC45MTUyNTQpIj4KICAgIDxwYXRoCiAgICAgICBkPSJtIDYxMC41LDM0MS4zIGMgMi42LC0xNC4xIDIuNiwtMjguNSAwLC00Mi42IGwgMjUuOCwtMTQuOSBjIDMsLTEuNyA0LjMsLTUuMiAzLjMsLTguNSAtNi43LC0yMS42IC0xOC4yLC00MS4yIC0zMy4yLC01Ny40IC0yLjMsLTIuNSAtNiwtMy4xIC05LC0xLjQgbCAtMjUuOCwxNC45IGMgLTEwLjksLTkuMyAtMjMuNCwtMTYuNSAtMzYuOSwtMjEuMyB2IC0yOS44IGMgMCwtMy40IC0yLjQsLTYuNCAtNS43LC03LjEgLTIyLjMsLTUgLTQ1LC00LjggLTY2LjIsMCAtMy4zLDAuNyAtNS43LDMuNyAtNS43LDcuMSB2IDI5LjggYyAtMTMuNSw0LjggLTI2LDEyIC0zNi45LDIxLjMgbCAtMjUuOCwtMTQuOSBjIC0yLjksLTEuNyAtNi43LC0xLjEgLTksMS40IC0xNSwxNi4yIC0yNi41LDM1LjggLTMzLjIsNTcuNCAtMSwzLjMgMC40LDYuOCAzLjMsOC41IGwgMjUuOCwxNC45IGMgLTIuNiwxNC4xIC0yLjYsMjguNSAwLDQyLjYgbCAtMjUuOCwxNC45IGMgLTMsMS43IC00LjMsNS4yIC0zLjMsOC41IDYuNywyMS42IDE4LjIsNDEuMSAzMy4yLDU3LjQgMi4zLDIuNSA2LDMuMSA5LDEuNCBsIDI1LjgsLTE0LjkgYyAxMC45LDkuMyAyMy40LDE2LjUgMzYuOSwyMS4zIHYgMjkuOCBjIDAsMy40IDIuNCw2LjQgNS43LDcuMSAyMi4zLDUgNDUsNC44IDY2LjIsMCAzLjMsLTAuNyA1LjcsLTMuNyA1LjcsLTcuMSB2IC0yOS44IGMgMTMuNSwtNC44IDI2LC0xMiAzNi45LC0yMS4zIGwgMjUuOCwxNC45IGMgMi45LDEuNyA2LjcsMS4xIDksLTEuNCAxNSwtMTYuMiAyNi41LC0zNS44IDMzLjIsLTU3LjQgMSwtMy4zIC0wLjQsLTYuOCAtMy4zLC04LjUgeiBNIDQ5NiwzNjguNSBjIC0yNi44LDAgLTQ4LjUsLTIxLjggLTQ4LjUsLTQ4LjUgMCwtMjYuNyAyMS44LC00OC41IDQ4LjUsLTQ4LjUgMjYuNywwIDQ4LjUsMjEuOCA0OC41LDQ4LjUgMCwyNi43IC0yMS43LDQ4LjUgLTQ4LjUsNDguNSB6IE0gOTYsMjI0IGMgMzUuMywwIDY0LC0yOC43IDY0LC02NCAwLC0zNS4zIC0yOC43LC02NCAtNjQsLTY0IC0zNS4zLDAgLTY0LDI4LjcgLTY0LDY0IDAsMzUuMyAyOC43LDY0IDY0LDY0IHogbSAyMjQsMzIgYyAxLjksMCAzLjcsLTAuNSA1LjYsLTAuNiA4LjMsLTIxLjcgMjAuNSwtNDIuMSAzNi4zLC01OS4yIDcuNCwtOCAxNy45LC0xMi42IDI4LjksLTEyLjYgNi45LDAgMTMuNywxLjggMTkuNiw1LjMgbCA3LjksNC42IGMgMC44LC0wLjUgMS42LC0wLjkgMi40LC0xLjQgNywtMTQuNiAxMS4yLC0zMC44IDExLjIsLTQ4IDAsLTYxLjkgLTUwLjEsLTExMiAtMTEyLC0xMTIgQyAyNTgsMzIuMSAyMDgsODIuMSAyMDgsMTQ0IGMgMCw2MS45IDUwLjEsMTEyIDExMiwxMTIgeiBtIDEwNS4yLDE5NC41IGMgLTIuMywtMS4yIC00LjYsLTIuNiAtNi44LC0zLjkgLTguMiw0LjggLTE1LjMsOS44IC0yNy41LDkuOCAtMTAuOSwwIC0yMS40LC00LjYgLTI4LjksLTEyLjYgLTE4LjMsLTE5LjggLTMyLjMsLTQzLjkgLTQwLjIsLTY5LjYgLTEwLjcsLTM0LjUgMjQuOSwtNDkuNyAyNS44LC01MC4zIC0wLjEsLTIuNiAtMC4xLC01LjIgMCwtNy44IGwgLTcuOSwtNC42IGMgLTMuOCwtMi4yIC03LC01IC05LjgsLTguMSAtMy4zLDAuMiAtNi41LDAuNiAtOS44LDAuNiAtMjQuNiwwIC00Ny42LC02IC02OC41LC0xNiBoIC04LjMgQyAxNzkuNiwyODggMTI4LDMzOS42IDEyOCw0MDMuMiBWIDQzMiBjIDAsMjYuNSAyMS41LDQ4IDQ4LDQ4IGggMjU1LjQgYyAtMy43LC02IC02LjIsLTEyLjggLTYuMiwtMjAuMyB6IE0gMTczLjEsMjc0LjYgQyAxNjEuNSwyNjMuMSAxNDUuNiwyNTYgMTI4LDI1NiBIIDY0IEMgMjguNywyNTYgMCwyODQuNyAwLDMyMCB2IDMyIGMgMCwxNy43IDE0LjMsMzIgMzIsMzIgaCA2NS45IGMgNi4zLC00Ny40IDM0LjksLTg3LjMgNzUuMiwtMTA5LjQgeiIKICAgICAgIHN0eWxlPSJmaWxsOiMwMDAwZmYiLz4KICA8L2c+Cjwvc3ZnPgoK"
   },
   {
-    "_id": "re1ihrfyl3zf",
-    "title": "Transactions",
-    "description": "<p>Contracts between accounts about resources</p>",
-    "superClassId": "gzthjuyjca4s",
-    "properties": {
-      "stateDate": {
-        "title": "Step Date",
-        "type": "string"
-      },
-      "action": {
-        "title": "Action",
-        "type": "string"
-      },
-      "stepId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "argoQuery": {
-          "where": {
-            "classId": "dlpwvptczyeb"
-          },
-          "sortBy": "name",
-          "extendTo": "Instances"
-        },
-        "title": "Step",
-        "type": "string"
-      },
-      "processId": {
-        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-        "argoQuery": {
-          "where": {
-            "classId": "dwl1kwhalwj4"
-          },
-          "sortBy": "name",
-          "extendTo": "Instances"
-        },
-        "title": "Process",
-        "type": "string"
-      }
-    },
-    "type": "object"
-  },
-  {
     "_id": "ync5iiwvtsf3",
     "title": "Resources",
     "description": "<p>Things owned by users/organizations</p>",
@@ -554,6 +513,14 @@
     "title": "Membership",
     "description": "<p>Menbership Agreements between user and organizations</p>",
     "superClassId": "i1gjptcb2skq",
+    "type": "object"
+  },
+  {
+    "_id": "re1ihrfyl3zf",
+    "title": "Features",
+    "superClassId": "nrioirgelhpi",
+    "properties": {
+    },
     "type": "object"
   },
   {
@@ -3411,12 +3378,17 @@
         "pageId": "",
         "menuArr": [
           {
-            "name": "Invoice",
-            "pageId": ""
-          },
-          {
-            "name": "Purchase",
-            "pageId": ""
+            "name": "Bookkeeping",
+            "menuArr": [
+              {
+                "name": "Accounts Receivable",
+                "pageId": ""
+              },
+              {
+                "name": "Accounts Payable",
+                "pageId": ""
+              }
+            ]
           },
           {
             "name": "Financial Statements",
@@ -3446,6 +3418,14 @@
                 "pageId": ""
               }
             ]
+          },
+          {
+            "name": "Managerial",
+            "pageId": ""
+          },
+          {
+            "name": "Income Taxes",
+            "pageId": ""
           }
         ]
       },

@@ -1,7 +1,7 @@
 <template>
-  <div style="padding: 20px;">
+  <div name="IncomeStatement" class="ar-full-height ar-full-page">
     <div>
-      <div>
+      <div class="ar-readonly-div">
         <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
         <div>Income Statement</div>
         <div>December 31 2021</div>
@@ -22,61 +22,61 @@
         </tr>
         <tr>
           <td>Cost of Sales</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
         </tr>
         <tr class="sum-row">
           <td>Gross profit</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
         <tr>
           <td>Selling, general and administrative expenses</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
         </tr>
         <tr>
           <td>Operating income</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
         <tr>
           <td>Interest expense</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
         </tr>
         <tr>
           <td>Loss on sale of equipment</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
         </tr>
         <tr>
           <td>Income before income taxes</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
         <tr>
           <td>Income tax expense</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
+          <td class="value sub">-0</td>
         </tr>
         <tr>
           <td>Net income</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
       </table>
 
-      <h3>Ratios</h3>
+      <div class="l1 ar-readonly-div">Ratios</div>
 
       <table>
         <tr>
@@ -113,7 +113,7 @@
     </div>
 
     <div>
-      <div class="column">
+      <div class="ar-readonly-div">
         <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
         <div>Statement of Financial Position</div>
         <div>December 31 2021</div>
@@ -184,79 +184,86 @@
         </tr>
         <tr class="l1">
           <td>Total Revenues</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
 
+        <tr>
+          <td class="blank-row">&nbsp;</td>
+        </tr>
         <tr class="l1">
           <td>Expenses</td>
         </tr>
-        <tr class="l2">
-          <td>Program expenses</td>
+        <tr>
+          <td class="l2">Program expenses</td>
         </tr>
         <tr>
-          <td class="title">Program 1</td>
+          <td class="title-indent">Program 1</td>
           <td class="value">0</td>
           <td class="value">0</td>
           <td class="value">0</td>
         </tr>
         <tr>
-          <td class="title">Program 2</td>
+          <td class="title-indent">Program 2</td>
           <td class="value">0</td>
           <td class="value">0</td>
           <td class="value">0</td>
         </tr>
-        <tr class="l2">
-          <td>Total Program expenses</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
+        <tr>
+          <td class="l2">Total Program expenses</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
 
-        <tr class="l2">
-          <td>Support expenses</td>
+        <tr>
+          <td class="l2">Support expenses</td>
         </tr>
         <tr>
-          <td class="title">Management and general</td>
+          <td class="title-indent">Management and general</td>
           <td class="value">0</td>
           <td class="value">0</td>
           <td class="value">0</td>
         </tr>
         <tr>
-          <td class="title">Fundraising and development</td>
+          <td class="title-indent">Fundraising and development</td>
           <td class="value">0</td>
           <td class="value">0</td>
           <td class="value">0</td>
         </tr>
-        <tr class="l2">
-          <td>Total Support expenses</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-          <td class="sum value">0</td>
-        </tr>
-
-        <tr class="l1">
-          <td>- Total Expenses</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-        </tr>
-        <tr class="l1">
-          <td>= Change in net assets</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
-          <td class="value">0</td>
+        <tr>
+          <td class="l2">Total Support expenses</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
         </tr>
 
         <tr class="l1">
+          <td>Total Expenses</td>
+          <td class="value sub"><span class="sum">0</span></td>
+          <td class="value sub"><span class="sum">0</span></td>
+          <td class="value sub"><span class="sum">0</span></td>
+        </tr>
+
+        <tr>
+          <td class="blank-row">&nbsp;</td>
+        </tr>
+        <tr class="l1">
+          <td class="l1">Change in net assets</td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+          <td class="value"><span class="sum">0</span></td>
+        </tr>
+
+        <tr>
           <td>+ Net assets - bginning</td>
           <td class="value">0</td>
           <td class="value">0</td>
           <td class="value">0</td>
         </tr>
 
-        <tr class="l1">
+        <tr>
           <td>= Net assets - end</td>
           <td class="value">0</td>
           <td class="value">0</td>
@@ -306,6 +313,11 @@ export default {
 </script>
 
 <style scoped>
+table {
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 th {
   max-width: 150px;
 }
@@ -323,10 +335,14 @@ th td {
   font-weight: bold;
   margin-top: 2px;
   margin-bottom: 2px;
-  padding-left: 10px;
+  padding-left: 20px !important;
 }
 .title {
   padding-left: 20px;
+  padding-left: 20px;
+}
+.title-indent {
+  padding-left: 40px !important;
   padding-left: 20px;
 }
 .value {
@@ -335,6 +351,9 @@ th td {
 }
 .sum {
   border-top-style: solid;
+}
+.sub {
+  color: #fa5151;
 }
 .sumrow {
   font-weight: bold;

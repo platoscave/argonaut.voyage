@@ -13,7 +13,7 @@
       >
         <!-- This tab has widgets -->
         <div class="ar-full-height" v-if="tab.widgets">
-          <div v-for="(widget, widNum) in tab.widgets" :key="widNum">
+          <div class="ar-full-height"  v-for="(widget, widNum) in tab.widgets" :key="widNum">
 
             <!-- Create a widget depending on display type -->
             <ar-widget-selector
@@ -39,7 +39,7 @@
 
     <!-- This tab has widgets -->
     <div class="ar-full-height" v-if="tabs[0].widgets">
-      <div v-for="(widget, widNum) in tabs[0].widgets" :key="widNum">
+      <div class="ar-full-height"  v-for="(widget, widNum) in tabs[0].widgets" :key="widNum">
         
         <!-- Create a widget depending on display type -->
         <ar-widget-selector
