@@ -169,7 +169,7 @@ export default {
 
 <style scoped>
 table {
-  padding-left: 20px;
+  padding: 15px;
 }
 .l1 {
   font-size: 1.1em;

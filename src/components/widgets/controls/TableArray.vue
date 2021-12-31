@@ -42,7 +42,7 @@ export default {
 /* subForm background */
 .ar-subform-background {
   background-color: #ffffff08;
-  padding: 10px;
+  padding: 10px 10px 10px 15px;
   border-radius: 4px;
   border-style: none;
   margin-bottom: 10px;

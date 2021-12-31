@@ -314,9 +314,7 @@ export default {
 
 <style scoped>
 table {
-  padding-left: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 15px;
 }
 th {
   max-width: 150px;

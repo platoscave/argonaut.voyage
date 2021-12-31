@@ -948,7 +948,11 @@
         "properties": {
           "path": {
             "title": "Path",
-            "type": "string"
+            "type": "string",
+            "attrs": {
+              "type": "textarea",
+              "autosize": true
+            }
           },
           "indexName": {
             "title": "Index Name",
@@ -966,7 +970,11 @@
         "properties": {
           "path": {
             "title": "Path",
-            "type": "string"
+            "type": "string",
+            "attrs": {
+              "type": "textarea",
+              "autosize": true
+            }
           },
           "equals": {
             "title": "Equals",

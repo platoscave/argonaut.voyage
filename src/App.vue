@@ -129,7 +129,7 @@ body {
 }
 .ar-lightgrey-background {
   background-color: #ffffff08;
-  padding-left: 20px;
+  padding-left: 15px;
   padding-right: 10px;
   border-radius: 4px;
   border-style: none;
@@ -148,7 +148,7 @@ body {
 li.el-select-dropdown__item {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 24px;
 }
 .el-scrollbar {
   background: #232323;

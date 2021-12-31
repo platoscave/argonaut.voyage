@@ -75,6 +75,7 @@ export default {
     }
 
     // Merge property attrs with context.data attrs so that control elements can use them
+//if(propertyAttrs.title === 'Path') debugger
 
     // hoist things like placeholder and type: "date" "textarea" "datetime"
     let schemaAttrs = context.data.attrs.property.attrs
@@ -90,7 +91,6 @@ export default {
       if (propertyAttrs.maxLength) context.data.attrs.maxlength = propertyAttrs.maxLength
       if (schemaAttrs && schemaAttrs['show-word-limit']) context.data.props['show-word-limit'] = true
     }
-
     return createElement(
       getControlName(context.props.property),
       context.data,
