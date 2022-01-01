@@ -1,14 +1,26 @@
 <template>
   <div>
     <img :src="value" class="ar-lightgrey-background"/>
-
-    <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
+    <div v-if="readonly && property.contentMediaType === 'image/svg+xml'">
+      <highlight-code lang="xml" class="ar-lightgrey-background">
+        {{ svgMarkup }}
+      </highlight-code>
+    </div>
+    <div v-else>
+      <el-input
+        type="textarea"
+        autosize
+        v-on:input="$emit('input', $event)"
+        :value="svgMarkup"
+      ></el-input>
+    </div>
+<!--     <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
       <ar-tiptap
         v-on:input="$emit('input', $event)"
         v-on:change="$emit('change', $event)"
         :value="'<pre><code>' + svgMarkup + '</code></pre>'"
       ></ar-tiptap>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -57,4 +69,13 @@ export default {
 </script>
 
 <style scoped>
+.ar-lightgrey-background >>> .hljs {
+  background: unset;
+  line-height: 20px;
+  font-size: 14px;
+  padding: 0px;
+}
+.ar-control > pre.ar-lightgrey-background {
+  margin: 0px
+}
 </style>

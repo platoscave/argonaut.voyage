@@ -130,6 +130,6 @@ export default {
 }
 .ar-json-schema-form {
   max-width: 750px;
-  padding: 10px;
+  padding: 6px;
 }
 </style>

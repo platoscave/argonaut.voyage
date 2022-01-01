@@ -83,7 +83,7 @@ export default {
 
   methods: {
     async onInput(updateDataObj, oldValue) {
-      return
+      //return
       try {
         console.log(updateDataObj);
         if (JSON.stringify(updateDataObj) === JSON.stringify(oldValue)) {
@@ -132,6 +132,6 @@ export default {
 }
 .ar-json-schema-form {
   max-width: 750px;
-  padding: 10px;
+  padding: 6px;
 }
 </style>

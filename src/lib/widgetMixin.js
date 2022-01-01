@@ -63,7 +63,6 @@ export default {
       const hash = hashArr.join("/");
       window.location.hash = hash;
 
-      console.log('updateNextLevelHash', this.hashLevel, nodeData.lable, newNextLevelPageId)
     },
 
     handleHashChange: function () {

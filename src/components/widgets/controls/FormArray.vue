@@ -70,8 +70,10 @@ export default {
   padding: 10px 10px 10px 15px;
   border-radius: 4px;
   border-style: none;
-  margin-bottom: 10px;
   position: relative;
+}
+.ar-subform-background:not(:last-child) {
+  margin-bottom: 10px;
 }
 /* Icons */
 .el-icon-close {

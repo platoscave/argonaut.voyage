@@ -1096,6 +1096,18 @@
               "title": "Page",
               "type": "string"
             },
+            "nextLevelSelectedObjId": {
+              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+              "argoQuery": {
+                "where": {
+                  "classId": "ikjyhlqewxs3"
+                },
+                "sortBy": "name",
+                "extendTo": "Instances"
+              },
+              "title": "Next Level Selected ObjectId",
+              "type": "string"
+            },
             "icon": {
               "maxLength": 2000,
               "contentEncoding": "base64",
@@ -1126,6 +1138,18 @@
                     "title": "Page",
                     "type": "string"
                   },
+                  "nextLevelSelectedObjId": {
+                    "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                    "argoQuery": {
+                      "where": {
+                        "classId": "ikjyhlqewxs3"
+                      },
+                      "sortBy": "name",
+                      "extendTo": "Instances"
+                    },
+                    "title": "Next Level Selected ObjectId",
+                    "type": "string"
+                  },
                   "icon": {
                     "maxLength": 2000,
                     "contentEncoding": "base64",
@@ -1154,6 +1178,18 @@
                             "extendTo": "Instances"
                           },
                           "title": "Page",
+                          "type": "string"
+                        },
+                        "nextLevelSelectedObjId": {
+                          "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+                          "argoQuery": {
+                            "where": {
+                              "classId": "ikjyhlqewxs3"
+                            },
+                            "sortBy": "name",
+                            "extendTo": "Instances"
+                          },
+                          "title": "Next Level Selected ObjectId",
                           "type": "string"
                         },
                         "icon": {

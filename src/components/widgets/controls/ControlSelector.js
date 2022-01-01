@@ -75,20 +75,21 @@ export default {
     }
 
     // Merge property attrs with context.data attrs so that control elements can use them
-//if(propertyAttrs.title === 'Path') debugger
 
-    // hoist things like placeholder and type: "date" "textarea" "datetime"
+    // Copy property.attrs to the context.data.attrs
+    // property.attrs can have objects like: placeholder and type: "textarea" "autogrow" "date" "datetime"
     let schemaAttrs = context.data.attrs.property.attrs
     Object.assign(context.data.attrs, schemaAttrs)
 
-    // transmogrify certain attributes
+    // Transmogrify certain attributes
     context.data.props = {}
     let propertyAttrs = context.data.attrs.property
 
     if (propertyAttrs.type === 'string') {
-      // note lowercase l
+      // note lowercase l in length
       if (propertyAttrs.minLength) context.data.attrs.minlength = propertyAttrs.minLength
       if (propertyAttrs.maxLength) context.data.attrs.maxlength = propertyAttrs.maxLength
+      // show-word-limit needs to be provided as prop
       if (schemaAttrs && schemaAttrs['show-word-limit']) context.data.props['show-word-limit'] = true
     }
     return createElement(

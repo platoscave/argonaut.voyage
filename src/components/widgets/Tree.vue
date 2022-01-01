@@ -103,7 +103,7 @@ export default {
       };
 
       const addTreeVariables = async (items, queryObj) => {
-        items.forEach(async (item) => {
+        for (const item of items) { // Do not use forEach with async
           item.label = item.title ? item.title : item.name; //TODO value?
 
           if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
@@ -124,19 +124,9 @@ export default {
           // If the queryObj has an icon, use it. Otherwise use the item icon.
           if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
           // Still no icon, ask the anscetors
-          if (!item.icon) {
-            item.icon = await getAnscestorsIcon(item.classId);
-
-            console.log(
-              "addTreeVariables after ",
-              item._id,
-              item.label,
-              item.pageId,
-              item.icon ? item.icon.substr(item.icon.length - 50) : "no icon"
-            );
-          }
-        });
-      };
+          if (!item.icon) item.icon = await getAnscestorsIcon(item.classId)
+        }
+      }
 
       const executeQueryAddVars = async (queryId, nodeData) => {
         const queryObj = await db.state.get(queryId);
@@ -165,7 +155,6 @@ export default {
             });
             const resArr = await Promise.all(promiseArr);
             let flatResArr = resArr.flat();
-            console.log("flatResArr", flatResArr);
             resolve(flatResArr);
           } else resolve([]);
         }
@@ -177,9 +166,6 @@ export default {
 
     renderContent(createElement, { node, data, store }) {
       const icon = data.icon
-      if (!icon) {
-        console.log("nodeData", node.label, data, data.icon);
-      }
       return createElement("span", [
         createElement("img", {
           attrs: { src: icon },

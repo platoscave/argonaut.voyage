@@ -136,6 +136,9 @@
             </tr>
 
             <tr>
+              <td class="blank-row">&nbsp;</td>
+            </tr>
+            <tr>
               <td class="l3">Current Liabilities</td>
             </tr>
             <tr>
@@ -176,6 +179,9 @@
             </tr>
 
             <tr>
+              <td class="blank-row">&nbsp;</td>
+            </tr>
+            <tr>
               <td class="l3">Long-term Liabilities</td>
             </tr>
             <tr>
@@ -196,6 +202,9 @@
               <td class="value"><span class="sum">0</span></td>
             </tr>
 
+            <tr>
+              <td class="blank-row">&nbsp;</td>
+            </tr>
             <tr>
               <td class="l2">Total Liabilities</td>
               <td class="value"><span class="sum">0</span></td>

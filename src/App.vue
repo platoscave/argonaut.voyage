@@ -167,7 +167,8 @@ div.el-tooltip__popper.is-dark {
   color: #eee !important;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 24px;
+  z-index: 50000;
 }
 
 /* Controls */
