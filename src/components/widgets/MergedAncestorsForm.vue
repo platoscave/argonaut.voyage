@@ -1,10 +1,12 @@
 <template>
   <div v-if="dataObj && viewObj">
     <!-- The form -->
+    <!-- v-model="dataObj" -->
     <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
-      v-model="dataObj"
+      :value="dataObj"
+      @input="onInput"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
       :form-mode="formMode"
@@ -44,8 +46,6 @@ export default {
       selectedObjId: null,
       formMode: "Readonly Dense",
       valid: false,
-      viewObj: {},
-      dataObj: {}
     };
   },
 
@@ -82,17 +82,18 @@ export default {
   },
 
   methods: {
-    async onInput(updateDataObj, oldValue) {
+    async onInput(updatedDataObj) {
       //return
       try {
-        console.log(updateDataObj);
-        if (JSON.stringify(updateDataObj) === JSON.stringify(oldValue)) {
-          return;
-        }
+        console.log(updatedDataObj);
+        
+        const stringified = JSON.stringify(updatedDataObj)
+        if (stringified === this.oldValue) return
+        this.oldValue = stringified
 
         const valid = await this.$refs["schemaForm"].validate();
         console.log('valid', valid);
-        db.state.update(updateDataObj._id, updateDataObj);
+        db.state.update(updatedDataObj._id, updatedDataObj);
 
       } catch (err) {
         this.valid = false;
@@ -110,9 +111,9 @@ export default {
     },
   },
   watch: {
-    value: {
+    dataObj: {
       handler(newVal, oldVal) {
-        this.onInput(newVal, oldVal)
+        //this.onInput(newVal, oldVal)
       },
       deep: true,
     },
