@@ -1,23 +1,36 @@
 <template>
   <div>
-    <img :src="value" class="ar-lightgrey-background"/>
-    <div v-if="readonly && property.contentMediaType === 'image/svg+xml'">
-      <highlight-code lang="xml" class="ar-lightgrey-background">
-        {{ svgMarkup }}
-      </highlight-code>
+    <i
+      v-if="value.startsWith('el-icon')"
+      class="ar-lightgrey-background"
+      v-bind:class="value"
+    />
+    <img v-else :src="value" class="ar-lightgrey-background" />
+
+    <div v-if="value.startsWith('data:image/svg+xml')">
+      <div v-if="readonly">
+        <highlight-code lang="xml" class="ar-lightgrey-background">
+          {{ svgMarkup }}
+        </highlight-code>
+      </div>
+      <div v-else>
+        <el-input
+          type="textarea"
+          autosize
+          v-on:input="onInput"
+          :value="svgMarkup"
+        ></el-input>
+      </div>
     </div>
-    <div v-else>
-      <el-input
-        type="textarea"
-        autosize
-        v-on:input="$emit('input', $event)"
-        :value="svgMarkup"
-      ></el-input>
+
+    <div v-else-if="!readonly">
+      <el-input :value="value" v-on:input="$emit('input', $event)"></el-input>
     </div>
-<!--     <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
+
+    <!-- In future color coded editor
+    <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
       <ar-tiptap
         v-on:input="$emit('input', $event)"
-        v-on:change="$emit('change', $event)"
         :value="'<pre><code>' + svgMarkup + '</code></pre>'"
       ></ar-tiptap>
     </div> -->
@@ -34,7 +47,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     property: {
       type: Object,
@@ -42,27 +55,52 @@ export default {
     },
     readonly: Boolean,
   },
+  data() {
+    return {
+      encoding: "",
+    };
+  },
   computed: {
-    svgMarkup: function () {
-      const escapeHtml = (text) => {
-        var map = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#039;",
-        };
-        return text.replace(/[&<>"']/g, function (m) {
-          return map[m];
-        });
-      };
-      if (this.property.contentEncoding === "base64") {
-        const sub = this.value.slice(26) // remove data:image/svg+xml;base64,
-        const markup = window.atob(sub)
-        console.log(markup)
-        return markup
+    svgMarkup: function() {
+      if (this.value.startsWith("data:image/svg+xml;base64,")) {
+        const markup = this.value.slice(26); // remove data:image/svg+xml;base64,
+        return window.atob(markup);
       }
-      return "<pre><code>" + escapeHtml(this.value) + "</code></pre>";
+
+      if (this.value.startsWith("data:image/svg+xml;utf8,")) {
+        const markup = this.value.slice(24); // remove data:image/svg+xml;utf8,
+        return decodeURIComponent(markup);
+      }
+      return "";
+    },
+  },
+  methods: {
+    onInput(escapedSvg) {
+      if (this.value.startsWith("data:image/svg+xml;base64,")) {
+        const base64Encoded = window.btoa(escapedSvg);
+        //console.log("urlEncoded", base64Encoded);
+        this.$emit("input", "data:image/svg+xml;base64," + base64Encoded);
+      }
+      if (this.value.startsWith("data:image/svg+xml;utf8,")) {
+        // The svg must be uri escaped. However we dont need to escape everything, so we roll our own
+        // This leaves the svg somewhat ledgible in our data store
+        const escapeUrl = (text) => {
+          var map = {
+            "&": "%26",
+            "#": "%23",
+            "<": "%3C",
+            ">": "%3E",
+            '"': "'",
+          };
+          return text.replace(/[&#<>"]/g, function(m) {
+            return map[m];
+          });
+        };
+
+        let urlEncoded = escapeUrl(escapedSvg);
+        //console.log("urlEncoded", urlEncoded);
+        this.$emit("input", "data:image/svg+xml;utf8," + urlEncoded);
+      }
     },
   },
 };
@@ -76,6 +114,6 @@ export default {
   padding: 0px;
 }
 .ar-control > pre.ar-lightgrey-background {
-  margin: 0px
+  margin: 0px;
 }
 </style>
