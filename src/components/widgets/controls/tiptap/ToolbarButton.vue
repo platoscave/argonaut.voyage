@@ -45,7 +45,7 @@ export default {
 .menubar__button {
   color: lightgray;
   font-size: 16px;
-  background-color: #ffffff1a;
+  Xbackground-color: #ffffff1a;
   border-radius: 4px;
   border-color: #00adff42;
   border-style: solid;

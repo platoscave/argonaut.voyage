@@ -55,7 +55,7 @@
 import { db, argoQuery } from "../services/dexieServices";
 import EosServices from "../services/eosServices";
 import GenerateCpp from "../services/generateCpp";
-import jp from "jsonpath"
+import jp from "jsonpath";
 
 export default {
   name: "settings-dlg",
@@ -68,8 +68,9 @@ export default {
       try {
         const response = await fetch("argonautdb.json");
         const argonautData = await response.json();
-        await db.state.clear();
-        await db.state.bulkPut(argonautData);
+        await db.state.clear(); // clear state first as this will populate updatedObjects
+        await db.updatedObjects.clear();
+        await db.state.bulkPut(argonautData); // bulkPut does not populate updatedObjects
         this.$message({
           message: "Static File Loaded and Imported",
           type: "success",
@@ -177,18 +178,21 @@ export default {
         this.$message({ message: err, type: "error" });
       } */
       try {
-        const contextObj = await db.state.get("bikeshop1111")
-        const observableResults = await argoQuery.executeQuery("o4jhldcqvbep", contextObj);
-        console.log("Got result:", observableResults)
+        //const contextObj = await db.state.get("bikeshop1111")
+        const observableResults$ = argoQuery.executeQuery({
+          where: { classId: "nrioirgelhpi" },
+          extendTo: 'Subclasses'
+        });
+        console.log("observableResults:", observableResults$)
 
-        /* observableResults.subscribe({
+        observableResults$.subscribe({
           next: (result) => console.log("Got result:", result),
           error: (error) => console.error(error),
-        }); */
-        this.$message({
+        });
+        /* this.$message({
           message: "Success",
           type: "success",
-        });
+        }); */
       } catch (err) {
         console.error(err);
         this.$message({ message: err, type: "error" });

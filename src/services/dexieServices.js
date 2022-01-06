@@ -1,14 +1,51 @@
 // db.js
 import Dexie from 'dexie';
 import { liveQuery } from "dexie";
+import { defer } from 'rxjs';
+import { map } from 'rxjs/operators'
 import jp from "jsonpath"
+import 'dexie-observable';
 
 Dexie.debug = true
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
   state: '_id, classId, superClassId, ownerId', // Primary key and indexed props
+  updatedObjects: '_id, timestamp',
   settings: 'pageId'
 });
+
+// Add hooks 
+db.state.hook("creating", function (primKey, obj, transaction) {
+  // Return random key
+  const characters = "abcdefghijklmnopqrstuvwxyz12345";
+  let randomKey = "";
+  for (let i = 0; i < 12; i++) {
+    randomKey += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return randomKey
+})
+
+
+db.on('changes', function (changes) {
+  changes.forEach(function (change) {
+    if (change.table === "state") {
+      switch (change.type) {
+        case 1: // CREATED
+          db.updatedObjects.add({ _id: change.key, timestamp: Date.now(), action: 'created' })
+          break;
+        case 2: // UPDATED
+          db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
+          break;
+        case 3: // DELETED
+          db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
+          break;
+      }
+    }
+  });
+});
+
 
 
 
@@ -16,7 +53,7 @@ export class argoQuery {
 
 
   // contextObj is used to resolve $ variables in queries
-  static async executeQuery(queryObj /* queryObj or queryId */, contextObj = null) {
+  static executeQuery(queryObj /* queryObj or queryId */, contextObj = null) {
 
     const resolve$Vars = (whereClause, contextObj) => {
       let retObj = {}
@@ -32,77 +69,78 @@ export class argoQuery {
       return retObj
     }
 
-    const collectSubclasses = async (classId) => {
+    const collectSubclasses$ = (classId) => {
 
-      const subClasses = async classId => {
-        let subClassesArr = await db.state.where({ 'superClassId': classId }).toArray()
+      // warp promise in defer to return an observable
+      return defer(async () => {
+        const subClasses = async classId => {
+          let subClassesArr = await db.state.where({ 'superClassId': classId }).toArray()
 
-        let promisses = []
-        subClassesArr.forEach(subClass => {
-          promisses.push(subClasses(subClass._id))
-        })
-        let arrayOfResultArrays = await Promise.all(promisses)
+          let promisses = []
+          subClassesArr.forEach(subClass => {
+            promisses.push(subClasses(subClass._id))
+          })
+          let arrayOfResultArrays = await Promise.all(promisses)
 
-        let results = []
-        results = results.concat(subClassesArr, arrayOfResultArrays.flat())
+          let results = []
+          results = results.concat(subClassesArr, arrayOfResultArrays.flat())
+          return results
+        }
+
+        const rootClass = await db.state.get(classId)
+        let results = await subClasses(classId)
+        results.splice(0, 0, rootClass)// Add the root class
         return results
-      }
-
-      const rootClass = await db.state.get(classId)
-      let results = await subClasses(classId)
-      results.splice(0, 0, rootClass)
-      return results
-
+      })
     }
 
     // START HERE
+    
     // Get the queryObj
-    if (typeof queryObj === 'string') queryObj = await db.state.get(queryObj)
-    // In the case of a many to one query we interate over the many array
-    // Execute the query for each of the items
-    // use the item as basis for resolving query variables
-    //console.log('queryObj', queryObj)
+    //if (typeof queryObj === 'string') queryObj = await db.state.get(queryObj)
+
 
     if (queryObj.idsArrayPath && queryObj.idsArrayPath.path) {
+      
       if (!contextObj) throw 'idsArrayPath query must have a contextObj'
 
       // Obtain idObjectsArr from the context (the selectedObj)
       const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
 
-      //return liveQuery(() => {
-        const collection$ = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
-        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+      return liveQuery(() => {
+        let collection$ = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
+        if (queryObj.filter) {
+          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
+          const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+          collection$ = collection$.filter(filterFunc)
+        } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
-      //})
+      })
 
     } else if (queryObj.extendTo === 'Instances') {
 
       if (!queryObj.where.classId) throw 'extendTo Instances query must select a classId'
 
-      const rootClassId = queryObj.where.classId
-      const subClassesArr = await collectSubclasses(rootClassId)
+      return collectSubclasses$(queryObj.where.classId).pipe(
+        map(subClassesArr => {
+          const subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
 
-      let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
-
-      //return liveQuery(() => {
-        const collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
-        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-        else return collection$.toArray()
-      //})    
+          return liveQuery(() => {
+            let collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
+            if (queryObj.filter) {
+              const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
+              const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+              collection$ = collection$.filter(filterFunc)
+            } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+            else return collection$.toArray()
+          })
+        })
+      )
     } else if (queryObj.extendTo === 'Subclasses') {
 
       if (!queryObj.where.classId) throw 'extendTo Subclasses query must select a classId'
 
-      const rootClassId = queryObj.where.classId
-      const subClassesArr = await collectSubclasses(rootClassId)
-
-      let subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
-
-      //return liveQuery(() => {
-        const collection$ = db.state.where('_id').anyOf(subClasseIdsArr)
-        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-        else return collection$.toArray()
-      //})
+      return collectSubclasses$(queryObj.where.classId)
 
     } else if (queryObj.extendTo === 'Properties') {
 
@@ -110,7 +148,7 @@ export class argoQuery {
       // Unfortunatly this doesn't work. We need the class being selected by the query.
       // This often involves contextObj to resolve query varialbles, which we don't have access to.
 
-      const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
+      //const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
 
       let resArray = []
       for (let key in mergedAncestorProperties.properties) {
@@ -125,16 +163,16 @@ export class argoQuery {
       // Otherwise just execute the query. 
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
 
-      //return liveQuery(() => {
+      return liveQuery(() => {
         let collection$ = db.state.where(resolvedWhere)
-        if(queryObj.filter) {
-          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals}, contextObj)
+        if (queryObj.filter) {
+          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
           const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
           collection$ = collection$.filter(filterFunc)
         }
         if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
         else return collection$.toArray()
-      //})
+      })
     }
   }
 

@@ -40,8 +40,20 @@
       <span class="logo ar-right-align">
         Argonaut.Voyage
       </span>
-      <el-button size="mini" type="danger" disabled class="ar-right-align">Cancel</el-button>
-      <el-button size="mini" type="success" disabled class="ar-right-align">Send</el-button>
+      <el-button
+        size="mini"
+        type="danger"
+        :disabled="!updatedObjectsCount"
+        class="ar-right-align"
+        >Cancel</el-button
+      >
+      <el-button
+        size="mini"
+        type="success"
+        :disabled="!updatedObjectsCount"
+        class="ar-right-align"
+        >Send</el-button
+      >
     </div>
     <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
   </div>
@@ -66,6 +78,7 @@ export default {
       networks: Object.keys(networks),
       currentNetwork: "sandbox",
       currentUserId: "demouser1111",
+      updatedObjectsCount: 0,
     };
   },
   subscriptions() {
@@ -73,6 +86,7 @@ export default {
       users: liveQuery(() =>
         db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name")
       ),
+      updatedObjectsCount: liveQuery(() => db.updatedObjects.count()),
     };
   },
 
@@ -124,7 +138,7 @@ body {
   height: 100%;
 }
 .ar-full-page {
-  overflow: auto; 
+  overflow: auto;
   padding: 20px;
 }
 .ar-lightgrey-background {
@@ -266,10 +280,12 @@ label {
   transform: translateY(-50%);
   line-height: 100%;
 }
-
-.logo {
-  font-family: 'Courgette', cursive;
+.el-button {
+  color: black;
   font-weight: bold;
 }
-
+.logo {
+  font-family: "Courgette", cursive;
+  font-weight: bold;
+}
 </style>

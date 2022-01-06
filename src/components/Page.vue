@@ -16,7 +16,9 @@
           <div class="ar-full-height"  v-for="(widget, widNum) in tab.widgets" :key="widNum">
 
             <!-- Create a widget depending on display type -->
+            <!-- If there is only onle widget, then give it the full height -->
             <ar-widget-selector
+              :class="{'ar-full-height': tab.widgets.length}"
               :display-type="widget.displayType"
               :hash-level="hashLevel"
               :view-id="widget.viewId"
@@ -42,7 +44,9 @@
       <div class="ar-full-height"  v-for="(widget, widNum) in tabs[0].widgets" :key="widNum">
         
         <!-- Create a widget depending on display type -->
+        <!-- If there is only onle widget, then give it the full height -->
         <ar-widget-selector
+          :class="{'ar-full-height': tabs[0].widgets.length}"
           :display-type="widget.displayType"
           :hash-level="hashLevel"
           :view-id="widget.viewId"
@@ -148,7 +152,6 @@ export default {
       else ourPageStateArr[2] = selectedTab;
       ourPageStateStr = ourPageStateArr.join(".");
       hashArr[this.hashLevel + 1] = ourPageStateStr;
-      //TODO remove following levels, fill with defaults
       let hash = hashArr.join("/");
       window.location.hash = hash;
     },

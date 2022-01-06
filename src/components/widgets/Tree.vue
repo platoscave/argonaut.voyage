@@ -42,6 +42,14 @@
 
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
+import {
+  pluck,
+  switchMap,
+  filter,
+  distinctUntilChanged,
+  map,
+} from "rxjs/operators";
+import { from, defer, combineLatest } from "rxjs";
 import WidgetMixin from "../../lib/widgetMixin";
 
 export default {
@@ -97,13 +105,13 @@ export default {
       // Get Icon from item anscestors, recursivly
       const getAnscestorsIcon = async (id) => {
         const classObj = await db.state.get(id);
-        //console.log("getProp", classObj._id, classObj.title, classObj.pageId, classObj.icon ? classObj.icon.substr(classObj.icon.length - 50) : 'no icon');
         if (classObj.classIcon) return classObj.classIcon;
-        return await getAnscestorsIcon(classObj.superClassId);
+        return getAnscestorsIcon(classObj.superClassId);
       };
 
-      const addTreeVariables = async (items, queryObj) => {
-        for (const item of items) { // Do not use forEach with async
+      const addTreeVariables = (items, queryObj) => {
+        for (const item of items) {
+          // Do not use forEach with async
           item.label = item.title ? item.title : item.name; //TODO value?
 
           if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
@@ -117,22 +125,35 @@ export default {
           if (queryObj.nodesPageId) item.pageId = queryObj.nodesPageId;
           // Still no pageId, use the default object page based on merged anscestors
           if (!item.pageId) {
-            if(item.classId) item.pageId = "mb2bdqadowve" // merged anscestors page
-            else item.pageId = "24cnex2saye1" // class details page
+            if (item.classId) item.pageId = "mb2bdqadowve";
+            // merged anscestors page
+            else item.pageId = "24cnex2saye1"; // class details page
           }
 
           // If the queryObj has an icon, use it. Otherwise use the item icon.
           if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
           // Still no icon, ask the anscetors
-          if (!item.icon) item.icon = await getAnscestorsIcon(item.classId)
+          //if (!item.icon) item.icon = await getAnscestorsIcon(item.classId);
         }
-      }
+      };
 
-      const executeQueryAddVars = async (queryId, nodeData) => {
-        const queryObj = await db.state.get(queryId);
-        const resArr = await argoQuery.executeQuery(queryObj, nodeData);
-        await addTreeVariables(resArr, queryObj);
-        return resArr;
+      // If the item still doesn't have an icon then get one from the Anscestors
+      const addClassIcons = async (items) => {
+        const iconsPromisses = [];
+        items.forEach((item) => {
+          if (!item.icon)
+            iconsPromisses.push(
+              getAnscestorsIcon(
+                item.classId ? item.classId : item.supperClassId
+              )
+            );
+          else iconsPromisses.push(item.icon);
+        });
+        const iconsArr = await Promise.all(iconsPromisses);
+
+        items.forEach((item, index) => {
+          item.icon = iconsArr[index];
+        });
       };
 
       try {
@@ -140,23 +161,65 @@ export default {
         if (node.level === 0) {
           // Get the viewObj
           this.viewObj = await db.state.get(this.viewId);
-          // Execute the query
-          const resArr = await executeQueryAddVars(this.viewObj.queryId, {
+          // Get the queryObj
+          const queryObj = await db.state.get(this.viewObj.queryId);
+
+          // Get the observable
+          /* const observableResults$ = defer(() =>
+            argoQuery.executeQuery(queryObj, {
+              _id: this.selectedObjId,
+            })
+          ); */
+          const observableResults$ = argoQuery.executeQuery(queryObj, {
             _id: this.selectedObjId,
+          })
+
+          observableResults$.subscribe({
+            next: async (resultArr) => {
+              addTreeVariables(resultArr, queryObj);
+              await addClassIcons(resultArr); // if the item doesn't have one yet
+              // update the root node
+              node.store.setData(resultArr);
+            },
+            error: (error) => console.error(error),
           });
-          resolve(resArr);
+          resolve([]);
         }
         // node.level > 0
         else {
           if (node.data.subQueryIds) {
-            let promiseArr = node.data.subQueryIds.map((queryId) => {
-              // Execute the query
-              return executeQueryAddVars(queryId, node.data);
+
+            // Collect the queries
+            let queryPromisses = node.data.subQueryIds.map((queryId) =>
+              db.state.get(queryId)
+            );
+            const queryObjArr = await Promise.all(queryPromisses);
+
+            // Collect the observables
+            let obervablesArr = queryObjArr.map((queryObj) => {
+              return argoQuery.executeQuery(queryObj, node.data);
             });
-            const resArr = await Promise.all(promiseArr);
-            let flatResArr = resArr.flat();
-            resolve(flatResArr);
-          } else resolve([]);
+
+            // Combine the latest results of each of the queries into a single res array
+            // Whenever any of them emits a change
+            const observableResults$ = combineLatest(obervablesArr).pipe(
+              map((resArrArr) => {
+                resArrArr.forEach((resArr, index) => {
+                  addTreeVariables(resArr, queryObjArr[index]);
+                })
+                return resArrArr.flat();
+              })
+            );
+            observableResults$.subscribe({
+              next: async (resultArr) => {
+                await addClassIcons(resultArr); // if the item doesn't have one yet
+                // update the child items
+                node.store.updateChildren(node.data._id, resultArr)
+              },
+              error: (error) => console.error(error),
+            });
+          }
+          resolve([]);
         }
       } catch (err) {
         console.error(err);
@@ -165,7 +228,7 @@ export default {
     },
 
     renderContent(createElement, { node, data, store }) {
-      const icon = data.icon
+      const icon = data.icon;
       return createElement("span", [
         createElement("img", {
           attrs: { src: icon },
@@ -185,25 +248,25 @@ export default {
       if (nodeData.classId) {
         items = [
           {
-            icon: "plus-circle",
-            text: "Add Object",
-            click: () => {
-              alert("Option0!");
-            },
-          },
-          {
             icon: "clone",
-            text: "Clone Object",
+            text: "Copy Object",
             divider: true,
-            click: () => {
-              alert("Option2!");
+            click: async () => {
+              let obj = await db.state.get(nodeData._id);
+              delete obj._id;
+              obj.name += " - Copy";
+              const newObjId = await db.state.add(obj);
+              // Select the new node
+              this.$refs["tree"].setCurrentKey(newObjId);
+              this.updateNextLevelHash({ _id: newObjId });
             },
           },
           {
             icon: "minus-circle",
             text: "Delete Object",
             click: () => {
-              alert("Option3!");
+              // TODO remove id from hash
+              db.state.delete(nodeData._id);
             },
           },
         ];
@@ -212,31 +275,48 @@ export default {
           {
             icon: "plus-circle",
             text: "Add Subclass",
-            click: () => {
-              alert("Option0!");
+            click: async () => {
+              const newClsId = await db.state.add({
+                title: "New Class",
+                superClassId: nodeData._id,
+              });
+              // Select the new node
+              this.$refs["tree"].setCurrentKey(newClsId);
+              this.updateNextLevelHash({ _id: newClsId });
             },
           },
           {
             icon: "clone",
-            text: "Clone Class",
-            click: () => {
-              alert("Option2!");
+            text: "Copy Class",
+            click: async () => {
+              let cls = await db.state.get(nodeData._id);
+              delete cls._id;
+              cls.title += " - Copy";
+              const newClsId = await db.state.add(cls);
+              // Select the new node
+              this.$refs["tree"].setCurrentKey(newClsId);
+              this.updateNextLevelHash({ _id: newClsId });
             },
           },
-          {
+          /* {
             icon: "plus-circle",
             text: "Add Object",
             divider: true,
             click: () => {
-              alert("Option2!");
+              db.state.add({
+                name: "New Class",
+                classId: nodeData._id,
+                ownerId: nodeData.ownerId,
+              });
             },
-          },
+          }, */
           {
             icon: "minus-circle",
             text: "Delete Class",
             iconColor: "red",
             click: () => {
-              alert("Option3!");
+              // TODO remove id from hash
+              db.state.delete(nodeData._id);
             },
           },
         ];
@@ -308,7 +388,7 @@ export default {
 </script>
 
 <style scoped>
-.context-menu >>> .menu{
-  border-color: #524f4f
+.context-menu >>> .menu {
+  border-color: #524f4f;
 }
 </style>

@@ -85,7 +85,6 @@ export default {
     async onInput(updatedDataObj) {
       //return
       try {
-        console.log(updatedDataObj);
         
         const stringified = JSON.stringify(updatedDataObj)
         if (stringified === this.oldValue) return
@@ -108,14 +107,6 @@ export default {
         this.formMode = "Edit Full";
       else if (this.formMode === "Edit Permitted") this.formMode = "Edit Full";
       else this.formMode = "Readonly Dense";
-    },
-  },
-  watch: {
-    dataObj: {
-      handler(newVal, oldVal) {
-        //this.onInput(newVal, oldVal)
-      },
-      deep: true,
     },
   },
 };
