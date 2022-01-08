@@ -11,6 +11,7 @@
 
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
+import { take } from 'rxjs/operators';
 import ClassObject3d from "./diagramObj3ds/classObj3d.js";
 import SceneMixin from "../../lib/sceneMixin.js";
 import WidgetMixin from "../../lib/widgetMixin";
@@ -45,7 +46,7 @@ export default {
       const viewObj = await db.state.get(this.viewId);
 
       // Execute the query
-      let resArr = await argoQuery.executeQuery(viewObj.queryId);
+      let resArr = await argoQuery.executeQuery(viewObj.queryId).pipe(take(1)).toPromise()
 
       // Create the ClassObject3d (extends Object3d)
       let rootClassObj3d = new ClassObject3d(resArr[0], true);
@@ -54,9 +55,7 @@ export default {
 
       // Tell root class to draw the subclasses
       await rootClassObj3d.drawSubclasses(
-        this.selectableMeshArr,
-        argoQuery.executeQuery,
-        '2jfs4is4icct'
+        this.selectableMeshArr
       );
 
       // Set the x positions
@@ -70,9 +69,7 @@ export default {
 
       // Tell root class and its subclasses to draw the objects
       await rootClassObj3d.drawObjects(
-        this.selectableMeshArr,
-        argoQuery.executeQuery,
-        'x1lrv2xdq2tu'
+        this.selectableMeshArr
       );
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect

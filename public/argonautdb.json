@@ -993,7 +993,7 @@
           "Instances",
           "Subclasses",
           "Properties",
-          "Id Array"
+          "Ids Array"
         ],
         "title": "Extend To",
         "description": "<p><strong>Extend To</strong></p><ul><li><strong>Instances</strong>: Given a class, return all its objects, including subclasses objects.</li><li><strong>Subclasses</strong>: Given a class, return all its subclasses including itsself.</li><li><strong>Id Array</strong>: Given an object, return all of the object identified in the manyToOne array.</li></ul>",
@@ -3229,7 +3229,8 @@
       "path": "$.firstStepId",
       "indexName": "_id"
     },
-    "sortBy": "name"
+    "sortBy": "name",
+    "extendTo": "Ids Array"
   },
   {
     "_id": "ybjrgmdjybzl",
@@ -3244,7 +3245,8 @@
       "path": "$.nextStepIds[*].stepId",
       "indexName": "_id"
     },
-    "sortBy": "name"
+    "sortBy": "name",
+    "extendTo": "Ids Array"
   },
   {
     "_id": "vbinebvkz1sq",
@@ -3286,7 +3288,8 @@
       "path": "$.permissions[?(@.perm_name == 'active')].required_auth..accounts[*][?(@.permission == 'active')].actor",
       "indexName": "_id"
     },
-    "sortBy": "name"
+    "sortBy": "name",
+    "extendTo": "Ids Array"
   },
   {
     "_id": "szyxk43kmjsg",

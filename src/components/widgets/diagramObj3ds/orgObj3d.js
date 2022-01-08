@@ -1,3 +1,5 @@
+import { argoQuery } from "../../../services/dexieServices";
+import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
@@ -35,10 +37,10 @@ export default class OrgObject3d extends Object3D {
     }
   }
 
-  async drawOrgUnits(selectableMeshArr, executeQuery, queryId) {
+  async drawOrgUnits(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
+    let resArr = await argoQuery.executeQuery("o4jhldcqvbep", this.userData).pipe(take(1)).toPromise()
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -69,7 +71,7 @@ export default class OrgObject3d extends Object3D {
 
       // Tell the child to draw its children
       if (orgObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(orgObj3d.drawOrgUnits(selectableMeshArr, executeQuery, queryId))
+        childrenPronmises.push(orgObj3d.drawOrgUnits(selectableMeshArr))
     })
 
 
@@ -126,7 +128,7 @@ export default class OrgObject3d extends Object3D {
   async getActivePermissionedAccounts(selectableMeshArr, executeQuery, queryId, activePermAccArr) {
 
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
+    let resArr = await argoQuery.executeQuery(queryId, this.userData).pipe(take(1)).toPromise()
 
     // Collect users with active permission
     resArr.forEach( item => {

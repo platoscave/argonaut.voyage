@@ -3,7 +3,7 @@
     <ar-sub-table
       ref="schemaTable"
       class="ar-json-schema-form"
-      v-model="tableData"
+      v-model="dataObj"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"
       :form-mode="formMode"
@@ -36,7 +36,7 @@ export default {
       pageId: null,
       viewObj: {},
       argoQuery: {},
-      tableData: [],
+      dataObj: [],
       formMode: "Readonly Dense",
     };
   },
@@ -54,7 +54,7 @@ export default {
     // Whenever selectedObjId changes, reset the live query with the new selectedObjId
     const dataObj$ = selectedObjId$.pipe(
       switchMap((selectedObjId) =>
-        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
+        liveQuery(() => db.state.where({ _id: selectedObjId }).toArray())
       )
     );
 

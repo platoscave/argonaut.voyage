@@ -1,3 +1,5 @@
+import { argoQuery } from "../../../services/dexieServices";
+import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "./objectObj3d";
 import object3dMixin from './object3dMixin'
@@ -36,10 +38,10 @@ export default class ClassObject3d extends Object3D {
     }
   }
 
-  async drawSubclasses(selectableMeshArr, executeQuery, queryId ) {
+  async drawSubclasses(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
+    let resArr = await argoQuery.executeQuery('2jfs4is4icct', this.userData).pipe(take(1)).toPromise()
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -70,7 +72,7 @@ export default class ClassObject3d extends Object3D {
 
       // Tell the child to draw its children
       if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr, executeQuery, queryId ))
+        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr))
     })
 
 
@@ -170,10 +172,10 @@ export default class ClassObject3d extends Object3D {
   }
 
 
-  async drawObjects(selectableMeshArr, executeQuery, queryId ) {
+  async drawObjects(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await executeQuery(queryId, this.userData)
+    let resArr = await argoQuery.executeQuery('x1lrv2xdq2tu', this.userData).pipe(take(1)).toPromise()
 
 
     // Create the objects
@@ -206,7 +208,7 @@ export default class ClassObject3d extends Object3D {
         //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
         //if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr, executeQuery, queryId ))
+        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr))
       }
     });
     return Promise.all(objectPronmises);

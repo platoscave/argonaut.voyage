@@ -1,15 +1,15 @@
 // db.js
 import Dexie from 'dexie';
 import { liveQuery } from "dexie";
-import { defer } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { defer, of, from } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators'
 import jp from "jsonpath"
-import 'dexie-observable';
+import 'dexie-observable'; // Not rxjs observable. This is used to monitor changes.
 
 Dexie.debug = true
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
-  state: '_id, classId, superClassId, ownerId', // Primary key and indexed props
+  state: '_id, classId, superClassId, ownerId, [classId+ownerId]', // Primary key and indexed props
   updatedObjects: '_id, timestamp',
   settings: 'pageId'
 });
@@ -29,17 +29,19 @@ db.state.hook("creating", function (primKey, obj, transaction) {
 
 
 db.on('changes', function (changes) {
-  changes.forEach(function (change) {
+  changes.forEach(async function (change) {
     if (change.table === "state") {
+      const found = await db.updatedObjects.get(change.key)
       switch (change.type) {
         case 1: // CREATED
           db.updatedObjects.add({ _id: change.key, timestamp: Date.now(), action: 'created' })
           break;
         case 2: // UPDATED
-          db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
+          if (!found) db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
           break;
         case 3: // DELETED
-          db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
+          if (found.action === 'created') db.updatedObjects.delete(change.key)
+          else db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
           break;
       }
     }
@@ -95,85 +97,90 @@ export class argoQuery {
     }
 
     // START HERE
-    
-    // Get the queryObj
-    //if (typeof queryObj === 'string') queryObj = await db.state.get(queryObj)
 
+    // Get the queryObj. Api allows passing queryId as opposed to queryObj
+    // We have to capture the promise and turn it into an observable
+    const queryObj$ = of(queryObj).pipe(switchMap(stingOrObj => {
+      if (typeof stingOrObj === 'string') return from(db.state.get(stingOrObj))
+      else return of(stingOrObj)
+    }))
 
-    if (queryObj.idsArrayPath && queryObj.idsArrayPath.path) {
-      
-      if (!contextObj) throw 'idsArrayPath query must have a contextObj'
+    return queryObj$.pipe(switchMap(queryObj => {
 
-      // Obtain idObjectsArr from the context (the selectedObj)
-      const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
+      if (queryObj.extendTo === 'Ids Array') {
 
-      return liveQuery(() => {
-        let collection$ = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
-        if (queryObj.filter) {
-          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
-          const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
-          collection$ = collection$.filter(filterFunc)
-        } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-        else return collection$.toArray()
-      })
+        if (!queryObj.idsArrayPath || !queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw 'Ids Array query must have a idsArrayPath and indexName'
+        if (!contextObj) throw 'Ids Array query must have a contextObj'
 
-    } else if (queryObj.extendTo === 'Instances') {
+        // Obtain idObjectsArr from the context (the selectedObj)
+        const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
 
-      if (!queryObj.where.classId) throw 'extendTo Instances query must select a classId'
-
-      return collectSubclasses$(queryObj.where.classId).pipe(
-        map(subClassesArr => {
-          const subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
-
-          return liveQuery(() => {
-            let collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
-            if (queryObj.filter) {
-              const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
-              const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
-              collection$ = collection$.filter(filterFunc)
-            } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-            else return collection$.toArray()
-          })
+        return liveQuery(() => {
+          let collection$ = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
+          if (queryObj.filter) {
+            const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
+            const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+            collection$ = collection$.filter(filterFunc)
+          } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+          else return collection$.toArray()
         })
-      )
-    } else if (queryObj.extendTo === 'Subclasses') {
 
-      if (!queryObj.where.classId) throw 'extendTo Subclasses query must select a classId'
+      } else if (queryObj.extendTo === 'Instances') {
 
-      return collectSubclasses$(queryObj.where.classId)
+        if (!queryObj.where.classId) throw 'extendTo Instances query must select a classId'
 
-    } else if (queryObj.extendTo === 'Properties') {
+        return collectSubclasses$(queryObj.where.classId).pipe(
+          switchMap(subClassesArr => {
+            const subClasseIdsArr = subClassesArr.map(classObj => classObj._id)
 
-      // Do not use
-      // Unfortunatly this doesn't work. We need the class being selected by the query.
-      // This often involves contextObj to resolve query varialbles, which we don't have access to.
+            return liveQuery(() => {
+              let collection$ = db.state.where('classId').anyOf(subClasseIdsArr)
+              if (queryObj.filter) {
+                const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
+                const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+                collection$ = collection$.filter(filterFunc)
+              } if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+              else return collection$.toArray()
+            })
+          })
+        )
+      } else if (queryObj.extendTo === 'Subclasses') {
 
-      //const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
+        if (!queryObj.where.classId) throw 'extendTo Subclasses query must select a classId'
 
-      let resArray = []
-      for (let key in mergedAncestorProperties.properties) {
-        resArray.push({ _id: key, label: key })
+        return collectSubclasses$(queryObj.where.classId)
+
+      } else if (queryObj.extendTo === 'Properties') {
+
+        // Do not use
+        // Unfortunatly this doesn't work. We need the class being selected by the query.
+        // This often involves contextObj to resolve query varialbles, which we don't have access to.
+
+        /* const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
+        let resArray = []
+        for (let key in mergedAncestorProperties.properties) {
+          resArray.push({ _id: key, label: key })
+        }
+        return resArray */
+
+      } else {
+
+        // Otherwise just execute the query. 
+        const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
+
+        return liveQuery(() => {
+          let collection$ = db.state.where(resolvedWhere)
+          if (queryObj.filter) {
+            const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
+            const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+            collection$ = collection$.filter(filterFunc)
+          }
+          if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
+          else return collection$.toArray()
+        })
       }
 
-      // TODO results may still have to be sorted
-      return resArray
-
-    } else {
-
-      // Otherwise just execute the query. 
-      const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
-
-      return liveQuery(() => {
-        let collection$ = db.state.where(resolvedWhere)
-        if (queryObj.filter) {
-          const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
-          const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
-          collection$ = collection$.filter(filterFunc)
-        }
-        if (queryObj.sortBy) return collection$.sortBy(queryObj.sortBy)
-        else return collection$.toArray()
-      })
-    }
+    }))
   }
 
 

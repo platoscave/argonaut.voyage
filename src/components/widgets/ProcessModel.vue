@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="{cursor: cursor}">
+  <div v-bind:style="{ cursor: cursor }">
     <el-button
       class="fab"
       icon="el-icon-refresh"
@@ -11,6 +11,7 @@
 
 <script>
 import { argoQuery } from "../../services/dexieServices";
+import { take } from 'rxjs/operators';
 import PropositionObject3d from "./diagramObj3ds/propositionObj3d";
 import ProcessObject3d from "./diagramObj3ds/processObj3d.js";
 import OrgObject3d from "./diagramObj3ds/orgObj3d.js";
@@ -41,50 +42,48 @@ export default {
         "islands/skybox_n.jpg",
         "islands/skybox_s.jpg",
       ],
-      cursor: 'default'
+      cursor: "default",
     };
   },
   methods: {
-
-
-    async drawPropositions( zPos ) {
+    async drawPropositions(zPos) {
       // Get the processes from the store
       // Owned Processes Query
 
       let resArr = await argoQuery.executeQuery("f41heqslym5e", {
         _id: this.selectedObjId,
-      });
+      }).pipe(take(1)).toPromise()
 
-      // Create the ProcessObject3ds (extends Object3d)
+      // Create the PropositionObject3d (extends Object3d)
       let propositionsArr = [];
-      let xPos = resArr.length * -WIDTH
+      let xPos = resArr.length * -WIDTH;
       resArr.forEach((item) => {
         let propositionObj3d = new PropositionObject3d(item, true);
-        propositionObj3d.translateX( xPos);
-        propositionObj3d.translateZ( zPos);
+        propositionObj3d.translateX(xPos);
+        propositionObj3d.translateZ(zPos);
         propositionsArr.push(propositionObj3d);
         this.glModelObject3D.add(propositionObj3d);
         this.selectableMeshArr.push(propositionObj3d.children[0]);
 
-        xPos += WIDTH * 2 
+        xPos += WIDTH * 2;
       });
 
-      return propositionsArr
+      return propositionsArr;
     },
 
-
-    async drawProcesses( zPos ) {
-
+    async drawProcesses(zPos) {
       // Get the processes from the store
-      let resArr = await argoQuery.executeQuery("sfmg5u3wtpds", { // Owned Processes Query
-        _id: this.selectedObjId,
-      });
+      let resArr = await argoQuery
+        .executeQuery("sfmg5u3wtpds", {
+          // Owned Processes Query
+          _id: this.selectedObjId,
+        }).pipe(take(1)).toPromise()
 
       // Create the ProcessObject3ds (extends Object3d)
       let processArr = [];
       resArr.forEach((item) => {
         let processObj3d = new ProcessObject3d(item, true);
-        processObj3d.translateZ( zPos);
+        processObj3d.translateZ(zPos);
         processArr.push(processObj3d);
         this.glModelObject3D.add(processObj3d);
         this.selectableMeshArr.push(processObj3d.children[0]);
@@ -94,7 +93,7 @@ export default {
       let promisesArr = [];
       processArr.forEach((processObj3d) => {
         promisesArr.push(
-          processObj3d.drawSteps( this.selectableMeshArr, this.glModelObject3D )
+          processObj3d.drawSteps(this.selectableMeshArr, this.glModelObject3D)
         );
       });
       await Promise.all(promisesArr);
@@ -128,36 +127,34 @@ export default {
         processObj3d.drawStepConnectors(this.glModelObject3D);
       });
 
-      return processArr
+      return processArr;
     },
-
 
     drawPropositionToProcessConnectors(propositionArr) {
       // Let the Propositions to draw their connectors to their Process
       propositionArr.forEach((propositionObj3d) => {
-        propositionObj3d.drawPropositionToProcessConnectors(this.glModelObject3D);
+        propositionObj3d.drawPropositionToProcessConnectors(
+          this.glModelObject3D
+        );
       });
     },
 
-
-    async drawOrgUnits( zPos ) {
-
+    async drawOrgUnits(zPos) {
       // Execute the Organization Query
-      let resArr = await argoQuery.executeQuery('vbinebvkz1sq', {
-        _id: this.selectedObjId,
-      });
+      let resArr = await argoQuery
+        .executeQuery("vbinebvkz1sq", {
+          _id: this.selectedObjId,
+        }).pipe(take(1)).toPromise()
 
       // Create the OrgObject3d (extends Object3d)
       let rootOrgObj3d = new OrgObject3d(resArr[0], true);
-      rootOrgObj3d.translateZ( zPos);
+      rootOrgObj3d.translateZ(zPos);
       this.glModelObject3D.add(rootOrgObj3d);
       this.selectableMeshArr.push(rootOrgObj3d.children[0]);
 
       // Tell root class to draw the organizational units
       await rootOrgObj3d.drawOrgUnits(
-        this.selectableMeshArr,
-        argoQuery.executeQuery,
-        "o4jhldcqvbep"
+        this.selectableMeshArr
       );
 
       // Set the x positions
@@ -179,16 +176,16 @@ export default {
       );
 
       // Create the userObj3d
-      let xPos = -(activePermAccArr.length - 1) * WIDTH * 2 / 2
+      let xPos = (-(activePermAccArr.length - 1) * WIDTH * 2) / 2;
       activePermAccArr.forEach((item) => {
         // Create the UserObject3d (extends Object3d)
         let userObj3d = new UserObject3d(item);
         this.glModelObject3D.add(userObj3d);
         this.selectableMeshArr.push(userObj3d.children[0]);
         userObj3d.translateX(xPos);
-        userObj3d.translateZ(zPos -DEPTH * 10);
+        userObj3d.translateZ(zPos - DEPTH * 10);
         userObj3d.translateY(HEIGHT * 4);
-        xPos += WIDTH * 2
+        xPos += WIDTH * 2;
       });
 
       // important! after you set positions, otherwise obj3d matrixes will be incorrect
@@ -197,31 +194,28 @@ export default {
       rootOrgObj3d.drawToUserAssocs(this.glModelObject3D);
     },
 
-
     drawStepToUserConnectors(processArr) {
       // Let the steps to draw their connectors to their next steps
       processArr.forEach((processObj3d) => {
         processObj3d.drawStepToUserConnectors(this.glModelObject3D);
       });
-    }
-
+    },
   },
 
   mounted: async function() {
-
     try {
       this.addLoadingText();
 
       const propositionsArr = await this.drawPropositions(0);
-      
-      const processArr = await this.drawProcesses( -DEPTH * 30 );
 
-      this.drawPropositionToProcessConnectors(propositionsArr)
+      const processArr = await this.drawProcesses(-DEPTH * 30);
 
-      await this.drawOrgUnits( -DEPTH * 60 );
+      this.drawPropositionToProcessConnectors(propositionsArr);
 
-      this.drawStepToUserConnectors(processArr)
-/* */
+      await this.drawOrgUnits(-DEPTH * 60);
+
+      this.drawStepToUserConnectors(processArr);
+      /* */
       this.removeLoadingText();
 
       if (this.nextLevelSelectedObjId) {

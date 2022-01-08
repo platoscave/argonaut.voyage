@@ -40,6 +40,7 @@ import { argoQuery } from "../../../services/dexieServices";
 import {
   pluck,
   switchMap,
+  map,
   filter,
   distinctUntilChanged,
   defaultIfEmpty,
@@ -88,7 +89,7 @@ export default {
       )
     );
 
-    items$.pipe(defaultIfEmpty([]));
+    //items$.pipe(defaultIfEmpty([]));
 
     return {
       items: items$,

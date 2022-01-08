@@ -179,10 +179,9 @@ export default {
       } */
       try {
         //const contextObj = await db.state.get("bikeshop1111")
-        const observableResults$ = argoQuery.executeQuery({
-          where: { classId: "nrioirgelhpi" },
-          extendTo: 'Subclasses'
-        });
+        const observableResults$ = argoQuery.executeQuery("f41heqslym5e", {
+        _id: 'bikeshop1111',
+      });
         console.log("observableResults:", observableResults$)
 
         observableResults$.subscribe({

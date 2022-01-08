@@ -1,4 +1,5 @@
 import { argoQuery } from "../../../services/dexieServices";
+import { take } from 'rxjs/operators';
 import { Vector3, Vector2, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
 import modelColors from '../../../config/modelColors'
@@ -32,7 +33,7 @@ export default class StepObject3d extends Object3D {
   async drawSteps(selectableMeshArr, glModelObject3D) {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery('ybjrgmdjybzl', this.userData) // Next Step QueryId
+    let resArr = await argoQuery.executeQuery('ybjrgmdjybzl', this.userData).pipe(take(1)).toPromise() // Next Step QueryId
 
     // Create the next steps
     let propmisesArr = []
