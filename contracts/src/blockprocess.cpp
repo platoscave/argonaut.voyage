@@ -233,7 +233,7 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
         }
         else {
           // Otherwize we are at the end
-          if (action == "happy") currentProcessState.stateid = name("3hxkire2nn4v"); // Sucess
+          if (action == "happy") currentProcessState.stateid = name("3hxkire2nn4v"); // Success
           else currentProcessState.stateid = name("zdwdoqpxks2s"); // Failed
           currentProcessState.updated_at = current_time_point();
           stack.back() = currentProcessState;

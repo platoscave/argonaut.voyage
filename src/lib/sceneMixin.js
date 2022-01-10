@@ -21,6 +21,7 @@ import {
   PlaneGeometry, 
   WebGLRenderer,
   Vector2,
+  sRGBEncoding
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
@@ -128,6 +129,10 @@ export default {
         this.skyBox = new Mesh(skyGeometry, materialArray)
         this.glScene.add(this.skyBox)
       }
+
+      /* this.skyBox = loader.load( this.skyboxArray );
+      this.skyBox.encoding = sRGBEncoding;
+			this.glScene.background = this.skyBox; */
 
       // see http://threejs.org/examples/webgl_multiple_views.html for rendering on 3d tv
 

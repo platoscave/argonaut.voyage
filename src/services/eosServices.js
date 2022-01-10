@@ -25,12 +25,12 @@ import {
 async function takeAction(actions) {
 
 
-  let appSettings = await db.settings.get('appSettings')
-  const network = appSettings.currentNetwork;
+  let networkUserObj = await db.settings.get('application')
+  const network = networkUserObj.currentNetwork;
   const rpc = new JsonRpc(networks[network].endpoint);
 
 
-  const actor = appSettings.currentUser;
+  const actor = networkUserObj.currentUserId;
   const privateKey = testAccounts[actor].privateKey
   const signatureProvider = new JsSignatureProvider([privateKey])
 
@@ -82,8 +82,8 @@ class EosApiService {
 
     
 
-    let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentcurrentUserIdUser
 
     const actions = [{
       account: 'argonautvoya',
@@ -124,14 +124,17 @@ class EosApiService {
         await takeAction(actionArr)
         message({ message: actionArr[0].data.name + ' Added', type: "succes" });
       } catch (err) {
-        console.error(err) // Dont care
-        message({ message: err, type: "error" });
+        if(err.includes("as that name is already taken") ) message({ message: actionArr[0].data.name + ' Already added', type: "success" });
+        else {
+          console.error(err) 
+          message({ message: err, type: "error" });
+        }
       }
     }
 
     // START HERE
-    let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    let networkUserObj = await db.settings.get("application")
+    let currentUserId = networkUserObj.currentUserId
 
     const response = await fetch("addTestAccountActions.json");
     let accountActionsStr = await response.text();
@@ -152,8 +155,8 @@ class EosApiService {
 
   static async staticToEos(message) {
 
-    let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    let networkUserObj = await db.settings.get("application")
+    let currentUserId = networkUserObj.currentUser
 
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
@@ -214,8 +217,8 @@ class EosApiService {
 
   static async cacheToEos(message) {
 
-    let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    let networkUserObj = await db.settings.get("application")
+    let currentUserId = networkUserObj.currentUserId
 
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
@@ -273,8 +276,8 @@ class EosApiService {
 
   static async eraseAllEos() {
 
-    let appSettings = await settingsDb.get('appSettings')
-    let currentUserId = appSettings.currentUser
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUser
 
     const actions = [{
       account: 'argonautvoya',

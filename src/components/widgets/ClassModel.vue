@@ -49,7 +49,7 @@ export default {
       let resArr = await argoQuery.executeQuery(viewObj.queryId).pipe(take(1)).toPromise()
 
       // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(resArr[0], true);
+      let rootClassObj3d = new ClassObject3d(resArr[0], true, this.skyBox);
       this.glModelObject3D.add(rootClassObj3d);
       this.selectableMeshArr.push(rootClassObj3d.children[0]);
 

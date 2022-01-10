@@ -6,7 +6,7 @@ class GenerateCpp {
 
     // https://github.com/EOSIO/eos/blob/c9b7a2472dc3c138e64d07ec388e64340577bb34/contracts/identity/identity.cpp#L105
 
-    static async GenerateCpp(store) {
+    static async GenerateCpp(_id) {
 
         // Recusivly merge all the ancestor classes, starting with the root. Sub class properties take precedence over parent class
         /* const getMergeAncestorClasses = async classId => {
@@ -23,8 +23,9 @@ class GenerateCpp {
         // let zip = new JSZip();
         // PR: gzthjuyjca4s
         // Pages: 
-        let classObj = await argoQuery.getMergedAncestorProperties('pejdgrwd5qso')
-        return this.hpp(classObj)
+        //let classObj = await argoQuery.getMergedAncestorProperties(_id)
+        let classObj = this.basicContract()
+        return this.hppSource(classObj)
 
     }
     static generateUpsertString(properties) {
@@ -66,7 +67,7 @@ class GenerateCpp {
         return upsertSrting
     }
 
-    static hpp(classObj) {
+    static hppSource(classObj) {
 
         const className = this.toCamelCase(classObj.title);
         const tableName = classObj.key;
@@ -190,7 +191,7 @@ class GenerateCpp {
 
     // cpp file
 
-    static async cpp(classObj) {
+    static async cppSource(classObj) {
 
         const className = this.toCamelCase(classObj.title);
         const tableName = classObj.key;
@@ -243,8 +244,8 @@ class GenerateCpp {
             `      ${className}_iterator = ${tableName}.erase(${className}_iterator);\n` +
             `  }\n` +
             `}\n\n` +
-            `${validateString}\n\n` 
-            // `EOSIO_DISPATCH(${className}, (upsert)(erase)(eraseall))\n`
+            `${validateString}\n\n`
+        // `EOSIO_DISPATCH(${className}, (upsert)(erase)(eraseall))\n`
 
         return cppString
     }
@@ -311,15 +312,71 @@ class GenerateCpp {
 
     }
 
-    static toCamelCase(str){
-        return str.split(' ').map(function(word,index){
-          // If it is the first word make sure to lowercase all the chars.
-          if(index == 0){
-            return word.toLowerCase();
-          }
-          // If it is not the first word only upper case the first char and lowercase the rest.
-          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    static toCamelCase(str) {
+        return str.split(' ').map(function (word, index) {
+            // If it is the first word make sure to lowercase all the chars.
+            if (index == 0) {
+                return word.toLowerCase();
+            }
+            // If it is not the first word only upper case the first char and lowercase the rest.
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
         }).join('');
+    }
+
+    static basicContract() {
+        return {
+            key: 'argonautvoya',
+            title: 'Argonaut Voyage',
+            properties: {
+                key: {
+                    description: '<p>Base32 identifier.</p>',
+                    pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
+                    title: '_id',
+                    type: 'string'
+                },
+                classId: {
+                    pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
+                    argoQuery: {
+                        where: {
+                            classId: 'gzthjuyjca4s'
+                        },
+                        sortBy: 'name',
+                        extendTo: 'Subclasses'
+                    },
+                    title: 'Class',
+                    type: 'string'
+                },
+                supperClassId: {
+                    pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
+                    argoQuery: {
+                        where: {
+                            classId: 'gzthjuyjca4s'
+                        },
+                        sortBy: 'name',
+                        extendTo: 'Subclasses'
+                    },
+                    title: 'Super Class',
+                    type: 'string'
+                },
+                ownerId: {
+                    pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
+                    argoQuery: {
+                        where: {
+                            classId: 'gzthjuyjca4s'
+                        },
+                        sortBy: 'name',
+                        extendTo: 'Subclasses'
+                    },
+                    title: 'Owner',
+                    type: 'string'
+                },
+                document: {
+                    title: 'Document',
+                    type: 'string'
+                },
+            },
+        }
+
     }
 }
 

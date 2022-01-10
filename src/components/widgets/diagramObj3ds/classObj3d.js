@@ -10,7 +10,7 @@ const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class ClassObject3d extends Object3D {
 
-  constructor(userData, isRoot) {
+  constructor(userData, isRoot, skyBox) {
     super()
 
     // Mixin utility methodes: Beam, Tube, Text etc
@@ -19,6 +19,7 @@ export default class ClassObject3d extends Object3D {
     this._id = userData._id
     this.name = userData.title + ' - object3d'
     this.userData = userData
+    this.skyBox = skyBox
 
     let classMesh = this.getMesh()
     classMesh.name = userData.title + ' - 3d mesh'
@@ -131,9 +132,7 @@ export default class ClassObject3d extends Object3D {
 
       const assoc = this.userData.assocs[key]
 
-      const { [assoc.name]: assocProps } = modelColors
-      if (!assocProps) continue
-      const depth = - (DEPTH * 2 + assocProps.depth * DEPTH / 2)
+      const depth = - DEPTH * 4
 
       const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
       if (!destObj3d) console.log('Assoc destination not found: ' + assoc.destId)

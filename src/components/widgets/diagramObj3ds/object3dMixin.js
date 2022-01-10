@@ -5,6 +5,8 @@ import {
   Vector3, 
   SphereGeometry, 
   MeshLambertMaterial, 
+  MeshPhongMaterial,
+  MultiplyOperation,
   Mesh, 
   CatmullRomCurve3, 
   TubeGeometry, 
@@ -69,6 +71,16 @@ export default {
     const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
+    // Anyone know how to make reflective material?
+    /* const material = new MeshPhongMaterial( {
+      color: 0xffffff,
+      specular:0xffffff,
+      envMap: this.skyBox,
+      combine: MultiplyOperation,
+      shininess: 50,
+      reflectivity: 1.0
+    } ); */
+
     const mesh = new Mesh(mergedGeometry, material)
 
     // TODO only two points
@@ -127,7 +139,11 @@ export default {
     //mergedGeometry.mergeVertices() //doesn't work for buffer geometry
     
     const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors
-    const material = new MeshLambertMaterial({ color: colorProp.color })
+    const material = new MeshLambertMaterial({ 
+      color: colorProp.color,
+      opacity: 0.5,
+      transparent: true,
+     })
 
     let mesh = new Mesh(mergedGeometry, material)
     mesh.name = 'tube - ' + colorName

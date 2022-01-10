@@ -18,64 +18,49 @@ module.exports = {
   // Class Model assoc colors
 
   substateId: {
-    color: 0xa697f8,
-    depth: 0
+    color: 0xa697f8
   },
   stepId: {
-    color: 0xc9912d,
-    depth: 1
+    color: 0xc9912d
   },
   firstStepId: {
-    color: 0xc9912d,
-    depth: 1
+    color: 0xc9912d
   },
   updaterId: {
-    color: 0xfc9f81,
-    depth: 3
+    color: 0xfc9f81
   }, 
   processId: {
-    color: 0x4da6eb,
-    depth: 4
+    color: 0x4da6eb
   }, 
   assetId: {
-    color: 0x31b17a,
-    depth: 5
+    color: 0x31b17a
   }, 
   consumerId: {
-    color: 0xdbdb58,
-    depth: 6
+    color: 0xdbdb58
   }, 
   providerId: {
-    color: 0x88e5d7,
-    depth: 7
+    color: 0x88e5d7
   }, 
   sellerProcessId: {
-    color: 0xe704ad,
-    depth: 8
+    color: 0xe704ad
   }, 
   ownerId: {
-    color: 0x891463,
-    depth: 9
+    color: 0x891463
   }, 
   agreementClassId: {
-    color: 0xe8b2c7,
-    depth: 10
+    color: 0xe8b2c7
   }, 
   viewId: {
-    color: 0x297cf0,
-    depth: 11
+    color: 0x297cf0
   }, 
   pageId: {
-    color: 0x940cd8,
-    depth: 12
+    color: 0x940cd8
   }, 
   queryId: {
-    color: 0x84a6c7,
-    depth: 13
+    color: 0x84a6c7
   }, 
   baseClassId: {
-    color: 0xbf2a64,
-    depth: 14
+    color: 0xbf2a64
   },
 
 
@@ -90,7 +75,7 @@ module.exports = {
     color:  0x00A300, // Interface
   },
   'cq4bjkzqc2qp': {
-    color:  0x5200A3, // User input Seller
+    color:  0x5200A3, // User input provider
   },
   '3r5kgovlor1o': {
     color:  0xA30000, // Validate
@@ -99,7 +84,7 @@ module.exports = {
     color:  0x0000A3, // Perform
   },
   'xsaq3l5hncb2': {
-    color:  0xA30052, // User input Buyer
+    color:  0xA30052, // User input consumer
   },
   'dqja423wlzrb': {
     color:  0xA30000, // Execute

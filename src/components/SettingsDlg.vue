@@ -199,11 +199,11 @@ export default {
     },
     async generatecpp() {
       try {
-        const data = await GenerateCpp.GenerateCpp(this.$store);
+        const data = await GenerateCpp.GenerateCpp('gzthjuyjca4s');
         const csv_mime_type = "text/cpp";
         const blob = new Blob([data], { type: csv_mime_type });
         const anchor = document.createElement("a");
-        anchor.setAttribute("download", "commons.cpp");
+        anchor.setAttribute("download", "argonautvoya.cpp");
         const url = URL.createObjectURL(blob);
         anchor.setAttribute("href", url);
         anchor.click();

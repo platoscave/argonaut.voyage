@@ -11,7 +11,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select Network"
-        :value="currentNetwork"
+        :value="networkUserObj.currentNetwork"
         @input="updateCurrentNetwork"
       >
         <el-option
@@ -26,7 +26,7 @@
         class="ar-left-align"
         size="mini"
         placeholder="Select User"
-        :value="currentUserId"
+        :value="networkUserObj.currentUserId"
         @input="updateCurrentUser"
       >
         <el-option
@@ -76,8 +76,10 @@ export default {
     return {
       dialogVisible: false,
       networks: Object.keys(networks),
-      currentNetwork: "sandbox",
-      currentUserId: "demouser1111",
+      networkUserObj: {
+        currentNetwork: "sandbox",
+        currentUserId: "demouser1111",
+      },
       updatedObjectsCount: 0,
     };
   },
@@ -87,17 +89,18 @@ export default {
         db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name")
       ),
       updatedObjectsCount: liveQuery(() => db.updatedObjects.count()),
+      networkUserObj: liveQuery(() => db.settings.get("application")),
     };
   },
 
   methods: {
     async updateCurrentNetwork(currentNetwork) {
-      await db.settings.update(this.pageId, {
+      await db.settings.update("application", {
         currentNetwork: currentNetwork,
       });
     },
     async updateCurrentUser(currentUserId) {
-      await db.settings.update(this.pageId, {
+      await db.settings.update("application", {
         currentUserId: currentUserId,
       });
     },
@@ -109,13 +112,13 @@ export default {
     if (!count) await this.$refs["settingsDlg"].populateFromStatic();
 
     // See if we can get app settings from the last time we visited this page
-    const appSettings = await db.settings.get("application");
-    if (appSettings) {
-      if (appSettings.currentNetwork)
-        this.currentNetwork = appSettings.currentNetwork;
-      if (appSettings.currentUserId)
-        this.currentUserId = appSettings.currentUserId;
-    } else await db.settings.add({ pageId: "application" });
+    const networkUserObj = await db.settings.get("application");
+    if (!networkUserObj)
+      db.settings.add({
+        pageId: "application",
+        currentNetwork: "sandbox",
+        currentUserId: "demouser1111",
+      });
 
     if (!window.location.hash)
       window.location.hash = "#/argonautvoya.uhekisbbbjh5";
