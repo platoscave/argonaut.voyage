@@ -25,7 +25,8 @@ class GenerateCpp {
         // Pages: 
         //let classObj = await argoQuery.getMergedAncestorProperties(_id)
         let classObj = this.basicContract()
-        return this.hppSource(classObj)
+        //return this.hppSource(classObj)
+        return this.cppSource(classObj)
 
     }
     static generateUpsertString(properties) {
@@ -106,12 +107,12 @@ class GenerateCpp {
             `#include <eosio/print.hpp>\n\n` +
             `using namespace eosio;\n\n` +
             `// ${classObj.title} Contract\n\n` +
-            `CONTRACT ${className} : public contract {\n` +
+            `CONTRACT ${tableName} : public contract {\n` +
             `  public:\n` +
             `    using contract::contract;\n` +
-            `    ${className}(name receiver, name code, datastream<const char*> ds):\n` +
+            `    ${tableName}(name receiver, name code, datastream<const char*> ds):\n` +
             `        contract(receiver, code, ds), \n` +
-            `        ${tableName}(receiver, receiver.value) {}\n\n` +
+            `        ${className}_tbl(receiver, receiver.value) {}\n\n` +
             `    // ${classObj.title} Structures\n\n` +
             `${tableStructs}\n\n` +
             `    // ${classObj.title} Actions\n\n` +
@@ -120,10 +121,11 @@ class GenerateCpp {
             `    ACTION erase(name username, name key);\n\n` +
             `    ACTION eraseall(name username);\n\n` +
             `  private:\n\n` +
-            `    typedef multi_index<name("${tableName}"), ${className}_struct, \n\n` +
+            `    typedef multi_index<\n` +
+            `      name("${tableName}"), ${className}_struct, \n` +
             `${indexSrting}\n` +
-            `      > ${className}_table;\n\n` +
-            `    ${className}_table ${tableName};\n\n` +
+            `      > ${className}_def;\n\n` +
+            `    ${className}_def ${className}_tbl;\n\n` +
             `${validateString}\n\n` +
             `};`
 
@@ -133,13 +135,14 @@ class GenerateCpp {
 
     static generateTableStructs(structName, properties, keyStruct) {
         let tableStruct = ''
-        // Keys must come beforw orther attrs other wise we get wierd compiler
+        // Keys must come before orther attrs other wise we get wierd compiler
         for (let key in properties) {
             const prop = properties[key]
             if (prop.type === 'string') {
                 if (prop.pattern === '[.abcdefghijklmnopqrstuvwxyz12345]{12}') tableStruct += `      name ${key};\n`
             }
         }
+        
         for (let key in properties) {
             const prop = properties[key]
             if (prop.type === 'string') {
@@ -155,7 +158,7 @@ class GenerateCpp {
 
         let tableStructString =
             `    TABLE ${structName}_struct {\n` +
-            `${tableStruct}${keyStruct}\n` +
+            `${tableStruct}\n${keyStruct}\n` +
             `    };\n`
 
 
@@ -198,7 +201,7 @@ class GenerateCpp {
 
         let tableStruct = ''
         for (let key in classObj.properties) {
-            tableStruct += `      iter_${className}.${key} = ${key};\n`
+            tableStruct += `      iter.${key} = ${key};\n`
         }
         let lastOne = tableStruct.substr(tableStruct.length - 1)
         if (lastOne === '\n') tableStruct = tableStruct.substring(0, tableStruct.length - 1)
@@ -208,40 +211,40 @@ class GenerateCpp {
         let validateString = this.generateValidateCpp(tableName, classObj.properties)
 
         let cppString =
-            `#include <${className}.hpp>\n\n` +
+            `#include <${tableName}.hpp>\n\n` +
             `// ${classObj.title} Contract\n\n` +
-            `ACTION ${className}::upsert(name user, \n` +
+            `ACTION ${tableName}::upsert(name user, \n` +
             `${upsertSrting}) {\n` +
             `  // Will fail if the user does not sign the transaction\n` +
             `  require_auth( user );\n` +
             `  // or require the contract athority\n` +
             `  // require_auth( get_self() );\n\n` +
-            `  auto ${className}_iterator = ${tableName}.find(key.value);\n` +
-            `  if( ${className}_iterator == ${tableName}.end() )\n` +
+            `  auto ${className}_iterator = ${className}_tbl.find(key.value);\n` +
+            `  if( ${className}_iterator == ${className}_tbl.end() )\n` +
             `  {\n` +
             `    // payer: usually the user\n` +
             `    // [&]: labda function, annomonus\n` +
-            `    ${className}_iterator = ${tableName}.emplace(user, [&]( auto& iter_${className} ) {\n` +
+            `    ${className}_iterator = ${className}_tbl.emplace(user, [&]( auto& iter ) {\n` +
             `${tableStruct}\n` +
             `    });\n` +
             `  }\n` +
             `  else {\n` +
-            `    ${tableName}.modify( ${className}_iterator, _self, [&]( auto& iter_${className} ) {\n` +
+            `    ${className}_tbl.modify( ${className}_iterator, _self, [&]( auto& iter ) {\n` +
             `${tableStruct}\n` +
             `    });\n` +
             `  }\n` +
             `}\n\n` +
-            `ACTION ${className}::erase(name user, name key) {\n` +
+            `ACTION ${tableName}::erase(name user, name key) {\n` +
             `  require_auth(user);\n\n` +
-            `  auto ${className}_iterator = ${tableName}.find(key.value);\n` +
-            `  check(${className}_iterator != ${tableName}.end(), "Record does not exist");\n` +
-            `  ${tableName}.erase(${className}_iterator);\n` +
+            `  auto ${className}_iterator = ${className}_tbl.find(key.value);\n` +
+            `  check(${className}_iterator != ${className}_tbl.end(), "Record does not exist");\n` +
+            `  ${className}_tbl.erase(${className}_iterator);\n` +
             `}\n\n` +
-            `ACTION ${className}::eraseall(name user) {\n` +
+            `ACTION ${tableName}::eraseall(name user) {\n` +
             `  require_auth(user);\n\n` +
-            `  for(auto ${className}_iterator = ${tableName}.begin(); ${className}_iterator != ${tableName}.end();) {\n` +
+            `  for(auto ${className}_iterator = ${className}_tbl.begin(); ${className}_iterator != ${className}_tbl.end();) {\n` +
             `      // delete element and update iterator reference\n` +
-            `      ${className}_iterator = ${tableName}.erase(${className}_iterator);\n` +
+            `      ${className}_iterator = ${className}_tbl.erase(${className}_iterator);\n` +
             `  }\n` +
             `}\n\n` +
             `${validateString}\n\n`

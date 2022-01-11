@@ -10,7 +10,7 @@ CONTRACT argonautvoya : public contract {
     using contract::contract;
     argonautvoya(name receiver, name code, datastream<const char*> ds):
         contract(receiver, code, ds), 
-        argonautvoya(receiver, receiver.value) {}
+        argonautVoyage_tbl(receiver, receiver.value) {}
 
     // Argonaut Voyage Structures
 
@@ -20,6 +20,7 @@ CONTRACT argonautvoya : public contract {
       name supperClassId;
       name ownerId;
       std::string document;
+
       uint64_t primary_key() const { return key.value; }
       uint64_t by_classId() const { return classId.value; }
       uint64_t by_supperClassId() const { return supperClassId.value; }
@@ -42,14 +43,14 @@ CONTRACT argonautvoya : public contract {
 
   private:
 
-    typedef multi_index<name("argonautvoya"), argonautVoyage_struct, 
-
+    typedef multi_index<
+      name("argonautvoya"), argonautVoyage_struct, 
       indexed_by<name("classid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_classId>>,
       indexed_by<name("supperclassid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_supperClassId>>,
       indexed_by<name("ownerid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_ownerId>>
-      > argonautVoyage_table;
+      > argonautVoyage_def;
 
-    argonautVoyage_table argonautvoya;
+    argonautVoyage_def argonautVoyage_tbl;
 
     void validate_argonautVoyage(
       name key,
@@ -59,5 +60,5 @@ CONTRACT argonautvoya : public contract {
       std::string document
     );
 
-
 };
+EOSIO_DISPATCH(argonautvoya, (upsert)(erase)(eraseall))

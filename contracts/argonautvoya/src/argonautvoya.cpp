@@ -2,7 +2,7 @@
 
 // Argonaut Voyage Contract
 
-ACTION argonautVoyage::upsert(name user, 
+ACTION argonautvoya::upsert(name user, 
       name key,
       name classId,
       name supperClassId,
@@ -13,44 +13,44 @@ ACTION argonautVoyage::upsert(name user,
   // or require the contract athority
   // require_auth( get_self() );
 
-  auto argonautVoyage_iterator = argonautvoya.find(key.value);
-  if( argonautVoyage_iterator == argonautvoya.end() )
+  auto argonautVoyage_iterator = argonautVoyage_tbl.find(key.value);
+  if( argonautVoyage_iterator == argonautVoyage_tbl.end() )
   {
     // payer: usually the user
     // [&]: labda function, annomonus
-    argonautVoyage_iterator = argonautvoya.emplace(user, [&]( auto& iter_argonautVoyage ) {
-      iter_argonautVoyage.key = key;
-      iter_argonautVoyage.classId = classId;
-      iter_argonautVoyage.supperClassId = supperClassId;
-      iter_argonautVoyage.ownerId = ownerId;
-      iter_argonautVoyage.document = document;
+    argonautVoyage_iterator = argonautVoyage_tbl.emplace(user, [&]( auto& iter ) {
+      iter.key = key;
+      iter.classId = classId;
+      iter.supperClassId = supperClassId;
+      iter.ownerId = ownerId;
+      iter.document = document;
     });
   }
   else {
-    argonautvoya.modify( argonautVoyage_iterator, _self, [&]( auto& iter_argonautVoyage ) {
-      iter_argonautVoyage.key = key;
-      iter_argonautVoyage.classId = classId;
-      iter_argonautVoyage.supperClassId = supperClassId;
-      iter_argonautVoyage.ownerId = ownerId;
-      iter_argonautVoyage.document = document;
+    argonautVoyage_tbl.modify( argonautVoyage_iterator, _self, [&]( auto& iter ) {
+      iter.key = key;
+      iter.classId = classId;
+      iter.supperClassId = supperClassId;
+      iter.ownerId = ownerId;
+      iter.document = document;
     });
   }
 }
 
-ACTION argonautVoyage::erase(name user, name key) {
+ACTION argonautvoya::erase(name user, name key) {
   require_auth(user);
 
-  auto argonautVoyage_iterator = argonautvoya.find(key.value);
-  check(argonautVoyage_iterator != argonautvoya.end(), "Record does not exist");
-  argonautvoya.erase(argonautVoyage_iterator);
+  auto argonautVoyage_iterator = argonautVoyage_tbl.find(key.value);
+  check(argonautVoyage_iterator != argonautVoyage_tbl.end(), "Record does not exist");
+  argonautVoyage_tbl.erase(argonautVoyage_iterator);
 }
 
-ACTION argonautVoyage::eraseall(name user) {
+ACTION argonautvoya::eraseall(name user) {
   require_auth(user);
 
-  for(auto argonautVoyage_iterator = argonautvoya.begin(); argonautVoyage_iterator != argonautvoya.end();) {
+  for(auto argonautVoyage_iterator = argonautVoyage_tbl.begin(); argonautVoyage_iterator != argonautVoyage_tbl.end();) {
       // delete element and update iterator reference
-      argonautVoyage_iterator = argonautvoya.erase(argonautVoyage_iterator);
+      argonautVoyage_iterator = argonautVoyage_tbl.erase(argonautVoyage_iterator);
   }
 }
 

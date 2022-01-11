@@ -1,0 +1,117 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "argonautVoyage_struct",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "classId",
+                    "type": "name"
+                },
+                {
+                    "name": "supperClassId",
+                    "type": "name"
+                },
+                {
+                    "name": "ownerId",
+                    "type": "name"
+                },
+                {
+                    "name": "document",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "erase",
+            "base": "",
+            "fields": [
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "eraseall",
+            "base": "",
+            "fields": [
+                {
+                    "name": "username",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "upsert",
+            "base": "",
+            "fields": [
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "classId",
+                    "type": "name"
+                },
+                {
+                    "name": "supperClassId",
+                    "type": "name"
+                },
+                {
+                    "name": "ownerId",
+                    "type": "name"
+                },
+                {
+                    "name": "document",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "erase",
+            "type": "erase",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "eraseall",
+            "type": "eraseall",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "upsert",
+            "type": "upsert",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "argonautvoya",
+            "type": "argonautVoyage_struct",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "kv_tables": {},
+    "ricardian_clauses": [],
+    "variants": [],
+    "action_results": []
+}

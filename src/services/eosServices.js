@@ -68,20 +68,6 @@ class EosApiService {
 
   static async upsertDocument( document) {
 
-    const getRandomKey = () => {
-      // base32 encoded 64-bit integers. This means they are limited to the characters a-z, 1-5, and '.' for the first 12 characters.
-      // If there is a 13th character then it is restricted to the first 16 characters ('.' and a-p).
-      var characters = 'abcdefghijklmnopqrstuvwxyz12345'
-      var randomKey = ''
-      for (var i = 0; i < 12; i++) {
-        randomKey += characters.charAt(Math.floor(Math.random() * characters.length))
-      }
-      return randomKey
-    }
-    if (!document._id) document._id = getRandomKey()
-
-    
-
     let networkUserObj = await db.settings.get('application')
     let currentUserId = networkUserObj.currentcurrentUserIdUser
 
@@ -156,7 +142,7 @@ class EosApiService {
   static async staticToEos(message) {
 
     let networkUserObj = await db.settings.get("application")
-    let currentUserId = networkUserObj.currentUser
+    let currentUserId = networkUserObj.currentUserId
 
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
@@ -168,10 +154,11 @@ class EosApiService {
             permission: 'active'
           }],
           data: {
-            payload: {
-              username: currentUserId,
+              key: item._id,
+              classId: item.classId,
+              supperClassId: item.supperClassId,
+              ownerId: item.ownerId,
               document: JSON.stringify(item)
-            }
           }
         }
       })
@@ -193,7 +180,9 @@ class EosApiService {
 
 
     let promiseFunctionArr = []
-    for (let idx = 0; idx < argonautArr.length; idx += 1) {
+    //for (let idx = 0; idx < argonautArr.length; idx += 1) {
+    for (let idx = 0; idx < 1; idx += 1) {
+
       let tenDocs = []
       for (let subIdx = 0; subIdx < 1; subIdx++) {
         tenDocs.push(argonautArr[idx + subIdx])
@@ -277,7 +266,7 @@ class EosApiService {
   static async eraseAllEos() {
 
     let networkUserObj = await db.settings.get('application')
-    let currentUserId = networkUserObj.currentUser
+    let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
       account: 'argonautvoya',
