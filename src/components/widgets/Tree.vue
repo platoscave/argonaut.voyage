@@ -110,8 +110,8 @@ export default {
       };
 
       const addTreeVariables = (items, queryObj) => {
+        // Do not use forEach with async
         for (const item of items) {
-          // Do not use forEach with async
           item.label = item.title ? item.title : item.name; //TODO value?
 
           if (queryObj.subQueryIds && queryObj.subQueryIds.length) {

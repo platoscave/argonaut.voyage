@@ -41,6 +41,7 @@
         Argonaut.Voyage
       </span>
       <el-button
+        @click="cancelChanges"
         size="mini"
         type="danger"
         :disabled="!updatedObjectsCount"
@@ -48,6 +49,7 @@
         >Cancel</el-button
       >
       <el-button
+        @click="saveChanges"
         size="mini"
         type="success"
         :disabled="!updatedObjectsCount"
@@ -61,6 +63,7 @@
 
 <script>
 import { db } from "./services/dexieServices";
+import EosServices from "./services/eosServices";
 import { liveQuery } from "dexie";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
@@ -103,6 +106,30 @@ export default {
       await db.settings.update("application", {
         currentUserId: currentUserId,
       });
+    },
+    async saveChanges() { 
+      try {
+        await EosServices.saveChanges()
+        this.$message({
+          message: "Updates sent to EOS",
+          type: "success",
+        });
+      } catch (err) {
+        this.$message({ message: err, type: "error", duration: 0 });
+        throw err
+      }
+    },
+    async cancelChanges() { 
+      try {
+        await EosServices.cancelChanges()
+        this.$message({
+          message: "Changes Rolledback",
+          type: "success",
+        });
+      } catch (err) {
+        this.$message({ message: err, type: "error", duration: 0 });
+        throw err
+      }
     },
   },
 

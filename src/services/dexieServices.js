@@ -32,17 +32,23 @@ db.on('changes', function (changes) {
   changes.forEach(async function (change) {
     if (change.table === "state") {
       const found = await db.updatedObjects.get(change.key)
-      switch (change.type) {
-        case 1: // CREATED
-          db.updatedObjects.add({ _id: change.key, timestamp: Date.now(), action: 'created' })
-          break;
-        case 2: // UPDATED
-          if (!found) db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
-          break;
-        case 3: // DELETED
-          if (found.action === 'created') db.updatedObjects.delete(change.key)
-          else db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
-          break;
+      // If causedBy flag is set, this updated is the result of cancelChanges, not the user
+      // We just delete the record
+      if (found && found.causedBy && found.causedBy === 'cancelChanges') db.updatedObjects.delete(change.key)
+      else {
+        switch (change.type) {
+          case 1: // CREATED
+            db.updatedObjects.add({ _id: change.key, timestamp: Date.now(), action: 'created' })
+            break;
+          case 2: // UPDATED
+            console.log('change.key', change.key)
+            if (!found) db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
+            break;
+          case 3: // DELETED
+            if (found.action === 'created') db.updatedObjects.delete(change.key)
+            else db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
+            break;
+        }
       }
     }
   });

@@ -21,7 +21,11 @@ import {
 // See https://eosio.github.io/eosjs/latest/how-to-guides/index
 
 
+//////////////////////////////////////////////////////////
 // Main action call to blockchain
+//////////////////////////////////////////////////////////
+
+
 async function takeAction(actions) {
 
 
@@ -66,10 +70,15 @@ async function takeAction(actions) {
 class EosApiService {
 
 
-  static async upsertDocument( document) {
+  //////////////////////////////////////////////////////////
+  // Upsert Documents
+  //////////////////////////////////////////////////////////
+
+
+  static async upsertDocument(document) {
 
     let networkUserObj = await db.settings.get('application')
-    let currentUserId = networkUserObj.currentcurrentUserIdUser
+    let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
       account: 'argonautvoya',
@@ -79,23 +88,189 @@ class EosApiService {
         permission: 'active'
       }],
       data: {
-        payload: {
-          username: currentUserId,
-          document: JSON.stringify(document)
-        }
+        username: currentUserId,
+        key: document._id,
+        classId: document.classId ? document.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
+        supperClassId: document.supperClassId ? document.supperClassId : 'aaaaaaaaaaaaa',
+        ownerId: document.ownerId ? document.ownerId : 'aaaaaaaaaaaaa',
+        document: JSON.stringify(document)
       }
     }]
     return takeAction(actions)
   }
 
 
+
+  static async staticToEos($message) {
+    const response = await fetch("argonautdb.json");
+    const argonautArr = await response.json();
+    this.sendUpsertBatches(argonautArr, $message)
+  }
+
+  static async sendUpsertBatches(argonautArr, $message) {
+
+    let networkUserObj = await db.settings.get("application")
+    let currentUserId = networkUserObj.currentUserId
+
+    const upsertActions = tenDocs => {
+      return tenDocs.map(item => {
+        return {
+          account: 'argonautvoya',
+          name: 'upsert',
+          authorization: [{
+            actor: currentUserId,
+            permission: 'active'
+          }],
+          data: {
+            username: currentUserId,
+            key: item._id,
+            classId: item.classId ? item.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
+            supperClassId: item.supperClassId ? item.supperClassId : 'aaaaaaaaaaaaa',
+            ownerId: item.ownerId ? item.ownerId : 'aaaaaaaaaaaaa',
+            document: JSON.stringify(item)
+          }
+        }
+      })
+    }
+
+
+    const doAllSequentually = async (fnPromiseArr) => {
+      for (let i = 0; i < fnPromiseArr.length; i++) {
+        await fnPromiseArr[i]()
+      }
+    }
+
+
+    // START HERE
+
+    const batchSize = 10
+
+
+    let promiseFunctionArr = []
+    for (let idx = 0; idx < argonautArr.length; idx += batchSize) {
+
+      let tenDocs = []
+      for (let subIdx = 0; subIdx < batchSize && idx + subIdx < argonautArr.length; subIdx++) {
+        tenDocs.push(argonautArr[idx + subIdx])
+      }
+      console.log('tenDocs', tenDocs)
+      let tenActionsArr = upsertActions(tenDocs)
+      promiseFunctionArr.push(async () => {
+        try {
+          await takeAction(tenActionsArr)
+          $message({ message: 'Upsert ten', type: "success" });
+        } catch (err) {
+          console.error(err) // Dont care
+          $message({ message: err, type: "error" });
+        }
+      })
+    }
+    doAllSequentually(promiseFunctionArr)
+
+  }
+
+
+
   //////////////////////////////////////////////////////////
-  // Utility functions
+  // Get Docuemnts
+  //////////////////////////////////////////////////////////
+
+  static async getDocumentByKey(keyValue) {
+    const resultArr = await this.getDocuments(keyValue, 'key')
+    return resultArr[0]
+  }
+
+
+  static async getDocuments(keyValue, indexName) {
+
+    let networkUserObj = await db.settings.get('application')
+    const network = networkUserObj.currentNetwork;
+    const rpc = new JsonRpc(networks[network].endpoint);
+
+    const lowerBoundBigNumber = new BigNumber(encodeName(keyValue, false))
+    const upperBound = decodeName(lowerBoundBigNumber.plus(1).toString(), false)
+    // console.log('indexName: ', indexName, 'key: ', key, lowerBoundBigNumber.toString(), lowerBoundBigNumber.plus(1).toString())
+
+    let index = ''
+    if (!indexName || indexName === 'key') index = 'first'
+    else if (indexName === 'classId') index = 'second'
+    else if (indexName === 'superClassId') index = 'third'
+    else if (indexName === 'ownerId') index = 'forth'
+    else throw 'Add index: ' + indexName
+
+
+    const rowsArr = await rpc.get_table_rows({
+      json: true,                 // Get the response as json
+      code: 'argonautvoya',       // Contract that we target
+      scope: 'argonautvoya',      // Account that owns the data
+      table: 'argonautvoya',      // Table name
+      index_position: index,      // Table index
+      lower_bound: keyValue,      // Table key value
+      //limit: 1,                 // Here we limit to 1 to get only row
+      reverse: false,             // Optional: Get reversed data
+      show_payer: false,          // Optional: Show ram payer,
+      upper_bound: upperBound     // must be numericlly equal to key plus one
+    })
+
+    return rowsArr.rows.map(row => JSON.parse(row.document))
+
+  }
+
+
+
+  //////////////////////////////////////////////////////////
+  // Erase Documents
+  //////////////////////////////////////////////////////////
+
+  static async eraseAllEos() {
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+    const actions = [{
+      account: 'argonautvoya',
+      name: 'eraseall',
+      authorization: [{
+        actor: currentUserId,
+        permission: 'active'
+      }],
+      data: {
+        username: currentUserId
+      }
+    }]
+    return takeAction(actions)
+  }
+
+  static async eraseEos(_id) {
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+    const actions = [{
+      account: 'argonautvoya',
+      name: 'erase',
+      authorization: [{
+        actor: currentUserId,
+        permission: 'active'
+      }],
+      data: {
+        username: currentUserId,
+        key: _id
+      }
+    }]
+    return takeAction(actions)
+  }
+
+
+
+
+  //////////////////////////////////////////////////////////
+  // Add Accounts
   //////////////////////////////////////////////////////////
 
 
 
-  static async addTestAccounts(message) {
+  static async addTestAccounts($message) {
 
     // Prime EOS with test accounts from the cache
     // Acounts must be created in the right order because eos does a referential integrity check
@@ -108,12 +283,12 @@ class EosApiService {
       actionArr.splice(1, 2)
       try {
         await takeAction(actionArr)
-        message({ message: actionArr[0].data.name + ' Added', type: "succes" });
+        $message({ message: actionArr[0].data.name + ' Added', type: "succes" });
       } catch (err) {
-        if(err.includes("as that name is already taken") ) message({ message: actionArr[0].data.name + ' Already added', type: "success" });
+        if (err.includes("as that name is already taken")) $message({ message: actionArr[0].data.name + ' Already added', type: "success" });
         else {
-          console.error(err) 
-          message({ message: err, type: "error" });
+          console.error(err)
+          $message({ message: err, type: "error" });
         }
       }
     }
@@ -139,164 +314,60 @@ class EosApiService {
   }
 
 
-  static async staticToEos(message) {
 
-    let networkUserObj = await db.settings.get("application")
-    let currentUserId = networkUserObj.currentUserId
+  //////////////////////////////////////////////////////////
+  // Save Cancel
+  //////////////////////////////////////////////////////////
 
-    const upsertActions = tenDocs => {
-      return tenDocs.map(item => {
-        return {
-          account: 'argonautvoya',
-          name: 'upsert',
-          authorization: [{
-            actor: currentUserId,
-            permission: 'active'
-          }],
-          data: {
-              key: item._id,
-              classId: item.classId,
-              supperClassId: item.supperClassId,
-              ownerId: item.ownerId,
-              document: JSON.stringify(item)
-          }
-        }
-      })
-    }
+  static async saveChanges() {
 
+    const updatedObjectsArr = await db.updatedObjects.orderBy('timestamp').toArray()
 
-    const doAllSequentually = async (fnPromiseArr) => {
-      for (let i = 0; i < fnPromiseArr.length; i++) {
-        await fnPromiseArr[i]()
+    for await (const updatedObj of updatedObjectsArr) {
+      if (updatedObj.action === 'created' || updatedObj.action === 'updated') {
+        const document = await db.state.get(updatedObj._id)
+        await this.upsertDocument(document)
+        await db.updatedObjects.delete(updatedObj._id)
+      }
+      else if (updatedObj.action === 'deleted') {
+        await this.eraseEos(updatedObj._id)
+        await db.updatedObjects.delete(updatedObj._id)
       }
     }
 
+  }
 
-    // START HERE
+  static async cancelChanges() {
 
-    const response = await fetch("argonautdb.json");
-    const argonautArr = await response.json();
-    //console.log(argonautArr)
+    const updatedObjectsArr = await db.updatedObjects.orderBy('timestamp').toArray()
 
-
-    let promiseFunctionArr = []
-    //for (let idx = 0; idx < argonautArr.length; idx += 1) {
-    for (let idx = 0; idx < 1; idx += 1) {
-
-      let tenDocs = []
-      for (let subIdx = 0; subIdx < 1; subIdx++) {
-        tenDocs.push(argonautArr[idx + subIdx])
-      }
-      let tenActionsArr = upsertActions(tenDocs)
-      promiseFunctionArr.push(async () => {
-        try {
-          await takeAction(tenActionsArr)
-          message({ message: 'Upsert ten', type: "success" });
-        } catch (err) {
-          console.error(err) // Dont care
-          message({ message: err, type: "error" });
-        }
-      })
+    for await (const updatedObj of updatedObjectsArr) {
+      // Set causedBy in UpdatedObects so that The Dexie observer knows we caused this update, not the user
+      // The observer will respond by deleteing this record rather then putting a new one
+      await db.updatedObjects.update(updatedObj._id, {causedBy: 'cancelChanges'})
+      const document = await this.getDocumentByKey(updatedObj._id)
+      // EOS is leading. Do whatever it says.
+      if (document) await db.state.put(document)
+      else await db.state.delete(updatedObj._id)
     }
-    doAllSequentually(promiseFunctionArr)
 
   }
 
 
 
-  static async cacheToEos(message) {
 
-    let networkUserObj = await db.settings.get("application")
-    let currentUserId = networkUserObj.currentUserId
-
-    const upsertActions = tenDocs => {
-      return tenDocs.map(item => {
-        return {
-          account: 'argonautvoya',
-          name: 'upsert',
-          authorization: [{
-            actor: currentUserId,
-            permission: 'active'
-          }],
-          data: {
-            payload: {
-              username: currentUserId,
-              document: JSON.stringify(item.doc)
-            }
-          }
-        }
-      })
-    }
-
-
-    // START HERE
-    var pageSize = 10;
-    var lastSeq = 0;
-    const fetchNextPage = async () => {
-      const changes = await db.changes({
-        since: lastSeq,
-        limit: pageSize,
-        include_docs: true
-      })
-      console.log('\nFound the following changes:');
-      //changes.results.forEach(function (change) {
-        console.log(JSON.stringify(changes));
-      //});
-      let tenActionsArr = upsertActions(changes.results)
-      await takeAction(tenActionsArr)
-
-      if (changes.results.length < pageSize) {
-        // done!
-      } else {
-        lastSeq = changes.last_seq;
-        return fetchNextPage();
-      }
-    }
-
-
-    fetchNextPage().catch(function (err) {
-      message({ message: err, type: "error" });
-    });
-    //console.log(argonautArr)
-
-
-  }
-
-
-  static async eraseAllEos() {
-
-    let networkUserObj = await db.settings.get('application')
-    let currentUserId = networkUserObj.currentUserId
-
-    const actions = [{
-      account: 'argonautvoya',
-      name: 'eraseall',
-      authorization: [{
-        actor: currentUserId,
-        permission: 'active'
-      }],
-      data: {
-        payload: {
-          username: currentUserId
-        }
-      }
-    }]
-    return takeAction(actions)
-  }
-
-
-
-
-
+  //////////////////////////////////////////////////////////
+  // Test
+  //////////////////////////////////////////////////////////
   static async testEos(testObject) {
-    
-/*     const high = new BigNumber('18446744073709551616')
-    debugger
-    console.log(high.toString())
-    const upperBound = decodeName(0, false)
-    console.log(upperBound)
 
-return */
+    /*     const high = new BigNumber('18446744073709551616')
+        debugger
+        console.log(high.toString())
+        const upperBound = decodeName(0, false)
+        console.log(upperBound)
+    
+    return */
     const printTraces = result => {
       console.log(result.console)
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
