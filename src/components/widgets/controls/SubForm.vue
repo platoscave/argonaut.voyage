@@ -278,7 +278,7 @@ label.el-checkbox.ar-control[readonly],
 }
 </style>
 <style>
-/* Error succes borders: lighter */
+/* Error success borders: lighter */
 .el-form-item.is-error .el-input__inner,
 .el-form-item.is-error .el-input__inner:focus,
 .el-form-item.is-error .el-textarea__inner,

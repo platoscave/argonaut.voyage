@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Argonaut.Voyage</title>
+    <style>
+        body {
+            background: var(--dark-bg);
+            color: #eee;
+            scroll-behavior: smooth;
+
+        }
+
+
+        :root {
+            --dark-bg: rgba(15, 15, 15, 0.95);
+
+            font-family: brandon-grotesque, sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+
+        main {
+            width: 100vw;
+            color: #eee;
+            z-index: 99;
+            position: absolute;
+            width: 100%;
+            margin: 0px auto;
+            padding: 120px 0px;
+
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            column-gap: 30px;
+            row-gap: 50px;
+        }
+
+        h1 h2 h3 {
+            margin: 0px;
+        }
+
+
+
+        header {
+            background-image: url('avfbackground.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            border-radius: 5px;
+            grid-column: 2 / span 10;
+            font-size: 2rem;
+            padding: 2rem;
+            margin: 0px;
+            text-shadow: -1px 1px 2px black;
+        }
+
+        .logo {
+            font-family: "Courgette", cursive;
+        }
+
+
+        section {
+            grid-column: 2 / 8;
+            padding: 1rem;
+            border-radius: 5px;
+            background: var(--dark-bg);
+            font-size: 1.25rem;
+            line-height: 1.5;
+        }
+
+        .illustration-right {
+            grid-column: 8 / 12;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            border-radius: 5px;
+        }
+        .illustration-left {
+            grid-column: 2 / 6;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            border-radius: 5px;
+        }
+
+        blockquote {
+            margin: 0;
+            padding: 0;
+            grid-column: 2 / span 9;
+        }
+
+        blockquote p {
+            color: grey;
+            font-size: 2rem;
+            font-style: italic;
+            display: inline;
+            line-height: 1;
+        }
+
+        .right {
+            grid-column: 6 / 12;
+        }
+
+        .left {
+            grid-column: 2 / 5;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <main>
+        <section class="disclaimer">
+            <p>Disclaimer:</p>
+            <h1>Proof of concept</h1>
+            <p>This project is a work in progress. Features on this page represent our ambition</p>
+        </section>
+
+
+        <header>
+            <h1 class="logo">Argonaut.Voyage</h1>
+            <h3>Foundation</h3>
+            <p>Brenging process modeling and process execution to the blockchain.</p>
+        </header>
+
+
+
+        <section>
+            <h2>What</h2>
+            <p>Argonaut.Voyage is a process modeling and execution environment that allows users to:</p>
+            <ul>
+                <li>Browse other users/organizations content</li>
+                <li>Copy/customize prototype organizations</li>
+                <li>Model processes that support your organization</li>
+                <li>Start using it</li>
+            </ul>
+            <p>We currently have two prototype organizations: </p>
+            <ul>
+                <li>Non-profit: This is in fact our own Argonaut.Voyage organization. It’s focus is on:</li>
+                <ul>
+                    <li>Backlog management</li>
+                    <li>Planning</li>
+                </ul>
+                <li>For-profit: Its focus is on </li>
+                <ul>
+                    <li>User access management</li>
+                    <li>Propositions management</li>
+                    <li>Business process modeling</li>
+                    <li>On-chain financial administration</li>
+                </ul>
+            </ul>
+            <p>All data is stored on an EOSIO blockchain. Transactions are executed on the blockchain.</p>
+
+
+        </section>
+
+        <div class="illustration-right" style="background-image: url('processmodel.png')">
+        </div>
+
+
+
+        <blockquote>
+            <p>Blockchain made easy.</p>
+        </blockquote>
+
+
+        <div class="illustration-left" style="background-image: url('classmodel.png')">
+        </div>
+
+        
+        <section class="right">
+            <h2>How</h2>
+            <h3>Class Model</h3>
+            <p>Argonaut.Voyage is built on a class model called <strong>Process Universe</strong>. These classes
+                describe all objects
+                needed to model and execute processes. Classes take the form of json schema objects, meaning they can be
+                used for server-side validation and client-side form generation. </p>
+            <h3>Process Model</h3>
+            <p>The process model allows users to define propositions, model processes and sub-processes, model
+                organizations and assign authorizations</p>
+            <h3>Page Model</h3>
+            <p>The page model allows developers to to design master-detail page layouts that follow the data graph (i.e.
+                one to many associations). A page has one or more tabs. Each tab contains one or more widgets or points
+                to a different page. Pages can have a divider, in which case the left/top side serves as a master and
+                the right/bottom side as a detail page. There are several widgets to choose from. Among others: Menu,
+                Table,
+                Tree, Form, several 3D models and financial reports.</p>
+            <p>Our json schema form component takes a schema as input and presents data in a user friendly form. In edit
+                mode, schema validation rules are applied to user input. Nested objects and arrays of objects are
+                displayed as nested subforms.</p>
+            <h3>Nagigation</h3>
+            <p></p>
+            <p></p>
+
+
+
+
+
+
+        </section>
+
+
+        <blockquote>
+            <p>3D models reduce abstraction. </p>
+        </blockquote>
+
+        <section>
+            <h2>Why</h2>
+
+        </section>
+
+        <blockquote>
+            <p>...to boldly go where no process modeler has gone before.</p>
+        </blockquote>
+
+
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

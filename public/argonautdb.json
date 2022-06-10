@@ -774,17 +774,17 @@
         "items": {
           "additionalProperties": false,
           "properties": {
+            "name": {
+              "placeholder": "Provide a name",
+              "maxLength": 1000,
+              "title": "Tab Name",
+              "type": "string"
+            },
             "description": {
               "placholder": "Add a description",
               "maxLength": 10000,
               "contentMediaType": "text/html",
               "title": "Description",
-              "type": "string"
-            },
-            "name": {
-              "placeholder": "Provide a name",
-              "maxLength": 1000,
-              "title": "Tab Name",
               "type": "string"
             },
             "pageId": {
@@ -804,6 +804,12 @@
               "items": {
                 "additionalProperties": false,
                 "properties": {
+                  "name": {
+                    "placeholder": "Provide a name",
+                    "maxLength": 1000,
+                    "title": "Name",
+                    "type": "string"
+                  },
                   "description": {
                     "placholder": "Add a description",
                     "maxLength": 10000,
@@ -833,12 +839,6 @@
                       "View Table"
                     ],
                     "title": "Display Type",
-                    "type": "string"
-                  },
-                  "name": {
-                    "placeholder": "Provide a name",
-                    "maxLength": 1000,
-                    "title": "Name",
                     "type": "string"
                   },
                   "pageId": {
@@ -1598,7 +1598,7 @@
   },
   {
     "_id": "platoscave11",
-    "name": "platoscave",
+    "name": "Test Account Owner",
     "classId": "hdt3hmnsaghk",
     "account_name": "platoscave11",
     "head_block_num": 73306938,

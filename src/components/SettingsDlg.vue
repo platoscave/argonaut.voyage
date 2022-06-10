@@ -109,11 +109,12 @@ export default {
 
     async testEos() {
       try {
-        const response = await fetch("testObject.json");
-        const testObject = await response.json();
-        await EosServices.testEos(testObject);
+        //const response = await fetch("testObject.json");
+        //const testObject = await response.json();
+        await EosServices.testEos();
         this.$message({ message: "Test function called", type: "success" });
       } catch (err) {
+        console.log(err)
         this.$message({ message: err, type: "error" });
       }
     },

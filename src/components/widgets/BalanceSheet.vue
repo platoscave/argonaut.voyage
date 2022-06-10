@@ -280,50 +280,51 @@
       <table>
         <tr>
           <td>
-              <tr class="l1">
-                <td>Assests</td>
-              </tr>
-              <tr>
-                <td class="title">Cash and cash equivalents</td>
-                <td class="value">0</td>
-              </tr>
-              <tr>
-                <td class="title">Short-term investments</td>
-                <td class="value">0</td>
-              </tr>
-              <tr>
-                <td class="l1">Total Assests</td>
-                <td class="value"><span class="sum">0</span></td>
-              </tr>
+            <tr class="l1">
+              <td>Assests</td>
+            </tr>
+            <tr>
+              <td class="title">Cash and cash equivalents</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title">Short-term investments</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="l1">Total Assests</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
           </td>
-          <td>
-              <tr class="l1">
-                <td>Liabilities and Net Assets</td>
-              </tr>
-              <tr>
-                <td class="l2">Accrued expenses</td>
-                <td class="value">0</td>
-              </tr>
-              <tr>
-                <td class="l2">Net assets</td>
-              </tr>
-              <tr>
-                <td class="title-indent">With donor restrictions</td>
-                <td class="value">0</td>
-              </tr>
-              <tr>
-                <td class="title-indent">Without donor restrictions</td>
-                <td class="value">0</td>
-              </tr>
 
-              <tr>
-                <td class="l2">Total Net assets</td>
-                <td class="value"><span class="sum">0</span></td>
-              </tr>
-              <tr>
-                <td class="l1">Total Liabilities and Net Assets</td>
-                <td class="value"><span class="sum">0</span></td>
-              </tr>
+          <td>
+            <tr class="l1">
+              <td>Liabilities and Net Assets</td>
+            </tr>
+            <tr>
+              <td class="l2">Accrued expenses</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="l2">Net assets</td>
+            </tr>
+            <tr>
+              <td class="title-indent">With donor restrictions</td>
+              <td class="value">0</td>
+            </tr>
+            <tr>
+              <td class="title-indent">Without donor restrictions</td>
+              <td class="value">0</td>
+            </tr>
+
+            <tr>
+              <td class="l2">Total Net assets</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
+            <tr>
+              <td class="l1">Total Liabilities and Net Assets</td>
+              <td class="value"><span class="sum">0</span></td>
+            </tr>
           </td>
         </tr>
       </table>
@@ -335,6 +336,7 @@
 
 <script>
 import { db } from "../../services/dexieServices";
+import networks from '../../config/networks.js'
 import { liveQuery } from "dexie";
 import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import WidgetMixin from "../../lib/widgetMixin";
@@ -347,7 +349,7 @@ export default {
     viewId: String,
   },
 
-  subscriptions() {
+  /* subscriptions() {
     //
     // Watch the selectedObjId as observable
     const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
@@ -366,7 +368,41 @@ export default {
 
     return {
       dataObj: dataObj$,
-    };
+    }; 
+  },*/
+  async mounted() {
+    this.dataObj = db.state.get(this.selectedObjId)
+
+    let networkUserObj = await db.settings.get('application')
+    const network = networkUserObj.currentNetwork;
+    const dFuseRpc = networks[network].dFuseRpc
+
+    const ts =  new Date().toISOString()
+
+    const block = await fetch(`${dFuseRpc}/v0/block_id/by_time?time=${ts}&comparator=lt`,
+      {
+        mode: 'cors',
+        headers: {
+          //Authorization: "Bearer 3206ae4e540cb577788a02722f497b01",
+        },
+      }
+    )
+
+    const balances = fetch(`${dFuseRpc}/v0/state/table/row?' +
+      'account=argonautvoya&scope=b1' +
+      '&table=accounts' +
+      '&primary_key=EOS' +
+      '&key_type=symbol_code' +
+      '&block_num=${block.num}' +
+      '&json=true`,
+      {
+        mode: 'cors',
+        headers: {
+          //Authorization: "Bearer eyJhbGciOiJLTVNFUzI1Ni...",
+        },
+      }
+    )
+    console.log('balances', balances)
   },
 };
 </script>

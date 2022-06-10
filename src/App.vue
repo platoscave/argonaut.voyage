@@ -8,6 +8,7 @@
         @click="dialogVisible = true"
       ></i>
       <el-select
+        v-if="networkUserObj"
         class="ar-left-align"
         size="mini"
         placeholder="Select Network"
@@ -17,12 +18,13 @@
         <el-option
           v-for="network in networks"
           :key="network"
-          :label="network"
+          :label="network.name"
           :value="network"
         >
         </el-option>
       </el-select>
       <el-select
+        v-if="networkUserObj"
         class="ar-left-align"
         size="mini"
         placeholder="Select User"
@@ -68,6 +70,7 @@ import { liveQuery } from "dexie";
 import networks from "./config/networks.js";
 import SettingsDlg from "./components/SettingsDlg.vue";
 import Layout from "./components/Layout.vue";
+import DfuseServices from "./services/dfuseServices.js"
 
 export default {
   name: "App",
@@ -107,32 +110,37 @@ export default {
         currentUserId: currentUserId,
       });
     },
-    async saveChanges() { 
+    async saveChanges() {
       try {
-        await EosServices.saveChanges()
+        await EosServices.saveChanges();
         this.$message({
           message: "Updates sent to EOS",
           type: "success",
         });
       } catch (err) {
         this.$message({ message: err, type: "error", duration: 0 });
-        throw err
+        throw err;
       }
     },
-    async cancelChanges() { 
+    async cancelChanges() {
       try {
-        await EosServices.cancelChanges()
+        await EosServices.cancelChanges();
         this.$message({
           message: "Changes Rolledback",
           type: "success",
         });
       } catch (err) {
         this.$message({ message: err, type: "error", duration: 0 });
-        throw err
+        throw err;
       }
     },
   },
 
+  created: async function() {
+    
+    const client = await DfuseServices.startWatch()
+    console.log(client)
+  },
   mounted: async function() {
     // If argonautdb is not filled yet, populate it from the static file
     const count = await db.state.count();

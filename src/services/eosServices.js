@@ -84,11 +84,11 @@ class EosApiService {
       account: 'argonautvoya',
       name: 'upsert',
       authorization: [{
-        actor: currentUserId,
+        actor: 'argonautvoya',
         permission: 'active'
       }],
       data: {
-        username: currentUserId,
+        username: 'argonautvoya',
         key: document._id,
         classId: document.classId ? document.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
         supperClassId: document.supperClassId ? document.supperClassId : 'aaaaaaaaaaaaa',
@@ -105,12 +105,14 @@ class EosApiService {
     const response = await fetch("argonautdb.json");
     const argonautArr = await response.json();
     this.sendUpsertBatches(argonautArr, $message)
+
+    //this.upsertDocument(argonautArr[0])
   }
 
   static async sendUpsertBatches(argonautArr, $message) {
 
-    let networkUserObj = await db.settings.get("application")
-    let currentUserId = networkUserObj.currentUserId
+    //let networkUserObj = await db.settings.get("application")
+    //let currentUserId = networkUserObj.currentUserId
 
     const upsertActions = tenDocs => {
       return tenDocs.map(item => {
@@ -118,11 +120,11 @@ class EosApiService {
           account: 'argonautvoya',
           name: 'upsert',
           authorization: [{
-            actor: currentUserId,
+            actor: 'argonautvoya',
             permission: 'active'
           }],
           data: {
-            username: currentUserId,
+            username: 'argonautvoya',
             key: item._id,
             classId: item.classId ? item.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
             supperClassId: item.supperClassId ? item.supperClassId : 'aaaaaaaaaaaaa',
@@ -206,10 +208,10 @@ class EosApiService {
       table: 'argonautvoya',      // Table name
       index_position: index,      // Table index
       lower_bound: keyValue,      // Table key value
+      upper_bound: upperBound,    // must be numericlly equal to key plus one
       //limit: 1,                 // Here we limit to 1 to get only row
       reverse: false,             // Optional: Get reversed data
       show_payer: false,          // Optional: Show ram payer,
-      upper_bound: upperBound     // must be numericlly equal to key plus one
     })
 
     return rowsArr.rows.map(row => JSON.parse(row.document))
@@ -280,10 +282,11 @@ class EosApiService {
 
     const addAccount = async actionArr => {
       // buyrambytes and delegatebw only needed when the eos system contract is running
-      actionArr.splice(1, 2)
+      // actionArr.splice(1, 2)
       try {
         await takeAction(actionArr)
-        $message({ message: actionArr[0].data.name + ' Added', type: "succes" });
+        console.info('Added', actionArr[0].data.name)
+        $message({ message: actionArr[0].data.name + ' Added', type: "success" });
       } catch (err) {
         if (err.includes("as that name is already taken")) $message({ message: actionArr[0].data.name + ' Already added', type: "success" });
         else {
@@ -309,6 +312,8 @@ class EosApiService {
       promisesArr.push(addAccount(actionArr))
     })
     await Promise.all(promisesArr)
+
+    //addAccount(accountActionsArr[13])
     console.log('accounts added')
 
   }
@@ -344,7 +349,7 @@ class EosApiService {
     for await (const updatedObj of updatedObjectsArr) {
       // Set causedBy in UpdatedObects so that The Dexie observer knows we caused this update, not the user
       // The observer will respond by deleteing this record rather then putting a new one
-      await db.updatedObjects.update(updatedObj._id, {causedBy: 'cancelChanges'})
+      await db.updatedObjects.update(updatedObj._id, { causedBy: 'cancelChanges' })
       const document = await this.getDocumentByKey(updatedObj._id)
       // EOS is leading. Do whatever it says.
       if (document) await db.state.put(document)
@@ -357,27 +362,196 @@ class EosApiService {
 
 
   //////////////////////////////////////////////////////////
+  // Update active permission
+  //////////////////////////////////////////////////////////
+  static async addActivePermission(actor) {
+
+    //TODO must retrieve account to merge existing
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+    const actions = [{
+      account: 'eosio',
+      name: 'updateauth',
+      authorization: [{
+        actor: currentUserId,
+        permission: 'active',
+      }],
+      data: {
+        account: currentUserId,
+        permission: 'active',
+        parent: 'owner',
+        auth: {
+          threshold: 1,
+          accounts: [{
+            permission: {
+              actor: actor,
+              permission: 'active'
+            },
+            weight: 1
+          }],
+          keys: [],
+          waits: []
+        }
+      },
+    }]
+
+    const result = await takeAction(actions)
+    //console.log(result)
+
+
+    const printTraces = result => {
+      console.log(result.console)
+      if (result.inline_traces.length) printTraces(result.inline_traces[0])
+    }
+
+
+    printTraces(result.processed.action_traces[0])
+
+
+    return result
+
+  }
+
+
+
+
+
+  //////////////////////////////////////////////////////////
+  // Transfer
+  //////////////////////////////////////////////////////////
+  static async transfer(to) {
+
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+    const actions = [{
+      account: 'eosio.token',
+      name: 'transfer',
+      authorization: [{
+        actor: currentUserId,
+        permission: 'active',
+      }],
+      data: {
+        from: currentUserId,
+        to: to,
+        quantity: '8.0000 EOS',
+        memo: 'some memo'
+      }
+    }]
+
+    const result = await takeAction(actions)
+    //console.log(result)
+
+
+    const printTraces = result => {
+      console.log(result.console)
+      if (result.inline_traces.length) printTraces(result.inline_traces[0])
+    }
+
+
+    printTraces(result.processed.action_traces[0])
+
+
+    return result
+
+  }
+
+
+
+
+  //////////////////////////////////////////////////////////
+  // Buyrambytes Doesn't work
+  //////////////////////////////////////////////////////////
+  static async buyrambytes() {
+
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+    const actions = [{
+      "account": "eosio",
+      "name": "buyrambytes",
+      "authorization": [
+          {
+              "actor": currentUserId,
+              "permission": "active"
+          }
+      ],
+      "data": {
+          "payer": currentUserId,
+          "receiver": "argonautvoya",
+          "bytes": 500000
+      }
+    }]
+
+    const result = await takeAction(actions)
+    //console.log(result)
+
+
+    const printTraces = result => {
+      console.log(result.console)
+      if (result.inline_traces.length) printTraces(result.inline_traces[0])
+    }
+
+
+    printTraces(result.processed.action_traces[0])
+
+
+    return result
+
+  }
+
+
+
+  //////////////////////////////////////////////////////////
   // Test
   //////////////////////////////////////////////////////////
-  static async testEos(testObject) {
+  static async testEos() {
 
-    /*     const high = new BigNumber('18446744073709551616')
-        debugger
-        console.log(high.toString())
-        const upperBound = decodeName(0, false)
-        console.log(upperBound)
-    
-    return */
+
+    let networkUserObj = await db.settings.get('application')
+    let currentUserId = networkUserObj.currentUserId
+
+
+    const actions = [{
+      account: 'eosio',
+      name: 'updateauth',
+      authorization: [{
+        actor: 'argonautvoya',
+        permission: 'active',
+      }],
+      data: {
+        account: 'argonautvoya',
+        permission: 'active',
+        parent: 'owner',
+        auth: {
+          threshold: 1,
+          accounts: [],
+          "keys": [
+              {
+                  "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
+                  "weight": 1
+              }
+          ],
+          waits: []
+        }
+      },
+    }]
+
     const printTraces = result => {
       console.log(result.console)
       if (result.inline_traces.length) printTraces(result.inline_traces[0])
     }
 
     //const document = await db.state.get('ikjyhlqewxs3')
+    const result = await takeAction(actions)
 
-    const result = await this.upsertDocument(testObject)
+    //const result = await this.upsertDocument(testObject)
 
-    console.log('results')
+    console.log(result)
     printTraces(result.processed.action_traces[0])
 
 

@@ -55,7 +55,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "argonautvoya",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -70,8 +70,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "argonautvoya",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -134,7 +134,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "bikeshop1111",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -149,8 +149,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "bikeshop1111",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -213,7 +213,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "clinic111111",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -228,8 +228,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "clinic111111",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -261,13 +261,16 @@
                 "name": "demouser1113",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -295,7 +298,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1113",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -310,8 +313,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1113",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -331,13 +334,16 @@
                 "name": "demouser1124",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -365,7 +371,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1124",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -380,8 +386,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1124",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -401,13 +407,16 @@
                 "name": "demouser1125",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -435,7 +444,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1125",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -450,8 +459,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1125",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -471,13 +480,16 @@
                 "name": "demouser1111",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -505,7 +517,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1111",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -520,8 +532,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1111",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -541,13 +553,16 @@
                 "name": "demouser1115",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -575,7 +590,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1115",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -590,8 +605,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1115",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -611,13 +626,16 @@
                 "name": "demouser1121",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -645,7 +663,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1121",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -660,8 +678,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1121",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -681,13 +699,16 @@
                 "name": "demouser1122",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -715,7 +736,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1122",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -730,8 +751,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1122",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -751,13 +772,16 @@
                 "name": "demouser1123",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -785,7 +809,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1123",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -800,8 +824,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1123",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -821,13 +845,16 @@
                 "name": "demouser1112",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -855,7 +882,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1112",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -870,8 +897,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1112",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -891,13 +918,16 @@
                 "name": "demouser1114",
                 "owner": {
                     "threshold": 1,
-                    "keys": [
+                    "accounts": [
                         {
-                            "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
+                            "permission": {
+                                "actor": "currentUserId",
+                                "permission": "owner"
+                            },
                             "weight": 1
                         }
                     ],
-                    "accounts": [],
+                    "keys": [],
                     "waits": []
                 },
                 "active": {
@@ -925,7 +955,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "demouser1114",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -940,8 +970,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "demouser1114",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -978,21 +1008,7 @@
                     "accounts": [
                         {
                             "permission": {
-                                "actor": "demouser1121",
-                                "permission": "active"
-                            },
-                            "weight": 1
-                        },
-                        {
-                            "permission": {
-                                "actor": "demouser1125",
-                                "permission": "active"
-                            },
-                            "weight": 1
-                        },
-                        {
-                            "permission": {
-                                "actor": "demouser1115",
+                                "actor": "demouser1122",
                                 "permission": "active"
                             },
                             "weight": 1
@@ -1015,7 +1031,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "clinconsulti",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -1030,8 +1046,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "clinconsulti",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -1091,7 +1107,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "clinreceptio",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -1106,8 +1122,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "clinreceptio",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -1174,7 +1190,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "bikefrondesk",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -1189,8 +1205,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "bikefrondesk",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }
@@ -1264,7 +1280,7 @@
             "data": {
                 "payer": "currentUserId",
                 "receiver": "bikeworkshop",
-                "bytes": 2000
+                "bytes": 3000
             }
         },
         {
@@ -1279,8 +1295,8 @@
             "data": {
                 "from": "currentUserId",
                 "receiver": "bikeworkshop",
-                "stake_net_quantity": "1.0000 SYS",
-                "stake_cpu_quantity": "1.0000 SYS",
+                "stake_net_quantity": "1.0000 EOS",
+                "stake_cpu_quantity": "1.0000 EOS",
                 "transfer": false
             }
         }

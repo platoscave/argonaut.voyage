@@ -27,27 +27,23 @@ module.exports = {
     publicKey: 'EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o',
     privateKey: '5JrhfDTSZd8CSBEaxkPVjbyVYe9jmtM4iCXrV37t59iLU2VsjdG'
   },
-  demouser1116: {
+  demouser1121: {
     publicKey: 'EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3',
     privateKey: '5JRftZgwPf3FUxgujHWPwQAnmrg4vGpSUahAm89gPYcFtzniyVo'
   },
-  demouser1117: {
+  demouser1122: {
     publicKey: 'EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp',
     privateKey: '5J5yHQKxfzi654arnAqVdWu3bXVi1DsGcK6ghLbfhYiZ4w8gdzV'
   },
-  demouser1118: {
+  demouser1123: {
     publicKey: 'EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu',
     privateKey: '5Keg5wKRqX8tgE7Dyih71gVnALB8KixXKYtCbMe7YssvJUD2GHi'
   },
-  demouser1119: {
+  demouser1124: {
     publicKey: 'EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC',
     privateKey: '5KTsQ9hpGHsorv85DZHY4p6nRkEQSvqLses97oiVzUKfYdXzmGg'
   },
-  demouser1121: {
-    publicKey: 'EOS67NmTYVw7JxxZbWrtyq1S8uALZQBf8Z5VVSjSsboEy86sSi8xV',
-    privateKey: '5JztSsYyTD5TXLTjXkmFEzUaEADZ6KJCVPt3zaFdzGafLUiB3dB'
-  },
-  demouser1122: {
+  demouser1125: {
     publicKey: 'EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s',
     privateKey: '5KTr3p8n86cdBXw7KRgcYBtqrnXK1ZVi4VDh13fWeNRdJgtCTFA'
   }
