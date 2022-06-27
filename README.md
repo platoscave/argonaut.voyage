@@ -1,4 +1,4 @@
-# argonaut.one
+# argonaut.voyage
 
 ## Project setup
 ```
