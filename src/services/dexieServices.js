@@ -1,8 +1,9 @@
 // db.js
 import Dexie from 'dexie';
 import { liveQuery } from "dexie";
-import { defer, of, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators'
+import { useSubscription } from '@vueuse/rxjs'
+//import { defer, of, from } from 'rxjs';
+//import { map, switchMap } from 'rxjs/operators'
 import jp from "jsonpath"
 import 'dexie-observable'; // Not rxjs observable. This is used to monitor changes.
 

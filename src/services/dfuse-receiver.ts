@@ -1,4 +1,4 @@
-import { db } from "../services/dexieServices";
+import { db } from "./dexieServices";
 import { createDfuseClient, GraphqlStreamMessage, Stream } from "@dfuse/client";
 import * as fs from "fs";
 import nodeFetch from "node-fetch";
@@ -6,7 +6,7 @@ import WebSocketClient from "ws";
 import { performance } from "perf_hooks";
 
 //import { dfuseConfig, subchainConfig } from "../config";
-import networks from '../config/networks.js'
+import networks from '../config/networks.js.js'
 
 import { Storage } from "../subchain-storage";
 import logger from "../logger";

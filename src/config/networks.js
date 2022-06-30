@@ -2,7 +2,7 @@
 // Telos endpoits: https://docs.telos.net/essentials
 // dFuse endpoints: https://docs.dfuse.eosnation.io/eosio/public-apis/reference/network-endpoints/
 
-module.exports = {
+export default {
     sandbox: { name: 'Sandbox' },
     localhost: {
         name: 'localhost',
