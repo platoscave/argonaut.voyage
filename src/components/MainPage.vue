@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
+import useLiveQuery from "../lib/useLiveQuery";
 //import EosServices from "~/services/eosServices";
 import { liveQuery } from "dexie";
 import { useSubscription } from '@vueuse/rxjs'
@@ -10,15 +11,33 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { ElMessage } from 'element-plus'
 
 let dialogVisible = ref(false);
-let networkUserObj = reactive({});
-let updatedObjectsCount = ref(true)
 
-let users = ref({})
-//let users = useSubscription( liveQuery(() => db.settings.get("application")))
+// we have a single record in settings db that holds the current network and userid
+interface networkUserRec {
+  currentNetwork: string
+  currentUserId: string
+  pageId: string
+}
+let networkUserObj = useLiveQuery<networkUserRec>(
+  () => db.settings.get("application"), []
+)
 
+//get all objects of type users
+interface userRec {
+  _id: string
+  name: string
+}
+const users = useLiveQuery<userRec>(
+  () => db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name"), []
+)
 
+// We use the count of updatedObjects to dis/enable cancel save buttons
+const updatedObjectsCount = useLiveQuery<number>(
+  () => db.updatedObjects.count(), []
+)
 
 const updateCurrentNetwork = async (currentNetwork) => {
+  debugger
   await db.settings.update("application", {
     currentNetwork: currentNetwork,
   });
@@ -59,25 +78,6 @@ const cancelChanges = async () => {
   }
 };
 
-// useSubscription call unsubscribe method before unmount the component
-// useSubscription(
-//   interval(1000)
-//     .subscribe(() => {
-//       count.value++
-//       console.log(count)
-//     }),
-// )
-useSubscription(
-  liveQuery(() => db.settings.get("application")).subscribe((result) => {
-    //console.log('hi')
-    networkUserObj.value = result
-  })
-)
-      // users: liveQuery(() =>
-      //   db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name")
-      // ),
-      // updatedObjectsCount: liveQuery(() => db.updatedObjects.count()),
-      // networkUserObj: liveQuery(() => db.settings.get("application")),
 
 
 onMounted( async () => {
@@ -124,14 +124,14 @@ onMounted( async () => {
         size="small"
         placeholder="Select Network"
         :model-value="networkUserObj.currentNetwork"
-        @input="updateCurrentNetwork"
+        @change="updateCurrentNetwork"
       >
 
         <el-option
           v-for="network in networks"
           :key="network"
           :label="network.name"
-          :value="network"
+          :value="network.name"
         >
 
         </el-option>
@@ -143,15 +143,15 @@ onMounted( async () => {
         class="ar-left-align"
         size="small"
         placeholder="Select User"
-        :value="networkUserObj.currentUserId"
-        @input="updateCurrentUser"
+        :model-value="networkUserObj.currentUserId"
+        @change="updateCurrentUser"
       >
 
         <el-option
-          v-for="user in users"
-          :key="user._id"
-          :label="user.name"
-          :value="user._id"
+          v-for="userObj in users"
+          :key="userObj._id"
+          :label="userObj.name"
+          :value="userObj._id"
         >
 
         </el-option>

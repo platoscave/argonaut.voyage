@@ -46,7 +46,7 @@ db.on('changes', function (changes) {
             if (!found) db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
             break;
           case 3: // DELETED
-            if (found.action === 'created') db.updatedObjects.delete(change.key)
+            if (found && found.action === 'created') db.updatedObjects.delete(change.key)
             else db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
             break;
         }
