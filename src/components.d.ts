@@ -5,19 +5,22 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    App: typeof import('./components/MainPage.vue')['default']
     BalanceSheet: typeof import('./components/widgets/BalanceSheet.vue')['default']
     Calendar: typeof import('./components/widgets/Calendar.vue')['default']
     CashFlows: typeof import('./components/widgets/CashFlows.vue')['default']
     ClassModel: typeof import('./components/widgets/ClassModel.vue')['default']
     Document: typeof import('./components/widgets/Document.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCalendar: typeof import('element-plus/es')['ElCalendar']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTree: typeof import('element-plus/es')['ElTree']
     FormArray: typeof import('./components/widgets/controls/FormArray.vue')['default']
     Image: typeof import('./components/widgets/controls/Image.vue')['default']
     IncomeStatement: typeof import('./components/widgets/IncomeStatement.vue')['default']

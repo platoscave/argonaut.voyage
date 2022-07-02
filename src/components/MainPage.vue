@@ -3,14 +3,15 @@ import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "../lib/useLiveQuery";
 //import EosServices from "~/services/eosServices";
-import { liveQuery } from "dexie";
-import { useSubscription } from '@vueuse/rxjs'
-import { interval } from 'rxjs'
+// import { liveQuery } from "dexie";
+// import { useSubscription } from '@vueuse/rxjs'
+// import { interval } from 'rxjs'
 import networks from "~/config/networks.js";
 import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { ElMessage } from 'element-plus'
 
-let dialogVisible = ref(false);
+const dialogVisible = ref(false);
+const settingsDlg = ref(null)
 
 // we have a single record in settings db that holds the current network and userid
 interface networkUserRec {
@@ -81,9 +82,9 @@ const cancelChanges = async () => {
 
 
 onMounted( async () => {
-      // If argonautdb is not filled yet, populate it from the static file
-    //const count = await db.state.count();
-    //if (!count) await this.$refs["settingsDlg"].populateFromStatic();
+    // If argonautdb is not filled yet, populate it from the static file
+    const count = await db.state.count();
+    if (!count) await settingsDlg.value.populateFromStatic();
 
     // See if we can get app settings from the last time we visited this page
     const networkUserObj = await db.settings.get("application");
@@ -103,8 +104,8 @@ onMounted( async () => {
 
   <div id="app">
 
-    <!--<ar-layout class="ar-main" :hash-level="0"></ar-layout>-->
-    <div class="ar-main" ></div>
+     <Layout class="ar-main" :hash-level="0"></Layout> 
+   <!-- <div class="ar-main" ></div>-->
 
     <div class="ar-footer">
 
@@ -192,7 +193,7 @@ onMounted( async () => {
 </template>
 
 <style>
-#app {
+#appX {
   text-align: center;
   color: var(--ep-text-color-primary);
 }
@@ -215,7 +216,7 @@ onMounted( async () => {
   border-top-style: solid;
   height: 39px;
 }
-.ep-select {
+.el-select {
   width: 175px;
 }
 .el-select >>> .el-input__inner {
