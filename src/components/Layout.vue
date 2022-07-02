@@ -1,15 +1,81 @@
+<script setup lang="ts">
+import { ref, reactive, onMounted } from "vue";
+import { db } from "~/services/dexieServices";
+import useLiveQuery from "../lib/useLiveQuery";
+import { useHashDissect } from '../composables/useHashDissect.js'
+//import WidgetMixin from "../lib/widgetMixin";
+//import ResSplitPane from "vue-resize-split-pane";
+// import Studio from "./StudioLayout";
+// import ClassModel from "./widgets/ClassModel.vue";
+// import ProcessModel from "./widgets/ProcessModel.vue";
+
+const props = defineProps({
+  hashLevel: Number,
+});
+let layoutSettings = reactive({
+  paneSize: 200,
+  leftSize: 300,
+  rightSize: 300,
+});
+const { selectedObjId, pageId, selectedTab, nextLevelSelectedObjId, nextLevelPageId } = useHashDissect()
+
+interface pageRec {
+  _id: string;
+  name: string;
+  divider: string;
+  tabs: object;
+}
+const pageObj = useLiveQuery<pageRec>(
+  () => db.state.where({ _id: pageId.value }).first(),
+  [pageId]
+);
+
+const paneResizeStop = async (paneSize) => {
+  layoutSettings.paneSize = paneSize;
+  await db.settings.update(pageId.value, {
+    layoutSettings: layoutSettings,
+  });
+};
+const leftSizeStop = async (leftSize) => {
+  layoutSettings.leftSize = leftSize;
+  await db.settings.update(pageId.value, {
+    layoutSettings: layoutSettings,
+  });
+};
+const rightSizeStop = async (rightSize) => {
+  layoutSettings.rightSize = rightSize;
+  await db.settings.update(pageId.value, {
+    layoutSettings: layoutSettings,
+  });
+};
+
+onMounted(async () => {
+  if (pageId.value) {
+    const pageSettings = await db.settings.get(pageId.value);
+    if (pageSettings) {
+      if (pageSettings.layoutSettings)
+        layoutSettings = pageSettings.layoutSettings;
+    } else await db.settings.add({ pageId: pageId.value });
+  }
+});
+</script>
+
 <template>
+
   <div v-if="pageObj">
+
     <!-- Single page layout -->
-    <ar-page
+
+    <!-- <Page
       v-if="!pageObj.divider || pageObj.divider === 'None'"
       class="ar-full-height"
       v-bind:hash-level="hashLevel"
       v-bind:tabs="pageObj.tabs"
-    ></ar-page>
+    ></Page> -->
 
     <!-- Divider layout -->
-    <rs-panes
+
+    <!-- <rs-panes
       v-else-if="
         pageObj.divider === 'Vertical' || pageObj.divider === 'Horizontal'
       "
@@ -20,24 +86,29 @@
       :min-size="40"
       resizerColor="#2196f3"
     >
-      <!-- Master content -->
-      <ar-page
+
+      < !-- Master content -- >
+
+      <Page
         class="ar-full-height"
         slot="firstPane"
         v-bind:hash-level="hashLevel"
         v-bind:tabs="pageObj.tabs"
-      ></ar-page>
+      ></Page>
 
-      <!-- Slave content -->
-      <ar-layout
+      < !-- Slave content -- >
+
+      <Layout
         class="ar-full-height right"
         slot="secondPane"
         v-bind:hash-level="hashLevel + 1"
-      ></ar-layout>
-    </rs-panes>
+      ></Layout>
+
+    </rs-panes> -->
 
     <!-- Studio layout -->
-    <ar-studio
+
+    <!-- <StudioLayout
       class="ar-full-height"
       v-else
       v-on:leftsize="leftSizeStop"
@@ -45,48 +116,53 @@
       v-bind:left-size="layoutSettings.leftSize"
       v-bind:right-size="layoutSettings.rightSize"
     >
-      <!-- Background content -->
+
+      < !-- Background content -->
+
       <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
-            It's almost like we need a second pageId-->
-      <ar-class-model
+            It's almost like we need a second pageId-- >
+
+      <ClassModel
         v-if="pageObj.divider === 'Class Model'"
         slot="diagram"
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
         v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-class-model>
-      <ar-process-model
+      ></ClassModel>
+
+      <ProcessModel
         v-else-if="pageObj.divider === 'Process Model'"
         slot="diagram"
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
         v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-process-model>
-      <ar-organization-model
-        v-else-if="pageObj.divider === 'Organization'"
-        slot="diagram"
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ar-organization-model>
+      ></ProcessModel>
 
-      <!-- Master content -->
-      <ar-page
+
+      < !-- Master content -- >
+
+      <Page
         slot="drawer-left"
         class="ar-full-height"
         v-bind:hash-level="hashLevel"
         v-bind:tabs="pageObj.tabs"
-      ></ar-page>
-      <!-- Slave content -->
-      <ar-layout
+      ></Page>
+
+      < !-- Slave content -- >
+
+      <Layout
         slot="drawer-right"
         class="ar-full-height right"
         v-bind:hash-level="hashLevel + 1"
-      ></ar-layout>
-    </ar-studio>
+      ></Layout>
+
+    </StudioLayout> -->
+
   </div>
+
 </template>
 
+<!--
 <script>
 import { db } from "../services/dexieServices";
 import { liveQuery } from "dexie";
@@ -174,6 +250,9 @@ export default {
   },
 };
 </script>
+
+-->
+
 <style scoped>
 /* Split pane */
 .right > div {
@@ -183,3 +262,4 @@ export default {
   position: unset;
 }
 </style>
+
