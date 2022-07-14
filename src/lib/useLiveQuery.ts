@@ -14,6 +14,7 @@ export default function useLiveQuery<T>(
     options?: UseObservableOptions,
 ): Readonly<Ref<T>> {
     const value = ref<T | undefined>();
+    console.log('querier',querier, deps)
     const observable = liveQuery<T>(querier);
     let subscription = observable.subscribe({
         next: (val) => {

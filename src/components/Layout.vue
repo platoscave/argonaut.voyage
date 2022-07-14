@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
-import { db } from "~/services/dexieServices";
+import { ref, reactive, onMounted, computed, toRefs } from "vue";
+import { db } from "../services/dexieServices";
 import useLiveQuery from "../lib/useLiveQuery";
-import { useHashDissect } from '../composables/useHashDissect.js'
+import { useHashDissect } from "../composables/useHashDissect";
+import { Splitpanes, Pane } from "splitpanes";
+import "splitpanes/dist/splitpanes.css";
 //import WidgetMixin from "../lib/widgetMixin";
 //import ResSplitPane from "vue-resize-split-pane";
 // import Studio from "./StudioLayout";
 // import ClassModel from "./widgets/ClassModel.vue";
 // import ProcessModel from "./widgets/ProcessModel.vue";
 
+
 const props = defineProps({
   hashLevel: Number,
-});
-let layoutSettings = reactive({
-  paneSize: 200,
-  leftSize: 300,
-  rightSize: 300,
-});
-const { selectedObjId, pageId, selectedTab, nextLevelSelectedObjId, nextLevelPageId } = useHashDissect()
+})
+
+let splitterSettings = reactive([20, 80]);
+
+const { pageId } = useHashDissect(props.hashLevel);
 
 interface pageRec {
   _id: string;
@@ -25,27 +26,16 @@ interface pageRec {
   divider: string;
   tabs: object;
 }
+
 const pageObj = useLiveQuery<pageRec>(
-  () => db.state.where({ _id: pageId.value }).first(),
+  () => db.state.get(pageId.value),
   [pageId]
 );
 
-const paneResizeStop = async (paneSize) => {
-  layoutSettings.paneSize = paneSize;
-  await db.settings.update(pageId.value, {
-    layoutSettings: layoutSettings,
-  });
-};
-const leftSizeStop = async (leftSize) => {
-  layoutSettings.leftSize = leftSize;
-  await db.settings.update(pageId.value, {
-    layoutSettings: layoutSettings,
-  });
-};
-const rightSizeStop = async (rightSize) => {
-  layoutSettings.rightSize = rightSize;
-  await db.settings.update(pageId.value, {
-    layoutSettings: layoutSettings,
+const onResized = (splitterSettingsArr) => {
+  console.log("splitterSettings", splitterSettingsArr);
+  db.settings.update(pageId.value, {
+    splitterSettings: splitterSettingsArr.map((item) => item.size),
   });
 };
 
@@ -53,17 +43,15 @@ onMounted(async () => {
   if (pageId.value) {
     const pageSettings = await db.settings.get(pageId.value);
     if (pageSettings) {
-      if (pageSettings.layoutSettings)
-        layoutSettings = pageSettings.layoutSettings;
+      if (pageSettings.splitterSettings)
+        splitterSettings = pageSettings.splitterSettings;
     } else await db.settings.add({ pageId: pageId.value });
   }
 });
 </script>
 
 <template>
-
   <div v-if="pageObj">
-
     <!-- Single page layout -->
 
     <!-- <Page
@@ -74,6 +62,13 @@ onMounted(async () => {
     ></Page> -->
 
     <!-- Divider layout -->
+
+    <splitpanes style="height: 100%" @resized="onResized">
+      <pane min-size="20" :size="splitterSettings[0]">
+        <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
+      </pane>
+      <pane :size="splitterSettings[1]">5</pane>
+    </splitpanes>
 
     <!-- <rs-panes
       v-else-if="
@@ -119,7 +114,7 @@ onMounted(async () => {
 
       < !-- Background content -->
 
-      <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
+    <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
             It's almost like we need a second pageId-- >
 
       <ClassModel
@@ -157,9 +152,7 @@ onMounted(async () => {
       ></Layout>
 
     </StudioLayout> -->
-
   </div>
-
 </template>
 
 <!--
@@ -253,13 +246,24 @@ export default {
 
 -->
 
-<style scoped>
+<style>
 /* Split pane */
-.right > div {
-  height: 100%;
+.Xsplitpanes__pane {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Helvetica, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 5em;
 }
-.pane-rs {
-  position: unset;
+
+.splitpanes--vertical > .splitpanes__splitter {
+  min-width: 3px;
+  background: linear-gradient(90deg, #ccc, #111);
+}
+
+.splitpanes--horizontal > .splitpanes__splitter {
+  min-height: 3px;
+  background: linear-gradient(0deg, #ccc, #111);
 }
 </style>
-

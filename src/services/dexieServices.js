@@ -15,7 +15,8 @@ db.version(1).stores({
   settings: 'pageId'
 });
 
-// Add hooks 
+// Add create hook
+// Generate random key. Will be ignored if one is supplied 
 db.state.hook("creating", function (primKey, obj, transaction) {
   // Return random key
   const characters = "abcdefghijklmnopqrstuvwxyz12345";
@@ -28,7 +29,8 @@ db.state.hook("creating", function (primKey, obj, transaction) {
   return randomKey
 })
 
-
+// Add change hook. 
+// Keep track of changes so we can sync all at once
 db.on('changes', function (changes) {
   changes.forEach(async function (change) {
     if (change.table === "state") {
@@ -277,6 +279,7 @@ export class argoQuery {
     // Get the view
     const viewObj = await db.state.get(viewId)
 
+    // No baseClassId provided, simply return viewObj
     if (!viewObj.baseClassId) return viewObj
 
     const mergedAncestorProperties = await this.getMergedAncestorProperties(viewObj.baseClassId)

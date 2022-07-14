@@ -104,8 +104,8 @@ onMounted( async () => {
 
   <div id="app">
 
-     <Layout class="ar-main" :hash-level="0"></Layout> 
-   <!-- <div class="ar-main" ></div>-->
+    <Layout class="ar-main" :hash-level="0"></Layout> 
+    <!-- <div class="ar-main" ></div>-->
 
     <div class="ar-footer">
 
@@ -185,7 +185,7 @@ onMounted( async () => {
     </div>
 
    
-    <settings-dlg ref="settingsDlg" v-model="dialogVisible"> </settings-dlg>
+    <SettingsDlg ref="settingsDlg" v-model="dialogVisible"> </SettingsDlg>
 
 
   </div>
