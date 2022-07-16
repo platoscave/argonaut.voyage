@@ -755,17 +755,30 @@
     "classIcon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NUEzQUFDMTYxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NUEzQUFDMTcxMDhEMTFFMzkwNDQ4NUQ1MkZFMjQ0OTciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1QTNBQUMxNDEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1QTNBQUMxNTEwOEQxMUUzOTA0NDg1RDUyRkUyNDQ5NyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpD5Z40AAAHySURBVHjajJNRa1MxFMf/yc2USYsDVzbnupeCDz6OTmtvsW4vgjKtoqBFwYJ+i734vA8xFN/6YLu2K+vGNhl70TF9EfsFXEGQglbr1ptkSW7TVrStBy7JPSfnf345ScjynZU9IURcSgw0SgBC6R6lJNHrZ9wT8Rs3ZyGVAiGkv4BDsL524OpCveuY94uj1fRQqXyAhI7+naxdOok6VBUiklL6RpHcMwKzS1OYW4iilH+HxQcxaPF+JL6IIblrSZjX5CbYUiT8N8fG5se+JFbEUQ1RGFIR5Zj08xF9cQGXb82htPoet+9fsdwDmkpQWTtIMesQR8KMZ84zHP9sYXe3CkpJuwddIU0nhMS15CWMTo6AdSMEzaMmLj4J4epiDJHvEVNFWgHSUQAXAhNnQ/hW+QpmG6Y6a4Li2CdZzeaQTM7j3Pg4qp8/wdwTv3PmyCfcELiipo1GY6dYLMJxnD9QHz56jLc72zg1chqHX2pw4y5cN2HG2mHNh1FbYel0+pmajxUKhX0j0iZ6/eolnmYyptp0OIxsNtsRn56Z6Z5KuVw2k3q9vhUMBuc9z0MqlQLnXDVLdLbXeze0qC6Wz+e7TVQkzzWJcu7rf71AfwPfhxa2BNYUyXYgELhuqw9MJuTHv25KRJPg/4wTOewdD7ETAQYAteK9N9YYuvoAAAAASUVORK5CYII=",
     "superClassId": "nrioirgelhpi",
     "properties": {
-      "divider": {
-        "default": "None",
+      "layout": {
         "enum": [
-          "None",
+          "Page",
+          "Master Detail",
+          "Studio"
+        ],
+        "title": "Layout",
+        "type": "string"
+      },
+      "divider": {
+        "enum": [
           "Vertical",
-          "Horizontal",
-          "Class Model",
-          "Process Model",
-          "Organization"
+          "Horizontal"
         ],
         "title": "Divider",
+        "type": "string"
+      },
+      "model": {
+        "enum": [
+          "Mind Palace ",
+          "Class Model",
+          "Process Model"
+        ],
+        "title": "Model",
         "type": "string"
       },
       "tabs": {
@@ -2661,6 +2674,7 @@
     "_id": "vwkdlll4t5vy",
     "name": "Personal Menu Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2680,6 +2694,7 @@
     "_id": "uhekisbbbjh5",
     "name": "Commercial Menu Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "bikeshop1111",
     "tabs": [
@@ -2699,6 +2714,7 @@
     "_id": "cqrfilggtxik",
     "name": "Non-profit Menu Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2718,7 +2734,8 @@
     "_id": "4lk3hxyyfac3",
     "name": "Process Umiverse Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Class Model",
+    "layout": "Studio",
+    "model": "Class Model",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2737,7 +2754,8 @@
     "_id": "dsimhnp5euui",
     "name": "Process Model Tree Page",
     "classId": "pejdgrwd5qso",
-    "divider": "Process Model",
+    "layout": "Studio",
+    "model": "Process Model",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2776,6 +2794,7 @@
     "_id": "4q5nx5ek5gww",
     "name": "Organization Model Tree Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2796,7 +2815,7 @@
     "name": "Class Details Page",
     "description": "<p>Do not remove. This is not an orphan.</p>",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "layout": "Page",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2823,7 +2842,7 @@
     "name": "Merged Ancestors Page",
     "description": "<p>Do not remove. This is not an orphan.</p>",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "layout": "Page",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2856,6 +2875,7 @@
     "_id": "kdeacjjhiaym",
     "name": "Off Balance Sheet Resources Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2909,6 +2929,7 @@
     "_id": "rctffnyuy2kn",
     "name": "Members Tree Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2946,6 +2967,7 @@
     "_id": "oa2wxqmzh44v",
     "name": "Backlog Form Page",
     "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "divider": "Vertical",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -2965,7 +2987,7 @@
     "_id": "icwqlwniw2ci",
     "name": "Income Statement Page",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "layout": "Page",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2982,7 +3004,7 @@
     "_id": "wsnkyzzdqebq",
     "name": "Balance Sheet Page",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "layout": "Page",
     "ownerId": "argonautvoya",
     "tabs": [
       {
@@ -2999,7 +3021,7 @@
     "_id": "xhxcnse1bzf5",
     "name": "Cash Flows Page",
     "classId": "pejdgrwd5qso",
-    "divider": "None",
+    "layout": "Page",
     "ownerId": "argonautvoya",
     "tabs": [
       {

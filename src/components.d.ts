@@ -11,11 +11,10 @@ declare module '@vue/runtime-core' {
     ClassModel: typeof import('./components/widgets/ClassModel.vue')['default']
     Document: typeof import('./components/widgets/Document.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCalendar: typeof import('element-plus/es')['ElCalendar']
     ElDialog: typeof import('element-plus/es')['ElDialog']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
@@ -56,7 +55,6 @@ declare module '@vue/runtime-core' {
     Validate: typeof import('./components/widgets/simpleJson/Validate.vue')['default']
     ViewForm: typeof import('./components/widgets/ViewForm.vue')['default']
     ViewTable: typeof import('./components/widgets/ViewTable.vue')['default']
-    XXNavigationMenu: typeof import('./components/widgets/XXNavigationMenu.vue')['default']
   }
 }
 

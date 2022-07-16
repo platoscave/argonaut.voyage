@@ -15,7 +15,7 @@ import {
   DoubleSide,
   ShapeGeometry
 } from 'three'
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import modelColors from '../../../config/modelColors'
 import fontJson from '../../../assets/helvetiker_regular.typeface.json'
 const font = new Font(fontJson)
@@ -65,7 +65,7 @@ export default {
     }
         
     
-    let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    let mergedGeometry = mergeBufferGeometries(geometries);
     //mergedGeometry.mergeVertices() //doesn't work
         
     const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors
@@ -135,7 +135,7 @@ export default {
       geometries.push(coneGeometry)
     }
     
-    let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    let mergedGeometry = mergeBufferGeometries(geometries);
     //mergedGeometry.mergeVertices() //doesn't work for buffer geometry
     
     const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors

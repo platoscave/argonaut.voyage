@@ -1,113 +1,119 @@
+<script setup lang="ts">
+import { ref, reactive, onMounted } from "vue";
+import { db } from "~/services/dexieServices";
+//import ClassObject3d from "./diagramObj3ds/classObj3d.js";
+import { useScene } from "~/composables/useScene";
+import { useHashDissect } from "~/composables/useHashDissect";
+import { ElMessage } from "element-plus";
+
+
+const props = defineProps({
+  hashLevel: Number,
+  viewId: String,
+});
+
+const skyboxArray = [
+  "milkyway/posx.jpg",
+  "milkyway/negx.jpg",
+  "milkyway/posy.jpg",
+  "milkyway/negy.jpg",
+  "milkyway/posz.jpg",
+  "milkyway/negz.jpg",
+];
+const selectableMeshArr: any[] = [];
+const rootEl = ref(null);
+const autoRotate = ref(false);
+
+const { selectedObjId } = useHashDissect(props.hashLevel);
+const { glModelObj3d, cssModelObj3d, cursor, loadingText } = useScene(
+  rootEl,
+  props.hashLevel,
+  skyboxArray,
+  selectableMeshArr,
+  autoRotate
+);
+
+// Tell the root class to draw itself, and each of it's subclasses, recursivily
+const drawClasses = async () => {
+  // Get the root class from the store
+
+  // Get the viewObj
+  const viewObj = await db.state.get(props.viewId);
+
+  // Execute the query
+  let resArr = await argoQuery
+    .executeQuery(viewObj.queryId)
+    .pipe(take(1))
+    .toPromise();
+
+  // Create the ClassObject3d (extends Object3d)
+  let rootClassObj3d = new ClassObject3d(resArr[0], true);
+  glModelObj3d.add(rootClassObj3d);
+  selectableMeshArr.push(rootClassObj3d.children[0]);
+
+  // Tell root class to draw the subclasses
+  await rootClassObj3d.drawSubclasses(selectableMeshArr);
+
+  // Set the x positions
+  const clidrenMaxX = rootClassObj3d.setPositionX(0);
+  rootClassObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
+
+  // important! after you set positions, otherwise obj3d matrixes will be incorrect
+  glModelObj3d.updateMatrixWorld(true);
+
+  rootClassObj3d.drawClassAssocs(glModelObj3d);
+
+  // Tell root class and its subclasses to draw the objects
+  await rootClassObj3d.drawObjects(selectableMeshArr);
+
+  // important! after you set positions, otherwise obj3d matrixes will be incorrect
+  glModelObj3d.updateMatrixWorld(true);
+
+  rootClassObj3d.drawObjectAssocs(glModelObj3d);
+
+  return rootClassObj3d;
+};
+
+onMounted(async () => {
+  loadingText("Loading...");
+
+  try {
+    // await drawClasses();
+    loadingText();
+  } catch (err) {
+    loadingText();
+    ElMessage({
+      showClose: true,
+      message: err,
+      type: "error",
+      duration: 0,
+    });
+    throw err;
+  }
+});
+</script>
+
 <template>
-  <div v-bind:style="{cursor: cursor}">
+  <div class="fab-parent">
+    <div
+      class="ar-full-height"
+      ref="rootEl"
+      v-bind:style="{ cursor: cursor }"
+    ></div>
     <el-button
       class="fab"
       icon="el-icon-refresh"
       circle
-      @click="onOrbit"
+      @click="autoRotate = !autoRotate"
     ></el-button>
   </div>
 </template>
 
-<script>
-import { db, argoQuery } from "../../services/dexieServices";
-import { take } from 'rxjs/operators';
-import ClassObject3d from "./diagramObj3ds/classObj3d.js";
-import SceneMixin from "../../lib/sceneMixin.js";
-import WidgetMixin from "../../lib/widgetMixin";
-
-export default {
-  name: "ar-class-model",
-  mixins: [SceneMixin, WidgetMixin],
-  props: {
-    hashLevel: Number,
-    viewId: String,
-  },
-  data() {
-    return {
-      selectedObjId: null,
-      skyboxArray: [
-        "milkyway/posx.jpg",
-        "milkyway/negx.jpg",
-        "milkyway/posy.jpg",
-        "milkyway/negy.jpg",
-        "milkyway/posz.jpg",
-        "milkyway/negz.jpg",
-      ]
-    }
-  },
-  methods: {
-    
-    // Tell the root class to draw itself, and each of it's subclasses, recursivily
-    async drawClasses() {
-      // Get the root class from the store
-
-      // Get the viewObj
-      const viewObj = await db.state.get(this.viewId);
-
-      // Execute the query
-      let resArr = await argoQuery.executeQuery(viewObj.queryId).pipe(take(1)).toPromise()
-
-      // Create the ClassObject3d (extends Object3d)
-      let rootClassObj3d = new ClassObject3d(resArr[0], true, this.skyBox);
-      this.glModelObject3D.add(rootClassObj3d);
-      this.selectableMeshArr.push(rootClassObj3d.children[0]);
-
-      // Tell root class to draw the subclasses
-      await rootClassObj3d.drawSubclasses(
-        this.selectableMeshArr
-      );
-
-      // Set the x positions
-      const clidrenMaxX = rootClassObj3d.setPositionX(0);
-      rootClassObj3d.translateX(-clidrenMaxX / 2); // move route obj to the center
-
-      // important! after you set positions, otherwise obj3d matrixes will be incorrect
-      this.glModelObject3D.updateMatrixWorld(true);
-
-      rootClassObj3d.drawClassAssocs(this.glModelObject3D);
-
-      // Tell root class and its subclasses to draw the objects
-      await rootClassObj3d.drawObjects(
-        this.selectableMeshArr
-      );
-
-      // important! after you set positions, otherwise obj3d matrixes will be incorrect
-      this.glModelObject3D.updateMatrixWorld(true);
-
-      rootClassObj3d.drawObjectAssocs(this.glModelObject3D);
-
-      return rootClassObj3d;
-    },
-  },
-
-  mounted: async function () {
-    // If we've been here before, assume no redraw nessesary
-    //if(this.glScene) return
-
-    this.addLoadingText();
-
-    try {
-      await this.drawClasses();
-
-      this.removeLoadingText();
-
-      if(this.nextLevelSelectedObjId) {
-        this.highlight(this.nextLevelSelectedObjId)
-        this.moveCameraToPos(this.nextLevelSelectedObjId)
-      }
-      
-    } catch (err) {
-      this.removeLoadingText();
-
-      console.error(err);
-      this.$message({ message: err, type: "error" });
-    }
-  },
-};
-</script>
-
 <style scoped>
+.fab-parent {
+  position: relative;
+  height: 100%;
+}
 .fab {
   position: absolute;
   margin: 10px;

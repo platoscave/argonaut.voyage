@@ -1,26 +1,29 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
-import { db } from "../services/dexieServices";
-import useLiveQuery from "../lib/useLiveQuery";
+import { db } from "~/services/dexieServices";
+import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect, updateHashWithSelectedTab } from "../composables/useHashDissect";
 
-// import BalanceSheet from "./widgets/BalanceSheet.vue";
-// import Calendar from "./widgets/Calendar.vue";
-// import CashFlows from "./widgets/CashFlows.vue";
-// import ClassModel from "./widgets/ClassModel.vue";
-// import Document from "./widgets/Document.vue";
-// import IncomeStatement from "./widgets/IncomeStatement.vue";
-// import MaterializedView from "./widgets/simpleJson/MaterializedView.vue";
-// import MergedAncestorsForm from "./widgets/MergedAncestorsForm.vue";
-import NavigationMenu from "./widgets/NavigationMenu.vue";
-// import PageEditor from "./widgets/PageEditor.vue";
-// import ProcessModel from "./widgets/ProcessModel.vue";
-// import Raw from "./widgets/simpleJson/Raw.vue";
-// import Tiptap from "./widgets/Tiptap.vue";
-// import Tree from "./widgets/Tree.vue";
-// import Validate from "./widgets/simpleJson/Validate.vue";
-// import ViewForm from "./widgets/ViewForm.vue";
-// import ViewTable from "./widgets/ViewTable.vue";
+// https://stackoverflow.com/questions/71627355/dynamic-components-doesnt-work-in-script-setup
+import BalanceSheet from "~/components/widgets/BalanceSheet.vue";
+import Calendar from "~/components/widgets/Calendar.vue";
+import CashFlows from "~/components/widgets/CashFlows.vue";
+import ClassModel from "~/components/widgets/ClassModel.vue";
+// import Document from "~/components/widgets/Document.vue";
+import IncomeStatement from "~/components/widgets/IncomeStatement.vue";
+// import MaterializedView from "~/components/widgets/simpleJson/MaterializedView.vue";
+// import MergedAncestorsForm from "~/components/widgets/MergedAncestorsForm.vue";
+import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
+// import PageEditor from "~/components/widgets/PageEditor.vue";
+import ProcessModel from "~/components/widgets/ProcessModel.vue";
+// import Raw from "~/components/widgets/simpleJson/Raw.vue";
+// import Tiptap from "~/components/widgets/Tiptap.vue";
+// import Tree from "~/components/widgets/Tree.vue";
+// import Validate from "~/components/widgets/simpleJson/Validate.vue";
+// import ViewForm from "~/components/widgets/ViewForm.vue";
+// import ViewTable from "~/components/widgets/ViewTable.vue";
+
+
 
 const props = defineProps({
   hashLevel: Number,
@@ -44,6 +47,20 @@ const pageObj = useLiveQuery<IPage>(
   [pageId]
 );
 
+
+
+const dynamicComp = [
+  { name: 'Balance Sheet', comp: BalanceSheet }, 
+  { name: 'Class Model', comp: ClassModel }, 
+  { name: 'Calendar', comp: Calendar }, 
+  { name: 'Cash Flows', comp: CashFlows }, 
+  { name: 'Income Statement', comp: IncomeStatement }, 
+  { name: 'Navigation Menu', comp: NavigationMenu }, 
+  { name: 'Process Model', comp: ProcessModel }, 
+]
+const getComponent = (widgetName: string) => {
+  return dynamicComp.find(item => item.name === widgetName).comp
+}
 </script>
 
 
@@ -71,13 +88,10 @@ const pageObj = useLiveQuery<IPage>(
           <!-- If there is only onle widget, then give it the full height -->
           <!-- Remove the spaces from displayType to get widgetName -->
           <component
-            :is="(widget.displayType.split(' ').join(''))"
+            :is="getComponent(widget.displayType)"
             :class="{'ar-full-height': pageObj.tabs[0].widgets.length}"
-            :display-type="widget.displayType"
             :hash-level="hashLevel"
-            :view-id="widget.viewId"
-            :menu-id="widget.menuId"
-            :widget-name="widget.name">
+            :widget-obj="widget">
           </component>
 
           </div>
@@ -101,7 +115,7 @@ const pageObj = useLiveQuery<IPage>(
         <!-- If there is only onle widget, then give it the full height -->
         <!-- Remove the spaces from displayType to get widgetName -->
         <component
-          :is="NavigationMenu"
+          :is="getComponent(widget.displayType)"
           :class="{'ar-full-height': pageObj.tabs[0].widgets.length}"
           :hash-level="hashLevel"
           :widget-obj="widget">

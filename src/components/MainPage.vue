@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
-import useLiveQuery from "../lib/useLiveQuery";
+import useLiveQuery from "~/composables/useLiveQuery";
 //import EosServices from "~/services/eosServices";
 // import { liveQuery } from "dexie";
 // import { useSubscription } from '@vueuse/rxjs'
