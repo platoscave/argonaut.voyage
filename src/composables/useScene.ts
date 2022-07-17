@@ -30,6 +30,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import fontJson from '~/assets/helvetiker_regular.typeface.json'
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
+import { useResizeObserver, useDebounceFn } from '@vueuse/core'
 
 
 // by convention, composable function names start with "use"
@@ -113,7 +114,7 @@ export function useScene(
   const fontLoader = new FontLoader()
 
   // other
-  const currentlySelectedObjProps = {}
+  let currentlySelectedObjProps = {}
   let cursor = ref('default')
   let animationFrame = 0
   let movingMouse = 'default'
@@ -133,15 +134,17 @@ export function useScene(
     if (statsOn) stats.update()
   }
 
-  const onResize = () => {
+  const onResize = useDebounceFn(() => {
     // console.log('rootEl', rootEl)
     let rect = rootEl.value.getBoundingClientRect()
-    console.log('rect', rect)
+    // console.log('rect', rect)
     camera.aspect = rect.width / rect.height
     camera.updateProjectionMatrix()
     glRenderer.setSize(rect.width, rect.height)
     cssRenderer.setSize(rect.width, rect.height)
-  }
+  }, 100)
+
+  
 
   const onClick = (event: any) => {
     // see https://threejs.org/docs/#api/core/Raycaster.setFromCamera
@@ -283,11 +286,15 @@ export function useScene(
     return roundedRectShape
   }
 
-  watch(autoRotate, (autoRotate) => {
-    //console.log('autoRotate', autoRotate)
-    controls.autoRotate = autoRotate
-  })
+  // Watchers
 
+  // watch the size of rootEl
+  useResizeObserver(rootEl, onResize)
+
+  // watch autoRotate button
+  watch(autoRotate, (autoRotate) => controls.autoRotate = autoRotate)
+
+  // watch next level SelectedObjId
   watch(nextLevelSelectedObjId, highlight)
 
 
@@ -296,7 +303,7 @@ export function useScene(
   onMounted(() => {
 
     // Anything that uses rootEl must be done in onMouted (or onBeforeUnmount)
-    // since this reactive variable is' undefined until then
+    // since this reactive variable is undefined until the mount
 
     rootEl.value.appendChild(cssRenderer.domElement)
 
@@ -310,7 +317,6 @@ export function useScene(
     rootEl.value.addEventListener('mousemove', onMouseMove, false)
     rootEl.value.addEventListener('pointerup', onMouseUp, false)
 
-    onResize()
     animate()
   })
 
@@ -327,6 +333,6 @@ export function useScene(
 
 
   return {
-    glModelObj3d, cssModelObj3d, cursor, loadingText, onResize
+    glModelObj3d, cssModelObj3d, cursor, loadingText
   }
 }

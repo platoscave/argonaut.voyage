@@ -5,20 +5,20 @@ import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect, updateHashWithSelectedTab } from "../composables/useHashDissect";
 
 // https://stackoverflow.com/questions/71627355/dynamic-components-doesnt-work-in-script-setup
-import BalanceSheet from "~/components/widgets/BalanceSheet.vue";
+import BalanceSheet from "~/components/widgets/fanancialStatements/BalanceSheet.vue";
 import Calendar from "~/components/widgets/Calendar.vue";
-import CashFlows from "~/components/widgets/CashFlows.vue";
-import ClassModel from "~/components/widgets/ClassModel.vue";
+import CashFlows from "~/components/widgets/fanancialStatements/CashFlows.vue";
+import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
 // import Document from "~/components/widgets/Document.vue";
-import IncomeStatement from "~/components/widgets/IncomeStatement.vue";
+import IncomeStatement from "~/components/widgets/fanancialStatements/IncomeStatement.vue";
 // import MaterializedView from "~/components/widgets/simpleJson/MaterializedView.vue";
 // import MergedAncestorsForm from "~/components/widgets/MergedAncestorsForm.vue";
 import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
 // import PageEditor from "~/components/widgets/PageEditor.vue";
-import ProcessModel from "~/components/widgets/ProcessModel.vue";
+import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 // import Raw from "~/components/widgets/simpleJson/Raw.vue";
 // import Tiptap from "~/components/widgets/Tiptap.vue";
-// import Tree from "~/components/widgets/Tree.vue";
+import Tree from "~/components/widgets/Tree.vue";
 // import Validate from "~/components/widgets/simpleJson/Validate.vue";
 // import ViewForm from "~/components/widgets/ViewForm.vue";
 // import ViewTable from "~/components/widgets/ViewTable.vue";
@@ -57,6 +57,7 @@ const dynamicComp = [
   { name: 'Income Statement', comp: IncomeStatement }, 
   { name: 'Navigation Menu', comp: NavigationMenu }, 
   { name: 'Process Model', comp: ProcessModel }, 
+  { name: 'Tree', comp: Tree }, 
 ]
 const getComponent = (widgetName: string) => {
   return dynamicComp.find(item => item.name === widgetName).comp

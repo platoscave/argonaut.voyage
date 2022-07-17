@@ -6,8 +6,8 @@ import { useHashDissect } from "~/composables/useHashDissect";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 // import Studio from "./StudioLayout";
-import ClassModel from "~/components/widgets/ClassModel.vue";
-import ProcessModel from "~/components/widgets/ProcessModel.vue";
+import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
+import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 
 const props = defineProps({
   hashLevel: Number,
