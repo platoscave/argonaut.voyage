@@ -25,24 +25,17 @@ const defaultProps = {
 const expandedNodes = [];
 
 
-db.state.get("szyxk43kmjsg").then(queryObj => {
-  const queryRes = useArgoQuery(queryObj);
+//db.state.get("szyxk43kmjsg").then(queryObj => {
+  const subQueryIds = [
+    "kmcvgaw2jtjw",
+    "u1pryedcjljz"
+  ]
+  const queryRes = useArgoQuery(subQueryIds, {_id: 'pejdgrwd5qso'});
   watch(queryRes, (items) => {
     console.log("items", items);
   });
-})
+//})
 
-
-// const tempObj = useLiveQuery(() => db.state.get("uhekisbbbjh5"), []);
-// watch(tempObj, (item) => {
-//   console.log("item", item);
-// });
-
-// setTimeout(function () {
-//   db.state.update("uhekisbbbjh5", {
-//     name: 'XXX',
-//   });
-// }, 5000);
 
 const loadNode = async (node, resolve) => {
   //
