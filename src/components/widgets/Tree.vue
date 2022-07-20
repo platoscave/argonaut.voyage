@@ -26,14 +26,14 @@ const expandedNodes = [];
 
 
 //db.state.get("szyxk43kmjsg").then(queryObj => {
-  const subQueryIds = [
-    "kmcvgaw2jtjw",
-    "u1pryedcjljz"
-  ]
-  const queryRes = useArgoQuery(subQueryIds, {_id: 'pejdgrwd5qso'});
-  watch(queryRes, (items) => {
-    console.log("items", items);
-  });
+  // const subQueryIds = [
+  //   "kmcvgaw2jtjw",
+  //   "u1pryedcjljz"
+  // ]
+  // const queryRes = useArgoQuery(subQueryIds, {_id: 'pejdgrwd5qso'});
+  // watch(queryRes, (items) => {
+  //   console.log("items", items);
+  // });
 //})
 
 
@@ -44,34 +44,6 @@ const loadNode = async (node, resolve) => {
     const classObj = await db.state.get(id);
     if (classObj.classIcon) return classObj.classIcon;
     return getAnscestorsIcon(classObj.superClassId);
-  };
-
-  const addTreeVariables = (items, queryObj) => {
-    // Do not use forEach with async
-    for (const item of items) {
-      item.label = item.title ? item.title : item.name; //TODO value?
-
-      if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
-        item.subQueryIds = queryObj.subQueryIds;
-        // If the query has subQueryIds, assume it may have children
-        //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
-        item.isLeaf = false;
-      } else item.isLeaf = true;
-
-      // If the queryObj has a pageId, use it. Otherwise use the item pageId.
-      if (queryObj.nodesPageId) item.pageId = queryObj.nodesPageId;
-      // Still no pageId, use the default object page based on merged anscestors
-      if (!item.pageId) {
-        if (item.classId) item.pageId = "mb2bdqadowve";
-        // merged anscestors page
-        else item.pageId = "24cnex2saye1"; // class details page
-      }
-
-      // If the queryObj has an icon, use it. Otherwise use the item icon.
-      if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
-      // Still no icon, ask the anscetors
-      //if (!item.icon) item.icon = await getAnscestorsIcon(item.classId);
-    }
   };
 
   // If the item still doesn't have an icon then get one from the Anscestors
@@ -93,18 +65,17 @@ const loadNode = async (node, resolve) => {
 
   try {
     // root level
-    let queryObj = null
     if (node.level === 0) {
       // Get the viewObj
       const viewObj = await db.state.get(props.widgetObj.viewId );
       // Get the queryObj
-      queryObj = await db.state.get(viewObj.queryId);
+      const queryObj = await db.state.get(viewObj.queryId);
+      console.log("queryObj", queryObj);
 
       const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
       console.log("queryResRef", queryResRef);
       watch(queryResRef, async (resultArr) => {
         console.log("resultArr", resultArr);
-        addTreeVariables(resultArr, queryObj);
         await addClassIcons(resultArr); // if the item doesn't have one yet
         // update the root node
         node.store.setData(resultArr);
@@ -118,9 +89,8 @@ const loadNode = async (node, resolve) => {
       console.log("queryResRef", queryResRef);
       watch(queryResRef, async (resultArr) => {
         console.log("resultArr", resultArr);
-        addTreeVariables(resultArr, queryObj);
         await addClassIcons(resultArr); // if the item doesn't have one yet
-        // update the root node
+        // update the child nodes
         node.store.updateChildren(node.data._id, resultArr)
       });
 
@@ -234,7 +204,6 @@ const handleNodeCollapse = async (data) => {
   <div>
     <!-- 
       :render-content="renderContent"
-      :load="loadNode"
 
 
   -->
@@ -243,6 +212,7 @@ const handleNodeCollapse = async (data) => {
       :highlight-current="true"
       :expand-on-click-node="false"
       :props="defaultProps"
+      :load="loadNode"
       lazy
       node-key="_id"
       :default-expanded-keys="expandedNodes"

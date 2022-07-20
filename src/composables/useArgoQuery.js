@@ -59,7 +59,32 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       if (queryObj.sortBy) return collection.sortBy(queryObj.sortBy)
       else return collection.toArray()
     }
-    //console.log('queryObj$', queryObj$)
+
+    const addTreeNodeVars = (items, queryObj) => {
+      for (const item of items) {
+        item.label = item.title ? item.title : item.name; //TODO value?
+
+        if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+          item.subQueryIds = queryObj.subQueryIds;
+          // If the query has subQueryIds, assume it may have children
+          //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+          item.isLeaf = false;
+        } else item.isLeaf = true;
+
+        // If the queryObj has a pageId, use it. Otherwise use the item pageId.
+        if (queryObj.nodesPageId) item.pageId = queryObj.nodesPageId;
+        // Still no pageId, use the default object page based on merged anscestors
+        if (!item.pageId) {
+          if (item.classId) item.pageId = "mb2bdqadowve"; // merged anscestors page
+          else item.pageId = "24cnex2saye1"; // class details page
+        }
+
+        // If the queryObj has an icon, use it. Otherwise use the item icon.
+        if (queryObj.nodesIcon) item.icon = queryObj.nodesIcon;
+      }
+      return items
+    };
+
     return queryObj$.pipe(switchMap(queryObj => {
 
       tap(val => console.log(`BEFORE MAP: ${val}`))
@@ -117,10 +142,19 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         // Otherwise just execute the query. 
         const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
 
-        return liveQuery(() => {
+        const queryRes$ = liveQuery(() => {
           const collection = db.state.where(resolvedWhere)
           return filterSortCollection(collection, queryObj)
         })
+
+        // queryRes$ does not have .pipe. Not sure why. It's an observable after all
+        // Wrapping queryRes$ in from() does the trick
+        // Tree node vars are only needed fot trees. We have to do this here as 
+        // opposed to Tree because we need access to the queryObj. In the casse of 
+        // querIdsArr Tree doesn't know the underlaying queryObjs of the resulting array
+        return from(queryRes$).pipe(map( items => {
+          return addTreeNodeVars(items, queryObj)
+        }))
       }
 
     }))
@@ -162,20 +196,20 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
   //console.log('querier',querier, deps)
   const observable = executeDependingOnQueryType();
   let subscription = observable.subscribe({
-      next: (val) => {
-          value.value = val;
-      },
-      error: options?.onError,
+    next: (val) => {
+      value.value = val;
+    },
+    error: options?.onError,
   });
 
   watch(deps, () => {
-      subscription.unsubscribe();
-      subscription = observable.subscribe({
-          next: (val) => {
-              value.value = val;
-          },
-          error: options?.onError,
-      });
+    subscription.unsubscribe();
+    subscription = observable.subscribe({
+      next: (val) => {
+        value.value = val;
+      },
+      error: options?.onError,
+    });
   });
 
   // onUnmounted(() => {
