@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed, toRefs } from "vue";
+import { ref, reactive } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
@@ -31,6 +31,15 @@ const pageObj = useLiveQuery<pageRec>(
   [pageId]
 );
 
+db.settings.get(pageId.value).then((pageSettings) => {
+  if (pageSettings && pageSettings.splitterSettings) {
+    splitterSettings[0] = pageSettings.splitterSettings[0]
+    splitterSettings[1] = pageSettings.splitterSettings[1]
+  }
+  // add empty pagesettings for update to work
+  if (!pageSettings) db.settings.add({ pageId: pageId.value });
+})
+
 const onResized = (splitterSettingsArr) => {
   console.log("splitterSettings", splitterSettingsArr);
   db.settings.update(pageId.value, {
@@ -46,20 +55,11 @@ const getComponent = (widgetName: string) => {
   return dynamicComp.find((item) => item.name === widgetName).comp;
 };
 
-onMounted(async () => {
-  if (pageId.value) {
-    const pageSettings = await db.settings.get(pageId.value);
-    if (pageSettings) {
-      if (pageSettings.splitterSettings)
-        splitterSettings = pageSettings.splitterSettings;
-    } else await db.settings.add({ pageId: pageId.value });
-  }
-});
 </script>
 
 <template>
   <div v-if="pageObj">
-    <!-- Divider layout -->
+    <!-- Master Detail layout -->
 
     <splitpanes
       v-if="pageObj.layout === 'Master Detail'"
@@ -81,21 +81,9 @@ onMounted(async () => {
 
     <!-- Studio layout -->
 
-    <component
-      :is="getComponent(pageObj.model)"
+    <!-- <StudioLayout
       v-else-if="pageObj.layout === 'Studio'"
       class="ar-full-height"
-      v-bind:hash-level="hashLevel"
-      v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-    ></component>
-
-    <!-- Single page layout -->
-
-    <Page v-else class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
-
-    <!-- <StudioLayout
-      class="ar-full-height"
-      v-else
       v-on:leftsize="leftSizeStop"
       v-on:rightsize="rightSizeStop"
       v-bind:left-size="layoutSettings.leftSize"
@@ -104,44 +92,27 @@ onMounted(async () => {
 
       < !-- Background content -->
 
-    <!-- TODO divider misuse. Come up with a better way to determin which model to dispaly 
-            It's almost like we need a second pageId-- >
+    <component
+      :is="getComponent(pageObj.model)"
+      v-else-if="pageObj.layout === 'Studio'"
+      class="ar-full-height"
+      v-bind:hash-level="hashLevel"
+      v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
+    ></component>
 
-      <ClassModel
-        v-if="pageObj.divider === 'Class Model'"
-        slot="diagram"
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ClassModel>
+    <!-- Master content -- >
 
-      <ProcessModel
-        v-else-if="pageObj.divider === 'Process Model'"
-        slot="diagram"
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></ProcessModel>
+      <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
 
+      < !-- Detail content -- >
 
-      < !-- Master content -- >
-
-      <Page
-        slot="drawer-left"
-        class="ar-full-height"
-        v-bind:hash-level="hashLevel"
-        v-bind:tabs="pageObj.tabs"
-      ></Page>
-
-      < !-- Slave content -- >
-
-      <Layout
-        slot="drawer-right"
-        class="ar-full-height right"
-        v-bind:hash-level="hashLevel + 1"
-      ></Layout>
+      <Page class="ar-full-height" v-bind:hash-level="hashLevel + 1"></Page>
 
     </StudioLayout> -->
+
+    <!-- Single page layout -->
+
+    <Page v-else class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
   </div>
 </template>
 

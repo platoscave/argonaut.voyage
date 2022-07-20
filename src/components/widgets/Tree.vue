@@ -1,61 +1,50 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, watch } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
-import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
+import useArgoQuery from "~/composables/useArgoQuery";
+import {
+  useHashDissect,
+  updateNextLevelHash,
+} from "~/composables/useHashDissect";
+import { ElMessage } from "element-plus";
+
 
 const props = defineProps({
   hashLevel: Number,
-  viewId: String,
-})
+  widgetObj: Object,
+});
 
-const {pageId, nextLevelSelectedObjId } = useHashDissect(props.hashLevel)
+const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
+  props.hashLevel
+);
 
 const defaultProps = {
   isLeaf: "isLeaf",
-}
-const expandedNodes = []
+};
+const expandedNodes = [];
 
-interface IView {
-  _id: string;
-  name: string;
-}
 
-const viewObj = useLiveQuery<IView>(
-  () => db.state.get(props.viewId),
-  [props.viewId]
-)
+db.state.get("szyxk43kmjsg").then(queryObj => {
+  const queryRes = useArgoQuery(queryObj);
+  watch(queryRes, (items) => {
+    console.log("items", items);
+  });
+})
 
-const handleDragStart = (node, ev) => {
-  console.log("drag start", node);
-}
-const handleDragEnter = (draggingNode, dropNode, ev)  => {
-  console.log("tree drag enter: ", dropNode.label);
-}
-const handleDragLeave = (draggingNode, dropNode, ev)  => {
-  console.log("tree drag leave: ", dropNode.label);
-}
-const handleDragOver = (draggingNode, dropNode, ev)  => {
-  console.log("tree drag over: ", dropNode.label);
-}
-const handleDragEnd = (draggingNode, dropNode, dropType, ev)  => {
-  console.log("tree drag end: ", dropNode && dropNode.label, dropType);
-}
-const handleDrop = (draggingNode, dropNode, dropType, ev)  => {
-  console.log("tree drop: ", dropNode.label, dropType);
-}
-const allowDrop = (draggingNode, dropNode, type)  => {
-  if (dropNode.data.label === "Level two 3-1") {
-    return type !== "inner";
-  } else {
-    return true;
-  }
-}
-const allowDrag = (draggingNode)  => {
-  return draggingNode.data.label.indexOf("Level three 3-1-1") === -1;
-}
 
-const loadNode = async (node, resolve)  => {
+// const tempObj = useLiveQuery(() => db.state.get("uhekisbbbjh5"), []);
+// watch(tempObj, (item) => {
+//   console.log("item", item);
+// });
+
+// setTimeout(function () {
+//   db.state.update("uhekisbbbjh5", {
+//     name: 'XXX',
+//   });
+// }, 5000);
+
+const loadNode = async (node, resolve) => {
   //
   // Get Icon from item anscestors, recursivly
   const getAnscestorsIcon = async (id) => {
@@ -98,9 +87,7 @@ const loadNode = async (node, resolve)  => {
     items.forEach((item) => {
       if (!item.icon)
         iconsPromisses.push(
-          getAnscestorsIcon(
-            item.classId ? item.classId : item.supperClassId
-          )
+          getAnscestorsIcon(item.classId ? item.classId : item.supperClassId)
         );
       else iconsPromisses.push(item.icon);
     });
@@ -113,74 +100,113 @@ const loadNode = async (node, resolve)  => {
 
   try {
     // root level
+    let queryObj = null
     if (node.level === 0) {
       // Get the viewObj
-      viewObj = await db.state.get(viewId);
+      const viewObj = await db.state.get(props.widgetObj.viewId );
       // Get the queryObj
-      const queryObj = await db.state.get(viewObj.queryId);
+      queryObj = await db.state.get(viewObj.queryId);
 
-      // Get the observable
-      /* const observableResults$ = defer(() =>
-        argoQuery.executeQuery(queryObj, {
-          _id: selectedObjId,
-        })
-      ); */
-      const observableResults$ = argoQuery.executeQuery(queryObj, {
-        _id: selectedObjId,
-      })
-
-      observableResults$.subscribe({
-        next: async (resultArr) => {
-          addTreeVariables(resultArr, queryObj);
-          await addClassIcons(resultArr); // if the item doesn't have one yet
-          // update the root node
-          node.store.setData(resultArr);
-        },
-        error: (error) => console.error(error),
+      const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
+      console.log("queryResRef", queryResRef);
+      watch(queryResRef, async (resultArr) => {
+        console.log("resultArr", resultArr);
+        addTreeVariables(resultArr, queryObj);
+        await addClassIcons(resultArr); // if the item doesn't have one yet
+        // update the root node
+        node.store.setData(resultArr);
       });
+
       resolve([]);
     }
     // node.level > 0
     else {
-      if (node.data.subQueryIds) {
+      const queryResRef = useArgoQuery(node.data.subQueryIds, node.data);
+      console.log("queryResRef", queryResRef);
+      watch(queryResRef, async (resultArr) => {
+        console.log("resultArr", resultArr);
+        addTreeVariables(resultArr, queryObj);
+        await addClassIcons(resultArr); // if the item doesn't have one yet
+        // update the root node
+        node.store.updateChildren(node.data._id, resultArr)
+      });
 
-        // Collect the queries
-        let queryPromisses = node.data.subQueryIds.map((queryId) =>
-          db.state.get(queryId)
-        );
-        const queryObjArr = await Promise.all(queryPromisses);
-
-        // Collect the observables
-        let obervablesArr = queryObjArr.map((queryObj) => {
-          return argoQuery.executeQuery(queryObj, node.data);
-        });
-
-        // Combine the latest results of each of the queries into a single res array
-        // Whenever any of them emits a change
-        const observableResults$ = combineLatest(obervablesArr).pipe(
-          map((resArrArr) => {
-            resArrArr.forEach((resArr, index) => {
-              addTreeVariables(resArr, queryObjArr[index]);
-            })
-            return resArrArr.flat();
-          })
-        );
-        observableResults$.subscribe({
-          next: async (resultArr) => {
-            await addClassIcons(resultArr); // if the item doesn't have one yet
-            // update the child items
-            node.store.updateChildren(node.data._id, resultArr)
-          },
-          error: (error) => console.error(error),
-        });
-      }
       resolve([]);
+      // if (node.data.subQueryIds) {
+      //   // Collect the queries
+      //   let queryPromisses = node.data.subQueryIds.map((queryId) =>
+      //     db.state.get(queryId)
+      //   );
+      //   const queryObjArr = await Promise.all(queryPromisses);
+
+      //   // Collect the observables
+      //   let obervablesArr = queryObjArr.map((queryObj) => {
+      //     return argoQuery.executeQuery(queryObj, node.data);
+      //   });
+
+      //   // Combine the latest results of each of the queries into a single res array
+      //   // Whenever any of them emits a change
+      //   const observableResults$ = combineLatest(obervablesArr).pipe(
+      //     map((resArrArr) => {
+      //       resArrArr.forEach((resArr, index) => {
+      //         addTreeVariables(resArr, queryObjArr[index]);
+      //       });
+      //       return resArrArr.flat();
+      //     })
+      //   );
+      //   observableResults$.subscribe({
+      //     next: async (resultArr) => {
+      //       await addClassIcons(resultArr); // if the item doesn't have one yet
+      //       // update the child items
+      //       node.store.updateChildren(node.data._id, resultArr);
+      //     },
+      //     error: (error) => console.error(error),
+      //   });
+      // }
+      // resolve([]);
     }
   } catch (err) {
-    console.error(err);
-    $message({ message: err, type: "error" });
+    ElMessage({
+      showClose: true,
+      message: err,
+      type: "error",
+      duration: 0,
+    });
+    throw err;
   }
-}
+};
+
+const handleDragStart = (node, ev) => {
+  console.log("drag start", node);
+};
+const showContextMenu = (node, ev) => {
+  console.log("showContextMenu", node);
+};
+const handleDragEnter = (draggingNode, dropNode, ev) => {
+  console.log("tree drag enter: ", dropNode.label);
+};
+const handleDragLeave = (draggingNode, dropNode, ev) => {
+  console.log("tree drag leave: ", dropNode.label);
+};
+const handleDragOver = (draggingNode, dropNode, ev) => {
+  console.log("tree drag over: ", dropNode.label);
+};
+const handleDragEnd = (draggingNode, dropNode, dropType, ev) => {
+  console.log("tree drag end: ", dropNode && dropNode.label, dropType);
+};
+const handleDrop = (draggingNode, dropNode, dropType, ev) => {
+  console.log("tree drop: ", dropNode.label, dropType);
+};
+const allowDrop = (draggingNode, dropNode, type) => {
+  if (dropNode.data.label === "Level two 3-1") {
+    return type !== "inner";
+  } else {
+    return true;
+  }
+};
+const allowDrag = (draggingNode) => {
+  return draggingNode.data.label.indexOf("Level three 3-1-1") === -1;
+};
 // The tree node expands, update page settings
 const handleNodeExpand = async (data) => {
   let idx = expandedNodes.find((item) => {
@@ -194,7 +220,7 @@ const handleNodeExpand = async (data) => {
       expandedNodes: expandedNodes,
     });
   }
-}
+};
 // The tree node is closed, update page settings
 const handleNodeCollapse = async (data) => {
   let idx = expandedNodes.find((item) => {
@@ -208,22 +234,28 @@ const handleNodeCollapse = async (data) => {
       expandedNodes: expandedNodes,
     });
   }
-}
+};
 </script>
 
 <template>
-  <div v-if="viewObj">
+  <div>
+    <!-- 
+      :render-content="renderContent"
+      :load="loadNode"
+
+
+  -->
     <el-tree
       ref="tree"
       :highlight-current="true"
       :expand-on-click-node="false"
       :props="defaultProps"
-      :load="loadNode"
       lazy
       node-key="_id"
-      :render-content="renderContent"
       :default-expanded-keys="expandedNodes"
-      @node-click="updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)"
+      @node-click="
+        updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
+      "
       @node-contextmenu="showContextMenu"
       @node-expand="handleNodeExpand"
       @node-collapse="handleNodeCollapse"

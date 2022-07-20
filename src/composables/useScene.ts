@@ -24,10 +24,11 @@ import { ref, reactive, toRefs, onMounted, onBeforeUnmount, watch } from 'vue'
 import TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { Font } from 'three/examples/jsm/loaders/FontLoader.js'
 import { CubeTextureLoader } from 'three/src/loaders/CubeTextureLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import fontJson from '~/assets/helvetiker_regular.typeface.json'
+//import fontJson from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
 import { useResizeObserver, useDebounceFn } from '@vueuse/core'
@@ -97,6 +98,13 @@ export function useScene(
   controls.screenSpacePanning = true;
   controls.enableDamping = true;
 
+
+  // lights
+  let light1 = new DirectionalLight(0xffffff, 0.8)
+  light1.position.set(-1, 1, 1).normalize()
+  glScene.add(light1)
+  glScene.add(new AmbientLight(0x969696, 0.8))
+
   // axesHelper
   const axesHelper = new AxesHelper(1)
   glScene.add(axesHelper)
@@ -109,9 +117,6 @@ export function useScene(
   //loader.setPath( 'textures/cubeMaps/' )
   const texture = loader.load(skyBoxArray);
   glScene.background = texture;
-
-  // font loader
-  const fontLoader = new FontLoader()
 
   // other
   let currentlySelectedObjProps = {}
@@ -248,16 +253,16 @@ export function useScene(
   }
 
   const loadingText = (text?: string) => {
+
     if (text) {
-      loader.load(fontJson, function (font) {
-        let textMaterial = new MeshLambertMaterial({ color: 0xEFEFEF })
-        let text3d = new TextGeometry(text || 'Loading...', { size: 2, font: font, height: 0.5 })
-        text3d.center()
-        let textMesh = new Mesh(text3d, textMaterial)
-        textMesh.name = 'Loading Message'
-        textMesh.position.set(0, 4, 0)
-        glScene.add(textMesh)
-      })
+      const font = new Font(fontJson)
+      let textMaterial = new MeshLambertMaterial({ color: 0xEFEFEF })
+      let text3d = new TextGeometry(text, { size: 2, font: font, height: 0.5 })
+      text3d.center()
+      let textMesh = new Mesh(text3d, textMaterial)
+      textMesh.name = 'Loading Message'
+      textMesh.position.set(0, 4, 0)
+      glScene.add(textMesh)
     }
     else {
       let mesh = glScene.getObjectByName('Loading Message')
@@ -292,7 +297,7 @@ export function useScene(
   useResizeObserver(rootEl, onResize)
 
   // watch autoRotate button
-  watch(autoRotate, (autoRotate) => controls.autoRotate = autoRotate)
+  watch(autoRotate, (autoRotate) => controls.autoRotate = autoRotate.value)
 
   // watch next level SelectedObjId
   watch(nextLevelSelectedObjId, highlight)
@@ -309,8 +314,6 @@ export function useScene(
 
     if (statsOn) rootEl.value.appendChild(stats.dom)
 
-    window.addEventListener("resize", onResize);
-
     // TODO change to touch events See https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent
     rootEl.value.addEventListener('click', onClick, false)
     rootEl.value.addEventListener('pointerdown', onMouseDown, false)
@@ -324,7 +327,6 @@ export function useScene(
     // Important: Must release animationFrame for garbage collection to work
     cancelAnimationFrame(animationFrame);// Stop the animation
 
-    window.removeEventListener("resize", onResize)
     rootEl.value.removeEventListener('click', onClick, false)
     rootEl.value.removeEventListener('pointerdown', onMouseDown, false)
     rootEl.value.removeEventListener('mousemove', onMouseMove, false)

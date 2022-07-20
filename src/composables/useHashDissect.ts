@@ -1,6 +1,6 @@
 // mouse.js
 import { ref, reactive, toRefs, onMounted, onUnmounted } from 'vue'
-import { db } from "../services/dexieServices";
+import { db } from "~/services/dexieServices";
 
 interface ILevelState {
   selectedObjId: string,

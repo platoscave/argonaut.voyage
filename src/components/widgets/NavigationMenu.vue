@@ -119,6 +119,7 @@ const defaultActive = computed(() => {
                     </div>
                     <el-menu-item
                       v-else
+                      :disable="subMenu3.pageId ? false : true"
                       :index="subNum1 + '-' + subNum2 + '-' + subNum3"
                       >{{ subMenu3.name }}</el-menu-item
                     >
@@ -126,14 +127,21 @@ const defaultActive = computed(() => {
                   <!-- Level 3 --->
                 </el-sub-menu>
               </div>
-              <el-menu-item v-else :index="subNum1 + '-' + subNum2">{{
-                subMenu2.name
-              }}</el-menu-item>
+              <el-menu-item
+                v-else
+                :disable="subMenu2.pageId ? false : true"
+                :index="subNum1 + '-' + subNum2"
+                >{{ subMenu2.name }}</el-menu-item
+              >
             </div>
             <!-- Level 2 --->
           </el-sub-menu>
         </div>
-        <el-menu-item v-else :index="subNum1.toString()">
+        <el-menu-item
+          v-else
+          :disable="subMenu1.pageId ? false : true"
+          :index="subNum1.toString()"
+        >
           <template #title>
             <svg height="20" width="20" color="blue">
               <use
@@ -161,20 +169,5 @@ const defaultActive = computed(() => {
   padding-bottom: 20px;
   font-size: larger;
   font-weight: bolder;
-}
-.el-menu-item {
-  line-height: 40px;
-}
-.el-sub-menu {
-  line-height: 40px;
-}
-.splitpanes--vertical > .splitpanes__splitter {
-  min-width: 3px;
-  background: linear-gradient(90deg, #ccc, #111);
-}
-
-.splitpanes--horizontal > .splitpanes__splitter {
-  min-height: 3px;
-  background: linear-gradient(0deg, #ccc, #111);
 }
 </style>
