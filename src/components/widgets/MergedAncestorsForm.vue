@@ -1,8 +1,67 @@
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import { db, argoQuery } from "~/services/dexieServices";
+import useLiveQuery from "~/composables/useLiveQuery";
+import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
+
+const props = defineProps({
+  hashLevel: Number,
+  viewId: String,
+})
+const {selectedObjId, pageId, selectedTab} = useHashDissect(props.hashLevel)
+const viewObj = ref({})
+const formMode = ref("Readonly Dense")
+
+interface IDataObj {
+  _id: string;
+  name: string;
+}
+const dataObj = useLiveQuery<IDataObj>(
+  () => db.state.get(selectedObjId.value),
+  [selectedObjId]
+)
+watch(dataObj, async (dataObj) => {
+  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId)
+});
+
+
+
+
+
+
+
+const onInput = async (updatedDataObj) => {
+  /*
+  try {
+    
+    const stringified = JSON.stringify(updatedDataObj)
+    if (stringified === this.oldValue) return
+    this.oldValue = stringified
+
+    const valid = await this.$refs["schemaForm"].validate();
+    console.log('valid', valid);
+    db.state.update(updatedDataObj._id, updatedDataObj);
+
+  } catch (err) {
+    this.valid = false;
+    this.$message({ showClose: true, message: err, type: "error" })
+  }
+  */
+}
+
+const onEditButton = () => {
+  if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";
+  else if (formMode.value === "Readonly Full")
+    //this.formMode = "Edit Permitted";
+    formMode.value = "Edit Full";
+  else if (formMode.value === "Edit Permitted") formMode.value = "Edit Full";
+  else formMode.value = "Readonly Dense";
+}
+</script>
+
 <template>
-  <div v-if="dataObj && viewObj">
-    <!-- The form -->
-    <!-- v-model="dataObj" -->
-    <ar-sub-form
+  <div v-if="dataObj && viewObj" class="fab-parent" >
+    <!-- <ar-sub-form
       ref="schemaForm"
       class="ar-json-schema-form"
       :value="dataObj"
@@ -12,16 +71,16 @@
       :form-mode="formMode"
       :hash-level="hashLevel"
     >
-    </ar-sub-form>
-    <el-button
+    </ar-sub-form> -->
+    <ElButton
       class="fab"
-      icon="el-icon-edit"
+      icon="el-icon-refresh"
       circle
-      @click="onEditButton"
-    ></el-button>
+      @click="autoRotate = !autoRotate"
+    ></ElButton>
   </div>
 </template>
-
+<!--
 <script>
 import { db, argoQuery } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
@@ -111,8 +170,12 @@ export default {
   },
 };
 </script>
-
+ -->
 <style scoped>
+.fab-parent {
+  position: relative;
+  height: 100%;
+}
 .fab {
   position: absolute;
   margin: 10px;

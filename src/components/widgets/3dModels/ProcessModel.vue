@@ -224,12 +224,12 @@ onMounted(async () => {
       ref="rootEl"
       v-bind:style="{ cursor: cursor }"
     ></div>
-    <el-button
+    <ElButton
       class="fab"
       icon="el-icon-refresh"
       circle
       @click="autoRotate = !autoRotate"
-    ></el-button>
+    ></ElButton>
   </div>
 </template>
 

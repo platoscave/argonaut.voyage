@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import useArgoQuery from "~/composables/useArgoQuery";
@@ -9,11 +9,11 @@ import {
 } from "~/composables/useHashDissect";
 import { ElMessage } from "element-plus";
 
-
 const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
 });
+const treeEl = ref(null);
 
 const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
   props.hashLevel
@@ -22,20 +22,17 @@ const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
 const defaultProps = {
   isLeaf: "isLeaf",
 };
-const expandedNodes = [];
+let pageSettings = {
+  expandedNodes: [],
+  nextLevelSelectedObjId: "",
+};
 
-
-//db.state.get("szyxk43kmjsg").then(queryObj => {
-  // const subQueryIds = [
-  //   "kmcvgaw2jtjw",
-  //   "u1pryedcjljz"
-  // ]
-  // const queryRes = useArgoQuery(subQueryIds, {_id: 'pejdgrwd5qso'});
-  // watch(queryRes, (items) => {
-  //   console.log("items", items);
-  // });
-//})
-
+// See if we can get expanded nodes from the last time we visited this page
+db.settings.get(pageId.value).then((pageSettings) => {
+  if (pageSettings) pageSettings = pageSettings;
+  // add empty pagesettings for update to work
+  else db.settings.add({ pageId: pageId.value });
+});
 
 const loadNode = async (node, resolve) => {
   //
@@ -67,15 +64,13 @@ const loadNode = async (node, resolve) => {
     // root level
     if (node.level === 0) {
       // Get the viewObj
-      const viewObj = await db.state.get(props.widgetObj.viewId );
+      const viewObj = await db.state.get(props.widgetObj.viewId);
       // Get the queryObj
       const queryObj = await db.state.get(viewObj.queryId);
-      console.log("queryObj", queryObj);
 
       const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
-      console.log("queryResRef", queryResRef);
+      //console.log("queryResRef", queryResRef);
       watch(queryResRef, async (resultArr) => {
-        console.log("resultArr", resultArr);
         await addClassIcons(resultArr); // if the item doesn't have one yet
         // update the root node
         node.store.setData(resultArr);
@@ -86,47 +81,14 @@ const loadNode = async (node, resolve) => {
     // node.level > 0
     else {
       const queryResRef = useArgoQuery(node.data.subQueryIds, node.data);
-      console.log("queryResRef", queryResRef);
+      //console.log("queryResRef", queryResRef);
       watch(queryResRef, async (resultArr) => {
-        console.log("resultArr", resultArr);
         await addClassIcons(resultArr); // if the item doesn't have one yet
         // update the child nodes
-        node.store.updateChildren(node.data._id, resultArr)
+        node.store.updateChildren(node.data._id, resultArr);
       });
 
       resolve([]);
-      // if (node.data.subQueryIds) {
-      //   // Collect the queries
-      //   let queryPromisses = node.data.subQueryIds.map((queryId) =>
-      //     db.state.get(queryId)
-      //   );
-      //   const queryObjArr = await Promise.all(queryPromisses);
-
-      //   // Collect the observables
-      //   let obervablesArr = queryObjArr.map((queryObj) => {
-      //     return argoQuery.executeQuery(queryObj, node.data);
-      //   });
-
-      //   // Combine the latest results of each of the queries into a single res array
-      //   // Whenever any of them emits a change
-      //   const observableResults$ = combineLatest(obervablesArr).pipe(
-      //     map((resArrArr) => {
-      //       resArrArr.forEach((resArr, index) => {
-      //         addTreeVariables(resArr, queryObjArr[index]);
-      //       });
-      //       return resArrArr.flat();
-      //     })
-      //   );
-      //   observableResults$.subscribe({
-      //     next: async (resultArr) => {
-      //       await addClassIcons(resultArr); // if the item doesn't have one yet
-      //       // update the child items
-      //       node.store.updateChildren(node.data._id, resultArr);
-      //     },
-      //     error: (error) => console.error(error),
-      //   });
-      // }
-      // resolve([]);
     }
   } catch (err) {
     ElMessage({
@@ -139,6 +101,34 @@ const loadNode = async (node, resolve) => {
   }
 };
 
+// The tree node expands, update page settings
+const handleNodeExpand = async (data) => {
+  let idx = pageSettings.expandedNodes.find((item) => {
+    return item === data._id;
+  });
+
+  // Update the expanded nodes in pageSettings for this pageId in the settings db
+  if (!idx) {
+    pageSettings.expandedNodes.push(data._id);
+    await db.settings.update(pageId.value, {
+      expandedNodes: pageSettings.expandedNodes,
+    });
+  }
+};
+// The tree node is closed, update page settings
+const handleNodeCollapse = async (data) => {
+  let idx = pageSettings.expandedNodes.find((item) => {
+    return item === data._id;
+  });
+
+  // Update the expanded nodes in pageSettings for this pageId in the settings db
+  if (idx) {
+    pageSettings.expandedNodes.splice(idx, 1);
+    await db.settings.update(pageId.value, {
+      expandedNodes: pageSettings.expandedNodes,
+    });
+  }
+};
 const handleDragStart = (node, ev) => {
   console.log("drag start", node);
 };
@@ -170,70 +160,58 @@ const allowDrop = (draggingNode, dropNode, type) => {
 const allowDrag = (draggingNode) => {
   return draggingNode.data.label.indexOf("Level three 3-1-1") === -1;
 };
-// The tree node expands, update page settings
-const handleNodeExpand = async (data) => {
-  let idx = expandedNodes.find((item) => {
-    return item === data._id;
-  });
+onMounted(() => {
+  // See if we can get expanded nodes from the last time we visited this page
+  // const pageSettings = await db.settings.get(this.pageId);
+  // if (pageSettings) {
+  //   if (pageSettings.expandedNodes)
+  //     this.expandedNodes = pageSettings.expandedNodes;
+  // } else await db.settings.add({ pageId: this.pageId });
 
-  // Update the expanded nodes in pageSettings for this pageId in the settings db
-  if (!idx) {
-    expandedNodes.push(data._id);
-    await db.settings.update(pageId, {
-      expandedNodes: expandedNodes,
-    });
+  if (pageSettings.nextLevelSelectedObjId) {
+    setTimeout(() => {
+      // We have to wait half a second because the nodes won't have been loaded yet
+      // Is there a better way?
+      treeEl.value.setCurrentKey(nextLevelSelectedObjId);
+      const nodeData = treeEl.value.getCurrentNode();
+      if (nodeData) updateNextLevelHash(nodeData); // Click initial treenode
+    }, 500);
   }
-};
-// The tree node is closed, update page settings
-const handleNodeCollapse = async (data) => {
-  let idx = expandedNodes.find((item) => {
-    return item === data._id;
-  });
-
-  // Update the expanded nodes in pageSettings for this pageId in the settings db
-  if (idx) {
-    expandedNodes.splice(idx, 1);
-    await db.settings.update(pageId, {
-      expandedNodes: expandedNodes,
-    });
-  }
-};
+});
 </script>
 
 <template>
-  <div>
-    <!-- 
-      :render-content="renderContent"
-
-
-  -->
-    <el-tree
-      ref="tree"
-      :highlight-current="true"
-      :expand-on-click-node="false"
-      :props="defaultProps"
-      :load="loadNode"
-      lazy
-      node-key="_id"
-      :default-expanded-keys="expandedNodes"
-      @node-click="
+  <el-tree
+    ref="treeEl"
+    :highlight-current="true"
+    :expand-on-click-node="false"
+    :props="defaultProps"
+    :load="loadNode"
+    lazy
+    node-key="_id"
+    :default-expanded-keys="pageSettings.expandedNodes"
+    @node-click="
+      (nodeData) =>
         updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
-      "
-      @node-contextmenu="showContextMenu"
-      @node-expand="handleNodeExpand"
-      @node-collapse="handleNodeCollapse"
-      draggable
-      @node-drag-start="handleDragStart"
-      @node-drag-enter="handleDragEnter"
-      @node-drag-leave="handleDragLeave"
-      @node-drag-over="handleDragOver"
-      @node-drag-end="handleDragEnd"
-      @node-drop="handleDrop"
-      :allow-drop="allowDrop"
-      :allow-drag="allowDrag"
-    >
-    </el-tree>
-  </div>
+    "
+    @node-contextmenu="showContextMenu"
+    @node-expand="handleNodeExpand"
+    @node-collapse="handleNodeCollapse"
+    draggable
+    @node-drag-start="handleDragStart"
+    @node-drag-enter="handleDragEnter"
+    @node-drag-leave="handleDragLeave"
+    @node-drag-over="handleDragOver"
+    @node-drag-end="handleDragEnd"
+    @node-drop="handleDrop"
+    :allow-drop="allowDrop"
+    :allow-drag="allowDrag"
+  >
+    <template #default="{ node, data }">
+      <img :src="data.icon" />
+      <span class="node-label">{{ node.label }}</span>
+    </template>
+  </el-tree>
 </template>
 <!--
 <script>
@@ -514,6 +492,9 @@ export default {
 </script>
 -->
 <style scoped>
+.node-label {
+  margin-left: 5px;
+}
 .context-menu >>> .menu {
   border-color: #524f4f;
 }

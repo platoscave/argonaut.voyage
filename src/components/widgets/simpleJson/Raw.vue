@@ -1,47 +1,33 @@
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import { db, argoQuery } from "~/services/dexieServices";
+import useLiveQuery from "~/composables/useLiveQuery";
+import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
+
+const props = defineProps({
+  hashLevel: Number,
+  viewId: String,
+})
+const {selectedObjId} = useHashDissect(props.hashLevel)
+
+interface IDataObj {
+  _id: string;
+  name: string;
+}
+const dataObj = useLiveQuery<IDataObj>(
+  () => db.state.get(selectedObjId.value),
+  [selectedObjId]
+)
+
+</script>
+
 <template>
-  <highlight-code lang="json" class="highlight-code">
+RAW
+  <!-- <highlight-code lang="json" class="highlight-code">
     {{ dataObj }}
-  </highlight-code>
+  </highlight-code> -->
 </template>
 
-<script>
-import { db } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
-import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
-import WidgetMixin from "../../../lib/widgetMixin";
-
-export default {
-  name: 'ar-raw',
-  mixins: [WidgetMixin], 
-  props: {
-    hashLevel: Number,
-    viewId: String
-  },
-
-  subscriptions() {
-    //
-    // Watch the selectedObjId as observable
-    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
-      immediate: true,
-    })
-      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
-      .pipe(distinctUntilChanged()); // emit only when changed
-
-    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
-    const dataObj$ = selectedObjId$.pipe(
-      switchMap((selectedObjId) =>
-        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
-      )
-    );
-
-    return {
-      dataObj: dataObj$
-    }
-  },
-  
-}
-</script>
 
 <style scoped>
 .highlight-code >>> .hljs{

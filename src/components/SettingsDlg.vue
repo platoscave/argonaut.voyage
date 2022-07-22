@@ -161,7 +161,7 @@ const generatecpp = async () => {
     @update:modelValue="() => $emit('update:modelValue', false)"
   >
 
-    <el-row>
+    <ElRow>
 
       <ElSwitch
         size="small"
@@ -172,86 +172,86 @@ const generatecpp = async () => {
         inactive-text="Light"
       ></ElSwitch>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary"  :dark="isDark" plain @click="populateFromStatic">
+      <ElButton type="primary"  :dark="isDark" plain @click="populateFromStatic">
          Poputate Cache From Static
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="addTestAccounts">
+      <ElButton type="primary" :dark="isDark" plain @click="addTestAccounts">
          Add Tests Accounts to EOS
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="staticToEos">
+      <ElButton type="primary" :dark="isDark" plain @click="staticToEos">
          From Static to EOS
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="cacheToEos">
+      <ElButton type="primary" :dark="isDark" plain @click="cacheToEos">
          From Cache to EOS
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="eraseAllEos">
+      <ElButton type="primary" :dark="isDark" plain @click="eraseAllEos">
          Erase Documents Table in EOS
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="testEos">Call Test Function</el-button>
+      <ElButton type="primary" :dark="isDark" plain @click="testEos">Call Test Function</ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="staticToEos">
+      <ElButton type="primary" :dark="isDark" plain @click="staticToEos">
          Read, Filter, Download
-      </el-button>
+      </ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="randomKey">Random Key</el-button>
+      <ElButton type="primary" :dark="isDark" plain @click="randomKey">Random Key</ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="testQuery">Test Query</el-button>
+      <ElButton type="primary" :dark="isDark" plain @click="testQuery">Test Query</ElButton>
 
-    </el-row>
+    </ElRow>
 
-    <el-row>
+    <ElRow>
 
-      <el-button type="primary" :dark="isDark" plain @click="generatecpp">Generate Cpp</el-button>
+      <ElButton type="primary" :dark="isDark" plain @click="generatecpp">Generate Cpp</ElButton>
 
-    </el-row>
+    </ElRow>
 
   </ElDialog>
 
 </template>
 
 <style scoped>
-.el-row {
+.ElRow {
   margin-top: 10px;
 }
 </style>

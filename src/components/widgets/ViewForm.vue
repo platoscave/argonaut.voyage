@@ -13,12 +13,12 @@
       v-on:change="onChange"
     >
     </ar-sub-form>
-    <el-button
+    <ElButton
       class="fab"
       icon="el-icon-edit"
       circle
       @click="onEditButton"
-    ></el-button>
+    ></ElButton>
   </div>
 </template>
 

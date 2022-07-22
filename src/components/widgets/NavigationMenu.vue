@@ -82,27 +82,30 @@ const defaultActive = computed(() => {
     class="ar-full-height ar-overflow-auto"
   >
     <div class="ar-lightgrey-background ar-title" v-if="accountObj">
-      {{ accountObj.name }}
+      <img class="icon" :src="accountObj.icon" />
+      <span>{{ accountObj.name }}</span>
     </div>
-    <el-menu unique-opened :default-active="defaultActive" @select="onSelect">
+    <ElMenu unique-opened :default-active="defaultActive" @select="onSelect">
       <!-- Level 1 --->
       <div v-for="(subMenu1, subNum1) in menuObj.menuArr" :key="subNum1">
         <div v-if="subMenu1.menuArr">
-          <el-sub-menu :index="subNum1.toString()">
+          <ElSubMenu :index="subNum1.toString()">
             <template #title>
-              <svg height="20" width="20" color="blue">
+            <div class="top-level-menu-item">
+              <svg class="icon" height="18" width="18" color="blue">
                 <use
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   :xlink:href="'toolbar-symbols.svg#home-filled'"
                 ></use>
               </svg>
-              <span class="top-level-menu-item">{{ subMenu1.name }}</span>
+              <span>{{ subMenu1.name }}</span>
+              </div>
             </template>
 
             <!-- Level 2 --->
             <div v-for="(subMenu2, subNum2) in subMenu1.menuArr" :key="subNum2">
               <div v-if="subMenu2.menuArr">
-                <el-sub-menu :index="subNum1 + '-' + subNum2">
+                <ElSubMenu :index="subNum1 + '-' + subNum2">
                   <template #title>{{ subMenu2.name }}</template>
 
                   <!-- Level 3 --->
@@ -111,63 +114,72 @@ const defaultActive = computed(() => {
                     :key="subNum3"
                   >
                     <div v-if="subMenu3.menuArr">
-                      <el-sub-menu
+                      <ElSubMenu
                         :index="subNum1 + '-' + subNum2 + '-' + subNum3"
                       >
                         <template #title>{{ subMenu3.name }}</template>
-                      </el-sub-menu>
+                      </ElSubMenu>
                     </div>
-                    <el-menu-item
+                    <ElMenuItem
                       v-else
                       :disable="subMenu3.pageId ? false : true"
                       :index="subNum1 + '-' + subNum2 + '-' + subNum3"
-                      >{{ subMenu3.name }}</el-menu-item
+                      >{{ subMenu3.name }}</ElMenuItem
                     >
                   </div>
                   <!-- Level 3 --->
-                </el-sub-menu>
+                </ElSubMenu>
               </div>
-              <el-menu-item
+              <ElMenuItem
                 v-else
                 :disable="subMenu2.pageId ? false : true"
                 :index="subNum1 + '-' + subNum2"
-                >{{ subMenu2.name }}</el-menu-item
+                >{{ subMenu2.name }}</ElMenuItem
               >
             </div>
             <!-- Level 2 --->
-          </el-sub-menu>
+          </ElSubMenu>
         </div>
-        <el-menu-item
+        <ElMenuItem
           v-else
           :disable="subMenu1.pageId ? false : true"
           :index="subNum1.toString()"
         >
           <template #title>
-            <svg height="20" width="20" color="blue">
-              <use
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                :xlink:href="'toolbar-symbols.svg#home-filled'"
-              ></use>
-            </svg>
-            <span class="top-level-menu-item">{{ subMenu1.name }}</span>
+            <div class="top-level-menu-item">
+              <svg class="icon" height="18" width="18" color="blue">
+                <use
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  :xlink:href="'toolbar-symbols.svg#home-filled'"
+                ></use>
+              </svg>
+              <span>{{ subMenu1.name }}</span>
+            </div>
           </template>
-        </el-menu-item>
+        </ElMenuItem>
         <!-- Level 1 --->
       </div>
-    </el-menu>
+    </ElMenu>
   </div>
 </template>
 <style scoped>
-/* Split pane */
-.top-level-menu-item {
-  font-weight: bolder;
-  font-size: larger;
-  margin-left: 5px;
+/* --el-menu-item-height */
+.icon {
+  margin-right: 5px;
+  vertical-align: middle;
 }
 .ar-title {
   padding-top: 20px;
   padding-bottom: 20px;
   font-size: larger;
   font-weight: bolder;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.top-level-menu-item {
+  font-size: larger;
+  font-weight: bolder;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 </style>

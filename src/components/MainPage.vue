@@ -162,7 +162,7 @@ onMounted( async () => {
 
       <span class="logo ar-right-align"> Argonaut.Voyage </span>
 
-      <el-button
+      <ElButton
         @click="cancelChanges"
         size="small"
         type="danger"
@@ -170,9 +170,9 @@ onMounted( async () => {
         class="ar-right-align"
       >
          Cancel
-      </el-button>
+      </ElButton>
 
-      <el-button
+      <ElButton
         @click="saveChanges"
         size="small"
         type="success"
@@ -180,7 +180,7 @@ onMounted( async () => {
         class="ar-right-align"
       >
          Send
-      </el-button>
+      </ElButton>
 
     </div>
 

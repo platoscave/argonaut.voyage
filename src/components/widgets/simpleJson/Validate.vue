@@ -1,82 +1,55 @@
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import { db, argoQuery } from "~/services/dexieServices";
+import useLiveQuery from "~/composables/useLiveQuery";
+import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
+import Ajv from "ajv";
+import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json";
+
+const props = defineProps({
+  hashLevel: Number,
+  viewId: String,
+})
+const {selectedObjId, pageId, selectedTab} = useHashDissect(props.hashLevel)
+const viewObj = ref({})
+const errorObj = ref({})
+const formMode = ref("Readonly Dense")
+const ajv = new Ajv()
+
+interface IDataObj {
+  _id: string;
+  name: string;
+  classId: string;
+}
+const dataObj = useLiveQuery<IDataObj>(
+  () => db.state.get(selectedObjId.value),
+  [selectedObjId]
+)
+watch(dataObj, async (dataObj) => {
+  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId)
+
+  const validate = ajv.compile(viewObj.value);
+  const valid = validate(dataObj);
+  if (valid) errorObj.value = ["Valid"];
+  else return errorObj.value = validate.errors;
+});
+
+
+</script>
+
 <template>
   <div>
     <h3>Errors</h3>
-    <highlight-code lang="json" class="highlight-code">
+    <!-- <highlight-code lang="json" class="highlight-code">
       {{ errorObj }}
     </highlight-code>
     <h3>Schema</h3>
     <highlight-code lang="json" class="highlight-code">
       {{ schemaObj }}
-    </highlight-code>
+    </highlight-code> -->
   </div>
 </template>
 
-<script>
-import { db, argoQuery } from "../../../services/dexieServices";
-import { liveQuery } from "dexie";
-import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
-import WidgetMixin from "../../../lib/widgetMixin";
-import Ajv from "ajv";
-import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json";
-
-const ajv = new Ajv({ allErrors: true, schemaId: "auto" }); // or "auto" if you use both draft-04 and draft-06/07 schemas
-ajv.addMetaSchema(draft4MetaSchema);
-
-export default {
-  name: "ar-validate",
-  mixins: [WidgetMixin],
-  props: {
-    hashLevel: Number,
-    viewId: String,
-  },
-  data() {
-    return {
-      errorObj: {},
-    };
-  },
-
-  subscriptions() {
-    //
-    // Watch the selectedObjId as observable
-    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
-      immediate: true,
-    })
-      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
-      .pipe(distinctUntilChanged()); // emit only when changed
-
-    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
-    const dataObj$ = selectedObjId$.pipe(
-      switchMap((selectedObjId) =>
-        liveQuery(() => db.state.where({ _id: selectedObjId }).first())
-      )
-    );
-
-    // Whenever dataObj changes, fetch the getMergedAncestorProperties promise with the new classId
-    const schema$ = dataObj$.pipe(
-      switchMap((dataObj) =>
-        argoQuery.getMergedAncestorProperties(dataObj.classId)
-      )
-    );
-
-    // Whenever dataObj changes, fetch the getMergedAncestorProperties promise with the new classId
-    const errorObj$ = schema$.pipe(
-      switchMap((schema) => {
-        const validate = ajv.compile(schema);
-        const valid = validate(this.dataObj);
-        if (valid) return ["Valid"];
-        else return validate.errors;
-      })
-    );
-
-    return {
-      dataObj: dataObj$,
-      errorObj: errorObj$,
-      schemaObj: schema$
-    };
-  },
-};
-</script>
 
 <style scoped>
 .highlight-code >>> .hljs {
