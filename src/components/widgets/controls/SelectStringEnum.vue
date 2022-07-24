@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
 <template>
   <div v-if="readonly || property.enum.length < 2" class="ar-lightgrey-background">
     {{ value }}
@@ -32,7 +46,7 @@
     </el-option>
   </el-select>
 </template>
-
+<!--
 <script>
 export default {
   name: "ar-select-string-enum",
@@ -49,7 +63,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 
 /* Radiobuttons */

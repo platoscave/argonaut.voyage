@@ -1,36 +1,45 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { db, argoQuery } from "~/services/dexieServices";
+import { ref, computed } from "vue";
+import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
-import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
+import { useHashDissect} from "~/composables/useHashDissect";
+import { lowlight } from "lowlight/lib/core.js";
+import { toHtml } from "hast-util-to-html";
+
 
 const props = defineProps({
   hashLevel: Number,
   viewId: String,
 })
-const {selectedObjId} = useHashDissect(props.hashLevel)
+const { selectedObjId } = useHashDissect(props.hashLevel);
 
-interface IDataObj {
-  _id: string;
-  name: string;
-}
-const dataObj = useLiveQuery<IDataObj>(
+const dataObj = useLiveQuery(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
 )
-
+const highlightedCode = computed(() => {
+  if (dataObj.value) {
+    const res = lowlight.highlightAuto(JSON.stringify(dataObj.value, null, 4));
+    return toHtml(res);
+  }
+  return "";
+});
 </script>
 
 <template>
-RAW
-  <!-- <highlight-code lang="json" class="highlight-code">
-    {{ dataObj }}
-  </highlight-code> -->
+  <code>
+    <pre v-html="highlightedCode" />
+  </code>
 </template>
 
-
 <style scoped>
-.highlight-code >>> .hljs{
+code {
+  padding: 0px;
+}
+pre {
+  margin: 0px;
+}
+.highlight-code >>> .hljs {
   background: unset;
   line-height: 20px;
   font-size: 14px;

@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
 <template>
   <div v-if="readonly" class="ar-number-div">
     {{ Number.parseFloat(value).toFixed(precision) }}
@@ -15,7 +29,7 @@
   >
   </el-input-number>
 </template>
-
+<!--
 <script>
 export default {
   name: "ar-number",
@@ -46,7 +60,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 /* Readonly div */
 .ar-number-div {

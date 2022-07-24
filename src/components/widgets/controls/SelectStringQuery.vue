@@ -1,3 +1,18 @@
+
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
 <template>
   <div v-if="items">
     <div v-if="readonly" class="ar-lightgrey-background">
@@ -34,7 +49,7 @@
     </el-select>
   </div>
 </template>
-
+<!--
 <script>
 import { argoQuery } from "../../../services/dexieServices";
 import {
@@ -109,7 +124,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 
 /* help!!! cant get the blue border to come back */

@@ -6,7 +6,7 @@ import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHash
 
 const props = defineProps({
   hashLevel: Number,
-  viewId: String,
+  widgetObj: Object,
 })
 const {selectedObjId, pageId, selectedTab} = useHashDissect(props.hashLevel)
 const viewObj = ref({})
@@ -14,7 +14,7 @@ const formMode = ref("Readonly Dense")
 
 interface IDataObj {
   _id: string;
-  name: string;
+  classId: string;
 }
 const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
@@ -61,7 +61,7 @@ const onEditButton = () => {
 
 <template>
   <div v-if="dataObj && viewObj" class="fab-parent" >
-    <!-- <ar-sub-form
+    <SubForm
       ref="schemaForm"
       class="ar-json-schema-form"
       :value="dataObj"
@@ -71,12 +71,12 @@ const onEditButton = () => {
       :form-mode="formMode"
       :hash-level="hashLevel"
     >
-    </ar-sub-form> -->
+    </SubForm>
     <ElButton
       class="fab"
       icon="el-icon-refresh"
       circle
-      @click="autoRotate = !autoRotate"
+      @click="onEditButton"
     ></ElButton>
   </div>
 </template>

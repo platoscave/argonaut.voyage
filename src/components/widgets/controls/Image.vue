@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
 <template>
   <div>
     <i
@@ -36,7 +50,7 @@
     </div> -->
   </div>
 </template>
-
+<!--
 <script>
 import Tiptap from "./TiptapEditor";
 export default {
@@ -105,7 +119,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 .ar-lightgrey-background >>> .hljs {
   background: unset;

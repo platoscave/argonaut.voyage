@@ -1,8 +1,28 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { lowlight } from "lowlight/lib/core.js";
+import { toHtml } from "hast-util-to-html";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+  if (props.value) {
+    const res = lowlight.highlightAuto(JSON.stringify(props.value, null, 4));
+    return toHtml(res);
+  }
+  return "";
+});
+</script>
+
 <template>
   <div v-if="readonly">
-    <highlight-code lang="json" class="ar-lightgrey-background">
-      {{ value }}
-    </highlight-code>
+    <code>
+      <pre v-html="highlightedCode" />
+    </code>
   </div>
   <div v-else>
     <el-input
@@ -14,26 +34,6 @@
   </div>
 </template>
 
-<script>
-
-export default {
-  name: "ar-json",
-  props: {
-    value: {
-      type: Object,
-      default: () => {},
-    },
-    property: {
-      type: Object,
-      default: () => {},
-    },
-    readonly: Boolean,
-  },
-  mounted() {
-    console.log(this.value);
-  },
-};
-</script>
 
 <style scoped>
 .ar-lightgrey-background >>> .hljs {
@@ -43,6 +43,6 @@ export default {
   padding: 0px;
 }
 .ar-control > pre.ar-lightgrey-background {
-  margin: 0px
+  margin: 0px;
 }
 </style>

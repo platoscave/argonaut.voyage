@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
+
 <template>
   <div>
     <editor-menu-bar
@@ -230,7 +245,7 @@
     />
   </div>
 </template>
-
+<!--
 <script>
 
 // Tiptap version 2 will improve v-model
@@ -366,6 +381,8 @@ export default {
   },
 };
 </script>
+
+-->
 <style scoped>
 .icon {
   display: inline-block;

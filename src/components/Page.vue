@@ -63,9 +63,7 @@ const dynamicComp = [
   { name: "Validate", comp: Validate },
 ];
 const getComponent = (widgetName: string = '') => {
-  console.log('widgetName',widgetName)
   const nameComp = dynamicComp.find((item) => item.name === widgetName)
-  if(widgetName === 'Validate') debugger
   if(!nameComp) console.error( `widgetName not declared: ${widgetName}`)
   return nameComp.comp
 };
@@ -75,12 +73,12 @@ const getComponent = (widgetName: string = '') => {
   <!-- With tabbar -->
   <div v-if="pageObj">
   <!-- {{ pageObj.tabs.length }} -->
-    <div v-if="pageObj.tabs.length > 1">
+    <div v-if="pageObj.tabs.length > 1"  class="ar-full-height">
       <el-tabs
         :value="selectedTab ? selectedTab : '0'"
         @tab-click="updateHashWithSelectedTab(hashLevel, '2')"
       >
-        <el-tab-pane
+        <el-tab-pane  class="ar-full-height" 
           v-for="(tab, tabNum) in pageObj.tabs"
           :key="tabNum.toString()"
           :label="tab.name"
@@ -142,3 +140,29 @@ const getComponent = (widgetName: string = '') => {
     </div>
   </div>
 </template>
+<style scoped>
+.el-tabs {
+  height: 100%;
+}
+.el-tab-pane {
+  height: 100%;
+}
+.ar-widget-selector {
+  height: 100%;
+}
+.ar-layout {
+  height: 100%;
+}
+.el-tabs >>> .el-tabs__header {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
+.el-tabs >>> .el-tabs__content {
+  height: calc(100% - 40px);
+  padding: 0px;
+  overflow: auto;
+  display: block;
+  width: 100%;
+}
+</style>

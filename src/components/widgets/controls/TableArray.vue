@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
+
 <template>
   <ar-sub-table
     class="ar-subform-background"
@@ -8,7 +23,7 @@
     :hash-level="hashLevel"
   ></ar-sub-table>
 </template>
-
+<!--
 <script>
 //import SubForm from "./SubForm"; // must be declared globally
 
@@ -37,7 +52,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 /* subForm background */
 .ar-subform-background {

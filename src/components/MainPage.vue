@@ -3,9 +3,6 @@ import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 //import EosServices from "~/services/eosServices";
-// import { liveQuery } from "dexie";
-// import { useSubscription } from '@vueuse/rxjs'
-// import { interval } from 'rxjs'
 import networks from "~/config/networks.js";
 import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { ElMessage } from 'element-plus'
@@ -194,7 +191,6 @@ onMounted( async () => {
 
 <style>
 #appX {
-  text-align: center;
   color: var(--ep-text-color-primary);
 }
 </style>
@@ -205,7 +201,6 @@ onMounted( async () => {
 .ar-main {
   height: calc(100vh - 40px);
   padding: 0px;
-  overflow: auto;
   display: block;
   width: 100%;
 }

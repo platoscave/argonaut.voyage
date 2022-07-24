@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
 <template>
   <el-table
     class="elementUiTable"
@@ -49,7 +63,7 @@
     </el-table-column>
   </el-table>
 </template>
-
+<!--
 <script>
 /* eslint-disable vue/no-unused-components */
 import WidgetMixin from "../../../lib/widgetMixin";
@@ -182,7 +196,7 @@ export default {
   },
 };
 </script>
-
+-->
 <style scoped>
 /* Input Control */
 .ar-control >>> input {

@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const props = defineProps({
+  value: Object,
+  property: Object,
+  readonly: Boolean,
+});
+
+const highlightedCode = computed(() => {
+
+});
+</script>
+
+
 <template>
   <div v-if="readonly" class="ar-lightgrey-background">
     <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
@@ -34,7 +49,7 @@
     </el-option>
   </el-select>
 </template>
-
+<!--
 <script>
 import { argoQuery } from "../../../services/dexieServices";
 import { pluck, switchMap, filter, distinctUntilChanged, defaultIfEmpty } from "rxjs/operators";
@@ -101,7 +116,7 @@ export default {
 
 };
 </script>
-
+-->
 <style scoped>
 
 /* checkbox background*/

@@ -1,57 +1,66 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import Ajv from "ajv";
 import { db, argoQuery } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
-import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
-import Ajv from "ajv";
-import * as draft4MetaSchema from "ajv/lib/refs/json-schema-draft-04.json";
+import { useHashDissect } from "~/composables/useHashDissect";
+import { lowlight } from "lowlight/lib/core.js";
+import { toHtml } from "hast-util-to-html";
 
 const props = defineProps({
   hashLevel: Number,
   viewId: String,
-})
-const {selectedObjId, pageId, selectedTab} = useHashDissect(props.hashLevel)
-const viewObj = ref({})
-const errorObj = ref({})
-const formMode = ref("Readonly Dense")
-const ajv = new Ajv()
+});
+const { selectedObjId } = useHashDissect(props.hashLevel);
+const highlightedCode = ref("");
+const highlightedErrors = ref("");
+const ajv = new Ajv({ allErrors: true, strict: false, schemaId: "auto" });
 
 interface IDataObj {
   _id: string;
-  name: string;
   classId: string;
 }
 const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
-)
-watch(dataObj, async (dataObj) => {
-  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId)
+);
 
-  const validate = ajv.compile(viewObj.value);
-  const valid = validate(dataObj);
-  if (valid) errorObj.value = ["Valid"];
-  else return errorObj.value = validate.errors;
+watch(dataObj, (dataObj) => {
+  argoQuery.getMergedAncestorProperties(dataObj.classId).then((schemaObj) => {
+    highlightedCode.value = toHtml(
+      lowlight.highlightAuto(JSON.stringify(schemaObj, null, 4))
+    );
+
+    const validate = ajv.compile(schemaObj);
+    const valid = validate(dataObj);
+    highlightedErrors.value = toHtml(
+      lowlight.highlightAuto(JSON.stringify({ erorrs: validate.errors}, null, 4))
+    );
+
+  });
 });
-
-
 </script>
 
 <template>
   <div>
     <h3>Errors</h3>
-    <!-- <highlight-code lang="json" class="highlight-code">
-      {{ errorObj }}
-    </highlight-code>
-    <h3>Schema</h3>
-    <highlight-code lang="json" class="highlight-code">
-      {{ schemaObj }}
-    </highlight-code> -->
+    <code>
+      <pre v-html="highlightedErrors" />
+    </code>
+    <h3>Merged Ancestors Schema</h3>
+    <code>
+      <pre v-html="highlightedCode" />
+    </code>
   </div>
 </template>
 
-
 <style scoped>
+code {
+  padding: 0px;
+}
+pre {
+  margin: 0px;
+}
 .highlight-code >>> .hljs {
   background: unset;
   line-height: 20px;
