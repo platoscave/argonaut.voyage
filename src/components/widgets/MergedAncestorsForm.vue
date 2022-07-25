@@ -64,7 +64,7 @@ const onEditButton = () => {
     <SubForm
       ref="schemaForm"
       class="ar-json-schema-form"
-      :value="dataObj"
+      :model-value="dataObj"
       @input="onInput"
       :properties="viewObj.properties"
       :requiredArr="viewObj.required"

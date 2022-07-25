@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -14,34 +15,34 @@ const highlightedCode = computed(() => {
 
 <template>
   <div v-if="readonly || property.enum.length < 2" class="ar-lightgrey-background">
-    {{ value }}
+    {{ modelValue }}
   </div>
 
   <el-radio-group
     v-else-if="property.enum.length < 5"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
-    :value="value"
+    :model-value="modelValue"
   >
     <el-radio
       class="ar-radio"
       v-for="item in property.enum"
       :key="item"
       :label="item"
-      :value="item"
+      :model-value="item"
     ></el-radio>
   </el-radio-group>
   <el-select
     v-else
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
-    :value="value"
+    :model-value="modelValue"
   >
     <el-option
       v-for="item in property.enum"
       :key="item"
       :label="item"
-      :value="item"
+      :model-value="item"
     >
     </el-option>
   </el-select>
@@ -51,7 +52,7 @@ const highlightedCode = computed(() => {
 export default {
   name: "ar-select-string-enum",
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: "",
     },

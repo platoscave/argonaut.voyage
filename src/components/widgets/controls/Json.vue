@@ -4,14 +4,15 @@ import { lowlight } from "lowlight/lib/core.js";
 import { toHtml } from "hast-util-to-html";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
-  if (props.value) {
-    const res = lowlight.highlightAuto(JSON.stringify(props.value, null, 4));
+  if (props.modelValue) {
+    const res = lowlight.highlightAuto(JSON.stringify(props.modelValue, null, 4));
     return toHtml(res);
   }
   return "";
@@ -29,7 +30,7 @@ const highlightedCode = computed(() => {
       type="textarea"
       autosize
       v-on:input="$emit('input', $event)"
-      :value="JSON.stringify(value, null, 2)"
+      :model-value="JSON.stringify(modelValue, null, 2)"
     ></el-input>
   </div>
 </template>

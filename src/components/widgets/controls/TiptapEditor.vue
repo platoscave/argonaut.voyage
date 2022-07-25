@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -18,7 +19,7 @@ const highlightedCode = computed(() => {
     <editor-menu-bar
       v-if="
         readonly === false &&
-        (typeof value === 'object' || !value.startsWith('<pre><code>'))
+        (typeof modelValue === 'object' || !modelValue.startsWith('<pre><code>'))
       "
       :editor="editor"
       v-slot="{ commands, isActive }"
@@ -293,7 +294,7 @@ export default {
     ToolbarButton
   },
   props: {
-    value: {
+    modelValue: {
       type : [String, Object],
       default: ""
     },
@@ -367,9 +368,9 @@ export default {
     // Thats why we need both mounted and watch
     readonly: 'readonlyHandeler',
 
-    value: {
-      handler(value) {
-        this.editor.setContent(value);
+    modelValue: {
+      handler(modelValue) {
+        this.editor.setContent(modelValue);
       }
     }
   },

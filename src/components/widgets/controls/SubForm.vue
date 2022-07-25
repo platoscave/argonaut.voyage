@@ -5,7 +5,7 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 // import ControlSelector from "./ControlSelector";
 // /* eslint-disable vue/no-unused-components */
 // // on behalf of the control selector
-import { ElInput } from 'element-plus'
+import { ElInput } from "element-plus";
 import FormArray from "./FormArray.vue";
 import Image from "./Image.vue";
 import Json from "./Json.vue";
@@ -13,17 +13,19 @@ import NestedObject from "./NestedObject.vue";
 import Number from "./Number.vue";
 import TableArray from "./TableArray.vue";
 import SelectStringQuery from "./SelectStringQuery.vue";
+import SelectArrayEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
 import SubForm from "./SubForm.vue";
 import TiptapEditor from "./TiptapEditor.vue";
 
 const props = defineProps({
-  hashLevel: Number,
-  value: Object,
-  properties: Object,
-  requiredArr: Array,
-  formMode: String,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  requiredArr: { type: Array, default: [] },
+  formMode: { type: String, default: "Readonly Dense" },
+})
+
 const formEl = ref(null);
 
 const validate = () => {
@@ -94,6 +96,7 @@ const dynamicComp = [
   { name: "NestedObject", comp: NestedObject },
   { name: "Number", comp: Number },
   { name: "SelectArrayQuery", comp: SelectArrayQuery },
+  { name: "SelectArrayEnum", comp: SelectArrayEnum },
   { name: "SelectStringQuery", comp: SelectStringQuery },
   { name: "SubForm", comp: SubForm },
   { name: "TableArray", comp: TableArray },
@@ -107,7 +110,6 @@ interface IProperty {
   format: string;
   properties: object;
   items: {
-    [key: number]: number;
     type: string;
     properties: object;
     argoQuery: object;
@@ -179,7 +181,7 @@ const getComponent = (property: IProperty) => {
   <el-form
     ref="formEl"
     class="ar-json-schema-form"
-    :model="value"
+    :model="modelValue"
     :rules="validationRules"
     labelWidth="100px"
     labelPosition="left"
@@ -187,17 +189,18 @@ const getComponent = (property: IProperty) => {
     :show-message="formMode.startsWith('Edit')"
   >
     <div v-for="(property, propertyName) in properties" :key="propertyName">
-      <!-- Skip form item if formMode is Readonly Dense and value is empty -->
+      <!-- Skip form item if formMode is Readonly Dense and modelValue is empty -->
       <!-- :prop is needed for validation rules! -->
       <el-form-item
         v-if="
           !(
             (
               formMode === 'Readonly Dense' &&
-              (!value[propertyName] || // empty value
-                (property.type === 'array' && !value[propertyName].length) || // empty array
+              (!modelValue[propertyName] || // empty modelValue
+                (property.type === 'array' &&
+                  !modelValue[propertyName].length) || // empty array
                 (property.type === 'object' &&
-                  !Object.keys(value[propertyName]).length))
+                  !Object.keys(modelValue[propertyName]).length))
             ) // empty object
           )
         "
@@ -229,12 +232,12 @@ const getComponent = (property: IProperty) => {
             - hash-level is used by Selects with a argoQuery (to get selectedObjectId from hash)
             - property and form-mode are passed in case we're creating a subForm
             - We use the v-model pattern to send/recieve data to/from child components. 
-              Below, we watch for changes to value and emit input events accordingly.
+              Below, we watch for changes to modelValue and emit input events accordingly.
            -->
         <component
           :is="getComponent(property)"
           class="ar-control"
-          v-model="value[propertyName]"
+          v-model="modelValue[propertyName]"
           :property="property"
           :readonly="formMode.startsWith('Readonly')"
           :required="requiredArr.includes(propertyName)"
@@ -281,7 +284,7 @@ export default {
     "ar-tiptap": Tiptap,
   },
   props: {
-    value: {
+    modelValue: {
       type: Object,
       default: () => {},
     },
@@ -367,7 +370,7 @@ export default {
   },
 
   watch: {
-    value: {
+    modelValue: {
       handler(newVal) {
         this.$emit("input", newVal);
       },
@@ -384,20 +387,14 @@ export default {
 .icon {
   margin-left: 5px;
 }
-/* Input Control */
-.ar-control >>> input {
+.ar-control >>> .el-input__wrapper {
   background-color: #ffffff08;
-  border-color: #00adff42;
-  font-size: 16px;
-  height: 24px;
-}
-/* TODO how do we get rid of hover? */
-.Xar-control >>> .el-input__inner:hover {
-  border-style: none;
+  box-shadow: 0 0 0 1px #00adff42;
+  /* box-shadow: none; */
 }
 
 /* Checkbox Boolean*/
-label.el-checkbox.ar-control {
+Xlabel.el-checkbox.ar-control {
   background-color: #ffffff08;
   padding-left: 10px;
   padding-right: 10px;
@@ -418,7 +415,7 @@ label.el-checkbox.ar-control {
 }*/
 
 /* Label height */
-.ar-json-schema-form >>> label {
+X.ar-json-schema-form >>> label {
   line-height: 24px;
 }
 
@@ -428,7 +425,7 @@ label.el-checkbox.ar-control {
 }
 
 /* Description */
-.ar-json-schema-form >>> .el-form-item__content {
+X.ar-json-schema-form >>> .el-form-item__content {
   line-height: 24px;
 }
 
@@ -477,6 +474,7 @@ label.el-checkbox.ar-control[readonly],
 .el-form-item.is-success .el-input__inner:focus,
 .el-form-item.is-success .el-textarea__inner,
 .el-form-item.is-success .el-textarea__inner:focus {
-  border-color: #67c23a88;
+  /* border-color: #67c23a88; */
+  border-color: none;
 }
 </style>

@@ -1,48 +1,47 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+  formMode: { type: String, default: "Readonly Dense" },
+})
 
-const highlightedCode = computed(() => {
-
-});
 </script>
 
 <template>
   <div>
-    <!-- Create a subForm for each of the items in the value array -->
+    <!-- Create a subForm for each of the items in the modelValue array -->
     <div
-      v-for="(item, idx) in value"
+      v-for="(item, idx) in modelValue"
       :key="idx"
       :class="{
         'ar-subform-background': true,
         'not-readonly': formMode.startsWith('Edit') && property.additionalItems,
       }"
     >
-      <ar-sub-form
-        v-model="value[idx]"
+      <subForm
+        v-model="modelValue[idx]"
         :draggable="formMode.startsWith('Edit') && property.additionalItems"
         :properties="property.items.properties"
         :requiredArr="property.required"
         :form-mode="formMode"
         :hash-level="hashLevel"
-      ></ar-sub-form>
+      ></subForm>
       <!-- Delete icon -->
       <i
         v-if="formMode.startsWith('Edit') && property.additionalItems"
         class="el-icon-close"
-        @click="value.splice(idx, 1)"
+        @click="modelValue.splice(idx, 1)"
       ></i>
     </div>
     <!-- Add icon -->
     <i
       v-if="formMode.startsWith('Edit') && property.additionalItems"
       class="el-icon-plus"
-      @click="value.push({})"
+      @click="modelValue.push({})"
     ></i>
   </div>
 </template>
@@ -53,7 +52,7 @@ const highlightedCode = computed(() => {
 export default {
   name: "ar-view-form-array",
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => [],
     },
@@ -67,7 +66,7 @@ export default {
     hashLevel: Number,
   },
   watch: {
-    value: {
+    modelValue: {
       handler(newVal) {
         this.$emit("input", newVal);
       },

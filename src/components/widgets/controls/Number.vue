@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -14,14 +15,14 @@ const highlightedCode = computed(() => {
 
 <template>
   <div v-if="readonly" class="ar-number-div">
-    {{ Number.parseFloat(value).toFixed(precision) }}
+    {{ Number.parseFloat(modelValue).toFixed(precision) }}
   </div>
 
   <el-input-number
     v-else
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
-    :value="value"
+    :model-value="modelValue"
     :min="property.minimum"
     :max="property.maximum"
     :precision="precision"
@@ -34,7 +35,7 @@ const highlightedCode = computed(() => {
 export default {
   name: "ar-number",
   props: {
-    value: {
+    modelValue: {
       type: Number,
       default: 0,
     },

@@ -49,7 +49,6 @@ declare module '@vue/runtime-core' {
     Raw: typeof import('./components/widgets/simpleJson/Raw.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectArrayEnum: typeof import('./components/widgets/controls/SelectArrayEnum.vue')['default']
     SelectArrayQuery: typeof import('./components/widgets/controls/SelectArrayQuery.vue')['default']
     SelectStringEnum: typeof import('./components/widgets/controls/SelectStringEnum.vue')['default']
     SelectStringQuery: typeof import('./components/widgets/controls/SelectStringQuery.vue')['default']

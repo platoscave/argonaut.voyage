@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -15,13 +16,13 @@ const highlightedCode = computed(() => {
 <template>
   <div>
     <i
-      v-if="value.startsWith('el-icon')"
+      v-if="modelValue.startsWith('el-icon')"
       class="ar-lightgrey-background"
-      v-bind:class="value"
+      v-bind:class="modelValue"
     />
-    <img v-else :src="value" class="ar-lightgrey-background" />
+    <img v-else :src="modelValue" class="ar-lightgrey-background" />
 
-    <div v-if="value.startsWith('data:image/svg+xml')">
+    <div v-if="modelValue.startsWith('data:image/svg+xml')">
       <div v-if="readonly">
         <highlight-code lang="xml" class="ar-lightgrey-background">
           {{ svgMarkup }}
@@ -32,20 +33,20 @@ const highlightedCode = computed(() => {
           type="textarea"
           autosize
           v-on:input="onInput"
-          :value="svgMarkup"
+          :model-value="svgMarkup"
         ></el-input>
       </div>
     </div>
 
     <div v-else-if="!readonly">
-      <el-input :value="value" v-on:input="$emit('input', $event)"></el-input>
+      <el-input :model-value="modelValue" v-on:input="$emit('input', $event)"></el-input>
     </div>
 
     <!-- In future color coded editor
     <div v-if="property.contentMediaType === 'image/svg+xml' && !readonly">
       <ar-tiptap
         v-on:input="$emit('input', $event)"
-        :value="'<pre><code>' + svgMarkup + '</code></pre>'"
+        :model-value="'<pre><code>' + svgMarkup + '</code></pre>'"
       ></ar-tiptap>
     </div> -->
   </div>
@@ -59,7 +60,7 @@ export default {
     "ar-tiptap": Tiptap,
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: "",
     },
@@ -76,13 +77,13 @@ export default {
   },
   computed: {
     svgMarkup: function() {
-      if (this.value.startsWith("data:image/svg+xml;base64,")) {
-        const markup = this.value.slice(26); // remove data:image/svg+xml;base64,
+      if (this.modelValue.startsWith("data:image/svg+xml;base64,")) {
+        const markup = this.modelValue.slice(26); // remove data:image/svg+xml;base64,
         return window.atob(markup);
       }
 
-      if (this.value.startsWith("data:image/svg+xml;utf8,")) {
-        const markup = this.value.slice(24); // remove data:image/svg+xml;utf8,
+      if (this.modelValue.startsWith("data:image/svg+xml;utf8,")) {
+        const markup = this.modelValue.slice(24); // remove data:image/svg+xml;utf8,
         return decodeURIComponent(markup);
       }
       return "";
@@ -90,12 +91,12 @@ export default {
   },
   methods: {
     onInput(escapedSvg) {
-      if (this.value.startsWith("data:image/svg+xml;base64,")) {
+      if (this.modelValue.startsWith("data:image/svg+xml;base64,")) {
         const base64Encoded = window.btoa(escapedSvg);
         //console.log("urlEncoded", base64Encoded);
         this.$emit("input", "data:image/svg+xml;base64," + base64Encoded);
       }
-      if (this.value.startsWith("data:image/svg+xml;utf8,")) {
+      if (this.modelValue.startsWith("data:image/svg+xml;utf8,")) {
         // The svg must be uri escaped. However we dont need to escape everything, so we roll our own
         // This leaves the svg somewhat ledgible in our data store
         const escapeUrl = (text) => {

@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -15,7 +16,7 @@ const highlightedCode = computed(() => {
 <template>
   <ar-sub-form
     class="ar-subform-background"
-    v-model="value"
+    v-model="modelValue"
     :properties="property.properties"
     :requiredArr="property.required"
     :form-mode="formMode"
@@ -29,7 +30,7 @@ const highlightedCode = computed(() => {
 export default {
   name: "ar-nested-object",
   props: {
-    value: {
+    modelValue: {
       type: Object,
       default: () => {},
     },
@@ -41,7 +42,7 @@ export default {
     hashLevel: Number,
   },
   watch: {
-    value: {
+    modelValue: {
       handler(newVal) {
         this.$emit("input", newVal);
       },

@@ -1,5 +1,5 @@
 export default {
-  props: ['value', 'editor'],
+  props: ['modelValue', 'editor'],
   watch: {
     editor: {
       immediate: true,

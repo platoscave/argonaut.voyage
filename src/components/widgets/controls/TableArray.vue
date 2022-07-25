@@ -2,10 +2,12 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+  formMode: { type: String, default: "Readonly Dense" },
+})
 
 const highlightedCode = computed(() => {
 
@@ -16,7 +18,7 @@ const highlightedCode = computed(() => {
 <template>
   <ar-sub-table
     class="ar-subform-background"
-    v-model="value"
+    v-model="modelValue"
     :properties="property.items.properties"
     :requiredArr="property.required"
     :form-mode="formMode"
@@ -30,7 +32,7 @@ const highlightedCode = computed(() => {
 export default {
   name: "ar-view-table-array",
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => [],
     },
@@ -43,7 +45,7 @@ export default {
     hashLevel: Number,
   },
   watch: {
-    value: {
+    modelValue: {
       handler(newVal) {
         this.$emit("input", newVal);
       },

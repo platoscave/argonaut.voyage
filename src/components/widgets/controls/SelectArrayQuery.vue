@@ -2,10 +2,11 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+})
 
 const highlightedCode = computed(() => {
 
@@ -15,7 +16,7 @@ const highlightedCode = computed(() => {
 
 <template>
   <div v-if="readonly" class="ar-lightgrey-background">
-    <div v-for="item in filteredObjs" :key="item._id" :value="item._id">
+    <div v-for="item in filteredObjs" :key="item._id" :model-value="item._id">
       <div>{{ item.title ? item.title : item.name }}</div>
     </div>
   </div>
@@ -23,13 +24,13 @@ const highlightedCode = computed(() => {
     v-else-if="items.length < 5"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
-    :value="value"
+    :model-value="modelValue"
   >
     <el-checkbox
       v-for="item in items"
       :key="item._id"
       :label="item.title ? item.title : item.name"
-      :value="item._id"
+      :model-value="item._id"
     ></el-checkbox>
   </el-checkbox-group>
   <el-select
@@ -37,14 +38,14 @@ const highlightedCode = computed(() => {
     class="ar-multiple"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
-    :value="value"
+    :model-value="modelValue"
     multiple
   >
     <el-option
       v-for="item in items"
       :key="item._id"
       :label="item.title ? item.title : item.name"
-      :value="item._id"
+      :model-value="item._id"
     >
     </el-option>
   </el-select>
@@ -59,7 +60,7 @@ export default {
   name: "ar-select-array-query",
   mixins: [WidgetMixin],
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => [],
     },
@@ -84,7 +85,7 @@ export default {
       immediate: true,
       deep: true
     })
-      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
+      .pipe(pluck("newValue")) // Obtain modelValue from reactive var (whenever it changes)
       .pipe(filter((property) => (property && property.items && property.items.argoQuery))) //filter out falsy values
       .pipe(distinctUntilChanged()); // emit only when changed
 
@@ -105,11 +106,11 @@ export default {
   },
 
   computed: {
-    // Get the objs that have an _id in the value array so we have access to the label
+    // Get the objs that have an _id in the modelValue array so we have access to the label
     filteredObjs: function() {
-      if (!(this.value && this.items)) return "";
+      if (!(this.modelValue && this.items)) return "";
       return this.items.filter((obj) => {
-        return this.value.includes(obj._id);
+        return this.modelValue.includes(obj._id);
       });
     },
   },

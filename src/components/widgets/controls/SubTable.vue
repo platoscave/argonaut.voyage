@@ -2,10 +2,12 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  value: Object,
-  property: Object,
-  readonly: Boolean,
-});
+  hashLevel: { type: Number, default: 0 },
+  modelValue: { type: Object, default: {} },
+  properties: { type: Object, default: {} },
+  readonly: { type: Boolean, default: true },
+  formMode: { type: String, default: "Readonly Dense" },
+})
 
 const highlightedCode = computed(() => {
 
@@ -15,7 +17,7 @@ const highlightedCode = computed(() => {
 <template>
   <el-table
     class="elementUiTable"
-    :data="value"
+    :data="modelValue"
     style="width: 100%"
     highlight-current-row
     @current-change="
@@ -48,7 +50,7 @@ const highlightedCode = computed(() => {
           - hash-level is used by Selects with a argoQuery (to get selectedObjectId from hash)
           - property and form-mode are passed in case we're creating a subForm
           - We use the v-model pattern to send/recieve data to/from child components. 
-            Below, we watch for changes to value and emit input events accordingly.
+            Below, we watch for changes to modelValue and emit input events accordingly.
           -->
         <ar-control-selector
             class="ar-control"
@@ -98,7 +100,7 @@ export default {
     "ar-tiptap": Tiptap,
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => {},
     },
@@ -187,7 +189,7 @@ export default {
   },
   
   watch: {
-    value: {
+    modelValue: {
       handler(newVal) {
         this.$emit("input", newVal);
       },
