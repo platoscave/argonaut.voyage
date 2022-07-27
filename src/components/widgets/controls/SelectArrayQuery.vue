@@ -1,18 +1,31 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import useArgoQuery from "~/composables/useArgoQuery";
+import { useHashDissect } from "~/composables/useHashDissect";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
+  modelValue: { type: Array, default: [] },
+  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-})
+  requiered: { type: Boolean, default: false },
+});
 
-const highlightedCode = computed(() => {
+const { selectedObjId } = useHashDissect(props.hashLevel);
 
+const items = useArgoQuery(
+  props.property.argoQuery,
+  { _id: selectedObjId.value },
+  [props.property, selectedObjId]
+);
+
+const filteredObjs = computed(() => {
+  if (!(props.modelValue && items.value)) return "";
+  return items.value.filter((obj) => {
+    return props.modelValue.includes(obj._id);
+  });
 });
 </script>
-
 
 <template>
   <div v-if="readonly" class="ar-lightgrey-background">
@@ -119,7 +132,6 @@ export default {
 </script>
 -->
 <style scoped>
-
 /* checkbox background*/
 .el-checkbox-group {
   background-color: #ffffff08;

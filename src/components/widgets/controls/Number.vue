@@ -3,13 +3,22 @@ import { ref, computed } from "vue";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
+  modelValue: { type: Number, default: 0 },
+  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-})
+});
 
-const highlightedCode = computed(() => {
-
+const precision = computed(() => {
+  if (props.property.type === "number") {
+    if (props.property.multipleOf) {
+      // use the exponent of multipleOf to determin precision
+      let exp = String(props.property.multipleOf.toExponential());
+      exp = Number(exp.substr(exp.lastIndexOf("e") + 1));
+      return Math.abs(exp); // must be positive int
+    }
+  }
+  // integer
+  return 0;
 });
 </script>
 
@@ -78,6 +87,5 @@ export default {
 }
 .el-input-number--small {
   width: 220px;
-
 }
 </style>

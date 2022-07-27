@@ -5,7 +5,7 @@
 ACTION argonautvoya::upsert(name user, 
       name key,
       name classId,
-      name supperClassId,
+      name superClassId,
       name ownerId,
       std::string document) {
   // Will fail if the user does not sign the transaction
@@ -21,7 +21,7 @@ ACTION argonautvoya::upsert(name user,
     argonautVoyage_iterator = argonautVoyage_tbl.emplace(user, [&]( auto& iter ) {
       iter.key = key;
       iter.classId = classId;
-      iter.supperClassId = supperClassId;
+      iter.superClassId = superClassId;
       iter.ownerId = ownerId;
       iter.document = document;
     });
@@ -30,7 +30,7 @@ ACTION argonautvoya::upsert(name user,
     argonautVoyage_tbl.modify( argonautVoyage_iterator, _self, [&]( auto& iter ) {
       iter.key = key;
       iter.classId = classId;
-      iter.supperClassId = supperClassId;
+      iter.superClassId = superClassId;
       iter.ownerId = ownerId;
       iter.document = document;
     });
@@ -59,7 +59,7 @@ ACTION argonautvoya::eraseall(name user) {
 void validate_argonautvoya (
       name key,
       name classId,
-      name supperClassId,
+      name superClassId,
       name ownerId,
       std::string document) {
 
@@ -69,8 +69,8 @@ void validate_argonautvoya (
     // Validate classId
     // perform regex on classId
 
-    // Validate supperClassId
-    // perform regex on supperClassId
+    // Validate superClassId
+    // perform regex on superClassId
 
     // Validate ownerId
     // perform regex on ownerId

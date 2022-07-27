@@ -8,23 +8,34 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { ElInput } from "element-plus";
 import FormArray from "./FormArray.vue";
 import Image from "./Image.vue";
+import Input from "./Input.vue";
 import Json from "./Json.vue";
 import NestedObject from "./NestedObject.vue";
 import Number from "./Number.vue";
 import TableArray from "./TableArray.vue";
 import SelectStringQuery from "./SelectStringQuery.vue";
-import SelectArrayEnum from "./SelectStringEnum.vue";
+import SelectStringEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
 import SubForm from "./SubForm.vue";
 import TiptapEditor from "./TiptapEditor.vue";
 
+// For some reason I can only add default to requiredArr.
+// As soon as I addd others I get wierd compiler erros. I'm clueless.
 const props = defineProps({
-  hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
-  requiredArr: { type: Array, default: [] },
-  formMode: { type: String, default: "Readonly Dense" },
+  hashLevel: Number,
+  modelValue: Object,
+  properties: Object,
+  requiredArr: { type: Array, default: () => [] },
+  formMode: String,
 })
+
+// const props = defineProps({
+//   hashLevel: { type: Number, default: 0 },
+//   modelValue: { type: Object, default: () => {} },
+//   properties: { type: Object, default: () => {} },
+//   requiredArr: { type: Array, default: () => [] },
+//   formMode: { type: String, default: "Readonly Dense" },
+// })
 
 const formEl = ref(null);
 
@@ -92,11 +103,12 @@ const dynamicComp = [
   { name: "ElInput", comp: ElInput },
   { name: "FormArray", comp: FormArray },
   { name: "Image", comp: Image },
+  { name: "Input", comp: Input },
   { name: "Json", comp: Json },
   { name: "NestedObject", comp: NestedObject },
   { name: "Number", comp: Number },
   { name: "SelectArrayQuery", comp: SelectArrayQuery },
-  { name: "SelectArrayEnum", comp: SelectArrayEnum },
+  { name: "SelectStringEnum", comp: SelectStringEnum },
   { name: "SelectStringQuery", comp: SelectStringQuery },
   { name: "SubForm", comp: SubForm },
   { name: "TableArray", comp: TableArray },
@@ -136,7 +148,7 @@ const getComponent = (property: IProperty) => {
       // Date time
       else if (property.format === "date-time") return "ElDatePicker";
       // Text
-      else return "ElInput";
+      else return "Input";
     }
 
     // Number
@@ -180,7 +192,6 @@ const getComponent = (property: IProperty) => {
   :model and :rules are needed for validation rules. Do not mess with them! You will spend a week trying to figure out why it doesn't work-->
   <el-form
     ref="formEl"
-    class="ar-json-schema-form"
     :model="modelValue"
     :rules="validationRules"
     labelWidth="100px"

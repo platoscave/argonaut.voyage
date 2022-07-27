@@ -3,8 +3,8 @@ import { ref, computed } from "vue";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
+  modelValue: { type: String, default: '' },
+  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
 })
 

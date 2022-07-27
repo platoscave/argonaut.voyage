@@ -349,7 +349,7 @@ class GenerateCpp {
                     title: 'Class',
                     type: 'string'
                 },
-                supperClassId: {
+                superClassId: {
                     pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
                     argoQuery: {
                         where: {

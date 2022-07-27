@@ -2,15 +2,18 @@
 import { ref, watch } from "vue";
 import { db, argoQuery } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
-import { useHashDissect, updateHashWithSelectedTab } from "~/composables/useHashDissect";
+import {
+  useHashDissect,
+  updateHashWithSelectedTab,
+} from "~/composables/useHashDissect";
 
 const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
-})
-const {selectedObjId, pageId, selectedTab} = useHashDissect(props.hashLevel)
-const viewObj = ref({})
-const formMode = ref("Readonly Dense")
+});
+const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+const viewObj = ref({});
+const formMode = ref("Readonly Dense");
 
 interface IDataObj {
   _id: string;
@@ -19,16 +22,10 @@ interface IDataObj {
 const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
-)
+);
 watch(dataObj, async (dataObj) => {
-  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId)
+  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId);
 });
-
-
-
-
-
-
 
 const onInput = async (updatedDataObj) => {
   /*
@@ -47,7 +44,7 @@ const onInput = async (updatedDataObj) => {
     this.$message({ showClose: true, message: err, type: "error" })
   }
   */
-}
+};
 
 const onEditButton = () => {
   if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";
@@ -56,22 +53,25 @@ const onEditButton = () => {
     formMode.value = "Edit Full";
   else if (formMode.value === "Edit Permitted") formMode.value = "Edit Full";
   else formMode.value = "Readonly Dense";
-}
+};
 </script>
 
 <template>
-  <div v-if="dataObj && viewObj" class="fab-parent" >
-    <SubForm
-      ref="schemaForm"
-      class="ar-json-schema-form"
-      :model-value="dataObj"
-      @input="onInput"
-      :properties="viewObj.properties"
-      :requiredArr="viewObj.required"
-      :form-mode="formMode"
-      :hash-level="hashLevel"
-    >
-    </SubForm>
+  <div v-if="dataObj && viewObj" class="fab-parent">
+    <div class="ar-json-schema-form">
+    <div>
+      <SubForm
+        ref="schemaForm"
+        :model-value="dataObj"
+        @input="onInput"
+        :properties="viewObj.properties"
+        :requiredArr="viewObj.required"
+        :form-mode="formMode"
+        :hash-level="hashLevel"
+      >
+      </SubForm>
+      </div>
+    </div>
     <ElButton
       class="fab"
       icon="el-icon-refresh"
@@ -175,6 +175,17 @@ export default {
 .fab-parent {
   position: relative;
   height: 100%;
+  overflow: hidden;
+}
+.ar-json-schema-form {
+  height: 100%;
+  overflow: auto;
+  max-width: 750px;
+  overflow: auto;
+  padding: 10px;
+}
+.form {
+  padding: 10px
 }
 .fab {
   position: absolute;
@@ -184,9 +195,5 @@ export default {
   color: #eee;
   background: #e91e63;
   z-index: 20;
-}
-.ar-json-schema-form {
-  max-width: 750px;
-  padding: 6px;
 }
 </style>

@@ -1,28 +1,27 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { db } from "~/services/dexieServices";
 import useArgoQuery from "~/composables/useArgoQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
+  modelValue: { type: String, default: '' },
+  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
+  requiered: { type: Boolean, default: false },
 })
+
 const { selectedObjId } = useHashDissect(props.hashLevel);
 
 const items = useArgoQuery(
   props.property.argoQuery,
-  {
-    _id: selectedObjId.value,
-  },
+  {_id: selectedObjId.value},
   [props.property, selectedObjId]
 )
 
 const valueLabel = computed(() => {
   if (!(props.modelValue && items.value)) return "";
-  let valueObj = items.value.find((obj) => {
+  let valueObj = items.value.find(obj => {
     return obj._id === props.modelValue;
   })
 

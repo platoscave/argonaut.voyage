@@ -17,13 +17,13 @@ CONTRACT argonautvoya : public contract {
     TABLE argonautVoyage_struct {
       name key;
       name classId;
-      name supperClassId;
+      name superClassId;
       name ownerId;
       std::string document;
 
       uint64_t primary_key() const { return key.value; }
       uint64_t by_classId() const { return classId.value; }
-      uint64_t by_supperClassId() const { return supperClassId.value; }
+      uint64_t by_superClassId() const { return superClassId.value; }
       uint64_t by_ownerId() const { return ownerId.value; }
     };
 
@@ -33,7 +33,7 @@ CONTRACT argonautvoya : public contract {
     ACTION upsert(name username, 
       name key,
       name classId,
-      name supperClassId,
+      name superClassId,
       name ownerId,
       std::string document);
 
@@ -46,7 +46,7 @@ CONTRACT argonautvoya : public contract {
     typedef multi_index<
       name("argonautvoya"), argonautVoyage_struct, 
       indexed_by<name("classid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_classId>>,
-      indexed_by<name("supperclassid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_supperClassId>>,
+      indexed_by<name("superClassId"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_superClassId>>,
       indexed_by<name("ownerid"), const_mem_fun<argonautVoyage_struct, uint64_t, &argonautVoyage_struct::by_ownerId>>
       > argonautVoyage_def;
 
@@ -55,7 +55,7 @@ CONTRACT argonautvoya : public contract {
     void validate_argonautVoyage(
       name key,
       name classId,
-      name supperClassId,
+      name superClassId,
       name ownerId,
       std::string document
     );

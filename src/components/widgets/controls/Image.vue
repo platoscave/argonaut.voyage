@@ -3,13 +3,50 @@ import { ref, computed } from "vue";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
-  properties: { type: Object, default: {} },
+  modelValue: { type: String, default: "" },
+  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-})
+});
 
-const highlightedCode = computed(() => {
+const onInput = (escapedSvg) => {
+  if (props.modelValue.startsWith("data:image/svg+xml;base64,")) {
+    const base64Encoded = window.btoa(escapedSvg);
+    //console.log("urlEncoded", base64Encoded);
+    this.$emit("input", "data:image/svg+xml;base64," + base64Encoded);
+  }
+  if (props.modelValue.startsWith("data:image/svg+xml;utf8,")) {
+    // The svg must be uri escaped. However we dont need to escape everything, so we roll our own
+    // This leaves the svg somewhat ledgible in our data store
+    const escapeUrl = (text) => {
+      var map = {
+        "&": "%26",
+        "#": "%23",
+        "<": "%3C",
+        ">": "%3E",
+        '"': "'",
+      };
+      return text.replace(/[&#<>"]/g, function (m) {
+        return map[m];
+      });
+    };
 
+    let urlEncoded = escapeUrl(escapedSvg);
+    //console.log("urlEncoded", urlEncoded);
+    this.$emit("input", "data:image/svg+xml;utf8," + urlEncoded);
+  }
+};
+
+const svgMarkup = computed(() => {
+  if (props.modelValue.startsWith("data:image/svg+xml;base64,")) {
+    const markup = props.modelValue.slice(26); // remove data:image/svg+xml;base64,
+    return window.atob(markup);
+  }
+
+  if (props.modelValue.startsWith("data:image/svg+xml;utf8,")) {
+    const markup = props.modelValue.slice(24); // remove data:image/svg+xml;utf8,
+    return decodeURIComponent(markup);
+  }
+  return "";
 });
 </script>
 
@@ -23,12 +60,7 @@ const highlightedCode = computed(() => {
     <img v-else :src="modelValue" class="ar-lightgrey-background" />
 
     <div v-if="modelValue.startsWith('data:image/svg+xml')">
-      <div v-if="readonly">
-        <highlight-code lang="xml" class="ar-lightgrey-background">
-          {{ svgMarkup }}
-        </highlight-code>
-      </div>
-      <div v-else>
+      <div v-if="!readonly">
         <el-input
           type="textarea"
           autosize
@@ -39,7 +71,10 @@ const highlightedCode = computed(() => {
     </div>
 
     <div v-else-if="!readonly">
-      <el-input :model-value="modelValue" v-on:input="$emit('input', $event)"></el-input>
+      <el-input
+        :model-value="modelValue"
+        v-on:input="$emit('input', $event)"
+      ></el-input>
     </div>
 
     <!-- In future color coded editor

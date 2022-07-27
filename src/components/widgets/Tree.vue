@@ -45,19 +45,37 @@ const loadNode = async (node, resolve) => {
 
   // If the item still doesn't have an icon then get one from the Anscestors
   const addClassIcons = async (items) => {
-    const iconsPromisses = [];
-    items.forEach((item) => {
-      if (!item.icon)
-        iconsPromisses.push(
-          getAnscestorsIcon(item.classId ? item.classId : item.supperClassId)
-        );
-      else iconsPromisses.push(item.icon);
-    });
-    const iconsArr = await Promise.all(iconsPromisses);
+    const iconsPromisses = items.map( item => {
+      if (item.icon) return item.icon
+      return getAnscestorsIcon(item.classId ? item.classId : item.superClassId)
+    })
+    return await Promise.all(iconsPromisses)
+  };
 
-    items.forEach((item, index) => {
-      item.icon = iconsArr[index];
-    });
+  const addTreeNodeVars = (items) => {
+    const resItems = items.map( item => {
+      item.label = item.title ? item.title : item.name; //TODO value?
+
+      if (item.queryObj.subQueryIds && item.queryObj.subQueryIds.length) {
+        item.subQueryIds = item.queryObj.subQueryIds;
+        // If the query has subQueryIds, assume it may have children
+        //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+        item.isLeaf = false;
+      } else item.isLeaf = true;
+
+      // If the queryObj has a pageId, use it. Otherwise use the item pageId.
+      if (item.queryObj.nodesPageId) item.pageId = item.queryObj.nodesPageId;
+      // Still no pageId, use the default object page based on merged anscestors
+      if (!item.pageId) {
+        if (item.classId) item.pageId = "mb2bdqadowve"; // merged anscestors page
+        else item.pageId = "24cnex2saye1"; // class details page
+      }
+
+      // If the queryObj has an icon, use it. Otherwise use the item icon.
+      if (item.queryObj.nodesIcon) item.icon = item.queryObj.nodesIcon;
+      return item
+    })
+    return resItems
   };
 
   try {
@@ -69,23 +87,38 @@ const loadNode = async (node, resolve) => {
       const queryObj = await db.state.get(viewObj.queryId);
 
       const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
-      //console.log("queryResRef", queryResRef);
-      watch(queryResRef, async (resultArr) => {
-        await addClassIcons(resultArr); // if the item doesn't have one yet
-        // update the root node
-        node.store.setData(resultArr);
-      });
+      watch(queryResRef, resultArr => {
+        // Add tree node vars
+        const enrichedResultArr = addTreeNodeVars(resultArr)
+
+        // if the item doesn't have an icon yet get it from class anscetors
+        addClassIcons(enrichedResultArr).then( iconsArr => {
+          const finalResArr = enrichedResultArr.map( ( item, idx ) => {
+            item.icon = iconsArr[idx]
+            return item
+          })
+          // update the root node
+          node.store.setData(finalResArr);
+        })
+      })
 
       resolve([]);
     }
     // node.level > 0
     else {
       const queryResRef = useArgoQuery(node.data.subQueryIds, node.data);
-      //console.log("queryResRef", queryResRef);
-      watch(queryResRef, async (resultArr) => {
-        await addClassIcons(resultArr); // if the item doesn't have one yet
-        // update the child nodes
-        node.store.updateChildren(node.data._id, resultArr);
+      watch(queryResRef, resultArr => {
+        // Add tree node vars
+        const enrichedResultArr = addTreeNodeVars(resultArr)
+
+        addClassIcons(enrichedResultArr).then( iconsArr => {
+          const finalResArr = enrichedResultArr.map( ( item, idx ) => {
+            item.icon = iconsArr[idx]
+            return item
+          })
+          // update child nodes of this node
+          node.store.updateChildren(node.data._id, finalResArr);
+        })
       });
 
       resolve([]);
@@ -318,7 +351,7 @@ export default {
           if (!item.icon)
             iconsPromisses.push(
               getAnscestorsIcon(
-                item.classId ? item.classId : item.supperClassId
+                item.classId ? item.classId : item.superClassId
               )
             );
           else iconsPromisses.push(item.icon);

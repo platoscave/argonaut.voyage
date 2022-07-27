@@ -91,7 +91,7 @@ class EosApiService {
         username: 'argonautvoya',
         key: document._id,
         classId: document.classId ? document.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
-        supperClassId: document.supperClassId ? document.supperClassId : 'aaaaaaaaaaaaa',
+        superClassId: document.superClassId ? document.superClassId : 'aaaaaaaaaaaaa',
         ownerId: document.ownerId ? document.ownerId : 'aaaaaaaaaaaaa',
         document: JSON.stringify(document)
       }
@@ -127,7 +127,7 @@ class EosApiService {
             username: 'argonautvoya',
             key: item._id,
             classId: item.classId ? item.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
-            supperClassId: item.supperClassId ? item.supperClassId : 'aaaaaaaaaaaaa',
+            superClassId: item.superClassId ? item.superClassId : 'aaaaaaaaaaaaa',
             ownerId: item.ownerId ? item.ownerId : 'aaaaaaaaaaaaa',
             document: JSON.stringify(item)
           }

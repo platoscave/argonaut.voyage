@@ -16,7 +16,7 @@
                     "type": "name"
                 },
                 {
-                    "name": "supperClassId",
+                    "name": "superClassId",
                     "type": "name"
                 },
                 {
@@ -70,7 +70,7 @@
                     "type": "name"
                 },
                 {
-                    "name": "supperClassId",
+                    "name": "superClassId",
                     "type": "name"
                 },
                 {
