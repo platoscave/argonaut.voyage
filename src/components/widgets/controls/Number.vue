@@ -85,7 +85,7 @@ export default {
   width: 200px;
   text-align: right;
 }
-.el-input-number--small {
+.el-input-number {
   width: 220px;
 }
 </style>

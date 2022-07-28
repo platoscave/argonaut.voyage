@@ -20,7 +20,7 @@ const highlightedCode = computed(() => {
 </script>
 
 <template>
-  <div v-if="readonly">
+  <div v-if="readonly" class="ar-lightgrey-background">
     <code>
       <pre v-html="highlightedCode" />
     </code>
@@ -37,13 +37,10 @@ const highlightedCode = computed(() => {
 
 
 <style scoped>
-.ar-lightgrey-background >>> .hljs {
-  background: unset;
-  line-height: 20px;
-  font-size: 14px;
+code {
   padding: 0px;
 }
-.ar-control > pre.ar-lightgrey-background {
+pre {
   margin: 0px;
 }
 </style>

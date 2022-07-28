@@ -20,10 +20,10 @@ import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
 // import PageEditor from "~/components/widgets/PageEditor.vue";
 import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 import Raw from "~/components/widgets/simpleJson/Raw.vue";
+// import SchemaForm from "~/components/widgets/SchemaForm.vue";
 // import Tiptap from "~/components/widgets/Tiptap.vue";
 import Tree from "~/components/widgets/Tree.vue";
 import Validate from "~/components/widgets/simpleJson/Validate.vue";
-// import ViewForm from "~/components/widgets/ViewForm.vue";
 // import ViewTable from "~/components/widgets/ViewTable.vue";
 
 const props = defineProps({

@@ -15,14 +15,14 @@ const highlightedCode = computed(() => {
 </script>
 
 <template>
-  <ar-sub-form
+  <SubForm
     class="ar-subform-background"
     v-model="modelValue"
     :properties="property.properties"
     :requiredArr="property.required"
     :form-mode="formMode"
     :hash-level="hashLevel"
-  ></ar-sub-form>
+  ></SubForm>
 </template>
 <!--
 <script>

@@ -14,7 +14,7 @@ const props = defineProps({
 const { selectedObjId } = useHashDissect(props.hashLevel);
 
 const items = useArgoQuery(
-  props.property.argoQuery,
+  props.property.items.argoQuery,
   { _id: selectedObjId.value },
   [props.property, selectedObjId]
 );

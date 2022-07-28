@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, toRefs } from "vue";
 import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 
 // import ControlSelector from "./ControlSelector";
@@ -8,7 +8,6 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { ElInput } from "element-plus";
 import FormArray from "./FormArray.vue";
 import Image from "./Image.vue";
-import Input from "./Input.vue";
 import Json from "./Json.vue";
 import NestedObject from "./NestedObject.vue";
 import Number from "./Number.vue";
@@ -16,8 +15,9 @@ import TableArray from "./TableArray.vue";
 import SelectStringQuery from "./SelectStringQuery.vue";
 import SelectStringEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
+import String from "./String.vue";
 import SubForm from "./SubForm.vue";
-import TiptapEditor from "./TiptapEditor.vue";
+import Html from "./Html.vue";
 
 // For some reason I can only add default to requiredArr.
 // As soon as I addd others I get wierd compiler erros. I'm clueless.
@@ -27,8 +27,7 @@ const props = defineProps({
   properties: Object,
   requiredArr: { type: Array, default: () => [] },
   formMode: String,
-})
-
+});
 // const props = defineProps({
 //   hashLevel: { type: Number, default: 0 },
 //   modelValue: { type: Object, default: () => {} },
@@ -36,9 +35,12 @@ const props = defineProps({
 //   requiredArr: { type: Array, default: () => [] },
 //   formMode: { type: String, default: "Readonly Dense" },
 // })
+// See https://stackoverflow.com/questions/66382293/how-to-use-props-in-script-setup-in-vue3 
+const { hashLevel, modelValue, properties, requiredArr, formMode } = toRefs(props);
 
 const formEl = ref(null);
 
+// methodes possibly called from outside, so pass on to our form
 const validate = () => {
   return formEl.value.validate();
 };
@@ -99,20 +101,32 @@ const validationRules = computed(() => {
   return rulesObj;
 });
 
+const notReadonlyDenseAndEmpty = (propertyName) => {
+  if (
+    formMode.value === "Readonly Dense" &&
+    (!modelValue.value[propertyName] || // modelValue is empty
+      (properties.value.type === "array" &&
+        !modelValue.value[propertyName].length) || // modelValue is an array and is empty
+      (properties.value.type === "object" &&
+        !Object.keys(modelValue.value[propertyName]).length)) // modelValue is an object and is empty
+  ) return false;
+  return true;
+};
+
 const dynamicComp = [
   { name: "ElInput", comp: ElInput },
   { name: "FormArray", comp: FormArray },
   { name: "Image", comp: Image },
-  { name: "Input", comp: Input },
   { name: "Json", comp: Json },
   { name: "NestedObject", comp: NestedObject },
   { name: "Number", comp: Number },
   { name: "SelectArrayQuery", comp: SelectArrayQuery },
   { name: "SelectStringEnum", comp: SelectStringEnum },
   { name: "SelectStringQuery", comp: SelectStringQuery },
+  { name: "String", comp: String },
   { name: "SubForm", comp: SubForm },
   { name: "TableArray", comp: TableArray },
-  { name: "TiptapEditor", comp: TiptapEditor },
+  { name: "Html", comp: Html },
 ];
 interface IProperty {
   type: string;
@@ -134,7 +148,7 @@ const getComponent = (property: IProperty) => {
     if (property.type === "string") {
       if (property.contentMediaType) {
         // HTML
-        if (property.contentMediaType === "text/html") return "TiptapEditor";
+        if (property.contentMediaType === "text/html") return "Html";
         // Image
         else if (property.contentMediaType.startsWith("image/")) return "Image";
         // Javascript, Json
@@ -148,7 +162,7 @@ const getComponent = (property: IProperty) => {
       // Date time
       else if (property.format === "date-time") return "ElDatePicker";
       // Text
-      else return "Input";
+      else return "String";
     }
 
     // Number
@@ -189,32 +203,20 @@ const getComponent = (property: IProperty) => {
 
 <template>
   <!-- Validation rules are provided by a Computed 
-  :model and :rules are needed for validation rules. Do not mess with them! You will spend a week trying to figure out why it doesn't work-->
+  :model and :rules are needed for validation rules. Do not mess with them! You will regret it-->
   <el-form
     ref="formEl"
     :model="modelValue"
     :rules="validationRules"
     labelWidth="100px"
     labelPosition="left"
-    size="small"
     :show-message="formMode.startsWith('Edit')"
   >
     <div v-for="(property, propertyName) in properties" :key="propertyName">
       <!-- Skip form item if formMode is Readonly Dense and modelValue is empty -->
-      <!-- :prop is needed for validation rules! -->
+      <!-- :prop is needed for validation rules. Do not mess with it! -->
       <el-form-item
-        v-if="
-          !(
-            (
-              formMode === 'Readonly Dense' &&
-              (!modelValue[propertyName] || // empty modelValue
-                (property.type === 'array' &&
-                  !modelValue[propertyName].length) || // empty array
-                (property.type === 'object' &&
-                  !Object.keys(modelValue[propertyName]).length))
-            ) // empty object
-          )
-        "
+        v-if="notReadonlyDenseAndEmpty(propertyName)"
         :prop="propertyName"
       >
         <!-- Label with tooltip. If no description is provided then :label from above is used. -->
@@ -259,138 +261,7 @@ const getComponent = (property: IProperty) => {
     </div>
   </el-form>
 </template>
-<!--
-<script>
-import ControlSelector from "./ControlSelector";
-/* eslint-disable vue/no-unused-components */
-// on behalf of the control selector
-import SelectStringEnum from "./SelectStringEnum";
-import SubForm from "./SubForm";
-import Image from "./Image";
-import Json from "./Json";
-import NestedObject from "./NestedObject";
-import Number from "./Number";
-import FormArray from "./FormArray";
-import TableArray from "./TableArray";
-import SelectArrayEnum from "./SelectArrayEnum";
-import SelectStringQuery from "./SelectStringQuery";
-import SelectArrayQuery from "./SelectArrayQuery";
-import Tiptap from "./TiptapEditor";
 
-export default {
-  name: "ar-sub-form",
-  components: {
-    "ar-control-selector": ControlSelector,
-    "ar-select-string-enum": SelectStringEnum,
-    "ar-sub-form": SubForm,
-    "ar-image": Image,
-    "ar-json": Json,
-    "ar-nested-object": NestedObject,
-    "ar-number": Number,
-    "ar-view-form-array": FormArray,
-    "ar-view-table-array": TableArray,
-    "ar-select-array-enum": SelectArrayEnum,
-    "ar-select-string-query": SelectStringQuery,
-    "ar-select-array-query": SelectArrayQuery,
-    "ar-tiptap": Tiptap,
-  },
-  props: {
-    modelValue: {
-      type: Object,
-      default: () => {},
-    },
-    properties: {
-      type: Object,
-      default: () => {},
-    },
-    requiredArr: {
-      type: Array,
-      default: () => [],
-    },
-    formMode: String,
-    hashLevel: Number,
-  },
-  computed: {
-    // Create the validation rules Object
-    validationRules: function () {
-      // no rules for readonly
-      if (
-        this.formMode === "Readonly Dense" ||
-        this.formMode === "Readonly Full"
-      )
-        return {};
-
-      let rulesObj = {};
-      for (var propertyName in this.properties) {
-        const property = this.properties[propertyName];
-
-        let rulesArr = [];
-
-        if (this.requiredArr.includes(propertyName)) {
-          rulesArr.push({
-            required: true,
-            message: property.title + " is required.",
-          });
-        }
-
-        if (property.minLength) {
-          rulesArr.push({
-            min: property.minLength,
-            message:
-              "Please enter at least " + property.minLength + " characters.",
-          });
-        }
-
-        // email
-        if (property.format) {
-          if (property.format === "email") {
-            rulesArr.push({
-              type: "email",
-              message:
-                "Please enter a valid email address. eg: name@provider.com",
-            });
-          } else if (property.format === "uri") {
-            rulesArr.push({
-              type: "url",
-              message: "Please enter a valid url. eg: https://provider.com",
-            });
-          }
-        }
-
-        if (property.pattern) {
-          rulesArr.push({
-            pattern: property.pattern,
-            message: " Input must comply with: " + property.pattern,
-          });
-        }
-
-        rulesObj[propertyName] = rulesArr;
-      }
-
-      return rulesObj;
-    },
-  },
-
-  methods: {
-    validate() {
-      return this.$refs["formEl"].validate();
-    },
-    resetFields() {
-      this.$refs["formEl"].resetFields();
-    },
-  },
-
-  watch: {
-    modelValue: {
-      handler(newVal) {
-        this.$emit("input", newVal);
-      },
-      deep: true,
-    },
-  },
-};
-</script>
--->
 <style scoped>
 .ar-json-schema-form {
   max-width: 750px;
@@ -398,81 +269,21 @@ export default {
 .icon {
   margin-left: 5px;
 }
+.ar-control {
+  width: 100%;
+}
+/* Input background and border */
 .ar-control >>> .el-input__wrapper {
   background-color: #ffffff08;
   box-shadow: 0 0 0 1px #00adff42;
   /* box-shadow: none; */
 }
-
-/* Checkbox Boolean*/
-Xlabel.el-checkbox.ar-control {
-  background-color: #ffffff08;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 4px;
-  border-color: #00adff42;
-  border-style: solid;
-  border-width: 1px;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-/* Select 
-.ar-control >>> .el-input > input {
-  background-color: #ffffff08;
-  border-color: #00adff42;
-  font-size: 16px;
-  height: 30px;
-}*/
-
-/* Label height */
-X.ar-json-schema-form >>> label {
-  line-height: 24px;
-}
-
 /* Item bottom margin */
-.Xar-json-schema-form >>> .el-form-item {
-  margin-bottom: 6px;
-}
-
-/* Description */
-X.ar-json-schema-form >>> .el-form-item__content {
-  line-height: 24px;
-}
-
-/* Textarea */
-.ar-control >>> .el-textarea__inner {
-  background-color: #ffffff08;
-  border-color: #00adff42;
-  /* TODO must resize textarea
-  font-size: 16px;
-  line-height: 30px; */
-}
-
-/* Readonly border style */
-.ar-control >>> input[readonly],
-label.el-checkbox.ar-control[readonly],
-.ar-control >>> .el-textarea__inner[readonly] {
-  border-style: none;
-}
-
-/* Placeholder color */
-.ar-control >>> .el-textarea__inner::placeholder,
-.ar-control >>> .el-input__inner::placeholder {
-  color: #666 !important;
-}
-
-/* Charachter counter color*/
-.ar-control >>> .el-input__count-inner,
-.ar-control >>> .el-input__count {
-  color: #666;
-}
-
-/* info icon color*/
-.el-icon-info {
-  color: #00adffb3;
+.ar-control >>> .el-form-item:not(:last-child) {
+  margin-bottom: 8px;
 }
 </style>
+
 <style>
 /* Error success borders: lighter */
 .el-form-item.is-error .el-input__inner,
@@ -489,3 +300,4 @@ label.el-checkbox.ar-control[readonly],
   border-color: none;
 }
 </style>
+-->

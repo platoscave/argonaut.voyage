@@ -18,11 +18,15 @@
   overflow: auto;
   padding: 20px;
 }
+
+.ar-control {
+  width: 100%;
+}
 .ar-lightgrey-background {
   background-color: #ffffff08;
   padding: 1px 7px;
   border-radius: 4px;
   border-style: none;
-  width: 100%;
+  min-height: 26px;
 }
 </style>

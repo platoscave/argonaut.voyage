@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
-  modelValue: { type: Object, default: {} },
+  modelValue: { type: Array, default: [] },
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
   formMode: { type: String, default: "Readonly Dense" },
@@ -22,14 +22,14 @@ const props = defineProps({
         'not-readonly': formMode.startsWith('Edit') && property.additionalItems,
       }"
     >
-      <subForm
+      <SubForm
         v-model="modelValue[idx]"
         :draggable="formMode.startsWith('Edit') && property.additionalItems"
         :properties="property.items.properties"
         :requiredArr="property.required"
         :form-mode="formMode"
         :hash-level="hashLevel"
-      ></subForm>
+      ></SubForm>
       <!-- Delete icon -->
       <i
         v-if="formMode.startsWith('Edit') && property.additionalItems"
@@ -45,37 +45,7 @@ const props = defineProps({
     ></i>
   </div>
 </template>
-<!--
-<script>
-//import SubForm from "./SubForm"; // must be declared globally
 
-export default {
-  name: "ar-view-form-array",
-  props: {
-    modelValue: {
-      type: Array,
-      default: () => [],
-    },
-    property: {
-      type: Object,
-      default: () => {},
-    },
-    readonly: Boolean,
-    formMode: String,
-    additionalItems: Boolean,
-    hashLevel: Number,
-  },
-  watch: {
-    modelValue: {
-      handler(newVal) {
-        this.$emit("input", newVal);
-      },
-      deep: true,
-    },
-  },
-};
-</script>
--->
 <style scoped>
 /* subForm background */
 .ar-subform-background {
@@ -86,7 +56,7 @@ export default {
   position: relative;
 }
 .ar-subform-background:not(:last-child) {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 /* Icons */
 .el-icon-close {
