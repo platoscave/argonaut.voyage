@@ -5,19 +5,18 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 // import ControlSelector from "./ControlSelector";
 // /* eslint-disable vue/no-unused-components */
 // // on behalf of the control selector
-import { ElInput } from "element-plus";
-import FormArray from "./FormArray.vue";
+import Html from "./Html.vue";
 import Image from "./Image.vue";
 import Json from "./Json.vue";
 import NestedObject from "./NestedObject.vue";
 import Number from "./Number.vue";
+import ObjectsArray from "./ObjectsArray.vue";
 import TableArray from "./TableArray.vue";
 import SelectStringQuery from "./SelectStringQuery.vue";
 import SelectStringEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
 import String from "./String.vue";
 import SubForm from "./SubForm.vue";
-import Html from "./Html.vue";
 
 // For some reason I can only add default to requiredArr.
 // As soon as I addd others I get wierd compiler erros. I'm clueless.
@@ -114,19 +113,18 @@ const notReadonlyDenseAndEmpty = (propertyName) => {
 };
 
 const dynamicComp = [
-  { name: "ElInput", comp: ElInput },
-  { name: "FormArray", comp: FormArray },
+  { name: "Html", comp: Html },
   { name: "Image", comp: Image },
   { name: "Json", comp: Json },
   { name: "NestedObject", comp: NestedObject },
   { name: "Number", comp: Number },
+  { name: "ObjectsArray", comp: ObjectsArray },
   { name: "SelectArrayQuery", comp: SelectArrayQuery },
   { name: "SelectStringEnum", comp: SelectStringEnum },
   { name: "SelectStringQuery", comp: SelectStringQuery },
   { name: "String", comp: String },
   { name: "SubForm", comp: SubForm },
   { name: "TableArray", comp: TableArray },
-  { name: "Html", comp: Html },
 ];
 interface IProperty {
   type: string;
@@ -181,7 +179,7 @@ const getComponent = (property: IProperty) => {
         // objects in a table
         if (property.displayAs === "Table") return "TableArray";
         // objects in a subform
-        else return "FormArray";
+        else return "ObjectsArray";
       }
 
       // multi select

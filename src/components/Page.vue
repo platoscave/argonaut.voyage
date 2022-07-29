@@ -15,12 +15,12 @@ import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
 // import Document from "~/components/widgets/Document.vue";
 import IncomeStatement from "~/components/widgets/fanancialStatements/IncomeStatement.vue";
 // import MaterializedView from "~/components/widgets/simpleJson/MaterializedView.vue";
-import MergedAncestorsForm from "~/components/widgets/MergedAncestorsForm.vue";
+import ClassSchemaForm from "~/components/widgets/ClassSchemaForm.vue";
 import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
 // import PageEditor from "~/components/widgets/PageEditor.vue";
 import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 import Raw from "~/components/widgets/simpleJson/Raw.vue";
-// import SchemaForm from "~/components/widgets/SchemaForm.vue";
+import SchemaForm from "~/components/widgets/SchemaForm.vue";
 // import Tiptap from "~/components/widgets/Tiptap.vue";
 import Tree from "~/components/widgets/Tree.vue";
 import Validate from "~/components/widgets/simpleJson/Validate.vue";
@@ -55,10 +55,11 @@ const dynamicComp = [
   { name: "Calendar", comp: Calendar },
   { name: "Cash Flows", comp: CashFlows },
   { name: "Income Statement", comp: IncomeStatement },
-  { name: "Merged Ancestors Form", comp: MergedAncestorsForm },
+  { name: "Class Schema Form", comp: ClassSchemaForm },
   { name: "Navigation Menu", comp: NavigationMenu },
   { name: "Process Model", comp: ProcessModel },
   { name: "Raw", comp: Raw },
+  { name: "Schema Form", comp: SchemaForm },
   { name: "Tree", comp: Tree },
   { name: "Validate", comp: Validate },
 ];
@@ -145,9 +146,6 @@ const getComponent = (widgetName: string = '') => {
   height: 100%;
 }
 .el-tab-pane {
-  height: 100%;
-}
-.ar-widget-selector {
   height: 100%;
 }
 .ar-layout {

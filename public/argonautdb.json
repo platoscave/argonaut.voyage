@@ -831,7 +831,7 @@
                     "type": "string"
                   },
                   "displayType": {
-                    "default": "View Form",
+                    "default": "Schema Form",
                     "enum": [
                       "Balance Sheet",
                       "Calendar",
@@ -841,14 +841,14 @@
                       "Income Statement",
                       "HTML Page",
                       "Materialized View",
-                      "Merged Ancestors Form",
+                      "Class Schema Form",
                       "Navigation Menu",
                       "Page Editor",
                       "Process Model",
                       "Raw",
                       "Tree",
                       "Validate",
-                      "View Form",
+                      "Schema Form",
                       "View Table"
                     ],
                     "title": "Display Type",
@@ -2822,7 +2822,7 @@
         "name": "Class Details",
         "widgets": [
           {
-            "displayType": "View Form",
+            "displayType": "Schema Form",
             "viewId": "5ucwmdby4wox"
           }
         ]
@@ -2849,7 +2849,7 @@
         "name": "Details",
         "widgets": [
           {
-            "displayType": "Merged Ancestors Form"
+            "displayType": "Class Schema Form"
           }
         ]
       },

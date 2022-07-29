@@ -47,7 +47,7 @@ watch(dataObj, (dataObj) => {
     <code>
       <pre v-html="highlightedErrors" />
     </code>
-    <h3>Merged Ancestors Schema</h3>
+    <h3>Class Schema</h3>
     <code>
       <pre v-html="highlightedCode" />
     </code>

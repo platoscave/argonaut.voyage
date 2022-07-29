@@ -12,6 +12,7 @@ const props = defineProps({
   widgetObj: Object,
 });
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+const viewObj = ref({});
 const formMode = ref("Readonly Dense");
 
 interface IDataObj {
@@ -22,15 +23,9 @@ const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
 );
-
-interface IViewObj {
-  _id: string;
-  classId: string;
-}
-const viewObj = useLiveQuery<IViewObj>(
-  () => db.state.get(props.widgetObj.viewId),
-  [selectedObjId]
-);
+watch(dataObj, async (dataObj) => {
+  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId);
+});
 
 const onInput = async (updatedDataObj) => {
   /*
@@ -64,17 +59,17 @@ const onEditButton = () => {
 <template>
   <div v-if="dataObj && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
-      <div>
-        <SubForm
-          ref="schemaForm"
-          :model-value="dataObj"
-          @input="onInput"
-          :properties="viewObj.properties"
-          :requiredArr="viewObj.required"
-          :form-mode="formMode"
-          :hash-level="hashLevel"
-        >
-        </SubForm>
+    <div>
+      <SubForm
+        ref="schemaForm"
+        :model-value="dataObj"
+        @input="onInput"
+        :properties="viewObj.properties"
+        :requiredArr="viewObj.required"
+        :form-mode="formMode"
+        :hash-level="hashLevel"
+      >
+      </SubForm>
       </div>
     </div>
     <ElButton
@@ -85,7 +80,6 @@ const onEditButton = () => {
     ></ElButton>
   </div>
 </template>
-
 
 <style scoped>
 .fab-parent {
