@@ -8,7 +8,7 @@ const props = defineProps({
   modelValue: { type: Array, default: [] },
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-  requiered: { type: Boolean, default: false },
+  required: { type: Boolean, default: false },
 });
 
 const { selectedObjId } = useHashDissect(props.hashLevel);
@@ -34,12 +34,14 @@ const filteredObjs = computed(() => {
     </div>
   </div>
   <el-checkbox-group
+    class="ar-checkbox-group"
     v-else-if="items.length < 5"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
     :model-value="modelValue"
   >
     <el-checkbox
+      class="ar-checkbox"
       v-for="item in items"
       :key="item._id"
       :label="item.title ? item.title : item.name"
@@ -48,7 +50,6 @@ const filteredObjs = computed(() => {
   </el-checkbox-group>
   <el-select
     v-else
-    class="ar-multiple"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
     :model-value="modelValue"
@@ -58,82 +59,18 @@ const filteredObjs = computed(() => {
       v-for="item in items"
       :key="item._id"
       :label="item.title ? item.title : item.name"
-      :model-value="item._id"
+      :value="item._id"
     >
     </el-option>
   </el-select>
 </template>
-<!--
-<script>
-import { argoQuery } from "../../../services/dexieServices";
-import { pluck, switchMap, filter, distinctUntilChanged, defaultIfEmpty } from "rxjs/operators";
-import WidgetMixin from "../../../lib/widgetMixin";
 
-export default {
-  name: "ar-select-array-query",
-  mixins: [WidgetMixin],
-  props: {
-    modelValue: {
-      type: Array,
-      default: () => [],
-    },
-    property: {
-      type: Object,
-      default: () => {},
-    },
-    required: Boolean,
-    readonly: Boolean,
-    hashLevel: Number,
-  },
-  data() {
-    return {
-      items: []
-    }
-  },
-
-  subscriptions() {
-    //
-    // Watch the selectedObjId as observable
-    const property$ = this.$watchAsObservable("property", {
-      immediate: true,
-      deep: true
-    })
-      .pipe(pluck("newValue")) // Obtain modelValue from reactive var (whenever it changes)
-      .pipe(filter((property) => (property && property.items && property.items.argoQuery))) //filter out falsy values
-      .pipe(distinctUntilChanged()); // emit only when changed
-
-    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
-    const items$ = property$.pipe(
-      switchMap((property) =>
-        argoQuery.executeQuery(property.items.argoQuery, {
-          _id: this.selectedObjId,
-        })
-      )
-    );
-
-    items$.pipe(defaultIfEmpty([]))
-
-    return {
-      items: items$
-    }
-  },
-
-  computed: {
-    // Get the objs that have an _id in the modelValue array so we have access to the label
-    filteredObjs: function() {
-      if (!(this.modelValue && this.items)) return "";
-      return this.items.filter((obj) => {
-        return this.modelValue.includes(obj._id);
-      });
-    },
-  },
-
-};
-</script>
--->
 <style scoped>
+.el-checkbox.ar-checkbox {
+  height:24px
+}
 /* checkbox background*/
-.el-checkbox-group {
+.ar-checkbox-group {
   background-color: #ffffff08;
   padding-left: 10px;
   padding-right: 10px;
@@ -145,23 +82,4 @@ export default {
   line-height: 24px;
 }
 
-/* Select */
-/* .ar-control >>> .el-input > input {
-  background-color: #ffffff08;
-  border-color: #00adff42;
-  font-size: 16px;
-  height: 30px;
-} */
-
-/* Fix multiselect */
-.ar-multiple >>> .el-tag {
-  background-color: #ffffff08;
-}
-.ar-multiple >>> .el-select__tags-text {
-  color: #00adff;
-}
-.ar-multiple >>> .el-icon-close {
-  background-color: #ff4000a3;
-  color: #eee;
-}
 </style>

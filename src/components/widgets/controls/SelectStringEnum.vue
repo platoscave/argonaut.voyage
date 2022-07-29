@@ -19,6 +19,7 @@ const highlightedCode = computed(() => {
   </div>
 
   <el-radio-group
+    class="ar-radio-group"
     v-else-if="property.enum.length < 5"
     v-on:input="$emit('input', $event)"
     v-on:change="$emit('change', $event)"
@@ -42,7 +43,7 @@ const highlightedCode = computed(() => {
       v-for="item in property.enum"
       :key="item"
       :label="item"
-      :model-value="item"
+      :value="item"
     >
     </el-option>
   </el-select>
@@ -68,7 +69,11 @@ export default {
 <style scoped>
 
 /* Radiobuttons */
-.el-radio-group {
+
+.el-radio.ar-radio {
+  height:24px
+}
+.ar-radio-group {
   background-color: #ffffff08;
   padding-left: 10px;
   padding-right: 10px;
@@ -78,14 +83,5 @@ export default {
   border-width: 1px;
   font-size: 16px;
   line-height: 24px;
-}
-
-/* Select */
-input.el-input__inner {
-  background-color: #ffffff08;
-  border-color: #00adff42;
-  border-style: solid;
-  font-size: 16px;
-  height: 24px;
 }
 </style>

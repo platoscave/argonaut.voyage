@@ -27,6 +27,15 @@
   padding: 1px 7px;
   border-radius: 4px;
   border-style: none;
-  min-height: 26px;
+  min-height: 24px;
+  line-height: 24px;
 }
+
+/* .el-form-item:not(:last-child) {
+  margin-bottom: 10px;
+} */
+
+/* .el-form-item {
+  margin-bottom: 10px;
+} */
 </style>

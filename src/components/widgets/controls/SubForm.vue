@@ -216,6 +216,7 @@ const getComponent = (property: IProperty) => {
       <!-- Skip form item if formMode is Readonly Dense and modelValue is empty -->
       <!-- :prop is needed for validation rules. Do not mess with it! -->
       <el-form-item
+        class="ar-form-item"
         v-if="notReadonlyDenseAndEmpty(propertyName)"
         :prop="propertyName"
       >
@@ -269,6 +270,7 @@ const getComponent = (property: IProperty) => {
 .icon {
   margin-left: 5px;
 }
+/* Widen to form width */
 .ar-control {
   width: 100%;
 }
@@ -276,10 +278,10 @@ const getComponent = (property: IProperty) => {
 .ar-control >>> .el-input__wrapper {
   background-color: #ffffff08;
   box-shadow: 0 0 0 1px #00adff42;
-  /* box-shadow: none; */
+  height: 24px
 }
 /* Item bottom margin */
-.ar-control >>> .el-form-item:not(:last-child) {
+.el-form-item{
   margin-bottom: 8px;
 }
 </style>

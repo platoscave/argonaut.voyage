@@ -56,7 +56,7 @@ const props = defineProps({
   position: relative;
 }
 .ar-subform-background:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 /* Icons */
 .el-icon-close {
