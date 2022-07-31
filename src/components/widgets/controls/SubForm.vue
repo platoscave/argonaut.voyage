@@ -34,8 +34,6 @@ const props = defineProps({
 //   requiredArr: { type: Array, default: () => [] },
 //   formMode: { type: String, default: "Readonly Dense" },
 // })
-// See https://stackoverflow.com/questions/66382293/how-to-use-props-in-script-setup-in-vue3 
-const { hashLevel, modelValue, properties, requiredArr, formMode } = toRefs(props);
 
 const formEl = ref(null);
 
@@ -100,14 +98,12 @@ const validationRules = computed(() => {
   return rulesObj;
 });
 
-const notReadonlyDenseAndEmpty = (propertyName) => {
+const notReadonlyDenseAndEmpty = (formMode, dataObj, type) => {
   if (
-    formMode.value === "Readonly Dense" &&
-    (!modelValue.value[propertyName] || // modelValue is empty
-      (properties.value.type === "array" &&
-        !modelValue.value[propertyName].length) || // modelValue is an array and is empty
-      (properties.value.type === "object" &&
-        !Object.keys(modelValue.value[propertyName]).length)) // modelValue is an object and is empty
+    formMode === "Readonly Dense" &&
+    (!dataObj || // modelValue is empty
+      (type === "array" && !dataObj.length) || // modelValue is an array and is empty
+      (type === "object" && !Object.keys(dataObj).length)) // modelValue is an object and is empty
   ) return false;
   return true;
 };
@@ -215,15 +211,15 @@ const getComponent = (property: IProperty) => {
       <!-- :prop is needed for validation rules. Do not mess with it! -->
       <el-form-item
         class="ar-form-item"
-        v-if="notReadonlyDenseAndEmpty(propertyName)"
+        v-if="notReadonlyDenseAndEmpty(formMode, modelValue[propertyName], property.type)"
         :prop="propertyName"
       >
-        <!-- Label with tooltip. If no description is provided then :label from above is used. -->
+        <!-- Label with tooltip. -->
         <template #label>
           <span>{{ property.title + " " }}</span>
           <el-tooltip
-            effect="light"
             v-if="property.description"
+            effect="light"
             :content="property.description"
             raw-content
           >
@@ -267,16 +263,6 @@ const getComponent = (property: IProperty) => {
 }
 .icon {
   margin-left: 5px;
-}
-/* Widen to form width */
-.ar-control {
-  width: 100%;
-}
-/* Input background and border */
-.ar-control >>> .el-input__wrapper {
-  background-color: #ffffff08;
-  box-shadow: 0 0 0 1px #00adff42;
-  height: 24px
 }
 /* Item bottom margin */
 .el-form-item{

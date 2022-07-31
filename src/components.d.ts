@@ -66,7 +66,7 @@ declare module '@vue/runtime-core' {
     TableArray: typeof import('./components/widgets/controls/TableArray.vue')['default']
     Tiptap: typeof import('./components/widgets/Tiptap.vue')['default']
     TiptapEditor: typeof import('./components/widgets/controls/TiptapEditor.vue')['default']
-    ToolbarButton: typeof import('./components/widgets/ToolbarButton.vue')['default']
+    ToolbarButton: typeof import('./components/widgets/controls/ToolbarButton.vue')['default']
     Tree: typeof import('./components/widgets/Tree.vue')['default']
     Validate: typeof import('./components/widgets/simpleJson/Validate.vue')['default']
     ViewForm: typeof import('./components/widgets/ViewForm.vue')['default']

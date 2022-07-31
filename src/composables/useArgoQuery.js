@@ -186,6 +186,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
     });
   });
 
+  // TODO find a solution
   // onUnmounted(() => {
   //     subscription.unsubscribe();
   // });

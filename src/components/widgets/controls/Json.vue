@@ -12,7 +12,7 @@ const props = defineProps({
 
 const highlightedCode = computed(() => {
   if (props.modelValue) {
-    const res = lowlight.highlightAuto(JSON.stringify(props.modelValue, null, 4));
+    const res = lowlight.highlightAuto(JSON.stringify(props.modelValue, null, 2));
     return toHtml(res);
   }
   return "";
@@ -37,10 +37,10 @@ const highlightedCode = computed(() => {
 
 
 <style scoped>
-code {
+/* code {
   padding: 0px;
 }
 pre {
   margin: 0px;
-}
+} */
 </style>

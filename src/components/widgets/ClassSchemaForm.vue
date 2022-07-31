@@ -59,25 +59,27 @@ const onEditButton = () => {
 <template>
   <div v-if="dataObj && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
-    <div>
-      <SubForm
-        ref="schemaForm"
-        :model-value="dataObj"
-        @input="onInput"
-        :properties="viewObj.properties"
-        :requiredArr="viewObj.required"
-        :form-mode="formMode"
-        :hash-level="hashLevel"
-      >
-      </SubForm>
+      <div>
+        <SubForm
+          ref="schemaForm"
+          :model-value="dataObj"
+          @input="onInput"
+          :properties="viewObj.properties"
+          :requiredArr="viewObj.required"
+          :form-mode="formMode"
+          :hash-level="hashLevel"
+        >
+        </SubForm>
       </div>
     </div>
-    <ElButton
-      class="fab"
-      icon="el-icon-refresh"
-      circle
-      @click="onEditButton"
-    ></ElButton>
+    <ElButton class="fab" circle @click="onEditButton">
+      <template #icon>
+        <svg><use
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            :xlink:href="'toolbar-symbols.svg#el-icon-edit'"
+          ></use></svg
+      ></template>
+    </ElButton>
   </div>
 </template>
 
@@ -95,7 +97,7 @@ const onEditButton = () => {
   padding: 10px;
 }
 .form {
-  padding: 10px
+  padding: 10px;
 }
 .fab {
   position: absolute;

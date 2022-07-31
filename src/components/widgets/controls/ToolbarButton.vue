@@ -1,40 +1,33 @@
+<script setup lang="ts">
+//import toolbarSymbols from "./toolbar-symbols.svg";
+
+const props = defineProps({
+  isActive: { type: Boolean, default: false },
+  popupText: { type: String, default: '' },
+  iconName: { type: String, default: '' },
+})
+
+</script>
+
 <template>
-  <el-tooltip :content="popupText" placement="top-start" effect="dark">
-    <!-- button must have type="button" since we are in a form See https://github.com/ueberdosis/tiptap/issues/729 -->
+  <el-tooltip :content="popupText" placement="top-start" effect="light">
+    <!-- button must have type="button" since we are in a form -->
     <button
       type="button"
       class="menubar__button h-button"
-      :class="{ 'is-active': this.isActive }"
-      @click="$emit('button-clicked')"
+      :class="{ 'is-active': isActive }"
+      @click="$emit('buttonClicked')"
     >
       <svg class="icon bold">
         <use
           xmlns:xlink="http://www.w3.org/1999/xlink"
-          :xlink:href="'toolbar-symbols.svg#' + this.iconName"
+          :xlink:href="'toolbar-symbols.svg#' + iconName"
         ></use>
       </svg>
     </button>
   </el-tooltip>
 </template>
 
-<script>
-//import toolbarSymbols from "./toolbar-symbols.svg";
-
-export default {
-  name: "toolbar-button",
-  components: {
-    //toolbarSymbols,
-  },
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false
-    },
-    popupText: String,
-    iconName: String,
-  },
-};
-</script>
 <style scoped>
 .icon {
   display: inline-block;

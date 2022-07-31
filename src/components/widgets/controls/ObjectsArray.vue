@@ -7,8 +7,7 @@ const props = defineProps({
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
   formMode: { type: String, default: "Readonly Dense" },
-})
-
+});
 </script>
 
 <template>
@@ -31,18 +30,28 @@ const props = defineProps({
         :hash-level="hashLevel"
       ></SubForm>
       <!-- Delete icon -->
-      <i
-        v-if="formMode.startsWith('Edit') && property.additionalItems"
+      <svg
         class="el-icon-close"
+        v-if="formMode.startsWith('Edit') && property.additionalItems"
         @click="modelValue.splice(idx, 1)"
-      ></i>
+      >
+        <use
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          :xlink:href="'toolbar-symbols.svg#el-icon-close'"
+        ></use>
+      </svg>
     </div>
     <!-- Add icon -->
-    <i
-      v-if="formMode.startsWith('Edit') && property.additionalItems"
+    <svg
       class="el-icon-plus"
+      v-if="formMode.startsWith('Edit') && property.additionalItems"
       @click="modelValue.push({})"
-    ></i>
+    >
+      <use
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        :xlink:href="'toolbar-symbols.svg#el-icon-plus'"
+      ></use>
+    </svg>
   </div>
 </template>
 
@@ -60,19 +69,23 @@ const props = defineProps({
 }
 /* Icons */
 .el-icon-close {
+  height: 1em;
+  width: 1em;
   position: absolute;
   margin: 3px;
   top: 0px;
   right: 0;
-  background-color: #ff4000a3;
-  color: #eee;
+  /* background-color: #ff4000a3; */
+  color: #ff4000a3;
   z-index: 20;
   border-radius: 50%;
 }
 .el-icon-plus {
+  height: 1em;
+  width: 1em;
   margin: 3px;
-  background-color: green;
-  color: #eee;
+  /* background-color: green; */
+  color: green;
   z-index: 20;
   border-radius: 50%;
 }

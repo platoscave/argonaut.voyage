@@ -19,7 +19,7 @@ const dataObj = useLiveQuery(
 )
 const highlightedCode = computed(() => {
   if (dataObj.value) {
-    const res = lowlight.highlightAuto(JSON.stringify(dataObj.value, null, 4));
+    const res = lowlight.highlightAuto(JSON.stringify(dataObj.value, null, 2));
     return toHtml(res);
   }
   return "";
@@ -33,15 +33,5 @@ const highlightedCode = computed(() => {
 </template>
 
 <style scoped>
-code {
-  padding: 0px;
-}
-pre {
-  margin: 0px;
-}
-.highlight-code >>> .hljs {
-  background: unset;
-  line-height: 20px;
-  font-size: 14px;
-}
+
 </style>

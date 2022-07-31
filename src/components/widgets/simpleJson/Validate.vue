@@ -28,13 +28,13 @@ const dataObj = useLiveQuery<IDataObj>(
 watch(dataObj, (dataObj) => {
   argoQuery.getMergedAncestorProperties(dataObj.classId).then((schemaObj) => {
     highlightedCode.value = toHtml(
-      lowlight.highlightAuto(JSON.stringify(schemaObj, null, 4))
+      lowlight.highlightAuto(JSON.stringify(schemaObj, null, 2))
     );
 
     const validate = ajv.compile(schemaObj);
     const valid = validate(dataObj);
     highlightedErrors.value = toHtml(
-      lowlight.highlightAuto(JSON.stringify({ erorrs: validate.errors}, null, 4))
+      lowlight.highlightAuto(JSON.stringify({ erorrs: validate.errors}, null, 2))
     );
 
   });
@@ -55,15 +55,5 @@ watch(dataObj, (dataObj) => {
 </template>
 
 <style scoped>
-code {
-  padding: 0px;
-}
-pre {
-  margin: 0px;
-}
-.highlight-code >>> .hljs {
-  background: unset;
-  line-height: 20px;
-  font-size: 14px;
-}
+
 </style>
