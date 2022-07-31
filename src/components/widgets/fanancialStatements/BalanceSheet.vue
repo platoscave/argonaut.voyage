@@ -2,7 +2,7 @@
   <div name="BalanceSheet" class="ar-full-height ar-full-page">
     <div>
       <div class="ar-lightgrey-background">
-        <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
+        <!-- <div class="l1" v-if="dataObj">{{ dataObj.name }}</div> -->
         <div>Balance Sheet</div>
         <div>December 31 2021</div>
       </div>
@@ -277,7 +277,7 @@
     </div>
     <div>
       <div class="ar-lightgrey-background">
-        <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
+        <!-- <div class="l1" v-if="dataObj">{{ dataObj.name }}</div> -->
         <div>Statement of Financial Position</div>
         <div>December 31 2021</div>
       </div>

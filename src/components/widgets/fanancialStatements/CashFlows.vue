@@ -1,7 +1,7 @@
 <template>
   <div name="CashFlows" class="ar-full-height ar-full-page">
     <div class="ar-lightgrey-background">
-      <div class="l1" v-if="dataObj">{{ dataObj.name }}</div>
+      <!-- <div class="l1" v-if="dataObj">{{ dataObj.name }}</div> -->
       <div>Statement of Cash Flows</div>
       <div>For the year ended December 31 2021</div>
     </div>

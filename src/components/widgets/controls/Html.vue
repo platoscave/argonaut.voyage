@@ -26,14 +26,17 @@ const editor = new Editor({
       }),
       TableRow,
       TableHeader,
-      TableCell,        
-      CodeBlockLowlight
-          .extend({
-            addNodeView() {
-              return VueNodeViewRenderer(CodeBlockComponent)
-            },
-          })
-          .configure({ lowlight }),
+      TableCell,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),       
+      // CodeBlockLowlight
+      //     .extend({
+      //       addNodeView() {
+      //         return VueNodeViewRenderer(CodeBlockComponent)
+      //       },
+      //     })
+      //     .configure({ lowlight }),
     ],
   content: props.modelValue,
 });
