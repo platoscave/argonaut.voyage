@@ -60,6 +60,12 @@ export async function updateNextLevelHash(hashLevel: number = 0, nextLevelSelect
 
   const hashArr = window.location.hash.split("/");
 
+  // Get this level state array (needed for pageId)
+  let stateStr = hashArr[hashLevel + 1];
+  if (!stateStr) stateStr = "";
+  const sateArr = stateStr.split(".")
+  const pageId = sateArr[1]
+
   // Get next level state array
   let nextLevelStateStr = hashArr[hashLevel + 2];
   if (!nextLevelStateStr) nextLevelStateStr = "";
@@ -88,12 +94,12 @@ export async function updateNextLevelHash(hashLevel: number = 0, nextLevelSelect
   }
 
   // Update the next level selectedObj in pageSettings for this ourPageId in the settings db
-  const updated = await db.settings.update(nextLevelPageId, {
+  const updated = await db.settings.update(pageId, {
     nextLevelSelectedObjId: newNextLevelSelectObjId,
   });
   if (!updated) {
     await db.settings.add({
-      pageId: nextLevelPageId,
+      pageId: pageId,
       nextLevelSelectedObjId: newNextLevelSelectObjId,
     });
   }

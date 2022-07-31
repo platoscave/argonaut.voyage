@@ -22,14 +22,16 @@ const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
 const defaultProps = {
   isLeaf: "isLeaf",
 };
+let expandedNodes = ref([]);
 let pageSettings = {
   expandedNodes: [],
   nextLevelSelectedObjId: "",
 };
 
 // See if we can get expanded nodes from the last time we visited this page
-db.settings.get(pageId.value).then((pageSettings) => {
-  if (pageSettings) pageSettings = pageSettings;
+db.settings.get(pageId.value).then((pageRes) => {
+  if (pageRes && pageRes.expandedNodes)
+    expandedNodes.value = pageRes.expandedNodes;
   // add empty pagesettings for update to work
   else db.settings.add({ pageId: pageId.value });
 });
@@ -45,15 +47,15 @@ const loadNode = async (node, resolve) => {
 
   // If the item still doesn't have an icon then get one from the Anscestors
   const addClassIcons = async (items) => {
-    const iconsPromisses = items.map( item => {
-      if (item.icon) return item.icon
-      return getAnscestorsIcon(item.classId ? item.classId : item.superClassId)
-    })
-    return await Promise.all(iconsPromisses)
+    const iconsPromisses = items.map((item) => {
+      if (item.icon) return item.icon;
+      return getAnscestorsIcon(item.classId ? item.classId : item.superClassId);
+    });
+    return await Promise.all(iconsPromisses);
   };
 
   const addTreeNodeVars = (items) => {
-    const resItems = items.map( item => {
+    const resItems = items.map((item) => {
       item.label = item.title ? item.title : item.name; //TODO value?
 
       if (item.queryObj.subQueryIds && item.queryObj.subQueryIds.length) {
@@ -67,15 +69,16 @@ const loadNode = async (node, resolve) => {
       if (item.queryObj.nodesPageId) item.pageId = item.queryObj.nodesPageId;
       // Still no pageId, use the default object page based on merged anscestors
       if (!item.pageId) {
-        if (item.classId) item.pageId = "mb2bdqadowve"; // merged anscestors page
+        if (item.classId)
+          item.pageId = "mb2bdqadowve"; // merged anscestors page
         else item.pageId = "24cnex2saye1"; // class details page
       }
 
       // If the queryObj has an icon, use it. Otherwise use the item icon.
       if (item.queryObj.nodesIcon) item.icon = item.queryObj.nodesIcon;
-      return item
-    })
-    return resItems
+      return item;
+    });
+    return resItems;
   };
 
   try {
@@ -87,38 +90,38 @@ const loadNode = async (node, resolve) => {
       const queryObj = await db.state.get(viewObj.queryId);
 
       const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
-      watch(queryResRef, resultArr => {
+      watch(queryResRef, (resultArr) => {
         // Add tree node vars
-        const enrichedResultArr = addTreeNodeVars(resultArr)
+        const enrichedResultArr = addTreeNodeVars(resultArr);
 
         // if the item doesn't have an icon yet get it from class anscetors
-        addClassIcons(enrichedResultArr).then( iconsArr => {
-          const finalResArr = enrichedResultArr.map( ( item, idx ) => {
-            item.icon = iconsArr[idx]
-            return item
-          })
+        addClassIcons(enrichedResultArr).then((iconsArr) => {
+          const finalResArr = enrichedResultArr.map((item, idx) => {
+            item.icon = iconsArr[idx];
+            return item;
+          });
           // update the root node
           node.store.setData(finalResArr);
-        })
-      })
+        });
+      });
 
       resolve([]);
     }
     // node.level > 0
     else {
       const queryResRef = useArgoQuery(node.data.subQueryIds, node.data);
-      watch(queryResRef, resultArr => {
+      watch(queryResRef, (resultArr) => {
         // Add tree node vars
-        const enrichedResultArr = addTreeNodeVars(resultArr)
+        const enrichedResultArr = addTreeNodeVars(resultArr);
 
-        addClassIcons(enrichedResultArr).then( iconsArr => {
-          const finalResArr = enrichedResultArr.map( ( item, idx ) => {
-            item.icon = iconsArr[idx]
-            return item
-          })
+        addClassIcons(enrichedResultArr).then((iconsArr) => {
+          const finalResArr = enrichedResultArr.map((item, idx) => {
+            item.icon = iconsArr[idx];
+            return item;
+          });
           // update child nodes of this node
           node.store.updateChildren(node.data._id, finalResArr);
-        })
+        });
       });
 
       resolve([]);
@@ -193,36 +196,30 @@ const allowDrop = (draggingNode, dropNode, type) => {
 const allowDrag = (draggingNode) => {
   return draggingNode.data.label.indexOf("Level three 3-1-1") === -1;
 };
-onMounted(() => {
-  // See if we can get expanded nodes from the last time we visited this page
-  // const pageSettings = await db.settings.get(this.pageId);
-  // if (pageSettings) {
-  //   if (pageSettings.expandedNodes)
-  //     this.expandedNodes = pageSettings.expandedNodes;
-  // } else await db.settings.add({ pageId: this.pageId });
-
-  if (pageSettings.nextLevelSelectedObjId) {
-    setTimeout(() => {
-      // We have to wait half a second because the nodes won't have been loaded yet
-      // Is there a better way?
-      treeEl.value.setCurrentKey(nextLevelSelectedObjId);
-      const nodeData = treeEl.value.getCurrentNode();
-      if (nodeData) updateNextLevelHash(nodeData); // Click initial treenode
-    }, 500);
-  }
+onMounted(async () => {
+  // See if we can get CurrentKey from the last time we visited this page
+  // We have to wait half a second because the nodes won't have been loaded yet
+  setTimeout(() => {
+    db.settings.get(pageId.value).then((pageRes) => {
+      if (pageRes && pageRes.nextLevelSelectedObjId)
+        treeEl.value.setCurrentKey(pageRes.nextLevelSelectedObjId)
+        const nodeData = treeEl.value.getCurrentNode();
+        updateNextLevelHash(props.hashLevel, nodeData._id, nodeData.pageId)
+    });
+  }, 500);
 });
 </script>
 
 <template>
   <el-tree
     ref="treeEl"
-    :highlight-current="true"
+    highlight-current
     :expand-on-click-node="false"
     :props="defaultProps"
     :load="loadNode"
     lazy
     node-key="_id"
-    :default-expanded-keys="pageSettings.expandedNodes"
+    :default-expanded-keys="expandedNodes"
     @node-click="
       (nodeData) =>
         updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)

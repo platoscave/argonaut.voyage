@@ -98,7 +98,7 @@ const validationRules = computed(() => {
   return rulesObj;
 });
 
-const notReadonlyDenseAndEmpty = (formMode, dataObj, type) => {
+const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: string) => {
   if (
     formMode === "Readonly Dense" &&
     (!dataObj || // modelValue is empty
