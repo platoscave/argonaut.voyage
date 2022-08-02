@@ -1,12 +1,11 @@
-import argoQueryPromise from "~/services/argoQueryPromise";
+import argoQueryPromise from "~/lib/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "./objectObj3d";
 import object3dMixin from './object3dMixin'
-import modelColors from '~/config/modelColors'
+import threejsColors from '~/config/threejsColors'
+import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
-// eslint-disable-next-line no-unused-vars
-const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class ClassObject3d extends Object3D {
 
@@ -38,7 +37,7 @@ export default class ClassObject3d extends Object3D {
     }
   }
 
-  async drawSubclasses(selectableMeshArr) {
+  async drawSubclasses(addSelectable) {
 
     // Execute the query
     const resArr = await argoQueryPromise("2jfs4is4icct", this.userData )
@@ -66,13 +65,13 @@ export default class ClassObject3d extends Object3D {
 
       // Create the child
       let classObj3d = new ClassObject3d(userData)
-      selectableMeshArr.push(classObj3d.children[0])
+      addSelectable(classObj3d.children[0])
       classObj3d.translateY(-HEIGHT * 4)
       this.add(classObj3d)
 
       // Tell the child to draw its children
       if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(classObj3d.drawSubclasses(selectableMeshArr))
+        childrenPronmises.push(classObj3d.drawSubclasses(addSelectable))
     })
 
 
@@ -170,7 +169,7 @@ export default class ClassObject3d extends Object3D {
   }
 
 
-  async drawObjects(selectableMeshArr) {
+  async drawObjects(addSelectable) {
 
     // Execute the query
     const resArr = await argoQueryPromise("x1lrv2xdq2tu", this.userData )
@@ -182,7 +181,7 @@ export default class ClassObject3d extends Object3D {
     resArr.forEach(userData => {
       let objectObj3d = new ObjectObject3d(userData);
       //objectsArr.push(objectObj3d)
-      selectableMeshArr.push(objectObj3d.children[0])
+      addSelectable(objectObj3d.children[0])
       objectObj3d.translateZ(zPos)
       this.add(objectObj3d)
       zPos += WIDTH * 2
@@ -206,7 +205,7 @@ export default class ClassObject3d extends Object3D {
         //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
         //if(!subClassObj3d.drawObjects) console.log(this)
         if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(selectableMeshArr))
+        objectPronmises.push(subClassObj3d.drawObjects(addSelectable))
       }
     });
     return Promise.all(objectPronmises);
@@ -239,7 +238,7 @@ export default class ClassObject3d extends Object3D {
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
-    const { class: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { class: colorProp = { color: 0xEFEFEF }  } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

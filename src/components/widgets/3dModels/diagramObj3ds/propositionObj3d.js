@@ -1,9 +1,8 @@
 import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,  Vector3 } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '~/config/modelColors'
+import threejsColors from '~/config/threejsColors'
+import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
-// eslint-disable-next-line no-unused-vars
-const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class ProbositionObject3d extends Object3D {
 
@@ -85,7 +84,7 @@ export default class ProbositionObject3d extends Object3D {
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { 'object': colorProp = { color: 0xEFEFEF } } = modelColors
+    const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
     return new Mesh(geometry, material) 
   }

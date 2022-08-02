@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
-import argoQueryPromise from "~/services/argoQueryPromise";
+import argoQueryPromise from "~/lib/argoQueryPromise";
 import ClassObject3d from "./diagramObj3ds/classObj3d.js";
 import { useThreejsScene } from "~/composables/useThreejsScene";
 import { useHashDissect } from "~/composables/useHashDissect";
@@ -21,16 +21,14 @@ const skyboxArray = [
   "milkyway/posz.jpg",
   "milkyway/negz.jpg",
 ];
-const selectableMeshArr: any[] = [];
 const rootEl = ref(null);
 const autoRotate = ref(false);
 
 const { selectedObjId } = useHashDissect(props.hashLevel);
-const { glModelObj3d, cssModelObj3d, cursor, loadingText } = useThreejsScene(
+const { glModelObj3d, cssModelObj3d, cursor, addSelectable, removeSelectable, loadingText } = useThreejsScene(
   rootEl,
   props.hashLevel,
   skyboxArray,
-  selectableMeshArr,
   autoRotate
 );
 
@@ -47,10 +45,10 @@ const drawClasses = async () => {
   // Create the ClassObject3d (extends Object3d)
   let rootClassObj3d = new ClassObject3d(resArr[0], true);
   glModelObj3d.add(rootClassObj3d);
-  selectableMeshArr.push(rootClassObj3d.children[0]);
+  addSelectable(rootClassObj3d.children[0]);
 
   // Tell root class to draw the subclasses
-  await rootClassObj3d.drawSubclasses(selectableMeshArr);
+  await rootClassObj3d.drawSubclasses(addSelectable);
 
   // Set the x positions
   const clidrenMaxX = rootClassObj3d.setPositionX(0);
@@ -62,7 +60,7 @@ const drawClasses = async () => {
   rootClassObj3d.drawClassAssocs(glModelObj3d);
 
   // Tell root class and its subclasses to draw the objects
-  await rootClassObj3d.drawObjects(selectableMeshArr);
+  await rootClassObj3d.drawObjects(addSelectable);
 
   // important! after you set positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);

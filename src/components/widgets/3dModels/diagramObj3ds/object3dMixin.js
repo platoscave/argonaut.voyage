@@ -15,13 +15,14 @@ import {
   ShapeGeometry
 } from 'three'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import modelColors from '../../../../config/modelColors'
+import threejsColors from '../../../../config/threejsColors'
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js'
 //import fontJson from '../../../../assets/helvetiker_regular.typeface.json'
 import fontJson from '~/assets/helvetiker_regular.typeface.json'
+import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
+
 const font = new Font(fontJson)
 
-const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 export default {
 
   drawBeam(points, colorName, name, arrow) {
@@ -69,7 +70,7 @@ export default {
     let mergedGeometry = mergeBufferGeometries(geometries);
     //mergedGeometry.mergeVertices() //doesn't work
         
-    const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors
+    const { [colorName]: colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     // Anyone know how to make reflective material?
@@ -140,7 +141,7 @@ export default {
     let mergedGeometry = mergeBufferGeometries(geometries);
     //mergedGeometry.mergeVertices() //doesn't work for buffer geometry
     
-    const { [colorName]: colorProp = { color: 0xEFEFEF } } = modelColors
+    const { [colorName]: colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ 
       color: colorProp.color,
       opacity: 0.5,
@@ -207,7 +208,7 @@ export default {
 
   getTextMesh( name = 'unnamed', size = HEIGHT / 6 ) {
 
-    const { name: colorProp = { color: 0xEFEFEF }  } = modelColors
+    const { name: colorProp = { color: 0xEFEFEF }  } = threejsColors
     let textMaterial = new MeshLambertMaterial({ color: colorProp.color })
     textMaterial.side = DoubleSide
 

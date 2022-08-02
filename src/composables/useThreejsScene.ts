@@ -39,7 +39,6 @@ export function useThreejsScene(
   rootEl: any,
   hashLevel: number = 0,
   skyBoxArray: string[],
-  selectableMeshArr: any[],
   autoRotate: any,
   statsOn?: any) {
 
@@ -49,6 +48,7 @@ export function useThreejsScene(
   // skyBoxArray: ['jupiter/space_3_right.jpg','jupiter/space_3_left.jpg','jupiter/space_3_top.jpg','jupiter/space_3_bottom.jpg','jupiter/space_3_front.jpg','jupiter/space_3_back.jpg']     
 
   const { nextLevelSelectedObjId } = useHashDissect(hashLevel);
+  const selectableMeshArr: Mesh[] = []
 
   // scenes
   const glScene = new Scene()
@@ -199,6 +199,15 @@ export function useThreejsScene(
     cursor.value = movingMouse
   }
 
+  const addSelectable = (mesh) => {
+    const idx = selectableMeshArr.find(item => mesh._id === item._id)
+    if(!idx) selectableMeshArr.push(mesh)
+  }
+  const removeSelectable = (mesh) => {
+    const idx = selectableMeshArr.find(item => mesh._id === item._id)
+    if(idx) selectableMeshArr.splice(idx, 1) 
+  }
+
   const highlight = (_id: string) => {
     //TODO don't need to lookup
     if (currentlySelectedObjProps) {
@@ -335,6 +344,6 @@ export function useThreejsScene(
 
 
   return {
-    glModelObj3d, cssModelObj3d, cursor, loadingText
+    glModelObj3d, cssModelObj3d, cursor, addSelectable, removeSelectable, loadingText
   }
 }

@@ -1,11 +1,11 @@
-import argoQueryPromise from "~/services/argoQueryPromise";
+import argoQueryPromise from "~/lib/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, SphereGeometry, MeshBasicMaterial } from 'three'
 import StepObject3d from "./stepObj3d";
 import object3dMixin from './object3dMixin'
-import modelColors from '~/config/modelColors'
+import threejsColors from '~/config/threejsColors'
+import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
-const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class ProcessObject3d extends Object3D {
 
@@ -52,7 +52,7 @@ export default class ProcessObject3d extends Object3D {
 
       const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
       geometry.translate(endX, height, 0)
-      const { [item]: colorProp = { color: 0xEFEFEF } } = modelColors
+      const { [item]: colorProp = { color: 0xEFEFEF } } = threejsColors
       const material = new MeshLambertMaterial({ color: colorProp.color })
       const sphere = new Mesh(geometry, material);
       this.add(sphere);
@@ -61,7 +61,7 @@ export default class ProcessObject3d extends Object3D {
     })
   }
 
-  async drawSteps(selectableMeshArr, glModelObject3D) {
+  async drawSteps(addSelectable, glModelObject3D) {
   
     // Execute the query
     const stepObjArr = await argoQueryPromise("aiw54neadp14", this.userData )
@@ -70,11 +70,11 @@ export default class ProcessObject3d extends Object3D {
     
     // Draw the first step
     let stepObj3d = new StepObject3d(firstStepObj);
-    selectableMeshArr.push(stepObj3d.children[0])
+    addSelectable(stepObj3d.children[0])
     this.add(stepObj3d)
 
     // Tell it to draw next steps
-    return stepObj3d.drawSteps(selectableMeshArr, glModelObject3D)
+    return stepObj3d.drawSteps(addSelectable, glModelObject3D)
 
   }
 
@@ -162,7 +162,7 @@ export default class ProcessObject3d extends Object3D {
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

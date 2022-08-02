@@ -1,11 +1,10 @@
-import argoQueryPromise from "~/services/argoQueryPromise";
+import argoQueryPromise from "~/lib/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '~/config/modelColors'
+import threejsColors from '~/config/threejsColors'
+import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
-// eslint-disable-next-line no-unused-vars
-const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
 
 export default class OrgObject3d extends Object3D {
 
@@ -37,7 +36,7 @@ export default class OrgObject3d extends Object3D {
     }
   }
 
-  async drawOrgUnits(selectableMeshArr) {
+  async drawOrgUnits(addSelectable) {
 
     // Execute the query
     const resArr = await argoQueryPromise("o4jhldcqvbep", this.userData )
@@ -65,13 +64,13 @@ export default class OrgObject3d extends Object3D {
 
       // Create the child
       let orgObj3d = new OrgObject3d(userData)
-      selectableMeshArr.push(orgObj3d.children[0])
+      addSelectable(orgObj3d.children[0])
       orgObj3d.translateY(-HEIGHT * 4)
       this.add(orgObj3d)
 
       // Tell the child to draw its children
       if (orgObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
-        childrenPronmises.push(orgObj3d.drawOrgUnits(selectableMeshArr))
+        childrenPronmises.push(orgObj3d.drawOrgUnits(addSelectable))
     })
 
 
@@ -139,7 +138,7 @@ export default class OrgObject3d extends Object3D {
         activePermAccArrPrommises.push(subOrgObj3d.getActivePermissionedAccounts())
       }
     })
-    
+
     const childrenActivePermAccArr = await Promise.all(activePermAccArrPrommises);
     return activePermAccArr.concat(childrenActivePermAccArr);
   }
@@ -227,9 +226,9 @@ export default class OrgObject3d extends Object3D {
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
-    //const { org: colorProp = { color: 0xEFEFEF }  } = modelColors
+    //const { org: colorProp = { color: 0xEFEFEF }  } = threejsColors
     //console.log(this.userData.classId)
-    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = modelColors
+    const { [this.userData.classId]: colorProp = { color: 0xEFEFEF } } = threejsColors
 
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
