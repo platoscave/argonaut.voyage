@@ -1,9 +1,9 @@
-import { argoQuery } from "../../../../services/dexieServices";
+import argoQueryPromise from "~/services/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "./objectObj3d";
 import object3dMixin from './object3dMixin'
-import modelColors from '../../../../config/modelColors'
+import modelColors from '~/config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
@@ -41,7 +41,7 @@ export default class ClassObject3d extends Object3D {
   async drawSubclasses(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery('2jfs4is4icct', this.userData).pipe(take(1)).toPromise()
+    const resArr = await argoQueryPromise("2jfs4is4icct", this.userData )
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -173,7 +173,7 @@ export default class ClassObject3d extends Object3D {
   async drawObjects(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery('x1lrv2xdq2tu', this.userData).pipe(take(1)).toPromise()
+    const resArr = await argoQueryPromise("x1lrv2xdq2tu", this.userData )
 
 
     // Create the objects

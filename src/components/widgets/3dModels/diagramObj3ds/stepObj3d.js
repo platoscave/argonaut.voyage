@@ -1,8 +1,8 @@
-import { argoQuery } from "../../../services/dexieServices";
+import argoQueryPromise from "~/services/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Vector3, Vector2, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '../../../config/modelColors'
+import modelColors from '~/config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
@@ -33,7 +33,7 @@ export default class StepObject3d extends Object3D {
   async drawSteps(selectableMeshArr, glModelObject3D) {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery('ybjrgmdjybzl', this.userData).pipe(take(1)).toPromise() // Next Step QueryId
+    const resArr = await argoQueryPromise("ybjrgmdjybzl", this.userData )
 
     // Create the next steps
     let propmisesArr = []

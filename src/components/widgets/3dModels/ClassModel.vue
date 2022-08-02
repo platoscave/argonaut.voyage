@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
-//import ClassObject3d from "./diagramObj3ds/classObj3d.js";
-import { useScene } from "~/composables/useScene";
+import argoQueryPromise from "~/services/argoQueryPromise";
+import ClassObject3d from "./diagramObj3ds/classObj3d.js";
+import { useThreejsScene } from "~/composables/useThreejsScene";
 import { useHashDissect } from "~/composables/useHashDissect";
 import { ElMessage } from "element-plus";
 
@@ -25,7 +26,7 @@ const rootEl = ref(null);
 const autoRotate = ref(false);
 
 const { selectedObjId } = useHashDissect(props.hashLevel);
-const { glModelObj3d, cssModelObj3d, cursor, loadingText } = useScene(
+const { glModelObj3d, cssModelObj3d, cursor, loadingText } = useThreejsScene(
   rootEl,
   props.hashLevel,
   skyboxArray,
@@ -41,10 +42,7 @@ const drawClasses = async () => {
   const viewObj = await db.state.get(props.viewId);
 
   // Execute the query
-  let resArr = await argoQuery
-    .executeQuery(viewObj.queryId)
-    .pipe(take(1))
-    .toPromise();
+  const resArr = await argoQueryPromise(viewObj.queryId, null)
 
   // Create the ClassObject3d (extends Object3d)
   let rootClassObj3d = new ClassObject3d(resArr[0], true);
@@ -78,7 +76,7 @@ onMounted(async () => {
   loadingText("Loading...");
 
   try {
-    // await drawClasses();
+    await drawClasses();
     loadingText();
   } catch (err) {
     loadingText();
@@ -100,12 +98,14 @@ onMounted(async () => {
       ref="rootEl"
       v-bind:style="{ cursor: cursor }"
     ></div>
-    <ElButton
-      class="fab"
-      icon="el-icon-refresh"
-      circle
-      @click="autoRotate = !autoRotate"
-    ></ElButton>
+    <ElButton class="fab" circle @click="autoRotate = !autoRotate">
+      <template #icon>
+        <svg><use
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            :xlink:href="'toolbar-symbols.svg#el-icon-refresh'"
+          ></use></svg
+      ></template>
+    </ElButton>
   </div>
 </template>
 

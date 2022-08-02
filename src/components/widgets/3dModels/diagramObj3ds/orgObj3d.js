@@ -1,8 +1,8 @@
-import { argoQuery } from "../../../services/dexieServices";
+import argoQueryPromise from "~/services/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '../../../config/modelColors'
+import modelColors from '~/config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
@@ -40,7 +40,7 @@ export default class OrgObject3d extends Object3D {
   async drawOrgUnits(selectableMeshArr) {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery("o4jhldcqvbep", this.userData).pipe(take(1)).toPromise()
+    const resArr = await argoQueryPromise("o4jhldcqvbep", this.userData )
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -125,30 +125,23 @@ export default class OrgObject3d extends Object3D {
   }
 
 
-  async getActivePermissionedAccounts(selectableMeshArr, executeQuery, queryId, activePermAccArr) {
+  async getActivePermissionedAccounts() {
 
     // Execute the query
-    let resArr = await argoQuery.executeQuery(queryId, this.userData).pipe(take(1)).toPromise()
+    // get users with active permission for this orgunit
+    const activePermAccArr = await argoQueryPromise("1dbriehwtyyp", this.userData )
 
-    // Collect users with active permission
-    resArr.forEach( item => {
-      let user = activePermAccArr.find(user => {
-        return user._id === item._id
-      })
-      // If not found, add it
-      if(!user) activePermAccArr.push(item)
-    })
-
-    let objectPrommises = []
+    let activePermAccArrPrommises = []
     this.children.forEach((subOrgObj3d) => {
       if (subOrgObj3d.type === 'Object3D') {
         // TODO is this safe?
         if (subOrgObj3d.getActivePermissionedAccounts)
-          objectPrommises.push(subOrgObj3d.getActivePermissionedAccounts(selectableMeshArr, executeQuery, queryId, activePermAccArr))
+        activePermAccArrPrommises.push(subOrgObj3d.getActivePermissionedAccounts())
       }
-    });
-    return Promise.all(objectPrommises);
-
+    })
+    
+    const childrenActivePermAccArr = await Promise.all(activePermAccArrPrommises);
+    return activePermAccArr.concat(childrenActivePermAccArr);
   }
 
 

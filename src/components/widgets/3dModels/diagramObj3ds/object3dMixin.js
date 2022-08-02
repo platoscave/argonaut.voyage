@@ -1,5 +1,4 @@
 import { 
-  Font, 
   CylinderGeometry, 
   Matrix4, 
   Vector3, 
@@ -17,7 +16,9 @@ import {
 } from 'three'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import modelColors from '../../../../config/modelColors'
-import fontJson from '../../../../assets/helvetiker_regular.typeface.json'
+import { Font } from 'three/examples/jsm/loaders/FontLoader.js'
+//import fontJson from '../../../../assets/helvetiker_regular.typeface.json'
+import fontJson from '~/assets/helvetiker_regular.typeface.json'
 const font = new Font(fontJson)
 
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
@@ -125,7 +126,8 @@ export default {
       // We'll need to get it out with a Euler()
       var euler = new Euler();
       euler.setFromQuaternion(quaternion);
-      let radiansVec = euler.toVector3()
+      const radiansVec = new Vector3().setFromEuler(euler)
+      //let radiansVec = euler.toVector3()
 
       coneGeometry.rotateX(radiansVec.x)
       coneGeometry.rotateY(radiansVec.y)

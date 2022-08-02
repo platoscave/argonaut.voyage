@@ -1,6 +1,6 @@
-import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, MeshFaceMaterial, BufferGeometry, Geometry, CylinderGeometry, TextureLoader } from 'three'
+import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader } from 'three'
 import object3dMixin from './object3dMixin'
-import modelColors from '../../../config/modelColors'
+import modelColors from '~/config/modelColors'
 
 // eslint-disable-next-line no-unused-vars
 const WIDTH = 4, HEIGHT = 2, DEPTH = 1, RADIUS = .5
@@ -49,27 +49,27 @@ export default class UserObject3d extends Object3D {
       .quadraticCurveTo(x, y, x, y + RADIUS)
 
     // extruded shape
-    let extrudeSettings = { depth: DEPTH* .45, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
+    let extrudeSettings = { depth: DEPTH * .45, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
     const { 'object': colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
-    return new Mesh(geometry, material) 
+    return new Mesh(geometry, material)
   }
-  
+
   getAvatar() {
 
     // Avatar
-    const cylindergeometry = new CylinderGeometry( HEIGHT/2, HEIGHT/2, DEPTH/2, 32 );
-    cylindergeometry.rotateX(Math.PI/2)
-    cylindergeometry.rotateZ(Math.PI/2)
+    const cylindergeometry = new CylinderGeometry(HEIGHT / 2, HEIGHT / 2, DEPTH / 2, 32);
+    cylindergeometry.rotateX(Math.PI / 2)
+    cylindergeometry.rotateZ(Math.PI / 2)
     cylindergeometry.translate(-WIDTH / 2, HEIGHT / 2, 0)
 
-    const texture = new TextureLoader().load( 'avatar1.jpg' );
+    const texture = new TextureLoader().load('avatar1.jpg');
     //texture.rotation  = Math.PI/2
-    const cylinderMaterial = new MeshBasicMaterial( { map: texture } );
+    const cylinderMaterial = new MeshBasicMaterial({ map: texture });
     const { 'object': colorProp = { color: 0xEFEFEF } } = modelColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
@@ -78,7 +78,7 @@ export default class UserObject3d extends Object3D {
       cylinderMaterial, // top
       cylinderMaterial // bottom
     ]
-    return new Mesh( cylindergeometry, materials );
+    return new Mesh(cylindergeometry, materials);
 
   }
 

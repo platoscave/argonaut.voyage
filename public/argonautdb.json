@@ -3415,13 +3415,11 @@
       },
       {
         "name": "Front Desk",
-        "icon": "el-icon-s-custom",
-        "pageId": ""
+        "icon": "el-icon-s-custom"
       },
       {
         "name": "Work Shop",
-        "icon": "el-icon-s-custom",
-        "pageId": ""
+        "icon": "el-icon-s-custom"
       },
       {
         "name": "Organization",
@@ -3444,18 +3442,30 @@
       {
         "name": "Accounting",
         "icon": "el-icon-picture-outline",
-        "pageId": "",
         "menuArr": [
           {
             "name": "Bookkeeping",
             "menuArr": [
               {
-                "name": "Accounts Receivable",
-                "pageId": ""
+                "name": "Chart of Accounts"
               },
               {
-                "name": "Accounts Payable",
-                "pageId": ""
+                "name": "General Ledger"
+              },
+              {
+                "name": "Trial Balance"
+              },
+              {
+                "name": "Journal Entry"
+              },
+              {
+                "name": "Travel Expenes"
+              },
+              {
+                "name": "Accounts Receivable"
+              },
+              {
+                "name": "Accounts Payable"
               }
             ]
           },

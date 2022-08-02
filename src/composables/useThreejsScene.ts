@@ -35,7 +35,7 @@ import { useResizeObserver, useDebounceFn } from '@vueuse/core'
 
 
 // by convention, composable function names start with "use"
-export function useScene(
+export function useThreejsScene(
   rootEl: any,
   hashLevel: number = 0,
   skyBoxArray: string[],
