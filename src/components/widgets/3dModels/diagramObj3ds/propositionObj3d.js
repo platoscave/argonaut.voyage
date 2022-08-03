@@ -1,5 +1,5 @@
 import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,  Vector3 } from 'three'
-import object3dMixin from './object3dMixin'
+import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -9,9 +9,6 @@ export default class ProbositionObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    // Mixin utility methods: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
@@ -20,7 +17,7 @@ export default class ProbositionObject3d extends Object3D {
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
     
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.4)
     objectMesh.add(textMesh)
 
@@ -49,8 +46,8 @@ export default class ProbositionObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceBackPos = this.getSidePos('back', new Vector3())
-    const destFrontPos = this.getSidePos('front', difVec)
+    const sourceBackPos = getSidePos('back', new Vector3())
+    const destFrontPos = getSidePos('front', difVec)
 
     let points = []
 
@@ -59,7 +56,7 @@ export default class ProbositionObject3d extends Object3D {
     points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
     points.push(destFrontPos)
 
-    this.add(this.drawTube(points, 'active', 'processId', true))
+    this.add(drawTube(points, 'active', 'processId', true))
 
   }
 

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { db, argoQuery } from "../../services/dexieServices";
+import { db } from "../../services/dexieServices";
 import { liveQuery } from "dexie";
 import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
 import SubTable from "./controls/SubTable"

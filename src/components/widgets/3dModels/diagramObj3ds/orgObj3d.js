@@ -1,7 +1,7 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import object3dMixin from './object3dMixin'
+import { drawBeam, drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -11,9 +11,6 @@ export default class OrgObject3d extends Object3D {
   constructor(userData, isRoot) {
     super()
 
-    // Mixin utility methodes: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
@@ -22,7 +19,7 @@ export default class OrgObject3d extends Object3D {
     orgMesh.name = userData.name + ' - 3d mesh'
     this.add(orgMesh)
 
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     orgMesh.add(textMesh)
 
@@ -32,7 +29,7 @@ export default class OrgObject3d extends Object3D {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'orgConnectors'))
+      this.add(drawBeam(points, 'orgConnectors'))
     }
   }
 
@@ -56,7 +53,7 @@ export default class OrgObject3d extends Object3D {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'orgConnectors'))
+      this.add(drawBeam(points, 'orgConnectors'))
     }
 
     let childrenPronmises = []
@@ -116,7 +113,7 @@ export default class OrgObject3d extends Object3D {
       let points = []
       points.push(new Vector3(firstX, -HEIGHT * 2, 0))
       points.push(new Vector3(lastX, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'orgConnectors'))
+      this.add(drawBeam(points, 'orgConnectors'))
     }
 
     // return the original x plus our children max, so that the parent can center itself
@@ -162,7 +159,7 @@ export default class OrgObject3d extends Object3D {
 
       const points = this.addCorners(sourcePos, destPos)
 
-      this.add(this.drawTube(points, 'active', 'active', true))
+      this.add(drawTube(points, 'active', 'active', true))
 
     }
 
@@ -190,9 +187,9 @@ export default class OrgObject3d extends Object3D {
     
     let difVec = destPos.clone().sub(sourcePos)
 
-    let sourceBackPos = this.getSidePos('back', new Vector3())
+    let sourceBackPos = getSidePos('back', new Vector3())
     let sourceBusPos = new Vector3(0, 0, -DEPTH * 4)
-    let destBottomPos = this.getSidePos('bottom', difVec)
+    let destBottomPos = getSidePos('bottom', difVec)
     let destBusPos = difVec.clone().setY(sourceBackPos.y)
 
     points.push(sourceBackPos)

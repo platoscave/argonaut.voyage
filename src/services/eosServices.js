@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { db, argoQuery } from "../services/dexieServices";
+import { db } from "../services/dexieServices";
+import { getClassSchema } from "~/lib/argoUtils"
 import {
   Api,
   JsonRpc,

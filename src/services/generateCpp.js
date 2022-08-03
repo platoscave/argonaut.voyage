@@ -1,6 +1,7 @@
 //import Vue from 'vue'
 //const JSZip = require("jszip");
-import { db, argoQuery } from "./dexieServices";
+import { db } from "./dexieServices";
+import { getClassSchema } from "~/lib/argoUtils"
 
 class GenerateCpp {
 
@@ -23,7 +24,7 @@ class GenerateCpp {
         // let zip = new JSZip();
         // PR: gzthjuyjca4s
         // Pages: 
-        //let classObj = await argoQuery.getMergedAncestorProperties(_id)
+        //let classObj = await getClassSchema(_id)
         let classObj = this.basicContract()
         //return this.hppSource(classObj)
         return this.cppSource(classObj)

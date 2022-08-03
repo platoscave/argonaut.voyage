@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { db, argoQuery } from "~/services/dexieServices";
+import { db } from "~/services/dexieServices";
+import { getClassSchema } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
 import {
   useHashDissect,
@@ -24,7 +25,7 @@ const dataObj = useLiveQuery<IDataObj>(
   [selectedObjId]
 );
 watch(dataObj, async (dataObj) => {
-  viewObj.value = await argoQuery.getMergedAncestorProperties(dataObj.classId);
+  viewObj.value = await getClassSchema(dataObj.classId);
 });
 
 const onInput = async (updatedDataObj) => {

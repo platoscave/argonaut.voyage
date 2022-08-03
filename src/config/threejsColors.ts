@@ -1,4 +1,5 @@
-export default {
+
+const colorsObj:any = {
 
   // Class Model
 
@@ -128,3 +129,5 @@ export default {
   }
 
 }
+
+export default colorsObj

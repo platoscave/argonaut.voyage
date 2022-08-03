@@ -1,5 +1,5 @@
 import { Vector3, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import object3dMixin from './object3dMixin'
+import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -9,9 +9,6 @@ export default class StepObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    // Mixin utility methods: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
@@ -20,7 +17,7 @@ export default class StepObject3d extends Object3D {
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
 
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     textMesh.translateY(-HEIGHT / 4)
     objectMesh.add(textMesh)
@@ -54,7 +51,7 @@ export default class StepObject3d extends Object3D {
 
           const points = this.addCorners(sourcePos, destPos)
 
-          this.add(this.drawTube(points, key, key, true))
+          this.add(drawTube(points, key, key, true))
         }
         if (key === 'tabs') destId.forEach(tabObj => {
           tabObj.widgets.forEach(widgetObj => {
@@ -94,9 +91,9 @@ export default class StepObject3d extends Object3D {
     // Get the difference vector
     let difVec = destPos.clone().sub(sourcePos)
     if (similar(difVec.y, 0)) { // same level, go down then up
-      let sourceBottomPos = this.getSidePos('bottom', new Vector3())
+      let sourceBottomPos = getSidePos('bottom', new Vector3())
       let sourceBusPos = new Vector3(0, -HEIGHT * 2, 0)
-      let destBottomPos = this.getSidePos('bottom', difVec)
+      let destBottomPos = getSidePos('bottom', difVec)
       let destBusPos = difVec.clone().setY(difVec.y - HEIGHT * 2)
 
       points.push(sourceBottomPos)
@@ -106,9 +103,9 @@ export default class StepObject3d extends Object3D {
       points.push(destBottomPos)
     }
     else if (difVec.y > 0) { // higher level, go up then up
-      let sourceTopPos = this.getSidePos('top', new Vector3())
+      let sourceTopPos = getSidePos('top', new Vector3())
       let sourceBusPos = new Vector3(0, HEIGHT * 2, 0)
-      let destBottomPos = this.getSidePos('bottom', difVec)
+      let destBottomPos = getSidePos('bottom', difVec)
       let destBusAPos = difVec.clone().setY(difVec.y - HEIGHT * 2) //TODO not coorect should be less
       let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
       let destBusBPos = destBusAPos.clone().setX(destBusAPos.x - destBusBLength)
@@ -121,9 +118,9 @@ export default class StepObject3d extends Object3D {
       points.push(destBottomPos)
     }
     else { // lower level, go down then down
-      let sourceBottomPos = this.getSidePos('bottom', new Vector3())
+      let sourceBottomPos = getSidePos('bottom', new Vector3())
       let sourceBusPos = new Vector3(0, -HEIGHT * 2, 0)
-      let destTopPos = this.getSidePos('top', difVec)
+      let destTopPos = getSidePos('top', difVec)
       let destBusAPos = difVec.clone().setY(difVec.y + HEIGHT * 2) //TODO not coorect should be less
       let destBusBLength = sourceBusPos.x > destBusAPos.x ? - WIDTH : WIDTH
       let destBusBPos = destBusAPos.clone().setX(destBusAPos.x - destBusBLength)

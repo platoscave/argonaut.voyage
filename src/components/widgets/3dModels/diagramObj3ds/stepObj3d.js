@@ -1,7 +1,6 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
-import { take } from 'rxjs/operators';
 import { Vector3, Vector2, Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import object3dMixin from './object3dMixin'
+import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -11,9 +10,6 @@ export default class StepObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    // Mixin utility methods: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
@@ -22,7 +18,7 @@ export default class StepObject3d extends Object3D {
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
 
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     textMesh.translateX(WIDTH / 16)
     objectMesh.add(textMesh)
@@ -124,8 +120,8 @@ export default class StepObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceRightPos = this.getSidePos('right', new Vector3())
-    const destLeftPos = this.getSidePos('left', difVec)
+    const sourceRightPos = getSidePos('right', new Vector3())
+    const destLeftPos = getSidePos('left', difVec)
 
     let points = []
     if (difVec.length < WIDTH * 1.1) {
@@ -138,7 +134,7 @@ export default class StepObject3d extends Object3D {
       points.push(destLeftPos)
     }
 
-    this.add(this.drawTube(points, name, name, true))
+    this.add(drawTube(points, name, name, true))
 
   }
 
@@ -156,8 +152,8 @@ export default class StepObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceRightPos = this.getSidePos('right', new Vector3())
-    const destBottomPos = this.getSidePos('bottom', difVec)
+    const sourceRightPos = getSidePos('right', new Vector3())
+    const destBottomPos = getSidePos('bottom', difVec)
     destBottomPos.setX(destBottomPos.x + WIDTH / 4)
 
 
@@ -168,7 +164,7 @@ export default class StepObject3d extends Object3D {
     points.push(new Vector3(destBottomPos.x, destBottomPos.y - HEIGHT * 2, destBottomPos.z))
     points.push(destBottomPos)
 
-    this.add(this.drawTube(points, name, name, true))
+    this.add(drawTube(points, name, name, true))
   }
 
 
@@ -208,8 +204,8 @@ export default class StepObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceBackPos = this.getSidePos('back', new Vector3())
-    const destFrontPos = this.getSidePos('front', difVec)
+    const sourceBackPos = getSidePos('back', new Vector3())
+    const destFrontPos = getSidePos('front', difVec)
 
     let points = []
 
@@ -218,7 +214,7 @@ export default class StepObject3d extends Object3D {
     points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
     points.push(destFrontPos)
 
-    this.add(this.drawTube(points, 'active', 'authorizedOrgUnitId', true))
+    this.add(drawTube(points, 'active', 'authorizedOrgUnitId', true))
 
   }
 

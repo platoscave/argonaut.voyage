@@ -1,8 +1,7 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
-import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
 import ObjectObject3d from "./objectObj3d";
-import object3dMixin from './object3dMixin'
+import { drawBeam, drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -12,9 +11,6 @@ export default class ClassObject3d extends Object3D {
   constructor(userData, isRoot) {
     super()
 
-    // Mixin utility methodes: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.title + ' - object3d'
     this.userData = userData
@@ -23,7 +19,7 @@ export default class ClassObject3d extends Object3D {
     classMesh.name = userData.title + ' - 3d mesh'
     this.add(classMesh)
 
-    let textMesh = this.getTextMesh(userData.title)
+    let textMesh = getTextMesh(userData.title)
     textMesh.translateZ(DEPTH * 0.6)
     classMesh.add(textMesh)
 
@@ -33,7 +29,7 @@ export default class ClassObject3d extends Object3D {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'classConnectors'))
+      this.add(drawBeam(points, 'classConnectors'))
     }
   }
 
@@ -57,7 +53,7 @@ export default class ClassObject3d extends Object3D {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'classConnectors'))
+      this.add(drawBeam(points, 'classConnectors'))
     }
 
     let childrenPronmises = []
@@ -117,7 +113,7 @@ export default class ClassObject3d extends Object3D {
       let points = []
       points.push(new Vector3(firstX, -HEIGHT * 2, 0))
       points.push(new Vector3(lastX, -HEIGHT * 2, 0))
-      this.add(this.drawBeam(points, 'classConnectors'))
+      this.add(drawBeam(points, 'classConnectors'))
     }
 
     // return the original x plus our children max, so that the parent can center itself
@@ -146,8 +142,8 @@ export default class ClassObject3d extends Object3D {
       let difVec = destPos.clone()
       difVec.sub(sourcePos)
 
-      const sourceBack = this.getSidePos('back', new Vector3())
-      const destBack = this.getSidePos('back', difVec)
+      const sourceBack = getSidePos('back', new Vector3())
+      const destBack = getSidePos('back', difVec)
 
       let points = []
       points.push(sourceBack) // move startpoint to the edge
@@ -157,7 +153,7 @@ export default class ClassObject3d extends Object3D {
       points.push(beforeLastPos)
       points.push(destBack)
 
-      this.add(this.drawTube(points, assoc.name, assoc.name, true))
+      this.add(drawTube(points, assoc.name, assoc.name, true))
 
     }
     this.children.forEach((subClassObj3d) => {
@@ -192,7 +188,7 @@ export default class ClassObject3d extends Object3D {
       let points = []
       points.push(new Vector3(0, 0, 0))
       points.push(new Vector3(0, 0, WIDTH * 2 * (resArr.length + 1)))
-      let beam = this.drawBeam(points, 'classConnectors')
+      let beam = drawBeam(points, 'classConnectors')
       beam.translateY(-HEIGHT / 4)
       this.add(beam)
     }

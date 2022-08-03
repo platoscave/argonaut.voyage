@@ -1,5 +1,5 @@
 import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader } from 'three'
-import object3dMixin from './object3dMixin'
+import { getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -8,9 +8,6 @@ export default class UserObject3d extends Object3D {
 
   constructor(userData) {
     super()
-
-    // Mixin utility methods: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
 
     this._id = userData._id
     this.name = userData.name + ' - object3d'
@@ -23,7 +20,7 @@ export default class UserObject3d extends Object3D {
     //avatarMesh.name = userData.name + ' - 3d mesh'
     this.add(avatarMesh)
 
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     textMesh.translateY(-HEIGHT / 4)
     objectMesh.add(textMesh)

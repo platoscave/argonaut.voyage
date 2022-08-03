@@ -1,8 +1,7 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
-import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, SphereGeometry, MeshBasicMaterial } from 'three'
 import StepObject3d from "./stepObj3d";
-import object3dMixin from './object3dMixin'
+import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -12,9 +11,6 @@ export default class ProcessObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    // Mixin utility methodes: Beam, Tube, Text etc
-    Object.assign(this, object3dMixin);
-
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
@@ -23,24 +19,24 @@ export default class ProcessObject3d extends Object3D {
     classMesh.name = userData.name + ' - 3d mesh'
     this.add(classMesh)
 
-    let textMesh = this.getTextMesh(userData.name)
+    let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
     classMesh.add(textMesh)
 
   }
 
   drawEndStates(processWidth) {
-    /* const destVec = this.getSidePos('left')
+    /* const destVec = getSidePos('left')
     let points = []
     points.push(destVec.clone().add(new Vector3(-WIDTH * 4, HEIGHT, 0)))
     points.push(destVec.clone().add(new Vector3(-WIDTH * 3, HEIGHT, 0)))
     points.push(destVec.clone().add(new Vector3(-WIDTH * 1, 0, 0)))
     points.push(destVec)
-    this.add(this.drawTube(points, 'happy', '', true)) */
+    this.add(drawTube(points, 'happy', '', true)) */
 
     const endX = processWidth / 2 + WIDTH
 
-    const sourceVec = this.getSidePos('right')
+    const sourceVec = getSidePos('right')
     let height = 0
     this.userData.returnActions.forEach(item => {
       let points = []
@@ -48,7 +44,7 @@ export default class ProcessObject3d extends Object3D {
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .2, 0, 0)))
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .7, height, 0)))
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 -WIDTH * 0.1), height, 0)))
-      this.add(this.drawTube(points, item, item, true))
+      this.add(drawTube(points, item, item, true))
 
       const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
       geometry.translate(endX, height, 0)
@@ -123,9 +119,9 @@ export default class ProcessObject3d extends Object3D {
     let difVec = destPos.clone()
     difVec.sub(sourcePos)
 
-    const sourceBottom = this.getSidePos('bottom', new Vector3())
+    const sourceBottom = getSidePos('bottom', new Vector3())
     sourceBottom.setX(sourceBottom.x - WIDTH / 4)
-    const destLeft = this.getSidePos('left', difVec)
+    const destLeft = getSidePos('left', difVec)
 
     let points = []
     points.push(sourceBottom) // move startpoint to the edge
@@ -134,7 +130,7 @@ export default class ProcessObject3d extends Object3D {
     points.push(new Vector3(destLeft.x - WIDTH / 2, destLeft.y, destLeft.z))
     points.push(destLeft)
 
-    this.add(this.drawTube(points, 'happy', 'initial step', true))
+    this.add(drawTube(points, 'happy', 'initial step', true))
 
     // Tell first step to draw its connectors
     stepObj3d.drawStepConnectors(glModelObject3D, this)

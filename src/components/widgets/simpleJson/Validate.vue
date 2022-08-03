@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import Ajv from "ajv";
-import { db, argoQuery } from "~/services/dexieServices";
+import { db } from "~/services/dexieServices";
+import { getClassSchema } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
 import { lowlight } from "lowlight/lib/core.js";
@@ -26,7 +27,7 @@ const dataObj = useLiveQuery<IDataObj>(
 );
 
 watch(dataObj, (dataObj) => {
-  argoQuery.getMergedAncestorProperties(dataObj.classId).then((schemaObj) => {
+  getClassSchema(dataObj.classId).then((schemaObj) => {
     highlightedCode.value = toHtml(
       lowlight.highlightAuto(JSON.stringify(schemaObj, null, 2))
     );

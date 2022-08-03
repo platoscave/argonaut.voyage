@@ -103,7 +103,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         // Unfortunatly this doesn't work. We need the class being selected by the query.
         // This often involves contextObj to resolve query varialbles, which we don't have access to.
 
-        /* const mergedAncestorProperties = await this.getMergedAncestorProperties("dlpwvptczyeb")
+        /* const mergedAncestorProperties = await this.getClassSchema("dlpwvptczyeb")
         let resArray = []
         for (let key in mergedAncestorProperties.properties) {
           resArray.push({ _id: key, label: key })
