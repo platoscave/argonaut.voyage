@@ -6,13 +6,20 @@ const props = defineProps({
   modelValue: { type: String, default: "" },
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
+  // we need to add these to prevent vue warn, for some reason
+  class: { type: String, default: '' }, 
+  required: { type: Boolean, default: false }, 
+  formMode: { type: String, default: '' }
 });
+const emit = defineEmits(['update:modelValue'])
+
 
 const onInput = (escapedSvg) => {
   if (props.modelValue.startsWith("data:image/svg+xml;base64,")) {
     const base64Encoded = window.btoa(escapedSvg);
     //console.log("urlEncoded", base64Encoded);
-    this.$emit("input", "data:image/svg+xml;base64," + base64Encoded);
+    emit('update:modelValue', "data:image/svg+xml;base64," + base64Encoded)
+
   }
   if (props.modelValue.startsWith("data:image/svg+xml;utf8,")) {
     // The svg must be uri escaped. However we dont need to escape everything, so we roll our own
@@ -32,7 +39,7 @@ const onInput = (escapedSvg) => {
 
     let urlEncoded = escapeUrl(escapedSvg);
     //console.log("urlEncoded", urlEncoded);
-    this.$emit("input", "data:image/svg+xml;utf8," + urlEncoded);
+    emit('update:modelValue', "data:image/svg+xml;utf8," + urlEncoded)
   }
 };
 
@@ -76,15 +83,15 @@ const svgMarkup = computed(() => {
       v-if="modelValue.startsWith('data:image/svg+xml')"
       type="textarea"
       autosize
-      v-on:input="onInput"
-      :model-value="svgMarkup"
+      :value="svgMarkup"
+      :input="onInput"
     ></el-input>
 
     <el-input
       class="ar-control"
       v-else
-      :model-value="modelValue"
-      v-on:input="$emit('input', $event)"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event)"
     ></el-input>
   </div>
 

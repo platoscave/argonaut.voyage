@@ -34,13 +34,3 @@ const highlightedCode = computed(() => {
     ></el-input>
   </div>
 </template>
-
-
-<style scoped>
-/* code {
-  padding: 0px;
-}
-pre {
-  margin: 0px;
-} */
-</style>

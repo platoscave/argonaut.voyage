@@ -1,23 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { lowlight } from "lowlight/lib/core.js";
-import { toHtml } from "hast-util-to-html";
-
 const props = defineProps({
-  hashLevel: { type: Number, default: 0 },
   modelValue: { type: String, default: "" },
-  property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-});
-
-const highlightedCode = computed(() => {
-  if (props.modelValue) {
-    const res = lowlight.highlightAuto(
-      JSON.stringify(props.modelValue, null, 4)
-    );
-    return toHtml(res);
-  }
-  return "";
 });
 </script>
 
@@ -25,13 +9,11 @@ const highlightedCode = computed(() => {
   <div v-if="readonly" class="ar-lightgrey-background">
     {{ modelValue }}
   </div>
+  <!-- TODO type="textarea" -->
   <el-input
     v-else
-    Xtype="textarea"
     autosize
-    v-on:input="$emit('input', $event)"
-    :model-value="modelValue"
+    v-model="modelValue"
+    @input="$emit('update:modelValue', $event)"
   ></el-input>
 </template>
-
-<style scoped></style>

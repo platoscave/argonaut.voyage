@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, toRefs } from "vue";
+import { ref, reactive, computed, toRefs, watch } from "vue";
 import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 
 // import ControlSelector from "./ControlSelector";
@@ -34,8 +34,30 @@ const props = defineProps({
 //   requiredArr: { type: Array, default: () => [] },
 //   formMode: { type: String, default: "Readonly Dense" },
 // })
+const emit = defineEmits(['update:modelValue'])
 
 const formEl = ref(null);
+
+const formModelValue = reactive({})
+watch(
+  () => props.modelValue,
+  (current) => {
+    //if (!deepEqual(formfields, current))
+      Object.assign(formModelValue, current)
+  },
+  { deep: true, immediate: true }
+);
+
+watch(
+  formModelValue,
+  (current, previous) => {
+    //console.log( 'current', current)
+    //if (!deepEqual(current, previous))
+      //emit('update:modelValue', current)
+      emit('update:modelValue', current)
+  },
+  { deep: true }
+);
 
 // methodes possibly called from outside, so pass on to our form
 const validate = () => {
@@ -43,7 +65,9 @@ const validate = () => {
 };
 const resetFields = () => {
   formEl.value.resetFields();
-};
+}
+defineExpose({validate, resetFields})
+
 
 const validationRules = computed(() => {
   // no rules for readonly
@@ -200,7 +224,7 @@ const getComponent = (property: IProperty) => {
   :model and :rules are needed for validation rules. Do not mess with them! You will regret it-->
   <el-form
     ref="formEl"
-    :model="modelValue"
+    :model="formModelValue"
     :rules="validationRules"
     labelWidth="100px"
     labelPosition="left"
@@ -211,7 +235,7 @@ const getComponent = (property: IProperty) => {
       <!-- :prop is needed for validation rules. Do not mess with it! -->
       <el-form-item
         class="ar-form-item"
-        v-if="notReadonlyDenseAndEmpty(formMode, modelValue[propertyName], property.type)"
+        v-if="notReadonlyDenseAndEmpty(formMode, formModelValue[propertyName], property.type)"
         :prop="propertyName"
       >
         <!-- Label with tooltip. -->
@@ -245,7 +269,7 @@ const getComponent = (property: IProperty) => {
         <component
           :is="getComponent(property)"
           class="ar-control"
-          v-model="modelValue[propertyName]"
+          v-model="formModelValue[propertyName]"
           :property="property"
           :readonly="formMode.startsWith('Readonly')"
           :required="requiredArr.includes(propertyName)"

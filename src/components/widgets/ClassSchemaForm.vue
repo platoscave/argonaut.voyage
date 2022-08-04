@@ -15,18 +15,49 @@ const props = defineProps({
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
 const viewObj = ref({});
 const formMode = ref("Readonly Dense");
+const classId = ref("");
+const subFormEl = ref("")
+let formDataObject = ref({});
+
+
 
 interface IDataObj {
   _id: string;
   classId: string;
 }
+// get the dataObj, watch selectedObjId
 const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
 );
-watch(dataObj, async (dataObj) => {
-  viewObj.value = await getClassSchema(dataObj.classId);
+
+
+// watch dataObj, make a copy for the form
+watch(dataObj, (dataObj, oldDataObj) => {
+  console.log('dataObj', dataObj, oldDataObj)
+  classId.value = dataObj.classId
+  formDataObject.value = dataObj;
 });
+
+
+// watch the classId, get a new schema
+watch(classId, (classId) => {
+  console.log('classId', classId)
+  getClassSchema(classId).then(schema => viewObj.value = schema);
+});
+
+
+// watch the form data, perform validate, save data
+watch(formDataObject, (formDataObject, oldFormDataObject) => {
+  if(!formMode.value.startsWith('Edit')) return
+  if(!oldFormDataObject) return
+  if(JSON.stringify(formDataObject) === JSON.stringify(oldFormDataObject)) return
+  console.log('formDataObject', formDataObject, oldFormDataObject)
+  subFormEl.value.validate().then( valid => {
+    console.log('valid', valid);
+  })
+    
+},{ deep: true });
 
 const onInput = async (updatedDataObj) => {
   /*
@@ -58,13 +89,12 @@ const onEditButton = () => {
 </script>
 
 <template>
-  <div v-if="dataObj && viewObj" class="fab-parent">
+  <div v-if="formDataObject && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
       <div>
         <SubForm
-          ref="schemaForm"
-          :model-value="dataObj"
-          @input="onInput"
+          ref="subFormEl"
+          v-model="formDataObject"
           :properties="viewObj.properties"
           :requiredArr="viewObj.required"
           :form-mode="formMode"

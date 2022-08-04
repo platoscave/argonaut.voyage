@@ -49,7 +49,7 @@ pre {
   height: 24px;
   border-radius: 4px;
 }
-el-input__wrapper:hover {
+.el-input__wrapper:hover {
     box-shadow: 0 0 0 1px #409eff inset;
 }
 /* Text area background and border */
@@ -57,6 +57,10 @@ el-input__wrapper:hover {
   background-color: #ffffff08;
   box-shadow: 0 0 0 1px #00adff42;
   border-radius: 4px;
+}
+.el-textarea__inner:hover {
+  box-shadow: 0 0 0 1px #409eff inset;
+
 }
 /* allow label height to grow as needed */
 .el-form-item__label {

@@ -2,14 +2,12 @@
 import { ref, computed, onBeforeUnmount } from "vue";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { lowlight } from "lowlight/lib/core.js";
-
-
 
 const props = defineProps({
   hashLevel: { type: Number, default: 0 },
@@ -21,23 +19,23 @@ const props = defineProps({
 const editor = new Editor({
   extensions: [
     StarterKit,
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),       
-      // CodeBlockLowlight
-      //     .extend({
-      //       addNodeView() {
-      //         return VueNodeViewRenderer(CodeBlockComponent)
-      //       },
-      //     })
-      //     .configure({ lowlight }),
-    ],
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
+    CodeBlockLowlight.configure({
+      lowlight,
+    }),
+    // CodeBlockLowlight
+    //     .extend({
+    //       addNodeView() {
+    //         return VueNodeViewRenderer(CodeBlockComponent)
+    //       },
+    //     })
+    //     .configure({ lowlight }),
+  ],
   content: props.modelValue,
 });
 
@@ -278,13 +276,10 @@ onBeforeUnmount(() => {
       </span>
     </div>
 
-    <editor-content 
-      class="editor-content"
-      :editor="editor" />
+    <editor-content class="editor-content" :editor="editor" />
   </div>
 </template>
 <style scoped>
-
 .editor-content >>> .ProseMirror {
   background-color: #ffffff08;
   border-color: #00adff42;
@@ -295,7 +290,7 @@ onBeforeUnmount(() => {
   padding-right: 10px;
   border-spacing: 0px;
 }
-.editor-content >>> .ProseMirror.ProseMirror-focused{
+.editor-content >>> .ProseMirror.ProseMirror-focused {
   outline: 0;
 }
 .editor-content >>> td {
@@ -312,7 +307,6 @@ onBeforeUnmount(() => {
   min-width: 20px;
   vertical-align: top;
 }
-
 </style>
 <!--
 <style lang="scss">
