@@ -34,16 +34,22 @@ const props = defineProps({
 //   requiredArr: { type: Array, default: () => [] },
 //   formMode: { type: String, default: "Readonly Dense" },
 // })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"]);
 
 const formEl = ref(null);
 
-const formModelValue = reactive({})
+const formModelValue = reactive({});
 watch(
   () => props.modelValue,
   (current) => {
     //if (!deepEqual(formfields, current))
-      Object.assign(formModelValue, current)
+    Object.assign(formModelValue, current)
+  // console.log('Old formModelValue', formModelValue)
+
+  //   Object.keys(formModelValue).forEach((key) => delete formModelValue[key]);
+  //   Object.keys(current).forEach((key) => (formModelValue[key] = current[key]));
+      console.log('SF Updated Model Value', formModelValue.name)
+
   },
   { deep: true, immediate: true }
 );
@@ -53,8 +59,10 @@ watch(
   (current, previous) => {
     //console.log( 'current', current)
     //if (!deepEqual(current, previous))
-      //emit('update:modelValue', current)
-      emit('update:modelValue', current)
+    //emit('update:modelValue', current)
+      console.log('SF Updated Form Value', formModelValue.name)
+    emit("update:modelValue", current);
+
   },
   { deep: true }
 );
@@ -65,9 +73,8 @@ const validate = () => {
 };
 const resetFields = () => {
   formEl.value.resetFields();
-}
-defineExpose({validate, resetFields})
-
+};
+defineExpose({ validate, resetFields });
 
 const validationRules = computed(() => {
   // no rules for readonly
@@ -122,13 +129,18 @@ const validationRules = computed(() => {
   return rulesObj;
 });
 
-const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: string) => {
+const notReadonlyDenseAndEmpty = (
+  formMode: string,
+  dataObj: object[],
+  type: string
+) => {
   if (
     formMode === "Readonly Dense" &&
     (!dataObj || // modelValue is empty
       (type === "array" && !dataObj.length) || // modelValue is an array and is empty
       (type === "object" && !Object.keys(dataObj).length)) // modelValue is an object and is empty
-  ) return false;
+  )
+    return false;
   return true;
 };
 
@@ -235,7 +247,13 @@ const getComponent = (property: IProperty) => {
       <!-- :prop is needed for validation rules. Do not mess with it! -->
       <el-form-item
         class="ar-form-item"
-        v-if="notReadonlyDenseAndEmpty(formMode, formModelValue[propertyName], property.type)"
+        v-if="
+          notReadonlyDenseAndEmpty(
+            formMode,
+            formModelValue[propertyName],
+            property.type
+          )
+        "
         :prop="propertyName"
       >
         <!-- Label with tooltip. -->
@@ -289,7 +307,7 @@ const getComponent = (property: IProperty) => {
   margin-left: 5px;
 }
 /* Item bottom margin */
-.el-form-item{
+.el-form-item {
   margin-bottom: 8px;
 }
 </style>

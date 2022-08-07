@@ -8,11 +8,13 @@ const props = defineProps({
   modelValue: { type: Object, default: {} },
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
-})
+});
 
 const highlightedCode = computed(() => {
   if (props.modelValue) {
-    const res = lowlight.highlightAuto(JSON.stringify(props.modelValue, null, 2));
+    const res = lowlight.highlightAuto(
+      JSON.stringify(props.modelValue, null, 2)
+    );
     return toHtml(res);
   }
   return "";
@@ -29,8 +31,8 @@ const highlightedCode = computed(() => {
     <el-input
       type="textarea"
       autosize
-      v-on:input="$emit('input', $event)"
-      :model-value="JSON.stringify(modelValue, null, 2)"
+      :value="JSON.stringify(modelValue, null, 2)"
+      @input="$emit('update:modelValue', $event)"
     ></el-input>
   </div>
 </template>

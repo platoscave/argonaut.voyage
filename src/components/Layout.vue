@@ -5,7 +5,7 @@ import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
-// import Studio from "./StudioLayout";
+import StudioLayout from "./StudioLayout.vue";
 import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
 import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 
@@ -13,7 +13,10 @@ const props = defineProps({
   hashLevel: Number,
 });
 
-let splitterSettings = reactive([20, 80]);
+//let splitterSettings = reactive([20, 80]);
+let splitterSettings = [20, 80]
+let leftSize = 300
+let rightSize = 0
 
 const { pageId } = useHashDissect(props.hashLevel);
 
@@ -33,20 +36,34 @@ const pageObj = useLiveQuery<pageRec>(
 
 db.settings.get(pageId.value).then((pageSettings) => {
   if (pageSettings && pageSettings.splitterSettings) {
-    splitterSettings[0] = pageSettings.splitterSettings[0]
-    splitterSettings[1] = pageSettings.splitterSettings[1]
+    splitterSettings[0] = pageSettings.splitterSettings[0];
+    splitterSettings[1] = pageSettings.splitterSettings[1];
+    leftSize = pageSettings.leftSize
+    rightSize = pageSettings.rightSize
   }
   // add empty pagesettings for update to work
   if (!pageSettings) db.settings.add({ pageId: pageId.value });
-})
+});
 
 const onResized = (splitterSettingsArr) => {
-  console.log("splitterSettings", splitterSettingsArr);
+  //console.log("splitterSettings", splitterSettingsArr);
   db.settings.update(pageId.value, {
     splitterSettings: splitterSettingsArr.map((item) => item.size),
   });
-};
+}
 
+const leftSizeStop = (leftSizeStop) => {
+  //console.log("splitterSettings", splitterSettingsArr);
+  db.settings.update(pageId.value, {
+    leftSize: leftSizeStop,
+  });
+}
+const rightSizeStop = (rightSizeStop) => {
+  //console.log("splitterSettings", splitterSettingsArr);
+  db.settings.update(pageId.value, {
+    rightSize: rightSizeStop,
+  });
+}
 const dynamicComp = [
   { name: "Class Model", comp: ClassModel },
   { name: "Process Model", comp: ProcessModel },
@@ -54,7 +71,6 @@ const dynamicComp = [
 const getComponent = (widgetName: string) => {
   return dynamicComp.find((item) => item.name === widgetName).comp;
 };
-
 </script>
 
 <template>
@@ -80,35 +96,33 @@ const getComponent = (widgetName: string) => {
     </splitpanes>
 
     <!-- Studio layout -->
+<!-- 
 
-    <!-- <StudioLayout
+
+-->
+    <StudioLayout
       v-else-if="pageObj.layout === 'Studio'"
       class="ar-full-height"
-      v-on:leftsize="leftSizeStop"
-      v-on:rightsize="rightSizeStop"
-      v-bind:left-size="layoutSettings.leftSize"
-      v-bind:right-size="layoutSettings.rightSize"
-    >
-
-      < !-- Background content -->
-
-    <component
-      :is="getComponent(pageObj.model)"
-      v-else-if="pageObj.layout === 'Studio'"
-      class="ar-full-height"
-      v-bind:hash-level="hashLevel"
-      v-bind:view-id="pageObj.tabs[0].widgets[0].viewId"
-    ></component>
-
-    <!-- Master content -- >
-
-      <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
-
-      < !-- Detail content -- >
-
-      <Page class="ar-full-height" v-bind:hash-level="hashLevel + 1"></Page>
-
-    </StudioLayout> -->
+      :left-size="leftSize"
+      :right-size="rightSize"
+      @leftsizestop="leftSizeStop"
+      @rightsizestop="rightSizeStop">
+      <!-- Background content -->
+      <component
+        :is="getComponent(pageObj.model)"
+        class="ar-full-height"
+        :hash-level="hashLevel"
+        :view-id="pageObj.tabs[0].widgets[0].viewId"
+      ></component>
+      <!-- Master content -->
+      <template #drawer-left>
+        <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
+      </template>
+      <!-- Detail content -->
+      <template #drawer-right>
+        <Page class="ar-full-height" v-bind:hash-level="hashLevel + 1"></Page>
+      </template>
+    </StudioLayout>
 
     <!-- Single page layout -->
 

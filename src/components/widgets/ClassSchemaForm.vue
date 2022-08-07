@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, reactive } from "vue";
 import { db } from "~/services/dexieServices";
 import { getClassSchema } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
@@ -17,15 +17,14 @@ const viewObj = ref({});
 const formMode = ref("Readonly Dense");
 const classId = ref("");
 const subFormEl = ref("")
-let formDataObject = ref({});
+let formDataObject = reactive({formData: {} })
 
 
-
+// get the dataObj, watch selectedObjId
 interface IDataObj {
   _id: string;
   classId: string;
 }
-// get the dataObj, watch selectedObjId
 const dataObj = useLiveQuery<IDataObj>(
   () => db.state.get(selectedObjId.value),
   [selectedObjId]
@@ -34,25 +33,40 @@ const dataObj = useLiveQuery<IDataObj>(
 
 // watch dataObj, make a copy for the form
 watch(dataObj, (dataObj, oldDataObj) => {
-  console.log('dataObj', dataObj, oldDataObj)
+  //console.log('New dataObj', dataObj, oldDataObj)
   classId.value = dataObj.classId
-  formDataObject.value = dataObj;
+  //console.log('\n','Old formDataObject', formDataObject)
+  Object.keys(formDataObject.formData).forEach(key => {
+    if(!dataObj.hasOwnProperty(key)) formDataObject.formData[key] = null
+    //formDataObject.formData[key] = null);
+  })
+  //console.log('Cleanup formDataObject', formDataObject)
+
+  //Object.keys(dataObj).forEach(key => formDataObject[key] = ref(dataObj[key]))
+  formDataObject.formData = Object.assign({}, dataObj)
+
+  //formDataObject.reactiveData = {}
+  formDataObject.formData = dataObj
+  console.log('\nCFS Copy Form dataObject', formDataObject.formData.name)
+
 });
 
 
 // watch the classId, get a new schema
 watch(classId, (classId) => {
-  console.log('classId', classId)
-  getClassSchema(classId).then(schema => viewObj.value = schema);
+  getClassSchema(classId).then(schema => {
+    viewObj.value = schema
+    console.log('New Schema', classId)
+  });
 });
 
 
 // watch the form data, perform validate, save data
-watch(formDataObject, (formDataObject, oldFormDataObject) => {
+watch(formDataObject.formData, (newFormDataObject, oldFormDataObject) => {
   if(!formMode.value.startsWith('Edit')) return
   if(!oldFormDataObject) return
-  if(JSON.stringify(formDataObject) === JSON.stringify(oldFormDataObject)) return
-  console.log('formDataObject', formDataObject, oldFormDataObject)
+  if(JSON.stringify(newFormDataObject) === JSON.stringify(oldFormDataObject)) return
+  console.log('CFS Updated Form dataObject', newFormDataObject.name)
   subFormEl.value.validate().then( valid => {
     console.log('valid', valid);
   })
@@ -89,12 +103,12 @@ const onEditButton = () => {
 </script>
 
 <template>
-  <div v-if="formDataObject && viewObj" class="fab-parent">
+  <div v-if="formDataObject.formData && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
       <div>
         <SubForm
           ref="subFormEl"
-          v-model="formDataObject"
+          v-model="formDataObject.formData"
           :properties="viewObj.properties"
           :requiredArr="viewObj.required"
           :form-mode="formMode"

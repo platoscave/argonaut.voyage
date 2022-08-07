@@ -2762,7 +2762,7 @@
         "name": "Propositions",
         "widgets": [
           {
-            "displayType": "View Table",
+            "displayType": "Tree",
             "name": "Propositions Table",
             "viewId": "g1q2rky4uxcb"
           }
@@ -2975,7 +2975,7 @@
         "name": "Backlog Table",
         "widgets": [
           {
-            "displayType": "View Table",
+            "displayType": "Tree",
             "name": "Backlog Table",
             "viewId": "wkt3pyiwxkim"
           }

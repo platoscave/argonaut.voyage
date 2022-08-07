@@ -1,16 +1,61 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+const props = defineProps({
+  leftSize: { type: Number, default: 300 },
+  rightSize: { type: Number, default: 0 },
+});
+const emit = defineEmits(["leftsizestop", "rightsizestop"]);
+let studioEl = ref('')
+
+const minWidthLeft = 300;
+const minWidthRight = 450;
+let sizeLeft = props.leftSize;
+let sizeRight = props.rightSize;
+let moving = "";
+
+const onMouseDownLeft = () => {
+  moving = "left";
+};
+const onMouseDownRight = () => {
+  moving = "right";
+};
+const onMouseMove = (evt) => {
+  if (moving === "left") {
+    let rect = studioEl.value.getBoundingClientRect();
+    sizeLeft = evt.clientX - rect.left;
+  }
+  if (moving === "right") {
+    let rect = studioEl.value.getBoundingClientRect();
+    sizeRight = rect.right - evt.clientX;
+  }
+};
+const onMouseUp = () => {
+  if (moving === "left") {
+    emit("leftsizestop", sizeLeft);
+    moving = "";
+  }
+  if (moving === "right") {
+    emit("rightsizestop", sizeRight);
+    moving = "";
+  }
+};
+</script>
+
 <template>
   <!-- Studio -->
-  <div @mousemove="onMouseMove" @mouseup="onMouseUp">
+  <div ref="studioEl" @mousemove="onMouseMove" @mouseup="onMouseUp">
     <!-- Full page background -->
     <div class="diagram">
-      <slot name="diagram"></slot>
+      <slot></slot>
     </div>
 
     <!-- Left drawer -->
     <div
       class="drawer-left"
       v-bind:style="{
-        left: sizeLeft > minWidthLeft ? 0 + 'px' : sizeLeft - minWidthLeft + 'px',
+        left:
+          sizeLeft > minWidthLeft ? 0 + 'px' : sizeLeft - minWidthLeft + 'px',
         width: sizeLeft < minWidthLeft ? minWidthLeft + 'px' : sizeLeft + 'px',
       }"
     >
@@ -19,7 +64,9 @@
       </div>
       <div
         class="left-handle"
-        @dblclick="sizeLeft === minWidthLeft ? sizeLeft = 0 : sizeLeft = minWidthLeft"
+        @dblclick="
+          sizeLeft === minWidthLeft ? (sizeLeft = 0) : (sizeLeft = minWidthLeft)
+        "
         @mousedown="onMouseDownLeft"
       >
         <svg class="handle-icon">
@@ -35,8 +82,12 @@
     <div
       class="drawer-right"
       v-bind:style="{
-        right: sizeRight > minWidthRight ? 0 + 'px' : sizeRight - minWidthRight + 'px',
-        width: sizeRight < minWidthRight ? minWidthRight + 'px' : sizeRight + 'px',
+        right:
+          sizeRight > minWidthRight
+            ? 0 + 'px'
+            : sizeRight - minWidthRight + 'px',
+        width:
+          sizeRight < minWidthRight ? minWidthRight + 'px' : sizeRight + 'px',
       }"
     >
       <div class="drawer-content">
@@ -44,7 +95,11 @@
       </div>
       <div
         class="right-handle"
-        @dblclick="sizeRight === minWidthRight ? sizeRight = 0 : sizeRight = minWidthRight"
+        @dblclick="
+          sizeRight === minWidthRight
+            ? (sizeRight = 0)
+            : (sizeRight = minWidthRight)
+        "
         @mousedown="onMouseDownRight"
       >
         <svg class="handle-icon">
@@ -57,60 +112,7 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "ar-studio",
-  props: {
-    leftSize: {
-      type: Number,
-      default: 300,
-    },
-    rightSize: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      minWidthLeft: 300,
-      minWidthRight: 450,
-      sizeLeft: this.leftSize,
-      sizeRight: this.rightSize,
-      moving: '',
-    };
-  },
-  methods: {
-    // TODO add touch functionality. See ResizeSplitPane
 
-    onMouseDownLeft() {
-      this.moving = 'left';
-    },
-    onMouseDownRight() {
-      this.moving = 'right';
-    },
-    onMouseMove(evt) {
-      if (this.moving === 'left') {
-        let rect = this.$el.getBoundingClientRect();
-        this.sizeLeft = evt.clientX - rect.left;
-      }
-      if (this.moving === 'right') {
-        let rect = this.$el.getBoundingClientRect();
-        this.sizeRight = rect.right - evt.clientX;
-      }
-    },
-    onMouseUp() {
-      if (this.moving === 'left') {
-        this.$emit("leftsize", this.sizeLeft);
-        this.moving = '';
-      }
-      if (this.moving === 'right') {
-        this.$emit("rightsize", this.sizeRight);
-        this.moving = '';
-      }
-    },
-  },
-};
-</script>
 
 <style scoped>
 /* Studio */

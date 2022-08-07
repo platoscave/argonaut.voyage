@@ -65,7 +65,6 @@ pre {
 /* allow label height to grow as needed */
 .el-form-item__label {
   height: unset;
-  line-height: 26px;
   line-height: 18px;
   align-items: baseline;
   margin-top: 4px;
