@@ -15,14 +15,18 @@ let sizeRight = props.rightSize;
 let moving = "";
 
 const onMouseDownLeft = () => {
+  console.log('down')
   moving = "left";
 };
 const onMouseDownRight = () => {
   moving = "right";
 };
 const onMouseMove = (evt) => {
+  console.log('moving')
   if (moving === "left") {
     let rect = studioEl.value.getBoundingClientRect();
+    console.log('moving', rect)
+
     sizeLeft = evt.clientX - rect.left;
   }
   if (moving === "right") {
@@ -44,7 +48,7 @@ const onMouseUp = () => {
 
 <template>
   <!-- Studio -->
-  <div ref="studioEl" @mousemove="onMouseMove" @mouseup="onMouseUp">
+  <div ref="studioEl" @mousemove="onMouseMove" @mouseup="onMouseUp" class="studio">
     <!-- Full page background -->
     <div class="diagram">
       <slot></slot>
@@ -116,6 +120,11 @@ const onMouseUp = () => {
 
 <style scoped>
 /* Studio */
+.studio {
+  /* height: calc(100vh - 40px); */
+  /* width: 100%; */
+  position: relative;
+}
 .diagram {
   height: calc(100vh - 40px);
   width: 100%;

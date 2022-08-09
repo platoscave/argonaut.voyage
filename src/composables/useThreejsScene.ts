@@ -200,11 +200,13 @@ export function useThreejsScene(
   }
 
   const addSelectable = (mesh) => {
-    const idx = selectableMeshArr.find(item => mesh._id === item._id)
-    if(!idx) selectableMeshArr.push(mesh)
+    console.log('addSelectable',mesh )
+    // const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
+    // if(!idx) selectableMeshArr.push(mesh)
+    selectableMeshArr.push(mesh)
   }
   const removeSelectable = (mesh) => {
-    const idx = selectableMeshArr.find(item => mesh._id === item._id)
+    const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
     if(idx) selectableMeshArr.splice(idx, 1) 
   }
 
@@ -309,7 +311,10 @@ export function useThreejsScene(
   watch(autoRotate, (autoRotate) => controls.autoRotate = autoRotate.value)
 
   // watch next level SelectedObjId
-  watch(nextLevelSelectedObjId, highlight)
+  watch(nextLevelSelectedObjId, (_id) => {
+    //highlight(_id)
+    moveCameraToPos(_id)
+  })
 
 
 
