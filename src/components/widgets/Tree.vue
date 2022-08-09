@@ -25,16 +25,17 @@ const defaultProps = {
 let expandedNodes = ref([]);
 
 watch(nextLevelSelectedObjId, (nextLevelSelectedObjId) => {
-  if(!treeEl.value) return
+  if (!treeEl.value) return;
   treeEl.value.setCurrentKey(nextLevelSelectedObjId);
 });
 
 // See if we can get expanded nodes from the last time we visited this page
-db.settings.get(pageId.value).then((pageRes) => {
-  if (pageRes && pageRes.expandedNodes)
-    expandedNodes.value = pageRes.expandedNodes;
+db.settings.get(pageId.value).then((pageSettings) => {
+  if (pageSettings && pageSettings.expandedNodes)
+    expandedNodes.value = pageSettings.expandedNodes;
   // add empty pagesettings for update to work
-  if (!pageRes) db.settings.add({ pageId: pageId.value });
+  if (!pageSettings)
+    db.settings.add({ pageId: pageId.value, expandedNodes: [] });
 });
 
 const loadNode = async (node, resolve) => {
@@ -139,29 +140,35 @@ const loadNode = async (node, resolve) => {
 };
 
 // The tree node expands, update page settings
-const handleNodeExpand = (data) => {
-  db.settings.get(pageId.value).then((pageRes) => {
-    const idx = pageRes.expandedNodes.find((item) => item === data._id);
-
+const handleNodeExpand = (expandedNode) => {
+  db.settings.get(pageId.value).then((pageSettings) => {
+    let idx = null;
+    if (pageSettings.expandedNodes)
+      idx = pageSettings.expandedNodes.find(
+        (item) => item === expandedNode._id
+      );
+    else pageSettings.expandedNodes = [];
     // Update the expanded nodes in pageSettings for this pageId in the settings db
     if (!idx) {
-      pageRes.expandedNodes.push(data._id);
+      pageSettings.expandedNodes.push(expandedNode._id);
       db.settings.update(pageId.value, {
-        expandedNodes: pageRes.expandedNodes,
+        expandedNodes: pageSettings.expandedNodes,
       });
     }
   });
 };
 // The tree node is closed, update page settings
-const handleNodeCollapse = async (data) => {
-  db.settings.get(pageId.value).then((pageRes) => {
-    const idx = pageRes.expandedNodes.find((item) => item === data._id);
+const handleNodeCollapse = async (collapsedNode) => {
+  db.settings.get(pageId.value).then((pageSettings) => {
+    const idx = pageSettings.expandedNodes.find(
+      (item) => item === collapsedNode._id
+    );
 
     // Update the expanded nodes in pageSettings for this pageId in the settings db
     if (idx) {
-      pageRes.expandedNodes.splice(idx, 1);
+      pageSettings.expandedNodes.splice(idx, 1);
       db.settings.update(pageId.value, {
-        expandedNodes: pageRes.expandedNodes,
+        expandedNodes: pageSettings.expandedNodes,
       });
     }
   });
@@ -202,13 +209,15 @@ onMounted(() => {
     // See if we can get CurrentKey from the last time we visited this page
     // We have to wait half a second because the nodes won't have been loaded yet
     setTimeout(() => {
-      db.settings.get(pageId.value).then((pageRes) => {
-        if (pageRes && pageRes.nextLevelSelectedObjId) {
-          //treeEl.value.setCurrentKey(pageRes.nextLevelSelectedObjId);
-          const nodeData = treeEl.value.getNode(pageRes.nextLevelSelectedObjId);
+      db.settings.get(pageId.value).then((pageSettings) => {
+        if (pageSettings && pageSettings.nextLevelSelectedObjId) {
+          //treeEl.value.setCurrentKey(pageSettings.nextLevelSelectedObjId);
+          const nodeData = treeEl.value.getNode(
+            pageSettings.nextLevelSelectedObjId
+          );
           updateNextLevelHash(
             props.hashLevel,
-            pageRes.nextLevelSelectedObjId,
+            pageSettings.nextLevelSelectedObjId,
             nodeData.data.pageId
           );
         }

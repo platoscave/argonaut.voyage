@@ -200,7 +200,6 @@ export function useThreejsScene(
   }
 
   const addSelectable = (mesh) => {
-    console.log('addSelectable',mesh )
     // const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
     // if(!idx) selectableMeshArr.push(mesh)
     selectableMeshArr.push(mesh)
