@@ -10,8 +10,8 @@ let studioEl = ref('')
 
 const minWidthLeft = 300;
 const minWidthRight = 450;
-let sizeLeft = props.leftSize;
-let sizeRight = props.rightSize;
+let sizeLeft = ref(props.leftSize)
+let sizeRight = ref(props.rightSize)
 let moving = "";
 
 const onMouseDownLeft = () => {
@@ -22,25 +22,23 @@ const onMouseDownRight = () => {
   moving = "right";
 };
 const onMouseMove = (evt) => {
-  console.log('moving')
   if (moving === "left") {
     let rect = studioEl.value.getBoundingClientRect();
-    console.log('moving', rect)
-
-    sizeLeft = evt.clientX - rect.left;
+    sizeLeft.value = evt.clientX - rect.left;
+    console.log('moving', sizeLeft.value)
   }
   if (moving === "right") {
     let rect = studioEl.value.getBoundingClientRect();
-    sizeRight = rect.right - evt.clientX;
+    sizeRight.value = rect.right - evt.clientX;
   }
 };
 const onMouseUp = () => {
   if (moving === "left") {
-    emit("leftsizestop", sizeLeft);
+    emit("leftsizestop", sizeLeft.value);
     moving = "";
   }
   if (moving === "right") {
-    emit("rightsizestop", sizeRight);
+    emit("rightsizestop", sizeRight.value);
     moving = "";
   }
 };
@@ -57,9 +55,8 @@ const onMouseUp = () => {
     <!-- Left drawer -->
     <div
       class="drawer-left"
-      v-bind:style="{
-        left:
-          sizeLeft > minWidthLeft ? 0 + 'px' : sizeLeft - minWidthLeft + 'px',
+      :style="{
+        left: sizeLeft > minWidthLeft ? 0 + 'px' : sizeLeft - minWidthLeft + 'px',
         width: sizeLeft < minWidthLeft ? minWidthLeft + 'px' : sizeLeft + 'px',
       }"
     >
@@ -133,14 +130,10 @@ const onMouseUp = () => {
 .drawer-left {
   z-index: 10;
   position: absolute;
-  left: -300px;
-  min-width: 300px;
 }
 .drawer-right {
   z-index: 10;
   position: absolute;
-  right: -450px;
-  width: 450px;
 }
 .drawer-content {
   background: #232323db;
