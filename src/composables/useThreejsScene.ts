@@ -8,17 +8,10 @@ import {
   AxesHelper,
   Raycaster,
   TextureLoader,
-  BoxGeometry,
-  MeshBasicMaterial,
-  BackSide,
   Mesh,
   MeshLambertMaterial,
-  Shape,
   Texture,
-  PlaneGeometry,
-  WebGLRenderer,
-  Vector2,
-  sRGBEncoding
+  WebGLRenderer
 } from 'three';
 import { ref, reactive, toRefs, onMounted, onBeforeUnmount, watch } from 'vue'
 import TWEEN from '@tweenjs/tween.js'
@@ -32,6 +25,7 @@ import fontJson from '~/assets/helvetiker_regular.typeface.json'
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
 import { useResizeObserver, useDebounceFn } from '@vueuse/core'
+
 
 
 // by convention, composable function names start with "use"
@@ -279,26 +273,6 @@ export function useThreejsScene(
       glScene.remove(mesh)
       //mesh.dispose() how
     }
-  }
-
-  const getRoundedRectShape = (width: number, height: number, radius: number) => {
-    const roundedRect = (ctx: any, width: number, height: number, radius: number) => {
-      const x = 0
-      const y = 0
-      ctx.moveTo(x, y + radius)
-      ctx.lineTo(x, y + height - radius)
-      ctx.quadraticCurveTo(x, y + height, x + radius, y + height)
-      ctx.lineTo(x + width - radius, y + height)
-      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
-      ctx.lineTo(x + width, y + radius)
-      ctx.quadraticCurveTo(x + width, y, x + width - radius, y)
-      ctx.lineTo(x + radius, y)
-      ctx.quadraticCurveTo(x, y, x, y + radius)
-    }
-    // Rounded rectangle
-    let roundedRectShape = new Shape()
-    roundedRect(roundedRectShape, width, height, radius) // negative numbers not allowed
-    return roundedRectShape
   }
 
   // Watchers
