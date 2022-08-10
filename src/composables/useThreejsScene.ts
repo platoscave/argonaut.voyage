@@ -11,7 +11,12 @@ import {
   Mesh,
   MeshLambertMaterial,
   Texture,
-  WebGLRenderer
+  WebGLRenderer,
+  Layers,
+  Vector2,
+  ShaderMaterial,
+  MeshBasicMaterial,
+  RepeatWrapping
 } from 'three';
 import { ref, reactive, toRefs, onMounted, onBeforeUnmount, watch } from 'vue'
 import TWEEN from '@tweenjs/tween.js'
@@ -25,8 +30,12 @@ import fontJson from '~/assets/helvetiker_regular.typeface.json'
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
 import { useResizeObserver, useDebounceFn } from '@vueuse/core'
-
-
+// OutlinePass
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 
 // by convention, composable function names start with "use"
 export function useThreejsScene(
@@ -113,13 +122,34 @@ export function useThreejsScene(
   glScene.background = texture;
 
   // other
-  let currentlySelectedObjProps = {}
   let cursor = ref('default')
   let animationFrame = 0
   let movingMouse = 'default'
   const stats = Stats()
 
+  // Outline postprocessing
 
+  const composer = new EffectComposer( glRenderer );
+
+  const renderPass = new RenderPass( glScene, camera );
+  composer.addPass( renderPass );
+
+  const outlinePass = new OutlinePass( new Vector2( window.innerWidth, window.innerHeight ), glScene, camera );
+  composer.addPass( outlinePass );
+
+  const textureLoader = new TextureLoader();
+  textureLoader.load( 'textures/tri_pattern.jpg', function ( texture ) {
+
+    outlinePass.patternTexture = texture;
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+
+  } );
+
+  const effectFXAA = new ShaderPass( FXAAShader );
+  effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+  composer.addPass( effectFXAA );
+  /////////////////////////
 
   const animate = () => {
     animationFrame = requestAnimationFrame(animate)
@@ -127,23 +157,24 @@ export function useThreejsScene(
     //skyBox.position.set(camera.position.x, camera.position.y, camera.position.z) // keep skyBox centred around the camera
     controls.update()
     axesHelper.position.set(controls.target.x, controls.target.y, controls.target.z)
-    glRenderer.render(glScene, camera)
+    composer.render(); //glRenderer plus second pass for outline
     cssRenderer.render(cssScene, camera)
 
     if (statsOn) stats.update()
   }
 
   const onResize = useDebounceFn(() => {
-    // console.log('rootEl', rootEl)
     let rect = rootEl.value.getBoundingClientRect()
-    // console.log('rect', rect)
     camera.aspect = rect.width / rect.height
     camera.updateProjectionMatrix()
     glRenderer.setSize(rect.width, rect.height)
     cssRenderer.setSize(rect.width, rect.height)
+    composer.setSize( rect.width, rect.height );
+    effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+
   }, 100)
 
-  
+
 
   const onClick = (event: any) => {
     // see https://threejs.org/docs/#api/core/Raycaster.setFromCamera
@@ -193,40 +224,22 @@ export function useThreejsScene(
     cursor.value = movingMouse
   }
 
-  const addSelectable = (mesh) => {
+  const addSelectable = (mesh: Mesh) => {
     // const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
     // if(!idx) selectableMeshArr.push(mesh)
     selectableMeshArr.push(mesh)
   }
-  const removeSelectable = (mesh) => {
+  const removeSelectable = (mesh: Mesh) => {
     const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
-    if(idx) selectableMeshArr.splice(idx, 1) 
+    if (idx) selectableMeshArr.splice(idx, 1)
   }
 
   const highlight = (_id: string) => {
-    //TODO don't need to lookup
-    if (currentlySelectedObjProps) {
-      let currentlySelected = glModelObj3d.getObjectByProperty('_id', currentlySelectedObjProps._id)
-      if (currentlySelected) {
-        currentlySelected.children[0].material = currentlySelectedObjProps.obj3d
-        currentlySelected.children[0].children[0].material = currentlySelectedObjProps.label
-      }
-    }
-    let newlySelected = glModelObj3d.getObjectByProperty('_id', _id)
-    if (newlySelected) {
-      currentlySelectedObjProps = {
-        _id: _id,
-        obj3d: newlySelected.children[0].material,
-        label: newlySelected.children[0].children[0].material
-      }
-      newlySelected.children[0].material = new MeshLambertMaterial({ color: 0xEEEE00 })
-      newlySelected.children[0].children[0].material = new MeshLambertMaterial({ color: 0x666666 })
-      // TODO nice idea, find a way to undo
-      /* newlySelected.children.forEach( child => {
-        if(child.name.startsWith('tube'))
-        child.material = new MeshLambertMaterial({ color: 0xEEEE00 })
-      }) */
-    }
+    const newlySelected = glModelObj3d.getObjectByProperty('_id', _id)
+
+    const selectedObjects = [];
+		selectedObjects.push( newlySelected.children[0] );
+    outlinePass.selectedObjects = selectedObjects;
   }
 
   const moveCameraToPos = (_id: string) => {
@@ -285,7 +298,7 @@ export function useThreejsScene(
 
   // watch next level SelectedObjId
   watch(nextLevelSelectedObjId, (_id) => {
-    //highlight(_id)
+    highlight(_id)
     moveCameraToPos(_id)
   })
 
