@@ -128,24 +128,11 @@ export function useThreejsScene(
   const stats = Stats()
 
   // Outline postprocessing
-
   const composer = new EffectComposer( glRenderer );
-
   const renderPass = new RenderPass( glScene, camera );
   composer.addPass( renderPass );
-
   const outlinePass = new OutlinePass( new Vector2( window.innerWidth, window.innerHeight ), glScene, camera );
   composer.addPass( outlinePass );
-
-  const textureLoader = new TextureLoader();
-  textureLoader.load( 'textures/tri_pattern.jpg', function ( texture ) {
-
-    outlinePass.patternTexture = texture;
-    texture.wrapS = RepeatWrapping;
-    texture.wrapT = RepeatWrapping;
-
-  } );
-
   const effectFXAA = new ShaderPass( FXAAShader );
   effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
   composer.addPass( effectFXAA );
@@ -171,7 +158,6 @@ export function useThreejsScene(
     cssRenderer.setSize(rect.width, rect.height)
     composer.setSize( rect.width, rect.height );
     effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
-
   }, 100)
 
 
@@ -236,9 +222,8 @@ export function useThreejsScene(
 
   const highlight = (_id: string) => {
     const newlySelected = glModelObj3d.getObjectByProperty('_id', _id)
-
-    const selectedObjects = [];
-		selectedObjects.push( newlySelected.children[0] );
+    if(!newlySelected) return
+    const selectedObjects = [newlySelected.children[0]];
     outlinePass.selectedObjects = selectedObjects;
   }
 
