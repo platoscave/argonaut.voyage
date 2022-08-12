@@ -91,7 +91,7 @@ const loadNode = async (node, resolve) => {
       // Get the queryObj
       const queryObj = await db.state.get(viewObj.queryId);
 
-      const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId });
+      const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId.value });
       watch(queryResRef, (resultArr) => {
         // Add tree node vars
         const enrichedResultArr = addTreeNodeVars(resultArr);

@@ -3414,12 +3414,9 @@
         "icon": "el-icon-s-home"
       },
       {
-        "name": "Front Desk",
-        "icon": "el-icon-s-custom"
-      },
-      {
-        "name": "Work Shop",
-        "icon": "el-icon-s-custom"
+        "name": "Teams",
+        "icon": "el-icon-s-custom",
+        "argoQuery": {}
       },
       {
         "name": "Organization",

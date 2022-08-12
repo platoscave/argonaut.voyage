@@ -114,7 +114,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         // Otherwise just execute the query. 
         const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
-
+        console.log('resolvedWhere',resolvedWhere)
+        
         const queryRes$ = liveQuery(() => {
           const collection = db.state.where(resolvedWhere)
           return filterSortCollection(collection, queryObj)

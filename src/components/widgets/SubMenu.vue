@@ -45,11 +45,10 @@ const { selectedObjId, nextLevelPageId } = useHashDissect(props.hashLevel);
     <!-- This is a simple menu item-->
     <ElMenuItem
       v-else
-      :class="{ 'top-level-menu-item': !parentKey }"
       :disabled="menuItem.pageId ? false : true"
       :index="parentKey + '-' + subNum"
       @click="
-        () => updateNextLevelHash(hashLevel, menuItem._id, menuItem.pageId)
+        () => updateNextLevelHash(hashLevel, menuItem._id ? menuItem._id : selectedObjId, menuItem.pageId)
       "
     >
       <div :class="{ 'top-level-menu-item': !parentKey }">

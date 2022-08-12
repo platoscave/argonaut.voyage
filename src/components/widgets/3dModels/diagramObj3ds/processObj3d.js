@@ -36,7 +36,7 @@ export default class ProcessObject3d extends Object3D {
 
     const endX = processWidth / 2 + WIDTH
 
-    const sourceVec = getSidePos('right')
+    const sourceVec = getSidePos('right', new Vector3())
     let height = 0
     this.userData.returnActions.forEach(item => {
       let points = []
