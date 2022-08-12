@@ -3371,16 +3371,16 @@
     "menuArr": [
       {
         "name": "Home",
-        "icon": "el-icon-s-home"
+        "icon": "menu-home"
       },
       {
         "name": "Backlog",
-        "icon": "el-icon-s-home",
+        "icon": "menu-backlog",
         "pageId": "oa2wxqmzh44v"
       },
       {
         "name": "Modeling",
-        "icon": "el-icon-picture",
+        "icon": "menu-modeling",
         "pageId": "",
         "menuArr": [
           {
@@ -3390,10 +3390,6 @@
           {
             "name": "Process Model",
             "pageId": "dsimhnp5euui"
-          },
-          {
-            "name": "Organization",
-            "pageId": "4q5nx5ek5gww"
           },
           {
             "name": "Resources Tree",
@@ -3411,16 +3407,16 @@
     "menuArr": [
       {
         "name": "Home",
-        "icon": "el-icon-s-home"
+        "icon": "menu-home"
       },
       {
         "name": "Teams",
-        "icon": "el-icon-s-custom",
+        "icon": "menu-teams",
         "argoQuery": {}
       },
       {
         "name": "Organization",
-        "icon": "el-icon-user-solid",
+        "icon": "menu-organization",
         "menuArr": [
           {
             "name": "Members",
@@ -3438,7 +3434,7 @@
       },
       {
         "name": "Accounting",
-        "icon": "el-icon-picture-outline",
+        "icon": "menu-accounting",
         "menuArr": [
           {
             "name": "Bookkeeping",
@@ -3507,7 +3503,7 @@
       },
       {
         "name": "Modeling",
-        "icon": "el-icon-picture",
+        "icon": "menu-modeling",
         "pageId": "",
         "menuArr": [
           {
@@ -3534,28 +3530,41 @@
     "menuArr": [
       {
         "name": "Home",
-        "icon": "el-icon-s-home"
+        "icon": "menu-home"
+      },
+      {
+        "name": "Teams",
+        "icon": "menu-teams"
       },
       {
         "name": "Organization",
-        "icon": "el-icon-user-solid",
+        "icon": "menu-organization",
         "menuArr": [
           {
             "name": "Members",
             "pageId": "4q5nx5ek5gww"
           },
           {
+            "name": "Backlog",
+            "pageId": "oa2wxqmzh44v"
+          },
+          {
+            "name": "Document"
+          },
+          {
+            "name": "Roadmap"
+          },
+          {
             "name": "Features"
           },
           {
-            "name": "Backlog",
-            "pageId": "oa2wxqmzh44v"
+            "name": "Use Cases"
           }
         ]
       },
       {
         "name": "Accounting",
-        "icon": "el-icon-picture-outline",
+        "icon": "menu-accounting",
         "pageId": "",
         "menuArr": [
           {
@@ -3591,7 +3600,7 @@
       },
       {
         "name": "Modeling",
-        "icon": "el-icon-picture",
+        "icon": "menu-modeling",
         "pageId": "",
         "menuArr": [
           {

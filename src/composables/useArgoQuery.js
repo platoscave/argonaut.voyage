@@ -50,6 +50,31 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       })
     }
 
+    const collectOwnedAccounts$ = (accountId) => {
+
+      // warp promise in defer to return an observable
+      return defer(async () => {
+        const ownedAccounts = async accountId => {
+          let ownedAccountsArr = await db.state.where({ 'superClassId': accountId }).toArray()
+
+          let promisses = []
+          ownedAccountsArr.forEach(subClass => {
+            promisses.push(ownedAccounts(subClass._id))
+          })
+          let arrayOfResultArrays = await Promise.all(promisses)
+
+          let results = []
+          results = results.concat(ownedAccountsArr, arrayOfResultArrays.flat())
+          return results
+        }
+
+        const rootClass = await db.state.get(accountId)
+        let results = await ownedAccounts(accountId)
+        results.splice(0, 0, rootClass)// Add the root class
+        return results
+      })
+    }
+
     const filterSortCollection = (collection, queryObj) => {
       if (queryObj.filter) {
         const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)

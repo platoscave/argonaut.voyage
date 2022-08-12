@@ -23,13 +23,13 @@ const { selectedObjId, nextLevelPageId } = useHashDissect(props.hashLevel);
             <svg
               v-if="menuItem.icon"
               class="icon"
-              height="18"
-              width="18"
+              height="20"
+              width="20"
               color="blue"
             >
               <use
                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                :xlink:href="'toolbar-symbols.svg#home-filled'"
+                :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"
               ></use>
             </svg>
             <span>{{ menuItem.name }}</span>
@@ -56,13 +56,13 @@ const { selectedObjId, nextLevelPageId } = useHashDissect(props.hashLevel);
         <svg
           v-if="menuItem.icon"
           class="icon"
-          height="18"
-          width="18"
+          height="20"
+          width="20"
           color="blue"
         >
           <use
             xmlns:xlink="http://www.w3.org/1999/xlink"
-            :xlink:href="'toolbar-symbols.svg#home-filled'"
+            :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"
           ></use>
         </svg>
         <span>{{ menuItem.name }}</span>
@@ -75,7 +75,7 @@ const { selectedObjId, nextLevelPageId } = useHashDissect(props.hashLevel);
 /* --el-menu-item-height */
 .icon {
   margin-right: 5px;
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 .top-level-menu-item {
   font-size: larger;
