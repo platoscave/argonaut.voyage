@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { db } from "~/services/dexieServices";
+import useArgoQuery from "~/composables/useArgoQuery";
 import { ElMessage } from "element-plus";
 import { toggleDark } from "~/composables";
 import jp from "jsonpath";
@@ -108,15 +109,13 @@ const randomKey = async () => {
 
 const testQuery = async () => {
   try {
-    const observableResults$ = argoQuery.executeQuery("f41heqslym5e", {
+    const resultsRef = useArgoQuery({ extendTo: "Owned Accounts"}, {
       _id: "bikeshop1111",
     });
-    console.log("observableResults:", observableResults$);
 
-    observableResults$.subscribe({
-      next: (result) => console.log("Got result:", result),
-      error: (error) => console.error(error),
-    });
+    watch(resultsRef, (resultsRef) => console.log('resultsRef', resultsRef))
+    
+
   } catch (err) {
     ElMessage({
       showClose: true,

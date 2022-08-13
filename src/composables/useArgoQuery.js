@@ -17,9 +17,12 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       for (var key in whereClause) {
         const value = whereClause[key]
         // This is a query on the contextObj
-        if (value === '$') retObj[key] = contextObj
+        //if (value === '$') retObj[key] = contextObj
         // Replace $fk with id from contextObj
-        else if (value === "$fk") retObj[key] = contextObj._id;
+        if (value === "$fk") {
+          if(!contextObj._id) throw new Error('_id not found in contextObj')
+          retObj[key] = contextObj._id;
+        }
         else retObj[key] = value
       }
       return retObj
@@ -50,29 +53,32 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       })
     }
 
-    const collectOwnedAccounts$ = (accountId) => {
+    const collectOwnedAccounts = async () => {
 
-      // warp promise in defer to return an observable
-      return defer(async () => {
-        const ownedAccounts = async accountId => {
-          let ownedAccountsArr = await db.state.where({ 'superClassId': accountId }).toArray()
+      const ownedAccounts = async accountId => {
+        const allOrgUnitsCol = await db.state.where({ "classId": "dasprps1lrwf" })
+        const ownedAccountsArr = await filterSortCollection(allOrgUnitsCol, {
+          "filter": {
+            "path": "$.permissions[?(@.perm_name == 'owner')].required_auth..accounts[*][?(@.permission == 'owner')].actor",
+            "equals": accountId
+          }
+        })
+        let promisses = []
+        ownedAccountsArr.forEach(unitAccounr => {
+          promisses.push(ownedAccounts(unitAccounr._id))
+        })
+        let arrayOfResultArrays = await Promise.all(promisses)
 
-          let promisses = []
-          ownedAccountsArr.forEach(subClass => {
-            promisses.push(ownedAccounts(subClass._id))
-          })
-          let arrayOfResultArrays = await Promise.all(promisses)
-
-          let results = []
-          results = results.concat(ownedAccountsArr, arrayOfResultArrays.flat())
-          return results
-        }
-
-        const rootClass = await db.state.get(accountId)
-        let results = await ownedAccounts(accountId)
-        results.splice(0, 0, rootClass)// Add the root class
+        const results = ownedAccountsArr.concat( arrayOfResultArrays.flat())
         return results
-      })
+      }
+
+      if(!contextObj._id) throw new Error('_id not found in contextObj')
+
+      const rootClass = await db.state.get(contextObj._id)
+      let results = await ownedAccounts(contextObj._id)
+      results.splice(0, 0, rootClass)// Add the root class
+      return results
     }
 
     const filterSortCollection = (collection, queryObj) => {
@@ -91,8 +97,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
       if (queryObj.extendTo === 'Ids Array') {
 
-        if (!queryObj.idsArrayPath || !queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw 'Ids Array query must have a idsArrayPath and indexName'
-        if (!contextObj) throw 'Ids Array query must have a contextObj'
+        if (!queryObj.idsArrayPath || !queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw new Error('Ids Array query must have a idsArrayPath and indexName')
+        if (!contextObj) throw new Error('Ids Array query must have a contextObj')
 
         // Obtain idObjectsArr from the context (the selectedObj)
         const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
@@ -104,7 +110,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
       } else if (queryObj.extendTo === 'Instances') {
 
-        if (!queryObj.where.classId) throw 'extendTo Instances query must select a classId'
+        if (!queryObj.where.classId) throw new Error('extendTo Instances query must select a classId')
 
         return collectSubclasses$(queryObj.where.classId).pipe(
           switchMap(subClassesArr => {
@@ -118,9 +124,13 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         )
       } else if (queryObj.extendTo === 'Subclasses') {
 
-        if (!queryObj.where.classId) throw 'extendTo Subclasses query must select a classId'
+        if (!queryObj.where.classId) throw new Error('extendTo Subclasses query must select a classId')
 
         return collectSubclasses$(queryObj.where.classId)
+
+      } else if (queryObj.extendTo === 'Owned Accounts') {
+
+        return from(collectOwnedAccounts())
 
       } else if (queryObj.extendTo === 'Properties') {
 
@@ -139,11 +149,11 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         // Otherwise just execute the query. 
         const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
-        console.log('resolvedWhere',resolvedWhere)
-        
+        console.log('resolvedWhere', resolvedWhere)
+
         const queryRes$ = liveQuery(() => {
           const collection = db.state.where(resolvedWhere)
-          return filterSortCollection(collection, queryObj)
+          return filterSortCollection(collection, queryObj.filter)
         })
 
         // queryRes$ does not have .pipe. Not sure why. It's an observable after all
