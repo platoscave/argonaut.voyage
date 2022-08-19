@@ -51,7 +51,7 @@ export const getClassSchema = async (_id: string) => {
 
 // Get the view, then get the merged ancestors of the baseClassId it points to.
 // Finally merge the view with the merged ancestors
-const getMaterializedView = async (viewId: string) => {
+export const getMaterializedView = async (viewId: string) => {
 
     const smartMerge = (viewObj:IObject, classObj:IObject) => {
 

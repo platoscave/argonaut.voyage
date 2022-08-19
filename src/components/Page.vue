@@ -12,7 +12,7 @@ import BalanceSheet from "~/components/widgets/fanancialStatements/BalanceSheet.
 import Calendar from "~/components/widgets/Calendar.vue";
 import CashFlows from "~/components/widgets/fanancialStatements/CashFlows.vue";
 import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
-// import Document from "~/components/widgets/Document.vue";
+import Document from "~/components/widgets/Document.vue";
 import IncomeStatement from "~/components/widgets/fanancialStatements/IncomeStatement.vue";
 // import MaterializedView from "~/components/widgets/simpleJson/MaterializedView.vue";
 import ClassSchemaForm from "~/components/widgets/ClassSchemaForm.vue";
@@ -21,10 +21,10 @@ import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
 import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 import Raw from "~/components/widgets/simpleJson/Raw.vue";
 import SchemaForm from "~/components/widgets/SchemaForm.vue";
+import SchemaTable from "~/components/widgets/SchemaTable.vue";
 // import Tiptap from "~/components/widgets/Tiptap.vue";
 import Tree from "~/components/widgets/Tree.vue";
 import Validate from "~/components/widgets/simpleJson/Validate.vue";
-// import ViewTable from "~/components/widgets/ViewTable.vue";
 
 const props = defineProps({
   hashLevel: Number,
@@ -54,12 +54,14 @@ const dynamicComp = [
   { name: "Class Model", comp: ClassModel },
   { name: "Calendar", comp: Calendar },
   { name: "Cash Flows", comp: CashFlows },
+  { name: "Document", comp: Document },
   { name: "Income Statement", comp: IncomeStatement },
   { name: "Class Schema Form", comp: ClassSchemaForm },
   { name: "Navigation Menu", comp: NavigationMenu },
   { name: "Process Model", comp: ProcessModel },
   { name: "Raw", comp: Raw },
   { name: "Schema Form", comp: SchemaForm },
+  { name: "Schema Table", comp: SchemaTable },
   { name: "Tree", comp: Tree },
   { name: "Validate", comp: Validate },
 ];

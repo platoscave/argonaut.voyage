@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
+import NavigationItem1 from "./NavigationItem.vue";
 
 const props = defineProps({
   hashLevel: Number,
@@ -30,13 +31,11 @@ const accountObj = useLiveQuery<IMenu>(
   [selectedObjId]
 );
 
-
 const defaultActive = computed(() => {
   const findIndexPathForPageId = (menuArr, index) => {
     for (let idx in menuArr) {
       let item = menuArr[idx];
-      if (item.pageId === nextLevelPageId.value)
-        return index + "-" + idx;
+      if (item.pageId === nextLevelPageId.value) return index + "-" + idx;
       if (item.menuArr) {
         let result = findIndexPathForPageId(
           item.menuArr,
@@ -47,7 +46,7 @@ const defaultActive = computed(() => {
     }
   };
 
-  return "-" + findIndexPathForPageId(menuObj.value.menuArr, "");
+  return findIndexPathForPageId(menuObj.value.menuArr, "");
 });
 </script>
 
@@ -61,11 +60,19 @@ const defaultActive = computed(() => {
       <span>{{ accountObj.name }}</span>
     </div>
     <ElMenu unique-opened :default-active="defaultActive">
-      <SubMenu
+      <div v-for="(menuItem, subNum) in menuObj.menuArr" :key="subNum">
+        <NavigationItem
+          :hash-level="hashLevel"
+          :menu-item="menuItem"
+          :index="subNum.toString()"
+          :top-level="true"
+        ></NavigationItem>
+      </div>
+      <!-- <SubMenu
         :hash-level="hashLevel"
         :menu-arr="menuObj.menuArr"
         parent-key=""
-      ></SubMenu>
+      ></SubMenu> -->
     </ElMenu>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { ref, reactive, toRefs, onUnmounted, watch } from 'vue'
+import { ref, reactive, toRefs, onUnmounted, watch, unref} from 'vue'
 import { db } from "~/services/dexieServices";
 import { liveQuery } from "dexie";
 //import { useSubscription } from '@vueuse/rxjs'
@@ -17,9 +17,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       for (var key in whereClause) {
         const value = whereClause[key]
         // This is a query on the contextObj
-        //if (value === '$') retObj[key] = contextObj
+        if (value === '$') retObj[key] = contextObj
         // Replace $fk with id from contextObj
-        if (value === "$fk") {
+        else if (value === "$fk") {
           if(!contextObj._id) throw new Error('_id not found in contextObj')
           retObj[key] = contextObj._id;
         }
@@ -91,22 +91,33 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       else return collection.toArray()
     }
 
+    //tap(queryObj$ => console.log(`Query Object: ${queryObj$}`))
+
     return queryObj$.pipe(switchMap(queryObj => {
 
-      //tap(queryObj => console.log(`BEFORE MAP: ${queryObj}`))
+      console.log('Query Object: ', queryObj)
+      console.log('Context Object: ', contextObj)
 
       if (queryObj.extendTo === 'Ids Array') {
 
         if (!queryObj.idsArrayPath || !queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw new Error('Ids Array query must have a idsArrayPath and indexName')
         if (!contextObj) throw new Error('Ids Array query must have a contextObj')
-
+        
         // Obtain idObjectsArr from the context (the selectedObj)
         const idObjectsArr = jp.query(contextObj, queryObj.idsArrayPath.path)
 
-        return liveQuery(() => {
+        const queryRes$ = liveQuery(() => {
           let collection = db.state.where(queryObj.idsArrayPath.indexName).anyOf(idObjectsArr)
           return filterSortCollection(collection, queryObj)
         })
+
+        return from(queryRes$).pipe(map(items => {
+          // We add queryObj to the items for the benefit of trees. This must not be saved!
+          return items.map(item => {
+            item.queryObj = queryObj
+            return item
+          })
+        }))
 
       } else if (queryObj.extendTo === 'Instances') {
 
@@ -132,18 +143,37 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         return from(collectOwnedAccounts())
 
+      } else if (queryObj.extendTo === 'Members') {
+
+        collectOwnedAccounts().then(collectOwnedAccountsArr => {
+          /*
+          Get all
+          {
+            "perm_name": "active",
+            "parent": "owner",
+            "required_auth": {
+              "threshold": 1,
+              "accounts": [
+                {
+                  "permission": {
+                    "actor": "argonautvoya",
+                    "permission": "active"
+                  },
+                  "weight": 1
+                }
+              ],
+              "keys": [],
+              "waits": []
+            }
+          }
+          */
+        } )
+
+
+
       } else if (queryObj.extendTo === 'Properties') {
 
         // Do not use
-        // Unfortunatly this doesn't work. We need the class being selected by the query.
-        // This often involves contextObj to resolve query varialbles, which we don't have access to.
-
-        /* const mergedAncestorProperties = await this.getClassSchema("dlpwvptczyeb")
-        let resArray = []
-        for (let key in mergedAncestorProperties.properties) {
-          resArray.push({ _id: key, label: key })
-        }
-        return resArray */
 
       } else {
 
@@ -153,7 +183,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         const queryRes$ = liveQuery(() => {
           const collection = db.state.where(resolvedWhere)
-          return filterSortCollection(collection, queryObj.filter)
+          return filterSortCollection(collection, queryObj)
         })
 
         // queryRes$ does not have .pipe. Not sure why. It's an observable after all
@@ -176,7 +206,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
     // Recieved a string: query obj id
     if (typeof idsArrayOrObj === 'string') {
-      const queryObj$ = from(db.state.get(idsArrayOrObj)) // promise to observable
+      const queryObj$ = from(db.state.get(idsArrayOrObj).then(queryObj => queryObj.argoQuery)) // promise to observable
       return executeQuery(queryObj$)
     }
 
