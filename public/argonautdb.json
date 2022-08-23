@@ -3564,7 +3564,7 @@
       "_id": "$fk"
     },
     "idsArrayPath": {
-      "path": "$.subParagraphIds[*]",
+      "path": "$[*].subParagraphIds[*]",
       "indexName": "_id"
     },
     "subQueryIds": [
@@ -3574,7 +3574,7 @@
   },
   {
     "_id": "hbqbksgjdm3l",
-    "name": "Paragraph Query",
+    "name": "Subparagraph Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
     "selector": "Context Object",

@@ -98,8 +98,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
     return queryObj$.pipe(switchMap(queryObj => {
 
-      // console.log('Query Object: ', queryObj)
-      // console.log('Context Object: ', contextObj)
+      console.log('Query Object: ', queryObj)
+      console.log('Context Object: ', contextObj)
 
       let slectorResult$ = null
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
