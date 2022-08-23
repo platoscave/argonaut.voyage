@@ -20,11 +20,11 @@
       "classId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "gzthjuyjca4s"
           },
-          "sortBy": "name",
-          "extendTo": "Subclasses"
+          "sortBy": "title"
         },
         "title": "Class",
         "type": "string"
@@ -78,11 +78,15 @@
       "consumerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Consumer",
         "type": "string"
@@ -90,11 +94,15 @@
       "providerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Provider",
         "type": "string"
@@ -102,11 +110,15 @@
       "assetId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "3ihg3mjdbqzv"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Asset",
         "type": "string"
@@ -114,11 +126,15 @@
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Agreememt Process",
         "type": "string"
@@ -126,11 +142,15 @@
       "currentStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "dlpwvptczyeb"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Step",
         "type": "string"
@@ -147,11 +167,15 @@
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "pejdgrwd5qso"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Page",
         "type": "string"
@@ -160,11 +184,15 @@
         "title": "First Paragraph",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "siutzqsj5dgc"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "type": "string"
       },
@@ -454,11 +482,15 @@
       "ownerId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "ikjyhlqewxs3"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Owner",
         "type": "string"
@@ -519,8 +551,7 @@
     "_id": "re1ihrfyl3zf",
     "title": "Features",
     "superClassId": "nrioirgelhpi",
-    "properties": {
-    },
+    "properties": {},
     "type": "object"
   },
   {
@@ -689,11 +720,15 @@
       "firstStepId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "1jrqyjoabx1a"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "First Step",
         "type": "string"
@@ -721,11 +756,15 @@
       "processId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Process",
         "type": "string"
@@ -735,10 +774,14 @@
         "items": {
           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
           "argoQuery": {
+            "selector": "Subclasses",
             "where": {
               "classId": "3ihg3mjdbqzv"
             },
-            "extendTo": "Instances"
+            "idsArrayPath": {
+              "path": "$[*]._id",
+              "indexName": "classId"
+            }
           },
           "title": "Deligate to Process",
           "type": "string"
@@ -803,11 +846,15 @@
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "argoQuery": {
+                "selector": "Subclasses",
                 "where": {
                   "classId": "pejdgrwd5qso"
                 },
-                "sortBy": "name",
-                "extendTo": "Instances"
+                "idsArrayPath": {
+                  "path": "$[*]._id",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
               },
               "title": "Page",
               "type": "string"
@@ -857,11 +904,15 @@
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                     "argoQuery": {
+                      "selector": "Subclasses",
                       "where": {
                         "classId": "pejdgrwd5qso"
                       },
-                      "sortBy": "name",
-                      "extendTo": "Instances"
+                      "idsArrayPath": {
+                        "path": "$[*]._id",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
                     },
                     "title": "Page",
                     "type": "string"
@@ -869,11 +920,15 @@
                   "viewId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                     "argoQuery": {
+                      "selector": "Subclasses",
                       "where": {
                         "classId": "pylvseoljret"
                       },
-                      "sortBy": "name",
-                      "extendTo": "Instances"
+                      "idsArrayPath": {
+                        "path": "$[*]._id",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
                     },
                     "title": "View",
                     "type": "string"
@@ -881,11 +936,15 @@
                   "menuId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                     "argoQuery": {
+                      "selector": "Subclasses",
                       "where": {
                         "classId": "inbumnx4vx5w"
                       },
-                      "sortBy": "name",
-                      "extendTo": "Instances"
+                      "idsArrayPath": {
+                        "path": "$[*]._id",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
                     },
                     "title": "Menu",
                     "type": "string"
@@ -916,11 +975,15 @@
         "title": "Initial Query",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "q234ooehrk5v"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "type": "string"
       },
@@ -928,11 +991,11 @@
         "title": "Base Class",
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "gzthjuyjca4s"
           },
-          "sortBy": "name",
-          "extendTo": "Subclasses"
+          "sortBy": "title"
         },
         "type": "string"
       },
@@ -956,8 +1019,22 @@
     "description": "<p>Queries used by views</p>",
     "superClassId": "nrioirgelhpi",
     "properties": {
+      "selector": {
+        "enum": [
+          "Where Clause",
+          "Context Object",
+          "Subclasses",
+          "Owned Accounts"
+        ],
+        "title": "Selector",
+        "type": "string"
+      },
+      "where": {
+        "title": "Where Index Equals",
+        "type": "object"
+      },
       "idsArrayPath": {
-        "title": "Ids Array",
+        "title": "Ids Array Path",
         "properties": {
           "path": {
             "title": "Path",
@@ -972,10 +1049,6 @@
             "type": "string"
           }
         },
-        "type": "object"
-      },
-      "where": {
-        "title": "Where Keys",
         "type": "object"
       },
       "filter": {
@@ -1000,29 +1073,19 @@
         "title": "Sort By",
         "type": "string"
       },
-      "extendTo": {
-        "enum": [
-          "None",
-          "Instances",
-          "Subclasses",
-          "Properties",
-          "Ids Array",
-          "Owned Accounts",
-          "Members"
-        ],
-        "title": "Extend To",
-        "description": "<p><strong>Extend To</strong></p><ul><li><strong>Instances</strong>: Given a class, return all its objects, including subclasses objects.</li><li><strong>Subclasses</strong>: Given a class, return all its subclasses including itsself.</li><li><strong>Id Array</strong>: Given an object, return all of the object identified in the manyToOne array.</li></ul>",
-        "type": "string"
-      },
       "subQueryIds": {
         "items": {
           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
           "argoQuery": {
+            "selector": "Subclasses",
             "where": {
               "classId": "q234ooehrk5v"
             },
-            "sortBy": "name",
-            "extendTo": "Instances"
+            "idsArrayPath": {
+              "path": "$[*]._id",
+              "indexName": "classId"
+            },
+            "sortBy": "name"
           },
           "type": "string"
         },
@@ -1032,18 +1095,22 @@
       "pageId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "pejdgrwd5qso"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Nodes Page",
         "type": "string"
       },
       "nodesIcon": {
         "maxLength": 2000,
-        "contentEncoding": "base64",
+        "contentEncoding": "utf8",
         "contentMediaType": "image/svg+xml",
         "minLength": 0,
         "title": "Nodes Icon",
@@ -1064,11 +1131,15 @@
             "documentId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "argoQuery": {
+                "selector": "Subclasses",
                 "where": {
                   "classId": "siutzqsj5dgc"
                 },
-                "sortBy": "name",
-                "extendTo": "Instances"
+                "idsArrayPath": {
+                  "path": "$[*]._id",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
               },
               "title": "Sub Ducument",
               "type": "string"
@@ -1102,11 +1173,15 @@
             "pageId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "argoQuery": {
+                "selector": "Subclasses",
                 "where": {
                   "classId": "pejdgrwd5qso"
                 },
-                "sortBy": "name",
-                "extendTo": "Instances"
+                "idsArrayPath": {
+                  "path": "$[*]._id",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
               },
               "title": "Page",
               "type": "string"
@@ -1114,11 +1189,15 @@
             "nextLevelSelectedObjId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "argoQuery": {
+                "selector": "Subclasses",
                 "where": {
                   "classId": "ikjyhlqewxs3"
                 },
-                "sortBy": "name",
-                "extendTo": "Instances"
+                "idsArrayPath": {
+                  "path": "$[*]._id",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
               },
               "title": "Next Level Selected ObjectId",
               "type": "string"
@@ -1144,11 +1223,15 @@
                   "pageId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                     "argoQuery": {
+                      "selector": "Subclasses",
                       "where": {
                         "classId": "pejdgrwd5qso"
                       },
-                      "sortBy": "name",
-                      "extendTo": "Instances"
+                      "idsArrayPath": {
+                        "path": "$[*]._id",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
                     },
                     "title": "Page",
                     "type": "string"
@@ -1156,11 +1239,15 @@
                   "nextLevelSelectedObjId": {
                     "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                     "argoQuery": {
+                      "selector": "Subclasses",
                       "where": {
                         "classId": "ikjyhlqewxs3"
                       },
-                      "sortBy": "name",
-                      "extendTo": "Instances"
+                      "idsArrayPath": {
+                        "path": "$[*]._id",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
                     },
                     "title": "Next Level Selected ObjectId",
                     "type": "string"
@@ -1186,11 +1273,15 @@
                         "pageId": {
                           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                           "argoQuery": {
+                            "selector": "Subclasses",
                             "where": {
                               "classId": "pejdgrwd5qso"
                             },
-                            "sortBy": "name",
-                            "extendTo": "Instances"
+                            "idsArrayPath": {
+                              "path": "$[*]._id",
+                              "indexName": "classId"
+                            },
+                            "sortBy": "name"
                           },
                           "title": "Page",
                           "type": "string"
@@ -1198,11 +1289,15 @@
                         "nextLevelSelectedObjId": {
                           "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
                           "argoQuery": {
+                            "selector": "Subclasses",
                             "where": {
                               "classId": "ikjyhlqewxs3"
                             },
-                            "sortBy": "name",
-                            "extendTo": "Instances"
+                            "idsArrayPath": {
+                              "path": "$[*]._id",
+                              "indexName": "classId"
+                            },
+                            "sortBy": "name"
                           },
                           "title": "Next Level Selected ObjectId",
                           "type": "string"
@@ -1299,11 +1394,15 @@
             "stepId": {
               "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
               "argoQuery": {
+                "selector": "Subclasses",
                 "where": {
                   "classId": "dlpwvptczyeb"
                 },
-                "sortBy": "name",
-                "extendTo": "Instances"
+                "idsArrayPath": {
+                  "path": "$[*]._id",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
               },
               "title": "Step",
               "type": "string"
@@ -1506,11 +1605,15 @@
       "deligateProcessId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "dwl1kwhalwj4"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Deligate to Process",
         "type": "string"
@@ -1591,11 +1694,15 @@
       "authorizedOrgUnitId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "dasprps1lrwf"
           },
-          "sortBy": "name",
-          "extendTo": "Instances"
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
         },
         "title": "Authorized Organizational Unit",
         "type": "string"
@@ -2069,10 +2176,11 @@
   {
     "_id": "argonautvoya",
     "name": "Argonaut",
-    "description": "<div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: navy; height: 500px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div><div class=\"layout align-center justify-space-around fill-height wrap\" style=\"background-color: blue; height: 300px; color: white; font-size: 16px\"><div class=\"flex xs3\"><h1>eos-commons.io</h1><p><i>...bringing process modeling to the blockchain.</i></p><p>Writing smart contracts that meet your organizations needs is hard.</p><p>eos-commons.io makes it alot easier by providing template organizations that you can copy and process modeling facilities. These include an exstsible class model, layout/page design, 3D process model and much more.</p></div><div class=\"flex xs3\"><h1>eos-commons.io</h1><p>Bringing process modeling to the blockchain</p></div></div>",
     "classId": "be1ub1vtofjo",
     "icon": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI0IiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGc+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJNIDEyLjQ3MjQzNSwwLjQ1NDUxNDU4IDEyLjY2MTgzNSwxNy4xNDk5NTcgMS41NzA5MjM4LDE4LjAwNzMzOCBaIi8+CiAgICA8cGF0aCBmaWxsPSIjODBiM2ZmIiBkPSJtIDE0LjI3NzY2NiwzLjMzMDI1MiAwLjQwNDE2MSwxMy41MjMyMzggOC4wMDgwMTYsMC41ODg2NDcgeiIvPgogICAgPHBhdGggZmlsbD0iIzgwODBmZiIgZD0iTSAwLjE0MTQwNTMyLDE5LjQ2MjE3OCA5LjY1MjUxNjMsMjMuODcyMTIyIDIzLjk3NjcxMSwxOC4zNjkxOTggWiIvPgogIDwvZz4KPC9zdmc+Cg==",
-    "subParagraphIds": ["xqxkmto5njxi"],
+    "subParagraphIds": [
+      "xqxkmto5njxi"
+    ],
     "permissions": [
       {
         "perm_name": "owner",
@@ -3056,7 +3164,6 @@
       }
     ]
   },
-
   {
     "_id": "ebr1514bi5yu",
     "name": "Members Page",
@@ -3170,11 +3277,11 @@
       "superClassId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
+          "selector": "Subclasses",
           "where": {
             "classId": "gzthjuyjca4s"
           },
-          "sortBy": "name",
-          "extendTo": "Subclasses"
+          "sortBy": "title"
         },
         "title": "Super Class",
         "type": "string"
@@ -3250,6 +3357,7 @@
     "name": "Root Class Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
@@ -3264,6 +3372,7 @@
     "name": "Subclasses Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "2jfs4is4icct",
@@ -3279,6 +3388,7 @@
     "name": "Objects Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4xNjkzMDQyLC0yNjYuMDUwOTkpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iZmlsbDojMDBBMzAwIgogICAgICAgZD0ibSAxMy4xNjkzMDQsMjcyLjA0MjA2IDExLDUuNDE4NDEgdiA1LjQxODM5IEggMi4xNjkzMDQyIGwgMTBlLTgsLTUuNDE4MzkgeiIvPgogIDwvZz4KPC9zdmc+Cg==",
     "where": {
       "classId": "$fk"
@@ -3290,6 +3400,7 @@
     "name": "Owned Processes Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "subQueryIds": [
       "aiw54neadp14"
     ],
@@ -3303,6 +3414,7 @@
     "name": "Owned Propositions Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "where": {
       "classId": "2jrkeqdvvmom",
       "ownerId": "$fk"
@@ -3313,6 +3425,7 @@
     "name": "First Step Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Context Object",
     "nodesIcon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
@@ -3321,14 +3434,14 @@
       "path": "$.firstStepId",
       "indexName": "_id"
     },
-    "sortBy": "name",
-    "extendTo": "Ids Array"
+    "sortBy": "name"
   },
   {
     "_id": "ybjrgmdjybzl",
     "name": "Next Steps Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Context Object",
     "nodesIcon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwMlgImBQjDwBrAETGAkSiEopP79Y5j19z9DKjMjAyMT0GqwTlAgEotdOxn+33yy5L9zO4j7n8GvH2iITy/D+t9/GQKApjP8x2M90GYGG1UGBkVRBgYjhdkMxctTGfZU/Gdk+QPU3BWTyvDrzx8GfDH67z/ItcwMl5/OYTjzNJWhNbyNwbOb8T8LyB/X3s8GGsCA1wCQ3F+gKxnYIUH/9c87sDijSy3DOlZehsB/BDSDvGhtDPSCPAOD8P9UhokbZjPsqWQwAckDhRiMicHuHQz/N9wK+e/WDg4uY3Ag+vcTH+cfnzFM4xZnyNxawmAC1HyWkYx0Iwl1DRwwDv3MBBBgAJlZhvyadk3fAAAAAElFTkSuQmCC",
     "subQueryIds": [
       "ybjrgmdjybzl"
@@ -3337,25 +3450,30 @@
       "path": "$.nextStepIds[*].stepId",
       "indexName": "_id"
     },
-    "sortBy": "name",
-    "extendTo": "Ids Array"
+    "sortBy": "name"
   },
   {
     "_id": "vbinebvkz1sq",
     "name": "Members Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    "argoQuery": {
-      "sortBy": "name",
-      "XextendTo": "Member Accounts",
-      "extendTo": "Owned Accounts"
-    }
+    "selector": "Owned Accounts",
+    "where": {
+      "_id": "$fk"
+    },
+    "idsArrayPath": {
+      "path": "$[*].permissions[?(@.perm_name == 'active')].required_auth..accounts[*][?(@.permission == 'active')].actor",
+      "indexName": "_id"
+    },
+    "sortBy": "name",
+    "nodesPageId": "ebr1514bi5yu"
   },
   {
     "_id": "o4jhldcqvbep",
     "name": "Organizational Unit Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "subQueryIds": [
       "o4jhldcqvbep",
       "1dbriehwtyyp"
@@ -3374,18 +3492,19 @@
     "name": "Organizational Active Permission Users Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Context Object",
     "idsArrayPath": {
       "path": "$.permissions[?(@.perm_name == 'active')].required_auth..accounts[*][?(@.permission == 'active')].actor",
       "indexName": "_id"
     },
-    "sortBy": "name",
-    "extendTo": "Ids Array"
+    "sortBy": "name"
   },
   {
     "_id": "szyxk43kmjsg",
     "name": "Off Balance Sheet Classes Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "kmcvgaw2jtjw",
@@ -3401,6 +3520,7 @@
     "name": "Off Balance Sheet Subclasses Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
     "subQueryIds": [
       "kmcvgaw2jtjw",
@@ -3416,6 +3536,7 @@
     "name": "Off Balance Sheet Objects Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "where": {
       "classId": "$fk"
     },
@@ -3426,6 +3547,7 @@
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "where": {
       "classId": "w3mzeetidb5n",
       "ownerId": "$fk"
@@ -3436,6 +3558,7 @@
     "name": "Paragraph Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Where Clause",
     "nodesPageId": "nnksb2zyphob",
     "where": {
       "_id": "$fk"
@@ -3444,7 +3567,6 @@
       "path": "$.subParagraphIds[*]",
       "indexName": "_id"
     },
-    "XextendTo": "Ids Array",
     "subQueryIds": [
       "hbqbksgjdm3l"
     ],
@@ -3455,6 +3577,7 @@
     "name": "Paragraph Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
+    "selector": "Context Object",
     "nodesPageId": "nnksb2zyphob",
     "subQueryIds": [
       "hbqbksgjdm3l"
@@ -3463,7 +3586,6 @@
       "path": "$.subParagraphIds[*]",
       "indexName": "_id"
     },
-    "extendTo": "Ids Array",
     "sortBy": "name"
   },
   {
@@ -3517,7 +3639,7 @@
         "icon": "menu-teams",
         "argoQuery": {
           "sortBy": "name",
-          "extendTo": "Owned Accounts"
+          "selector": "Owned Accounts"
         }
       },
       {
@@ -3643,7 +3765,7 @@
         "icon": "menu-teams",
         "argoQuery": {
           "sortBy": "name",
-          "extendTo": "Owned Accounts"
+          "selector": "Owned Accounts"
         }
       },
       {
@@ -3729,15 +3851,18 @@
         ]
       }
     ]
-  },  
+  },
   {
     "_id": "xqxkmto5njxi",
     "name": "Argonaut Home",
     "classId": "siutzqsj5dgc",
     "ownerId": "argonautvoya",
     "description": "<p>Home</p>",
-    "subParagraphIds": ["j23p3hyetdk1", "21svu2zgxzvx"]
-  },  
+    "subParagraphIds": [
+      "j23p3hyetdk1",
+      "21svu2zgxzvx"
+    ]
+  },
   {
     "_id": "j23p3hyetdk1",
     "name": "Paragraph One",
@@ -3745,7 +3870,7 @@
     "ownerId": "argonautvoya",
     "description": "<p>Contents one</p>",
     "subParagraphIds": []
-  },  
+  },
   {
     "_id": "21svu2zgxzvx",
     "name": "Paragraph Two",

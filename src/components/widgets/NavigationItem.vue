@@ -17,7 +17,10 @@ let teams = reactive([{name: 'one'}])
 
 if(props.menuItem.argoQuery) {
   const localTeams = useArgoQuery(
-    { extendTo: "Owned Accounts" },
+    { 
+      selector: "Owned Accounts",
+      where: { _id: "$fk"}
+    },
     {
       _id: selectedObjId.value,
     },

@@ -32,7 +32,7 @@ interface IViewObj {
 //   [selectedObjId]
 // );
 getMaterializedView(props.widgetObj.viewId).then( view => {
-  debugger
+
     Object.assign(viewObj, view);
 
     const resArr = useArgoQuery( view.queryId, {

@@ -238,7 +238,7 @@ const getComponent = (property: IProperty) => {
     highlight-current-row
     @current-change="
       (currentRow) =>
-        updateNextLevelHash(hashLevel, currentRow._id, currentRow.pageId )
+        updateNextLevelHash(hashLevel, currentRow._id, currentRow.treeVars.nodesPageId )
     "
   >
     <!-- :prop is needed for validation rules -->

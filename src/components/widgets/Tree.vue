@@ -60,15 +60,15 @@ const loadNode = async (node, resolve) => {
     const resItems = items.map((item) => {
       item.label = item.title ? item.title : item.name; //TODO value?
 
-      if (item.queryObj.subQueryIds && item.queryObj.subQueryIds.length) {
-        item.subQueryIds = item.queryObj.subQueryIds;
+      if (item.treeVars.subQueryIds && item.treeVars.subQueryIds.length) {
+        item.subQueryIds = item.treeVars.subQueryIds;
         // If the query has subQueryIds, assume it may have children
-        //TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+        //TODO execute the treeVars.subQueryIds to see if we're dealing with a leaf node
         item.isLeaf = false;
       } else item.isLeaf = true;
 
-      // If the queryObj has a pageId, use it. Otherwise use the item pageId.
-      if (item.queryObj.nodesPageId) item.pageId = item.queryObj.nodesPageId;
+      // If the treeVars has a pageId, use it. Otherwise use the item pageId.
+      if (item.treeVars.nodesPageId) item.pageId = item.treeVars.nodesPageId;
       // Still no pageId, use the default object page based on merged anscestors
       if (!item.pageId) {
         if (item.classId)
@@ -76,8 +76,8 @@ const loadNode = async (node, resolve) => {
         else item.pageId = "24cnex2saye1"; // class details page
       }
 
-      // If the queryObj has an icon, use it. Otherwise use the item icon.
-      if (item.queryObj.nodesIcon) item.icon = item.queryObj.nodesIcon;
+      // If the treeVars has an icon, use it. Otherwise use the item icon.
+      if (item.treeVars.nodesIcon) item.icon = item.treeVars.nodesIcon;
       return item;
     });
     return resItems;
