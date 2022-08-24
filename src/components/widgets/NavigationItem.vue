@@ -19,7 +19,8 @@ if(props.menuItem.argoQuery) {
   const localTeams = useArgoQuery(
     { 
       selector: "Owned Accounts",
-      where: { _id: "$fk"}
+      where: { _id: "$fk"},
+      nodesPageId: "dot1cmmhp2ve"
     },
     {
       _id: selectedObjId.value,
@@ -33,8 +34,7 @@ if(props.menuItem.argoQuery) {
       teams.push({
         _id: item._id,
         name: item.name,
-        pageId: "4q5nx5ek5gww",
-
+        pageId: item.treeVars.nodesPageId
       })
     })
   })
@@ -78,11 +78,6 @@ if(props.menuItem.argoQuery) {
           :index="index + '-' + subIndex"
         ></NavigationItem>
       </div>
-      <!-- <SubMenu
-          :hash-level="hashLevel"
-          :menu-arr="menuItem.menuArr"
-          :parent-key="parentKey + '-' + subNum"
-        ></SubMenu> -->
     </ElSubMenu>
   </div>
   <!-- This is a simple menu item-->

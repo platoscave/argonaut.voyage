@@ -68,11 +68,6 @@ const defaultActive = computed(() => {
           :top-level="true"
         ></NavigationItem>
       </div>
-      <!-- <SubMenu
-        :hash-level="hashLevel"
-        :menu-arr="menuObj.menuArr"
-        parent-key=""
-      ></SubMenu> -->
     </ElMenu>
   </div>
 </template>

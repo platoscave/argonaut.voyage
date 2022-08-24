@@ -58,7 +58,7 @@ const leftSizeStop = (leftSizeStop) => {
     leftSize: leftSizeStop,
   });
 }
-const rightSizeStop = (rightSizeStop) => {
+const rightSizeStop = (rightSizeStop: any) => {
   //console.log("splitterSettings", splitterSettingsArr);
   db.settings.update(pageId.value, {
     rightSize: rightSizeStop,

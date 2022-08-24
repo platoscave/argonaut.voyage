@@ -3002,6 +3002,26 @@
     ]
   },
   {
+    "_id": "wbwfg1s1vpyh",
+    "name": "Chart of Accounts Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
+    "divider": "Vertical",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Chart of Accounts Tree",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Chart of Accounts Tree",
+            "viewId": "ek3kcbif2axv"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "nnksb2zyphob",
     "name": "Document Form Page",
     "classId": "pejdgrwd5qso",
@@ -3066,8 +3086,7 @@
         "widgets": [
           {
             "displayType": "Calendar",
-            "name": "Calendar",
-            "XviewId": ""
+            "name": "Calendar"
           }
         ]
       }
@@ -3172,7 +3191,7 @@
     "ownerId": "argonautvoya",
     "tabs": [
       {
-        "name": "Details",
+        "name": "Account",
         "widgets": [
           {
             "displayType": "Class Schema Form"
@@ -3180,18 +3199,85 @@
         ]
       },
       {
-        "name": "Raw",
+        "name": "Backlog",
+        "pageId": "oa2wxqmzh44v"
+      },
+      {
+        "name": "Availability",
         "widgets": [
           {
-            "displayType": "Raw"
+            "displayType": "Calendar"
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "_id": "aw2qi3rkddol",
+    "name": "Chart of Accounts Tabs Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Page",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "General Ledger",
+        "widgets": [
+          {
+            "displayType": "Class Schema Form"
           }
         ]
       },
       {
-        "name": "Validate",
+        "name": "Trial Balance",
         "widgets": [
           {
-            "displayType": "Validate"
+            "displayType": "Class Schema Form"
+          }
+        ]
+      },
+      {
+        "name": "Journal Entry",
+        "widgets": [
+          {
+            "displayType": "Class Schema Form"
+          }
+        ]
+      },
+      {
+        "name": "Travel Expenes",
+        "widgets": [
+          {
+            "displayType": "Class Schema Form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "dot1cmmhp2ve",
+    "name": "Organizational Unit Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Page",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Team Home",
+        "widgets": [
+          {
+            "displayType": "Class Schema Form"
+          }
+        ]
+      },
+      {
+        "name": "Backlog",
+        "pageId": "oa2wxqmzh44v"
+      },
+      {
+        "name": "Availability",
+        "widgets": [
+          {
+            "displayType": "Calendar"
           }
         ]
       }
@@ -3307,6 +3393,14 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautvoya",
     "queryId": "szyxk43kmjsg",
+    "type": "object"
+  },
+  {
+    "_id": "ek3kcbif2axv",
+    "name": "Chart of Accounts Tree View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "cummalmpv5tl",
     "type": "object"
   },
   {
@@ -3543,6 +3637,38 @@
     "sortBy": "name"
   },
   {
+    "_id": "cummalmpv5tl",
+    "name": "Chart of Accounts Root Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",
+    "selector": "Where Clause",
+    "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "nodesPageId": "aw2qi3rkddol",
+    "subQueryIds": [
+      "vqozqmjvewbt"
+    ],
+    "where": {
+      "superClassId": "5jdnjqxsqmgn"
+    },
+    "sortBy": "title"
+  },
+  {
+    "_id": "vqozqmjvewbt",
+    "name": "Chart of Accounts Sub Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",
+    "selector": "Where Clause",
+    "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "nodesPageId": "aw2qi3rkddol",
+    "subQueryIds": [
+      "vqozqmjvewbt"
+    ],
+    "where": {
+      "superClassId": "$fk"
+    },
+    "sortBy": "title"
+  },
+  {
     "_id": "seidi2adi4wf",
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
@@ -3639,7 +3765,8 @@
         "icon": "menu-teams",
         "argoQuery": {
           "sortBy": "name",
-          "selector": "Owned Accounts"
+          "selector": "Owned Accounts",
+          "nodesPageId": "dot1cmmhp2ve"
         }
       },
       {
@@ -3668,19 +3795,8 @@
             "name": "Bookkeeping",
             "menuArr": [
               {
-                "name": "Chart of Accounts"
-              },
-              {
-                "name": "General Ledger"
-              },
-              {
-                "name": "Trial Balance"
-              },
-              {
-                "name": "Journal Entry"
-              },
-              {
-                "name": "Travel Expenes"
+                "name": "Chart of Accounts",
+                "pageId": "wbwfg1s1vpyh"
               },
               {
                 "name": "Accounts Receivable"
@@ -3765,7 +3881,8 @@
         "icon": "menu-teams",
         "argoQuery": {
           "sortBy": "name",
-          "selector": "Owned Accounts"
+          "selector": "Owned Accounts",
+          "nodesPageId": "dot1cmmhp2ve"
         }
       },
       {

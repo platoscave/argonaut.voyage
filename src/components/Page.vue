@@ -5,6 +5,7 @@ import useLiveQuery from "~/composables/useLiveQuery";
 import {
   useHashDissect,
   updateHashWithSelectedTab,
+  updateNextLevelHash
 } from "../composables/useHashDissect";
 
 // https://stackoverflow.com/questions/71627355/dynamic-components-doesnt-work-in-script-setup
@@ -30,7 +31,7 @@ const props = defineProps({
   hashLevel: Number,
 });
 
-const { pageId, selectedTab } = useHashDissect(props.hashLevel);
+const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
 
 interface IPage {
   _id: string;
@@ -70,6 +71,16 @@ const getComponent = (widgetName: string = '') => {
   if(!nameComp) console.error( `widgetName not declared: ${widgetName}`)
   return nameComp.comp
 };
+
+const onTabChange = (evt) => {
+  console.log('evt',evt)
+  console.log('evt',pageObj.value.tabs[parseInt(evt)].pageId)
+
+
+  updateHashWithSelectedTab(props.hashLevel, evt)
+  const nextlevelPageId = pageObj.value.tabs[parseInt(evt)].pageId
+  updateNextLevelHash(props.hashLevel, selectedObjId.value, nextlevelPageId)
+}
 </script>
 
 <template>
@@ -79,7 +90,7 @@ const getComponent = (widgetName: string = '') => {
     <div v-if="pageObj.tabs.length > 1"  class="ar-full-height">
       <el-tabs
         :value="selectedTab ? selectedTab : '0'"
-        @tab-click="updateHashWithSelectedTab(hashLevel, '2')"
+        @tab-change="onTabChange"
       >
         <el-tab-pane  class="ar-full-height" 
           v-for="(tab, tabNum) in pageObj.tabs"
