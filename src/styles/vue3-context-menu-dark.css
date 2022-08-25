@@ -1,0 +1,44 @@
+.mx-context-menu {
+    background-color: var(--el-fill-color-lighter);
+    z-index: 10
+}
+
+.mx-context-menu-updown {
+    background-color: var(--el-fill-color-lighter);
+}
+
+.mx-context-menu-updown:hover {
+    background-color: #e2e0e0
+}
+
+.mx-context-menu-updown:active {
+    background-color: #c9c8c8
+}
+
+.mx-context-menu-item:hover {
+    background-color: var(--el-tree-node-hover-bg-color)
+}
+
+.mx-context-menu-item:active {
+    background-color: #dfdfdf
+}
+
+.mx-context-menu-item.disabled .text {
+    color: #9f9f9f
+}
+
+.mx-context-menu-item-sperator {
+    background-color: var(--el-fill-color-lighter)
+}
+
+.mx-context-menu-item-sperator:after {
+    background-color: #f0f0f0;
+}
+
+.mx-context-menu-item .text {
+    color: var(--ep-text-color-primary)
+}
+
+.mx-context-menu-item .text .icon {
+    color: #636363
+}

@@ -14,6 +14,8 @@ const props = defineProps({
   widgetObj: Object,
 });
 const treeEl = ref(null);
+const menuEl = ref(null);
+const showContextMenu = ref(false)
 
 const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
   props.hashLevel
@@ -173,11 +175,50 @@ const handleNodeCollapse = async (collapsedNode) => {
     }
   });
 };
+const options = {
+  items:[
+    {
+      label: "Add Child Paragraph",
+      onClick: () => {
+        document.execCommand('copy');
+      }
+    },
+    {
+      label: "Copy",
+      onClick: () => {
+        document.execCommand('copy');
+      }
+    },
+    { label: "Paste", disabled: true },
+    {
+      label: "Print",
+      icon: 'icon-print',
+      onClick: () => {
+        document.execCommand('print');
+      }
+    },
+  ],
+  iconFontClass: 'iconfont',
+  customClass: "class-a",
+  minWidth: 230,
+  x: 0,
+  y: 0
+}
+
+
+const onContextMenu = (e, node) => {
+  console.log("showContextMenu", node);
+  let selectNode = treeEl.value.getNode(node)
+  console.log("Parent", selectNode.parent);
+  //prevent the browser's default menu
+  e.preventDefault();
+  //shou our menu
+  showContextMenu.value = true;
+  options.x = e.x;
+  options.y = e.y;
+};
 const handleDragStart = (node, ev) => {
   console.log("drag start", node);
-};
-const showContextMenu = (node, ev) => {
-  console.log("showContextMenu", node);
 };
 const handleDragEnter = (draggingNode, dropNode, ev) => {
   console.log("tree drag enter: ", dropNode.label);
@@ -238,10 +279,9 @@ onMounted(() => {
     node-key="_id"
     :default-expanded-keys="expandedNodes"
     @node-click="
-      (nodeData) =>
-        updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
+      (nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
     "
-    @node-contextmenu="showContextMenu"
+    @node-contextmenu="onContextMenu"
     @node-expand="handleNodeExpand"
     @node-collapse="handleNodeCollapse"
     draggable
@@ -259,6 +299,7 @@ onMounted(() => {
       <span class="node-label">{{ node.label }}</span>
     </template>
   </el-tree>
+  <context-menu ref="menuEl" v-model:show="showContextMenu" :options="options" />
 </template>
 
 <style scoped>

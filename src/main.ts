@@ -1,5 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+// context menu
+import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
+import '~/styles/vue3-context-menu-dark.css'
+import ContextMenu from '@imengyu/vue3-context-menu'
 // only import lowlight syntaxes that we need in our app
 import {lowlight} from 'lowlight/lib/core.js'
 import javascript from 'highlight.js/lib/languages/javascript'
@@ -33,4 +37,6 @@ import "element-plus/theme-chalk/src/tooltip.scss"
 const app = createApp(App);
 
 // app.use(ElementPlus);
-app.mount("#app");
+app.mount("#app")
+// context menu
+app.use(ContextMenu) ;
