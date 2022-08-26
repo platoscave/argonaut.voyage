@@ -3,11 +3,9 @@ import { ref, reactive, watch, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import useArgoQuery from "~/composables/useArgoQuery";
-import {
-  useHashDissect,
-  updateNextLevelHash,
-} from "~/composables/useHashDissect";
+import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
 import { ElMessage } from "element-plus";
+import jp from "jsonpath";
 
 const props = defineProps({
   hashLevel: Number,
@@ -15,11 +13,9 @@ const props = defineProps({
 });
 const treeEl = ref(null);
 const menuEl = ref(null);
-const showContextMenu = ref(false)
+const showContextMenu = ref(false);
 
-const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(
-  props.hashLevel
-);
+const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(props.hashLevel);
 
 const defaultProps = {
   isLeaf: "isLeaf",
@@ -36,8 +32,7 @@ db.settings.get(pageId.value).then((pageSettings) => {
   if (pageSettings && pageSettings.expandedNodes)
     expandedNodes.value = pageSettings.expandedNodes;
   // add empty pagesettings for update to work
-  if (!pageSettings)
-    db.settings.add({ pageId: pageId.value, expandedNodes: [] });
+  if (!pageSettings) db.settings.add({ pageId: pageId.value, expandedNodes: [] });
 });
 
 const loadNode = async (node, resolve) => {
@@ -73,8 +68,8 @@ const loadNode = async (node, resolve) => {
       if (item.treeVars.nodesPageId) item.pageId = item.treeVars.nodesPageId;
       // Still no pageId, use the default object page based on merged anscestors
       if (!item.pageId) {
-        if (item.classId)
-          item.pageId = "mb2bdqadowve"; // merged anscestors page
+        if (item.classId) item.pageId = "mb2bdqadowve";
+        // merged anscestors page
         else item.pageId = "24cnex2saye1"; // class details page
       }
 
@@ -146,9 +141,7 @@ const handleNodeExpand = (expandedNode) => {
   db.settings.get(pageId.value).then((pageSettings) => {
     let idx = null;
     if (pageSettings.expandedNodes)
-      idx = pageSettings.expandedNodes.find(
-        (item) => item === expandedNode._id
-      );
+      idx = pageSettings.expandedNodes.find((item) => item === expandedNode._id);
     else pageSettings.expandedNodes = [];
     // Update the expanded nodes in pageSettings for this pageId in the settings db
     if (!idx) {
@@ -162,9 +155,7 @@ const handleNodeExpand = (expandedNode) => {
 // The tree node is closed, update page settings
 const handleNodeCollapse = async (collapsedNode) => {
   db.settings.get(pageId.value).then((pageSettings) => {
-    const idx = pageSettings.expandedNodes.find(
-      (item) => item === collapsedNode._id
-    );
+    const idx = pageSettings.expandedNodes.find((item) => item === collapsedNode._id);
 
     // Update the expanded nodes in pageSettings for this pageId in the settings db
     if (idx) {
@@ -176,64 +167,149 @@ const handleNodeCollapse = async (collapsedNode) => {
   });
 };
 const options = {
-  items:[
+  items: [
     {
       label: "Add Child Paragraph",
       onClick: () => {
-        document.execCommand('copy');
-      }
+        document.execCommand("copy");
+      },
     },
     {
       label: "Copy",
       onClick: () => {
-        document.execCommand('copy');
-      }
+        document.execCommand("copy");
+      },
     },
     { label: "Paste", disabled: true },
     {
       label: "Print",
-      icon: 'icon-print',
+      icon: "icon-print",
       onClick: () => {
-        document.execCommand('print');
-      }
+        document.execCommand("print");
+      },
     },
   ],
-  iconFontClass: 'iconfont',
+  iconFontClass: "iconfont",
   customClass: "class-a",
   minWidth: 230,
   x: 0,
-  y: 0
-}
+  y: 0,
+};
 
-
-const onContextMenu = (e, node) => {
+const onContextMenu = (evt, node) => {
   console.log("showContextMenu", node);
-  let selectNode = treeEl.value.getNode(node)
+  let selectNode = treeEl.value.getNode(node);
   console.log("Parent", selectNode.parent);
   //prevent the browser's default menu
-  e.preventDefault();
+  evt.preventDefault();
   //shou our menu
   showContextMenu.value = true;
-  options.x = e.x;
-  options.y = e.y;
+  options.x = evt.x;
+  options.y = evt.y;
 };
-const handleDragStart = (node, ev) => {
-  console.log("drag start", node);
+let draggingNodeParent = null;
+const handleDragStart = (node, evt) => {
+  // we have to capture the draggingNode parent here because it disapears lateron
+  draggingNodeParent = node.parent;
 };
-const handleDragEnter = (draggingNode, dropNode, ev) => {
-  console.log("tree drag enter: ", dropNode.label);
+const handleDragEnter = (draggingNode, dropNode, evt) => {
+  //console.log("tree drag enter: ", dropNode.label);
 };
-const handleDragLeave = (draggingNode, dropNode, ev) => {
-  console.log("tree drag leave: ", dropNode.label);
+const handleDragLeave = (draggingNode, dropNode, evt) => {
+  //console.log("tree drag leave: ", dropNode.label);
 };
-const handleDragOver = (draggingNode, dropNode, ev) => {
-  console.log("tree drag over: ", dropNode.label);
+const handleDragOver = (draggingNode, dropNode, evt) => {
+  //console.log("tree drag over: ", dropNode.label);
 };
-const handleDragEnd = (draggingNode, dropNode, dropType, ev) => {
-  console.log("tree drag end: ", dropNode && dropNode.label, dropType);
+const handleDragEnd = async (draggingNode, dropNode, dropType, evt) => {
+  //console.log("tree drag end: ", dropNode, dropType);
 };
-const handleDrop = (draggingNode, dropNode, dropType, ev) => {
-  console.log("tree drop: ", dropNode.label, dropType);
+const handleDrop = async (draggingNode, dropNode, dropType, evt) => {
+
+  if (draggingNode.data.treeVars.selector === "Context Object") {
+    // console.log("movingNode", draggingNode);
+    // console.log("dropNode", dropNode);
+
+    // Get the paths that we will be using
+    const path = dropNode.data.treeVars.idsArrayPath.path;
+    let valuePath = path;
+    const pathLength = path.length - 3;
+    if (path.substr(pathLength) === "[*]") valuePath = path.substr(0, path.length - 3);
+
+    // remove draggingNode from current parent ids array
+    // We got the draggingNodeParent in dragStart
+    const currentParentObj = await db.state.get(draggingNodeParent.data._id);
+    //console.log("Current Parent before",currentParentObj.name,currentParentObj.subParagraphIds);
+    const curIdsArr = jp.query(currentParentObj, path);
+    const curIdx = curIdsArr.indexOf(draggingNode.data._id);
+    curIdsArr.splice(curIdx, 1);
+
+    // update the currentParentObj with the shortend ids array
+    jp.value(currentParentObj, valuePath, curIdsArr);
+    await db.state.update(currentParentObj._id, currentParentObj);
+    //console.log("Current Parent after",currentParentObj.name,currentParentObj.subParagraphIds);
+
+    if (dropType === "inner") {
+
+      // get the new parent object based on the dropNode
+      const newParentObj = await db.state.get(dropNode.data._id);
+      const newIdsArr = jp.query(newParentObj, path);
+
+      // add draggingNode to drop node ids array, at the end
+      newIdsArr.push(draggingNode.data._id);
+      jp.value(newParentObj, valuePath, newIdsArr);
+      await db.state.update(newParentObj._id, newParentObj);
+      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
+    }
+
+    // add draggingNode to draggingNodeParent ids array, before dropNode
+    if (dropType === "before") { 
+
+      // get the new parent object based on the dropNode parent
+      const newParentObj = await db.state.get(dropNode.parent.data._id);
+      const newIdsArr = jp.query(newParentObj, path);
+      //console.log("New Parent before", newParentObj.name, newParentObj.subParagraphIds);
+
+      const beforeIdx = newIdsArr.indexOf(dropNode.data._id);
+      newIdsArr.splice(beforeIdx - 1, 0, draggingNode.data._id);
+
+      // update the newParentObj with the new ids array
+      jp.value(newParentObj, valuePath, newIdsArr);
+      await db.state.update(newParentObj._id, newParentObj);
+      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
+    }
+
+    // add draggingNode to drop node ids array, after dropNode
+    if (dropType === "after") {
+
+      // get the new parent object based on the dropNode parent
+      const newParentObj = await db.state.get(dropNode.parent.data._id);
+      const newIdsArr = jp.query(newParentObj, path);
+      //console.log("New Parent before", newParentObj.name, newParentObj.subParagraphIds);
+
+      const afterIdx = newIdsArr.indexOf(dropNode.data._id);
+      newIdsArr.splice(afterIdx, 0, draggingNode.data._id);
+
+      // update the currentParentObj with the new ids array
+      jp.value(newParentObj, valuePath, newIdsArr);
+      await db.state.update(newParentObj._id, newParentObj);
+      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
+    }
+  } else if (draggingNodeObj.data.treeVars.selector === "Where Clause") {
+
+    const newParentId = dropNode.data._id;
+    
+    const draggingNodeObj = await db.state.get(draggingNode.data._id);
+
+    // update the foreign key
+    const whereObj = draggingNodeObj.data.treeVars.whereObj
+    for(const key in whereObj) {
+      const value = whereObj[key]
+      if( value === '$fk') draggingNodeObj[key] = newParentId
+    }
+    await db.state.update(draggingNodeObj._id, draggingNodeObj);
+
+  }
 };
 const allowDrop = (draggingNode, dropNode, type) => {
   if (dropNode.data.label === "Level two 3-1") {
@@ -253,9 +329,7 @@ onMounted(() => {
       db.settings.get(pageId.value).then((pageSettings) => {
         if (pageSettings && pageSettings.nextLevelSelectedObjId) {
           //treeEl.value.setCurrentKey(pageSettings.nextLevelSelectedObjId);
-          const nodeData = treeEl.value.getNode(
-            pageSettings.nextLevelSelectedObjId
-          );
+          const nodeData = treeEl.value.getNode(pageSettings.nextLevelSelectedObjId);
           updateNextLevelHash(
             props.hashLevel,
             pageSettings.nextLevelSelectedObjId,

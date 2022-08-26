@@ -45,6 +45,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       }
 
       const rootClass = await db.state.get(classId)
+      if (rootClass.classId) throw new Error('selector Subclasses must have a where clause that selects a class')
+
       let results = await subClasses(classId)
       results.splice(0, 0, rootClass)// Add the root class
       return results
@@ -98,8 +100,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
     return queryObj$.pipe(switchMap(queryObj => {
 
-      console.log('Query Object: ', queryObj)
-      console.log('Context Object: ', contextObj)
+      // console.log('Query Object: ', queryObj)
+      // console.log('Context Object: ', contextObj)
 
       let slectorResult$ = null
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
@@ -154,7 +156,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           }
           if(typeof idsArr === 'string' && item.length !== 12) throw new Error('The result of idsArrayPath must be an _id' + idsArr)
 
-          // Make the ids array unique
+          // Make the ids array is unique
           const uniqueIdsArr = [...new Set(idsArr)]
 
           // get all the objects corresponding to the ids array
@@ -179,7 +181,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           item.treeVars = {
             nodesPageId: queryObj.nodesPageId,
             nodesIcon: queryObj.nodesIcon,
-            subQueryIds: queryObj.subQueryIds
+            subQueryIds: queryObj.subQueryIds,
+            selector: queryObj.selector,
+            where: queryObj.where,
+            idsArrayPath: queryObj.idsArrayPath,
           }
           return item
         })
