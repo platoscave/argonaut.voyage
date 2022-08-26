@@ -40,31 +40,16 @@ interface IParagraph {
   subParagraphIds: string[];
 }
 
-if (props.paragraphId) {
-  const localParagraphObj = useLiveQuery<IParagraph>(
-    () => db.state.get(props.paragraphId),
-    []
+  const paragraphObj = useLiveQuery<IParagraph>(
+    () => db.state.get(selectedObjId.value)
   );
-  watch(localParagraphObj, (paragraph) => {
+  watch(paragraphObj, (paragraph) => {
     //Object.assign(paragraphObj, paragraph);
     header.value = paragraph.name
     content.value = paragraph.description
     subParagraphIds.length = 0
     paragraph.subParagraphIds.forEach( item => subParagraphIds.push(item))
   });
-} else {
-  const localParagraphObj = useLiveQuery<IParagraph>(
-    () => db.state.get(selectedObjId.value),
-    [selectedObjId]
-  );
-  watch(localParagraphObj, (paragraph) => {
-    //Object.assign(paragraphObj, paragraph);
-    header.value = paragraph.name
-    content.value = paragraph.description
-    subParagraphIds.length = 0
-    paragraph.subParagraphIds.forEach( item => subParagraphIds.push(item))
-  });
-}
 </script>
 
 <template>
@@ -74,10 +59,10 @@ if (props.paragraphId) {
     }}</component>
     <div v-html="content" />
     <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">
-      <Document
+      <Paragraph
         :paragraph-id="paragraphId"
         :header-level="props.headerLevel + 1"
-      ></Document>
+      ></Paragraph>
     </div>
   <!-- </div> -->
 </template>

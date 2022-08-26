@@ -75,10 +75,10 @@ if (props.paragraphId) {
     }}</component>
     <div v-html="content" />
     <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">
-      <Document
+      <Paragraph
         :paragraph-id="paragraphId"
         :header-level="props.headerLevel + 1"
-      ></Document>
+      ></Paragraph>
     </div>
   <!-- </div> -->
 </template>
