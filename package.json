@@ -19,6 +19,7 @@
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@tiptap/vue-3": "^2.0.0-beta.96",
     "@tweenjs/tween.js": "^18.6.4",
+    "@vueuse/components": "^9.1.1",
     "@vueuse/core": "^8.9.4",
     "@vueuse/rxjs": "^8.7.5",
     "ajv": "^8.11.0",

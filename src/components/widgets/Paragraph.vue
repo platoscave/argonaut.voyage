@@ -1,37 +1,24 @@
 <script setup lang="ts">
-import { ref, reactive, watch, h } from "vue";
+import { ref, reactive, watch } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
-import {
-  useHashDissect,
-  updateHashWithSelectedTab,
-} from "~/composables/useHashDissect";
+import { vOnClickOutside } from '@vueuse/components'
 
-// const props = defineProps({
-//   hashLevel: Number,
-//   paragraphId: String,
-//   headerLevel: {
-//     type: Number,
-//     default: 0
-//   },
-  
-// });
 interface Props {
-  hashLevel?: number
-  paragraphId?: string
-  headerLevel?: number
+  hashLevel?: number;
+  paragraphId?: string;
+  headerLevel?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
   hashLevel: 0,
-  paragraphId: '',
-  headerLevel: 1
-})
+  paragraphId: "",
+  headerLevel: 1,
+});
 
-
-const header = ref('');
-const content = ref('');
+const readonly = ref(true);
+const header = ref("");
+const content = ref("");
 let subParagraphIds = reactive([]);
-
 
 interface IParagraph {
   _id: string;
@@ -40,31 +27,56 @@ interface IParagraph {
   subParagraphIds: string[];
 }
 
-  const paragraphObj = useLiveQuery<IParagraph>(
-    () => db.state.get(selectedObjId.value)
-  );
-  watch(paragraphObj, (paragraph) => {
-    //Object.assign(paragraphObj, paragraph);
-    header.value = paragraph.name
-    content.value = paragraph.description
-    subParagraphIds.length = 0
-    paragraph.subParagraphIds.forEach( item => subParagraphIds.push(item))
-  });
+const paragraphObj = useLiveQuery<IParagraph>(() => db.state.get(props.paragraphId), []);
+watch(paragraphObj, (paragraph) => {
+  //Object.assign(paragraphObj, paragraph);
+  header.value = paragraph.name;
+  content.value = paragraph.description;
+  subParagraphIds.length = 0;
+  paragraph.subParagraphIds.forEach((item) => subParagraphIds.push(item));
+});
+
 </script>
 
 <template>
-  <!-- <div v-if="paragraphObj"> -->
-    <component v-bind:is="`h${$props.headerLevel}`">{{
-      header
-    }}</component>
-    <div v-html="content" />
-    <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">
-      <Paragraph
-        :paragraph-id="paragraphId"
-        :header-level="props.headerLevel + 1"
-      ></Paragraph>
-    </div>
-  <!-- </div> -->
+<!-- v-on-click-outside="readonly = true" -->
+  <div class="ar-subform-background"  >
+    <component v-bind:is="`h${$props.headerLevel}`">
+      <String v-model="header" :readonly="readonly"></String>
+    </component>
+    <Html v-model="content" :readonly="readonly"></Html>
+
+    <svg class="el-icon-close" v-if="readonly" @click="readonly = false">
+      <use
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        :xlink:href="'toolbar-symbols.svg#el-icon-close'"
+      ></use>
+    </svg>
+  </div>
+  <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">
+    <Paragraph
+      :paragraph-id="paragraphId"
+      :header-level="props.headerLevel + 1"
+    ></Paragraph>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.ar-subform-background {
+  padding: 10px 10px 10px 15px;
+  position: relative;
+  max-width: 750px;
+}
+.el-icon-close {
+  height: 1em;
+  width: 1em;
+  position: absolute;
+  margin: 3px;
+  top: 3px;
+  right: 3px;
+  /* background-color: #ff4000a3; */
+  color: blue;
+  z-index: 20;
+  border-radius: 50%;
+}
+</style>

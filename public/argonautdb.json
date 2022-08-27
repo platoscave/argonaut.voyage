@@ -3036,22 +3036,6 @@
             "viewId": "wh1nnojktarq"
           }
         ]
-      },
-      {
-        "name": "Raw",
-        "widgets": [
-          {
-            "displayType": "Raw"
-          }
-        ]
-      },
-      {
-        "name": "Validate",
-        "widgets": [
-          {
-            "displayType": "Validate"
-          }
-        ]
       }
     ]
   },
