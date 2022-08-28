@@ -14,13 +14,14 @@ const props = defineProps({
 const treeEl = ref(null);
 const menuEl = ref(null);
 const showContextMenu = ref(false);
+let expandedNodes = ref([]);
 
 const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(props.hashLevel);
 
 const defaultProps = {
   isLeaf: "isLeaf",
 };
-let expandedNodes = ref([]);
+let copiedNodeId: string = "";
 
 watch(nextLevelSelectedObjId, (nextLevelSelectedObjId) => {
   if (!treeEl.value) return;
@@ -166,6 +167,96 @@ const handleNodeCollapse = async (collapsedNode) => {
     }
   });
 };
+
+const onCtrlCopy = (evt) => {
+  console.log("Ctrl Copy evt", treeEl.value.getCurrentKey());
+  const currentKey = treeEl.value.getCurrentKey();
+  if (currentKey) copiedNodeId = currentKey;
+};
+
+const onCtrlPaste = async () => {
+  if (!copiedNodeId || !treeEl.value) return;
+
+  const currentObj = await db.state.get(copiedNodeId);
+  if (currentObj.classId) currentObj.name = "[New Object]";
+  else currentObj.title = "[New Class]";
+  currentObj.description = "<p>[New Description]</p>";
+  delete currentObj._id;
+  const newObjId = await db.state.add(currentObj);
+
+  const copiedNode = treeEl.value.getNode(copiedNodeId);
+  if (copiedNode.data.treeVars.selector === "Context Object") {
+    const path = copiedNode.data.treeVars.idsArrayPath.path;
+    const parentId = treeEl.value.getCurrentKey();
+    addToParentIdsArray(newObjId, parentId, path);
+  }
+};
+
+const onCtrlCut = (evt) => {
+  console.log("Ctrl Cut evt", evt);
+  if (draggingNode.data.treeVars.selector === "Context Object") {
+    const idToRemove = draggingNode.data._id;
+    const parentId = draggingNodeParentId;
+    const path = dropNode.data.treeVars.idsArrayPath.path;
+    await cutFromParentIdsArray(idToRemove, parentId, path);
+  }
+};
+const onDelete = (evt) => {
+  console.log("Delete evt", evt);
+};
+const addToParentIdsArray = async (
+  idToAdd: string,
+  parentId: string,
+  path: string,
+  dropType?: string,
+  dropNodeId?: string
+) => {
+  // Get the path that we will be using to update
+  let valuePath = path;
+  const pathLength = path.length - 3;
+  if (path.substr(pathLength) === "[*]") valuePath = path.substr(0, path.length - 3);
+
+  // get the new parent object based on parentId
+  const parentObj = await db.state.get(parentId);
+
+  // apply the path to get the ids array
+  const newIdsArr = jp.query(parentObj, path);
+
+  if (dropType === "before") {
+    const beforeIdx = newIdsArr.indexOf(dropNodeId);
+    newIdsArr.splice(beforeIdx - 1, 0, idToAdd);
+  } else if (dropType === "after") {
+    const beforeIdx = newIdsArr.indexOf(dropNodeId);
+    newIdsArr.splice(beforeIdx, 0, idToAdd);
+  } else newIdsArr.push(idToAdd); // add id to ids array, at the end
+
+  // update the parentObj ids array with the longer array
+  jp.value(parentObj, valuePath, newIdsArr);
+  db.state.update(parentObj._id, parentObj);
+};
+
+const cutFromParentIdsArray = async (
+  idToRemove: string,
+  parentId: string,
+  path: string
+) => {
+  // Get the path that we will be using to update
+  let valuePath = path;
+  const pathLength = path.length - 3;
+  if (path.substr(pathLength) === "[*]") valuePath = path.substr(0, path.length - 3);
+
+  // get the new parent object based on parentId
+  const parentObj = await db.state.get(parentId);
+
+  // apply the path to get the ids array
+  const newIdsArr = jp.query(parentObj, path);
+  const curIdx = newIdsArr.indexOf(idToRemove);
+  newIdsArr.splice(curIdx, 1);
+
+  // update the parentObj ids array with the longer array
+  jp.value(parentObj, valuePath, newIdsArr);
+  db.state.update(parentObj._id, parentObj);
+};
 const options = {
   items: [
     {
@@ -207,10 +298,10 @@ const onContextMenu = (evt, node) => {
   options.x = evt.x;
   options.y = evt.y;
 };
-let draggingNodeParent = null;
+let draggingNodeParentId: string = "";
 const handleDragStart = (node, evt) => {
   // we have to capture the draggingNode parent here because it disapears lateron
-  draggingNodeParent = node.parent;
+  draggingNodeParentId = node.parent.data._id;
 };
 const handleDragEnter = (draggingNode, dropNode, evt) => {
   //console.log("tree drag enter: ", dropNode.label);
@@ -225,90 +316,35 @@ const handleDragEnd = async (draggingNode, dropNode, dropType, evt) => {
   //console.log("tree drag end: ", dropNode, dropType);
 };
 const handleDrop = async (draggingNode, dropNode, dropType, evt) => {
-
   if (draggingNode.data.treeVars.selector === "Context Object") {
-    // console.log("movingNode", draggingNode);
-    // console.log("dropNode", dropNode);
-
-    // Get the paths that we will be using
+    const idToRemove = draggingNode.data._id;
+    const parentId = draggingNodeParentId;
     const path = dropNode.data.treeVars.idsArrayPath.path;
-    let valuePath = path;
-    const pathLength = path.length - 3;
-    if (path.substr(pathLength) === "[*]") valuePath = path.substr(0, path.length - 3);
-
-    // remove draggingNode from current parent ids array
-    // We got the draggingNodeParent in dragStart
-    const currentParentObj = await db.state.get(draggingNodeParent.data._id);
-    //console.log("Current Parent before",currentParentObj.name,currentParentObj.subParagraphIds);
-    const curIdsArr = jp.query(currentParentObj, path);
-    const curIdx = curIdsArr.indexOf(draggingNode.data._id);
-    curIdsArr.splice(curIdx, 1);
-
-    // update the currentParentObj with the shortend ids array
-    jp.value(currentParentObj, valuePath, curIdsArr);
-    await db.state.update(currentParentObj._id, currentParentObj);
-    //console.log("Current Parent after",currentParentObj.name,currentParentObj.subParagraphIds);
+    await cutFromParentIdsArray(idToRemove, parentId, path);
 
     if (dropType === "inner") {
-
-      // get the new parent object based on the dropNode
-      const newParentObj = await db.state.get(dropNode.data._id);
-      const newIdsArr = jp.query(newParentObj, path);
-
-      // add draggingNode to drop node ids array, at the end
-      newIdsArr.push(draggingNode.data._id);
-      jp.value(newParentObj, valuePath, newIdsArr);
-      await db.state.update(newParentObj._id, newParentObj);
-      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
-    }
-
-    // add draggingNode to draggingNodeParent ids array, before dropNode
-    if (dropType === "before") { 
-
-      // get the new parent object based on the dropNode parent
-      const newParentObj = await db.state.get(dropNode.parent.data._id);
-      const newIdsArr = jp.query(newParentObj, path);
-      //console.log("New Parent before", newParentObj.name, newParentObj.subParagraphIds);
-
-      const beforeIdx = newIdsArr.indexOf(dropNode.data._id);
-      newIdsArr.splice(beforeIdx - 1, 0, draggingNode.data._id);
-
-      // update the newParentObj with the new ids array
-      jp.value(newParentObj, valuePath, newIdsArr);
-      await db.state.update(newParentObj._id, newParentObj);
-      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
-    }
-
-    // add draggingNode to drop node ids array, after dropNode
-    if (dropType === "after") {
-
-      // get the new parent object based on the dropNode parent
-      const newParentObj = await db.state.get(dropNode.parent.data._id);
-      const newIdsArr = jp.query(newParentObj, path);
-      //console.log("New Parent before", newParentObj.name, newParentObj.subParagraphIds);
-
-      const afterIdx = newIdsArr.indexOf(dropNode.data._id);
-      newIdsArr.splice(afterIdx, 0, draggingNode.data._id);
-
-      // update the currentParentObj with the new ids array
-      jp.value(newParentObj, valuePath, newIdsArr);
-      await db.state.update(newParentObj._id, newParentObj);
-      //console.log("New Parent after", newParentObj.name, newParentObj.subParagraphIds);
+      const idToAdd = draggingNode.data._id;
+      const parentId = dropNode.data._id;
+      addToParentIdsArray(idToAdd, parentId, path);
+    } else {
+      // dropType before and after have a different parentId and need a dropNodeId
+      const idToAdd = draggingNode.data._id;
+      const parentId = dropNode.parent.data._id;
+      const dropNodeId = dropNode.data._id;
+      addToParentIdsArray(idToAdd, parentId, path, dropType, dropNodeId);
     }
   } else if (draggingNodeObj.data.treeVars.selector === "Where Clause") {
-
     const newParentId = dropNode.data._id;
-    
+
     const draggingNodeObj = await db.state.get(draggingNode.data._id);
 
     // update the foreign key
-    const whereObj = draggingNodeObj.data.treeVars.whereObj
-    for(const key in whereObj) {
-      const value = whereObj[key]
-      if( value === '$fk') draggingNodeObj[key] = newParentId
+    const whereObj = draggingNodeObj.data.treeVars.whereObj;
+    for (const key in whereObj) {
+      const value = whereObj[key];
+      if (value === "$fk") draggingNodeObj[key] = newParentId;
     }
     await db.state.update(draggingNodeObj._id, draggingNodeObj);
-
   }
 };
 const allowDrop = (draggingNode, dropNode, type) => {
@@ -355,6 +391,10 @@ onMounted(() => {
     @node-click="
       (nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
     "
+    @keyup.ctrl.c="onCtrlCopy"
+    @keyup.ctrl.v="onCtrlPaste"
+    @keyup.ctrl.x="onCtrlCut"
+    @keyup.delete="onDelete"
     @node-contextmenu="onContextMenu"
     @node-expand="handleNodeExpand"
     @node-collapse="handleNodeCollapse"

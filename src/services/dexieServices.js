@@ -10,8 +10,7 @@ db.version(1).stores({
   settings: 'pageId'
 });
 
-// Add create hook
-// Generate random key. Will be ignored if one is supplied 
+// Add create hook. Generate random key 
 db.state.hook("creating", function (primKey, obj, transaction) {
   // Return random key
   const characters = "abcdefghijklmnopqrstuvwxyz12345";
