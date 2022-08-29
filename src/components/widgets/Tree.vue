@@ -4,7 +4,7 @@ import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import useArgoQuery from "~/composables/useArgoQuery";
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import jp from "jsonpath";
 
 const props = defineProps({
@@ -192,17 +192,50 @@ const onCtrlPaste = async () => {
   }
 };
 
-const onCtrlCut = (evt) => {
-  console.log("Ctrl Cut evt", evt);
-  if (draggingNode.data.treeVars.selector === "Context Object") {
-    const idToRemove = draggingNode.data._id;
-    const parentId = draggingNodeParentId;
-    const path = dropNode.data.treeVars.idsArrayPath.path;
+const onCtrlCut = async () => {
+  if (!treeEl.value) return;
+  const currentKey = treeEl.value.getCurrentKey();
+  if (!currentKey) return;
+  const currentNode = treeEl.value.getNode(currentKey);
+  copiedNodeId = currentKey;
+
+  if (currentNode.data.treeVars.selector === "Context Object") {
+    const idToRemove = currentKey;
+    const parentId = currentNode.parent.data._id;
+    const path = currentNode.data.treeVars.idsArrayPath.path;
     await cutFromParentIdsArray(idToRemove, parentId, path);
   }
 };
-const onDelete = (evt) => {
-  console.log("Delete evt", evt);
+
+const onDelete = async () => {
+  if (!treeEl.value) return;
+  const currentKey = treeEl.value.getCurrentKey();
+  if (!currentKey) return;
+  const currentNode = treeEl.value.getNode(currentKey);
+
+  const messageBox = await ElMessageBox.confirm(
+    `Permanently delete ${currentNode.data.label}?`,
+    "Warning",
+    {
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      type: "warning",
+    }
+  );
+  if (messageBox === "confirm") {
+    if (currentNode.data.treeVars.selector === "Context Object") {
+      const idToRemove = currentKey;
+      const parentId = currentNode.parent.data._id;
+      const path = currentNode.data.treeVars.idsArrayPath.path;
+      await cutFromParentIdsArray(idToRemove, parentId, path);
+    }
+    db.state.delete(currentKey);
+
+    ElMessage({
+      type: "success",
+      message: "Delete completed",
+    });
+  }
 };
 const addToParentIdsArray = async (
   idToAdd: string,
@@ -260,24 +293,26 @@ const cutFromParentIdsArray = async (
 const options = {
   items: [
     {
-      label: "Add Child Paragraph",
-      onClick: () => {
-        document.execCommand("copy");
-      },
+      label: "Cut",
+      onClick: onCtrlCut,
     },
     {
       label: "Copy",
-      onClick: () => {
-        document.execCommand("copy");
-      },
+      onClick: onCtrlCopy,
     },
-    { label: "Paste", disabled: true },
     {
-      label: "Print",
+      label: "Paste",
+      onClick: onCtrlPaste,
+    },
+    {
+      label: "Add New...",
       icon: "icon-print",
-      onClick: () => {
-        document.execCommand("print");
-      },
+      disabled: true,
+    },
+    {
+      label: "Associate With..",
+      icon: "icon-print",
+      disabled: true,
     },
   ],
   iconFontClass: "iconfont",

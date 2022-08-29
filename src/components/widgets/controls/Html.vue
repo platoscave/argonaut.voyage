@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount } from "vue";
+import { ref, watch, onBeforeUnmount } from "vue";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3";
 import Table from "@tiptap/extension-table";
@@ -15,6 +15,8 @@ const props = defineProps({
   property: { type: Object, default: {} },
   readonly: { type: Boolean, default: true },
 });
+
+const emit = defineEmits(["change"]);
 
 const editor = new Editor({
   extensions: [
@@ -37,7 +39,28 @@ const editor = new Editor({
     //     .configure({ lowlight }),
   ],
   content: props.modelValue,
+  onBlur({ editor, event }) {
+    // The editor isn’t focused anymore.
+    emit("change", editor.getHTML());
+    // emit("update:modelValue", editor.getJSON());
+  },
 });
+
+watch(
+  () => props.modelValue,
+  (value: string) => {
+    const isSame = editor.getHTML() === value;
+
+    // JSON
+    // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
+
+    if (isSame) {
+      return;
+    }
+
+    editor.commands.setContent(value, false);
+  }
+);
 
 onBeforeUnmount(() => {
   editor.destroy();
@@ -99,27 +122,21 @@ onBeforeUnmount(() => {
         popup-text="Hedding Level 1"
         icon-name="h1"
         :is-active="editor.isActive('heading', { level: 1 })"
-        @button-clicked="
-          editor.chain().focus().toggleHeading({ level: 1 }).run()
-        "
+        @button-clicked="editor.chain().focus().toggleHeading({ level: 1 }).run()"
       />
 
       <ToolbarButton
         popup-text="Hedding Level 2"
         icon-name="h2"
         :is-active="editor.isActive('heading', { level: 2 })"
-        @button-clicked="
-          editor.chain().focus().toggleHeading({ level: 2 }).run()
-        "
+        @button-clicked="editor.chain().focus().toggleHeading({ level: 2 }).run()"
       />
 
       <ToolbarButton
         popup-text="Hedding Level 3"
         icon-name="h3"
         :is-active="editor.isActive('heading', { level: 3 })"
-        @button-clicked="
-          editor.chain().focus().toggleHeading({ level: 3 }).run()
-        "
+        @button-clicked="editor.chain().focus().toggleHeading({ level: 3 }).run()"
       />
 
       <!-- <ToolbarButton
@@ -275,7 +292,6 @@ onBeforeUnmount(() => {
         />
       </span>
     </div>
-
     <editor-content class="editor-content" :editor="editor" />
   </div>
 </template>
@@ -289,6 +305,9 @@ onBeforeUnmount(() => {
   padding-left: 10px;
   padding-right: 10px;
   border-spacing: 0px;
+  min-height: 24px;
+  line-height: 24px;
+  margin-top: 5px;
 }
 .editor-content >>> .ProseMirror.ProseMirror-focused {
   outline: 0;

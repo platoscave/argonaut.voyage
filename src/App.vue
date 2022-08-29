@@ -1,5 +1,5 @@
 <template>
-    <MainPage />
+  <MainPage />
 </template>
 
 <style>
@@ -31,6 +31,15 @@
   min-height: 24px;
   line-height: 24px;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-block-start: 0.4em !important;
+  margin-block-end: 0.2em !important;
+}
 p {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -50,7 +59,7 @@ pre {
   border-radius: 4px;
 }
 .el-input__wrapper:hover {
-    box-shadow: 0 0 0 1px #409eff inset;
+  box-shadow: 0 0 0 1px #409eff inset;
 }
 /* Text area background and border */
 .el-textarea__inner {
@@ -60,7 +69,6 @@ pre {
 }
 .el-textarea__inner:hover {
   box-shadow: 0 0 0 1px #409eff inset;
-
 }
 /* allow label height to grow as needed */
 .el-form-item__label {

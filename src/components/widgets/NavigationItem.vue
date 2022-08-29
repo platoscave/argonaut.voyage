@@ -116,7 +116,7 @@ if(props.menuItem.argoQuery) {
 <style scoped>
 /* --el-menu-item-height */
 .icon {
-  margin-right: 5px;
+  margin-right: 10px;
   vertical-align: middle;
 }
 .top-level-menu-item {

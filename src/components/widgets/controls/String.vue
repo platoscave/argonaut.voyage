@@ -15,5 +15,6 @@ const props = defineProps({
     autosize
     v-model="modelValue"
     @input="$emit('update:modelValue', $event)"
+    @change="$emit('change', $event)"
   ></el-input>
 </template>
