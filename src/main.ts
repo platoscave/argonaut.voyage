@@ -35,6 +35,7 @@ import 'uno.css'
 import "element-plus/theme-chalk/src/message.scss"
 import "element-plus/theme-chalk/src/tooltip.scss"
 import "element-plus/theme-chalk/src/message-box.scss"
+import "element-plus/theme-chalk/src/calendar.scss" // Doesn't work! Why?
 
 const app = createApp(App);
 

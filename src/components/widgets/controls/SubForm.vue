@@ -5,6 +5,7 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 // import ControlSelector from "./ControlSelector";
 // /* eslint-disable vue/no-unused-components */
 // // on behalf of the control selector
+import { ElDatePicker } from "element-plus";
 import Html from "./Html.vue";
 import Image from "./Image.vue";
 import Json from "./Json.vue";
@@ -43,13 +44,12 @@ watch(
   () => props.modelValue,
   (current) => {
     //if (!deepEqual(formfields, current))
-    Object.assign(formModelValue, current)
-  // console.log('Old formModelValue', formModelValue)
+    Object.assign(formModelValue, current);
+    // console.log('Old formModelValue', formModelValue)
 
-  //   Object.keys(formModelValue).forEach((key) => delete formModelValue[key]);
-  //   Object.keys(current).forEach((key) => (formModelValue[key] = current[key]));
-      console.log('SF Updated Model Value', formModelValue.name)
-
+    //   Object.keys(formModelValue).forEach((key) => delete formModelValue[key]);
+    //   Object.keys(current).forEach((key) => (formModelValue[key] = current[key]));
+    console.log("SF Updated Model Value", formModelValue.name);
   },
   { deep: true, immediate: true }
 );
@@ -60,9 +60,8 @@ watch(
     //console.log( 'current', current)
     //if (!deepEqual(current, previous))
     //emit('update:modelValue', current)
-      console.log('SF Updated Form Value', formModelValue.name)
+    console.log("SF Updated Form Value", formModelValue.name);
     emit("update:modelValue", current);
-
   },
   { deep: true }
 );
@@ -129,11 +128,7 @@ const validationRules = computed(() => {
   return rulesObj;
 });
 
-const notReadonlyDenseAndEmpty = (
-  formMode: string,
-  dataObj: object[],
-  type: string
-) => {
+const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: string) => {
   if (
     formMode === "Readonly Dense" &&
     (!dataObj || // modelValue is empty
@@ -145,6 +140,7 @@ const notReadonlyDenseAndEmpty = (
 };
 
 const dynamicComp = [
+  { name: "ElDatePicker", comp: ElDatePicker },
   { name: "Html", comp: Html },
   { name: "Image", comp: Image },
   { name: "Json", comp: Json },
@@ -202,8 +198,7 @@ const getComponent = (property: IProperty) => {
     // Boolean
     else if (property.type === "boolean") return "ElCheckbox";
     // Object
-    else if (property.type === "object" && property.properties)
-      return "NestedObject";
+    else if (property.type === "object" && property.properties) return "NestedObject";
     // Array
     else if (property.type === "array" && property.items) {
       // objects
@@ -248,11 +243,7 @@ const getComponent = (property: IProperty) => {
       <el-form-item
         class="ar-form-item"
         v-if="
-          notReadonlyDenseAndEmpty(
-            formMode,
-            formModelValue[propertyName],
-            property.type
-          )
+          notReadonlyDenseAndEmpty(formMode, formModelValue[propertyName], property.type)
         "
         :prop="propertyName"
       >
@@ -328,4 +319,3 @@ const getComponent = (property: IProperty) => {
   border-color: none;
 }
 </style>
--->

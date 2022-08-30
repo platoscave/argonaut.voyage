@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
     ClassModel: typeof import('./components/widgets/3dModels/ClassModel.vue')['default']
     ClassSchemaForm: typeof import('./components/widgets/ClassSchemaForm.vue')['default']
     Document: typeof import('./components/widgets/Document.vue')['default']
-    'Document copy': typeof import('./components/widgets/Document copy.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCalendar: typeof import('element-plus/es')['ElCalendar']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
@@ -24,7 +23,6 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
-    ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
@@ -50,7 +48,6 @@ declare module '@vue/runtime-core' {
     Number: typeof import('./components/widgets/controls/Number.vue')['default']
     ObjectsArray: typeof import('./components/widgets/controls/ObjectsArray.vue')['default']
     Page: typeof import('./components/Page.vue')['default']
-    PageEditor: typeof import('./components/widgets/PageEditor.vue')['default']
     Paragraph: typeof import('./components/widgets/Paragraph.vue')['default']
     ProcessModel: typeof import('./components/widgets/3dModels/ProcessModel.vue')['default']
     Raw: typeof import('./components/widgets/simpleJson/Raw.vue')['default']
@@ -68,6 +65,7 @@ declare module '@vue/runtime-core' {
     ToolbarButton: typeof import('./components/widgets/controls/ToolbarButton.vue')['default']
     Tree: typeof import('./components/widgets/Tree.vue')['default']
     Validate: typeof import('./components/widgets/simpleJson/Validate.vue')['default']
+    XXXSchemaTable: typeof import('./components/widgets/XXXSchemaTable.vue')['default']
   }
 }
 

@@ -5,7 +5,7 @@ import useLiveQuery from "~/composables/useLiveQuery";
 import {
   useHashDissect,
   updateHashWithSelectedTab,
-  updateNextLevelHash
+  updateNextLevelHash,
 } from "../composables/useHashDissect";
 
 // https://stackoverflow.com/questions/71627355/dynamic-components-doesnt-work-in-script-setup
@@ -15,15 +15,12 @@ import CashFlows from "~/components/widgets/fanancialStatements/CashFlows.vue";
 import ClassModel from "~/components/widgets/3dModels/ClassModel.vue";
 import Document from "~/components/widgets/Document.vue";
 import IncomeStatement from "~/components/widgets/fanancialStatements/IncomeStatement.vue";
-// import MaterializedView from "~/components/widgets/simpleJson/MaterializedView.vue";
 import ClassSchemaForm from "~/components/widgets/ClassSchemaForm.vue";
 import NavigationMenu from "~/components/widgets/NavigationMenu.vue";
-// import PageEditor from "~/components/widgets/PageEditor.vue";
 import ProcessModel from "~/components/widgets/3dModels/ProcessModel.vue";
 import Raw from "~/components/widgets/simpleJson/Raw.vue";
 import SchemaForm from "~/components/widgets/SchemaForm.vue";
 import SchemaTable from "~/components/widgets/SchemaTable.vue";
-// import Tiptap from "~/components/widgets/Tiptap.vue";
 import Tree from "~/components/widgets/Tree.vue";
 import Validate from "~/components/widgets/simpleJson/Validate.vue";
 
@@ -66,33 +63,30 @@ const dynamicComp = [
   { name: "Tree", comp: Tree },
   { name: "Validate", comp: Validate },
 ];
-const getComponent = (widgetName: string = '') => {
-  const nameComp = dynamicComp.find((item) => item.name === widgetName)
-  if(!nameComp) console.error( `widgetName not declared: ${widgetName}`)
-  return nameComp.comp
+const getComponent = (widgetName: string = "") => {
+  const nameComp = dynamicComp.find((item) => item.name === widgetName);
+  if (!nameComp) console.error(`widgetName not declared: ${widgetName}`);
+  return nameComp.comp;
 };
 
 const onTabChange = (evt) => {
-  console.log('evt',evt)
-  console.log('evt',pageObj.value.tabs[parseInt(evt)].pageId)
+  console.log("evt", evt);
+  console.log("evt", pageObj.value.tabs[parseInt(evt)].pageId);
 
-
-  updateHashWithSelectedTab(props.hashLevel, evt)
-  const nextlevelPageId = pageObj.value.tabs[parseInt(evt)].pageId
-  updateNextLevelHash(props.hashLevel, selectedObjId.value, nextlevelPageId)
-}
+  updateHashWithSelectedTab(props.hashLevel, evt);
+  const nextlevelPageId = pageObj.value.tabs[parseInt(evt)].pageId;
+  updateNextLevelHash(props.hashLevel, selectedObjId.value, nextlevelPageId);
+};
 </script>
 
 <template>
   <!-- With tabbar -->
   <div v-if="pageObj">
-  <!-- {{ pageObj.tabs.length }} -->
-    <div v-if="pageObj.tabs.length > 1"  class="ar-full-height">
-      <el-tabs
-        :value="selectedTab ? selectedTab : '0'"
-        @tab-change="onTabChange"
-      >
-        <el-tab-pane  class="ar-full-height" 
+    <!-- {{ pageObj.tabs.length }} -->
+    <div v-if="pageObj.tabs.length > 1" class="ar-full-height">
+      <el-tabs :value="selectedTab ? selectedTab : '0'" @tab-change="onTabChange">
+        <el-tab-pane
+          class="ar-full-height"
           v-for="(tab, tabNum) in pageObj.tabs"
           :key="tabNum.toString()"
           :label="tab.name"
@@ -119,7 +113,7 @@ const onTabChange = (evt) => {
           </div>
           <!-- This tab has a sub-page -->
           <div class="ar-full-height" v-if="tab.pageId">
-            <Layout :hash-level="hashLevel + 1"></Layout>
+            <Layout class="ar-full-height" :hash-level="hashLevel + 1"></Layout>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -149,7 +143,7 @@ const onTabChange = (evt) => {
 
       <!-- This tab has a sub-page -->
       <div class="ar-full-height" v-if="pageObj.tabs[0].pageId">
-        <Layout :hash-level="hashLevel + 1"></Layout>
+        <Layout class="ar-full-height" :hash-level="hashLevel + 1"></Layout>
       </div>
     </div>
   </div>

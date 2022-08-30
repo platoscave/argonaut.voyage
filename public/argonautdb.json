@@ -505,28 +505,28 @@
     "_id": "pbfmtbxfvqrw",
     "title": "Repair",
     "description": "<p>Repair Agreements between owners</p>",
-    "superClassId": "i1gjptcb2skq",
+    "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "hhg2u2zptnfo",
     "title": "Purchase",
     "description": "<p>Purchase Agreements between owners</p>",
-    "superClassId": "i1gjptcb2skq",
+    "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "uhir12cjxgzb",
     "title": "Rental",
     "description": "<p>Rental Agreements between owners</p>",
-    "superClassId": "i1gjptcb2skq",
+    "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "w3mzeetidb5n",
     "title": "Messaging",
     "description": "<p>Messaging Agreements between owners</p>",
-    "superClassId": "i1gjptcb2skq",
+    "superClassId": "2jrkeqdvvmom",
     "properties": {
       "classification": {
         "enum": [
@@ -544,7 +544,7 @@
     "_id": "ynpbcptu1i4q",
     "title": "Membership",
     "description": "<p>Menbership Agreements between user and organizations</p>",
-    "superClassId": "i1gjptcb2skq",
+    "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
@@ -558,7 +558,7 @@
     "_id": "iqdfuo2tnze2",
     "name": "Purchase Proposition",
     "description": "<p>Purchase Proposition</p>",
-    "classId": "2jrkeqdvvmom",
+    "classId": "hhg2u2zptnfo",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
@@ -569,7 +569,7 @@
     "_id": "wub2e4kpjchk",
     "name": "Rental Proposition",
     "description": "<p>Rental Proposition</p>",
-    "classId": "2jrkeqdvvmom",
+    "classId": "uhir12cjxgzb",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
@@ -580,7 +580,7 @@
     "_id": "2cmgcvskdj3a",
     "name": "Repair Proposition",
     "description": "<p>Repair Proposition</p>",
-    "classId": "2jrkeqdvvmom",
+    "classId": "pbfmtbxfvqrw",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
@@ -677,7 +677,7 @@
   {
     "_id": "zx5ffzoa5euy",
     "title": "Commercial",
-    "description": "<p>Comercial organizations</p>",
+    "description": "<p>Commercial organizations</p>",
     "superClassId": "pae2bfbrab5n",
     "type": "object"
   },
@@ -3022,6 +3022,26 @@
     ]
   },
   {
+    "_id": "on12pms3cxuw",
+    "name": "Propositions Tree Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
+    "divider": "Vertical",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Propositions Tree",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Propositions Tree",
+            "viewId": "iqzveishvuon"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "_id": "nnksb2zyphob",
     "name": "Document Form Page",
     "classId": "pejdgrwd5qso",
@@ -3183,6 +3203,10 @@
         ]
       },
       {
+        "name": "Messaging",
+        "pageId": "oa2wxqmzh44v"
+      },
+      {
         "name": "Backlog",
         "pageId": "oa2wxqmzh44v"
       },
@@ -3254,6 +3278,10 @@
         ]
       },
       {
+        "name": "Members",
+        "pageId": "4q5nx5ek5gww"
+      },
+      {
         "name": "Backlog",
         "pageId": "oa2wxqmzh44v"
       },
@@ -3264,6 +3292,24 @@
             "displayType": "Calendar"
           }
         ]
+      }
+    ]
+  },
+
+  {
+    "_id": "vnv3x25ktaie",
+    "name": "Agreements Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Page",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "We Are Provider",
+        "pageId": "oa2wxqmzh44v"
+      },
+      {
+        "name": "We Are Consumer",
+        "pageId": "oa2wxqmzh44v"
       }
     ]
   },
@@ -3385,6 +3431,14 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautvoya",
     "queryId": "cummalmpv5tl",
+    "type": "object"
+  },
+  {
+    "_id": "iqzveishvuon",
+    "name": "Propositions Tree View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "kvnxmmow3cjw",
     "type": "object"
   },
   {
@@ -3653,6 +3707,49 @@
     "sortBy": "title"
   },
   {
+    "_id": "kvnxmmow3cjw",
+    "name": "Propositions Root Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",
+    "selector": "Where Clause",
+    "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "subQueryIds": [
+      "3lcw4ooxgvlx",
+      "1xbgzyvvjdwy"
+    ],
+    "where": {
+      "superClassId": "2jrkeqdvvmom"
+    },
+    "sortBy": "title"
+  },
+  {
+    "_id": "3lcw4ooxgvlx",
+    "name": "Propositions Sub Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",
+    "selector": "Where Clause",
+    "nodesIcon": "data:image/svg+xml;base64,PHN2ZwogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHdpZHRoPSIyNCIKICAgaGVpZ2h0PSIyNCIKICAgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLjI1MzgwMzMsLTEuMTY5MzA0MiwtMzM4LjE0NDA5KSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImZpbGw6Izg5MDRiMSIKICAgICAgIGQ9Im0gMTMuMTY5MzA0LDI3NC4wNTA5OSAxMSwzIHYgMyBsIC0xMSw0IC0xMC45OTk5OTk4LC00IDEwZS04LC0zIHoiLz4KICA8L2c+Cjwvc3ZnPgoK",
+    "subQueryIds": [
+      "1xbgzyvvjdwy"
+    ],
+    "where": {
+      "superClassId": "$fk"
+    },
+    "sortBy": "title"
+  },
+
+  {
+    "_id": "1xbgzyvvjdwy",
+    "name": "Propositions Query",
+    "classId": "q234ooehrk5v",
+    "ownerId": "argonautvoya",
+    "selector": "Where Clause",
+    "where": {
+      "classId": "$fk"
+    },
+    "sortBy": "name"
+  },
+  {
     "_id": "seidi2adi4wf",
     "name": "Backlog Query",
     "classId": "q234ooehrk5v",
@@ -3757,6 +3854,14 @@
         "name": "Organization",
         "icon": "menu-organization",
         "menuArr": [
+          {
+            "name": "Proposistions",
+            "pageId": "on12pms3cxuw"
+          },
+          {
+            "name": "Agreements",
+            "pageId": "vnv3x25ktaie"
+          },
           {
             "name": "Members",
             "pageId": "4q5nx5ek5gww"
@@ -3984,7 +4089,7 @@
     "_id": "5tgedfn44q4m",
     "name": "Let's meetup at the wattering hole",
     "description": "<p>Do you have time for a get-together? </p>",
-    "classId": "w3mzeetidb5n",
+    "classId": "i1gjptcb2skq",
     "ownerId": "demouser1123",
     "amount": 0.0,
     "currency": "EUR",

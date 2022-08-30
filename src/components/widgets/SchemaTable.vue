@@ -1,48 +1,63 @@
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
-import { db } from "~/services/dexieServices";
+import { ref, reactive, computed, toRefs, watch } from "vue";
+import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
+import toolbarSymbols from "~/assets/toolbar-symbols.svg";
+import { getMaterializedView } from "~/lib/argoUtils";
 import useArgoQuery from "~/composables/useArgoQuery";
-import { getMaterializedView } from "~/lib/argoUtils"
-import useLiveQuery from "~/composables/useLiveQuery";
-import {
-  useHashDissect,
-  updateHashWithSelectedTab,
-} from "~/composables/useHashDissect";
+
+import { ElDatePicker } from "element-plus";
+import Html from "./controls/Html.vue";
+import Image from "./controls/Image.vue";
+import Json from "./controls/Json.vue";
+import NestedObject from "./controls/NestedObject.vue";
+import Number from "./controls/Number.vue";
+import ObjectsArray from "./controls/ObjectsArray.vue";
+import TableArray from "./controls/TableArray.vue";
+import SelectStringQuery from "./controls/SelectStringQuery.vue";
+import SelectStringEnum from "./controls/SelectStringEnum.vue";
+import SelectArrayQuery from "./controls/SelectArrayQuery.vue";
+import String from "./controls/String.vue";
+import SubForm from "./controls/SubForm.vue";
 
 const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
 });
+// interface Props {
+//   hashLevel: number;
+//   widgetObj: any;
+// }
+// const props = withDefaults(defineProps<Props>(), {
+//   hashLevel: 0,
+//   widgetObj: null,
+// });
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
 const formMode = ref("Readonly Dense");
+
+const dataArr = reactive([]);
+const viewObj = reactive({});
 
 interface IDataObj {
   _id: string;
   classId: string;
 }
-const dataArr = reactive([])
-const viewObj = reactive([])
 
 interface IViewObj {
   _id: string;
   classId: string;
 }
-// const viewObj = useLiveQuery<IViewObj>(
-//   () => db.state.get(props.widgetObj.viewId),
-//   [selectedObjId]
-// );
-getMaterializedView(props.widgetObj.viewId).then( view => {
+getMaterializedView(props.widgetObj.viewId).then((view) => {
+  debugger;
+  Object.assign(viewObj, view);
 
-    Object.assign(viewObj, view);
-
-    const resArr = useArgoQuery( view.queryId, {
-      _id: selectedObjId.value,
-    });
-    watch( resArr, (arr) => {
-      dataArr.length = 0
-      arr.forEach( item => dataArr.push(item))
-    })
-})
+  const resArr = useArgoQuery(view.queryId, {
+    _id: selectedObjId.value,
+  });
+  watch(resArr, (arr: any[]) => {
+    dataArr.length = 0;
+    arr.forEach((item) => dataArr.push(item));
+  });
+});
 
 const onInput = async (updatedDataObj) => {
   /*
@@ -71,173 +86,190 @@ const onEditButton = () => {
   else if (formMode.value === "Edit Permitted") formMode.value = "Edit Full";
   else formMode.value = "Readonly Dense";
 };
-</script>
 
-<template>
-  <div v-if="dataArr && viewObj" class="fab-parent">
-    <div class="ar-json-schema-form">
-      <div>
-        <SubTable
-          ref="schemaForm"
-          :model-value="dataArr"
-          @input="onInput"
-          :properties="viewObj.properties"
-          :requiredArr="viewObj.required"
-          :form-mode="formMode"
-          :hash-level="hashLevel"
-        >
-        </SubTable>
-      </div>
-    </div>
-    <ElButton class="fab" circle @click="onEditButton">
-      <template #icon>
-        <svg><use
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          :xlink:href="'toolbar-symbols.svg#el-icon-edit'"
-        ></use></svg
-      ></template>
-    </ElButton>
-  </div>
-</template>
+const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: string) => {
+  if (
+    formMode === "Readonly Dense" &&
+    (!dataObj || // modelValue is empty
+      (type === "array" && !dataObj.length) || // modelValue is an array and is empty
+      (type === "object" && !Object.keys(dataObj).length)) // modelValue is an object and is empty
+  )
+    return false;
+  return true;
+};
 
-<style scoped>
-.fab-parent {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
+const dynamicComp = [
+  { name: "ElDatePicker", comp: ElDatePicker },
+  { name: "Html", comp: Html },
+  { name: "Image", comp: Image },
+  { name: "Json", comp: Json },
+  { name: "NestedObject", comp: NestedObject },
+  { name: "Number", comp: Number },
+  { name: "ObjectsArray", comp: ObjectsArray },
+  { name: "SelectArrayQuery", comp: SelectArrayQuery },
+  { name: "SelectStringEnum", comp: SelectStringEnum },
+  { name: "SelectStringQuery", comp: SelectStringQuery },
+  { name: "String", comp: String },
+  { name: "SubForm", comp: SubForm },
+  { name: "TableArray", comp: TableArray },
+];
+interface IProperty {
+  type: string;
+  contentMediaType: string;
+  argoQuery: object;
+  enum: string[];
+  format: string;
+  properties: object;
+  items: {
+    type: string;
+    properties: object;
+    argoQuery: object;
+  };
+  displayAs: string;
 }
-.ar-json-schema-form {
-  height: 100%;
-  overflow: auto;
-  max-width: 750px;
-  overflow: auto;
-  padding: 10px;
-}
-.form {
-  padding: 10px;
-}
-.fab {
-  position: absolute;
-  margin: 10px;
-  bottom: 0px;
-  right: 0;
-  color: #eee;
-  background: #e91e63;
-  z-index: 20;
-}
-</style>
-
-
-<!-- 
-<template>
-    The table -- >
-    <ar-sub-table
-      ref="schemaTable"
-      class="ar-json-schema-form"
-      v-model="dataObj"
-      :properties="viewObj.properties"
-      :requiredArr="viewObj.required"
-      :form-mode="formMode"
-      :hash-level="hashLevel"
-    >
-    </ar-sub-table>
-</template>
-
-<script>
-import { db } from "../../services/dexieServices";
-import { liveQuery } from "dexie";
-import { pluck, switchMap, filter, distinctUntilChanged } from "rxjs/operators";
-import SubTable from "./controls/SubTable"
-import WidgetMixin from "../../lib/widgetMixin";
-
-
-export default {
-  name: "ar-view-table",
-  mixins: [WidgetMixin],
-  components: {
-    "ar-sub-table": SubTable
-  },
-  props: {
-    hashLevel: Number,
-    viewId: String,
-  },
-  data() {
-    return {
-      selectedObjId: null,
-      pageId: null,
-      viewObj: {},
-      argoQuery: {},
-      dataObj: [],
-      formMode: "Readonly Dense",
-    };
-  },
-
-  subscriptions() {
-    //
-    // Watch the selectedObjId as observable
-    const selectedObjId$ = this.$watchAsObservable("selectedObjId", {
-      immediate: true,
-    })
-      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((selectedObjId) => selectedObjId)) //filter out falsy values
-      .pipe(distinctUntilChanged()); // emit only when changed
-
-    // Whenever selectedObjId changes, reset the live query with the new selectedObjId
-    const dataObj$ = selectedObjId$.pipe(
-      switchMap((selectedObjId) =>
-        liveQuery(() => db.state.where({ _id: selectedObjId }).toArray())
-      )
-    );
-
-    // Watch the viewId as observable
-    const viewId$ = this.$watchAsObservable("viewId", {
-      immediate: true,
-    })
-      .pipe(pluck("newValue")) // Obtain value from reactive var (whenever it changes)
-      .pipe(filter((viewId) => viewId)) //filter out falsy values
-      .pipe(distinctUntilChanged()); // emit only when changed
-
-    // Whenever viewId changes, reset the live query with the new viewId
-    const viewObj$ = viewId$.pipe(
-      switchMap((viewId) =>
-        liveQuery(() => db.state.where({ _id: viewId }).first())
-      )
-    );
-    return {
-      dataObj: dataObj$,
-      viewObj: viewObj$,
-    };
-  },
-
-  methods: {    
-    async onChange(newDataObj) {
-      try {
-        const valid = await this.$refs["schemaForm"].validate()
-        console.log(valid)
-        this.$argonautdb.upsert(this.selectedObjId, () => {
-          return newDataObj
-        }).catch((err) =>
-          this.$message({ showClose: true, message: err, type: "error" })
-        );
-      } catch (err) {
-        this.valid = false;
+const getComponent = (property: IProperty) => {
+  // Determin the control type
+  const getControlName = () => {
+    if (property.type === "string") {
+      if (property.contentMediaType) {
+        // HTML
+        if (property.contentMediaType === "text/html") return "Html";
+        // Image
+        else if (property.contentMediaType.startsWith("image/")) return "Image";
+        // Javascript, Json
+        else return "Json";
       }
-    },
-  },
+
+      // Select
+      else if (property.argoQuery) return "SelectStringQuery";
+      // Enumeration
+      else if (property.enum) return "SelectStringEnum";
+      // Date time
+      else if (property.format === "date-time") return "ElDatePicker";
+      // Text
+      else return "String";
+    }
+
+    // Number
+    else if (property.type === "number") return "Number";
+    // Integer
+    else if (property.type === "integer") return "Number";
+    // Boolean
+    else if (property.type === "boolean") return "ElCheckbox";
+    // Object
+    else if (property.type === "object" && property.properties) return "NestedObject";
+    // Array
+    else if (property.type === "array" && property.items) {
+      // objects
+      if (property.items.type === "object" && property.items.properties) {
+        // objects in a table
+        if (property.displayAs === "Table") return "TableArray";
+        // objects in a subform
+        else return "ObjectsArray";
+      }
+
+      // multi select
+      else if (property.items.type === "string") {
+        if (property.items.argoQuery) return "SelectArrayQuery";
+        else return "Json";
+      }
+    }
+
+    // unknown
+    return "Json";
+  };
+
+  const nameComp = dynamicComp.find((item) => item.name === getControlName());
+  if (!nameComp) console.error(`controlName not declared: ${getControlName()}`);
+  return nameComp.comp;
 };
 </script>
 
-<style scoped>
+<template>
+  <!-- row-key="_id" -->
+  <el-table
+    v-if="dataArr && viewObj"
+    class="ar-table"
+    :data="dataArr"
+    highlight-current-row
+    @current-change="
+      (currentRow) =>
+        updateNextLevelHash(hashLevel, currentRow._id, currentRow.treeVars.nodesPageId)
+    "
+  >
+    <!-- :prop is needed for validation rules -->
+    <el-table-column
+      v-for="(property, propertyName) in viewObj.properties"
+      :key="propertyName"
+      :label="property.title"
+    >
+      <!-- Header with tooltip. -->
+      <template #header>
+        <span>{{ property.title + " " }}</span>
+        <el-tooltip
+          v-if="property.description"
+          effect="light"
+          :content="property.description"
+          raw-content
+        >
+          <svg class="icon" height="1em" width="1em" color="blue">
+            <use
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              :xlink:href="'toolbar-symbols.svg#el-icon-info'"
+            ></use>
+          </svg>
+        </el-tooltip>
+      </template>
 
-.eltable >>> .cell {
-  padding: 3px;
+      <!-- The control -->
+      <template #default="scope">
+        <!-- 
+          ar-control-selector is a functional component that that replaces itself with a control component
+          depending on property type. It also performs some magic on certain property.attrs
+          - readonly is used by standard input elements to disable input and by css to remove blue border
+          - required is used by Selects to optionaly add a clear button (or a None option in the case of radio buttons)
+          - hash-level is used by Selects with a argoQuery (to get selectedObjectId from hash)
+          - property and form-mode are passed in case we're creating a subForm
+          - We use the v-model pattern to send/recieve data to/from child components. 
+            Below, we watch for changes to modelValue and emit input events accordingly.
+          -->
+        <component
+          :is="getComponent(property)"
+          class="ar-control"
+          v-model="scope.row[propertyName]"
+          :property="property"
+          :readonly="formMode.startsWith('Readonly')"
+          :required="false"
+          :hash-level="hashLevel"
+          :form-mode="formMode"
+        ></component>
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+<style scoped>
+.ar-json-schema-form {
+  max-width: 750px;
 }
-.eltable >>> th {
-  padding: 0px 10px;
+.icon {
+  margin-left: 5px;
 }
-.eltable >>> td {
-  padding: 0px;
-  vertical-align: top;
+/* Item bottom margin */
+.el-form-item {
+  margin-bottom: 8px;
+}
+
+.ar-table >>> .el-table__cell {
+  padding: 4px;
+  border-bottom: unset;
+}
+.ar-table >>> .cell {
+  padding: unset;
+  word-break: unset;
+  /* line-height: 23px; */
+}
+
+.ar-table >>> th .cell {
+  padding: 10px;
 }
 </style>
--->
