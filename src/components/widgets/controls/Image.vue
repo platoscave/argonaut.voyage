@@ -74,7 +74,7 @@ const svgData = computed(() => {
     });
   };
 
-  let urlEncoded = escapeUrl(newSvg.value);
+  let urlEncoded = escapeUrl(newSvg.value ? newSvg.value : "");
   //console.log("urlEncoded", urlEncoded);
   return "data:image/svg+xml;utf8," + urlEncoded;
 });
@@ -96,6 +96,8 @@ const svgData = computed(() => {
 
   <div v-if="!readonly" class="ar-full-width">
     <div>{{ modelValue }}</div>
+    <div>{{ svgMarkup }}</div>
+    <br />
     <!-- <el-input
       class="ar-control"
       v-if="modelValue.startsWith('data:image/svg+xml')"

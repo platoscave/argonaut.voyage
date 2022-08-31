@@ -22,14 +22,10 @@ interface IMenu {
   menuArr: IMenuArr;
 }
 
-const menuObj = useLiveQuery<IMenu>(
-  () => db.state.get(props.widgetObj.menuId),
-  []
-);
-const accountObj = useLiveQuery<IMenu>(
-  () => db.state.get(selectedObjId.value),
-  [selectedObjId]
-);
+const menuObj = useLiveQuery<IMenu>(() => db.state.get(props.widgetObj.menuId), []);
+const accountObj = useLiveQuery<IMenu>(() => db.state.get(selectedObjId.value), [
+  selectedObjId,
+]);
 
 const defaultActive = computed(() => {
   const findIndexPathForPageId = (menuArr, index) => {
@@ -51,10 +47,7 @@ const defaultActive = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="menuObj && menuObj.menuArr"
-    class="ar-full-height ar-overflow-auto"
-  >
+  <div v-if="menuObj && menuObj.menuArr" class="ar-full-height ar-overflow-auto">
     <div class="ar-lightgrey-background ar-title" v-if="accountObj">
       <img class="icon" :src="accountObj.icon" />
       <span>{{ accountObj.name }}</span>
@@ -76,6 +69,8 @@ const defaultActive = computed(() => {
 .icon {
   margin-right: 5px;
   vertical-align: middle;
+  height: 40px;
+  width: 40px;
 }
 .ar-title {
   padding-top: 20px;

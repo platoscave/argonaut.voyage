@@ -16,7 +16,7 @@
 
 .ar-full-page {
   overflow: auto;
-  padding: 20px;
+  /* padding: 5px; */
 }
 
 .ar-control {

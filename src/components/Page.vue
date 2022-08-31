@@ -93,23 +93,22 @@ const onTabChange = (evt) => {
           :name="tabNum.toString()"
         >
           <!-- This tab has widgets -->
-          <div class="ar-full-height" v-if="tab.widgets">
-            <div
-              class="ar-full-height"
-              v-for="(widget, widNum) in tab.widgets"
-              :key="widNum"
+          <div
+            v-if="tab.widgets"
+            class="ar-full-height ar-full-page"
+            v-for="(widget, widNum) in tab.widgets"
+            :key="widNum"
+          >
+            <!-- Create a widget depending on display type -->
+            <!-- If there is only one widget, then give it the full height -->
+            <!-- Remove the spaces from displayType to get widgetName -->
+            <component
+              :is="getComponent(widget.displayType)"
+              :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
+              :hash-level="hashLevel"
+              :widget-obj="widget"
             >
-              <!-- Create a widget depending on display type -->
-              <!-- If there is only one widget, then give it the full height -->
-              <!-- Remove the spaces from displayType to get widgetName -->
-              <component
-                :is="getComponent(widget.displayType)"
-                :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
-                :hash-level="hashLevel"
-                :widget-obj="widget"
-              >
-              </component>
-            </div>
+            </component>
           </div>
           <!-- This tab has a sub-page -->
           <div class="ar-full-height" v-if="tab.pageId">
@@ -122,7 +121,7 @@ const onTabChange = (evt) => {
     <!-- No tabbar -->
     <div class="ar-full-height" v-else-if="pageObj.tabs.length === 1">
       <!-- This tab has widgets -->
-      <div class="ar-full-height" v-if="pageObj.tabs[0].widgets">
+      <div class="ar-full-height ar-full-page" v-if="pageObj.tabs[0].widgets">
         <div
           class="ar-full-height"
           v-for="(widget, widNum) in pageObj.tabs[0].widgets"
