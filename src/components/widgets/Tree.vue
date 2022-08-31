@@ -458,4 +458,8 @@ onMounted(() => {
 .context-menu >>> .menu {
   border-color: #524f4f;
 }
+img {
+  height: 20px;
+  width: 20px;
+}
 </style>

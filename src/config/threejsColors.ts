@@ -73,7 +73,7 @@ const colorsObj:any = {
     color: 0x8904B1,
   },
   'dwl1kwhalwj4': {
-    color:  0x00A300, // Interface
+    color:  0x00A300, // Processes
   },
   'cq4bjkzqc2qp': {
     color:  0x5200A3, // User input provider
@@ -91,7 +91,7 @@ const colorsObj:any = {
     color:  0xA30000, // Execute
   },
   'jotxozcetpx2': {
-    color:  0x0000A3, // Delegate
+    color:  0xDC7633, // Delegate
   },
   happy: {
     color:  0xAAEFAA,
