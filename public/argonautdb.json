@@ -56,6 +56,7 @@
     "_id": "i1gjptcb2skq",
     "title": "Agreements",
     "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E %3Cg fill='%23F4D03F'%3E %3Cpath d='M13.439,19.854l-5.293,5.293l-1.793-1.793l5.293-5.293L13.439,19.854z M14.146,20.561l-5.293,5.293 l1.793,1.793l5.293-5.293L14.146,20.561z M9.707,16.121C9.518,15.932,9.267,15.828,9,15.828c-0.267,0-0.518,0.104-0.707,0.293 L4.414,20c-0.391,0.391-0.391,1.024,0,1.414l1.232,1.232l5.293-5.293L9.707,16.121z M18.172,25c0-0.267-0.104-0.518-0.293-0.707 l-1.232-1.232l-5.293,5.293l1.231,1.231c0.39,0.391,1.023,0.391,1.414,0l3.88-3.878C18.068,25.518,18.172,25.267,18.172,25z M31.293,7.293l-4.586-4.586c-0.391-0.391-1.024-0.391-1.414,0L21,7h-2.343c-0.796,0-1.559,0.316-2.121,0.879l-4.414,4.414 c-0.39,0.39-0.39,1.024,0,1.414l0.172,0.172c0.189,0.189,0.44,0.293,0.707,0.293c0.267,0,0.518-0.104,0.707-0.293l2.464-2.464 c1.172-1.172,3.071-1.172,4.243,0L26,17l1,1v-5l4.293-4.293C31.683,8.317,31.683,7.683,31.293,7.293z M19.708,12.122 c-0.781-0.782-2.048-0.782-2.829-0.001l-2.464,2.465c-0.391,0.391-0.902,0.586-1.414,0.586s-1.024-0.195-1.414-0.586l-0.172-0.172 c-0.781-0.781-0.781-2.047,0-2.828L16,7h-5L6.707,2.707c-0.391-0.391-1.024-0.391-1.414,0L0.707,7.293 c-0.391,0.391-0.391,1.024,0,1.414L5,13v5l2.586-2.586C7.976,15.024,8.488,14.828,9,14.828s1.024,0.195,1.414,0.586l8.172,8.172 c0.497,0.497,0.675,1.191,0.539,1.832l2.229,2.229l1.793-1.793L19.5,22.207c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0 l3.646,3.646l1.793-1.793L22,19.707c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l3.646,3.646l1.228-1.228 c0.39-0.39,0.391-1.023,0-1.414L19.708,12.122z M16.719,28.281l1.293,1.293c0.391,0.391,1.024,0.391,1.414,0l1.16-1.161 l-2.001-1.999L16.719,28.281z'/%3E %3C/g%3E %3C/svg%3E",
     "superClassId": "gzthjuyjca4s",
     "properties": {
       "startDate": {
@@ -2857,9 +2858,30 @@
   },
   {
     "_id": "4lk3hxyyfac3",
-    "name": "Process Umiverse Model Tree Page",
+    "name": "Process Umiverse Model Tree Page Studio",
     "classId": "pejdgrwd5qso",
     "layout": "Studio",
+    "model": "Class Model",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Process Universe",
+        "widgets": [
+          {
+            "displayType": "Tree",
+            "name": "Class Model Tree",
+            "viewId": "vzhw2vpaflmw"
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "_id": "fjyyh5bzqq3q",
+    "name": "Process Umiverse Model Tree Page Plain",
+    "classId": "pejdgrwd5qso",
+    "layout": "Master Detail",
     "model": "Class Model",
     "ownerId": "argonautvoya",
     "tabs": [
@@ -3244,6 +3266,14 @@
     "ownerId": "argonautvoya",
     "tabs": [
       {
+        "name": "Account Details",
+        "widgets": [
+          {
+            "displayType": "Class Schema Form"
+          }
+        ]
+      },
+      {
         "name": "General Ledger",
         "widgets": [
           {
@@ -3328,6 +3358,30 @@
       }
     ]
   },
+
+  {
+    "_id": "ymbks1mwaws2",
+    "name": "Backlog Form and History Page",
+    "classId": "pejdgrwd5qso",
+    "layout": "Page",
+    "ownerId": "argonautvoya",
+    "tabs": [
+      {
+        "name": "Backlog History",
+        "widgets": [
+          {
+            "displayType": "Schema Form",
+            "viewId": "hltd3gcrhybh"
+          },
+          {
+            "displayType": "Schema Table",
+            "viewId": "ysjcq4gcg4gq"
+          }
+        ]
+      }
+    ]
+  },
+
   {
     "_id": "vzhw2vpaflmw",
     "name": "Process Umiverse Tree View",
@@ -3482,11 +3536,10 @@
     "ownerId": "argonautvoya",
     "queryId": "seidi2adi4wf",
     "properties": {
-      "_id": {},
+      "startDate": {},
       "currentStepId": {},
       "consumerId": {},
-      "name": {},
-      "startDate": {}
+      "name": {}
     },
     "baseClassId": "i1gjptcb2skq",
     "type": "object"
@@ -3497,6 +3550,39 @@
     "classId": "pylvseoljret",
     "ownerId": "argonautvoya",
     "queryId": "w54wmbogeget",
+    "type": "object"
+  },
+
+  {
+    "_id": "hltd3gcrhybh",
+    "name": "Agreement Form View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "seidi2adi4wf",
+    "properties": {
+      "_id": {},
+      "name": {},
+      "currentStepId": {},
+      "consumerId": {},
+      "startDate": {}
+    },
+    "baseClassId": "i1gjptcb2skq",
+    "type": "object"
+  },
+  {
+    "_id": "ysjcq4gcg4gq",
+    "name": "History Table View",
+    "classId": "pylvseoljret",
+    "ownerId": "argonautvoya",
+    "queryId": "seidi2adi4wf",
+    "properties": {
+      "_id": {},
+      "name": {},
+      "currentStepId": {},
+      "consumerId": {},
+      "startDate": {}
+    },
+    "baseClassId": "i1gjptcb2skq",
     "type": "object"
   },
   {
@@ -3536,7 +3622,6 @@
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
     "selector": "Where Clause",
-    "nodesIcon": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cg transform='translate(-1.1693042,-266.05099)'%3E %3Cpath style='fill:%2300A300' d='m 13.169304,272.04206 11,5.41841 v 5.41839 H 2.1693042 l 10e-8,-5.41839 z'/%3E %3C/g%3E %3C/svg%3E",
     "where": {
       "classId": "$fk"
     },
@@ -3768,9 +3853,9 @@
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
     "selector": "Where Clause",
+    "nodesPageId": "ymbks1mwaws2",
     "where": {
-      "classId": "w3mzeetidb5n",
-      "ownerId": "$fk"
+      "classId": "i1gjptcb2skq"
     }
   },
   {
@@ -3953,7 +4038,7 @@
         "pageId": "",
         "menuArr": [
           {
-            "name": "Process Universe",
+            "name": "Process Universe Model",
             "pageId": "4lk3hxyyfac3"
           },
           {
@@ -3963,6 +4048,10 @@
           {
             "name": "Resources Tree",
             "pageId": "kdeacjjhiaym"
+          },
+          {
+            "name": "Process Universe Tree",
+            "pageId": "fjyyh5bzqq3q"
           }
         ]
       }

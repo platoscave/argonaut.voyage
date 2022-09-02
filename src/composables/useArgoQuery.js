@@ -100,9 +100,6 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
     return queryObj$.pipe(switchMap(queryObj => {
 
-      // console.log('Query Object: ', queryObj)
-      // console.log('Context Object: ', contextObj)
-
       let slectorResult$ = null
       const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
 
@@ -177,7 +174,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       // of queryIds, this is the last place where we know wich query is responsible
       // for the query result.
       return resultArr$.pipe(map(items => {
-        return items.map(item => {
+        const results = items.map(item => {
           item.treeVars = {
             nodesPageId: queryObj.nodesPageId,
             nodesIcon: queryObj.nodesIcon,
@@ -188,6 +185,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           }
           return item
         })
+        console.log('\nQuery Object: ', queryObj)
+        console.log('Context Object: ', contextObj)
+        console.log('Results', results)
+        return results
       }))
 
     }))

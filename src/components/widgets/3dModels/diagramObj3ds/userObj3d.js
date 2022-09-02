@@ -16,7 +16,7 @@ export default class UserObject3d extends Object3D {
     let objectMesh = this.getMesh()
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
-    let avatarMesh = this.getAvatar()
+    let avatarMesh = this.getAvatar(userData.icon)
     //avatarMesh.name = userData.name + ' - 3d mesh'
     this.add(avatarMesh)
 
@@ -55,7 +55,7 @@ export default class UserObject3d extends Object3D {
     return new Mesh(geometry, material)
   }
 
-  getAvatar() {
+  getAvatar(icon) {
 
     // Avatar
     const cylindergeometry = new CylinderGeometry(HEIGHT / 2, HEIGHT / 2, DEPTH / 2, 32);
@@ -63,7 +63,7 @@ export default class UserObject3d extends Object3D {
     cylindergeometry.rotateZ(Math.PI / 2)
     cylindergeometry.translate(-WIDTH / 2, HEIGHT / 2, 0)
 
-    const texture = new TextureLoader().load('avatar1.jpg');
+    const texture = new TextureLoader().load(icon);
     //texture.rotation  = Math.PI/2
     const cylinderMaterial = new MeshBasicMaterial({ map: texture });
     const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors

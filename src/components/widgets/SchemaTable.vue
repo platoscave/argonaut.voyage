@@ -47,7 +47,7 @@ interface IViewObj {
   classId: string;
 }
 getMaterializedView(props.widgetObj.viewId).then((view) => {
-  debugger;
+  //debugger;
   Object.assign(viewObj, view);
 
   const resArr = useArgoQuery(view.queryId, {
@@ -186,7 +186,7 @@ const getComponent = (property: IProperty) => {
 </script>
 
 <template>
-  <!-- row-key="_id" -->
+  <!-- table-layout="auto" -->
   <el-table
     v-if="dataArr && viewObj"
     class="ar-table"
@@ -202,6 +202,7 @@ const getComponent = (property: IProperty) => {
       v-for="(property, propertyName) in viewObj.properties"
       :key="propertyName"
       :label="property.title"
+      :sortable="property.type !== 'object' && property.type !== 'array'"
     >
       <!-- Header with tooltip. -->
       <template #header>

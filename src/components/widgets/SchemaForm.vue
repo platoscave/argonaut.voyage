@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, reactive } from "vue";
 import { db } from "~/services/dexieServices";
-import { getClassSchema } from "~/lib/argoUtils"
+import { getMaterializedView } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
 import {
   useHashDissect,
@@ -28,10 +28,20 @@ interface IViewObj {
   _id: string;
   classId: string;
 }
-const viewObj = useLiveQuery<IViewObj>(
-  () => db.state.get(props.widgetObj.viewId),
-  [selectedObjId]
-);
+const viewObj = reactive({});
+
+getMaterializedView(props.widgetObj.viewId).then((view) => {
+  //debugger;
+  Object.assign(viewObj, view);
+
+  const resArr = useArgoQuery(view.queryId, {
+    _id: selectedObjId.value,
+  });
+  watch(resArr, (arr: any[]) => {
+    dataArr.length = 0;
+    arr.forEach((item) => dataArr.push(item));
+  });
+});
 
 const onInput = async (updatedDataObj) => {
   /*
