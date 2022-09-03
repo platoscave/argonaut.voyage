@@ -59,9 +59,8 @@ const loadNode = async (node, resolve) => {
       item.label = item.title ? item.title : item.name; //TODO value?
 
       if (item.treeVars.subQueryIds && item.treeVars.subQueryIds.length) {
-        item.subQueryIds = item.treeVars.subQueryIds;
         // If the query has subQueryIds, assume it may have children
-        //TODO execute the treeVars.subQueryIds to see if we're dealing with a leaf node
+        // TODO execute the treeVars.subQueryIds to see if we're dealing with a leaf node
         item.isLeaf = false;
       } else item.isLeaf = true;
 
@@ -109,7 +108,7 @@ const loadNode = async (node, resolve) => {
     }
     // node.level > 0
     else {
-      const queryResRef = useArgoQuery(node.data.subQueryIds, node.data);
+      const queryResRef = useArgoQuery(node.data.treeVars.subQueryIds, node.data);
       watch(queryResRef, (resultArr) => {
         // Add tree node vars
         const enrichedResultArr = addTreeNodeVars(resultArr);

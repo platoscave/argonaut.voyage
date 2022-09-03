@@ -62,7 +62,7 @@ getMaterializedView(props.widgetObj.viewId).then((view) => {
 const onInput = async (updatedDataObj) => {
   /*
   try {
-    
+
     const stringified = JSON.stringify(updatedDataObj)
     if (stringified === this.oldValue) return
     this.oldValue = stringified
@@ -97,6 +97,22 @@ const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: str
     return false;
   return true;
 };
+
+const sortFunc = (type: string, a: any, b: any) => {
+  if (type === "string") {
+    if (a.toUpperCase() < b.toUpperCase()) return -1;
+    if (a.toUpperCase() > b.toUpperCase()) return 1;
+    return 0;
+  } else if (type === "number") {
+    const toFloat = (num) => parseFloat(num.replace(".", "").replace(",", "."));
+    return toFloat(a) - toFloat(b);
+  }
+  return 0;
+};
+
+const headerDragend = (newWidth, oldWidth, column, event) => {
+
+}
 
 const dynamicComp = [
   { name: "ElDatePicker", comp: ElDatePicker },
@@ -192,17 +208,21 @@ const getComponent = (property: IProperty) => {
     class="ar-table"
     :data="dataArr"
     highlight-current-row
+    border
     @current-change="
       (currentRow) =>
         updateNextLevelHash(hashLevel, currentRow._id, currentRow.treeVars.nodesPageId)
     "
+    @header-dragend="headerDragend"
   >
-    <!-- :prop is needed for validation rules -->
+    <!--  -->
     <el-table-column
       v-for="(property, propertyName) in viewObj.properties"
       :key="propertyName"
       :label="property.title"
       :sortable="property.type !== 'object' && property.type !== 'array'"
+      :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])"
+      resizable
     >
       <!-- Header with tooltip. -->
       <template #header>
