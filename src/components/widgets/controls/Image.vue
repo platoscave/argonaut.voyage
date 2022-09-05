@@ -92,7 +92,7 @@ const svgData = computed(() => {
       :xlink:href="'toolbar-symbols.svg#' + modelValue"
     ></use>
   </svg>
-  <img v-else :src="modelValue" cxlass="ar-lightgrey-background" height="20" width="40" />
+  <img v-else :src="modelValue" class="ar-lightgrey-background" height="20" width="40" />
 
   <div v-if="!readonly" class="ar-full-width">
     <div>{{ modelValue }}</div>

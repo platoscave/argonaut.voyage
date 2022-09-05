@@ -185,9 +185,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           }
           return item
         })
-        console.log('\nQuery Object: ', queryObj)
-        console.log('Context Object: ', contextObj)
-        console.log('Results', results)
+        // console.log('\nQuery Object: ', queryObj)
+        // console.log('Context Object: ', contextObj)
+        // console.log('Results', results)
         return results
       }))
 

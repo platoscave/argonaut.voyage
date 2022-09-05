@@ -1,26 +1,23 @@
 <script setup lang="ts">
 import { reactive, watch } from "vue";
 import useArgoQuery from "~/composables/useArgoQuery";
-import {
-  useHashDissect,
-  updateNextLevelHash,
-} from "~/composables/useHashDissect";
+import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
 
 const props = defineProps({
   hashLevel: Number,
   menuItem: Object,
   index: String,
-  topLevel: Boolean
+  topLevel: Boolean,
 });
 const { selectedObjId, nextLevelPageId } = useHashDissect(props.hashLevel);
-let teams = reactive([{name: 'one'}])
+let teams = reactive([{ name: "one" }]);
 
-if(props.menuItem.argoQuery) {
+if (props.menuItem.argoQuery) {
   const localTeams = useArgoQuery(
-    { 
+    {
       selector: "Owned Accounts",
-      where: { _id: "$fk"},
-      nodesPageId: "dot1cmmhp2ve"
+      where: { _id: "$fk" },
+      nodesPageId: "dot1cmmhp2ve",
     },
     {
       _id: selectedObjId.value,
@@ -28,17 +25,16 @@ if(props.menuItem.argoQuery) {
     [selectedObjId]
   );
   watch(localTeams, (localTeams) => {
-    console.log('localTeams', localTeams)
-    teams.length = 0
-    localTeams.forEach( item => {
+    //console.log('localTeams', localTeams)
+    teams.length = 0;
+    localTeams.forEach((item) => {
       teams.push({
         _id: item._id,
         name: item.name,
-        pageId: item.treeVars.nodesPageId
-      })
-    })
-  })
-
+        pageId: item.treeVars.nodesPageId,
+      });
+    });
+  });
 }
 </script>
 
@@ -49,13 +45,7 @@ if(props.menuItem.argoQuery) {
       <template #title>
         <div :class="{ 'top-level-menu-item': topLevel }">
           <!-- <img  v-if="menuItem.icon" class="icon" :src="menuItem.icon" /> -->
-          <svg
-            v-if="menuItem.icon"
-            class="icon"
-            height="20"
-            width="20"
-            color="blue"
-          >
+          <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
             <use
               xmlns:xlink="http://www.w3.org/1999/xlink"
               :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"
@@ -64,14 +54,22 @@ if(props.menuItem.argoQuery) {
           <span>{{ menuItem.name }}</span>
         </div>
       </template>
-      <div v-if="menuItem.menuArr" v-for="(subMenuItem, subIndex) in menuItem.menuArr" :key="subIndex">
+      <div
+        v-if="menuItem.menuArr"
+        v-for="(subMenuItem, subIndex) in menuItem.menuArr"
+        :key="subIndex"
+      >
         <NavigationItem
           :hash-level="hashLevel"
           :menu-item="subMenuItem"
           :index="index + '-' + subIndex"
         ></NavigationItem>
       </div>
-      <div v-if="menuItem.argoQuery" v-for="(subMenuItem, subIndex) in teams" :key="subIndex">
+      <div
+        v-if="menuItem.argoQuery"
+        v-for="(subMenuItem, subIndex) in teams"
+        :key="subIndex"
+      >
         <NavigationItem
           :hash-level="hashLevel"
           :menu-item="subMenuItem"
@@ -96,13 +94,7 @@ if(props.menuItem.argoQuery) {
   >
     <div :class="{ 'top-level-menu-item': topLevel }">
       <!-- <img  v-if="menuItem.icon" class="icon" :src="menuItem.icon" /> -->
-      <svg
-        v-if="menuItem.icon"
-        class="icon"
-        height="20"
-        width="20"
-        color="blue"
-      >
+      <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
         <use
           xmlns:xlink="http://www.w3.org/1999/xlink"
           :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"

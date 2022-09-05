@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from "vue";
+import { ref, reactive, watch, onMounted, nextTick } from "vue";
 import { db } from "~/services/dexieServices";
-import useLiveQuery from "~/composables/useLiveQuery";
 import useArgoQuery from "~/composables/useArgoQuery";
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
+import { usePageSettings, saveExpandedNodes } from "~/composables/usePageSettings";
 import { ElMessage, ElMessageBox } from "element-plus";
 import jp from "jsonpath";
 
@@ -11,12 +11,13 @@ const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
 });
+
+const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(props.hashLevel);
+const { expandedNodes, settingsNextLevelSelectedObjId } = usePageSettings(pageId.value);
+
 const treeEl = ref(null);
 const menuEl = ref(null);
 const showContextMenu = ref(false);
-let expandedNodes = ref([]);
-
-const { selectedObjId, pageId, nextLevelSelectedObjId } = useHashDissect(props.hashLevel);
 
 const defaultProps = {
   isLeaf: "isLeaf",
@@ -26,14 +27,6 @@ let copiedNodeId: string = "";
 watch(nextLevelSelectedObjId, (nextLevelSelectedObjId) => {
   if (!treeEl.value) return;
   treeEl.value.setCurrentKey(nextLevelSelectedObjId);
-});
-
-// See if we can get expanded nodes from the last time we visited this page
-db.settings.get(pageId.value).then((pageSettings) => {
-  if (pageSettings && pageSettings.expandedNodes)
-    expandedNodes.value = pageSettings.expandedNodes;
-  // add empty pagesettings for update to work
-  if (!pageSettings) db.settings.add({ pageId: pageId.value, expandedNodes: [] });
 });
 
 const loadNode = async (node, resolve) => {
@@ -136,35 +129,17 @@ const loadNode = async (node, resolve) => {
   }
 };
 
-// The tree node expands, update page settings
-const handleNodeExpand = (expandedNode) => {
-  db.settings.get(pageId.value).then((pageSettings) => {
-    let idx = null;
-    if (pageSettings.expandedNodes)
-      idx = pageSettings.expandedNodes.find((item) => item === expandedNode._id);
-    else pageSettings.expandedNodes = [];
-    // Update the expanded nodes in pageSettings for this pageId in the settings db
-    if (!idx) {
-      pageSettings.expandedNodes.push(expandedNode._id);
-      db.settings.update(pageId.value, {
-        expandedNodes: pageSettings.expandedNodes,
-      });
-    }
-  });
-};
-// The tree node is closed, update page settings
-const handleNodeCollapse = async (collapsedNode) => {
-  db.settings.get(pageId.value).then((pageSettings) => {
-    const idx = pageSettings.expandedNodes.find((item) => item === collapsedNode._id);
+const handleNodeExpandColapse = async () => {
+  // wait for ui update before we go looking for expanded nodes
+  // otherwise we might mis the latest collapse
+  await nextTick(); 
 
-    // Update the expanded nodes in pageSettings for this pageId in the settings db
-    if (idx) {
-      pageSettings.expandedNodes.splice(idx, 1);
-      db.settings.update(pageId.value, {
-        expandedNodes: pageSettings.expandedNodes,
-      });
-    }
-  });
+  const nodesMap = treeEl.value.store.nodesMap;
+  const expandedNodes = [];
+  for (let key in nodesMap) {
+    if (nodesMap[key].expanded) expandedNodes.push(key);
+  }
+  saveExpandedNodes(pageId.value, expandedNodes);
 };
 
 const onCtrlCopy = (evt) => {
@@ -430,8 +405,8 @@ onMounted(() => {
     @keyup.ctrl.x="onCtrlCut"
     @keyup.delete="onDelete"
     @node-contextmenu="onContextMenu"
-    @node-expand="handleNodeExpand"
-    @node-collapse="handleNodeCollapse"
+    @node-expand="handleNodeExpandColapse"
+    @node-collapse="handleNodeExpandColapse"
     draggable
     @node-drag-start="handleDragStart"
     @node-drag-enter="handleDragEnter"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, toRefs, watch } from "vue";
 import { useHashDissect, updateNextLevelHash } from "~/composables/useHashDissect";
+import { usePageSettings, saveColumWidth } from "~/composables/usePageSettings";
 import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 import { getMaterializedView } from "~/lib/argoUtils";
 import useArgoQuery from "~/composables/useArgoQuery";
@@ -32,7 +33,10 @@ const props = defineProps({
 //   widgetObj: null,
 // });
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+const { columWidths, settingsNextLevelSelectedObjId } = usePageSettings(pageId.value);
+
 const formMode = ref("Readonly Dense");
+const tableEl = ref(null);
 
 const dataArr = reactive([]);
 const viewObj = reactive({});
@@ -110,9 +114,9 @@ const sortFunc = (type: string, a: any, b: any) => {
   return 0;
 };
 
-const headerDragend = (newWidth, oldWidth, column, event) => {
-
-}
+const headerDragend = (newWidth, oldWidth, column) => {
+  saveColumWidth(pageId.value, column.property, newWidth);
+};
 
 const dynamicComp = [
   { name: "ElDatePicker", comp: ElDatePicker },
@@ -206,6 +210,7 @@ const getComponent = (property: IProperty) => {
   <el-table
     v-if="dataArr && viewObj"
     class="ar-table"
+    ref="tableEl"
     :data="dataArr"
     highlight-current-row
     border
@@ -219,6 +224,8 @@ const getComponent = (property: IProperty) => {
     <el-table-column
       v-for="(property, propertyName) in viewObj.properties"
       :key="propertyName"
+      :property="propertyName"
+      :width="columWidths[propertyName]"
       :label="property.title"
       :sortable="property.type !== 'object' && property.type !== 'array'"
       :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])"

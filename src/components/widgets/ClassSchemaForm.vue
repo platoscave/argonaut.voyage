@@ -10,11 +10,11 @@ const props = defineProps({
   widgetObj: Object,
 });
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
-const viewObj = ref({});
+let viewObj = reactive({});
 const formMode = ref("Readonly Dense");
 const classId = ref("");
 const subFormEl = ref("");
-let formDataObject = reactive({ formData: {} });
+//let formDataObject = reactive({ formData: {} });
 
 // get the dataObj, watch selectedObjId
 interface IDataObj {
@@ -30,31 +30,31 @@ watch(dataObj, (dataObj, oldDataObj) => {
   //console.log('New dataObj', dataObj, oldDataObj)
   classId.value = dataObj.classId;
   //console.log('\n','Old formDataObject', formDataObject)
-  Object.keys(formDataObject.formData).forEach((key) => {
-    if (!dataObj.hasOwnProperty(key)) formDataObject.formData[key] = null;
-    //formDataObject.formData[key] = null);
-  });
+  // Object.keys(formDataObject.formData).forEach((key) => {
+  //   if (!dataObj.hasOwnProperty(key)) formDataObject.formData[key] = null;
+  //   //formDataObject.formData[key] = null);
+  // });
   //console.log('Cleanup formDataObject', formDataObject)
 
   //Object.keys(dataObj).forEach(key => formDataObject[key] = ref(dataObj[key]))
-  formDataObject.formData = Object.assign({}, dataObj);
+  //
 
   //formDataObject.reactiveData = {}
-  formDataObject.formData = dataObj;
-  console.log("\nCFS Copy Form dataObject", formDataObject.formData.name);
+  //formDataObject.formData = dataObj;
+  //console.log("\nCFS Copy Form dataObject", formDataObject.formData.name);
 });
 
 // watch the classId, get a new schema
 watch(classId, (classId) => {
   getClassSchema(classId).then((schema) => {
-    viewObj.value = schema;
     console.log("New Schema", classId);
+    viewObj = Object.assign(viewObj, schema);
   });
 });
 
 // watch the form data, perform validate, save data
 watch(
-  formDataObject.formData,
+  dataObj,
   (newFormDataObject, oldFormDataObject) => {
     if (!formMode.value.startsWith("Edit")) return;
     if (!oldFormDataObject) return;
@@ -97,12 +97,12 @@ const onEditButton = () => {
 </script>
 
 <template>
-  <div v-if="formDataObject.formData && viewObj" class="fab-parent">
+  <div v-if="dataObj && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
       <div>
         <SubForm
           ref="subFormEl"
-          v-model="formDataObject.formData"
+          v-model="dataObj"
           :properties="viewObj.properties"
           :requiredArr="viewObj.required"
           :form-mode="formMode"

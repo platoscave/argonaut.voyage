@@ -7,6 +7,7 @@ import {
   updateHashWithSelectedTab,
   updateNextLevelHash,
 } from "../composables/useHashDissect";
+import { usePageSettings, saveTabNum } from "~/composables/usePageSettings";
 
 // https://stackoverflow.com/questions/71627355/dynamic-components-doesnt-work-in-script-setup
 import BalanceSheet from "~/components/widgets/fanancialStatements/BalanceSheet.vue";
@@ -29,6 +30,7 @@ const props = defineProps({
 });
 
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+const { settingsTabNum, settingsNextLevelSelectedObjId } = usePageSettings(pageId.value);
 
 interface IPage {
   _id: string;

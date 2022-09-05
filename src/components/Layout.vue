@@ -3,6 +3,12 @@ import { ref, reactive } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import { useHashDissect } from "~/composables/useHashDissect";
+import {
+  usePageSettings,
+  saveSplitterSettings,
+  saveLeftSize,
+  saveRightSize,
+} from "~/composables/usePageSettings";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import StudioLayout from "./StudioLayout.vue";
@@ -13,12 +19,8 @@ const props = defineProps({
   hashLevel: Number,
 });
 
-//let splitterSettings = reactive([20, 80]);
-let splitterSettings = [20, 80]
-let leftSize = 300
-let rightSize = 0
-
 const { pageId } = useHashDissect(props.hashLevel);
+const { splitterSettings, leftSize, rightSize } = usePageSettings(pageId.value);
 
 interface pageRec {
   _id: string;
@@ -28,42 +30,8 @@ interface pageRec {
   model: string;
   tabs: object[];
 }
+const pageObj = useLiveQuery<pageRec>(() => db.state.get(pageId.value), [pageId]);
 
-const pageObj = useLiveQuery<pageRec>(
-  () => db.state.get(pageId.value),
-  [pageId]
-);
-
-db.settings.get(pageId.value).then((pageSettings) => {
-  if (pageSettings && pageSettings.splitterSettings) {
-    splitterSettings[0] = pageSettings.splitterSettings[0];
-    splitterSettings[1] = pageSettings.splitterSettings[1];
-    leftSize = pageSettings.leftSize
-    rightSize = pageSettings.rightSize
-  }
-  // add empty pagesettings for update to work
-  if (!pageSettings) db.settings.add({ pageId: pageId.value });
-});
-
-const onResized = (splitterSettingsArr) => {
-  //console.log("splitterSettings", splitterSettingsArr);
-  db.settings.update(pageId.value, {
-    splitterSettings: splitterSettingsArr.map((item) => item.size),
-  });
-}
-
-const leftSizeStop = (leftSizeStop) => {
-  //console.log("splitterSettings", splitterSettingsArr);
-  db.settings.update(pageId.value, {
-    leftSize: leftSizeStop,
-  });
-}
-const rightSizeStop = (rightSizeStop: any) => {
-  //console.log("splitterSettings", splitterSettingsArr);
-  db.settings.update(pageId.value, {
-    rightSize: rightSizeStop,
-  });
-}
 const dynamicComp = [
   { name: "Class Model", comp: ClassModel },
   { name: "Process Model", comp: ProcessModel },
@@ -74,13 +42,13 @@ const getComponent = (widgetName: string) => {
 </script>
 
 <template>
-  <div v-if="pageObj">
+  <div v-if="pageObj && splitterSettings">
     <!-- Master Detail layout -->
 
     <splitpanes
       v-if="pageObj.layout === 'Master Detail'"
       style="height: 100%"
-      @resized="onResized"
+      @resized="(resizedArr) => saveSplitterSettings(pageId, resizedArr)"
     >
       <!-- Master -->
       <pane :size="splitterSettings[0]">
@@ -88,15 +56,12 @@ const getComponent = (widgetName: string) => {
       </pane>
       <!-- Detail -->
       <pane :size="splitterSettings[1]">
-        <Layout
-          class="ar-full-height right"
-          v-bind:hash-level="hashLevel + 1"
-        ></Layout>
+        <Layout class="ar-full-height right" v-bind:hash-level="hashLevel + 1"></Layout>
       </pane>
     </splitpanes>
 
     <!-- Studio layout -->
-<!-- 
+    <!-- 
 
 
 -->
@@ -105,8 +70,9 @@ const getComponent = (widgetName: string) => {
       class="ar-full-height"
       :left-size="leftSize"
       :right-size="rightSize"
-      @leftsizestop="leftSizeStop"
-      @rightsizestop="rightSizeStop">
+      @leftsizestop="(leftSize) => saveLeftSize(pageId, leftSize)"
+      @rightsizestop="(rightSize) => saveRightSize(pageId, rightSize)"
+    >
       <!-- Background content -->
       <component
         :is="getComponent(pageObj.model)"
