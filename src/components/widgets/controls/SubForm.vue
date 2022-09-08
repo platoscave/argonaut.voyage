@@ -39,33 +39,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const formEl = ref(null);
 
-const formModelValue = reactive({});
-watch(
-  () => props.modelValue,
-  (current) => {
-    //if (!deepEqual(formfields, current))
-    Object.assign(formModelValue, current);
-    // console.log('Old formModelValue', formModelValue)
-
-    //   Object.keys(formModelValue).forEach((key) => delete formModelValue[key]);
-    //   Object.keys(current).forEach((key) => (formModelValue[key] = current[key]));
-    //console.log("SF Updated Model Value", formModelValue.name);
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  formModelValue,
-  (current, previous) => {
-    //console.log( 'current', current)
-    //if (!deepEqual(current, previous))
-    //emit('update:modelValue', current)
-    console.log("SF Updated Form Value", formModelValue.name);
-    emit("update:modelValue", current);
-  },
-  { deep: true }
-);
-
 // methodes possibly called from outside, so pass on to our form
 const validate = () => {
   return formEl.value.validate();
@@ -231,7 +204,7 @@ const getComponent = (property: IProperty) => {
   :model and :rules are needed for validation rules. Do not mess with them! You will regret it-->
   <el-form
     ref="formEl"
-    :model="formModelValue"
+    :model="modelValue"
     :rules="validationRules"
     labelWidth="100px"
     labelPosition="left"
@@ -243,7 +216,7 @@ const getComponent = (property: IProperty) => {
       <el-form-item
         class="ar-form-item"
         v-if="
-          notReadonlyDenseAndEmpty(formMode, formModelValue[propertyName], property.type)
+          notReadonlyDenseAndEmpty(formMode, modelValue[propertyName], property.type)
         "
         :prop="propertyName"
       >
@@ -278,7 +251,7 @@ const getComponent = (property: IProperty) => {
         <component
           :is="getComponent(property)"
           class="ar-control"
-          v-model="formModelValue[propertyName]"
+          v-model="modelValue[propertyName]"
           :property="property"
           :readonly="formMode.startsWith('Readonly')"
           :required="requiredArr.includes(propertyName)"

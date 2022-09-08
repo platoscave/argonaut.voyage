@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, toRaw } from "vue";
 import { db } from "~/services/dexieServices";
 import { getClassSchema } from "~/lib/argoUtils";
 import useLiveQuery from "~/composables/useLiveQuery";
@@ -12,9 +12,9 @@ const props = defineProps({
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
 let viewObj = reactive({});
 const formMode = ref("Readonly Dense");
-const classId = ref("");
 const subFormEl = ref("");
-//let formDataObject = reactive({ formData: {} });
+let prevClassId: string = '';
+let previousDataObj: any = {}
 
 // get the dataObj, watch selectedObjId
 interface IDataObj {
@@ -25,66 +25,32 @@ const dataObj = useLiveQuery<IDataObj>(() => db.state.get(selectedObjId.value), 
   selectedObjId,
 ]);
 
-// watch dataObj, make a copy for the form
-watch(dataObj, (dataObj, oldDataObj) => {
-  //console.log('New dataObj', dataObj, oldDataObj)
-  classId.value = dataObj.classId;
-  //console.log('\n','Old formDataObject', formDataObject)
-  // Object.keys(formDataObject.formData).forEach((key) => {
-  //   if (!dataObj.hasOwnProperty(key)) formDataObject.formData[key] = null;
-  //   //formDataObject.formData[key] = null);
-  // });
-  //console.log('Cleanup formDataObject', formDataObject)
+// deep watch dataObj, get the classSchema if the classId changed
+watch(dataObj, (newDataObj, oldDataObj) => {
 
-  //Object.keys(dataObj).forEach(key => formDataObject[key] = ref(dataObj[key]))
-  //
+  // Get rid of false updates (otherwise we will loop)
+  if(previousDataObj === JSON.stringify(newDataObj)) return;
+  previousDataObj = JSON.stringify(newDataObj)
 
-  //formDataObject.reactiveData = {}
-  //formDataObject.formData = dataObj;
-  //console.log("\nCFS Copy Form dataObject", formDataObject.formData.name);
-});
-
-// watch the classId, get a new schema
-watch(classId, (classId) => {
-  getClassSchema(classId).then((schema) => {
-    console.log("New Schema", classId);
-    viewObj = Object.assign(viewObj, schema);
-  });
-});
-
-// watch the form data, perform validate, save data
-watch(
-  dataObj,
-  (newFormDataObject, oldFormDataObject) => {
-    if (!formMode.value.startsWith("Edit")) return;
-    if (!oldFormDataObject) return;
-    if (JSON.stringify(newFormDataObject) === JSON.stringify(oldFormDataObject)) return;
-    console.log("CFS Updated Form dataObject", newFormDataObject.name);
-    subFormEl.value.validate().then((valid) => {
-      console.log("valid", valid);
+  if (newDataObj.classId !== prevClassId) {
+    getClassSchema(newDataObj.classId).then((schema) => {
+      viewObj = Object.assign(viewObj, schema);
     });
-  },
-  { deep: true }
-);
-
-const onInput = async (updatedDataObj) => {
-  /*
-  try {
-    
-    const stringified = JSON.stringify(updatedDataObj)
-    if (stringified === this.oldValue) return
-    this.oldValue = stringified
-
-    const valid = await this.$refs["schemaForm"].validate();
-    console.log('valid', valid);
-    db.state.update(updatedDataObj._id, updatedDataObj);
-
-  } catch (err) {
-    this.valid = false;
-    this.$message({ showClose: true, message: err, type: "error" })
+    prevClassId = newDataObj.classId;
   }
-  */
-};
+
+  if (!formMode.value.startsWith("Edit")) return;
+  if (!oldDataObj) return; // will be empty first time
+  subFormEl.value.validate().then((valid) => {
+    console.log("valid", valid);
+    if(valid) {
+      db.state.put(toRaw(newDataObj)).catch (function (e) {
+        alert ("Failed update: " + e);
+      })
+    }
+  });
+},{ deep: true });
+
 
 const onEditButton = () => {
   if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";

@@ -182,25 +182,18 @@
       },
       "subParagraphIds": {
         "items": {
-          "properties": {
-            "paragraphId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "argoQuery": {
-                "selector": "Subclasses",
-                "where": {
-                  "classId": "siutzqsj5dgc"
-                },
-                "idsArrayPath": {
-                  "path": "$[*]._id",
-                  "indexName": "classId"
-                },
-                "sortBy": "name"
-              },
-              "title": "Sub Ducument",
-              "type": "string"
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "siutzqsj5dgc"
+            },
+            "idsArrayPath": {
+              "path": "$[*]._id",
+              "indexName": "classId"
             }
           },
-          "type": "object"
+          "title": "Sub Ducument",
+          "type": "string"
         },
         "title": "First Paragraphs",
         "type": "array"
@@ -1140,27 +1133,20 @@
     "properties": {
       "subParagraphIds": {
         "items": {
-          "properties": {
-            "paragraphId": {
-              "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-              "argoQuery": {
-                "selector": "Subclasses",
-                "where": {
-                  "classId": "siutzqsj5dgc"
-                },
-                "idsArrayPath": {
-                  "path": "$[*]._id",
-                  "indexName": "classId"
-                },
-                "sortBy": "name"
-              },
-              "title": "Sub Ducument",
-              "type": "string"
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "siutzqsj5dgc"
+            },
+            "idsArrayPath": {
+              "path": "$[*]._id",
+              "indexName": "classId"
             }
           },
-          "type": "object"
+          "title": "Sub Ducument",
+          "type": "string"
         },
-        "title": "Sub Paragraph",
+        "title": "Sub Paragraphs",
         "type": "array"
       }
     },

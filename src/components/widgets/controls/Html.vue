@@ -16,7 +16,7 @@ const props = defineProps({
   readonly: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const editor = new Editor({
   extensions: [
@@ -41,8 +41,8 @@ const editor = new Editor({
   content: props.modelValue,
   onBlur({ editor, event }) {
     // The editor isn’t focused anymore.
-    emit("change", editor.getHTML());
-    // emit("update:modelValue", editor.getJSON());
+    emit("update:modelValue", editor.getHTML());
+    //emit("update:modelValue", editor.getJSON()[0][0].text);
   },
 });
 

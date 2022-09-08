@@ -71,7 +71,7 @@ onClickOutside(editorsEl, (event) => {
       ></String>
     </component>
 
-    <Html v-model="content" :readonly="readonly" @change="onContentChanged"></Html>
+    <Html v-model="content" :readonly="readonly" @update:model-value="onContentChanged"></Html>
   </div>
 
   <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">

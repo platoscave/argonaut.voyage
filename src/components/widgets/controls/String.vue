@@ -9,12 +9,14 @@ const props = defineProps({
   <div v-if="readonly" class="ar-lightgrey-background">
     {{ modelValue }}
   </div>
-  <!-- TODO type="textarea" -->
+  <!-- TODO type="textarea" 
+    @input="$emit('update:modelValue', $event)"
+  
+  -->
   <el-input
     v-else
     autosize
     v-model="modelValue"
-    @input="$emit('update:modelValue', $event)"
-    @change="$emit('change', $event)"
+    @change="$emit('update:modelValue', $event)"
   ></el-input>
 </template>

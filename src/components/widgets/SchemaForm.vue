@@ -3,6 +3,7 @@ import { ref, watch, reactive } from "vue";
 import { db } from "~/services/dexieServices";
 import { getMaterializedView } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
+import useArgoQuery from "~/composables/useArgoQuery";
 import {
   useHashDissect,
   updateHashWithSelectedTab,
@@ -13,35 +14,51 @@ const props = defineProps({
   widgetObj: Object,
 });
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+let viewObj = reactive({});
+let dataObj = reactive({});
 const formMode = ref("Readonly Dense");
 
 interface IDataObj {
   _id: string;
   classId: string;
 }
-const dataObj = useLiveQuery<IDataObj>(
-  () => db.state.get(selectedObjId.value),
-  [selectedObjId]
-);
 
 interface IViewObj {
   _id: string;
   classId: string;
 }
-const viewObj = reactive({});
 
-getMaterializedView(props.widgetObj.viewId).then((view) => {
-  //debugger;
-  Object.assign(viewObj, view);
+watch(
+  () => props.widgetObj.viewId,
+  (viewId: string) => {
+    getMaterializedView(viewId).then((view) => {
+    //debugger;
+    viewObj = Object.assign(viewObj, view);
 
-  const resArr = useArgoQuery(view.queryId, {
-    _id: selectedObjId.value,
+    const dataObj = useArgoQuery(view.queryId, {
+      _id: selectedObjId.value,
+    });
+    watch(resArr, (arr: any[]) => {
+      dataArr.length = 0;
+      arr.forEach((item) => dataArr.push(item));
+    });
   });
-  watch(resArr, (arr: any[]) => {
-    dataArr.length = 0;
-    arr.forEach((item) => dataArr.push(item));
-  });
-});
+
+  }
+);
+
+// getMaterializedView(props.widgetObj.viewId).then((view) => {
+//   //debugger;
+//   Object.assign(viewObj, view);
+
+//   const resArr = useArgoQuery(view.queryId, {
+//     _id: selectedObjId.value,
+//   });
+//   watch(resArr, (arr: any[]) => {
+//     dataArr.length = 0;
+//     arr.forEach((item) => dataArr.push(item));
+//   });
+// });
 
 const onInput = async (updatedDataObj) => {
   /*
