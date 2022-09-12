@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, toRaw, toRefs, computed } from "vue";
 import { db } from "~/services/dexieServices";
 import { getMaterializedView } from "~/lib/argoUtils"
 import useLiveQuery from "~/composables/useLiveQuery";
@@ -13,10 +13,14 @@ const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
 });
+
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+
 let viewObj = reactive({});
-let dataObj = reactive({});
+//let dataArr = reactive([]);
+const subFormEl = ref("");
 const formMode = ref("Readonly Dense");
+let previousDataObj: any = {}
 
 interface IDataObj {
   _id: string;
@@ -25,59 +29,37 @@ interface IDataObj {
 
 interface IViewObj {
   _id: string;
-  classId: string;
+  properties: any;
+  required: boolean;
 }
 
-watch(
-  () => props.widgetObj.viewId,
-  (viewId: string) => {
-    getMaterializedView(viewId).then((view) => {
-    //debugger;
-    viewObj = Object.assign(viewObj, view);
+getMaterializedView(props.widgetObj.viewId).then((view) => {
+  Object.assign(viewObj, view);
+});
 
-    const dataObj = useArgoQuery(view.queryId, {
-      _id: selectedObjId.value,
-    });
-    watch(resArr, (arr: any[]) => {
-      dataArr.length = 0;
-      arr.forEach((item) => dataArr.push(item));
-    });
+const dataObj = useLiveQuery<IDataObj>(() => db.state.get(selectedObjId.value), [selectedObjId]);
+
+// deep watch dataObj, perform pudate
+watch(dataObj, (newDataObj, oldDataObj) => {
+
+  console.log('watch dataObj',newDataObj)
+
+  // Get rid of false updates (otherwise we will loop)
+  if(previousDataObj === JSON.stringify(newDataObj)) return;
+  previousDataObj = JSON.stringify(newDataObj)
+
+  if (!formMode.value.startsWith("Edit")) return;
+  if (!oldDataObj) return; // will be empty first time
+  subFormEl.value.validate().then((valid) => {
+    console.log("valid", valid);
+    if(valid) {
+      db.state.put(toRaw(newDataObj)).catch (function (e) {
+        alert ("Failed update: " + e);
+      })
+    }
   });
+},{ deep: true });
 
-  }
-);
-
-// getMaterializedView(props.widgetObj.viewId).then((view) => {
-//   //debugger;
-//   Object.assign(viewObj, view);
-
-//   const resArr = useArgoQuery(view.queryId, {
-//     _id: selectedObjId.value,
-//   });
-//   watch(resArr, (arr: any[]) => {
-//     dataArr.length = 0;
-//     arr.forEach((item) => dataArr.push(item));
-//   });
-// });
-
-const onInput = async (updatedDataObj) => {
-  /*
-  try {
-    
-    const stringified = JSON.stringify(updatedDataObj)
-    if (stringified === this.oldValue) return
-    this.oldValue = stringified
-
-    const valid = await this.$refs["schemaForm"].validate();
-    console.log('valid', valid);
-    db.state.update(updatedDataObj._id, updatedDataObj);
-
-  } catch (err) {
-    this.valid = false;
-    this.$message({ showClose: true, message: err, type: "error" })
-  }
-  */
-};
 
 const onEditButton = () => {
   if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";
@@ -94,9 +76,8 @@ const onEditButton = () => {
     <div class="ar-json-schema-form">
       <div>
         <SubForm
-          ref="schemaForm"
-          :model-value="dataObj"
-          @input="onInput"
+          ref="subFormEl"
+          v-model="dataObj"
           :properties="viewObj.properties"
           :requiredArr="viewObj.required"
           :form-mode="formMode"

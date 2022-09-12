@@ -24,7 +24,7 @@ const populateFromStatic = async () => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }
@@ -48,7 +48,7 @@ const eraseAllEos = async () => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }
@@ -62,7 +62,7 @@ const testEos = async () => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }
@@ -121,7 +121,7 @@ const testQuery = async () => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }
@@ -144,7 +144,7 @@ const generatecpp = async () => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }

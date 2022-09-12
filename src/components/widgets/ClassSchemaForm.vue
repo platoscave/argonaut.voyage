@@ -9,7 +9,9 @@ const props = defineProps({
   hashLevel: Number,
   widgetObj: Object,
 });
+
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
+
 let viewObj = reactive({});
 const formMode = ref("Readonly Dense");
 const subFormEl = ref("");

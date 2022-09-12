@@ -5,7 +5,7 @@ import toolbarSymbols from "~/assets/toolbar-symbols.svg";
 // import ControlSelector from "./ControlSelector";
 // /* eslint-disable vue/no-unused-components */
 // // on behalf of the control selector
-import { ElDatePicker } from "element-plus";
+import DateTime from "./DateTime.vue";
 import Html from "./Html.vue";
 import Image from "./Image.vue";
 import Json from "./Json.vue";
@@ -113,7 +113,7 @@ const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: str
 };
 
 const dynamicComp = [
-  { name: "ElDatePicker", comp: ElDatePicker },
+  { name: "DateTime", comp: DateTime },
   { name: "Html", comp: Html },
   { name: "Image", comp: Image },
   { name: "Json", comp: Json },
@@ -159,7 +159,7 @@ const getComponent = (property: IProperty) => {
       // Enumeration
       else if (property.enum) return "SelectStringEnum";
       // Date time
-      else if (property.format === "date-time") return "ElDatePicker";
+      else if (property.format === "date-time") return "DateTime";
       // Text
       else return "String";
     }

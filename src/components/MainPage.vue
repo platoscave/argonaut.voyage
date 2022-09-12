@@ -55,7 +55,7 @@ const saveChanges = async () => {
       showClose: true,
       message: err,
       type: 'error',
-      duration: 0 
+      duration: 5000 
     })
     throw err;
   }
@@ -70,7 +70,7 @@ const cancelChanges = async () => {
       showClose: true,
       message: err,
       type: 'error',
-      duration: 0 
+      duration: 5000 
     })
     throw err;
   }
@@ -94,6 +94,17 @@ onMounted( async () => {
 
     if (!window.location.hash)
       window.location.hash = "#/argonautvoya.uhekisbbbjh5";
+
+    // catch Dexie errors
+    window.addEventListener ('unhandledrejection', err => {
+      ElMessage({
+        showClose: true,
+        message: err,
+        type: 'error',
+        duration: 5000 
+      })
+      //throw new Error(err)
+    });
 })
 </script>
 

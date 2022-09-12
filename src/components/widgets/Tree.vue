@@ -123,7 +123,7 @@ const loadNode = async (node, resolve) => {
       showClose: true,
       message: err,
       type: "error",
-      duration: 0,
+      duration: 5000,
     });
     throw err;
   }

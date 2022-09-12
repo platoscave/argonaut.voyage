@@ -198,8 +198,11 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
   const executeDependingOnQueryType = () => {
 
+    // Fail gracefully. Return empty array if there is no query (yet) 
+    if (!idsArrayOrObj) return of([])
+
     // Recieved a string: query obj id
-    if (typeof idsArrayOrObj === 'string') {
+    else if (typeof idsArrayOrObj === 'string') {
       const queryObj$ = from(db.state.get(idsArrayOrObj)) // promise to observable
       return executeQuery(queryObj$)
     }
@@ -238,7 +241,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
     error: options?.onError,
   });
 
-  watch(deps, () => {
+  watch(deps, (changedDeps) => {
+    console.log('deps changed', changedDeps)
+
     subscription.unsubscribe();
     subscription = observable.subscribe({
       next: (val) => {
