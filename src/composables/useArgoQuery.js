@@ -86,6 +86,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
         collection = collection.filter(filterFunc)
       }
+
       if (queryObj.sortBy) return collection.sortBy(queryObj.sortBy)
       else return collection.toArray()
     }
@@ -156,12 +157,14 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           // Make the ids array is unique
           const uniqueIdsArr = [...new Set(idsArr)]
 
-          // get all the objects corresponding to the ids array
-          const queryRes$ = liveQuery(() => {
-            let collection = db.state.where(queryObj.idsArrayPath.indexName).anyOf(uniqueIdsArr)
-            return filterSortCollection(collection, queryObj)
+          // For each uniqueId, collect their observables in an array 
+          // We dont use anyOf here because we want to perserve to order
+          const obj$Arr = uniqueIdsArr.map(objId => {
+            return liveQuery(() => db.state.get(objId))
           })
-          return from(queryRes$)
+
+          // Combine the latest result of each obsevable
+          return combineLatest(obj$Arr)
 
         }
         else return of(items) // return the original value
@@ -185,9 +188,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           }
           return item
         })
-        // console.log('\nQuery Object: ', queryObj)
-        // console.log('Context Object: ', contextObj)
-        // console.log('Results', results)
+        console.log('\nQuery Object: ', queryObj)
+        console.log('Context Object: ', contextObj)
+        console.log('Results', results)
         return results
       }))
 
@@ -242,8 +245,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
   });
 
   watch(deps, (changedDeps) => {
-    console.log('deps changed', changedDeps)
-
+    //console.log('deps changed', changedDeps)
     subscription.unsubscribe();
     subscription = observable.subscribe({
       next: (val) => {

@@ -8,7 +8,7 @@ const locale = window.navigator.userLanguage || window.navigator.language;
 
 
 const localeDate = computed(() => {
-  const options = {}
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
   const date = (new Date(props.modelValue)).toLocaleDateString(locale, options);
   return date
 });

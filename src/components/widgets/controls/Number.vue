@@ -83,7 +83,7 @@ export default {
   line-height: 24px;
   min-height: 24px;
   width: 200px;
-  text-align: right;
+  /* text-align: right; */
 }
 .el-input-number {
   width: 220px;
