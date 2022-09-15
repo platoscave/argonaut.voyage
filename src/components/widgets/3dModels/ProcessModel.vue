@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
+import { db } from "~/services/dexieServices";
 import argoQueryPromise from "~/lib/argoQueryPromise";
 import PropositionObject3d from "./diagramObj3ds/propositionObj3d";
 import ProcessObject3d from "./diagramObj3ds/processObj3d.js";
@@ -121,11 +122,12 @@ const drawPropositionToProcessConnectors = (propositionArr) => {
 };
 
 const drawOrgUnits = async (zPos) => {
-  // Execute the Organization Query
-  const resArr = await argoQueryPromise("vbinebvkz1sq", { _id: selectedObjId.value })
+
+  // Get the organization
+  const orgObject = await db.state.get(selectedObjId.value)
 
   // Create the OrgObject3d (extends Object3d)
-  let rootOrgObj3d = new OrgObject3d(resArr[0], true);
+  const rootOrgObj3d = new OrgObject3d(orgObject, true);
   rootOrgObj3d.translateZ(zPos);
   glModelObj3d.add(rootOrgObj3d);
   addSelectable(rootOrgObj3d.children[0]);
@@ -140,34 +142,39 @@ const drawOrgUnits = async (zPos) => {
   // important! after you set positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);
 
-  // Tell root org and its oug units to collect it's active permission userIds
-  const activePermAccArr = await rootOrgObj3d.getActivePermissionedAccounts()
-  const uniqueActivePermAccArr = [...new Set(activePermAccArr)]
+  return rootOrgObj3d
+};
 
-  // Create the userObj3d
-  let xPos = (-(uniqueActivePermAccArr.length - 1) * WIDTH * 2) / 2;
-  uniqueActivePermAccArr.forEach((item) => {
-    // Create the UserObject3d (extends Object3d)
-    let userObj3d = new UserObject3d(item);
-    glModelObj3d.add(userObj3d);
-    addSelectable(userObj3d.children[0]);
-    userObj3d.translateX(xPos);
-    userObj3d.translateZ(zPos - DEPTH * 10);
-    userObj3d.translateY(HEIGHT * 4);
-    xPos += WIDTH * 2;
-  });
+const drawMembers = async (zPos) => {
+  const membersArr = await argoQueryPromise("vbinebvkz1sq", { _id: selectedObjId.value })
+
+    // Create the userObj3d
+    let xPos = (-(membersArr.length - 1) * WIDTH * 2) / 2;
+    membersArr.forEach((item) => {
+      // Create the UserObject3d (extends Object3d)
+      let userObj3d = new UserObject3d(item);
+      glModelObj3d.add(userObj3d);
+      addSelectable(userObj3d.children[0]);
+      userObj3d.translateX(xPos);
+      userObj3d.translateZ(zPos - DEPTH * 10);
+      userObj3d.translateY(HEIGHT * 4);
+      xPos += WIDTH * 2;
+    });
 
   // important! after you set positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);
+}
 
-  rootOrgObj3d.drawToUserAssocs(glModelObj3d);
+const drawStepToOrgUnitConnectors = (processArr) => {
+  // Tell the steps to draw their connectors to their next steps
+  processArr.forEach((processObj3d) => {
+    processObj3d.drawStepToOrgUnitConnectors(glModelObj3d);
+  });
 };
 
-const drawStepToUserConnectors = (processArr) => {
+const drawUnitToUserConnectors = (rootOrgObj3d) => {
   // Let the steps to draw their connectors to their next steps
-  processArr.forEach((processObj3d) => {
-    processObj3d.drawStepToUserConnectors(glModelObj3d);
-  });
+  rootOrgObj3d.drawUnitToUserConnectors(glModelObj3d);
 };
 
 onMounted(async () => {
@@ -176,9 +183,12 @@ onMounted(async () => {
 
     const propositionsArr = await drawPropositions(0);
     const processArr = await drawProcesses(-DEPTH * 30);
+    debugger
+    const rootOrgObj3d = await drawOrgUnits(-DEPTH * 60);
+    await drawMembers(-DEPTH * 90);
     drawPropositionToProcessConnectors(propositionsArr);
-    await drawOrgUnits(-DEPTH * 60);
-    // drawStepToUserConnectors(processArr);
+    drawStepToOrgUnitConnectors(processArr);
+    drawUnitToUserConnectors(rootOrgObj3d);
 
     loadingText();
   } catch (err) {

@@ -2907,7 +2907,7 @@
         "name": "Propositions",
         "widgets": [
           {
-            "displayType": "Tree",
+            "displayType": "Schema Table",
             "name": "Propositions Table",
             "viewId": "g1q2rky4uxcb"
           }
@@ -3406,8 +3406,7 @@
     "ownerId": "argonautvoya",
     "queryId": "f41heqslym5e",
     "properties": {
-      "name": {},
-      "startDate": {}
+      "name": {}
     },
     "baseClassId": "2jrkeqdvvmom",
     "type": "object"
@@ -3719,11 +3718,16 @@
     "name": "Owned Propositions Query",
     "classId": "q234ooehrk5v",
     "ownerId": "argonautvoya",
-    "selector": "Where Clause",
+    "selector": "Subclasses",
     "where": {
       "classId": "2jrkeqdvvmom",
       "ownerId": "$fk"
-    }
+    },
+    "idsArrayPath": {
+      "path": "$[*]._id",
+      "indexName": "classId"
+    },
+    "sortBy": "name"
   },
   {
     "_id": "aiw54neadp14",

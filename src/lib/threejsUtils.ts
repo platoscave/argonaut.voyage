@@ -131,8 +131,8 @@ export const drawTube = <Mesh>(points: Vector3[], colorName: string, name: strin
     const { [colorName]: colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({
         color: colorProp.color,
-        opacity: 0.5,
-        transparent: true,
+        //opacity: 0.5,
+        //transparent: true,
     })
 
     let mesh = new Mesh(mergedGeometry, material)

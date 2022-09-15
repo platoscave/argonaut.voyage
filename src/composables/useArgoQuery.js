@@ -157,15 +157,20 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           // Make the ids array is unique
           const uniqueIdsArr = [...new Set(idsArr)]
 
-          // For each uniqueId, collect their observables in an array 
-          // We dont use anyOf here because we want to perserve to order
-          const obj$Arr = uniqueIdsArr.map(objId => {
-            return liveQuery(() => db.state.get(objId))
+          //return liveQuery(() => db.state.bulkGet(uniqueIdsArr))
+
+          // get all the objects corresponding to the ids array
+          // We must perserve the order so we cant use any of
+          const queryRes$Arr = uniqueIdsArr.map( id => {
+            const whereClause = {}
+            whereClause[queryObj.idsArrayPath.indexName] = id
+            return liveQuery(() => db.state.where( whereClause ).toArray())
           })
 
-          // Combine the latest result of each obsevable
-          return combineLatest(obj$Arr)
 
+          return combineLatest(queryRes$Arr).pipe(
+            map(res => [].concat(...res))
+          )
         }
         else return of(items) // return the original value
 

@@ -74,13 +74,13 @@ export default class ProcessObject3d extends Object3D {
 
   }
 
-  drawStepToUserConnectors(glModelObject3D) {
+  drawStepToOrgUnitConnectors(glModelObject3D) {
 
     // Find the first step
     const stepObj = this.children.find(item => {
       return item.constructor.name === 'StepObject3d' // WARNING may not work after mimify
     })
-    stepObj.drawStepToUserConnectors(glModelObject3D)
+    stepObj.drawStepToOrgUnitConnectors(glModelObject3D)
   }
 
   setPositionY() {

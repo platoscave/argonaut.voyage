@@ -121,28 +121,7 @@ export default class OrgObject3d extends Object3D {
   }
 
 
-  async getActivePermissionedAccounts() {
-
-    // Execute the query
-    // get users with active permission for this orgunit
-    const activePermAccArr = await argoQueryPromise("1dbriehwtyyp", this.userData )
-
-    let activePermAccArrPrommises = []
-    this.children.forEach((subOrgObj3d) => {
-      if (subOrgObj3d.type === 'Object3D') {
-        // TODO is this safe?
-        if (subOrgObj3d.getActivePermissionedAccounts)
-        activePermAccArrPrommises.push(subOrgObj3d.getActivePermissionedAccounts())
-      }
-    })
-
-    const childrenActivePermAccArr = await Promise.all(activePermAccArrPrommises);
-    return activePermAccArr.concat(childrenActivePermAccArr);
-  }
-
-
-
-  drawToUserAssocs(glModelObject3D) {
+  drawUnitToUserConnectors(glModelObject3D) {
 
     const drawAssocs = userAccId => {
 
@@ -174,8 +153,8 @@ export default class OrgObject3d extends Object3D {
 
     this.children.forEach((subOrgObj3d) => {
       if (subOrgObj3d.type === 'Object3D') {
-        if (subOrgObj3d.drawToUserAssocs)
-          subOrgObj3d.drawToUserAssocs(glModelObject3D)
+        if (subOrgObj3d.drawUnitToUserConnectors)
+          subOrgObj3d.drawUnitToUserConnectors(glModelObject3D)
       }
     });
 

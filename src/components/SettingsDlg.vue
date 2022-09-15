@@ -30,6 +30,22 @@ const populateFromStatic = async () => {
   }
 };
 
+const saveToStatic = async () => {
+  const fullData = await db.state.toArray();
+  // const ts = Math.floor(Date.now() / 1000)
+
+  const jsonString = JSON.stringify(fullData, null, 2);
+  const csv_mime_type = "text/json";
+  const blob = new Blob([jsonString], { type: csv_mime_type });
+  const anchor = document.createElement("a");
+  anchor.setAttribute("download", "argonautdb.json");
+  const url = URL.createObjectURL(blob);
+  anchor.setAttribute("href", url);
+  anchor.click();
+  URL.revokeObjectURL(url);
+  document.removeChild(anchor);
+}
+
 const addTestAccounts = async () => {
   //EosServices.addTestAccounts(this.$message);
 };
@@ -100,22 +116,21 @@ const randomKey = async () => {
   const characters = "abcdefghijklmnopqrstuvwxyz12345";
   let randomKey = "";
   for (let i = 0; i < 12; i++) {
-    randomKey += characters.charAt(
-      Math.floor(Math.random() * characters.length)
-    );
+    randomKey += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   alert(randomKey);
 };
 
 const testQuery = async () => {
   try {
-    const resultsRef = useArgoQuery({ extendTo: "Owned Accounts"}, {
-      _id: "bikeshop1111",
-    });
+    const resultsRef = useArgoQuery(
+      { extendTo: "Owned Accounts" },
+      {
+        _id: "bikeshop1111",
+      }
+    );
 
-    watch(resultsRef, (resultsRef) => console.log('resultsRef', resultsRef))
-    
-
+    watch(resultsRef, (resultsRef) => console.log("resultsRef", resultsRef));
   } catch (err) {
     ElMessage({
       showClose: true,
@@ -149,19 +164,15 @@ const generatecpp = async () => {
     throw err;
   }
 };
-
 </script>
 
 <template>
-
   <ElDialog
     title="Settings"
     :model-value="modelValue"
     @update:modelValue="() => $emit('update:modelValue', false)"
   >
-
     <ElRow>
-
       <ElSwitch
         size="small"
         class="ar-left-align"
@@ -170,88 +181,78 @@ const generatecpp = async () => {
         active-text="Dark"
         inactive-text="Light"
       ></ElSwitch>
-
     </ElRow>
 
     <ElRow>
-
-      <ElButton type="primary"  :dark="isDark" plain @click="populateFromStatic">
-         Poputate Cache From Static
+      <ElButton type="primary" :dark="isDark" plain @click="populateFromStatic">
+        Poputate Cache From Static
       </ElButton>
-
     </ElRow>
 
     <ElRow>
+      <ElButton type="primary" :dark="isDark" plain @click="saveToStatic">
+        Save to Static
+      </ElButton>
+    </ElRow>
 
+    <ElRow>
       <ElButton type="primary" :dark="isDark" plain @click="addTestAccounts">
-         Add Tests Accounts to EOS
+        Add Tests Accounts to EOS
       </ElButton>
-
     </ElRow>
 
     <ElRow>
-
       <ElButton type="primary" :dark="isDark" plain @click="staticToEos">
-         From Static to EOS
+        From Static to EOS
       </ElButton>
-
     </ElRow>
 
     <ElRow>
-
       <ElButton type="primary" :dark="isDark" plain @click="cacheToEos">
-         From Cache to EOS
+        From Cache to EOS
       </ElButton>
-
     </ElRow>
 
     <ElRow>
-
       <ElButton type="primary" :dark="isDark" plain @click="eraseAllEos">
-         Erase Documents Table in EOS
+        Erase Documents Table in EOS
       </ElButton>
-
     </ElRow>
 
     <ElRow>
-
-      <ElButton type="primary" :dark="isDark" plain @click="testEos">Call Test Function</ElButton>
-
+      <ElButton type="primary" :dark="isDark" plain @click="testEos"
+        >Call Test Function</ElButton
+      >
     </ElRow>
 
     <ElRow>
-
       <ElButton type="primary" :dark="isDark" plain @click="staticToEos">
-         Read, Filter, Download
+        Read, Filter, Download
       </ElButton>
-
     </ElRow>
 
     <ElRow>
-
-      <ElButton type="primary" :dark="isDark" plain @click="randomKey">Random Key</ElButton>
-
+      <ElButton type="primary" :dark="isDark" plain @click="randomKey"
+        >Random Key</ElButton
+      >
     </ElRow>
 
     <ElRow>
-
-      <ElButton type="primary" :dark="isDark" plain @click="testQuery">Test Query</ElButton>
-
+      <ElButton type="primary" :dark="isDark" plain @click="testQuery"
+        >Test Query</ElButton
+      >
     </ElRow>
 
     <ElRow>
-
-      <ElButton type="primary" :dark="isDark" plain @click="generatecpp">Generate Cpp</ElButton>
-
+      <ElButton type="primary" :dark="isDark" plain @click="generatecpp"
+        >Generate Cpp</ElButton
+      >
     </ElRow>
-
   </ElDialog>
-
 </template>
 
 <style scoped>
-.ElRow {
-  margin-top: 10px;
+.el-row {
+  margin-top: 4px;
 }
 </style>
-

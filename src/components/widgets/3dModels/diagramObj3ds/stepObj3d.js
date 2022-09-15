@@ -168,7 +168,7 @@ export default class StepObject3d extends Object3D {
   }
 
 
-  drawStepToUserConnectors(glModelObject3D) {
+  drawStepToOrgUnitConnectors(glModelObject3D) {
 
     if (this.userData.authorizedOrgUnitId) {
       let destUserObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.authorizedOrgUnitId)
@@ -182,7 +182,7 @@ export default class StepObject3d extends Object3D {
         let destStepObj3d = glModelObject3D.getObjectByProperty('_id', nextStepActionId.stepId)
 
         // Tell the step to draw its user connectors
-        destStepObj3d.drawStepToUserConnectors(glModelObject3D)
+        destStepObj3d.drawStepToOrgUnitConnectors(glModelObject3D)
 
       }
     })
