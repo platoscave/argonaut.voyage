@@ -183,9 +183,9 @@ onMounted(async () => {
 
     const propositionsArr = await drawPropositions(0);
     const processArr = await drawProcesses(-DEPTH * 30);
-    debugger
     const rootOrgObj3d = await drawOrgUnits(-DEPTH * 60);
     await drawMembers(-DEPTH * 90);
+    
     drawPropositionToProcessConnectors(propositionsArr);
     drawStepToOrgUnitConnectors(processArr);
     drawUnitToUserConnectors(rootOrgObj3d);

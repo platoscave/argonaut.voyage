@@ -60,7 +60,6 @@ declare module '@vue/runtime-core' {
     SelectStringQuery: typeof import('./components/widgets/controls/SelectStringQuery.vue')['default']
     SettingsDlg: typeof import('./components/SettingsDlg.vue')['default']
     String: typeof import('./components/widgets/controls/String.vue')['default']
-    'String copy': typeof import('./components/widgets/controls/String copy.vue')['default']
     StudioLayout: typeof import('./components/StudioLayout.vue')['default']
     SubForm: typeof import('./components/widgets/controls/SubForm.vue')['default']
     TableArray: typeof import('./components/widgets/controls/TableArray.vue')['default']

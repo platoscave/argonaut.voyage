@@ -61,8 +61,7 @@ const loadNode = async (node, resolve) => {
       if (item.treeVars.nodesPageId) item.pageId = item.treeVars.nodesPageId;
       // Still no pageId, use the default object page based on merged anscestors
       if (!item.pageId) {
-        if (item.classId) item.pageId = "mb2bdqadowve";
-        // merged anscestors page
+        if (item.classId) item.pageId = "mb2bdqadowve";// class schema page
         else item.pageId = "24cnex2saye1"; // class details page
       }
 

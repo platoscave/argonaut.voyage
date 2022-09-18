@@ -2,9 +2,9 @@ import { ref, reactive, toRefs, onUnmounted, watch, unref } from 'vue'
 import { db } from "~/services/dexieServices";
 import { liveQuery } from "dexie";
 //import { useSubscription } from '@vueuse/rxjs'
-import { defer, of, from, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators'
-import jp from "jsonpath"
+import { defer, of, from, combineLatest, tap } from 'rxjs';
+import { map, switchMap} from 'rxjs/operators'
+import {JSONPath} from "jsonpath-plus"
 
 /* queryObj or queryId or queryIdsArr */
 export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, options) {
@@ -83,8 +83,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
     const filterSortCollection = (collection, queryObj) => {
       if (queryObj.filter) {
         const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
-        const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
-        collection = collection.filter(filterFunc)
+        // TODO is the filter still being used?
+        //const filterFunc = obj => jp.query(obj, queryObj.filter.path)[0] === resolvedEquals.equals
+        //const filterFunc = JSONPath({path: queryObj.filter.path)[0] === resolvedEquals.equals, obj});
+        //collection = collection.filter(filterFunc)
       }
 
       if (queryObj.sortBy) return collection.sortBy(queryObj.sortBy)
@@ -98,7 +100,72 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       });
       return array;
     }
+/*
+    // Get Icon from item anscestors, recursivly
+    const getAnscestorsIcon = async (id) => {
+      //console.log('id',id)
+      if(!id) return ''
+      const classObj = await db.state.get(id);
+      if (classObj.classIcon) return classObj.classIcon;
+      return getAnscestorsIcon(classObj.superClassId);
+    }
+*/
+/*
+    const enrichItemsWithTreeVars = (items, queryObj, iconsArr) => {
+      const enrichedResults = items.map((item, idx) => {
+        let label = item.title ? item.title : item.name; //TODO value?
+        let pageId = item.pageId ? item.pageId : queryObj.nodesPageId
+        if(!pageId) {
+          if (item.classId) pageId = "mb2bdqadowve";// class schema page
+          else pageId = "24cnex2saye1"; // class details page
+        }
+        let isLeaf = true;
+        if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+          // If the query has subQueryIds, assume it may have children
+          // TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+          // i.e. get grandChildren
+          isLeaf = false;
+        }
+console.log(queryObj.subQueryIds)
+        item.treeVars = {
+          label: label,
+          pageId: pageId,
+          //icon: iconsArr[idx],
+          iconName: null, // in future we will use the name instead of the actual icon
+          isLeaf: isLeaf, // used by tree: expand/colapse arrow
+          subQueryIds: queryObj.subQueryIds, // used by tree to get child nodes
+          selector: queryObj.selector, // used by tree: onCtrlPaste, handelDrop etc
+          where: queryObj.where,
+          idsArrayPath: queryObj.idsArrayPath, // used by tree: onCtrlPaste, handelDrop etc
 
+          nodesPageId: queryObj.nodesPageId,
+          nodesIcon: queryObj.nodesIcon,
+        }
+        return item
+      })
+
+
+
+      return enrichedResults
+      //return of(enrichedResults)
+    }
+
+    const addTreeVars$ = (items, queryObj) => {
+      const icons$Arr = items.map(item => {
+        //console.log(item)
+        if(item.icon) return of(item.icon)
+        else if(queryObj.icon) return of(queryObj.icon)
+        //else return from(getAnscestorsIcon(item._id))
+        return of('')
+      })
+      debugger
+      return combineLatest(icons$Arr).pipe(
+        //tap(val => console.log(val)),
+        map(iconsArr => enrichItemsWithTreeVars(items, queryObj, iconsArr))
+      )
+
+    }
+*/
     return queryObj$.pipe(switchMap(queryObj => {
 
       let slectorResult$ = null
@@ -144,7 +211,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
           // apply jsonPath to selector results to get an array of ids
           if (!queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw new Error('Ids Array Path must have a idsArrayPath and indexName')
-          const idsArr = jp.query(items, queryObj.idsArrayPath.path)
+          //const idsArr = jp.query(items, queryObj.idsArrayPath.path)
+          const idsArr = JSONPath({path: queryObj.idsArrayPath.path, json: items});
+
 
           // validate the result
           if(!Array.isArray(idsArr) && !typeof idsArr === 'string') throw new Error('The result of idsArrayPath must be an array or a string' + idsArr)
@@ -157,10 +226,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
           // Make the ids array is unique
           const uniqueIdsArr = [...new Set(idsArr)]
 
-          //return liveQuery(() => db.state.bulkGet(uniqueIdsArr))
 
           // get all the objects corresponding to the ids array
-          // We must perserve the order so we cant use any of
+          // We must perserve the order so we cant use anyOf
           const queryRes$Arr = uniqueIdsArr.map( id => {
             const whereClause = {}
             whereClause[queryObj.idsArrayPath.indexName] = id
@@ -198,7 +266,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         console.log('Results', results)
         return results
       }))
+      // return resultArr$.pipe(switchMap(items => {
 
+      //   return addTreeVars$(items, queryObj)
+      // }))
     }))
   }
 
