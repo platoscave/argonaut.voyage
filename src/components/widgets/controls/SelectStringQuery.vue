@@ -20,20 +20,21 @@ const items = useArgoQuery(
 )
 
 const valueLabel = computed(() => {
-  if (!(props.modelValue && items.value)) return "";
+  if (!(props.modelValue && items.value)) return {icon: '', label: ''};
   let valueObj = items.value.find(obj => {
     return obj._id === props.modelValue;
   })
 
-  if (!valueObj) return props.modelValue;
-  return valueObj.title ? valueObj.title : valueObj.name;
+  if (!valueObj) return {icon: '', label: props.modelValue};
+  return {icon: 'icons/'+valueObj.treeVars.icon, label: valueObj.treeVars.label}
 });
 </script>
 
 <template>
   <div v-if="items">
     <div v-if="readonly" class="ar-lightgrey-background">
-      {{ valueLabel }}
+      <img :src="valueLabel.icon" />
+      <span>{{ valueLabel.label}}</span>
     </div>
     <el-radio-group
       class="ar-radio-group"
@@ -57,12 +58,19 @@ const valueLabel = computed(() => {
       :model-value="modelValue"
       :clearable="required ? false : true"
     >
+      <!-- can't get data for the icon
+      <template #prefix="{ node, data }">
+          <img :src="data.treeVars.icon" /> 
+          <div>{{_ctx}}</div>
+      </template>-->
       <el-option
         v-for="item in items"
         :key="item._id"
-        :label="item.title ? item.title : item.name"
+        :label="item.treeVars.label"
         :value="item._id"
       >
+        <img :src="'icons/'+item.treeVars.icon" />
+        <span>{{ item.treeVars.label }}</span>
       </el-option>
     </el-select>
   </div>
@@ -82,5 +90,12 @@ const valueLabel = computed(() => {
   border-width: 1px;
   font-size: 16px;
   line-height: 24px;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 </style>

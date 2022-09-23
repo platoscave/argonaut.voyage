@@ -103,7 +103,7 @@ onMounted( async () => {
         type: 'error',
         duration: 5000 
       })
-      //throw new Error(err)
+      throw new Error(err)
     });
 })
 </script>

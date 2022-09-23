@@ -49,7 +49,7 @@ const defaultActive = computed(() => {
 <template>
   <div v-if="menuObj && menuObj.menuArr" class="ar-full-height ar-overflow-auto">
     <div class="ar-lightgrey-background ar-title" v-if="accountObj">
-      <img class="icon" :src="accountObj.icon" />
+      <img class="icon" :src="'icons/'+accountObj.icon" />
       <span>{{ accountObj.name }}</span>
     </div>
     <ElMenu unique-opened :default-active="defaultActive">

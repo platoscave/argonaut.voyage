@@ -44,13 +44,7 @@ if (props.menuItem.argoQuery) {
     <ElSubMenu :index="index">
       <template #title>
         <div :class="{ 'top-level-menu-item': topLevel }">
-          <!-- <img  v-if="menuItem.icon" class="icon" :src="menuItem.icon" /> -->
-          <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
-            <use
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"
-            ></use>
-          </svg>
+          <img  v-if="menuItem.icon" class="icon" :src="'icons/'+menuItem.icon" />
           <span>{{ menuItem.name }}</span>
         </div>
       </template>
@@ -93,13 +87,13 @@ if (props.menuItem.argoQuery) {
     "
   >
     <div :class="{ 'top-level-menu-item': topLevel }">
-      <!-- <img  v-if="menuItem.icon" class="icon" :src="menuItem.icon" /> -->
-      <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
+      <img  v-if="menuItem.icon" class="icon" :src="'icons/'+menuItem.icon" />
+      <!-- <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
         <use
           xmlns:xlink="http://www.w3.org/1999/xlink"
           :xlink:href="'toolbar-symbols.svg#' + menuItem.icon"
         ></use>
-      </svg>
+      </svg> -->
       <span>{{ menuItem.name }}</span>
     </div>
   </ElMenuItem>
@@ -110,6 +104,8 @@ if (props.menuItem.argoQuery) {
 .icon {
   margin-right: 10px;
   vertical-align: middle;
+  height: 24px;
+  width: 24px;
 }
 .top-level-menu-item {
   font-size: larger;

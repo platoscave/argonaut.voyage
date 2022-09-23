@@ -30,7 +30,8 @@ const filteredObjs = computed(() => {
 <template>
   <div v-if="readonly" class="ar-lightgrey-background">
     <div v-for="item in filteredObjs" :key="item._id" :model-value="item._id">
-      <div>{{ item.title ? item.title : item.name }}</div>
+      <img :src="'icons/'+item.treeVars.icon" />
+      <span>{{ item.treeVars.label }}</span>
     </div>
   </div>
   <el-checkbox-group
@@ -58,9 +59,11 @@ const filteredObjs = computed(() => {
     <el-option
       v-for="item in items"
       :key="item._id"
-      :label="item.title ? item.title : item.name"
+      :label="item.treeVars.label"
       :value="item._id"
     >
+      <img :src="'icons/'+item.treeVars.icon" />
+      <span>{{ item.treeVars.label }}</span>
     </el-option>
   </el-select>
 </template>
@@ -82,4 +85,10 @@ const filteredObjs = computed(() => {
   line-height: 24px;
 }
 
+img {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
 </style>

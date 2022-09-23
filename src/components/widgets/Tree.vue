@@ -32,6 +32,7 @@ watch(nextLevelSelectedObjId, (nextLevelSelectedObjId) => {
 const loadNode = async (node, resolve) => {
   //
   // Get Icon from item anscestors, recursivly
+  /*
   const getAnscestorsIcon = async (id) => {
     const classObj = await db.state.get(id);
     if (classObj.classIcon) return classObj.classIcon;
@@ -61,7 +62,8 @@ const loadNode = async (node, resolve) => {
       if (item.treeVars.nodesPageId) item.pageId = item.treeVars.nodesPageId;
       // Still no pageId, use the default object page based on merged anscestors
       if (!item.pageId) {
-        if (item.classId) item.pageId = "mb2bdqadowve";// class schema page
+        if (item.classId) item.pageId = "mb2bdqadowve";
+        // class schema page
         else item.pageId = "24cnex2saye1"; // class details page
       }
 
@@ -71,7 +73,7 @@ const loadNode = async (node, resolve) => {
     });
     return resItems;
   };
-
+*/
   try {
     // root level
     if (node.level === 0) {
@@ -80,41 +82,20 @@ const loadNode = async (node, resolve) => {
       // Get the queryObj
       const queryObj = await db.state.get(viewObj.queryId);
 
-      const queryResRef = useArgoQuery(queryObj, { _id: selectedObjId.value });
-      watch(queryResRef, (resultArr) => {
-        // Add tree node vars
-        const enrichedResultArr = addTreeNodeVars(resultArr);
-
-        // if the item doesn't have an icon yet get it from class anscetors
-        addClassIcons(enrichedResultArr).then((iconsArr) => {
-          const finalResArr = enrichedResultArr.map((item, idx) => {
-            item.icon = iconsArr[idx];
-            return item;
-          });
-          // update the root node
-          node.store.setData(finalResArr);
-        });
-      });
+      watch( useArgoQuery(queryObj, { _id: selectedObjId.value }), 
+        resultArr => node.store.setData(resultArr)
+      );
 
       resolve([]);
     }
     // node.level > 0
     else {
-      const queryResRef = useArgoQuery(node.data.treeVars.subQueryIds, node.data);
-      watch(queryResRef, (resultArr) => {
-        // Add tree node vars
-        const enrichedResultArr = addTreeNodeVars(resultArr);
-
-        addClassIcons(enrichedResultArr).then((iconsArr) => {
-          const finalResArr = enrichedResultArr.map((item, idx) => {
-            item.icon = iconsArr[idx];
-            return item;
-          });
-          // update child nodes of this node
-          node.store.updateChildren(node.data._id, finalResArr);
+      if(node.data.treeVars.subQueryIds) {
+        watch( useArgoQuery(node.data.treeVars.subQueryIds, node.data), 
+          resultArr => {
+            node.store.updateChildren(node.data._id, resultArr);
         });
-      });
-
+      }
       resolve([]);
     }
   } catch (err) {
@@ -131,7 +112,7 @@ const loadNode = async (node, resolve) => {
 const handleNodeExpandColapse = async () => {
   // wait for ui update before we go looking for expanded nodes
   // otherwise we might mis the latest collapse
-  await nextTick(); 
+  await nextTick();
 
   const nodesMap = treeEl.value.store.nodesMap;
   const expandedNodes = [];
@@ -374,10 +355,11 @@ onMounted(() => {
         if (pageSettings && pageSettings.nextLevelSelectedObjId) {
           //treeEl.value.setCurrentKey(pageSettings.nextLevelSelectedObjId);
           const nodeData = treeEl.value.getNode(pageSettings.nextLevelSelectedObjId);
+          if(!nodeData) return
           updateNextLevelHash(
             props.hashLevel,
             pageSettings.nextLevelSelectedObjId,
-            nodeData.data.pageId
+            nodeData.data.treeVars.pageId
           );
         }
       });
@@ -397,7 +379,7 @@ onMounted(() => {
     node-key="_id"
     :default-expanded-keys="expandedNodes"
     @node-click="
-      (nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
+      (nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
     "
     @keyup.ctrl.c="onCtrlCopy"
     @keyup.ctrl.v="onCtrlPaste"
@@ -417,8 +399,8 @@ onMounted(() => {
     :allow-drag="allowDrag"
   >
     <template #default="{ node, data }">
-      <img :src="data.icon" />
-      <span class="node-label">{{ node.label }}</span>
+      <img :src="'icons/' + data.treeVars.icon" />
+      <span class="node-label">{{ data.treeVars.label }}</span>
     </template>
   </el-tree>
   <context-menu ref="menuEl" v-model:show="showContextMenu" :options="options" />

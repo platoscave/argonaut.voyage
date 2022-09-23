@@ -1,0 +1,8 @@
+    <svg id="menu-organization" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g fill="#60a5fa" >
+        <polygon points="390,215.001 245,215.001 245,185 215,185 215,215.001 70,215.001 70,275 100,275 100,245.001 360,245.001 360,275 390,275 	"/>
+        <rect x="290" y="305" width="170" height="100"/>
+        <rect y="305" width="170" height="100"/>
+        <rect x="110" y="55" width="240" height="100"/>
+      </g>
+    </svg>
