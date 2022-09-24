@@ -1,5 +1,5 @@
-import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader } from 'three'
-import { getTextMesh } from "~/lib/threejsUtils"
+import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader, ShapeGeometry } from 'three'
+import { getTextMesh, getAvatarMesh, getRoundedRectShape } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -16,13 +16,18 @@ export default class UserObject3d extends Object3D {
     let objectMesh = this.getMesh()
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
-    let avatarMesh = this.getAvatar(userData.icon)
-    //avatarMesh.name = userData.name + ' - 3d mesh'
-    this.add(avatarMesh)
+
+    if(userData.treeVars.icon) {
+      const avatarMesh = getAvatarMesh(userData.treeVars.icon)
+      avatarMesh.translateZ(DEPTH * 0.2)
+      avatarMesh.translateX(-WIDTH * .60)
+      avatarMesh.translateY(HEIGHT * .25)
+      this.add(avatarMesh)
+    }
 
     let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)
-    textMesh.translateY(-HEIGHT / 4)
+    //textMesh.translateY(-HEIGHT / 4)
     objectMesh.add(textMesh)
 
 
@@ -55,27 +60,5 @@ export default class UserObject3d extends Object3D {
     return new Mesh(geometry, material)
   }
 
-  getAvatar(icon) {
-
-    // Avatar
-    const cylindergeometry = new CylinderGeometry(HEIGHT / 2, HEIGHT / 2, DEPTH / 2, 32);
-    cylindergeometry.rotateX(Math.PI / 2)
-    cylindergeometry.rotateZ(Math.PI / 2)
-    cylindergeometry.translate(-WIDTH / 2, HEIGHT / 2, 0)
-
-    const texture = new TextureLoader().load(icon);
-    //texture.rotation  = Math.PI/2
-    const cylinderMaterial = new MeshBasicMaterial({ map: texture });
-    const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors
-    const material = new MeshLambertMaterial({ color: colorProp.color })
-
-    const materials = [
-      material, // side
-      cylinderMaterial, // top
-      cylinderMaterial // bottom
-    ]
-    return new Mesh(cylindergeometry, materials);
-
-  }
 
 }

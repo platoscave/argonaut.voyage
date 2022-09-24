@@ -124,10 +124,16 @@ const drawPropositionToProcessConnectors = (propositionArr) => {
 const drawOrgUnits = async (zPos) => {
 
   // Get the organization
-  const orgObject = await db.state.get(selectedObjId.value)
+  //const orgObject = await db.state.get(selectedObjId.value)
+  const orgObject = await argoQueryPromise(
+    {
+      selector: "Where Clause",
+      where: { _id: "$fk" },
+    },{ _id: selectedObjId.value }
+  )
 
   // Create the OrgObject3d (extends Object3d)
-  const rootOrgObj3d = new OrgObject3d(orgObject, true);
+  const rootOrgObj3d = new OrgObject3d(orgObject[0], true);
   rootOrgObj3d.translateZ(zPos);
   glModelObj3d.add(rootOrgObj3d);
   addSelectable(rootOrgObj3d.children[0]);
@@ -195,7 +201,7 @@ onMounted(async () => {
     loadingText();
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });

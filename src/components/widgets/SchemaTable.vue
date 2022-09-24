@@ -51,7 +51,6 @@ interface IViewObj {
   classId: string;
 }
 getMaterializedView(props.widgetObj.viewId).then((view) => {
-  //debugger;
   Object.assign(viewObj, view);
 
   const resArr = useArgoQuery(view.queryId, {
@@ -77,7 +76,7 @@ const onInput = async (updatedDataObj) => {
 
   } catch (err) {
     this.valid = false;
-    this.$message({ showClose: true, message: err, type: "error" })
+    this.$message({ showClose: true, message: err.reason.message, type: "error" })
   }
   */
 };

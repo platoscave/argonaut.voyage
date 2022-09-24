@@ -1,7 +1,7 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
 import { take } from 'rxjs/operators';
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh } from 'three'
-import { drawBeam, drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
+import { drawBeam, getAvatarMesh, drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -18,6 +18,14 @@ export default class OrgObject3d extends Object3D {
     let orgMesh = this.getMesh()
     orgMesh.name = userData.name + ' - 3d mesh'
     this.add(orgMesh)
+
+    if(userData.treeVars && userData.treeVars.icon) {
+      const avatarMesh = getAvatarMesh(userData.treeVars.icon)
+      avatarMesh.translateZ(DEPTH * 0.4)
+      avatarMesh.translateX(-WIDTH * .60)
+      avatarMesh.translateY(HEIGHT * .25)
+      this.add(avatarMesh)
+    }
 
     let textMesh = getTextMesh(userData.name)
     textMesh.translateZ(DEPTH * 0.6)

@@ -30,50 +30,7 @@ watch(nextLevelSelectedObjId, (nextLevelSelectedObjId) => {
 });
 
 const loadNode = async (node, resolve) => {
-  //
-  // Get Icon from item anscestors, recursivly
-  /*
-  const getAnscestorsIcon = async (id) => {
-    const classObj = await db.state.get(id);
-    if (classObj.classIcon) return classObj.classIcon;
-    return getAnscestorsIcon(classObj.superClassId);
-  };
 
-  // If the item still doesn't have an icon then get one from the Anscestors
-  const addClassIcons = async (items) => {
-    const iconsPromisses = items.map((item) => {
-      if (item.icon) return item.icon;
-      return getAnscestorsIcon(item.classId ? item.classId : item.superClassId);
-    });
-    return await Promise.all(iconsPromisses);
-  };
-
-  const addTreeNodeVars = (items) => {
-    const resItems = items.map((item) => {
-      item.label = item.title ? item.title : item.name; //TODO value?
-
-      if (item.treeVars.subQueryIds && item.treeVars.subQueryIds.length) {
-        // If the query has subQueryIds, assume it may have children
-        // TODO execute the treeVars.subQueryIds to see if we're dealing with a leaf node
-        item.isLeaf = false;
-      } else item.isLeaf = true;
-
-      // If the treeVars has a pageId, use it. Otherwise use the item pageId.
-      if (item.treeVars.nodesPageId) item.pageId = item.treeVars.nodesPageId;
-      // Still no pageId, use the default object page based on merged anscestors
-      if (!item.pageId) {
-        if (item.classId) item.pageId = "mb2bdqadowve";
-        // class schema page
-        else item.pageId = "24cnex2saye1"; // class details page
-      }
-
-      // If the treeVars has an icon, use it. Otherwise use the item icon.
-      if (item.treeVars.nodesIcon) item.icon = item.treeVars.nodesIcon;
-      return item;
-    });
-    return resItems;
-  };
-*/
   try {
     // root level
     if (node.level === 0) {
@@ -101,7 +58,7 @@ const loadNode = async (node, resolve) => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });
@@ -416,5 +373,6 @@ onMounted(() => {
 img {
   height: 20px;
   width: 20px;
+  border-radius: 20%;
 }
 </style>

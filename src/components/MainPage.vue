@@ -35,7 +35,6 @@ const updatedObjectsCount = useLiveQuery<number>(
 )
 
 const updateCurrentNetwork = async (currentNetwork) => {
-  debugger
   await db.settings.update("application", {
     currentNetwork: currentNetwork,
   });
@@ -53,7 +52,7 @@ const saveChanges = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: 'error',
       duration: 5000 
     })
@@ -68,7 +67,7 @@ const cancelChanges = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: 'error',
       duration: 5000 
     })
@@ -99,11 +98,11 @@ onMounted( async () => {
     window.addEventListener ('unhandledrejection', err => {
       ElMessage({
         showClose: true,
-        message: err,
+        message: err.reason.message,
         type: 'error',
         duration: 5000 
       })
-      throw new Error(err)
+      throw err
     });
 })
 </script>

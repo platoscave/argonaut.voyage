@@ -2112,7 +2112,7 @@
     "_id": "demouser1124",
     "name": "Consumer One",
     "classId": "hdt3hmnsaghk",
-    "icon": "ConsumerOne.png",
+    "icon": "ConsumerOne.jpg",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2280,10 +2280,10 @@
   },
   {
     "_id": "clinic111111",
-    "name": "DEMO Health Care Clinic",
+    "name": "DEMO Clinic",
     "description": "",
     "classId": "be1ub1vtofjo",
-    "icon": "DEMOHealthCareClinic.svg",
+    "icon": "DEMOClinic.svg",
     "permissions": [
       {
         "perm_name": "owner",
@@ -2481,6 +2481,7 @@
     "_id": "bikefrondesk",
     "name": "Shop Front Desk",
     "classId": "dasprps1lrwf",
+    "icon": "ShopFrontDesk.svg",
     "parentOrgId": "bikeshop1111",
     "permissions": [
       {
@@ -2532,6 +2533,7 @@
     "_id": "bikeworkshop",
     "name": "Shop Workshop",
     "classId": "dasprps1lrwf",
+    "icon": "ShopWorkshop.svg",
     "parentOrgId": "bikeshop1111",
     "permissions": [
       {
@@ -2922,8 +2924,18 @@
         "name": "Organization",
         "widgets": [
           {
-            "displayType": "Tree",
-            "name": "Organization Tree",
+            "displayType": "Schema Table",
+            "name": "Organization Table",
+            "viewId": "nmeh5awdy4jm"
+          }
+        ]
+      },
+      {
+        "name": "Members",
+        "widgets": [
+          {
+            "displayType": "Schema Table",
+            "name": "Members Table",
             "viewId": "nmeh5awdy4jm"
           }
         ]

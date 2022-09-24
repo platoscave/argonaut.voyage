@@ -80,7 +80,7 @@ onMounted(async () => {
     loadingText();
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });

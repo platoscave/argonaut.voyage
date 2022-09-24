@@ -164,7 +164,7 @@ class EosApiService {
           $message({ message: 'Upsert ten', type: "success" });
         } catch (err) {
           console.error(err) // Dont care
-          $message({ message: err, type: "error" });
+          $message({ message: err.reason.message, type: "error" });
         }
       })
     }
@@ -292,7 +292,7 @@ class EosApiService {
         if (err.includes("as that name is already taken")) $message({ message: actionArr[0].data.name + ' Already added', type: "success" });
         else {
           console.error(err)
-          $message({ message: err, type: "error" });
+          $message({ message: err.reason.message, type: "error" });
         }
       }
     }

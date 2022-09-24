@@ -2,7 +2,7 @@ import { db } from "~/services/dexieServices";
 import jp from "jsonpath"
 
 /* queryObj or queryId or queryIdsArr */
-export default function argoQueryPromise(idsArrayOrObj, contextObj = null, deps, options) {
+export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
 
   const executeQuery = async (queryObj) => {
 
@@ -91,6 +91,72 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null, deps,
       return array;
     }
 
+    // Get Icon from item anscestors, recursivly
+    const getAnscestorsIcon = async (id) => {
+      if(!id) return ''
+      const classObj = await db.state.get(id);
+      if (classObj.classIcon) return classObj.classIcon;
+      return getAnscestorsIcon(classObj.superClassId);
+    }
+
+
+    const enrichItemsWithTreeVars = (items, queryObj, iconsArr) => {
+
+      const enrichedResults = items.map((item, idx) => {
+        let label = item.title ? item.title : item.name; //TODO value?
+        let pageId = item.pageId ? item.pageId : queryObj.nodesPageId
+        if(!pageId) {
+          if (item.classId) pageId = "mb2bdqadowve";// class schema page
+          else pageId = "24cnex2saye1"; // class details page
+        }
+        let isLeaf = true;
+        if (queryObj.subQueryIds && queryObj.subQueryIds.length) {
+          // If the query has subQueryIds, assume it may have children
+          // TODO execute the queryObj.subQueryIds to see if we're dealing with a leaf node
+          // i.e. get grandChildren
+          isLeaf = false;
+        }
+
+        item.treeVars = {
+          label: label,
+          pageId: pageId,
+          icon: iconsArr[idx], // pick icon from the array we found earlier
+          isLeaf: isLeaf, // used by tree: expand/colapse arrow
+          subQueryIds: queryObj.subQueryIds, // used by tree to get child nodes
+          selector: queryObj.selector, // used by tree: onCtrlPaste, handelDrop etc
+          where: queryObj.where,
+          idsArrayPath: queryObj.idsArrayPath, // used by tree: onCtrlPaste, handelDrop etc
+
+          nodesPageId: queryObj.nodesPageId,
+          nodesIcon: queryObj.nodesIcon,
+        }
+        return item
+      })
+
+
+        // console.log('\nQuery Object: ', queryObj)
+        // console.log('Context Object: ', contextObj)
+        // console.log('Results', enrichedResults)
+      return enrichedResults
+    }
+
+    const addTreeVars = async (items, queryObj) => {
+
+      // Collect promise of each icon into an array
+      // We have to do icons separately because one case involves a promise
+      const iconsPromissesArr = items.map(item => {
+        if(item.icon) return Promise.resolve(item.icon) // value as promise
+        else if(queryObj.nodesIcon) return Promise.resolve(queryObj.nodesIcon) // value as promise
+        else if(item.classId) return getAnscestorsIcon(item.classId) // promise
+        else return Promise.resolve('ClassIcon.svg') // litteral as promise
+      })
+
+      const iconsArr = await Promise.all(iconsPromissesArr)
+      // Now that we have the iconsArr we can continue to enrich items with treeVars
+      return enrichItemsWithTreeVars(items, queryObj, iconsArr)
+
+    }
+
     let slectorResult = null
     const resolvedWhere = resolve$Vars(queryObj.where, contextObj)
 
@@ -160,21 +226,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null, deps,
     // We have to do this here because in the case where idsArrayOrObj is an array 
     // of queryIds, this is the last place where we know wich query is responsible
     // for the query result.
-    console.log('\nQuery Object: ', queryObj)
-    console.log('Context Object: ', contextObj)
-    console.log('Results', resultArr)
-    return resultArr.map(item => {
-      item.treeVars = {
-        nodesPageId: queryObj.nodesPageId,
-        nodesIcon: queryObj.nodesIcon,
-        subQueryIds: queryObj.subQueryIds,
-        selector: queryObj.selector,
-        where: queryObj.where,
-        idsArrayPath: queryObj.idsArrayPath,
-      }
-      return item
-    })
-
+    return addTreeVars(resultArr, queryObj)
   }
 
 
@@ -201,7 +253,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null, deps,
     }
 
     // Recieved a query obj
-    else return executeQuery(idsArrayOrObj)
+    return executeQuery(idsArrayOrObj)
   }
 
   // START HERE

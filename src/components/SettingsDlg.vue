@@ -23,7 +23,7 @@ const populateFromStatic = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });
@@ -63,7 +63,7 @@ const eraseAllEos = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });
@@ -77,7 +77,7 @@ const testEos = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });
@@ -86,7 +86,6 @@ const testEos = async () => {
 };
 
 const onReadFilterDownLoad = async () => {
-  debugger
   const response = await fetch("argonautdb.json");
   const argonautData = await response.json();
   const updatedDb = []
@@ -167,7 +166,7 @@ const testQuery = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });
@@ -190,7 +189,7 @@ const generatecpp = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.reason.message,
       type: "error",
       duration: 5000,
     });

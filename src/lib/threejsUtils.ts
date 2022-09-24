@@ -12,7 +12,11 @@ import {
     Quaternion,
     Euler,
     DoubleSide,
-    ShapeGeometry
+    ShapeGeometry,
+    Shape,
+    TextureLoader,
+    MeshBasicMaterial,
+    ExtrudeGeometry
 } from 'three'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import threejsColors from '~/config/threejsColors'
@@ -214,3 +218,44 @@ export const getTextMesh = <Mesh>(name: string = 'unnamed', size: number = HEIGH
 // export const utils = {
 //     drawBeam, drawTube, straightenPoints, getSidePos, drawLabel, getTextMesh
 // }
+
+
+ export const getRoundedRectShape = (height: number, width: number, radius: number) => {
+    const x = 0, y = 0
+
+    // Rounded rect
+    let shape = new Shape()
+    shape.moveTo(x, y + radius)
+      .lineTo(x, y + height - radius)
+      .quadraticCurveTo(x, y + height, x + radius, y + height)
+      .lineTo(x + width - radius, y + height)
+      .quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+      .lineTo(x + width, y + radius)
+      .quadraticCurveTo(x + width, y, x + width - radius, y)
+      .lineTo(x + radius, y)
+      .quadraticCurveTo(x, y, x, y + radius)
+
+      return shape
+ }
+
+ export const getAvatarMesh = <Shape>(icon: string) => {
+
+   const shape = getRoundedRectShape(HEIGHT *.5, HEIGHT * .5, HEIGHT / 8)
+   const texture = new TextureLoader().load('icons/'+icon);
+   const material = new MeshBasicMaterial({ map: texture });
+
+   // extruded shape
+   let extrudeSettings = { depth: DEPTH * .2, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
+   let geometry = new ExtrudeGeometry(shape, extrudeSettings)
+   geometry.scale(1.5, 1.5, 1)
+   const imageMaterial = new MeshBasicMaterial({ map: texture });
+   const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors
+   const material2 = new MeshLambertMaterial({ color: colorProp.color })
+
+   const materials = [
+     imageMaterial, // back front
+     material2, // side
+   ]
+   return new Mesh(geometry, materials);
+
+ }
