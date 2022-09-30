@@ -75,6 +75,9 @@ const colorsObj:any = {
   'dwl1kwhalwj4': {
     color:  0x00A300, // Processes
   },
+  'p1yfotmftly4': {
+    color:  0x00A300, // SubProcesses
+  },
   'cq4bjkzqc2qp': {
     color:  0x5200A3, // User input provider
   },

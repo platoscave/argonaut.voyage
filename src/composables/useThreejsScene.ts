@@ -57,6 +57,7 @@ export function useThreejsScene(
   const glScene = new Scene()
   glScene.name = 'glScene'
   const cssScene = new Scene()
+  cssScene.scale.set(0.01, 0.01, 0.01);
   cssScene.name = 'cssScene'
 
   // models
@@ -72,12 +73,13 @@ export function useThreejsScene(
   // webGl renderer
   //const glRenderer = createGlRenderer()
   const glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
-  glRenderer.setClearColor(0xECF8FF);
+  //glRenderer.setClearColor(0xECF8FF);
+  glRenderer.setClearColor( 0x000000, 0 );
   glRenderer.setPixelRatio(window.devicePixelRatio);
   //glRenderer.setSize(window.innerWidth, window.innerHeight);
   glRenderer.domElement.style.position = 'absolute';
   //glRenderer.domElement.style.zIndex = -1;
-  glRenderer.domElement.style.top = 0;
+  //glRenderer.domElement.style.top = 0;
   glRenderer.domElement.style.pointerEvents = 'none'
   glRenderer.domElement.setAttribute("name", "GLRENDERER");
 
@@ -86,11 +88,11 @@ export function useThreejsScene(
   const cssRenderer = new CSS3DRenderer();
   //cssRenderer.setSize(window.innerWidth, window.innerHeight);
   cssRenderer.domElement.style.position = 'absolute';
-  //cssRenderer.domElement.style.zIndex = 0;
+  cssRenderer.domElement.style.zIndex = 10;
   cssRenderer.domElement.style.top = 0;
   //cssRenderer.domElement.style.pointerEvents	= 'auto'
   cssRenderer.domElement.setAttribute("name", "CSSRENDERER");
-  cssRenderer.domElement.appendChild(glRenderer.domElement)
+  //cssRenderer.domElement.appendChild(glRenderer.domElement)
 
   // controls
   let controls = new OrbitControls(camera, cssRenderer.domElement)
@@ -175,6 +177,7 @@ export function useThreejsScene(
     // update the picking ray with the camera and mouse position
     raycaster.setFromCamera(mouse, camera)
     let intersects = raycaster.intersectObjects(selectableMeshArr)
+    debugger
     if (intersects.length > 0) {
       let selectedMesh = intersects[0].object
       const nodeData = selectedMesh.parent.userData
@@ -296,6 +299,7 @@ export function useThreejsScene(
     // since this reactive variable is undefined until the mount
 
     rootEl.value.appendChild(cssRenderer.domElement)
+    rootEl.value.appendChild(glRenderer.domElement)
 
     if (statsOn) rootEl.value.appendChild(stats.dom)
 

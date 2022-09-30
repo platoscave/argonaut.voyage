@@ -566,6 +566,7 @@
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
     "processId": "ynaxakdc423e",
+    "subprocessId": "h3q1vchxahoh",
     "assetIds": []
   },
   {
@@ -576,7 +577,8 @@
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
-    "processId": "",
+    "processId": "5baf3ai3t4sw",
+    "subprocessId": "iyn245eirxql",
     "assetIds": []
   },
   {
@@ -587,7 +589,8 @@
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
     "endDate": "2019-08-10T14:49:54.500",
-    "processId": "",
+    "processId": "d41ihaghrkyv",
+    "subprocessId": "gm5xv3w3mmsk",
     "assetIds": []
   },
   {
@@ -710,6 +713,39 @@
   {
     "_id": "dwl1kwhalwj4",
     "title": "Processes",
+    "description": "<p>Processes</p>",
+    "classIcon": "Processes.svg",
+    "superClassId": "nrioirgelhpi",
+    "properties": {
+      "returnActions": {
+        "title": "Return Actions",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "firstStepId": {
+        "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "1jrqyjoabx1a"
+          },
+          "idsArrayPath": {
+            "path": "$[*]._id",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "First Step",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "p1yfotmftly4",
+    "title": "Sub-Processes",
     "description": "<p>Processes</p>",
     "classIcon": "Processes.svg",
     "superClassId": "nrioirgelhpi",
@@ -2590,21 +2626,21 @@
   },
   {
     "_id": "cie1pllxq5mu",
-    "name": "Messaging",
-    "description": "<p>Service Request Process</p>",
+    "name": "Argonaut Messaging",
+    "description": "<p>Messaging Request Process</p>",
     "classId": "dwl1kwhalwj4",
     "returnActions": [
       "happy",
       "unhappy"
     ],
     "firstStepId": "oltp4kpj4fvi",
-    "ownerId": "demouser1123"
+    "ownerId": "argonautvoya"
   },
   {
     "_id": "h3q1vchxahoh",
-    "name": "Bicycle Shop Process",
+    "name": "Bicycle Shop Purchase Process",
     "description": "<p>Bicycle Shop Purchase Process</p>",
-    "classId": "dwl1kwhalwj4",
+    "classId": "p1yfotmftly4",
     "returnActions": [
       "happy",
       "unhappy"
@@ -2614,7 +2650,7 @@
   },
   {
     "_id": "ynaxakdc423e",
-    "name": "Purchase Process",
+    "name": "Argonaut Purchase Process",
     "description": "<p>Purchase</p>",
     "classId": "dwl1kwhalwj4",
     "returnActions": [
@@ -2623,8 +2659,215 @@
       "reject"
     ],
     "firstStepId": "3r5kgovlor1o",
+    "ownerId": "argonautvoya"
+  },
+
+
+  {
+    "_id": "5baf3ai3t4sw",
+    "name": "Argonaut Rental Process",
+    "description": "<p>Purchase</p>",
+    "classId": "dwl1kwhalwj4",
+    "returnActions": [
+      "happy",
+      "unhappy",
+      "reject"
+    ],
+    "firstStepId": "s2msniwahznt",
+    "ownerId": "argonautvoya"
+  },
+  {
+    "_id": "s2msniwahznt",
+    "name": "Validate",
+    "description": "<p>Validate</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "b5bvture4qfc"
+      },
+      {
+        "action": "reject"
+      }
+    ],
+    "execute": [
+      "validate ownership",
+      "product escrow",
+      "payment escrow"
+    ],
+    "ownerId": "argonautvoya"
+  },
+  {
+    "_id": "b5bvture4qfc",
+    "name": "Perform",
+    "description": "<p>Perform</p>",
+    "classId": "jotxozcetpx2",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "jvai1jsl5vvm"
+      },
+      {
+        "action": "unhappy",
+        "stepId": "ksxzvqgqixcf"
+      }
+    ],
+    "deligateProcessId": "h3q1vchxahoh",
     "ownerId": "bikeshop1111"
   },
+  {
+    "_id": "jvai1jsl5vvm",
+    "name": "Acceptance",
+    "description": "<p>Acceptance</p>",
+    "classId": "xsaq3l5hncb2",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "5d22cgznymgm"
+      },
+      {
+        "action": "unhappy",
+        "stepId": "ksxzvqgqixcf"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "5d22cgznymgm",
+    "name": "Transact",
+    "description": "<p>Transact</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "execute": [
+      "transfer product ownership",
+      "transfer payment"
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "ksxzvqgqixcf",
+    "name": "Rollback",
+    "description": "<p>Rollback</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "unhappy"
+      }
+    ],
+    "execute": [
+      "return payment"
+    ],
+    "ownerId": "argonautvoya"
+  },
+  {
+    "_id": "d41ihaghrkyv",
+    "name": "Argonaut Service Process",
+    "description": "<p>Purchase</p>",
+    "classId": "dwl1kwhalwj4",
+    "returnActions": [
+      "happy",
+      "unhappy",
+      "reject"
+    ],
+    "firstStepId": "col14aenhvqb",
+    "ownerId": "argonautvoya"
+  },
+  {
+    "_id": "col14aenhvqb",
+    "name": "Validate",
+    "description": "<p>Validate</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "vbizzon2ujut"
+      },
+      {
+        "action": "reject"
+      }
+    ],
+    "execute": [
+      "validate ownership",
+      "product escrow",
+      "payment escrow"
+    ],
+    "ownerId": "argonautvoya"
+  },
+  {
+    "_id": "vbizzon2ujut",
+    "name": "Perform",
+    "description": "<p>Perform</p>",
+    "classId": "jotxozcetpx2",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "23ugvucifhwb"
+      },
+      {
+        "action": "unhappy",
+        "stepId": "d25jzj1alzzx"
+      }
+    ],
+    "deligateProcessId": "h3q1vchxahoh",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "23ugvucifhwb",
+    "name": "Acceptance",
+    "description": "<p>Acceptance</p>",
+    "classId": "xsaq3l5hncb2",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "4gql1emttxlk"
+      },
+      {
+        "action": "unhappy",
+        "stepId": "d25jzj1alzzx"
+      }
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "4gql1emttxlk",
+    "name": "Transact",
+    "description": "<p>Transact</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "execute": [
+      "transfer product ownership",
+      "transfer payment"
+    ],
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "d25jzj1alzzx",
+    "name": "Rollback",
+    "description": "<p>Rollback</p>",
+    "classId": "dqja423wlzrb",
+    "nextStepIds": [
+      {
+        "action": "unhappy"
+      }
+    ],
+    "execute": [
+      "return payment"
+    ],
+    "ownerId": "argonautvoya"
+  },
+
+
+
+
+
   {
     "_id": "3hxkire2nn4v",
     "name": "Success",
@@ -2738,6 +2981,91 @@
     "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
+
+
+
+  {
+    "_id": "gm5xv3w3mmsk",
+    "name": "Bicycle Shop Repair Process",
+    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "classId": "p1yfotmftly4",
+    "returnActions": [
+      "happy",
+      "unhappy"
+    ],
+    "firstStepId": "gwmrazev4px2",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "gwmrazev4px2",
+    "name": "Order Pick",
+    "description": "<p>Order Pick</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "lzqfu3yuqbwu"
+      }
+    ],
+    "authorizedOrgUnitId": "bikefrondesk",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "lzqfu3yuqbwu",
+    "name": "Expedite",
+    "description": "<p>Expedite</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStepIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "authorizedOrgUnitId": "bikeworkshop",
+    "ownerId": "bikeshop1111"
+  },
+
+  {
+    "_id": "iyn245eirxql",
+    "name": "Bicycle Shop Rental Process",
+    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "classId": "p1yfotmftly4",
+    "returnActions": [
+      "happy",
+      "unhappy"
+    ],
+    "firstStepId": "sd2poko24voc",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "sd2poko24voc",
+    "name": "Order Pick",
+    "description": "<p>Order Pick</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStepIds": [
+      {
+        "action": "happy",
+        "stepId": "cxugrwyhprpw"
+      }
+    ],
+    "authorizedOrgUnitId": "bikefrondesk",
+    "ownerId": "bikeshop1111"
+  },
+  {
+    "_id": "cxugrwyhprpw",
+    "name": "Expedite",
+    "description": "<p>Expedite</p>",
+    "classId": "cq4bjkzqc2qp",
+    "nextStepIds": [
+      {
+        "action": "happy"
+      }
+    ],
+    "authorizedOrgUnitId": "bikeworkshop",
+    "ownerId": "bikeshop1111"
+  },
+
+
+
   {
     "_id": "tfkyaytuac1g",
     "name": "Answer",
@@ -2764,7 +3092,7 @@
         "stepId": "pvk5ngmorf4z"
       }
     ],
-    "authorizedOrgUnitId": "bikeworkshop",
+    "authorizedOrgUnitId": "bikefrondesk",
     "ownerId": "bikeshop1111"
   },
   {
@@ -3686,7 +4014,7 @@
     ],
     "where": {
       "classId": "dwl1kwhalwj4",
-      "ownerId": "$fk"
+      "ownerId": "argonautvoya"
     }
   },
   {
@@ -4158,13 +4486,12 @@
     "name": "Let's meetup at the wattering hole",
     "description": "<p>Do you have time for a get-together? </p>",
     "classId": "i1gjptcb2skq",
-    "ownerId": "demouser1123",
-    "amount": 0.0,
+    "amount": 100.0,
     "currency": "EUR",
     "startDate": "2021-05-10",
-    "expirationDate": {},
+    "expirationDate": "2025-05-10",
     "consumerId": "demouser1124",
-    "providerId": "demouser1123",
+    "providerId": "bikeshop1111",
     "assetId": "",
     "processId": "cie1pllxq5mu",
     "currentStepId": "oltp4kpj4fvi"

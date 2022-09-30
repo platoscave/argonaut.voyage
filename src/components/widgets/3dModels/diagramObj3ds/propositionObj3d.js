@@ -30,6 +30,10 @@ export default class ProbositionObject3d extends Object3D {
       this.drawTubeBackSideToFrontSide(destProcessObj3d)
     }
 
+    if (this.userData.subprocessId) {
+      let destProcessObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.subprocessId)
+      this.drawTubeBackSideToFrontSide(destProcessObj3d)
+    }
   }
 
   drawTubeBackSideToFrontSide(destProcessObj3d) {

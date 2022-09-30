@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { db } from "~/services/dexieServices";
 import argoQueryPromise from "~/lib/argoQueryPromise";
+import AgreementObject3d from "./diagramObj3ds/agreementObj3d.js";
 import PropositionObject3d from "./diagramObj3ds/propositionObj3d";
 import ProcessObject3d from "./diagramObj3ds/processObj3d.js";
 import OrgObject3d from "./diagramObj3ds/orgObj3d.js";
@@ -10,6 +11,9 @@ import { useThreejsScene } from "~/composables/useThreejsScene";
 import { useHashDissect } from "~/composables/useHashDissect";
 import { ElMessage } from "element-plus";
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
+import { Object3D, Mesh, BoxGeometry, PlaneGeometry, MeshBasicMaterial } from "three";
+import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+
 
 const props = defineProps({
   hashLevel: Number,
@@ -35,96 +39,199 @@ const { glModelObj3d, cssModelObj3d, cursor, addSelectable, removeSelectable, lo
   autoRotate
 );
 
-const drawPropositions = async (zPos) => {
-  // Get the processes from the store
-  // Owned Processes Query
+const drawAgreements = async (zPos: number) => {
 
-  const resArr = await argoQueryPromise("f41heqslym5e", { _id: selectedObjId.value })
+////////////////////////////////////////////////////////
+// const obj = new Object3D()
 
+//         var content = '<div>' +
+//         '<h1>This is an H1 Element.</h1>' +
+//         '<span class="large">Hello Three.js cookbook</span>' +
+//         '<textarea> And this is a textarea</textarea>' +
+//         '</div>';
+//         // convert the string to dome elements
+//         var wrapper = document.createElement('div');
+//         wrapper.innerHTML = content;
+//         var div = wrapper.firstChild;
+    
+//         // set some values on the div to style it.
+//         // normally you do this directly in HTML and 
+//         // CSS files.
+//         div.name = 'css div';
+//         div.style.width = '400px';
+//         div.style.height = '400px';
+//         div.style.opacity = .8;
+//         div.style.background = '#eee'
+//         div.style['border-radius'] = '10px';
+//         div.style.padding = '10px';
+//         div.style.color = 'black';
+    
+//         // create a CSS3Dobject and return it.
+//         var object = new CSS3DObject(div);
+//         //cssModelObj3d.add( object)
+
+
+//     var material = new MeshBasicMaterial({color: '#F00'})
+//     var geometry = new PlaneGeometry(4, 4);
+//     var mesh = new Mesh(geometry, material);
+//     // mesh.castShadow = true;
+//     // mesh.receiveShadow = true;
+//     // obj.lightShadowMesh = mesh
+//     obj.add(mesh);
+//     addSelectable(mesh);
+
+//     //obj.add(object)
+//     glModelObj3d.add(obj);
+////////////////////////////////////////////////////////
+
+
+  // Get the agreements
+  const agreementsArr = await argoQueryPromise(
+    {
+      selector: "Where Clause",
+      where: { providerId: "$fk", classId: "i1gjptcb2skq" },
+    },{ _id: selectedObjId.value }
+  )
+
+  // Create the AgreementObject3d (extends Object3d)
+  const agreementsObj3dArr = agreementsArr.map(( item: any, idx: number) => {
+    const agreementObj3d = new AgreementObject3d(item, true);
+    agreementObj3d.translateX(agreementsArr.length * WIDTH * idx);
+    agreementObj3d.translateZ(zPos);
+    glModelObj3d.add(agreementObj3d);
+    cssModelObj3d.add(agreementObj3d);
+    addSelectable(agreementObj3d.children[0]);
+    return agreementObj3d
+  })
+
+
+  return agreementsObj3dArr
+
+}
+const drawPropositions = async (zPos: number) => {
+
+  // Owned Propositions Query
+  const propositionsArr = await argoQueryPromise("f41heqslym5e", { _id: selectedObjId.value })
 
   // Create the PropositionObject3d (extends Object3d)
-  let propositionsArr = [];
-  let xPos = resArr.length * -WIDTH;
-  resArr.forEach((item) => {
-    let propositionObj3d = new PropositionObject3d(item, true);
-    propositionObj3d.translateX(xPos);
+  const propositionsObj3dArr = propositionsArr.map(( item: any, idx: number) => {
+    const propositionObj3d = new PropositionObject3d(item, true);
+    propositionObj3d.translateX(propositionsArr.length * WIDTH * idx);
     propositionObj3d.translateZ(zPos);
-    propositionsArr.push(propositionObj3d);
     glModelObj3d.add(propositionObj3d);
     addSelectable(propositionObj3d.children[0]);
+    return propositionObj3d
+  })
 
-    xPos += WIDTH * 2;
-  });
+  zPos = zPos- (DEPTH * 30)
 
-  return propositionsArr;
-};
-
-const drawProcesses = async (zPos) => {
-  // Get the processes from the store
-  const resArr = await argoQueryPromise("sfmg5u3wtpds", { _id: selectedObjId.value })
-
-  // Create the ProcessObject3ds (extends Object3d)
-  let processArr = [];
-  resArr.forEach((item) => {
-    let processObj3d = new ProcessObject3d(item, true);
+  const processPromiseArr = propositionsArr.map((item: any) => db.state.get(item.processId))
+  const processArr = await Promise.all(processPromiseArr)
+  // Create the processObject3ds (extends Object3d)
+  const processObj3dArr = processArr.map(( item: any, idx: number) => {
+    const processObj3d = new ProcessObject3d(item, true);
+    //processObj3d.translateX(propositionsArr.length * WIDTH * idx);
     processObj3d.translateZ(zPos);
-    processArr.push(processObj3d);
     glModelObj3d.add(processObj3d);
     addSelectable(processObj3d.children[0]);
-  });
+    return processObj3d
+  })
+
+
+  const subprocessPromiseArr = propositionsArr.map((item: any) => db.state.get(item.subprocessId))
+  const subprocessArr = await Promise.all(subprocessPromiseArr)
+  // Create the processObject3ds (extends Object3d)
+  const subprocessObj3dArr = subprocessArr.map(( item: any, idx: number) => {
+    const subprocessObj3d = new ProcessObject3d(item, true);
+    subprocessObj3d.translateX(subprocessArr.length * WIDTH * idx);
+    subprocessObj3d.translateZ(zPos);
+    subprocessObj3d.translateY(-HEIGHT * 10);
+    glModelObj3d.add(subprocessObj3d);
+    addSelectable(subprocessObj3d.children[0]);
+    return subprocessObj3d
+  })
+
+  const concatObj3dArr = processObj3dArr.concat(subprocessObj3dArr)
 
   // Tell processes to draw the first step, which will then draw their next steps
-  let promisesArr = [];
-  processArr.forEach((processObj3d) => {
-    promisesArr.push(
-      processObj3d.drawSteps(addSelectable, glModelObj3d)
-    );
+  const drawnStepsPromisesArr = concatObj3dArr.map(( item: any) => {
+    return item.drawSteps(addSelectable, glModelObj3d)
   });
-  await Promise.all(promisesArr);
+  await Promise.all(drawnStepsPromisesArr);
+
+
+  // processObj3dArr
+
+  // Set the Y positions of the steps
+  let processMaxXArr = [];
+  let totalWidth = 0;
+  processObj3dArr.forEach((processObj3d) => {
+    let maxXYVec = processObj3d.setPositionY();
+    processMaxXArr.push(maxXYVec.x);
+    totalWidth += maxXYVec.x;
+  });
+
+  // Arrange Processes side by side, now that we know how wide they are
+  let xPos = -totalWidth / 2;
+  processObj3dArr.forEach((processObj3d, idx) => {
+    processObj3d.translateX(xPos);
+    xPos += processMaxXArr[idx] + processMaxXArr[idx + 1] / 2 + WIDTH * 4;
+  });
+
+  // Draw the end states
+  processObj3dArr.forEach((processObj3d, idx) => {
+    processObj3d.drawEndStates(processMaxXArr[idx]);
+  });
+
+
+  // subprocessObj3dArr
+
 
   // Set the Y positions of the steps
   let maxXArr = [];
-  let totalWidth = 0;
-  processArr.forEach((processObj3d) => {
+  totalWidth = 0;
+  subprocessObj3dArr.forEach((processObj3d) => {
     let maxXYVec = processObj3d.setPositionY();
     maxXArr.push(maxXYVec.x);
     totalWidth += maxXYVec.x;
   });
 
   // Arrange Processes side by side, now that we know how wide they are
-  let xPos = -totalWidth / 2;
-  processArr.forEach((processObj3d, idx) => {
+  xPos = -totalWidth / 2;
+  subprocessObj3dArr.forEach((processObj3d, idx) => {
     processObj3d.translateX(xPos);
     xPos += maxXArr[idx] + maxXArr[idx + 1] / 2 + WIDTH * 4;
   });
 
-  // Draw the end states
-  processArr.forEach((processObj3d, idx) => {
-    processObj3d.drawEndStates(maxXArr[idx]);
-  });
+
+
+  // both
+
+
 
   // Important! Must update world matrixes, after you change positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);
 
   // Let the steps to draw their connectors to their next steps
-  processArr.forEach((processObj3d) => {
+  concatObj3dArr.forEach((processObj3d) => {
     processObj3d.drawStepConnectors(glModelObj3d);
   });
 
-  return processArr;
-};
-
-const drawPropositionToProcessConnectors = (propositionArr) => {
   // Let the Propositions to draw their connectors to their Process
-  propositionArr.forEach((propositionObj3d) => {
+  propositionsObj3dArr.forEach((propositionObj3d) => {
     propositionObj3d.drawPropositionToProcessConnectors(glModelObj3d);
   });
+
+
+
+
+  return concatObj3dArr
 };
 
 const drawOrgUnits = async (zPos) => {
 
   // Get the organization
-  //const orgObject = await db.state.get(selectedObjId.value)
+  // We use argoQuery here because we want treeVars.icon
   const orgObject = await argoQueryPromise(
     {
       selector: "Where Clause",
@@ -171,9 +278,9 @@ const drawMembers = async (zPos) => {
   glModelObj3d.updateMatrixWorld(true);
 }
 
-const drawStepToOrgUnitConnectors = (processArr) => {
+const drawStepToOrgUnitConnectors = (processObj3dArr) => {
   // Tell the steps to draw their connectors to their next steps
-  processArr.forEach((processObj3d) => {
+  processObj3dArr.forEach((processObj3d) => {
     processObj3d.drawStepToOrgUnitConnectors(glModelObj3d);
   });
 };
@@ -187,21 +294,22 @@ onMounted(async () => {
   try {
     loadingText("Loading...");
 
-    const propositionsArr = await drawPropositions(0);
-    const processArr = await drawProcesses(-DEPTH * 30);
-    const rootOrgObj3d = await drawOrgUnits(-DEPTH * 60);
-    await drawMembers(-DEPTH * 90);
+    const agreementsObj3dArr = await drawAgreements(0);
+    const processObj3dArr = await drawPropositions(-DEPTH * 30);
+    const rootOrgObj3d = await drawOrgUnits(-DEPTH * 90);
+    await drawMembers(-DEPTH * 120);
     
-    drawPropositionToProcessConnectors(propositionsArr);
-    drawStepToOrgUnitConnectors(processArr);
+    //drawPropositionToProcessConnectors(propositionsArr);
+    drawStepToOrgUnitConnectors(processObj3dArr);
     drawUnitToUserConnectors(rootOrgObj3d);
 
     loadingText();
   } catch (err) {
-    loadingText();
+    loadingText("");
+    loadingText("Error :-(");
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err,
       type: "error",
       duration: 5000,
     });

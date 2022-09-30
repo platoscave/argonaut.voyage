@@ -172,7 +172,7 @@ export default class StepObject3d extends Object3D {
 
     if (this.userData.authorizedOrgUnitId) {
       let destUserObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.authorizedOrgUnitId)
-      this.drawTubeBackSideToFrontSide(destUserObj3d, 'authorizedOrgUnitId')
+      this.drawTubeBackSideToBottom(destUserObj3d, 'authorizedOrgUnitId')
     }
 
     this.userData.nextStepIds.forEach(nextStepActionId => {
@@ -190,7 +190,7 @@ export default class StepObject3d extends Object3D {
   }
 
 
-  drawTubeBackSideToFrontSide(userObj3d) {
+  drawTubeBackSideToBottom(userObj3d) {
 
     // Get sourcePos in world coordinates
     let sourcePos = new Vector3()
@@ -205,14 +205,14 @@ export default class StepObject3d extends Object3D {
     difVec.sub(sourcePos)
 
     const sourceBackPos = getSidePos('back', new Vector3())
-    const destFrontPos = getSidePos('front', difVec)
+    const destBottomPos = getSidePos('bottom', difVec)
 
     let points = []
 
     points.push(sourceBackPos)
     points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
-    points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
-    points.push(destFrontPos)
+    points.push(new Vector3(destBottomPos.x, sourceBackPos.y, destBottomPos.z + DEPTH * 4))
+    points.push(destBottomPos)
 
     this.add(drawTube(points, 'active', 'authorizedOrgUnitId', true))
 
