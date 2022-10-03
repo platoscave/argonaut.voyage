@@ -64,6 +64,8 @@ export function useThreejsScene(
   const glModelObj3d = new Object3D()
   glScene.add(glModelObj3d)
   const cssModelObj3d = new Object3D()
+  //cssModelObj3d.scale.set(0.01, 0.01, 0.01);
+  //glModelObj3d.add(cssModelObj3d)
   cssScene.add(cssModelObj3d)
 
   // camera
@@ -73,7 +75,7 @@ export function useThreejsScene(
   // webGl renderer
   //const glRenderer = createGlRenderer()
   const glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
-  //glRenderer.setClearColor(0xECF8FF);
+  glRenderer.domElement.style.background = ''
   glRenderer.setClearColor( 0x000000, 0 );
   glRenderer.setPixelRatio(window.devicePixelRatio);
   //glRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -177,7 +179,7 @@ export function useThreejsScene(
     // update the picking ray with the camera and mouse position
     raycaster.setFromCamera(mouse, camera)
     let intersects = raycaster.intersectObjects(selectableMeshArr)
-    debugger
+    
     if (intersects.length > 0) {
       let selectedMesh = intersects[0].object
       const nodeData = selectedMesh.parent.userData
@@ -295,11 +297,13 @@ export function useThreejsScene(
 
   onMounted(() => {
 
-    // Anything that uses rootEl must be done in onMouted (or onBeforeUnmount)
+    // Anything that uses rootEl must be done in onMounted (and onBeforeUnmount)
     // since this reactive variable is undefined until the mount
 
     rootEl.value.appendChild(cssRenderer.domElement)
     rootEl.value.appendChild(glRenderer.domElement)
+    //glRenderer.domElement.appendChild(cssRenderer.domElement)
+
 
     if (statsOn) rootEl.value.appendChild(stats.dom)
 

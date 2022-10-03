@@ -1,13 +1,28 @@
-import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, 
-  MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader, 
-  ShapeGeometry, MeshPhongMaterial, Color, NoBlending, 
-  DoubleSide, BoxGeometry } from 'three'
+import {
+  Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,
+  MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader,
+  ShapeGeometry, MeshPhongMaterial, Color, NoBlending,
+  DoubleSide, BoxGeometry, PlaneGeometry,  Vector3
+} from 'three'
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import { db } from "~/services/dexieServices";
+import { drawTube, getSidePos } from "~/lib/threejsUtils"
 
-import { getTextMesh, getAvatarMesh, getRoundedRectShape } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
+/* HTML in 3D is hard
+Combining WebGLRenderer & CSS3DRenderer
+uses iframe: https://github.com/pmndrs/react-three-fiber/discussions/820?sort=new#discussioncomment-135336
+HTML <div> element with shadow and shine. (DOM + WebGL "mixed mode" with Three.js):
+cant get this to work https://codepen.io/trusktr/pen/RjzKJx?editors=0110
+Alternatives: SVG with embedded HTML to canvas, then use the canvas as texture. the links won't work
+http://man.hubwiz.com/docset/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas.html
+and: https://robert.ocallahan.org/2011/11/drawing-dom-content-to-canvas.html
+Wonky solution:
+https://r105.threejsfundamentals.org/threejs/lessons/threejs-align-html-elements-to-3d.html
+Doesn't work. cant do html: https://github.com/canvg/canvg
+*/
 
 export default class AgreementObject3d extends Object3D {
 
@@ -20,114 +35,109 @@ export default class AgreementObject3d extends Object3D {
 
 
 
-    const shape = getRoundedRectShape(4, 4, .1)
-    const material = new MeshBasicMaterial({color: '#F00'})
-    const geometry = new ShapeGeometry(shape);
+    const geometry = new PlaneGeometry(WIDTH, WIDTH * 1.41)
+    const material = new MeshBasicMaterial({ color: '#F00', side	: DoubleSide, })
     const mesh = new Mesh(geometry, material);
     this.add(mesh)
 
-    const content = `<div>` +
-      `<h1>Purchase Agreement</h1>` +
-      `<p>${userData.providerId} promisses to deliver ${userData.assestId} to ${userData.consumerId} by ` +
-      `${userData.expirationDate} for the ammount of ${userData.amount} ${userData.currency}</p>` +
-      `<p>Proposition: ${userData.processId} </p>` +
-      `<p>Process: ${userData.processId} </p>` +
-      `<p>Current Step: ${userData.currentStepId} </p>` +
-      `</div>`;
-
-
-    // convert the string to dome elements
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = content;
-    const div = wrapper.firstChild;
-
-    // set some values on the div to style it.
-    // normally you do this directly in HTML and 
-    // CSS files.
-    div.name = 'css div';
-    div.style.width = '400px';
-    div.style.height = '400px';
-    div.style.opacity = .8;
-    div.style.background = '#eee'
-    div.style['border-radius'] = '10px';
-    div.style.padding = '10px';
-    div.style.color = 'black';
-
-        // create a CSS3Dobject and return it.
-        const object = new CSS3DObject(div);
-        this.add( object)
+    this.getCSS3DObject()
 
   }
 
 
-  getMesh() {
-    const x = 0, y = 0
+  async getCSS3DObject() {
 
-    // Rounded rect
-    let shape = new Shape()
-    shape.moveTo(x, y + RADIUS)
-      .lineTo(x, y + HEIGHT - RADIUS)
-      .quadraticCurveTo(x, y + HEIGHT, x + RADIUS, y + HEIGHT)
-      .lineTo(x + WIDTH - RADIUS, y + HEIGHT)
-      .quadraticCurveTo(x + WIDTH, y + HEIGHT, x + WIDTH, y + HEIGHT - RADIUS)
-      .lineTo(x + WIDTH, y + RADIUS)
-      .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
-      .lineTo(x + RADIUS, y)
-      .quadraticCurveTo(x, y, x, y + RADIUS)
+    const idsToGetArr = [
+      'class', 'provider', 'asset', 'consumer', 'proposition', 'process', 'currentStep'
+    ]
+    // Get the objects corresponding to the names above
+    const objectPromisesArr = idsToGetArr.map(idName => {
+      if (this.userData[idName + 'Id']) return db.state.get(this.userData[idName + 'Id'])
+      else return Promise.resolve({ name: undefined })
+    })
+    const objectsArr = await Promise.all(objectPromisesArr)
 
-    // extruded shape
-    let extrudeSettings = { depth: DEPTH * .45, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
-    let geometry = new ExtrudeGeometry(shape, extrudeSettings)
-    geometry.name = this.userData.name + " - 3d geometry"
-    geometry.center()
+    // Get the location string for the links
+    const locationStr =
+      window.location.protocol + '//' +
+      window.location.hostname + ':' +
+      window.location.port + '/#/'
+    const agreementClass = objectsArr[0]
+    let contractStr = agreementClass.properties.recardianContract.const.replaceAll('${locationStr}', locationStr);
 
-    const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors
-    const material = new MeshLambertMaterial({ color: colorProp.color })
-    return new Mesh(geometry, material)
+    // Replace ids and names in the contract string
+    idsToGetArr.forEach((idName, idx) => {
+      contractStr = contractStr.replaceAll('${' + idName + 'Id}', this.userData[idName + 'Id']);
+      contractStr = contractStr.replaceAll('${' + idName + 'Name}', objectsArr[idx].name);
+    })
+
+    // Replace amount, currency
+    contractStr = contractStr.replaceAll('${amount}', this.userData.amount);
+    contractStr = contractStr.replaceAll('${currency}', this.userData.currency);
+
+    // Replace expirationDate with long date
+    const locale = window.navigator.userLanguage || window.navigator.language;
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    const dateStr = (new Date(this.userData.expirationDate)).toLocaleDateString(locale, options);
+    contractStr = contractStr.replaceAll('${expirationDate}', dateStr);
+
+    // Make the element
+    const element = document.createElement('div');
+    element.innerHTML = contractStr
+    const width = WIDTH * 100
+    element.style.width = width + 'px';
+    element.style.height = width * 1.41 + 'px';
+    element.style.opacity = 0.95;
+    element.style.boxSizing = 'border-box'
+    element.style.padding = '10px'
+    element.style.background = '#eee'
+    element.style.color = '#000'
+
+    // Add css3dobject
+    this.add(new CSS3DObject(element))
+
+  }
+
+  drawAgreementConnectors(glModelObject3D) {
+
+    const idsToGetArr = [
+      'provider', 'asset', 'consumer', 'proposition', 'process', 'currentStep'
+    ]
+
+    idsToGetArr.forEach( idName => {
+      const destObj3d = glModelObject3D.getObjectByProperty('_id', this.userData[idName+'Id'])
+      debugger
+      if(destObj3d) this.drawTubeBackSideToFrontSide(destObj3d)
+    })
+
   }
 
 
-  makeElementObject = (content, width, height) => {
-    const obj = new Object3D()
+  drawTubeBackSideToFrontSide(destProcessObj3d) {
 
-    // See https://codepen.io/trusktr/details/RjzKJx
+    // Get sourcePos in world coordinates
+    let sourcePos = new Vector3()
+    this.getWorldPosition(sourcePos)
 
+    // Get destPos in world coordinates
+    let destPos = new Vector3()
+    destProcessObj3d.getWorldPosition(destPos)
 
-    // convert the string to dome elements
-    const wrapper = document.createElement('div');
-    wrapper.name = 'Css div';
-    wrapper.innerHTML = content;
-    const div = wrapper.firstChild;
+    // Get the difference vector
+    let difVec = destPos.clone()
+    difVec.sub(sourcePos)
 
-    // set some values on the div to style it.
-    // normally you do this directly in HTML and 
-    // CSS files.
-    div.style.width = '370px';
-    div.style.height = '370px';
-    div.style.opacity = 1;
-    div.style.background = 'rgba(238,238,238,.5)'
+    const sourceBackPos = getSidePos('back', new Vector3())
+    const destFrontPos = getSidePos('front', difVec)
 
-    // create a CSS3Dobject and return it.
-    const object = new CSS3DObject(div);
-    obj.add( object)
+    let points = []
 
-    // make an invisible plane for the DOM element to chop
-    // clip a WebGL geometry with it.
-    const material = new MeshPhongMaterial({
-      opacity: 0.15,
-      color: new Color(0x111111),
-      blending: NoBlending,
-      // side : DoubleSide,
-    });
-    const geometry = new BoxGeometry(width, height, .01);
-    const mesh = new Mesh(geometry, material);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    obj.lightShadowMesh = mesh
-    obj.add(mesh);
+    points.push(sourceBackPos)
+    points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
+    points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
+    points.push(destFrontPos)
 
-    return obj
+    this.add(drawTube(points, 'active', 'processId', true))
+
   }
-
-
 }

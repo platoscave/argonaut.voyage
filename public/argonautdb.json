@@ -123,7 +123,7 @@
         "title": "Asset",
         "type": "string"
       },
-      "processId": {
+      "propositionId": {
         "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
         "argoQuery": {
           "selector": "Subclasses",
@@ -158,6 +158,86 @@
     },
     "type": "object"
   },
+
+
+  {
+    "_id": "p1vramillhm1",
+    "title": "Purchase Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "i1gjptcb2skq",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Purchase Agreement</h1><p><a href='${locationStr}${providerId}.mb2bdqadowve'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.mb2bdqadowve'>${assetName}</a> to <a href='${locationStr}${consumerId}.mb2bdqadowve'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.mb2bdqadowve'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.mb2bdqadowve'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.mb2bdqadowve'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+
+  {
+    "_id": "4gurdxv3hm2t",
+    "title": "Rental Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "i1gjptcb2skq",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Rental Agreement</h1><p><a href='${locationStr}${providerId}.mb2bdqadowve'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.mb2bdqadowve'>${assetName}</a> to <a href='${locationStr}${consumerId}.mb2bdqadowve'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.mb2bdqadowve'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.mb2bdqadowve'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.mb2bdqadowve'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      },
+      "unitOfTime": {
+        "enum": [
+          "Half Day",
+          "Day",
+          "Week",
+          "Month",
+          "Year"
+        ],
+        "title": "Duration",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "ds2mgusokbft",
+    "title": "Service Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "i1gjptcb2skq",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Service Agreement</h1><p><a href='${locationStr}${providerId}.mb2bdqadowve'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.mb2bdqadowve'>${assetName}</a> to <a href='${locationStr}${consumerId}.mb2bdqadowve'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.mb2bdqadowve'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.mb2bdqadowve'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.mb2bdqadowve'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "_id": "51dciakn1jff",
+    "title": "Message Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "i1gjptcb2skq",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Message Agreement</h1><p><a href='${locationStr}${providerId}.mb2bdqadowve'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.mb2bdqadowve'>${assetName}</a> to <a href='${locationStr}${consumerId}.mb2bdqadowve'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.mb2bdqadowve'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.mb2bdqadowve'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.mb2bdqadowve'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+
+
   {
     "_id": "ikjyhlqewxs3",
     "title": "Accounts",
@@ -505,28 +585,28 @@
   },
   {
     "_id": "pbfmtbxfvqrw",
-    "title": "Repair",
+    "title": "Repair Proposition",
     "description": "<p>Repair Agreements between owners</p>",
     "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "hhg2u2zptnfo",
-    "title": "Purchase",
+    "title": "Purchase Proposition",
     "description": "<p>Purchase Agreements between owners</p>",
     "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "uhir12cjxgzb",
-    "title": "Rental",
+    "title": "Rental Proposition",
     "description": "<p>Rental Agreements between owners</p>",
     "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
   {
     "_id": "w3mzeetidb5n",
-    "title": "Messaging",
+    "title": "Messaging Proposition",
     "description": "<p>Messaging Agreements between owners</p>",
     "superClassId": "2jrkeqdvvmom",
     "properties": {
@@ -544,8 +624,7 @@
   },
   {
     "_id": "ynpbcptu1i4q",
-    "title": "Membership",
-    "description": "<p>Menbership Agreements between user and organizations</p>",
+    "title": "Membership Proposition",
     "superClassId": "2jrkeqdvvmom",
     "type": "object"
   },
@@ -2626,7 +2705,7 @@
   },
   {
     "_id": "cie1pllxq5mu",
-    "name": "Argonaut Messaging",
+    "name": "Bicycle Shop Messaging",
     "description": "<p>Messaging Request Process</p>",
     "classId": "dwl1kwhalwj4",
     "returnActions": [
@@ -2634,7 +2713,7 @@
       "unhappy"
     ],
     "firstStepId": "oltp4kpj4fvi",
-    "ownerId": "argonautvoya"
+    "ownerId": "bikeshop1111"
   },
   {
     "_id": "h3q1vchxahoh",
@@ -4482,10 +4561,9 @@
 
 
   {
-    "_id": "5tgedfn44q4m",
-    "name": "Let's meetup at the wattering hole",
-    "description": "<p>Do you have time for a get-together? </p>",
-    "classId": "i1gjptcb2skq",
+    "_id": "rzcyitvrmgkd",
+    "name": "Buy a Bike",
+    "classId": "p1vramillhm1",
     "amount": 100.0,
     "currency": "EUR",
     "startDate": "2021-05-10",
@@ -4493,7 +4571,50 @@
     "consumerId": "demouser1124",
     "providerId": "bikeshop1111",
     "assetId": "",
-    "processId": "cie1pllxq5mu",
+    "propositionId": "iqdfuo2tnze2",
+    "currentStepId": "oltp4kpj4fvi"
+  },  
+  {
+    "_id": "lwwxn3d5wit4",
+    "name": "Rent a Bike",
+    "classId": "4gurdxv3hm2t",
+    "amount": 10.0,
+    "currency": "EUR",
+    "unitOfTime": "Day",
+    "startDate": "2021-05-10",
+    "expirationDate": "2025-05-10",
+    "consumerId": "demouser1124",
+    "providerId": "bikeshop1111",
+    "assetId": "",
+    "propositionId": "wub2e4kpjchk",
+    "currentStepId": "oltp4kpj4fvi"
+  },
+  {
+    "_id": "mzal1fesz4pr",
+    "name": "Fix a Bike",
+    "classId": "ds2mgusokbft",
+    "amount": 15.0,
+    "currency": "EUR",
+    "startDate": "2021-05-10",
+    "expirationDate": "2025-05-10",
+    "consumerId": "demouser1124",
+    "providerId": "bikeshop1111",
+    "assetId": "",
+    "propositionId": "2cmgcvskdj3a",
+    "currentStepId": "oltp4kpj4fvi"
+  },
+  {
+    "_id": "xxl5mb2g5xoc",
+    "name": "Let's meetup at the wattering hole",
+    "description": "<p>Do you have time for a get-together? </p>",
+    "classId": "51dciakn1jff",
+    "startDate": "2021-05-10",
+    "expirationDate": "2025-05-10",
+    "consumerId": "demouser1124",
+    "providerId": "bikeshop1111",
+    "assetId": "",
+    "propositionId": "cie1pllxq5mu",
     "currentStepId": "oltp4kpj4fvi"
   }
+
 ]

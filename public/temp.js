@@ -1,4 +1,3 @@
-HTML CSS BabelResult Skip Results Iframe
 var camera, root, scene, renderer, renderer2, background;
 var sphere;
 var light
@@ -159,10 +158,10 @@ function makeElementObject(type, width, height) {
     // make an invisible plane for the DOM element to chop
     // clip a WebGL geometry with it.
     var material = new THREE.MeshPhongMaterial({
-        opacity : 0.15,
-        color : new THREE.Color( 0x111111 ),
+        opacity	: 0.15,
+        color	: new THREE.Color( 0x111111 ),
         blending: THREE.NoBlending,
-        // side : THREE.DoubleSide,
+        // side	: THREE.DoubleSide,
     });
     var geometry = new THREE.BoxGeometry( width, height, 1 );
     var mesh = new THREE.Mesh( geometry, material );
