@@ -41,66 +41,31 @@ const { glModelObj3d, cssModelObj3d, cursor, addSelectable, removeSelectable, lo
 
 const drawAgreements = async (zPos: number) => {
 
-////////////////////////////////////////////////////////
-// const obj = new Object3D()
-
-//         var content = '<div>' +
-//         '<h1>This is an H1 Element.</h1>' +
-//         '<span class="large">Hello Three.js cookbook</span>' +
-//         '<textarea> And this is a textarea</textarea>' +
-//         '</div>';
-//         // convert the string to dome elements
-//         var wrapper = document.createElement('div');
-//         wrapper.innerHTML = content;
-//         var div = wrapper.firstChild;
-    
-//         // set some values on the div to style it.
-//         // normally you do this directly in HTML and 
-//         // CSS files.
-//         div.name = 'css div';
-//         div.style.width = '400px';
-//         div.style.height = '400px';
-//         div.style.opacity = .8;
-//         div.style.background = '#eee'
-//         div.style['border-radius'] = '10px';
-//         div.style.padding = '10px';
-//         div.style.color = 'black';
-    
-//         // create a CSS3Dobject and return it.
-//         var object = new CSS3DObject(div);
-//         //cssModelObj3d.add( object)
-
-
-//     var material = new MeshBasicMaterial({color: '#F00'})
-//     var geometry = new PlaneGeometry(4, 4);
-//     var mesh = new Mesh(geometry, material);
-//     // mesh.castShadow = true;
-//     // mesh.receiveShadow = true;
-//     // obj.lightShadowMesh = mesh
-//     obj.add(mesh);
-//     addSelectable(mesh);
-
-//     //obj.add(object)
-//     glModelObj3d.add(obj);
-////////////////////////////////////////////////////////
-
 
   // Get the agreements
   const agreementsArr = await argoQueryPromise(
     {
-      selector: "Where Clause",
-      where: { providerId: "$fk", classId: "i1gjptcb2skq" },
+      selector: "Subclasses",
+      where: { classId: "i1gjptcb2skq" },
+      idsArrayPath: {
+        path: "$[*]._id",
+        indexName: "classId"
+      },
+      sortBy: "name",
     },{ _id: selectedObjId.value }
   )
+
+
 
   // Create the AgreementObject3d (extends Object3d)
   const agreementsObj3dArr = agreementsArr.map(( item: any, idx: number) => {
     const agreementObj3d = new AgreementObject3d(item, true);
-    agreementObj3d.translateX(agreementsArr.length * WIDTH * idx);
+    const offset = 100* WIDTH * agreementsArr.length - WIDTH / 2
+    agreementObj3d.translateX(100* WIDTH * 2 * idx - offset);
     agreementObj3d.translateZ(zPos);
-    glModelObj3d.add(agreementObj3d);
+    //glModelObj3d.add(agreementObj3d);
     cssModelObj3d.add(agreementObj3d);
-    addSelectable(agreementObj3d.children[0]);
+    //addSelectable(agreementObj3d.children[0]) doesnt work
     return agreementObj3d
   })
 
@@ -278,6 +243,13 @@ const drawMembers = async (zPos) => {
   glModelObj3d.updateMatrixWorld(true);
 }
 
+const drawAgreementConnectors = (agreementsObj3dArr) => {
+  // Tell the steps to draw their connectors to their next steps
+  agreementsObj3dArr.forEach((agreementObj3d) => {
+    agreementObj3d.drawAgreementConnectors(glModelObj3d);
+  });
+};
+
 const drawStepToOrgUnitConnectors = (processObj3dArr) => {
   // Tell the steps to draw their connectors to their next steps
   processObj3dArr.forEach((processObj3d) => {
@@ -299,7 +271,7 @@ onMounted(async () => {
     const rootOrgObj3d = await drawOrgUnits(-DEPTH * 90);
     await drawMembers(-DEPTH * 120);
     
-    //drawPropositionToProcessConnectors(propositionsArr);
+    drawAgreementConnectors(agreementsObj3dArr);
     drawStepToOrgUnitConnectors(processObj3dArr);
     drawUnitToUserConnectors(rootOrgObj3d);
 
