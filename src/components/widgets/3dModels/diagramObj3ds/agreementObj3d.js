@@ -6,7 +6,7 @@ import {
 } from 'three'
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import { db } from "~/services/dexieServices";
-import { drawTube, getSidePos } from "~/lib/threejsUtils"
+import { drawTube, getSidePos, getRoundedRectShape } from "~/lib/threejsUtils"
 
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
@@ -22,30 +22,57 @@ and: https://robert.ocallahan.org/2011/11/drawing-dom-content-to-canvas.html
 Wonky solution:
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-align-html-elements-to-3d.html
 Doesn't work. cant do html: https://github.com/canvg/canvg
+This is the simplest example that seems to work: 
+https://threejs.org/examples/#css3d_orthographic
 */
 
 export default class AgreementObject3d extends Object3D {
 
-  constructor(userData) {
+  constructor(userData, cssModelObj3d) {
     super()
 
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
+    const shape = getRoundedRectShape(WIDTH * 1.41, WIDTH, WIDTH / 32)//A4
+    const geometry = new ShapeGeometry(shape)
+    geometry.name = this.userData.title + " - 2d geometry"
+    geometry.center() 
+    const material = new MeshBasicMaterial({ 
+      color: '#eee', 
+      side	: DoubleSide,
+      opacity: 0.9,
+      transparent: true, })
+    const planeMesh = new Mesh(geometry, material);
+    this.add(planeMesh)
 
+    
 
-    const geometry = new PlaneGeometry(WIDTH, WIDTH * 1.41)
-    const material = new MeshBasicMaterial({ color: '#F00', side	: DoubleSide, })
-    const mesh = new Mesh(geometry, material);
-    this.add(mesh)
-
-    this.getCSS3DObject()
-
+    const element = document.createElement('div');
+    this.cssObject = new CSS3DObject(element)
+    cssModelObj3d.add(this.cssObject)
+    this.addContractToElement(cssModelObj3d)
   }
 
 
-  async getCSS3DObject() {
+	translateX( distance ) {
+    super.translateX( distance )
+    this.cssObject.translateX( distance -.3)
+	}
+
+	translateY( distance ) {
+    super.translateY( distance )
+    this.cssObject.translateY( distance )
+	}
+
+	translateZ( distance ) {
+    console.log('distance', distance)
+    super.translateZ( distance )
+    this.cssObject.translateZ( distance -.3)
+	}
+
+  async addContractToElement(cssModelObj3d) {
 
     const idsToGetArr = [
       'class', 'provider', 'asset', 'consumer', 'proposition', 'process', 'currentStep'
@@ -82,7 +109,7 @@ export default class AgreementObject3d extends Object3D {
     contractStr = contractStr.replaceAll('${expirationDate}', dateStr);
 
     // Make the element
-    const element = document.createElement('div');
+    const element = this.cssObject.element
     element.innerHTML = contractStr
     const width = WIDTH * 100
     element.style.width = width + 'px';
@@ -90,23 +117,25 @@ export default class AgreementObject3d extends Object3D {
     element.style.opacity = 0.95;
     element.style.boxSizing = 'border-box'
     element.style.padding = '10px'
-    element.style.background = '#eee'
+    //element.style.background = '#eee'
     element.style.color = '#000'
+    // element.addEventListener("click", function(event){
+    //   console.log("I've been clicked!");
+    //   console.log(event);
+    // });
 
-    // Add css3dobject
-    this.add(new CSS3DObject(element))
+    this.cssObject.scale.set(0.01, 0.01, 0.01)
 
   }
 
   drawAgreementConnectors(glModelObject3D) {
 
     const idsToGetArr = [
-      'provider', 'asset', 'consumer', 'proposition', 'process', 'currentStep'
+      'assetId', 'consumerId', 'propositionId', 'currentStepId'
     ]
 
     idsToGetArr.forEach( idName => {
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', this.userData[idName+'Id'])
-      debugger
+      const destObj3d = glModelObject3D.getObjectByProperty('_id', this.userData[idName])
       if(destObj3d) this.drawTubeBackSideToFrontSide(destObj3d)
     })
 

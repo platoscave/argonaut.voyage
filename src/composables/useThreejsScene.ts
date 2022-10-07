@@ -57,15 +57,12 @@ export function useThreejsScene(
   const glScene = new Scene()
   glScene.name = 'glScene'
   const cssScene = new Scene()
-  cssScene.scale.set(0.01, 0.01, 0.01);
   cssScene.name = 'cssScene'
 
   // models
   const glModelObj3d = new Object3D()
   glScene.add(glModelObj3d)
   const cssModelObj3d = new Object3D()
-  //cssModelObj3d.scale.set(0.01, 0.01, 0.01);
-  //glModelObj3d.add(cssModelObj3d)
   cssScene.add(cssModelObj3d)
 
   // camera
@@ -73,28 +70,20 @@ export function useThreejsScene(
   camera.position.z = 40
 
   // webGl renderer
-  //const glRenderer = createGlRenderer()
   const glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
   glRenderer.domElement.style.background = ''
   glRenderer.setClearColor( 0x000000, 0 );
   glRenderer.setPixelRatio(window.devicePixelRatio);
-  //glRenderer.setSize(window.innerWidth, window.innerHeight);
-  glRenderer.domElement.style.position = 'absolute';
-  //glRenderer.domElement.style.zIndex = -1;
-  //glRenderer.domElement.style.top = 0;
   glRenderer.domElement.style.pointerEvents = 'none'
   glRenderer.domElement.setAttribute("name", "GLRENDERER");
 
   // css renderer
-  //const cssRenderer = createCssRenderer()
   const cssRenderer = new CSS3DRenderer();
-  //cssRenderer.setSize(window.innerWidth, window.innerHeight);
   cssRenderer.domElement.style.position = 'absolute';
-  cssRenderer.domElement.style.zIndex = 10;
-  cssRenderer.domElement.style.top = 0;
-  //cssRenderer.domElement.style.pointerEvents	= 'auto'
+  cssRenderer.domElement.style.zIndex = '10';
+  cssRenderer.domElement.style.top = '0';
+  cssRenderer.domElement.style.pointerEvents	= 'auto'
   cssRenderer.domElement.setAttribute("name", "CSSRENDERER");
-  //cssRenderer.domElement.appendChild(glRenderer.domElement)
 
   // controls
   let controls = new OrbitControls(camera, cssRenderer.domElement)
@@ -302,7 +291,6 @@ export function useThreejsScene(
 
     rootEl.value.appendChild(cssRenderer.domElement)
     rootEl.value.appendChild(glRenderer.domElement)
-    //glRenderer.domElement.appendChild(cssRenderer.domElement)
 
 
     if (statsOn) rootEl.value.appendChild(stats.dom)

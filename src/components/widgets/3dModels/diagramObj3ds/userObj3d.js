@@ -1,5 +1,5 @@
 import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader, ShapeGeometry } from 'three'
-import { getTextMesh, getAvatarMesh, getRoundedRectShape } from "~/lib/threejsUtils"
+import { getTextMesh, getAvatarMesh, getRoundedRectShape, getSvgAvatar } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -18,11 +18,17 @@ export default class UserObject3d extends Object3D {
     this.add(objectMesh)
 
     if(userData.treeVars.icon) {
-      const avatarMesh = getAvatarMesh(userData.treeVars.icon)
-      avatarMesh.translateZ(DEPTH * 0.2)
-      avatarMesh.translateX(-WIDTH * .60)
-      avatarMesh.translateY(HEIGHT * .25)
-      this.add(avatarMesh)
+      // if(userData.treeVars.icon.endsWith('.svg')){
+      //   const group = getSvgAvatar(userData.treeVars.icon)
+      //   this.add(group)
+      // } 
+      // else {
+        const avatarMesh = getAvatarMesh(userData.treeVars.icon)
+        avatarMesh.translateZ(DEPTH * 0.2)
+        avatarMesh.translateX(-WIDTH * .60)
+        avatarMesh.translateY(HEIGHT * .25)
+        this.add(avatarMesh)
+      //}
     }
 
     let textMesh = getTextMesh(userData.name)

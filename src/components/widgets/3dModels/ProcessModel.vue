@@ -59,13 +59,12 @@ const drawAgreements = async (zPos: number) => {
 
   // Create the AgreementObject3d (extends Object3d)
   const agreementsObj3dArr = agreementsArr.map(( item: any, idx: number) => {
-    const agreementObj3d = new AgreementObject3d(item, true);
-    const offset = 100* WIDTH * agreementsArr.length - WIDTH / 2
-    agreementObj3d.translateX(100* WIDTH * 2 * idx - offset);
+    const agreementObj3d = new AgreementObject3d(item, cssModelObj3d);
+    const offset = WIDTH * agreementsArr.length - WIDTH / 2
+    agreementObj3d.translateX(WIDTH * 2 * idx - offset);
     agreementObj3d.translateZ(zPos);
-    //glModelObj3d.add(agreementObj3d);
-    cssModelObj3d.add(agreementObj3d);
-    //addSelectable(agreementObj3d.children[0]) doesnt work
+    glModelObj3d.add(agreementObj3d);
+    addSelectable(agreementObj3d.children[0])
     return agreementObj3d
   })
 
