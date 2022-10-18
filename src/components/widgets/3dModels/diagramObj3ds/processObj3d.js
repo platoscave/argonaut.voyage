@@ -1,7 +1,7 @@
 import argoQueryPromise from "~/lib/argoQueryPromise";
 import { Object3D, Vector3, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh, SphereGeometry, MeshBasicMaterial } from 'three'
 import StepObject3d from "./stepObj3d";
-import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
+import { drawTube, getSidePos, getTextMesh, getRoundedRectShape } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
@@ -138,19 +138,8 @@ export default class ProcessObject3d extends Object3D {
   }
 
   getMesh() {
-    const x = 0, y = 0
 
-    // Rounded rect
-    let shape = new Shape()
-    shape.moveTo(x, y + RADIUS)
-      .lineTo(x, y + HEIGHT - RADIUS)
-      .quadraticCurveTo(x, y + HEIGHT, x + RADIUS, y + HEIGHT)
-      .lineTo(x + WIDTH - RADIUS, y + HEIGHT)
-      .quadraticCurveTo(x + WIDTH, y + HEIGHT, x + WIDTH, y + HEIGHT - RADIUS)
-      .lineTo(x + WIDTH, y + RADIUS)
-      .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
-      .lineTo(x + RADIUS, y)
-      .quadraticCurveTo(x, y, x, y + RADIUS)
+    const shape = getRoundedRectShape(HEIGHT, WIDTH, RADIUS)
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }

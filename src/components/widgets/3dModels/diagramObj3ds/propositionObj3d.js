@@ -1,7 +1,8 @@
-import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,  Vector3 } from 'three'
-import { drawTube, getSidePos, getTextMesh } from "~/lib/threejsUtils"
+import { Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,  Vector3, Group } from 'three'
+import { drawTube, getSidePos, getTextMesh, drawTubeBackSideToFrontSide } from "~/lib/threejsUtils"
 import threejsColors from '~/config/threejsColors'
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
+import { getRoundedRectShape } from "~/lib/threejsUtils"
 
 
 export default class ProbositionObject3d extends Object3D {
@@ -23,61 +24,40 @@ export default class ProbositionObject3d extends Object3D {
 
   }
 
-  drawPropositionToProcessConnectors(glModelObject3D) {
+  drawPropositionToProcessConnectors(glModelObj3d) {
 
-    if (this.userData.processId) {
-      let destProcessObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.processId)
-      this.drawTubeBackSideToFrontSide(destProcessObj3d)
-    }
+    const assocsGroup = new Group()
+    assocsGroup.name = 'assocsGroup'
+    this.add(assocsGroup)
+    
+    const idsToGetArr = [
+      'processId', 'subprocessId'
+    ]
 
-    if (this.userData.subprocessId) {
-      let destProcessObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.subprocessId)
-      this.drawTubeBackSideToFrontSide(destProcessObj3d)
-    }
+    idsToGetArr.forEach( idName => {
+      const destObj3d = glModelObj3d.getObjectByProperty('_id', this.userData[idName])
+      console.log('destObj3d',destObj3d)
+      if(destObj3d) assocsGroup.add(drawTubeBackSideToFrontSide(
+        this, destObj3d, 'active', idName, true, 0)) // initially invisible
+    })
   }
 
-  drawTubeBackSideToFrontSide(destProcessObj3d) {
 
-    // Get sourcePos in world coordinates
-    let sourcePos = new Vector3()
-    this.getWorldPosition(sourcePos)
+  setAssocsOpacity( glModelObj3d, opacity ) {
 
-    // Get destPos in world coordinates
-    let destPos = new Vector3()
-    destProcessObj3d.getWorldPosition(destPos)
-
-    // Get the difference vector
-    let difVec = destPos.clone()
-    difVec.sub(sourcePos)
-
-    const sourceBackPos = getSidePos('back', new Vector3())
-    const destFrontPos = getSidePos('front', difVec)
-
-    let points = []
-
-    points.push(sourceBackPos)
-    points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
-    points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
-    points.push(destFrontPos)
-
-    this.add(drawTube(points, 'active', 'processId', true))
-
+    // Find our assocs group
+    const assocsGroup = this.children.find(item => item.isGroup && item.name === 'assocsGroup')
+    // Set their opacity
+    if(assocsGroup) {
+      assocsGroup.children.forEach( item => {
+        item.material.opacity = opacity
+        item.children.forEach( item2 => item2.material.opacity = opacity)// Label mesh
+      })
+    }
   }
-
   getMesh() {
-    const x = 0, y = 0
 
-    // Rounded rect
-    let shape = new Shape()
-    shape.moveTo(x, y + RADIUS)
-      .lineTo(x, y + HEIGHT - RADIUS)
-      .quadraticCurveTo(x, y + HEIGHT, x + RADIUS, y + HEIGHT)
-      .lineTo(x + WIDTH - RADIUS, y + HEIGHT)
-      .quadraticCurveTo(x + WIDTH, y + HEIGHT, x + WIDTH, y + HEIGHT - RADIUS)
-      .lineTo(x + WIDTH, y + RADIUS)
-      .quadraticCurveTo(x + WIDTH, y, x + WIDTH - RADIUS, y)
-      .lineTo(x + RADIUS, y)
-      .quadraticCurveTo(x, y, x, y + RADIUS)
+    const shape = getRoundedRectShape(HEIGHT, WIDTH, RADIUS)
 
     // extruded shape
     let extrudeSettings = { depth: DEPTH* .45, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }

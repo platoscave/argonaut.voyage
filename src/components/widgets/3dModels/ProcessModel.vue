@@ -11,8 +11,14 @@ import { useThreejsScene } from "~/composables/useThreejsScene";
 import { useHashDissect } from "~/composables/useHashDissect";
 import { ElMessage } from "element-plus";
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
-import { Object3D, Mesh, BoxGeometry, PlaneGeometry, MeshBasicMaterial } from "three";
+import { Object3D, Mesh, BoxGeometry, PlaneGeometry, MeshBasicMaterial, ShapeGeometry, DoubleSide } from "three";
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import { getRoundedRectShape } from "~/lib/threejsUtils"
+
+/*
+  Add .catch(error  => {throw new Error(error)} to all db.state.get
+  in order to add stack to the error
+*/
 
 
 const props = defineProps({
@@ -58,16 +64,15 @@ const drawAgreements = async (zPos: number) => {
 
 
   // Create the AgreementObject3d (extends Object3d)
+  const offset = WIDTH * agreementsArr.length - WIDTH / 2
   const agreementsObj3dArr = agreementsArr.map(( item: any, idx: number) => {
     const agreementObj3d = new AgreementObject3d(item, cssModelObj3d);
-    const offset = WIDTH * agreementsArr.length - WIDTH / 2
     agreementObj3d.translateX(WIDTH * 2 * idx - offset);
     agreementObj3d.translateZ(zPos);
     glModelObj3d.add(agreementObj3d);
     addSelectable(agreementObj3d.children[0])
     return agreementObj3d
   })
-
 
   return agreementsObj3dArr
 
@@ -78,14 +83,20 @@ const drawPropositions = async (zPos: number) => {
   const propositionsArr = await argoQueryPromise("f41heqslym5e", { _id: selectedObjId.value })
 
   // Create the PropositionObject3d (extends Object3d)
+  const offset = WIDTH * 2 * propositionsArr.length / 2 - WIDTH 
   const propositionsObj3dArr = propositionsArr.map(( item: any, idx: number) => {
     const propositionObj3d = new PropositionObject3d(item, true);
-    propositionObj3d.translateX(propositionsArr.length * WIDTH * idx);
+    propositionObj3d.translateX(WIDTH * 2 * idx - offset);
     propositionObj3d.translateZ(zPos);
     glModelObj3d.add(propositionObj3d);
     addSelectable(propositionObj3d.children[0]);
     return propositionObj3d
   })
+
+  // Add semi-transparent background mesh
+  const backgroundMesh = getBackgroundMesh(HEIGHT * 2, WIDTH * 2 * propositionsArr.length, WIDTH / 16)
+  backgroundMesh.translateZ(zPos - DEPTH);
+  glModelObj3d.add(backgroundMesh);
 
   zPos = zPos- (DEPTH * 30)
 
@@ -102,7 +113,15 @@ const drawPropositions = async (zPos: number) => {
   })
 
 
-  const subprocessPromiseArr = propositionsArr.map((item: any) => db.state.get(item.subprocessId))
+  const subprocessPromiseArr = []
+  propositionsArr.forEach(item => {
+    if(item.subprocessId) subprocessPromiseArr.push(db.state.get(item.subprocessId))
+  })
+
+  // const subprocessPromiseArr = propositionsArr.map(
+  //   (item: any) => db.state.get(item.subprocessId).catch(error  => {throw new Error(error)})
+  // )
+  //const subprocessPromiseArr = propositionsArr.map((item: any) => db.state.get(item.subprocessId))
   const subprocessArr = await Promise.all(subprocessPromiseArr)
   // Create the processObject3ds (extends Object3d)
   const subprocessObj3dArr = subprocessArr.map(( item: any, idx: number) => {
@@ -176,12 +195,12 @@ const drawPropositions = async (zPos: number) => {
   // Important! Must update world matrixes, after you change positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);
 
-  // Let the steps to draw their connectors to their next steps
+  // Let the steps draw their connectors to their next steps
   concatObj3dArr.forEach((processObj3d) => {
     processObj3d.drawStepConnectors(glModelObj3d);
   });
 
-  // Let the Propositions to draw their connectors to their Process
+  // Let the Propositions draw their connectors to their Process
   propositionsObj3dArr.forEach((propositionObj3d) => {
     propositionObj3d.drawPropositionToProcessConnectors(glModelObj3d);
   });
@@ -260,6 +279,19 @@ const drawUnitToUserConnectors = (rootOrgObj3d) => {
   // Let the steps to draw their connectors to their next steps
   rootOrgObj3d.drawUnitToUserConnectors(glModelObj3d);
 };
+
+const getBackgroundMesh = (height, width, radius) => {
+  const shape = getRoundedRectShape(height, width, radius)
+    const geometry = new ShapeGeometry(shape)
+    geometry.name = "background mesh"
+    geometry.center() 
+    const material = new MeshBasicMaterial({ 
+      color: '#eee', 
+      side	: DoubleSide,
+      opacity: 0.4,
+      transparent: true, })
+    return new Mesh(geometry, material);
+}
 
 onMounted(async () => {
   try {

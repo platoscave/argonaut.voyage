@@ -637,16 +637,27 @@
     "type": "object"
   },
   {
+    "_id": "wn5sb2qqddtv",
+    "name": "Message Proposition",
+    "description": "<p>Message Proposition</p>",
+    "classId": "hhg2u2zptnfo",
+    "ownerId": "bikeshop1111",
+    "startDate": "2019-08-10T14:49:54.500",
+    "endDate": "2025-08-10T14:49:54.500",
+    "processId": "cie1pllxq5mu",
+    "assetIds": []
+  },  
+  {
     "_id": "iqdfuo2tnze2",
     "name": "Purchase Proposition",
     "description": "<p>Purchase Proposition</p>",
     "classId": "hhg2u2zptnfo",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2019-08-10T14:49:54.500",
+    "endDate": "2025-08-10T14:49:54.500",
     "processId": "ynaxakdc423e",
     "subprocessId": "h3q1vchxahoh",
-    "assetIds": []
+    "assetIds": ["zynuevubskut","4gtthksbuz3b","xdlhrnwiizc1"]
   },
   {
     "_id": "wub2e4kpjchk",
@@ -655,10 +666,10 @@
     "classId": "uhir12cjxgzb",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2019-08-10T14:49:54.500",
+    "endDate": "2025-08-10T14:49:54.500",
     "processId": "5baf3ai3t4sw",
     "subprocessId": "iyn245eirxql",
-    "assetIds": []
+    "assetIds": ["bffdau1x52ss","5m1rywpcaoqg","xfkt1wfhfmdu"]
   },
   {
     "_id": "2cmgcvskdj3a",
@@ -667,7 +678,7 @@
     "classId": "pbfmtbxfvqrw",
     "ownerId": "bikeshop1111",
     "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2019-08-10T14:49:54.500",
+    "endDate": "2025-08-10T14:49:54.500",
     "processId": "d41ihaghrkyv",
     "subprocessId": "gm5xv3w3mmsk",
     "assetIds": []
@@ -1617,16 +1628,21 @@
     "title": "Inventory",
     "description": "<p>Inventory owned by users/organizations</p>",
     "superClassId": "zbi1e31jzb1u",
-    "properties": {
-      "imageUrl": {
-        "format": "uri",
-        "title": "Image",
-        "type": "string",
-        "media": {
-          "type": "image/png"
-        }
-      }
-    },
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "_id": "m2tw4qg14ux4",
+    "title": "For Sale",
+    "superClassId": "nlmgc3dmrwxs",
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "_id": "alhgnacqbj1z",
+    "title": "For Rent",
+    "superClassId": "nlmgc3dmrwxs",
+    "properties": {},
     "type": "object"
   },
   {
@@ -4570,9 +4586,9 @@
     "expirationDate": "2025-05-10",
     "consumerId": "demouser1124",
     "providerId": "bikeshop1111",
-    "assetId": "",
+    "assetId": "zynuevubskut",
     "propositionId": "iqdfuo2tnze2",
-    "currentStepId": "oltp4kpj4fvi"
+    "currentStepId": "3r5kgovlor1o"
   },  
   {
     "_id": "lwwxn3d5wit4",
@@ -4585,9 +4601,9 @@
     "expirationDate": "2025-05-10",
     "consumerId": "demouser1124",
     "providerId": "bikeshop1111",
-    "assetId": "",
+    "assetId": "bffdau1x52ss",
     "propositionId": "wub2e4kpjchk",
-    "currentStepId": "oltp4kpj4fvi"
+    "currentStepId": "cxugrwyhprpw"
   },
   {
     "_id": "mzal1fesz4pr",
@@ -4601,7 +4617,7 @@
     "providerId": "bikeshop1111",
     "assetId": "",
     "propositionId": "2cmgcvskdj3a",
-    "currentStepId": "oltp4kpj4fvi"
+    "currentStepId": "gwmrazev4px2"
   },
   {
     "_id": "xxl5mb2g5xoc",
@@ -4613,8 +4629,59 @@
     "consumerId": "demouser1124",
     "providerId": "bikeshop1111",
     "assetId": "",
-    "propositionId": "cie1pllxq5mu",
+    "propositionId": "wn5sb2qqddtv",
     "currentStepId": "oltp4kpj4fvi"
-  }
+  },
 
+
+
+
+  {
+    "_id": "zynuevubskut",
+    "title": "Blue Bike For Sale",
+    "classId": "nlmgc3dmrwxs",
+    "icon": "BlueBike.svg",
+    "value": 120.23,
+    "currency": "EUR"
+  },
+  {
+    "_id": "4gtthksbuz3b",
+    "title": "Red Bike For Sale",
+    "classId": "nlmgc3dmrwxs",
+    "icon": "RedBike.svg",
+    "value": 130.25,
+    "currency": "EUR"
+  },
+  {
+    "_id": "xdlhrnwiizc1",
+    "title": "Green Bike For Sale",
+    "classId": "nlmgc3dmrwxs",
+    "icon": "GreenBike.svg",
+    "value": 150.89,
+    "currency": "EUR"
+  },
+  {
+    "_id": "bffdau1x52ss",
+    "title": "Blue Bike For Rent",
+    "classId": "m2tw4qg14ux4",
+    "icon": "BlueBike.svg",
+    "value": 120.23,
+    "currency": "EUR"
+  },
+  {
+    "_id": "5m1rywpcaoqg",
+    "title": "Red Bike For Rent",
+    "classId": "m2tw4qg14ux4",
+    "icon": "RedBike.svg",
+    "value": 130.56,
+    "currency": "EUR"
+  },
+  {
+    "_id": "xfkt1wfhfmdu",
+    "title": "Green Bike For Rent",
+    "classId": "m2tw4qg14ux4",
+    "icon": "GreenBike.svg",
+    "value": 150.89,
+    "currency": "EUR"
+  }
 ]

@@ -2,13 +2,11 @@ import {
   Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,
   MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader,
   ShapeGeometry, MeshPhongMaterial, Color, NoBlending,
-  DoubleSide, BoxGeometry, PlaneGeometry,  Vector3
+  DoubleSide, BoxGeometry, PlaneGeometry,  Vector3, Group
 } from 'three'
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import { db } from "~/services/dexieServices";
-import { drawTube, getSidePos, getRoundedRectShape } from "~/lib/threejsUtils"
-
-import threejsColors from '~/config/threejsColors'
+import { getRoundedRectShape, drawTubeBackSideToFrontSide } from "~/lib/threejsUtils"
 import { WIDTH, HEIGHT, DEPTH, RADIUS } from "~/config/threejsGridSize"
 
 /* HTML in 3D is hard
@@ -34,6 +32,7 @@ export default class AgreementObject3d extends Object3D {
     this._id = userData._id
     this.name = userData.name + ' - object3d'
     this.userData = userData
+    //this.assocsGroup = new Group()
 
     const shape = getRoundedRectShape(WIDTH * 1.41, WIDTH, WIDTH / 32)//A4
     const geometry = new ShapeGeometry(shape)
@@ -55,7 +54,8 @@ export default class AgreementObject3d extends Object3D {
     this.addContractToElement(cssModelObj3d)
   }
 
-
+  // We need to couple the positions of the Obj3d and the CSSObj3d. 
+  // We used to be able to set position with ref but thats no longer allowed
 	translateX( distance ) {
     super.translateX( distance )
     this.cssObject.translateX( distance -.3)
@@ -130,43 +130,43 @@ export default class AgreementObject3d extends Object3D {
 
   drawAgreementConnectors(glModelObject3D) {
 
+    const assocsGroup = new Group()
+    assocsGroup.name = 'assocsGroup'
+    this.add(assocsGroup)
+
     const idsToGetArr = [
       'assetId', 'consumerId', 'propositionId', 'currentStepId'
     ]
 
     idsToGetArr.forEach( idName => {
       const destObj3d = glModelObject3D.getObjectByProperty('_id', this.userData[idName])
-      if(destObj3d) this.drawTubeBackSideToFrontSide(destObj3d)
+      if(destObj3d) assocsGroup.add(drawTubeBackSideToFrontSide(
+        this, destObj3d, 'active', idName, true, 0)) // initially invisible
     })
 
   }
 
+  setAssocsOpacity( glModelObj3d, opacity ) {
 
-  drawTubeBackSideToFrontSide(destProcessObj3d) {
+    // Find our assocs group
+    const assocsGroup = this.children.find(item => item.isGroup && item.name === 'assocsGroup')
+    // Set their opacity
+    if(assocsGroup) {
+      assocsGroup.children.forEach( item => {
+        item.material.opacity = opacity
+        item.children.forEach( item2 => item2.material.opacity = opacity)// Label mesh
+      })
+    }
 
-    // Get sourcePos in world coordinates
-    let sourcePos = new Vector3()
-    this.getWorldPosition(sourcePos)
 
-    // Get destPos in world coordinates
-    let destPos = new Vector3()
-    destProcessObj3d.getWorldPosition(destPos)
+    const idsToGetArr = [
+      'propositionId', 'currentStepId'
+    ]
 
-    // Get the difference vector
-    let difVec = destPos.clone()
-    difVec.sub(sourcePos)
-
-    const sourceBackPos = getSidePos('back', new Vector3())
-    const destFrontPos = getSidePos('front', difVec)
-
-    let points = []
-
-    points.push(sourceBackPos)
-    points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
-    points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
-    points.push(destFrontPos)
-
-    this.add(drawTube(points, 'active', 'processId', true))
-
+    idsToGetArr.forEach( idName => {
+      const destObj3d = glModelObj3d.getObjectByProperty('_id', this.userData[idName])
+      if(destObj3d && destObj3d.setAssocsOpacity) destObj3d.setAssocsOpacity(glModelObj3d, opacity) 
+    })
   }
+
 }

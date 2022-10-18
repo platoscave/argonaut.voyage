@@ -85,7 +85,47 @@ export const drawBeam = <Mesh>(points: Vector3[], colorName: string, name: strin
 
 }
 
-export const drawTube = <Mesh>(points: Vector3[], colorName: string, name: string, arrow: boolean) => {
+
+export const drawTubeBackSideToFrontSide = <Mesh>(
+  sourceObj3d: Object3D, 
+  destObj3d: Object3D,  
+  colorName: string, 
+  name: string, 
+  arrow: boolean = true, 
+  opacity: number = 1) => {
+
+  // Get sourcePos in world coordinates
+  let sourcePos = new Vector3()
+  sourceObj3d.getWorldPosition(sourcePos)
+
+  // Get destPos in world coordinates
+  let destPos = new Vector3()
+  destObj3d.getWorldPosition(destPos)
+
+  // Get the difference vector
+  let difVec = destPos.clone()
+  difVec.sub(sourcePos)
+
+  const sourceBackPos = getSidePos('back', new Vector3())
+  const destFrontPos = getSidePos('front', difVec)
+
+  let points = []
+
+  points.push(sourceBackPos)
+  points.push(new Vector3(sourceBackPos.x, sourceBackPos.y, sourceBackPos.z - DEPTH * 4))
+  points.push(new Vector3(destFrontPos.x, destFrontPos.y, destFrontPos.z + DEPTH * 4))
+  points.push(destFrontPos)
+
+  return drawTube(points, colorName, name, arrow, opacity)
+
+}
+
+export const drawTube = <Mesh>(
+  points: Vector3[], 
+  colorName: string, 
+  name: string, 
+  arrow: boolean = true, 
+  opacity: number = 1) => {
 
   const beforeLastPoint = points[points.length - 2]
   const lastPoint = points[points.length - 1]
@@ -137,14 +177,15 @@ export const drawTube = <Mesh>(points: Vector3[], colorName: string, name: strin
   const { [colorName]: colorProp = { color: 0xEFEFEF } } = threejsColors
   const material = new MeshLambertMaterial({
     color: colorProp.color,
-    //opacity: 0.5,
-    //transparent: true,
+    opacity: opacity,
+    transparent: true,
+    depthWrite: false // prevent tranparency from making other objects (patially) transparent
   })
 
   let mesh = new Mesh(mergedGeometry, material)
-  mesh.name = 'tube - ' + colorName
+  mesh.name = 'tube - ' + name
 
-  if (name) mesh.add(drawLabel(name, points[1], points[2]))
+  if (name) mesh.add(drawLabel(name, points[1], points[2], opacity))
 
   return mesh
 
@@ -186,9 +227,9 @@ export const getSidePos = <Vector3>(side: string, pos: Vector3) => {
   return pos
 }
 
-const drawLabel = <Mesh>(name: string, pt1: Vector3, pt2: Vector3) => {
+const drawLabel = <Mesh>(name: string, pt1: Vector3, pt2: Vector3, opacity: number = 1) => {
 
-  let labelMesh = getTextMesh(name)
+  let labelMesh = getTextMesh(name, null, opacity)
   let textPos = new Vector3()
   if (pt2) textPos.lerpVectors(pt1, pt2, 0.5)
   else textPos = pt1
@@ -199,11 +240,16 @@ const drawLabel = <Mesh>(name: string, pt1: Vector3, pt2: Vector3) => {
   return labelMesh
 }
 
-export const getTextMesh = <Mesh>(name: string = 'unnamed', size: number = HEIGHT / 6) => {
+export const getTextMesh = <Mesh>(name: string = 'unnamed', size: number = HEIGHT / 6, opacity: number = 1) => {
   const font = new Font(fontJson)
 
   const { name: colorProp = { color: 0xEFEFEF } } = threejsColors
-  let textMaterial = new MeshLambertMaterial({ color: colorProp.color })
+  let textMaterial = new MeshLambertMaterial({ 
+    color: colorProp.color,
+    opacity: opacity,
+    transparent: true, 
+    depthWrite: false // prevent tranparency from making other objects (patially) transparent
+  })
   textMaterial.side = DoubleSide
 
   const shapes = font.generateShapes(name, size);
@@ -217,9 +263,6 @@ export const getTextMesh = <Mesh>(name: string = 'unnamed', size: number = HEIGH
   return textMesh
 }
 
-// export const utils = {
-//     drawBeam, drawTube, straightenPoints, getSidePos, drawLabel, getTextMesh
-// }
 
 
 export const getRoundedRectShape = (height: number, width: number, radius: number) => {

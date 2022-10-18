@@ -52,6 +52,8 @@ export function useThreejsScene(
 
   const { nextLevelSelectedObjId } = useHashDissect(hashLevel);
   const selectableMeshArr: Mesh[] = []
+  let selectedObj3d = null
+
 
   // scenes
   const glScene = new Scene()
@@ -170,9 +172,9 @@ export function useThreejsScene(
     let intersects = raycaster.intersectObjects(selectableMeshArr)
     
     if (intersects.length > 0) {
-      let selectedMesh = intersects[0].object
-      const nodeData = selectedMesh.parent.userData
-      updateNextLevelHash(hashLevel, nodeData._id, nodeData.pageId)
+      let localSelectedMesh = intersects[0].object
+      const nodeData = localSelectedMesh.parent.userData
+      updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
     }
   }
 
@@ -215,10 +217,16 @@ export function useThreejsScene(
   }
 
   const highlight = (_id: string) => {
-    const newlySelected = glModelObj3d.getObjectByProperty('_id', _id)
-    if(!newlySelected) return
-    const selectedObjects = [newlySelected.children[0]];
-    outlinePass.selectedObjects = selectedObjects;
+    const newlySelectedObj3d = glModelObj3d.getObjectByProperty('_id', _id)
+    if(!newlySelectedObj3d) return
+    // Make the associations of the previously selected obj3d invisible
+    if(selectedObj3d && selectedObj3d.setAssocsOpacity) selectedObj3d.setAssocsOpacity(glModelObj3d, 0)
+    // Make the associations of the newly selected obj3d visible
+    if(newlySelectedObj3d.setAssocsOpacity) newlySelectedObj3d.setAssocsOpacity(glModelObj3d, 1) // visible
+    // Save newly selected obj3d for next time
+    selectedObj3d = newlySelectedObj3d
+    // Highlight the mesh of the newly selected obj3d
+    outlinePass.selectedObjects = [newlySelectedObj3d.children[0]];
   }
 
   const moveCameraToPos = (_id: string) => {
