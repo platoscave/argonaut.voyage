@@ -78,9 +78,26 @@ const cancelChanges = async () => {
 
 
 onMounted( async () => {
+
     // If argonautdb is not filled yet, populate it from the static file
     const count = await db.state.count();
-    if (!count) await settingsDlg.value.populateFromStatic();
+    if (!count) {
+      try {
+        await db.populateFromStatic()
+        location.reload();
+        ElMessage.success("Static File Loaded and Imported");
+      } catch (err) {
+        ElMessage({
+          showClose: true,
+          message: err.reason.message,
+          type: "error",
+          duration: 5000,
+        });
+        throw err;
+      }
+    }
+
+
 
     // See if we can get app settings from the last time we visited this page
     const networkUserObj = await db.settings.get("application");

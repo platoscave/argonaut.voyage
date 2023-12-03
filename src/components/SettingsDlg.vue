@@ -12,14 +12,9 @@ let isDark = ref(true);
 
 const populateFromStatic = async () => {
   try {
-    const response = await fetch("argonautdb.json");
-    const argonautData = await response.json();
-    await db.state.clear();
-    await db.updatedObjects.clear();
-    await db.state.bulkPut(argonautData);
-    ElMessage.success("Static File Loaded and Imported");
-
+    await db.populateFromStatic()
     location.reload();
+    ElMessage.success("Static File Loaded and Imported");
   } catch (err) {
     ElMessage({
       showClose: true,

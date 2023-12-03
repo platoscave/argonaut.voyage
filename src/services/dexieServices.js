@@ -50,3 +50,12 @@ db.on('changes', function (changes) {
     }
   });
 });
+
+
+db.populateFromStatic = async () => {
+  const response = await fetch("argonautdb.json");
+  const argonautData = await response.json();
+  await db.state.clear();
+  await db.updatedObjects.clear();
+  await db.state.bulkPut(argonautData);
+};

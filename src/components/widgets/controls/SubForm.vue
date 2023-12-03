@@ -18,6 +18,7 @@ import SelectStringEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
 import String from "./String.vue";
 import SubForm from "./SubForm.vue";
+//import { get } from 'lodash-es';
 
 // For some reason I can only add default to requiredArr.
 // As soon as I addd others I get wierd compiler erros. I'm clueless.
@@ -144,6 +145,36 @@ interface IProperty {
 const getComponent = (property: IProperty) => {
   // Determin the control type
   const getControlName = () => {
+
+
+    switch (property.type) {
+      case "string":
+        const mediaType = property.contentMediaType
+        if (mediaType === "text/html") return "Html";
+        if (mediaType.startsWith("image/")) return "Image";
+        if (mediaType) return "Json";
+        if (property.argoQuery) return "SelectStringQuery";
+        if (property.enum) return "SelectStringEnum";
+        if (property.format === "date-time") return "DateTime";
+        return "String";
+      case "number": return "Number";
+      case "integer": return "Number";
+      case "boolean": return "ElCheckbox";
+      case "object": if (property.properties) return "NestedObject";
+      case "array":
+        // objects
+        if (property.items.type === "object" && property.items.properties) {
+          if (property.displayAs === "Table") return "TableArray"; // objects in a table
+          return "ObjectsArray"; // objects in a subform
+        }
+        // multi select
+        else if (property.items.type === "string") {
+          if (property.items.argoQuery) return "SelectArrayQuery";
+          return "Json";
+        }
+    }
+    return "Json";
+
     if (property.type === "string") {
       if (property.contentMediaType) {
         // HTML
