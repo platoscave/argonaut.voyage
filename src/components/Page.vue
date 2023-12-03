@@ -43,7 +43,7 @@ interface IPage {
     widgets: {
       [key: number]: number;
       name: string;
-      displayType: string;
+      widgetType: string;
     }[];
   }[];
 }
@@ -87,29 +87,16 @@ const onTabChange = (evt) => {
     <!-- {{ pageObj.tabs.length }} -->
     <div v-if="pageObj.tabs.length > 1" class="ar-full-height">
       <el-tabs :value="selectedTab ? selectedTab : '0'" @tab-change="onTabChange">
-        <el-tab-pane
-          class="ar-full-height"
-          v-for="(tab, tabNum) in pageObj.tabs"
-          :key="tabNum.toString()"
-          :label="tab.name"
-          :name="tabNum.toString()"
-        >
+        <el-tab-pane class="ar-full-height" v-for="(tab, tabNum) in pageObj.tabs" :key="tabNum.toString()"
+          :label="tab.name" :name="tabNum.toString()">
           <!-- This tab has widgets -->
-          <div
-            v-if="tab.widgets"
-            class="ar-full-height ar-full-page"
-            v-for="(widget, widNum) in tab.widgets"
-            :key="widNum"
-          >
+          <div v-if="tab.widgets" class="ar-full-height ar-full-page" v-for="(widget, widNum) in tab.widgets"
+            :key="widNum">
             <!-- Create a widget depending on display type -->
             <!-- If there is only one widget, then give it the full height -->
-            <!-- Remove the spaces from displayType to get widgetName -->
-            <component
-              :is="getComponent(widget.displayType)"
-              :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
-              :hash-level="hashLevel"
-              :widget-obj="widget"
-            >
+            <!-- Remove the spaces from widgetType to get widgetName -->
+            <component :is="getComponent(widget.widgetType)" :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
+              :hash-level="hashLevel" :widget-obj="widget">
             </component>
           </div>
           <!-- This tab has a sub-page -->
@@ -124,20 +111,12 @@ const onTabChange = (evt) => {
     <div class="ar-full-height" v-else-if="pageObj.tabs.length === 1">
       <!-- This tab has widgets -->
       <div class="ar-full-height ar-full-page" v-if="pageObj.tabs[0].widgets">
-        <div
-          class="ar-full-height"
-          v-for="(widget, widNum) in pageObj.tabs[0].widgets"
-          :key="widNum"
-        >
+        <div class="ar-full-height" v-for="(widget, widNum) in pageObj.tabs[0].widgets" :key="widNum">
           <!-- Create a widget depending on display type -->
           <!-- If there is only onle widget, then give it the full height -->
-          <!-- Remove the spaces from displayType to get widgetName -->
-          <component
-            :is="getComponent(widget.displayType)"
-            :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
-            :hash-level="hashLevel"
-            :widget-obj="widget"
-          >
+          <!-- Remove the spaces from widgetType to get widgetName -->
+          <component :is="getComponent(widget.widgetType)" :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
+            :hash-level="hashLevel" :widget-obj="widget">
           </component>
         </div>
       </div>
@@ -153,18 +132,22 @@ const onTabChange = (evt) => {
 .el-tabs {
   height: 100%;
 }
+
 .el-tab-pane {
   height: 100%;
 }
+
 .ar-layout {
   height: 100%;
 }
-.el-tabs >>> .el-tabs__header {
+
+.el-tabs>>>.el-tabs__header {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 0px;
 }
-.el-tabs >>> .el-tabs__content {
+
+.el-tabs>>>.el-tabs__content {
   height: calc(100% - 40px);
   padding: 0px;
   overflow: auto;

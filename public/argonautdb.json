@@ -158,8 +158,6 @@
     },
     "type": "object"
   },
-
-
   {
     "_id": "p1vramillhm1",
     "title": "Purchase Agreements",
@@ -176,7 +174,6 @@
     },
     "type": "object"
   },
-
   {
     "_id": "4gurdxv3hm2t",
     "title": "Rental Agreements",
@@ -236,8 +233,6 @@
     },
     "type": "object"
   },
-
-
   {
     "_id": "ikjyhlqewxs3",
     "title": "Accounts",
@@ -646,7 +641,7 @@
     "endDate": "2025-08-10T14:49:54.500",
     "processId": "cie1pllxq5mu",
     "assetIds": []
-  },  
+  },
   {
     "_id": "iqdfuo2tnze2",
     "name": "Purchase Proposition",
@@ -657,7 +652,11 @@
     "endDate": "2025-08-10T14:49:54.500",
     "processId": "ynaxakdc423e",
     "subprocessId": "h3q1vchxahoh",
-    "assetIds": ["zynuevubskut","4gtthksbuz3b","xdlhrnwiizc1"]
+    "assetIds": [
+      "zynuevubskut",
+      "4gtthksbuz3b",
+      "xdlhrnwiizc1"
+    ]
   },
   {
     "_id": "wub2e4kpjchk",
@@ -669,7 +668,11 @@
     "endDate": "2025-08-10T14:49:54.500",
     "processId": "5baf3ai3t4sw",
     "subprocessId": "iyn245eirxql",
-    "assetIds": ["bffdau1x52ss","5m1rywpcaoqg","xfkt1wfhfmdu"]
+    "assetIds": [
+      "bffdau1x52ss",
+      "5m1rywpcaoqg",
+      "xfkt1wfhfmdu"
+    ]
   },
   {
     "_id": "2cmgcvskdj3a",
@@ -1007,7 +1010,7 @@
                     "title": "Description",
                     "type": "string"
                   },
-                  "displayType": {
+                  "widgetType": {
                     "default": "Schema Form",
                     "enum": [
                       "Balance Sheet",
@@ -2756,8 +2759,6 @@
     "firstStepId": "3r5kgovlor1o",
     "ownerId": "argonautvoya"
   },
-
-
   {
     "_id": "5baf3ai3t4sw",
     "name": "Argonaut Rental Process",
@@ -2958,11 +2959,6 @@
     ],
     "ownerId": "argonautvoya"
   },
-
-
-
-
-
   {
     "_id": "3hxkire2nn4v",
     "name": "Success",
@@ -3076,9 +3072,6 @@
     "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
-
-
-
   {
     "_id": "gm5xv3w3mmsk",
     "name": "Bicycle Shop Repair Process",
@@ -3118,7 +3111,6 @@
     "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
-
   {
     "_id": "iyn245eirxql",
     "name": "Bicycle Shop Rental Process",
@@ -3158,9 +3150,6 @@
     "authorizedOrgUnitId": "bikeworkshop",
     "ownerId": "bikeshop1111"
   },
-
-
-
   {
     "_id": "tfkyaytuac1g",
     "name": "Answer",
@@ -3226,7 +3215,7 @@
         "name": "Navigation Menu",
         "widgets": [
           {
-            "displayType": "Navigation Menu",
+            "widgetType": "Navigation Menu",
             "name": "Navigation Menu",
             "menuId": "kvnnqloyehbg"
           }
@@ -3246,7 +3235,7 @@
         "name": "Navigation Menu",
         "widgets": [
           {
-            "displayType": "Navigation Menu",
+            "widgetType": "Navigation Menu",
             "name": "Navigation Menu",
             "menuId": "ltsslbsdftpg"
           }
@@ -3266,7 +3255,7 @@
         "name": "Navigation Menu",
         "widgets": [
           {
-            "displayType": "Navigation Menu",
+            "widgetType": "Navigation Menu",
             "name": "Navigation Menu",
             "menuId": "ltsslbsdftpg"
           }
@@ -3286,7 +3275,7 @@
         "name": "Process Universe",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Class Model Tree",
             "viewId": "vzhw2vpaflmw"
           }
@@ -3294,7 +3283,6 @@
       }
     ]
   },
-
   {
     "_id": "fjyyh5bzqq3q",
     "name": "Process Universe Model Tree Master Detail",
@@ -3307,7 +3295,7 @@
         "name": "Process Universe",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Class Model Tree",
             "viewId": "vzhw2vpaflmw"
           }
@@ -3327,7 +3315,7 @@
         "name": "Propositions",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Propositions Table",
             "viewId": "g1q2rky4uxcb"
           }
@@ -3337,7 +3325,7 @@
         "name": "Processes",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Process Tree",
             "viewId": "pepmfz4be5uu"
           }
@@ -3347,7 +3335,7 @@
         "name": "Organization",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Organization Table",
             "viewId": "nmeh5awdy4jm"
           }
@@ -3357,7 +3345,7 @@
         "name": "Members",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Members Table",
             "viewId": "nmeh5awdy4jm"
           }
@@ -3377,7 +3365,7 @@
         "name": "Members Table",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Members Table",
             "viewId": "nmeh5awdy4jm"
           }
@@ -3397,7 +3385,7 @@
         "name": "Class Details",
         "widgets": [
           {
-            "displayType": "Schema Form",
+            "widgetType": "Schema Form",
             "viewId": "5ucwmdby4wox"
           }
         ]
@@ -3406,7 +3394,7 @@
         "name": "Raw",
         "widgets": [
           {
-            "displayType": "Raw"
+            "widgetType": "Raw"
           }
         ]
       }
@@ -3424,7 +3412,7 @@
         "name": "Details",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3432,7 +3420,7 @@
         "name": "Raw",
         "widgets": [
           {
-            "displayType": "Raw"
+            "widgetType": "Raw"
           }
         ]
       },
@@ -3440,7 +3428,7 @@
         "name": "Validate",
         "widgets": [
           {
-            "displayType": "Validate"
+            "widgetType": "Validate"
           }
         ]
       }
@@ -3458,7 +3446,7 @@
         "name": "Chart of Accounts Tree",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Chart of Accounts Tree",
             "viewId": "ek3kcbif2axv"
           }
@@ -3478,7 +3466,7 @@
         "name": "Propositions Tree",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Propositions Tree",
             "viewId": "iqzveishvuon"
           }
@@ -3497,7 +3485,7 @@
         "name": "Document",
         "widgets": [
           {
-            "displayType": "Document",
+            "widgetType": "Document",
             "name": "Document Form",
             "viewId": "wh1nnojktarq"
           }
@@ -3517,7 +3505,7 @@
         "name": "Members Table",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Members Table",
             "XviewId": ""
           }
@@ -3536,7 +3524,7 @@
         "name": "Planing Calendar",
         "widgets": [
           {
-            "displayType": "Calendar",
+            "widgetType": "Calendar",
             "name": "Calendar"
           }
         ]
@@ -3555,7 +3543,7 @@
         "name": "Backlog Table",
         "widgets": [
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "name": "Backlog Table",
             "viewId": "wkt3pyiwxkim"
           }
@@ -3575,7 +3563,7 @@
         "name": "Document Tree",
         "widgets": [
           {
-            "displayType": "Tree",
+            "widgetType": "Tree",
             "name": "Document Tree",
             "viewId": "lbrynomj2olf"
           }
@@ -3594,7 +3582,7 @@
         "name": "Income Statement",
         "widgets": [
           {
-            "displayType": "Income Statement"
+            "widgetType": "Income Statement"
           }
         ]
       }
@@ -3611,7 +3599,7 @@
         "name": "Balance Sheet",
         "widgets": [
           {
-            "displayType": "Balance Sheet"
+            "widgetType": "Balance Sheet"
           }
         ]
       }
@@ -3628,7 +3616,7 @@
         "name": "Cash Flows",
         "widgets": [
           {
-            "displayType": "Cash Flows"
+            "widgetType": "Cash Flows"
           }
         ]
       }
@@ -3645,7 +3633,7 @@
         "name": "Account",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3661,13 +3649,12 @@
         "name": "Availability",
         "widgets": [
           {
-            "displayType": "Calendar"
+            "widgetType": "Calendar"
           }
         ]
       }
     ]
   },
-
   {
     "_id": "aw2qi3rkddol",
     "name": "Chart of Accounts Page",
@@ -3679,7 +3666,7 @@
         "name": "Account Details",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3687,7 +3674,7 @@
         "name": "General Ledger",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3695,7 +3682,7 @@
         "name": "Trial Balance",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3703,7 +3690,7 @@
         "name": "Journal Entry",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3711,7 +3698,7 @@
         "name": "Travel Expenes",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       }
@@ -3728,7 +3715,7 @@
         "name": "Team Home",
         "widgets": [
           {
-            "displayType": "Class Schema Form"
+            "widgetType": "Class Schema Form"
           }
         ]
       },
@@ -3744,13 +3731,12 @@
         "name": "Availability",
         "widgets": [
           {
-            "displayType": "Calendar"
+            "widgetType": "Calendar"
           }
         ]
       }
     ]
   },
-
   {
     "_id": "vnv3x25ktaie",
     "name": "Agreements Page",
@@ -3768,7 +3754,6 @@
       }
     ]
   },
-
   {
     "_id": "ymbks1mwaws2",
     "name": "Backlog Form and History Page",
@@ -3780,18 +3765,17 @@
         "name": "Backlog History",
         "widgets": [
           {
-            "displayType": "Schema Form",
+            "widgetType": "Schema Form",
             "viewId": "hltd3gcrhybh"
           },
           {
-            "displayType": "Schema Table",
+            "widgetType": "Schema Table",
             "viewId": "ysjcq4gcg4gq"
           }
         ]
       }
     ]
   },
-
   {
     "_id": "vzhw2vpaflmw",
     "name": "Process Umiverse Tree View",
@@ -3953,7 +3937,6 @@
     "queryId": "w54wmbogeget",
     "type": "object"
   },
-
   {
     "_id": "hltd3gcrhybh",
     "name": "Agreement Form View",
@@ -4095,9 +4078,6 @@
     },
     "sortBy": "name"
   },
-
-
-
   {
     "_id": "sfmg5u3wtpds",
     "name": "Owned Processes Query",
@@ -4266,7 +4246,6 @@
     },
     "sortBy": "title"
   },
-
   {
     "_id": "1xbgzyvvjdwy",
     "name": "Propositions Query",
@@ -4384,7 +4363,8 @@
           {
             "name": "Members",
             "pageId": "4q5nx5ek5gww"
-          },          {
+          },
+          {
             "name": "Proposistions",
             "pageId": "on12pms3cxuw"
           },
@@ -4530,8 +4510,6 @@
     "description": "<p>Contents three</p>",
     "subParagraphIds": []
   },
-
-
   {
     "_id": "ktgitqydh4dp",
     "name": "Bicyle Shop Document",
@@ -4568,14 +4546,6 @@
     "description": "<p>Contents three</p>",
     "subParagraphIds": []
   },
-
-
-
-  
-
-
-
-
   {
     "_id": "rzcyitvrmgkd",
     "name": "Buy a Bike",
@@ -4589,7 +4559,7 @@
     "assetId": "zynuevubskut",
     "propositionId": "iqdfuo2tnze2",
     "currentStepId": "3r5kgovlor1o"
-  },  
+  },
   {
     "_id": "lwwxn3d5wit4",
     "name": "Rent a Bike",
@@ -4632,10 +4602,6 @@
     "propositionId": "wn5sb2qqddtv",
     "currentStepId": "oltp4kpj4fvi"
   },
-
-
-
-
   {
     "_id": "zynuevubskut",
     "title": "Blue Bike For Sale",

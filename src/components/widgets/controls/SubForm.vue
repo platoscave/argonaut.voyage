@@ -150,9 +150,11 @@ const getComponent = (property: IProperty) => {
     switch (property.type) {
       case "string":
         const mediaType = property.contentMediaType
-        if (mediaType === "text/html") return "Html";
-        if (mediaType.startsWith("image/")) return "Image";
-        if (mediaType) return "Json";
+        if(mediaType) {
+          if (mediaType === "text/html") return "Html";
+          if (mediaType.startsWith("image/")) return "Image";
+          return "Json";
+        }
         if (property.argoQuery) return "SelectStringQuery";
         if (property.enum) return "SelectStringEnum";
         if (property.format === "date-time") return "DateTime";
