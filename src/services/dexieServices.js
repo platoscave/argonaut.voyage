@@ -52,7 +52,7 @@ db.on('changes', function (changes) {
 });
 
 
-db.populateFromStatic = async () => {
+db.reloadFromStatic = async () => {
   const response = await fetch("argonautdb.json");
   const argonautData = await response.json();
   await db.state.clear();

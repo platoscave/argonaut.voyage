@@ -54,7 +54,7 @@ const saveChanges = async () => {
       showClose: true,
       message: err.reason.message,
       type: 'error',
-      duration: 5000 
+      duration: 5000
     })
     throw err;
   }
@@ -69,7 +69,7 @@ const cancelChanges = async () => {
       showClose: true,
       message: err.reason.message,
       type: 'error',
-      duration: 5000 
+      duration: 5000
     })
     throw err;
   }
@@ -77,143 +77,104 @@ const cancelChanges = async () => {
 
 
 
-onMounted( async () => {
+onMounted(async () => {
 
-    // If argonautdb is not filled yet, populate it from the static file
-    const count = await db.state.count();
-    if (!count) {
-      try {
-        await db.populateFromStatic()
-        location.reload();
-        ElMessage.success("Static File Loaded and Imported");
-      } catch (err) {
-        ElMessage({
-          showClose: true,
-          message: err.reason.message,
-          type: "error",
-          duration: 5000,
-        });
-        throw err;
-      }
-    }
-
-
-
-    // See if we can get app settings from the last time we visited this page
-    const networkUserObj = await db.settings.get("application");
-    if (!networkUserObj)
-      db.settings.add({
-        pageId: "application",
-        currentNetwork: "sandbox",
-        currentUserId: "demouser1111",
-      });
-
-    if (!window.location.hash)
-      window.location.hash = "#/argonautvoya.uhekisbbbjh5";
-
-    // catch Dexie errors
-    window.addEventListener ('unhandledrejection', err => {
+  // If argonautdb is not filled yet, populate it from the static file
+  const count = await db.state.count();
+  if (!count) {
+    try {
+      await db.reloadFromStatic()
+      location.reload();
+      ElMessage.success("Static File Loaded and Imported");
+    } catch (err) {
       ElMessage({
         showClose: true,
         message: err.reason.message,
-        type: 'error',
-        duration: 5000 
-      })
-      throw err
+        type: "error",
+        duration: 5000,
+      });
+      throw err;
+    }
+  }
+
+
+
+  // See if we can get app settings from the last time we visited this page
+  const networkUserObj = await db.settings.get("application");
+  if (!networkUserObj)
+    db.settings.add({
+      pageId: "application",
+      currentNetwork: "sandbox",
+      currentUserId: "demouser1111",
     });
+
+  if (!window.location.hash)
+    window.location.hash = "#/argonautvoya.uhekisbbbjh5";
+
+  // catch Dexie errors
+  window.addEventListener('unhandledrejection', err => {
+    ElMessage({
+      showClose: true,
+      message: err.reason.message,
+      type: 'error',
+      duration: 5000
+    })
+    throw err
+  });
 })
 </script>
 
 <template>
-
   <div id="app">
 
-    <Layout class="ar-main" :hash-level="0"></Layout> 
+    <Layout class="ar-main" :hash-level="0"></Layout>
     <!-- <div class="ar-main" ></div>-->
 
     <div class="ar-footer">
 
       <svg class="ar-left-align settings-icon" height="24" width="24" color="blue" @click="dialogVisible = true">
 
-        <use
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          :xlink:href="'toolbar-symbols.svg#settings'"
-        ></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#settings'"></use>
 
       </svg>
 
-      
-        <el-select
-        v-if="networkUserObj"
-        class="ar-left-align"
-        size="small"
-        placeholder="Select Network"
-        :model-value="networkUserObj.currentNetwork"
-        @change="updateCurrentNetwork"
-      >
 
-        <el-option
-          v-for="network in networks"
-          :key="network"
-          :label="network.name"
-          :value="network.name"
-        >
+      <el-select v-if="networkUserObj" class="ar-left-align" size="small" placeholder="Select Network"
+        :model-value="networkUserObj.currentNetwork" @change="updateCurrentNetwork">
+
+        <el-option v-for="network in networks" :key="network" :label="network.name" :value="network.name">
 
         </el-option>
 
       </el-select>
 
-      <el-select
-        v-if="networkUserObj"
-        class="ar-left-align"
-        size="small"
-        placeholder="Select User"
-        :model-value="networkUserObj.currentUserId"
-        @change="updateCurrentUser"
-      >
+      <el-select v-if="networkUserObj" class="ar-left-align" size="small" placeholder="Select User"
+        :model-value="networkUserObj.currentUserId" @change="updateCurrentUser">
 
-        <el-option
-          v-for="userObj in users"
-          :key="userObj._id"
-          :label="userObj.name"
-          :value="userObj._id"
-        >
+        <el-option v-for="userObj in users" :key="userObj._id" :label="userObj.name" :value="userObj._id">
 
         </el-option>
 
       </el-select>
-<!---->
+      <!---->
 
       <span class="logo ar-right-align"> Argonaut.Voyage </span>
 
-      <ElButton
-        @click="cancelChanges"
-        size="small"
-        type="danger"
-        :disabled="!updatedObjectsCount"
-        class="ar-right-align"
-      >
-         Cancel
+      <ElButton @click="cancelChanges" size="small" type="danger" :disabled="!updatedObjectsCount" class="ar-right-align">
+        Cancel
       </ElButton>
 
-      <ElButton
-        @click="saveChanges"
-        size="small"
-        type="success"
-        :disabled="!updatedObjectsCount"
-        class="ar-right-align"
-      >
-         Send
+      <ElButton @click="saveChanges" size="small" type="success" :disabled="!updatedObjectsCount" class="ar-right-align">
+        Send
       </ElButton>
 
     </div>
 
-   
+
     <SettingsDlg ref="settingsDlg" v-model="dialogVisible"> </SettingsDlg>
 
 
   </div>
-
 </template>
 
 <style>
@@ -231,6 +192,7 @@ onMounted( async () => {
   display: block;
   width: 100%;
 }
+
 .ar-footer {
   background: #ffffff08;
   border-top-color: #524f4f;
@@ -238,12 +200,15 @@ onMounted( async () => {
   border-top-style: solid;
   height: 39px;
 }
+
 .el-select {
   width: 175px;
 }
-.el-select >>> .el-input__inner {
+
+.el-select>>>.el-input__inner {
   font-size: 16px;
 }
+
 .ar-left-align {
   float: left;
   margin-left: 10px;
@@ -254,6 +219,7 @@ onMounted( async () => {
   transform: translateY(-50%);
   line-height: 100%;
 }
+
 .ar-right-align {
   float: right;
   margin-right: 10px;
@@ -264,13 +230,16 @@ onMounted( async () => {
   transform: translateY(-50%);
   line-height: 100%;
 }
+
 .ep-button {
   color: black;
   font-weight: bold;
 }
+
 .settings-icon:hover {
   color: #DA4567;
 }
+
 .logo {
   font-family: "Courgette", cursive;
   font-weight: bold;
