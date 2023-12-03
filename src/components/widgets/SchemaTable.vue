@@ -149,53 +149,37 @@ interface IProperty {
 const getComponent = (property: IProperty) => {
   // Determin the control type
   const getControlName = () => {
-    if (property.type === "string") {
-      if (property.contentMediaType) {
-        // HTML
-        if (property.contentMediaType === "text/html") return "Html";
-        // Image
-        else if (property.contentMediaType.startsWith("image/")) return "Image";
-        // Javascript, Json
-        else return "Json";
-      }
 
-      // Select
-      else if (property.argoQuery) return "SelectStringQuery";
-      // Enumeration
-      else if (property.enum) return "SelectStringEnum";
-      // Date time
-      else if (property.format === "date-time") return "ElDatePicker";
-      // Text
-      else return "String";
+    switch (property.type) {
+      case "string":
+        const mediaType = property.contentMediaType
+        if (mediaType) {
+          if (mediaType === "text/html") return "Html";
+          if (mediaType.startsWith("image/")) return "Image";
+          return "Json";
+        }
+        if (property.argoQuery) return "SelectStringQuery";
+        if (property.enum) return "SelectStringEnum";
+        if (property.format === "date-time") return "DateTime";
+        return "String";
+      case "number": return "Number";
+      case "integer": return "Number";
+      case "boolean": return "ElCheckbox";
+      case "object": if (property.properties) return "NestedObject";
+      case "array":
+        // objects
+        if (property.items.type === "object" && property.items.properties) {
+          if (property.displayAs === "Table") return "TableArray"; // objects in a table
+          return "ObjectsArray"; // objects in a subform
+        }
+        // multi select
+        else if (property.items.type === "string") {
+          if (property.items.argoQuery) return "SelectArrayQuery";
+          return "Json";
+        }
     }
-
-    // Number
-    else if (property.type === "number") return "Number";
-    // Integer
-    else if (property.type === "integer") return "Number";
-    // Boolean
-    else if (property.type === "boolean") return "ElCheckbox";
-    // Object
-    else if (property.type === "object" && property.properties) return "NestedObject";
-    // Array
-    else if (property.type === "array" && property.items) {
-      // objects
-      if (property.items.type === "object" && property.items.properties) {
-        // objects in a table
-        if (property.displayAs === "Table") return "TableArray";
-        // objects in a subform
-        else return "ObjectsArray";
-      }
-
-      // multi select
-      else if (property.items.type === "string") {
-        if (property.items.argoQuery) return "SelectArrayQuery";
-        else return "Json";
-      }
-    }
-
-    // unknown
     return "Json";
+
   };
 
   const nameComp = dynamicComp.find((item) => item.name === getControlName());
