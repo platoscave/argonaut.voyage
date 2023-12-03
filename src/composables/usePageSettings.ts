@@ -29,9 +29,9 @@ export function usePageSettings(pageId: string = '') {
   })
 
   if(pageId) {
-    db.settings.get(pageId).then( localSettings => {
+    db.table('settings').get(pageId).then( localSettings => {
       if(localSettings) pageSettings = Object.assign(pageSettings, localSettings)
-      else db.settings.add( { pageId:pageId } )
+      else db.table('settings').add( { pageId:pageId } )
     })
   }
 
@@ -41,25 +41,25 @@ export function usePageSettings(pageId: string = '') {
   };
 }
 
-export const saveSplitterSettings = (pageId: string, splitterSettings ) => {
-  db.settings.update(pageId, {splitterSettings: splitterSettings.map(item => item.size) })
+export const saveSplitterSettings = (pageId: string, splitterSettings: number[] ) => {
+  db.table('settings').update(pageId, {splitterSettings: splitterSettings.map(item => item.size) })
 }
 export const saveLeftSize = (pageId: string, leftSize: number) => {
-  db.settings.update(pageId, {leftSize: leftSize})
+  db.table('settings').update(pageId, {leftSize: leftSize})
 }
 export const saveRightSize = (pageId: string, rightSize: number) => {
-  db.settings.update(pageId, {rightSize: rightSize})
+  db.table('settings').update(pageId, {rightSize: rightSize})
 }
 export const saveExpandedNodes = (pageId: string, expandedNodes: string[]) => {
-  db.settings.update(pageId, {expandedNodes: expandedNodes})
+  db.table('settings').update(pageId, {expandedNodes: expandedNodes})
 }
 export const saveTabNum = (pageId: string, tabNum: string) => {
-  db.settings.update(pageId, {settingsTabNum: tabNum})
+  db.table('settings').update(pageId, {settingsTabNum: tabNum})
 }
 export const saveColumWidth = (pageId: string, propertyName: string, width: number) => {
   const colPropName = "columWidths."+propertyName
   let updateObj: any = {}
   updateObj[colPropName] = width
-  db.settings.update(pageId, updateObj )
+  db.table('settings').update(pageId, updateObj )
 }
 

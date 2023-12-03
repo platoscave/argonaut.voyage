@@ -30,7 +30,7 @@ import {
 async function takeAction(actions) {
 
 
-  let networkUserObj = await db.settings.get('application')
+  let networkUserObj = await db.table('settings').get('application')
   const network = networkUserObj.currentNetwork;
   const rpc = new JsonRpc(networks[network].endpoint);
 
@@ -78,7 +78,7 @@ class EosApiService {
 
   static async upsertDocument(document) {
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
@@ -112,7 +112,7 @@ class EosApiService {
 
   static async sendUpsertBatches(argonautArr, $message) {
 
-    //let networkUserObj = await db.settings.get("application")
+    //let networkUserObj = await db.table('settings').get("application")
     //let currentUserId = networkUserObj.currentUserId
 
     const upsertActions = tenDocs => {
@@ -186,7 +186,7 @@ class EosApiService {
 
   static async getDocuments(keyValue, indexName) {
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     const network = networkUserObj.currentNetwork;
     const rpc = new JsonRpc(networks[network].endpoint);
 
@@ -227,7 +227,7 @@ class EosApiService {
 
   static async eraseAllEos() {
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
@@ -246,7 +246,7 @@ class EosApiService {
 
   static async eraseEos(_id) {
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
@@ -298,7 +298,7 @@ class EosApiService {
     }
 
     // START HERE
-    let networkUserObj = await db.settings.get("application")
+    let networkUserObj = await db.table('settings').get("application")
     let currentUserId = networkUserObj.currentUserId
 
     const response = await fetch("addTestAccountActions.json");
@@ -369,7 +369,7 @@ class EosApiService {
 
     //TODO must retrieve account to merge existing
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
@@ -425,7 +425,7 @@ class EosApiService {
   static async transfer(to) {
 
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
@@ -469,22 +469,22 @@ class EosApiService {
   static async buyrambytes() {
 
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
     const actions = [{
       "account": "eosio",
       "name": "buyrambytes",
       "authorization": [
-          {
-              "actor": currentUserId,
-              "permission": "active"
-          }
+        {
+          "actor": currentUserId,
+          "permission": "active"
+        }
       ],
       "data": {
-          "payer": currentUserId,
-          "receiver": "argonautvoya",
-          "bytes": 500000
+        "payer": currentUserId,
+        "receiver": "argonautvoya",
+        "bytes": 500000
       }
     }]
 
@@ -513,7 +513,7 @@ class EosApiService {
   static async testEos() {
 
 
-    let networkUserObj = await db.settings.get('application')
+    let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
 
 
@@ -532,10 +532,10 @@ class EosApiService {
           threshold: 1,
           accounts: [],
           "keys": [
-              {
-                  "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
-                  "weight": 1
-              }
+            {
+              "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
+              "weight": 1
+            }
           ],
           waits: []
         }

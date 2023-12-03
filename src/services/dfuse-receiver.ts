@@ -123,7 +123,7 @@ export class DfuseReceiver {
     };
 
     dfuseClient = createDfuseClient({
-        
+
         apiKey: this.networkObj.apiKey,
         network: this.networkObj.graphQL,
         authUrl: this.networkObj.authentication,
@@ -147,7 +147,7 @@ export class DfuseReceiver {
         this.storage = storage;
 
 
-        //let networkUserObj = await db.settings.get('application')
+        //let networkUserObj = await db.table('settings').get('application')
         //this.networkObj = networks[networkUserObj.currentNetwork];
         //this.networkObj = networks['kylin'];
     }
@@ -192,16 +192,14 @@ export class DfuseReceiver {
                 const prev =
                     this.jsonTransactions.length > 0
                         ? this.jsonTransactions[
-                              this.jsonTransactions.length - 1
-                          ]
+                        this.jsonTransactions.length - 1
+                        ]
                         : null;
                 logger.info(
-                    `${trx.undo ? "undo block" : "recv block"} ${
-                        trx.block.num
-                    } ${
-                        trx.trace
-                            ? "trx " + trx.trace.id
-                            : "no matching transactions"
+                    `${trx.undo ? "undo block" : "recv block"} ${trx.block.num
+                    } ${trx.trace
+                        ? "trx " + trx.trace.id
+                        : "no matching transactions"
                     }`
                 );
                 if (
@@ -263,7 +261,7 @@ export class DfuseReceiver {
                     fs.readFileSync(this.networkObj.jsonTrxFile, "utf8")
                 );
                 this.numSaved = this.jsonTransactions.length;
-            } catch (e) {}
+            } catch (e) { }
 
             const begin = performance.now();
             logger.info("pushing existing blocks...");
@@ -288,7 +286,7 @@ export class DfuseReceiver {
             if (!this.jsonTransactions.length && this.networkObj.firstBlock === 1)
                 logger.warn(
                     "Don't have an existing dfuse cursor and DFUSE_FIRST_BLOCK isn't greater than 1; " +
-                        "this may take a while before the first result comes..."
+                    "this may take a while before the first result comes..."
                 );
             if (this.jsonTransactions.length)
                 this.variables.cursor = this.jsonTransactions[

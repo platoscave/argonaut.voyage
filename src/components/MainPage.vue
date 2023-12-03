@@ -17,7 +17,7 @@ interface networkUserRec {
   pageId: string
 }
 let networkUserObj = useLiveQuery<networkUserRec>(
-  () => db.settings.get("application"), []
+  () => db.table('settings').get("application"), []
 )
 
 //get all objects of type users
@@ -35,13 +35,13 @@ const updatedObjectsCount = useLiveQuery<number>(
 )
 
 const updateCurrentNetwork = async (currentNetwork) => {
-  await db.settings.update("application", {
+  await db.table('settings').update("application", {
     currentNetwork: currentNetwork,
   });
 };
 
 const updateCurrentUser = async (currentUserId) => {
-  await db.settings.update("application", {
+  await db.table('settings').update("application", {
     currentUserId: currentUserId,
   });
 };
@@ -100,9 +100,9 @@ onMounted(async () => {
 
 
   // See if we can get app settings from the last time we visited this page
-  const networkUserObj = await db.settings.get("application");
+  const networkUserObj = await db.table('settings').get("application");
   if (!networkUserObj)
-    db.settings.add({
+    db.table('settings').add({
       pageId: "application",
       currentNetwork: "sandbox",
       currentUserId: "demouser1111",

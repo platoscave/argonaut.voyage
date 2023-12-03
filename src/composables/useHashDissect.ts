@@ -87,18 +87,18 @@ export async function updateNextLevelHash(hashLevel: number = 0, nextLevelSelect
 
     // Set next level tabNum
     // See if we can get a selected tab from the last time we visited this page
-    const pageSettings = await db.settings.get(nextLevelPageId);
+    const pageSettings = await db.table('settings').get(nextLevelPageId);
     if (pageSettings && pageSettings.selectedTab) newNextLevelSelectedTab = pageSettings.selectedTab;
     else newNextLevelSelectedTab = '0'
 
   }
 
   // Update the next level selectedObj in pageSettings for this ourPageId in the settings db
-  const updated = await db.settings.update(pageId, {
+  const updated = await db.table('settings').update(pageId, {
     nextLevelSelectedObjId: newNextLevelSelectObjId,
   });
   if (!updated) {
-    await db.settings.add({
+    await db.table('settings').add({
       pageId: pageId,
       nextLevelSelectedObjId: newNextLevelSelectObjId,
     });
@@ -128,11 +128,11 @@ export async function updateHashWithSelectedTab(hashLevel: number = 0, tabNum: s
   selectedTab = tabNum
 
   // Update the tabNum in pageSettings for this pageId in the settings db
-  const updated = await db.settings.update(pageId, {
+  const updated = await db.table('settings').update(pageId, {
     selectedTab: selectedTab,
   });
   if (!updated) {
-    await db.settings.add({
+    await db.table('settings').add({
       pageId: pageId,
       selectedTab: selectedTab,
     });

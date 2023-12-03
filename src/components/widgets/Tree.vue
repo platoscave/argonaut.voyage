@@ -39,7 +39,7 @@ const loadNode = async (node, resolve) => {
       // Get the queryObj
       const queryObj = await db.state.get(viewObj.queryId);
 
-      watch( useArgoQuery(queryObj, { _id: selectedObjId.value }), 
+      watch(useArgoQuery(queryObj, { _id: selectedObjId.value }),
         resultArr => node.store.setData(resultArr)
       );
 
@@ -47,11 +47,11 @@ const loadNode = async (node, resolve) => {
     }
     // node.level > 0
     else {
-      if(node.data.treeVars.subQueryIds) {
-        watch( useArgoQuery(node.data.treeVars.subQueryIds, node.data), 
+      if (node.data.treeVars.subQueryIds) {
+        watch(useArgoQuery(node.data.treeVars.subQueryIds, node.data),
           resultArr => {
             node.store.updateChildren(node.data._id, resultArr);
-        });
+          });
       }
       resolve([]);
     }
@@ -308,11 +308,11 @@ onMounted(() => {
     // See if we can get CurrentKey from the last time we visited this page
     // We have to wait half a second because the nodes won't have been loaded yet
     setTimeout(() => {
-      db.settings.get(pageId.value).then((pageSettings) => {
+      db.table('settings').get(pageId.value).then((pageSettings) => {
         if (pageSettings && pageSettings.nextLevelSelectedObjId) {
           //treeEl.value.setCurrentKey(pageSettings.nextLevelSelectedObjId);
           const nodeData = treeEl.value.getNode(pageSettings.nextLevelSelectedObjId);
-          if(!nodeData) return
+          if (!nodeData) return
           updateNextLevelHash(
             props.hashLevel,
             pageSettings.nextLevelSelectedObjId,
@@ -326,35 +326,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-tree
-    ref="treeEl"
-    highlight-current
-    :expand-on-click-node="false"
-    :props="defaultProps"
-    :load="loadNode"
-    lazy
-    node-key="_id"
-    :default-expanded-keys="expandedNodes"
-    @node-click="
-      (nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
-    "
-    @keyup.ctrl.c="onCtrlCopy"
-    @keyup.ctrl.v="onCtrlPaste"
-    @keyup.ctrl.x="onCtrlCut"
-    @keyup.delete="onDelete"
-    @node-contextmenu="onContextMenu"
-    @node-expand="handleNodeExpandColapse"
-    @node-collapse="handleNodeExpandColapse"
-    draggable
-    @node-drag-start="handleDragStart"
-    @node-drag-enter="handleDragEnter"
-    @node-drag-leave="handleDragLeave"
-    @node-drag-over="handleDragOver"
-    @node-drag-end="handleDragEnd"
-    @node-drop="handleDrop"
-    :allow-drop="allowDrop"
-    :allow-drag="allowDrag"
-  >
+  <el-tree ref="treeEl" highlight-current :expand-on-click-node="false" :props="defaultProps" :load="loadNode" lazy
+    node-key="_id" :default-expanded-keys="expandedNodes" @node-click="(nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
+      " @keyup.ctrl.c="onCtrlCopy" @keyup.ctrl.v="onCtrlPaste" @keyup.ctrl.x="onCtrlCut" @keyup.delete="onDelete"
+    @node-contextmenu="onContextMenu" @node-expand="handleNodeExpandColapse" @node-collapse="handleNodeExpandColapse"
+    draggable @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave"
+    @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd" @node-drop="handleDrop" :allow-drop="allowDrop"
+    :allow-drag="allowDrag">
     <template #default="{ node, data }">
       <img :src="'icons/' + data.treeVars.icon" />
       <span class="node-label">{{ data.treeVars.label }}</span>
@@ -367,9 +345,11 @@ onMounted(() => {
 .node-label {
   margin-left: 5px;
 }
-.context-menu >>> .menu {
+
+.context-menu>>>.menu {
   border-color: #524f4f;
 }
+
 img {
   height: 20px;
   width: 20px;

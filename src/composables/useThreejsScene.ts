@@ -52,7 +52,7 @@ export function useThreejsScene(
 
   const { nextLevelSelectedObjId } = useHashDissect(hashLevel);
   const selectableMeshArr: Mesh[] = []
-  let selectedObj3d = null
+  let selectedObj3d: Object3D
 
 
   // scenes
