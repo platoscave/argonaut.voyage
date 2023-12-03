@@ -18,7 +18,6 @@ import SelectStringEnum from "./SelectStringEnum.vue";
 import SelectArrayQuery from "./SelectArrayQuery.vue";
 import String from "./String.vue";
 import SubForm from "./SubForm.vue";
-//import { get } from 'lodash-es';
 
 // For some reason I can only add default to requiredArr.
 // As soon as I addd others I get wierd compiler erros. I'm clueless.
@@ -146,7 +145,6 @@ const getComponent = (property: IProperty) => {
   // Determin the control type
   const getControlName = () => {
 
-
     switch (property.type) {
       case "string":
         const mediaType = property.contentMediaType
@@ -177,53 +175,6 @@ const getComponent = (property: IProperty) => {
     }
     return "Json";
 
-    if (property.type === "string") {
-      if (property.contentMediaType) {
-        // HTML
-        if (property.contentMediaType === "text/html") return "Html";
-        // Image
-        else if (property.contentMediaType.startsWith("image/")) return "Image";
-        // Javascript, Json
-        else return "Json";
-      }
-
-      // Select
-      else if (property.argoQuery) return "SelectStringQuery";
-      // Enumeration
-      else if (property.enum) return "SelectStringEnum";
-      // Date time
-      else if (property.format === "date-time") return "DateTime";
-      // Text
-      else return "String";
-    }
-
-    // Number
-    else if (property.type === "number") return "Number";
-    // Integer
-    else if (property.type === "integer") return "Number";
-    // Boolean
-    else if (property.type === "boolean") return "ElCheckbox";
-    // Object
-    else if (property.type === "object" && property.properties) return "NestedObject";
-    // Array
-    else if (property.type === "array" && property.items) {
-      // objects
-      if (property.items.type === "object" && property.items.properties) {
-        // objects in a table
-        if (property.displayAs === "Table") return "TableArray";
-        // objects in a subform
-        else return "ObjectsArray";
-      }
-
-      // multi select
-      else if (property.items.type === "string") {
-        if (property.items.argoQuery) return "SelectArrayQuery";
-        else return "Json";
-      }
-    }
-
-    // unknown
-    return "Json";
   };
 
   const nameComp = dynamicComp.find((item) => item.name === getControlName());
