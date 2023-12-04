@@ -313,11 +313,11 @@ onMounted(async () => {
     loadingText("Error :-(");
     ElMessage({
       showClose: true,
-      message: err,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 });
 </script>

@@ -58,11 +58,11 @@ const loadNode = async (node, resolve) => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 };
 

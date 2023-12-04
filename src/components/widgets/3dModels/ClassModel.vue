@@ -80,29 +80,23 @@ onMounted(async () => {
     loadingText();
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 });
 </script>
 
 <template>
   <div class="fab-parent">
-    <div
-      class="ar-full-height"
-      ref="rootEl"
-      v-bind:style="{ cursor: cursor }"
-    ></div>
+    <div class="ar-full-height" ref="rootEl" v-bind:style="{ cursor: cursor }"></div>
     <ElButton class="fab" circle @click="autoRotate = !autoRotate">
       <template #icon>
-        <svg><use
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            :xlink:href="'toolbar-symbols.svg#el-icon-refresh'"
-          ></use></svg
-      ></template>
+        <svg>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-refresh'"></use>
+        </svg></template>
     </ElButton>
   </div>
 </template>
@@ -112,6 +106,7 @@ onMounted(async () => {
   position: relative;
   height: 100%;
 }
+
 .fab {
   position: absolute;
   margin: 10px;

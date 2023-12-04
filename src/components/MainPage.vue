@@ -26,21 +26,21 @@ interface userRec {
   name: string
 }
 const users = useLiveQuery<userRec>(
-  () => db.state.where({ classId: "hdt3hmnsaghk" }).sortBy("name"), []
+  () => db.table('state').where({ classId: "hdt3hmnsaghk" }).sortBy("name"), []
 )
 
 // We use the count of updatedObjects to dis/enable cancel save buttons
 const updatedObjectsCount = useLiveQuery<number>(
-  () => db.updatedObjects.count(), []
+  () => db.table('updatedObjects').count(), []
 )
 
-const updateCurrentNetwork = async (currentNetwork) => {
+const updateCurrentNetwork = async (currentNetwork: string) => {
   await db.table('settings').update("application", {
     currentNetwork: currentNetwork,
   });
 };
 
-const updateCurrentUser = async (currentUserId) => {
+const updateCurrentUser = async (currentUserId: string) => {
   await db.table('settings').update("application", {
     currentUserId: currentUserId,
   });
@@ -52,11 +52,11 @@ const saveChanges = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
-      type: 'error',
-      duration: 5000
-    })
-    throw err;
+      message: err.message,
+      type: "error",
+      duration: 5000,
+    });
+    console.error(err);
   }
 };
 
@@ -67,11 +67,11 @@ const cancelChanges = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
-      type: 'error',
-      duration: 5000
-    })
-    throw err;
+      message: err.message,
+      type: "error",
+      duration: 5000,
+    });
+    console.error(err);
   }
 };
 
@@ -89,11 +89,11 @@ onMounted(async () => {
     } catch (err) {
       ElMessage({
         showClose: true,
-        message: err.reason.message,
+        message: err.message,
         type: "error",
         duration: 5000,
       });
-      throw err;
+      console.error(err);
     }
   }
 
@@ -115,11 +115,11 @@ onMounted(async () => {
   window.addEventListener('unhandledrejection', err => {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
-      type: 'error',
-      duration: 5000
-    })
-    throw err
+      message: err.message,
+      type: "error",
+      duration: 5000,
+    });
+    console.error(err);
   });
 })
 </script>

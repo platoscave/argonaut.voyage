@@ -54,7 +54,7 @@ export default class StepObject3d extends Object3D {
           this.add(drawTube(points, key, key, true))
         }
         if (key === 'tabs') destId.forEach(tabObj => {
-          tabObj.widgets.forEach(widgetObj => {
+          if (tabObj.widgets) tabObj.widgets.forEach(widgetObj => {
             drawAssocs(widgetObj)
           })
         })

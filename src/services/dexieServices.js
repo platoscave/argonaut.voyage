@@ -11,7 +11,7 @@ db.version(1).stores({
 });
 
 // Add create hook. Generate random key 
-db.state.hook("creating", function (primKey, obj, transaction) {
+db.table('state').hook("creating", function (primKey, obj, transaction) {
   // Return random key
   const characters = "abcdefghijklmnopqrstuvwxyz12345";
   let randomKey = "";
@@ -28,22 +28,22 @@ db.state.hook("creating", function (primKey, obj, transaction) {
 db.on('changes', function (changes) {
   changes.forEach(async function (change) {
     if (change.table === "state") {
-      const found = await db.updatedObjects.get(change.key)
+      const found = await db.table('updatedObjects').get(change.key)
       // If causedBy flag is set, this updated is the result of cancelChanges, not the user
       // We just delete the record
-      if (found && found.causedBy && found.causedBy === 'cancelChanges') db.updatedObjects.delete(change.key)
+      if (found && found.causedBy && found.causedBy === 'cancelChanges') db.table('updatedObjects').delete(change.key)
       else {
         switch (change.type) {
           case 1: // CREATED
-            db.updatedObjects.add({ key: change.key, timestamp: Date.now(), action: 'created' })
+            db.table('updatedObjects').add({ key: change.key, timestamp: Date.now(), action: 'created' })
             break;
           case 2: // UPDATED
             console.log('change.key', change.key)
-            if (!found) db.updatedObjects.put({ key: change.key, timestamp: Date.now(), action: 'updated' })
+            if (!found) db.table('updatedObjects').put({ key: change.key, timestamp: Date.now(), action: 'updated' })
             break;
           case 3: // DELETED
-            if (found && found.action === 'created') db.updatedObjects.delete(change.key)
-            else db.updatedObjects.put({ key: change.key, timestamp: Date.now(), action: 'deleted' })
+            if (found && found.action === 'created') db.table('updatedObjects').delete(change.key)
+            else db.table('updatedObjects').put({ key: change.key, timestamp: Date.now(), action: 'deleted' })
             break;
         }
       }
@@ -55,7 +55,7 @@ db.on('changes', function (changes) {
 db.reloadFromStatic = async () => {
   const response = await fetch("argonautdb.json");
   const argonautData = await response.json();
-  await db.state.clear();
-  await db.updatedObjects.clear();
-  await db.state.bulkPut(argonautData);
+  await db.table('state').clear();
+  await db.table('updatedObjects').clear();
+  await db.table('state').bulkPut(argonautData);
 };

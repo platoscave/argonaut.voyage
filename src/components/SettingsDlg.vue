@@ -18,11 +18,11 @@ const reloadFromStatic = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 };
 
@@ -58,11 +58,11 @@ const eraseAllEos = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 };
 
@@ -72,11 +72,11 @@ const testEos = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 };
 
@@ -159,13 +159,13 @@ const testQuery = async () => {
 
   //   watch(resultsRef, (resultsRef) => console.log("resultsRef", resultsRef));
   // } catch (err) {
-  //   ElMessage({
-  //     showClose: true,
-  //     message: err.reason.message,
-  //     type: "error",
-  //     duration: 5000,
-  //   });
-  //   throw err;
+  // ElMessage({
+  //   showClose: true,
+  //   message: err.message,
+  //   type: "error",
+  //   duration: 5000,
+  // });
+  // console.error(err);
   // }
 };
 
@@ -184,11 +184,11 @@ const generatecpp = async () => {
   } catch (err) {
     ElMessage({
       showClose: true,
-      message: err.reason.message,
+      message: err.message,
       type: "error",
       duration: 5000,
     });
-    throw err;
+    console.error(err);
   }
 };
 </script>
