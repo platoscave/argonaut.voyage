@@ -8,7 +8,7 @@
             "base": "",
             "fields": [
                 {
-                    "name": "_id",
+                    "name": "key",
                     "type": "name"
                 },
                 {

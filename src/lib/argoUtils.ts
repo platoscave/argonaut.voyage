@@ -33,13 +33,13 @@ const deepMerge = (targetObj: IObject, sourceObj: IObject) => {
 }
 
 // Merge class with all of its ancestors, recusivly
-export const getClassSchema = async (_id: string) => {
+export const getClassSchema = async (key: string) => {
 
-    const classObj:IObject = await db.state.get(_id)
+    const classObj: IObject = await db.state.get(key)
 
     if (classObj.superClassId) {
 
-        const parentClassObj:IObject = await getClassSchema(classObj.superClassId)
+        const parentClassObj: IObject = await getClassSchema(classObj.superClassId)
         // Ovwewrite parentClassObj with this classObj and return the result
         deepMerge(parentClassObj, classObj)
         return parentClassObj
@@ -53,7 +53,7 @@ export const getClassSchema = async (_id: string) => {
 // Finally merge the view with the merged ancestors
 export const getMaterializedView = async (viewId: string) => {
 
-    const smartMerge = (viewObj:IObject, classObj:IObject) => {
+    const smartMerge = (viewObj: IObject, classObj: IObject) => {
 
         if (viewObj.properties) {
             // The the order and presence of viewObj properties is leading

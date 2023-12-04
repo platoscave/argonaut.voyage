@@ -54,18 +54,18 @@ const drawAgreements = async (zPos: number) => {
       selector: "Subclasses",
       where: { classId: "i1gjptcb2skq" },
       idsArrayPath: {
-        path: "$[*]._id",
+        path: "$[*].key",
         indexName: "classId"
       },
       sortBy: "name",
-    },{ _id: selectedObjId.value }
+    }, { key: selectedObjId.value }
   )
 
 
 
   // Create the AgreementObject3d (extends Object3d)
   const offset = WIDTH * agreementsArr.length - WIDTH / 2
-  const agreementsObj3dArr = agreementsArr.map(( item: any, idx: number) => {
+  const agreementsObj3dArr = agreementsArr.map((item: any, idx: number) => {
     const agreementObj3d = new AgreementObject3d(item, cssModelObj3d);
     agreementObj3d.translateX(WIDTH * 2 * idx - offset);
     agreementObj3d.translateZ(zPos);
@@ -80,11 +80,11 @@ const drawAgreements = async (zPos: number) => {
 const drawPropositions = async (zPos: number) => {
 
   // Owned Propositions Query
-  const propositionsArr = await argoQueryPromise("f41heqslym5e", { _id: selectedObjId.value })
+  const propositionsArr = await argoQueryPromise("f41heqslym5e", { key: selectedObjId.value })
 
   // Create the PropositionObject3d (extends Object3d)
-  const offset = WIDTH * 2 * propositionsArr.length / 2 - WIDTH 
-  const propositionsObj3dArr = propositionsArr.map(( item: any, idx: number) => {
+  const offset = WIDTH * 2 * propositionsArr.length / 2 - WIDTH
+  const propositionsObj3dArr = propositionsArr.map((item: any, idx: number) => {
     const propositionObj3d = new PropositionObject3d(item, true);
     propositionObj3d.translateX(WIDTH * 2 * idx - offset);
     propositionObj3d.translateZ(zPos);
@@ -98,12 +98,12 @@ const drawPropositions = async (zPos: number) => {
   backgroundMesh.translateZ(zPos - DEPTH);
   glModelObj3d.add(backgroundMesh);
 
-  zPos = zPos- (DEPTH * 30)
+  zPos = zPos - (DEPTH * 30)
 
   const processPromiseArr = propositionsArr.map((item: any) => db.state.get(item.processId))
   const processArr = await Promise.all(processPromiseArr)
   // Create the processObject3ds (extends Object3d)
-  const processObj3dArr = processArr.map(( item: any, idx: number) => {
+  const processObj3dArr = processArr.map((item: any, idx: number) => {
     const processObj3d = new ProcessObject3d(item, true);
     //processObj3d.translateX(propositionsArr.length * WIDTH * idx);
     processObj3d.translateZ(zPos);
@@ -115,7 +115,7 @@ const drawPropositions = async (zPos: number) => {
 
   const subprocessPromiseArr = []
   propositionsArr.forEach(item => {
-    if(item.subprocessId) subprocessPromiseArr.push(db.state.get(item.subprocessId))
+    if (item.subprocessId) subprocessPromiseArr.push(db.state.get(item.subprocessId))
   })
 
   // const subprocessPromiseArr = propositionsArr.map(
@@ -124,7 +124,7 @@ const drawPropositions = async (zPos: number) => {
   //const subprocessPromiseArr = propositionsArr.map((item: any) => db.state.get(item.subprocessId))
   const subprocessArr = await Promise.all(subprocessPromiseArr)
   // Create the processObject3ds (extends Object3d)
-  const subprocessObj3dArr = subprocessArr.map(( item: any, idx: number) => {
+  const subprocessObj3dArr = subprocessArr.map((item: any, idx: number) => {
     const subprocessObj3d = new ProcessObject3d(item, true);
     subprocessObj3d.translateX(subprocessArr.length * WIDTH * idx);
     subprocessObj3d.translateZ(zPos);
@@ -137,7 +137,7 @@ const drawPropositions = async (zPos: number) => {
   const concatObj3dArr = processObj3dArr.concat(subprocessObj3dArr)
 
   // Tell processes to draw the first step, which will then draw their next steps
-  const drawnStepsPromisesArr = concatObj3dArr.map(( item: any) => {
+  const drawnStepsPromisesArr = concatObj3dArr.map((item: any) => {
     return item.drawSteps(addSelectable, glModelObj3d)
   });
   await Promise.all(drawnStepsPromisesArr);
@@ -218,8 +218,8 @@ const drawOrgUnits = async (zPos) => {
   const orgObject = await argoQueryPromise(
     {
       selector: "Where Clause",
-      where: { _id: "$fk" },
-    },{ _id: selectedObjId.value }
+      where: { key: "$fk" },
+    }, { key: selectedObjId.value }
   )
 
   // Create the OrgObject3d (extends Object3d)
@@ -242,20 +242,20 @@ const drawOrgUnits = async (zPos) => {
 };
 
 const drawMembers = async (zPos) => {
-  const membersArr = await argoQueryPromise("vbinebvkz1sq", { _id: selectedObjId.value })
+  const membersArr = await argoQueryPromise("vbinebvkz1sq", { key: selectedObjId.value })
 
-    // Create the userObj3d
-    let xPos = (-(membersArr.length - 1) * WIDTH * 2) / 2;
-    membersArr.forEach((item) => {
-      // Create the UserObject3d (extends Object3d)
-      let userObj3d = new UserObject3d(item);
-      glModelObj3d.add(userObj3d);
-      addSelectable(userObj3d.children[0]);
-      userObj3d.translateX(xPos);
-      userObj3d.translateZ(zPos - DEPTH * 10);
-      userObj3d.translateY(HEIGHT * 4);
-      xPos += WIDTH * 2;
-    });
+  // Create the userObj3d
+  let xPos = (-(membersArr.length - 1) * WIDTH * 2) / 2;
+  membersArr.forEach((item) => {
+    // Create the UserObject3d (extends Object3d)
+    let userObj3d = new UserObject3d(item);
+    glModelObj3d.add(userObj3d);
+    addSelectable(userObj3d.children[0]);
+    userObj3d.translateX(xPos);
+    userObj3d.translateZ(zPos - DEPTH * 10);
+    userObj3d.translateY(HEIGHT * 4);
+    xPos += WIDTH * 2;
+  });
 
   // important! after you set positions, otherwise obj3d matrixes will be incorrect
   glModelObj3d.updateMatrixWorld(true);
@@ -282,15 +282,16 @@ const drawUnitToUserConnectors = (rootOrgObj3d) => {
 
 const getBackgroundMesh = (height, width, radius) => {
   const shape = getRoundedRectShape(height, width, radius)
-    const geometry = new ShapeGeometry(shape)
-    geometry.name = "background mesh"
-    geometry.center() 
-    const material = new MeshBasicMaterial({ 
-      color: '#eee', 
-      side	: DoubleSide,
-      opacity: 0.4,
-      transparent: true, })
-    return new Mesh(geometry, material);
+  const geometry = new ShapeGeometry(shape)
+  geometry.name = "background mesh"
+  geometry.center()
+  const material = new MeshBasicMaterial({
+    color: '#eee',
+    side: DoubleSide,
+    opacity: 0.4,
+    transparent: true,
+  })
+  return new Mesh(geometry, material);
 }
 
 onMounted(async () => {
@@ -301,7 +302,7 @@ onMounted(async () => {
     const processObj3dArr = await drawPropositions(-DEPTH * 30);
     const rootOrgObj3d = await drawOrgUnits(-DEPTH * 90);
     await drawMembers(-DEPTH * 120);
-    
+
     drawAgreementConnectors(agreementsObj3dArr);
     drawStepToOrgUnitConnectors(processObj3dArr);
     drawUnitToUserConnectors(rootOrgObj3d);
@@ -323,17 +324,8 @@ onMounted(async () => {
 
 <template>
   <div class="fab-parent">
-    <div
-      class="ar-full-height"
-      ref="rootEl"
-      v-bind:style="{ cursor: cursor }"
-    ></div>
-    <ElButton
-      class="fab"
-      icon="el-icon-refresh"
-      circle
-      @click="autoRotate = !autoRotate"
-    ></ElButton>
+    <div class="ar-full-height" ref="rootEl" v-bind:style="{ cursor: cursor }"></div>
+    <ElButton class="fab" icon="el-icon-refresh" circle @click="autoRotate = !autoRotate"></ElButton>
   </div>
 </template>
 
@@ -342,6 +334,7 @@ onMounted(async () => {
   position: relative;
   height: 100%;
 }
+
 .fab {
   position: absolute;
   margin: 10px;

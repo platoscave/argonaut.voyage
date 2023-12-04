@@ -22,7 +22,7 @@ let networkUserObj = useLiveQuery<networkUserRec>(
 
 //get all objects of type users
 interface userRec {
-  _id: string
+  key: string
   name: string
 }
 const users = useLiveQuery<userRec>(
@@ -151,7 +151,7 @@ onMounted(async () => {
       <el-select v-if="networkUserObj" class="ar-left-align" size="small" placeholder="Select User"
         :model-value="networkUserObj.currentUserId" @change="updateCurrentUser">
 
-        <el-option v-for="userObj in users" :key="userObj._id" :label="userObj.name" :value="userObj._id">
+        <el-option v-for="userObj in users" :key="userObj.key" :label="userObj.name" :value="userObj.key">
 
         </el-option>
 

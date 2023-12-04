@@ -10,7 +10,7 @@ export default class StepObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
@@ -28,14 +28,14 @@ export default class StepObject3d extends Object3D {
   async drawSteps(addSelectable, glModelObject3D) {
 
     // Execute the query
-    const resArr = await argoQueryPromise("ybjrgmdjybzl", this.userData )
+    const resArr = await argoQueryPromise("ybjrgmdjybzl", this.userData)
 
     // Create the next steps
     let propmisesArr = []
     resArr.forEach(userData => {
 
       // If the stepObj already exists, make sure it is to the right of us
-      let stepObj3d = glModelObject3D.getObjectByProperty('_id', userData._id)
+      let stepObj3d = glModelObject3D.getObjectByProperty('key', userData.key)
       if (stepObj3d) {
         // TODO not sure this always works
         if (stepObj3d.position.x < this.position.x * 1.1) stepObj3d.translateX(WIDTH * 2)
@@ -92,7 +92,7 @@ export default class StepObject3d extends Object3D {
 
       if (nextStepActionId.stepId) {
 
-        let destStepObj3d = glModelObject3D.getObjectByProperty('_id', nextStepActionId.stepId)
+        let destStepObj3d = glModelObject3D.getObjectByProperty('key', nextStepActionId.stepId)
         this.drawTubeRightSideToLeftSide(destStepObj3d, nextStepActionId.action)
 
         // Tell the step to draw its connectors
@@ -171,7 +171,7 @@ export default class StepObject3d extends Object3D {
   drawStepToOrgUnitConnectors(glModelObject3D) {
 
     if (this.userData.authorizedOrgUnitId) {
-      let destUserObj3d = glModelObject3D.getObjectByProperty('_id', this.userData.authorizedOrgUnitId)
+      let destUserObj3d = glModelObject3D.getObjectByProperty('key', this.userData.authorizedOrgUnitId)
       this.drawTubeBackSideToBottom(destUserObj3d, 'authorizedOrgUnitId')
     }
 
@@ -179,7 +179,7 @@ export default class StepObject3d extends Object3D {
 
       if (nextStepActionId.stepId) {
 
-        let destStepObj3d = glModelObject3D.getObjectByProperty('_id', nextStepActionId.stepId)
+        let destStepObj3d = glModelObject3D.getObjectByProperty('key', nextStepActionId.stepId)
 
         // Tell the step to draw its user connectors
         destStepObj3d.drawStepToOrgUnitConnectors(glModelObject3D)

@@ -3,8 +3,8 @@ import { db } from "~/services/dexieServices";
 import { liveQuery } from "dexie";
 //import { useSubscription } from '@vueuse/rxjs'
 import { defer, of, from, combineLatest, tap, forkJoin, catchError } from 'rxjs';
-import { map, switchMap} from 'rxjs/operators'
-import {JSONPath} from "jsonpath-plus"
+import { map, switchMap } from 'rxjs/operators'
+import { JSONPath } from "jsonpath-plus"
 
 /* queryObj or queryId or queryIdsArr */
 export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, options) {
@@ -20,8 +20,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         if (value === '$') retObj[key] = contextObj
         // Replace $fk with id from contextObj
         else if (value === "$fk") {
-          if (!contextObj._id) throw new Error('_id not found in contextObj')
-          retObj[key] = contextObj._id;
+          if (!contextObj.key) throw new Error('key not found in contextObj')
+          retObj[key] = contextObj.key;
         }
         else retObj[key] = value
       }
@@ -35,7 +35,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         let promisses = []
         subClassesArr.forEach(subClass => {
-          promisses.push(subClasses(subClass._id))
+          promisses.push(subClasses(subClass.key))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
 
@@ -64,7 +64,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         })
         let promisses = []
         ownedAccountsArr.forEach(unitAccounr => {
-          promisses.push(ownedAccounts(unitAccounr._id))
+          promisses.push(ownedAccounts(unitAccounr.key))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
 
@@ -72,10 +72,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         return results
       }
 
-      if (!contextObj._id) throw new Error('_id not found in contextObj')
+      if (!contextObj.key) throw new Error('key not found in contextObj')
 
-      const rootClass = await db.state.get(contextObj._id)
-      let results = await ownedAccounts(contextObj._id)
+      const rootClass = await db.state.get(contextObj.key)
+      let results = await ownedAccounts(contextObj.key)
       results.splice(0, 0, rootClass)// Add the root class
       return results
     }
@@ -85,7 +85,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         // Replace $fk with something from the contect obj
         const resolvedEquals = resolve$Vars({ equals: queryObj.filter.equals }, contextObj)
         // Create the filter function
-        const filterFunc = obj => JSONPath({path: queryObj.filter.path, json: obj})[0] === resolvedEquals.equals;
+        const filterFunc = obj => JSONPath({ path: queryObj.filter.path, json: obj })[0] === resolvedEquals.equals;
         // Apply the filter
         collection = collection.filter(filterFunc)
       }
@@ -95,7 +95,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
     }
 
     const sortArray = (array, sortBy) => {
-      if(!sortBy) return array
+      if (!sortBy) return array
       array.sort((a, b) => {
         return a[sortBy] < b[sortBy] ? -1 : 1;
       });
@@ -104,7 +104,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
     // Get Icon from item anscestors, recursivly
     const getAnscestorsIcon = async (id) => {
-      if(!id) return ''
+      if (!id) return ''
       const classObj = await db.state.get(id);
       if (classObj.classIcon) return classObj.classIcon;
       return getAnscestorsIcon(classObj.superClassId);
@@ -116,7 +116,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       const enrichedResults = items.map((item, idx) => {
         let label = item.title ? item.title : item.name; //TODO value?
         let pageId = item.pageId ? item.pageId : queryObj.nodesPageId
-        if(!pageId) {
+        if (!pageId) {
           if (item.classId) pageId = "mb2bdqadowve";// class schema page
           else pageId = "24cnex2saye1"; // class details page
         }
@@ -145,9 +145,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       })
 
 
-        // console.log('\nQuery Object: ', queryObj)
-        // console.log('Context Object: ', contextObj)
-        // console.log('Results', enrichedResults)
+      // console.log('\nQuery Object: ', queryObj)
+      // console.log('Context Object: ', contextObj)
+      // console.log('Results', enrichedResults)
       return enrichedResults
     }
 
@@ -155,9 +155,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
       // Collect observables of each icon into an array
       // We have to do icons separately because one case involves a promise
       const icons$Arr = items.map(item => {
-        if(item.icon) return of(item.icon) // value as observable
-        else if(queryObj.nodesIcon) return of(queryObj.nodesIcon)  // value as observable
-        else if(item.classId) return from(getAnscestorsIcon(item.classId)) // promise as observable
+        if (item.icon) return of(item.icon) // value as observable
+        else if (queryObj.nodesIcon) return of(queryObj.nodesIcon)  // value as observable
+        else if (item.classId) return from(getAnscestorsIcon(item.classId)) // promise as observable
         else return of('ClassIcon.svg')// // litteral as observable
       })
 
@@ -187,13 +187,13 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
         // collect all of the subclasses as seen from given classId
         if (!resolvedWhere.classId) throw new Error('selector Subclasses must have a where clause with a classId')
-        slectorResult$ = from(collectSubclasses(resolvedWhere.classId).then( array => sortArray(array, queryObj.sortBy)))
+        slectorResult$ = from(collectSubclasses(resolvedWhere.classId).then(array => sortArray(array, queryObj.sortBy)))
 
       } else if (queryObj.selector === 'Owned Accounts') {
 
         // collect all of the owned accounts from given accountId
-        if (!resolvedWhere._id) throw new Error('selector Owned Accounts must have a where clause with a _id')
-        slectorResult$ = from(collectOwnedAccounts(resolvedWhere._id).then( array => sortArray(array, queryObj.sortBy)))
+        if (!resolvedWhere.key) throw new Error('selector Owned Accounts must have a where clause with a key')
+        slectorResult$ = from(collectOwnedAccounts(resolvedWhere.key).then(array => sortArray(array, queryObj.sortBy)))
 
       } else { // Where Clause
 
@@ -217,16 +217,16 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
           // apply jsonPath to selector results to get an array of ids
           if (!queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw new Error('Ids Array Path must have a idsArrayPath and indexName')
-          const idsArr = JSONPath({path: queryObj.idsArrayPath.path, json: items});
+          const idsArr = JSONPath({ path: queryObj.idsArrayPath.path, json: items });
 
 
           // validate the result (must be an array of ids)
-          if(!Array.isArray(idsArr) && !typeof idsArr === 'string') throw new Error('The result of idsArrayPath must be an array or a string' + idsArr)
-          if(Array.isArray(idsArr)) {
-            const invalidFound = idsArr.find( item => !typeof item === 'string' || item.length !== 12)
-            if(invalidFound) throw new Error('The result of idsArrayPath must be an array of _ids' + idsArr)
+          if (!Array.isArray(idsArr) && !typeof idsArr === 'string') throw new Error('The result of idsArrayPath must be an array or a string' + idsArr)
+          if (Array.isArray(idsArr)) {
+            const invalidFound = idsArr.find(item => !typeof item === 'string' || item.length !== 12)
+            if (invalidFound) throw new Error('The result of idsArrayPath must be an array of _ids' + idsArr)
           }
-          if(typeof idsArr === 'string' && item.length !== 12) throw new Error('The result of idsArrayPath must be an _id' + idsArr)
+          if (typeof idsArr === 'string' && item.length !== 12) throw new Error('The result of idsArrayPath must be an key' + idsArr)
 
           // Make sure the ids array is unique
           const uniqueIdsArr = [...new Set(idsArr)]
@@ -234,10 +234,10 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
           // get all the objects corresponding to the ids array
           // We must perserve the order so we cant use anyOf
-          const queryRes$Arr = uniqueIdsArr.map( id => {
+          const queryRes$Arr = uniqueIdsArr.map(id => {
             const whereClause = {}
             whereClause[queryObj.idsArrayPath.indexName] = id
-            return liveQuery(() => db.state.where( whereClause ).toArray())
+            return liveQuery(() => db.state.where(whereClause).toArray())
           })
 
 
@@ -250,9 +250,9 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
       }))
 
-      return resultArr$.pipe( switchMap(items => {
+      return resultArr$.pipe(switchMap(items => {
         // If there are no items we must return immediately
-        if(!items.length) return of([])
+        if (!items.length) return of([])
         // Add treeVars to the items for the benefit of trees, tables, menus and selects.
         // We have to do this here, because in the case where idsArrayOrObj is an array 
         // of queryIds, this is the last place where we know which query is responsible

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import { db } from "~/services/dexieServices";
 import useLiveQuery from "~/composables/useLiveQuery";
 import {
@@ -33,7 +33,7 @@ const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
 const { settingsTabNum, settingsNextLevelSelectedObjId } = usePageSettings(pageId.value);
 
 interface IPage {
-  _id: string;
+  key: string;
   name: string;
   divider: string;
   tabs: {
@@ -47,7 +47,10 @@ interface IPage {
     }[];
   }[];
 }
+
 const pageObj = useLiveQuery<IPage>(() => db.state.get(pageId.value), [pageId]);
+
+//watch(pageObj, (pageObj) => console.log("pageObj", pageObj));
 
 const dynamicComp = [
   { name: "Balance Sheet", comp: BalanceSheet },
@@ -66,6 +69,7 @@ const dynamicComp = [
   { name: "Validate", comp: Validate },
 ];
 const getComponent = (widgetName: string = "") => {
+  console.log('widgetName', widgetName)
   const nameComp = dynamicComp.find((item) => item.name === widgetName);
   if (!nameComp) console.error(`widgetName not declared: ${widgetName}`);
   return nameComp.comp;
@@ -95,6 +99,7 @@ const onTabChange = (evt) => {
             <!-- Create a widget depending on display type -->
             <!-- If there is only one widget, then give it the full height -->
             <!-- Remove the spaces from widgetType to get widgetName -->
+            <h1>{{ widget.widgetType }}</h1>
             <component :is="getComponent(widget.widgetType)" :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
               :hash-level="hashLevel" :widget-obj="widget">
             </component>

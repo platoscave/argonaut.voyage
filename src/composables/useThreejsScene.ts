@@ -74,7 +74,7 @@ export function useThreejsScene(
   // webGl renderer
   const glRenderer = new WebGLRenderer({ antialias: true, alpha: true });
   glRenderer.domElement.style.background = ''
-  glRenderer.setClearColor( 0x000000, 0 );
+  glRenderer.setClearColor(0x000000, 0);
   glRenderer.setPixelRatio(window.devicePixelRatio);
   glRenderer.domElement.style.pointerEvents = 'none'
   glRenderer.domElement.setAttribute("name", "GLRENDERER");
@@ -84,7 +84,7 @@ export function useThreejsScene(
   cssRenderer.domElement.style.position = 'absolute';
   cssRenderer.domElement.style.zIndex = '10';
   cssRenderer.domElement.style.top = '0';
-  cssRenderer.domElement.style.pointerEvents	= 'auto'
+  cssRenderer.domElement.style.pointerEvents = 'auto'
   cssRenderer.domElement.setAttribute("name", "CSSRENDERER");
 
   // controls
@@ -123,14 +123,14 @@ export function useThreejsScene(
   const stats = Stats()
 
   // Outline postprocessing
-  const composer = new EffectComposer( glRenderer );
-  const renderPass = new RenderPass( glScene, camera );
-  composer.addPass( renderPass );
-  const outlinePass = new OutlinePass( new Vector2( window.innerWidth, window.innerHeight ), glScene, camera );
-  composer.addPass( outlinePass );
-  const effectFXAA = new ShaderPass( FXAAShader );
-  effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
-  composer.addPass( effectFXAA );
+  const composer = new EffectComposer(glRenderer);
+  const renderPass = new RenderPass(glScene, camera);
+  composer.addPass(renderPass);
+  const outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), glScene, camera);
+  composer.addPass(outlinePass);
+  const effectFXAA = new ShaderPass(FXAAShader);
+  effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+  composer.addPass(effectFXAA);
   /////////////////////////
 
   const animate = () => {
@@ -151,8 +151,8 @@ export function useThreejsScene(
     camera.updateProjectionMatrix()
     glRenderer.setSize(rect.width, rect.height)
     cssRenderer.setSize(rect.width, rect.height)
-    composer.setSize( rect.width, rect.height );
-    effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+    composer.setSize(rect.width, rect.height);
+    effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
   }, 100)
 
 
@@ -170,11 +170,11 @@ export function useThreejsScene(
     // update the picking ray with the camera and mouse position
     raycaster.setFromCamera(mouse, camera)
     let intersects = raycaster.intersectObjects(selectableMeshArr)
-    
+
     if (intersects.length > 0) {
       let localSelectedMesh = intersects[0].object
       const nodeData = localSelectedMesh.parent.userData
-      updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
+      updateNextLevelHash(hashLevel, nodeData.key, nodeData.treeVars.pageId)
     }
   }
 
@@ -207,30 +207,30 @@ export function useThreejsScene(
   }
 
   const addSelectable = (mesh: Mesh) => {
-    // const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
+    // const idx = selectableMeshArr.find(item => mesh.parent.key === item.key)
     // if(!idx) selectableMeshArr.push(mesh)
     selectableMeshArr.push(mesh)
   }
   const removeSelectable = (mesh: Mesh) => {
-    const idx = selectableMeshArr.find(item => mesh.parent._id === item._id)
+    const idx = selectableMeshArr.find(item => mesh.parent.key === item.key)
     if (idx) selectableMeshArr.splice(idx, 1)
   }
 
-  const highlight = (_id: string) => {
-    const newlySelectedObj3d = glModelObj3d.getObjectByProperty('_id', _id)
-    if(!newlySelectedObj3d) return
+  const highlight = (key: string) => {
+    const newlySelectedObj3d = glModelObj3d.getObjectByProperty('key', key)
+    if (!newlySelectedObj3d) return
     // Make the associations of the previously selected obj3d invisible
-    if(selectedObj3d && selectedObj3d.setAssocsOpacity) selectedObj3d.setAssocsOpacity(glModelObj3d, 0)
+    if (selectedObj3d && selectedObj3d.setAssocsOpacity) selectedObj3d.setAssocsOpacity(glModelObj3d, 0)
     // Make the associations of the newly selected obj3d visible
-    if(newlySelectedObj3d.setAssocsOpacity) newlySelectedObj3d.setAssocsOpacity(glModelObj3d, 1) // visible
+    if (newlySelectedObj3d.setAssocsOpacity) newlySelectedObj3d.setAssocsOpacity(glModelObj3d, 1) // visible
     // Save newly selected obj3d for next time
     selectedObj3d = newlySelectedObj3d
     // Highlight the mesh of the newly selected obj3d
     outlinePass.selectedObjects = [newlySelectedObj3d.children[0]];
   }
 
-  const moveCameraToPos = (_id: string) => {
-    let selectedModelObj = glModelObj3d.getObjectByProperty('_id', _id)
+  const moveCameraToPos = (key: string) => {
+    let selectedModelObj = glModelObj3d.getObjectByProperty('key', key)
     if (!selectedModelObj) return
     if (!glScene) return
     if (!controls) return
@@ -284,9 +284,9 @@ export function useThreejsScene(
   watch(autoRotate, (autoRotate) => controls.autoRotate = autoRotate.value)
 
   // watch next level SelectedObjId
-  watch(nextLevelSelectedObjId, (_id) => {
-    highlight(_id)
-    moveCameraToPos(_id)
+  watch(nextLevelSelectedObjId, (key) => {
+    highlight(key)
+    moveCameraToPos(key)
   })
 
 

@@ -18,7 +18,7 @@ const highlightedErrors = ref("");
 const ajv = new Ajv({ allErrors: true, strict: false, schemaId: "auto" });
 
 interface IDataObj {
-  _id: string;
+  key: string;
   classId: string;
 }
 const dataObj = useLiveQuery<IDataObj>(
@@ -35,7 +35,7 @@ watch(dataObj, (dataObj) => {
     const validate = ajv.compile(schemaObj);
     const valid = validate(dataObj);
     highlightedErrors.value = toHtml(
-      lowlight.highlightAuto(JSON.stringify({ erorrs: validate.errors}, null, 2))
+      lowlight.highlightAuto(JSON.stringify({ erorrs: validate.errors }, null, 2))
     );
 
   });
@@ -46,15 +46,13 @@ watch(dataObj, (dataObj) => {
   <div>
     <h3>Errors</h3>
     <code>
-      <pre v-html="highlightedErrors" />
-    </code>
+        <pre v-html="highlightedErrors" />
+      </code>
     <h3>Class Schema</h3>
     <code>
-      <pre v-html="highlightedCode" />
-    </code>
+        <pre v-html="highlightedCode" />
+      </code>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -22,7 +22,7 @@ const content = ref("");
 let subParagraphIds = reactive([]);
 
 interface IParagraph {
-  _id: string;
+  key: string;
   name: string;
   description: string;
   subParagraphIds: string[];
@@ -56,29 +56,20 @@ onClickOutside(editorsEl, (event) => {
 <template>
   <div class="ar-subform-background" ref="editorsEl">
     <svg class="el-icon-close" v-if="readonly" @click="readonly = false" color="blue">
-      <use
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        :xlink:href="'toolbar-symbols.svg#el-icon-close'"
-      ></use>
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-close'"></use>
     </svg>
 
     <component v-bind:is="`h${$props.headerLevel}`">
-      <String
-        class="ar-header"
-        v-model="header"
-        :readonly="readonly"
-        @change="onHeaderChanged"
-      ></String>
+      <String class="ar-header" v-model="header" :readonly="readonly" @change="onHeaderChanged"></String>
     </component>
 
-    <Html v-model="content" :readonly="readonly" @update:model-value="onContentChanged"></Html>
+    <Html v-model="content" :readonly="readonly" @update:model-value="onContentChanged">
+
+    </Html>
   </div>
 
   <div v-for="(paragraphId, idx) in subParagraphIds" :key="idx">
-    <Paragraph
-      :paragraph-id="paragraphId"
-      :header-level="props.headerLevel + 1"
-    ></Paragraph>
+    <Paragraph :paragraph-id="paragraphId" :header-level="props.headerLevel + 1"></Paragraph>
   </div>
 </template>
 
@@ -88,6 +79,7 @@ onClickOutside(editorsEl, (event) => {
   position: relative;
   max-width: 750px;
 }
+
 .el-icon-close {
   height: 1em;
   width: 1em;
@@ -98,16 +90,20 @@ onClickOutside(editorsEl, (event) => {
   z-index: 20;
   border-radius: 50%;
 }
+
 /* give input the same size and weight as the header */
 .el-input {
   font-size: inherit;
 }
-.ar-header >>> input {
+
+.ar-header>>>input {
   font-weight: inherit;
 }
+
 .ar-header {
   padding: 6px 7px;
 }
+
 /* .ar-header >>> .ProseMirror{
   padding: 6px 7px;
 } */

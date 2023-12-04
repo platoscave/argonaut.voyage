@@ -24,12 +24,12 @@ using namespace eosio;
 CONTRACT blockprocess : public contract {
   private:
     TABLE document_str {
-      name _id;
+      name key;
       name parentid;
       name classid;
       std::string document;
       
-      uint64_t primary_key() const { return _id.value; }
+      uint64_t primary_key() const { return key.value; }
       uint64_t by_parentid() const { return parentid.value; }
       uint64_t by_classid() const { return classid.value; }
     };
@@ -89,8 +89,8 @@ CONTRACT blockprocess : public contract {
 /*
     struct erase_str {
       name username;
-      name _id;
-      EOSLIB_SERIALIZE( erase_str, (username) (_id))
+      name key;
+      EOSLIB_SERIALIZE( erase_str, (username) (key))
     };
     ACTION erase(erase_str payload);
    

@@ -11,7 +11,7 @@ export default class ClassObject3d extends Object3D {
   constructor(userData, isRoot) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.title + ' - object3d'
     this.userData = userData
 
@@ -36,7 +36,7 @@ export default class ClassObject3d extends Object3D {
   async drawSubclasses(addSelectable) {
 
     // Execute the query
-    const resArr = await argoQueryPromise("2jfs4is4icct", this.userData )
+    const resArr = await argoQueryPromise("2jfs4is4icct", this.userData)
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -66,7 +66,7 @@ export default class ClassObject3d extends Object3D {
       this.add(classObj3d)
 
       // Tell the child to draw its children
-      if (classObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
+      if (classObj3d.key !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
         childrenPronmises.push(classObj3d.drawSubclasses(addSelectable))
     })
 
@@ -128,7 +128,7 @@ export default class ClassObject3d extends Object3D {
 
       const depth = - DEPTH * 4
 
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', assoc.destId)
+      const destObj3d = glModelObject3D.getObjectByProperty('key', assoc.destId)
       if (!destObj3d) console.log('Assoc destination not found: ' + assoc.destId)
       if (!destObj3d) continue
 
@@ -168,7 +168,7 @@ export default class ClassObject3d extends Object3D {
   async drawObjects(addSelectable) {
 
     // Execute the query
-    const resArr = await argoQueryPromise("x1lrv2xdq2tu", this.userData )
+    const resArr = await argoQueryPromise("x1lrv2xdq2tu", this.userData)
 
 
     // Create the objects
@@ -200,8 +200,8 @@ export default class ClassObject3d extends Object3D {
         // TODO whats going on here?
         //if(!subClassObj3d.drawObjects) console.warn('no drawObjects -', this.name, this.userData.docType)
         //if(!subClassObj3d.drawObjects) console.log(this)
-        if(subClassObj3d.drawObjects)
-        objectPronmises.push(subClassObj3d.drawObjects(addSelectable))
+        if (subClassObj3d.drawObjects)
+          objectPronmises.push(subClassObj3d.drawObjects(addSelectable))
       }
     });
     return Promise.all(objectPronmises);
@@ -211,8 +211,8 @@ export default class ClassObject3d extends Object3D {
   drawObjectAssocs(glModelObject3D) {
     this.children.forEach((subClassObj3d) => {
       if (subClassObj3d.type === 'Object3D') {
-        if(subClassObj3d.drawObjectAssocs)
-        subClassObj3d.drawObjectAssocs(glModelObject3D)
+        if (subClassObj3d.drawObjectAssocs)
+          subClassObj3d.drawObjectAssocs(glModelObject3D)
       }
     });
   }
@@ -234,7 +234,7 @@ export default class ClassObject3d extends Object3D {
     geometry.name = this.userData.title + " - 3d geometry"
     geometry.center()
 
-    const { class: colorProp = { color: 0xEFEFEF }  } = threejsColors
+    const { class: colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

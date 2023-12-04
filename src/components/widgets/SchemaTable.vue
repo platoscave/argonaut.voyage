@@ -42,19 +42,19 @@ const dataArr = reactive([]);
 const viewObj = reactive({});
 
 interface IDataObj {
-  _id: string;
+  key: string;
   classId: string;
 }
 
 interface IViewObj {
-  _id: string;
+  key: string;
   classId: string;
 }
 getMaterializedView(props.widgetObj.viewId).then((view) => {
   Object.assign(viewObj, view);
 
   const resArr = useArgoQuery(view.queryId, {
-    _id: selectedObjId.value,
+    key: selectedObjId.value,
   });
   watch(resArr, (arr: any[]) => {
     dataArr.length = 0;
@@ -72,7 +72,7 @@ const onInput = async (updatedDataObj) => {
 
     const valid = await this.$refs["schemaForm"].validate();
     console.log('valid', valid);
-    db.state.update(updatedDataObj._id, updatedDataObj);
+    db.state.update(updatedDataObj.key, updatedDataObj);
 
   } catch (err) {
     this.valid = false;
@@ -190,44 +190,21 @@ const getComponent = (property: IProperty) => {
 
 <template>
   <!-- table-layout="auto" -->
-  <el-table
-    v-if="dataArr && viewObj"
-    class="ar-table"
-    ref="tableEl"
-    :data="dataArr"
-    highlight-current-row
-    border
-    @current-change="
-      (currentRow) =>
-        updateNextLevelHash(hashLevel, currentRow._id, currentRow.treeVars.nodesPageId)
-    "
-    @header-dragend="headerDragend"
-  >
+  <el-table v-if="dataArr && viewObj" class="ar-table" ref="tableEl" :data="dataArr" highlight-current-row border
+    @current-change="(currentRow) =>
+        updateNextLevelHash(hashLevel, currentRow.key, currentRow.treeVars.nodesPageId)
+      " @header-dragend="headerDragend">
     <!--  -->
-    <el-table-column
-      v-for="(property, propertyName) in viewObj.properties"
-      :key="propertyName"
-      :property="propertyName"
-      :width="columWidths[propertyName]"
-      :label="property.title"
+    <el-table-column v-for="(property, propertyName) in viewObj.properties" :key="propertyName" :property="propertyName"
+      :width="columWidths[propertyName]" :label="property.title"
       :sortable="property.type !== 'object' && property.type !== 'array'"
-      :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])"
-      resizable
-    >
+      :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])" resizable>
       <!-- Header with tooltip. -->
       <template #header>
         <span>{{ property.title + " " }}</span>
-        <el-tooltip
-          v-if="property.description"
-          effect="light"
-          :content="property.description"
-          raw-content
-        >
+        <el-tooltip v-if="property.description" effect="light" :content="property.description" raw-content>
           <svg class="icon" height="1em" width="1em" color="blue">
-            <use
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              :xlink:href="'toolbar-symbols.svg#el-icon-info'"
-            ></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-info'"></use>
           </svg>
         </el-tooltip>
       </template>
@@ -244,16 +221,9 @@ const getComponent = (property: IProperty) => {
           - We use the v-model pattern to send/recieve data to/from child components. 
             Below, we watch for changes to modelValue and emit input events accordingly.
           -->
-        <component
-          :is="getComponent(property)"
-          class="ar-control"
-          v-model="scope.row[propertyName]"
-          :property="property"
-          :readonly="formMode.startsWith('Readonly')"
-          :required="false"
-          :hash-level="hashLevel"
-          :form-mode="formMode"
-        ></component>
+        <component :is="getComponent(property)" class="ar-control" v-model="scope.row[propertyName]" :property="property"
+          :readonly="formMode.startsWith('Readonly')" :required="false" :hash-level="hashLevel" :form-mode="formMode">
+        </component>
       </template>
     </el-table-column>
   </el-table>
@@ -262,25 +232,28 @@ const getComponent = (property: IProperty) => {
 .ar-json-schema-form {
   max-width: 750px;
 }
+
 .icon {
   margin-left: 5px;
 }
+
 /* Item bottom margin */
 .el-form-item {
   margin-bottom: 8px;
 }
 
-.ar-table >>> .el-table__cell {
+.ar-table>>>.el-table__cell {
   padding: 4px;
   border-bottom: unset;
 }
-.ar-table >>> .cell {
+
+.ar-table>>>.cell {
   padding: unset;
   word-break: unset;
   /* line-height: 23px; */
 }
 
-.ar-table >>> th .cell {
+.ar-table>>>th .cell {
   padding: 10px;
 }
 </style>

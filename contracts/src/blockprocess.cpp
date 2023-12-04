@@ -29,18 +29,18 @@ ACTION blockprocess::upsert(upsert_str payload) {
   check(ok, "JSON parse error:");
   
 
-  // Get the _id from payload
-  check(parsedJson.HasMember("_id"), "Proposed upsert has no _id:\n");
-  auto _id = name(parsedJson["_id"].GetString());
+  // Get the key from payload
+  check(parsedJson.HasMember("key"), "Proposed upsert has no key:\n");
+  auto key = name(parsedJson["key"].GetString());
 
-  print("UPSERT: ", parsedJson["_id"].GetString());
+  print("UPSERT: ", parsedJson["key"].GetString());
 
  
   auto classId = name(".............");
   auto superClassId = name(".............");
  
 /*
-  if(_id != name("gzthjuyjca4s")){ // Exception for the root
+  if(key != name("gzthjuyjca4s")){ // Exception for the root
     if(parsedJson.HasMember("classId")) {
       // Use the value from payload as foreign key
       classId = name(parsedJson["classId"].GetString());
@@ -62,13 +62,13 @@ ACTION blockprocess::upsert(upsert_str payload) {
   }
   
 */
-  auto docs_iter = doc_tbl.find( _id.value );
+  auto docs_iter = doc_tbl.find( key.value );
   if( docs_iter == doc_tbl.end() )
   {
     // username - payer: usually the user
     // [&]: labda function, annomonus
     doc_tbl.emplace(username, [&]( auto& new_doc ) {
-      new_doc._id = _id;
+      new_doc.key = key;
       new_doc.parentid = superClassId;
       new_doc.classid = classId;
       new_doc.document = payload.document;
@@ -98,10 +98,10 @@ ACTION blockprocess::eraseall(eraseall_str payload) {
 /*
 ACTION blockprocess::erase(erase_str payload) {
   name username = payload.username;
-  name _id = payload._id;
+  name key = payload.key;
   require_auth(username);
 
-  auto docs_iter = doc_tbl.find(_id.value);
+  auto docs_iter = doc_tbl.find(key.value);
   if(docs_iter != doc_tbl.end()) doc_tbl.erase(docs_iter);
 
 }
@@ -279,9 +279,9 @@ ACTION blockprocess::nextstep(nextstep_str payload) {
 }
 
 // Recusivly get the document. Check to see if the superClassId equals saughtId.
-bool blockprocess::isA ( name _id, name saughtId ) {
-  auto iterator = doc_tbl.find( _id.value );
-  check(iterator != doc_tbl.end(), "_id could not be found: " + _id.to_string());
+bool blockprocess::isA ( name key, name saughtId ) {
+  auto iterator = doc_tbl.find( key.value );
+  check(iterator != doc_tbl.end(), "key could not be found: " + key.to_string());
   if(iterator->classid == saughtId || iterator->parentid == saughtId) return true;
   else if (iterator->parentid != name("aaaaaaaaaaaa")) return isA (iterator->parentid, saughtId);
   return false; // no parent class, we are at the root

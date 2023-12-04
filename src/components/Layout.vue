@@ -23,7 +23,7 @@ const { pageId } = useHashDissect(props.hashLevel);
 const { splitterSettings, leftSize, rightSize } = usePageSettings(pageId.value);
 
 interface pageRec {
-  _id: string;
+  key: string;
   name: string;
   layout: string;
   divider: string;
@@ -45,11 +45,8 @@ const getComponent = (widgetName: string) => {
   <div v-if="pageObj && splitterSettings">
     <!-- Master Detail layout -->
 
-    <splitpanes
-      v-if="pageObj.layout === 'Master Detail'"
-      style="height: 100%"
-      @resized="(resizedArr) => saveSplitterSettings(pageId, resizedArr)"
-    >
+    <splitpanes v-if="pageObj.layout === 'Master Detail'" style="height: 100%"
+      @resized="(resizedArr) => saveSplitterSettings(pageId, resizedArr)">
       <!-- Master -->
       <pane :size="splitterSettings[0]">
         <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
@@ -65,21 +62,12 @@ const getComponent = (widgetName: string) => {
 
 
 -->
-    <StudioLayout
-      v-else-if="pageObj.layout === 'Studio'"
-      class="ar-full-height"
-      :left-size="leftSize"
-      :right-size="rightSize"
-      @leftsizestop="(leftSize) => saveLeftSize(pageId, leftSize)"
-      @rightsizestop="(rightSize) => saveRightSize(pageId, rightSize)"
-    >
+    <StudioLayout v-else-if="pageObj.layout === 'Studio'" class="ar-full-height" :left-size="leftSize"
+      :right-size="rightSize" @leftsizestop="(leftSize) => saveLeftSize(pageId, leftSize)"
+      @rightsizestop="(rightSize) => saveRightSize(pageId, rightSize)">
       <!-- Background content -->
-      <component
-        :is="getComponent(pageObj.model)"
-        class="ar-full-height"
-        :hash-level="hashLevel"
-        :view-id="pageObj.tabs[0].widgets[0].viewId"
-      ></component>
+      <component :is="getComponent(pageObj.model)" class="ar-full-height" :hash-level="hashLevel"
+        :view-id="pageObj.tabs[0].widgets[0].viewId"></component>
       <!-- Master content -->
       <template #drawer-left>
         <Page class="ar-full-height" v-bind:hash-level="hashLevel"></Page>
@@ -99,12 +87,12 @@ const getComponent = (widgetName: string) => {
 <style>
 /* Split pane */
 
-.splitpanes--vertical > .splitpanes__splitter {
+.splitpanes--vertical>.splitpanes__splitter {
   min-width: 3px;
   background: linear-gradient(90deg, #ccc, #111);
 }
 
-.splitpanes--horizontal > .splitpanes__splitter {
+.splitpanes--horizontal>.splitpanes__splitter {
   min-height: 3px;
   background: linear-gradient(0deg, #ccc, #111);
 }

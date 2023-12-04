@@ -11,7 +11,7 @@ export default class OrgObject3d extends Object3D {
   constructor(userData, isRoot) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
@@ -19,7 +19,7 @@ export default class OrgObject3d extends Object3D {
     orgMesh.name = userData.name + ' - 3d mesh'
     this.add(orgMesh)
 
-    if(userData.treeVars && userData.treeVars.icon) {
+    if (userData.treeVars && userData.treeVars.icon) {
       const avatarMesh = getAvatarMesh(userData.treeVars.icon)
       avatarMesh.translateZ(DEPTH * 0.4)
       avatarMesh.translateX(-WIDTH * .60)
@@ -44,7 +44,7 @@ export default class OrgObject3d extends Object3D {
   async drawOrgUnits(addSelectable) {
 
     // Execute the query
-    const resArr = await argoQueryPromise("o4jhldcqvbep", this.userData )
+    const resArr = await argoQueryPromise("o4jhldcqvbep", this.userData)
 
     // Enrich items with an array of assocs that need to be drawn
     resArr.map((item) => {
@@ -74,7 +74,7 @@ export default class OrgObject3d extends Object3D {
       this.add(orgObj3d)
 
       // Tell the child to draw its children
-      if (orgObj3d._id !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
+      if (orgObj3d.key !== '5jdnjqxsqmgn') // skip everything under Balance Sheet
         childrenPronmises.push(orgObj3d.drawOrgUnits(addSelectable))
     })
 
@@ -133,8 +133,8 @@ export default class OrgObject3d extends Object3D {
 
     const drawAssocs = userAccId => {
 
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', userAccId)
-      if (!destObj3d) console.log('Assoc destination not found: ', this._id, userAccId)
+      const destObj3d = glModelObject3D.getObjectByProperty('key', userAccId)
+      if (!destObj3d) console.log('Assoc destination not found: ', this.key, userAccId)
       //if (!destObj3d) console.log(this)
       if (!destObj3d) return
 
@@ -150,9 +150,9 @@ export default class OrgObject3d extends Object3D {
 
     }
 
-    this.userData.permissions.forEach( permission => {
-      if(permission.perm_name === 'active') {
-        permission.required_auth.accounts.forEach( account => {
+    this.userData.permissions.forEach(permission => {
+      if (permission.perm_name === 'active') {
+        permission.required_auth.accounts.forEach(account => {
           drawAssocs(account.permission.actor)
         })
       }
@@ -171,7 +171,7 @@ export default class OrgObject3d extends Object3D {
 
   addCorners(sourcePos, destPos) {
     let points = []
-    
+
     let difVec = destPos.clone().sub(sourcePos)
 
     let sourceBackPos = getSidePos('back', new Vector3())

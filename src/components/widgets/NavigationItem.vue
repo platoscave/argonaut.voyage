@@ -16,11 +16,11 @@ if (props.menuItem.argoQuery) {
   const localTeams = useArgoQuery(
     {
       selector: "Owned Accounts",
-      where: { _id: "$fk" },
+      where: { key: "$fk" },
       nodesPageId: "dot1cmmhp2ve",
     },
     {
-      _id: selectedObjId.value,
+      key: selectedObjId.value,
     },
     [selectedObjId]
   );
@@ -29,7 +29,7 @@ if (props.menuItem.argoQuery) {
     teams.length = 0;
     localTeams.forEach((item) => {
       teams.push({
-        _id: item._id,
+        key: item.key,
         name: item.name,
         pageId: item.treeVars.nodesPageId,
       });
@@ -44,50 +44,28 @@ if (props.menuItem.argoQuery) {
     <ElSubMenu :index="index">
       <template #title>
         <div :class="{ 'top-level-menu-item': topLevel }">
-          <img  v-if="menuItem.icon" class="icon" :src="'icons/'+menuItem.icon" />
+          <img v-if="menuItem.icon" class="icon" :src="'icons/' + menuItem.icon" />
           <span>{{ menuItem.name }}</span>
         </div>
       </template>
-      <div
-        v-if="menuItem.menuArr"
-        v-for="(subMenuItem, subIndex) in menuItem.menuArr"
-        :key="subIndex"
-      >
-        <NavigationItem
-          :hash-level="hashLevel"
-          :menu-item="subMenuItem"
-          :index="index + '-' + subIndex"
-        ></NavigationItem>
+      <div v-if="menuItem.menuArr" v-for="(subMenuItem, subIndex) in menuItem.menuArr" :key="subIndex">
+        <NavigationItem :hash-level="hashLevel" :menu-item="subMenuItem" :index="index + '-' + subIndex"></NavigationItem>
       </div>
-      <div
-        v-if="menuItem.argoQuery"
-        v-for="(subMenuItem, subIndex) in teams"
-        :key="subIndex"
-      >
-        <NavigationItem
-          :hash-level="hashLevel"
-          :menu-item="subMenuItem"
-          :index="index + '-' + subIndex"
-        ></NavigationItem>
+      <div v-if="menuItem.argoQuery" v-for="(subMenuItem, subIndex) in teams" :key="subIndex">
+        <NavigationItem :hash-level="hashLevel" :menu-item="subMenuItem" :index="index + '-' + subIndex"></NavigationItem>
       </div>
     </ElSubMenu>
   </div>
   <!-- This is a simple menu item-->
-  <ElMenuItem
-    v-else
-    :disabled="menuItem.pageId ? false : true"
-    :index="index"
-    @click="
-      () =>
-        updateNextLevelHash(
-          hashLevel,
-          menuItem._id ? menuItem._id : selectedObjId,
-          menuItem.pageId
-        )
-    "
-  >
+  <ElMenuItem v-else :disabled="menuItem.pageId ? false : true" :index="index" @click="() =>
+      updateNextLevelHash(
+        hashLevel,
+        menuItem.key ? menuItem.key : selectedObjId,
+        menuItem.pageId
+      )
+    ">
     <div :class="{ 'top-level-menu-item': topLevel }">
-      <img  v-if="menuItem.icon" class="icon" :src="'icons/'+menuItem.icon" />
+      <img v-if="menuItem.icon" class="icon" :src="'icons/' + menuItem.icon" />
       <!-- <svg v-if="menuItem.icon" class="icon" height="20" width="20" color="blue">
         <use
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,6 +85,7 @@ if (props.menuItem.argoQuery) {
   height: 24px;
   width: 24px;
 }
+
 .top-level-menu-item {
   font-size: larger;
   font-weight: bolder;

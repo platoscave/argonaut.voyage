@@ -2,7 +2,7 @@ import {
   Object3D, Shape, ExtrudeGeometry, MeshLambertMaterial, Mesh,
   MeshBasicMaterial, BufferGeometry, CylinderGeometry, TextureLoader,
   ShapeGeometry, MeshPhongMaterial, Color, NoBlending,
-  DoubleSide, BoxGeometry, PlaneGeometry,  Vector3, Group
+  DoubleSide, BoxGeometry, PlaneGeometry, Vector3, Group
 } from 'three'
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import { db } from "~/services/dexieServices";
@@ -29,7 +29,7 @@ export default class AgreementObject3d extends Object3D {
   constructor(userData, cssModelObj3d) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
     //this.assocsGroup = new Group()
@@ -37,16 +37,17 @@ export default class AgreementObject3d extends Object3D {
     const shape = getRoundedRectShape(WIDTH * 1.41, WIDTH, WIDTH / 32)//A4
     const geometry = new ShapeGeometry(shape)
     geometry.name = this.userData.title + " - 2d geometry"
-    geometry.center() 
-    const material = new MeshBasicMaterial({ 
-      color: '#eee', 
-      side	: DoubleSide,
+    geometry.center()
+    const material = new MeshBasicMaterial({
+      color: '#eee',
+      side: DoubleSide,
       opacity: 0.9,
-      transparent: true, })
+      transparent: true,
+    })
     const planeMesh = new Mesh(geometry, material);
     this.add(planeMesh)
 
-    
+
 
     const element = document.createElement('div');
     this.cssObject = new CSS3DObject(element)
@@ -56,21 +57,21 @@ export default class AgreementObject3d extends Object3D {
 
   // We need to couple the positions of the Obj3d and the CSSObj3d. 
   // We used to be able to set position with ref but thats no longer allowed
-	translateX( distance ) {
-    super.translateX( distance )
-    this.cssObject.translateX( distance -.3)
-	}
+  translateX(distance) {
+    super.translateX(distance)
+    this.cssObject.translateX(distance - .3)
+  }
 
-	translateY( distance ) {
-    super.translateY( distance )
-    this.cssObject.translateY( distance )
-	}
+  translateY(distance) {
+    super.translateY(distance)
+    this.cssObject.translateY(distance)
+  }
 
-	translateZ( distance ) {
+  translateZ(distance) {
     console.log('distance', distance)
-    super.translateZ( distance )
-    this.cssObject.translateZ( distance -.3)
-	}
+    super.translateZ(distance)
+    this.cssObject.translateZ(distance - .3)
+  }
 
   async addContractToElement(cssModelObj3d) {
 
@@ -138,23 +139,23 @@ export default class AgreementObject3d extends Object3D {
       'assetId', 'consumerId', 'propositionId', 'currentStepId'
     ]
 
-    idsToGetArr.forEach( idName => {
-      const destObj3d = glModelObject3D.getObjectByProperty('_id', this.userData[idName])
-      if(destObj3d) assocsGroup.add(drawTubeBackSideToFrontSide(
+    idsToGetArr.forEach(idName => {
+      const destObj3d = glModelObject3D.getObjectByProperty('key', this.userData[idName])
+      if (destObj3d) assocsGroup.add(drawTubeBackSideToFrontSide(
         this, destObj3d, 'active', idName, true, 0)) // initially invisible
     })
 
   }
 
-  setAssocsOpacity( glModelObj3d, opacity ) {
+  setAssocsOpacity(glModelObj3d, opacity) {
 
     // Find our assocs group
     const assocsGroup = this.children.find(item => item.isGroup && item.name === 'assocsGroup')
     // Set their opacity
-    if(assocsGroup) {
-      assocsGroup.children.forEach( item => {
+    if (assocsGroup) {
+      assocsGroup.children.forEach(item => {
         item.material.opacity = opacity
-        item.children.forEach( item2 => item2.material.opacity = opacity)// Label mesh
+        item.children.forEach(item2 => item2.material.opacity = opacity)// Label mesh
       })
     }
 
@@ -163,9 +164,9 @@ export default class AgreementObject3d extends Object3D {
       'propositionId', 'currentStepId'
     ]
 
-    idsToGetArr.forEach( idName => {
-      const destObj3d = glModelObj3d.getObjectByProperty('_id', this.userData[idName])
-      if(destObj3d && destObj3d.setAssocsOpacity) destObj3d.setAssocsOpacity(glModelObj3d, opacity) 
+    idsToGetArr.forEach(idName => {
+      const destObj3d = glModelObj3d.getObjectByProperty('key', this.userData[idName])
+      if (destObj3d && destObj3d.setAssocsOpacity) destObj3d.setAssocsOpacity(glModelObj3d, opacity)
     })
   }
 

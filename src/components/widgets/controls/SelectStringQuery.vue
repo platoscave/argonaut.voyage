@@ -15,18 +15,18 @@ const { selectedObjId } = useHashDissect(props.hashLevel);
 
 const items = useArgoQuery(
   props.property.argoQuery,
-  {_id: selectedObjId.value},
+  { key: selectedObjId.value },
   [props.property, selectedObjId]
 )
 
 const valueLabel = computed(() => {
-  if (!(props.modelValue && items.value)) return {icon: '', label: ''};
+  if (!(props.modelValue && items.value)) return { icon: '', label: '' };
   let valueObj = items.value.find(obj => {
-    return obj._id === props.modelValue;
+    return obj.key === props.modelValue;
   })
 
-  if (!valueObj) return {icon: '', label: props.modelValue};
-  return {icon: 'icons/'+valueObj.treeVars.icon, label: valueObj.treeVars.label}
+  if (!valueObj) return { icon: '', label: props.modelValue };
+  return { icon: 'icons/' + valueObj.treeVars.icon, label: valueObj.treeVars.label }
 });
 </script>
 
@@ -34,42 +34,22 @@ const valueLabel = computed(() => {
   <div v-if="items">
     <div v-if="readonly" class="ar-lightgrey-background">
       <img :src="valueLabel.icon" />
-      <span>{{ valueLabel.label}}</span>
+      <span>{{ valueLabel.label }}</span>
     </div>
-    <el-radio-group
-      class="ar-radio-group"
-      v-else-if="items.length < 5"
-      v-on:input="$emit('input', $event)"
-      v-on:change="$emit('change', $event)"
-      :model-value="modelValue"
-    >
-      <el-radio
-        v-for="item in items"
-        :key="item._id"
-        :label="item.title ? item.title : item.name"
-        :model-value="item._id"
-      ></el-radio>
+    <el-radio-group class="ar-radio-group" v-else-if="items.length < 5" v-on:input="$emit('input', $event)"
+      v-on:change="$emit('change', $event)" :model-value="modelValue">
+      <el-radio v-for="item in items" :key="item.key" :label="item.title ? item.title : item.name"
+        :model-value="item.key"></el-radio>
     </el-radio-group>
-    <el-select
-      v-else
-      class="ar-select"
-      v-on:input="$emit('input', $event)"
-      v-on:change="$emit('change', $event)"
-      :model-value="modelValue"
-      :clearable="required ? false : true"
-    >
+    <el-select v-else class="ar-select" v-on:input="$emit('input', $event)" v-on:change="$emit('change', $event)"
+      :model-value="modelValue" :clearable="required ? false : true">
       <!-- can't get data for the icon
       <template #prefix="{ node, data }">
           <img :src="data.treeVars.icon" /> 
           <div>{{_ctx}}</div>
       </template>-->
-      <el-option
-        v-for="item in items"
-        :key="item._id"
-        :label="item.treeVars.label"
-        :value="item._id"
-      >
-        <img :src="'icons/'+item.treeVars.icon" />
+      <el-option v-for="item in items" :key="item.key" :label="item.treeVars.label" :value="item.key">
+        <img :src="'icons/' + item.treeVars.icon" />
         <span>{{ item.treeVars.label }}</span>
       </el-option>
     </el-select>
@@ -78,8 +58,9 @@ const valueLabel = computed(() => {
 
 <style scoped>
 .el-radio.ar-radio {
-  height:24px
+  height: 24px
 }
+
 .ar-radio-group {
   background-color: #ffffff08;
   padding-left: 10px;

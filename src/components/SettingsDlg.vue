@@ -27,7 +27,7 @@ const reloadFromStatic = async () => {
 };
 
 const saveToStatic = async () => {
-  const fullData = await db.state.toArray();
+  const fullData = await db.table('state').toArray();
   // const ts = Math.floor(Date.now() / 1000)
 
   const jsonString = JSON.stringify(fullData, null, 2);
@@ -149,24 +149,24 @@ const randomKey = async () => {
 };
 
 const testQuery = async () => {
-  try {
-    const resultsRef = useArgoQuery(
-      { extendTo: "Owned Accounts" },
-      {
-        _id: "bikeshop1111",
-      }
-    );
+  // try {
+  //   const resultsRef = useArgoQuery(
+  //     //{ extendTo: "Owned Accounts" },
 
-    watch(resultsRef, (resultsRef) => console.log("resultsRef", resultsRef));
-  } catch (err) {
-    ElMessage({
-      showClose: true,
-      message: err.reason.message,
-      type: "error",
-      duration: 5000,
-    });
-    throw err;
-  }
+  //       key: "bikeshop1111",
+  //     }
+  //   );
+
+  //   watch(resultsRef, (resultsRef) => console.log("resultsRef", resultsRef));
+  // } catch (err) {
+  //   ElMessage({
+  //     showClose: true,
+  //     message: err.reason.message,
+  //     type: "error",
+  //     duration: 5000,
+  //   });
+  //   throw err;
+  // }
 };
 
 const generatecpp = async () => {

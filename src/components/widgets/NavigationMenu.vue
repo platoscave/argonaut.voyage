@@ -17,7 +17,7 @@ interface IMenuArr {
 }
 
 interface IMenu {
-  _id: string;
+  key: string;
   name: string;
   menuArr: IMenuArr;
 }
@@ -49,17 +49,13 @@ const defaultActive = computed(() => {
 <template>
   <div v-if="menuObj && menuObj.menuArr" class="ar-full-height ar-overflow-auto">
     <div class="ar-lightgrey-background ar-title" v-if="accountObj">
-      <img class="icon" :src="'icons/'+accountObj.icon" />
+      <img class="icon" :src="'icons/' + accountObj.icon" />
       <span>{{ accountObj.name }}</span>
     </div>
     <ElMenu unique-opened :default-active="defaultActive">
       <div v-for="(menuItem, subNum) in menuObj.menuArr" :key="subNum">
-        <NavigationItem
-          :hash-level="hashLevel"
-          :menu-item="menuItem"
-          :index="subNum.toString()"
-          :top-level="true"
-        ></NavigationItem>
+        <NavigationItem :hash-level="hashLevel" :menu-item="menuItem" :index="subNum.toString()" :top-level="true">
+        </NavigationItem>
       </div>
     </ElMenu>
   </div>
@@ -72,6 +68,7 @@ const defaultActive = computed(() => {
   height: 40px;
   width: 40px;
 }
+
 .ar-title {
   padding-top: 20px;
   padding-bottom: 20px;

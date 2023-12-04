@@ -5,8 +5,8 @@ import 'dexie-observable'; // Not rxjs observable. This is used to monitor chang
 Dexie.debug = true
 export const db = new Dexie('argonautdb');
 db.version(1).stores({
-  state: '_id, classId, superClassId, ownerId, [classId+ownerId]', // Primary key and indexed props
-  updatedObjects: '_id, timestamp',
+  state: 'key, classId, superClassId, ownerId, [classId+ownerId]', // Primary key and indexed props
+  updatedObjects: 'key, timestamp',
   settings: 'pageId'
 });
 
@@ -35,15 +35,15 @@ db.on('changes', function (changes) {
       else {
         switch (change.type) {
           case 1: // CREATED
-            db.updatedObjects.add({ _id: change.key, timestamp: Date.now(), action: 'created' })
+            db.updatedObjects.add({ key: change.key, timestamp: Date.now(), action: 'created' })
             break;
           case 2: // UPDATED
             console.log('change.key', change.key)
-            if (!found) db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'updated' })
+            if (!found) db.updatedObjects.put({ key: change.key, timestamp: Date.now(), action: 'updated' })
             break;
           case 3: // DELETED
             if (found && found.action === 'created') db.updatedObjects.delete(change.key)
-            else db.updatedObjects.put({ _id: change.key, timestamp: Date.now(), action: 'deleted' })
+            else db.updatedObjects.put({ key: change.key, timestamp: Date.now(), action: 'deleted' })
             break;
         }
       }

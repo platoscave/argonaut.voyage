@@ -15,8 +15,8 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
         if (value === '$') retObj[key] = contextObj
         // Replace $fk with id from contextObj
         else if (value === "$fk") {
-          if (!contextObj._id) throw new Error('_id not found in contextObj')
-          retObj[key] = contextObj._id;
+          if (!contextObj.key) throw new Error('key not found in contextObj')
+          retObj[key] = contextObj.key;
         }
         else retObj[key] = value
       }
@@ -30,7 +30,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
 
         let promisses = []
         subClassesArr.forEach(subClass => {
-          promisses.push(subClasses(subClass._id))
+          promisses.push(subClasses(subClass.key))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
 
@@ -57,7 +57,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
         })
         let promisses = []
         ownedAccountsArr.forEach(unitAccounr => {
-          promisses.push(ownedAccounts(unitAccounr._id))
+          promisses.push(ownedAccounts(unitAccounr.key))
         })
         let arrayOfResultArrays = await Promise.all(promisses)
 
@@ -65,10 +65,10 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
         return results
       }
 
-      if (!contextObj._id) throw new Error('_id not found in contextObj')
+      if (!contextObj.key) throw new Error('key not found in contextObj')
 
-      const rootClass = await db.state.get(contextObj._id)
-      let results = await ownedAccounts(contextObj._id)
+      const rootClass = await db.state.get(contextObj.key)
+      let results = await ownedAccounts(contextObj.key)
       results.splice(0, 0, rootClass)// Add the root class
       return results
     }
@@ -93,7 +93,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
 
     // Get Icon from item anscestors, recursivly
     const getAnscestorsIcon = async (id) => {
-      if(!id) return ''
+      if (!id) return ''
       const classObj = await db.state.get(id);
       if (classObj.classIcon) return classObj.classIcon;
       return getAnscestorsIcon(classObj.superClassId);
@@ -105,7 +105,7 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
       const enrichedResults = items.map((item, idx) => {
         let label = item.title ? item.title : item.name; //TODO value?
         let pageId = item.pageId ? item.pageId : queryObj.nodesPageId
-        if(!pageId) {
+        if (!pageId) {
           if (item.classId) pageId = "mb2bdqadowve";// class schema page
           else pageId = "24cnex2saye1"; // class details page
         }
@@ -134,9 +134,9 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
       })
 
 
-        // console.log('\nQuery Object: ', queryObj)
-        // console.log('Context Object: ', contextObj)
-        // console.log('Results', enrichedResults)
+      // console.log('\nQuery Object: ', queryObj)
+      // console.log('Context Object: ', contextObj)
+      // console.log('Results', enrichedResults)
       return enrichedResults
     }
 
@@ -145,9 +145,9 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
       // Collect promise of each icon into an array
       // We have to do icons separately because one case involves a promise
       const iconsPromissesArr = items.map(item => {
-        if(item.icon) return Promise.resolve(item.icon) // value as promise
-        else if(queryObj.nodesIcon) return Promise.resolve(queryObj.nodesIcon) // value as promise
-        else if(item.classId) return getAnscestorsIcon(item.classId) // promise
+        if (item.icon) return Promise.resolve(item.icon) // value as promise
+        else if (queryObj.nodesIcon) return Promise.resolve(queryObj.nodesIcon) // value as promise
+        else if (item.classId) return getAnscestorsIcon(item.classId) // promise
         else return Promise.resolve('ClassIcon.svg') // litteral as promise
       })
 
@@ -176,8 +176,8 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
     } else if (queryObj.selector === 'Owned Accounts') {
 
       // collect all of the owned accounts from given accountId
-      if (!resolvedWhere._id) throw new Error('selector Owned Accounts must have a where clause with a _id')
-      slectorResult = await collectOwnedAccounts(resolvedWhere._id).then(array => sortArray(array, queryObj.sortBy))
+      if (!resolvedWhere.key) throw new Error('selector Owned Accounts must have a where clause with a key')
+      slectorResult = await collectOwnedAccounts(resolvedWhere.key).then(array => sortArray(array, queryObj.sortBy))
 
     } else { // Where Clause
 
@@ -203,17 +203,17 @@ export default function argoQueryPromise(idsArrayOrObj, contextObj = null) {
         const invalidFound = idsArr.find(item => !typeof item === 'string' || item.length !== 12)
         if (invalidFound) throw new Error('The result of idsArrayPath must be an array of _ids' + idsArr)
       }
-      if (typeof idsArr === 'string' && item.length !== 12) throw new Error('The result of idsArrayPath must be an _id' + idsArr)
+      if (typeof idsArr === 'string' && item.length !== 12) throw new Error('The result of idsArrayPath must be an key' + idsArr)
 
       // Make the ids array unique
       const uniqueIdsArr = [...new Set(idsArr)]
 
       // get all the objects corresponding to the ids array
       // We must perserve the order so we cant use any of
-      const promisesArr = uniqueIdsArr.map( id => {
+      const promisesArr = uniqueIdsArr.map(id => {
         const whereClause = {}
         whereClause[queryObj.idsArrayPath.indexName] = id
-        return db.state.where( whereClause ).toArray()
+        return db.state.where(whereClause).toArray()
       })
       const resultArrArr = await Promise.all(promisesArr)
       resultArr = resultArrArr.flat()

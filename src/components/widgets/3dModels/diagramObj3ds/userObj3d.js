@@ -9,7 +9,7 @@ export default class UserObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
@@ -17,17 +17,17 @@ export default class UserObject3d extends Object3D {
     objectMesh.name = userData.name + ' - 3d mesh'
     this.add(objectMesh)
 
-    if(userData.treeVars.icon) {
+    if (userData.treeVars.icon) {
       // if(userData.treeVars.icon.endsWith('.svg')){
       //   const group = getSvgAvatar(userData.treeVars.icon)
       //   this.add(group)
       // } 
       // else {
-        const avatarMesh = getAvatarMesh(userData.treeVars.icon)
-        avatarMesh.translateZ(DEPTH * 0.2)
-        avatarMesh.translateX(-WIDTH * .60)
-        avatarMesh.translateY(HEIGHT * .25)
-        this.add(avatarMesh)
+      const avatarMesh = getAvatarMesh(userData.treeVars.icon)
+      avatarMesh.translateZ(DEPTH * 0.2)
+      avatarMesh.translateX(-WIDTH * .60)
+      avatarMesh.translateY(HEIGHT * .25)
+      this.add(avatarMesh)
       //}
     }
 

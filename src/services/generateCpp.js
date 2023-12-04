@@ -7,7 +7,7 @@ class GenerateCpp {
 
     // https://github.com/EOSIO/eos/blob/c9b7a2472dc3c138e64d07ec388e64340577bb34/contracts/identity/identity.cpp#L105
 
-    static async GenerateCpp(_id) {
+    static async GenerateCpp(key) {
 
         // Recusivly merge all the ancestor classes, starting with the root. Sub class properties take precedence over parent class
         /* const getMergeAncestorClasses = async classId => {
@@ -24,7 +24,7 @@ class GenerateCpp {
         // let zip = new JSZip();
         // PR: gzthjuyjca4s
         // Pages: 
-        //let classObj = await getClassSchema(_id)
+        //let classObj = await getClassSchema(key)
         let classObj = this.basicContract()
         //return this.hppSource(classObj)
         return this.cppSource(classObj)
@@ -143,7 +143,7 @@ class GenerateCpp {
                 if (prop.pattern === '[.abcdefghijklmnopqrstuvwxyz12345]{12}') tableStruct += `      name ${key};\n`
             }
         }
-        
+
         for (let key in properties) {
             const prop = properties[key]
             if (prop.type === 'string') {
@@ -335,7 +335,7 @@ class GenerateCpp {
                 key: {
                     description: '<p>Base32 identifier.</p>',
                     pattern: '[.abcdefghijklmnopqrstuvwxyz12345]{12}',
-                    title: '_id',
+                    title: 'key',
                     type: 'string'
                 },
                 classId: {

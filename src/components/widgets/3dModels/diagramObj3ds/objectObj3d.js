@@ -9,7 +9,7 @@ export default class StepObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
@@ -29,7 +29,7 @@ export default class StepObject3d extends Object3D {
 
   drawObjectAssocs(glModelObject3D) {
 
-    //if(this._id !== '4caczktyxzm5') return
+    //if(this.key !== '4caczktyxzm5') return
 
     const fks = ['stepId', 'firstStepId', 'updaterId', 'processId', 'assetId', 'consumerId', 'providerId', 'sellerProcessId', /* 'ownerId',  */'agreementClassId', 'viewId', /* 'pageId',  */'queryId', 'baseClassId', 'menuId']
 
@@ -38,8 +38,8 @@ export default class StepObject3d extends Object3D {
         const destId = properties[key]
         if (destId && fks.includes(key)) {
 
-          const destObj3d = glModelObject3D.getObjectByProperty('_id', destId)
-          if (!destObj3d) console.log('Assoc destination not found: ', this._id, key, destId)
+          const destObj3d = glModelObject3D.getObjectByProperty('key', destId)
+          if (!destObj3d) console.log('Assoc destination not found: ', this.key, key, destId)
           //if (!destObj3d) console.log(this)
           if (!destObj3d) continue
 
@@ -149,12 +149,12 @@ export default class StepObject3d extends Object3D {
       .lineTo(x + WIDTH, y)
 
     // extruded shape
-    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01}
+    let extrudeSettings = { depth: DEPTH, bevelEnabled: true, bevelSegments: 5, steps: 2, bevelSize: DEPTH * 0.01, bevelThickness: DEPTH * 0.01 }
     let geometry = new ExtrudeGeometry(shape, extrudeSettings)
     geometry.name = this.userData.name + " - 3d geometry"
     geometry.center()
 
-    const { 'object': colorProp = { color: 0xEFEFEF }  } = threejsColors
+    const { 'object': colorProp = { color: 0xEFEFEF } } = threejsColors
     const material = new MeshLambertMaterial({ color: colorProp.color })
 
     return new Mesh(geometry, material)

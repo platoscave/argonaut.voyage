@@ -23,12 +23,12 @@ const formMode = ref("Readonly Dense");
 let previousDataObj: any = {}
 
 interface IDataObj {
-  _id: string;
+  key: string;
   classId: string;
 }
 
 interface IViewObj {
-  _id: string;
+  key: string;
   properties: any;
   required: boolean;
 }
@@ -42,23 +42,23 @@ const dataObj = useLiveQuery<IDataObj>(() => db.state.get(selectedObjId.value), 
 // deep watch dataObj, perform pudate
 watch(dataObj, (newDataObj, oldDataObj) => {
 
-  console.log('watch dataObj',newDataObj)
+  console.log('watch dataObj', newDataObj)
 
   // Get rid of false updates (otherwise we will loop)
-  if(previousDataObj === JSON.stringify(newDataObj)) return;
+  if (previousDataObj === JSON.stringify(newDataObj)) return;
   previousDataObj = JSON.stringify(newDataObj)
 
   if (!formMode.value.startsWith("Edit")) return;
   if (!oldDataObj) return; // will be empty first time
   subFormEl.value.validate().then((valid) => {
     console.log("valid", valid);
-    if(valid) {
-      db.state.put(toRaw(newDataObj)).catch (function (e) {
-        alert ("Failed update: " + e);
+    if (valid) {
+      db.state.put(toRaw(newDataObj)).catch(function (e) {
+        alert("Failed update: " + e);
       })
     }
   });
-},{ deep: true });
+}, { deep: true });
 
 
 const onEditButton = () => {
@@ -75,24 +75,16 @@ const onEditButton = () => {
   <div v-if="dataObj && viewObj" class="fab-parent">
     <div class="ar-json-schema-form">
       <div>
-        <SubForm
-          ref="subFormEl"
-          v-model="dataObj"
-          :properties="viewObj.properties"
-          :requiredArr="viewObj.required"
-          :form-mode="formMode"
-          :hash-level="hashLevel"
-        >
+        <SubForm ref="subFormEl" v-model="dataObj" :properties="viewObj.properties" :requiredArr="viewObj.required"
+          :form-mode="formMode" :hash-level="hashLevel">
         </SubForm>
       </div>
     </div>
     <ElButton class="fab" circle @click="onEditButton">
       <template #icon>
-        <svg><use
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          :xlink:href="'toolbar-symbols.svg#el-icon-edit'"
-        ></use></svg
-      ></template>
+        <svg>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-edit'"></use>
+        </svg></template>
     </ElButton>
   </div>
 </template>
@@ -103,6 +95,7 @@ const onEditButton = () => {
   height: 100%;
   overflow: hidden;
 }
+
 .ar-json-schema-form {
   height: 100%;
   overflow: auto;
@@ -110,9 +103,11 @@ const onEditButton = () => {
   overflow: auto;
   padding: 10px;
 }
+
 .form {
   padding: 10px;
 }
+
 .fab {
   position: absolute;
   margin: 10px;

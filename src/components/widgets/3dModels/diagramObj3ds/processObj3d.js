@@ -11,7 +11,7 @@ export default class ProcessObject3d extends Object3D {
   constructor(userData) {
     super()
 
-    this._id = userData._id
+    this.key = userData.key
     this.name = userData.name + ' - object3d'
     this.userData = userData
 
@@ -43,7 +43,7 @@ export default class ProcessObject3d extends Object3D {
       points.push(sourceVec)
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .2, 0, 0)))
       points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2) * .7, height, 0)))
-      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 -WIDTH * 0.1), height, 0)))
+      points.push(sourceVec.clone().add(new Vector3((endX - WIDTH / 2 - WIDTH * 0.1), height, 0)))
       this.add(drawTube(points, item, item, true))
 
       const geometry = new SphereGeometry(HEIGHT / 4, 32, 16);
@@ -58,12 +58,12 @@ export default class ProcessObject3d extends Object3D {
   }
 
   async drawSteps(addSelectable, glModelObject3D) {
-  
+
     // Execute the query
-    const stepObjArr = await argoQueryPromise("aiw54neadp14", this.userData )
+    const stepObjArr = await argoQueryPromise("aiw54neadp14", this.userData)
     const firstStepObj = stepObjArr[0]
-    if(!firstStepObj) return []
-    
+    if (!firstStepObj) return []
+
     // Draw the first step
     let stepObj3d = new StepObject3d(firstStepObj);
     addSelectable(stepObj3d.children[0])

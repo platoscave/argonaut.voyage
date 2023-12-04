@@ -90,7 +90,7 @@ class EosApiService {
       }],
       data: {
         username: 'argonautvoya',
-        key: document._id,
+        key: document.key,
         classId: document.classId ? document.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
         superClassId: document.superClassId ? document.superClassId : 'aaaaaaaaaaaaa',
         ownerId: document.ownerId ? document.ownerId : 'aaaaaaaaaaaaa',
@@ -126,7 +126,7 @@ class EosApiService {
           }],
           data: {
             username: 'argonautvoya',
-            key: item._id,
+            key: item.key,
             classId: item.classId ? item.classId : 'aaaaaaaaaaaaa', // 13 * 'a' equals 0
             superClassId: item.superClassId ? item.superClassId : 'aaaaaaaaaaaaa',
             ownerId: item.ownerId ? item.ownerId : 'aaaaaaaaaaaaa',
@@ -244,7 +244,7 @@ class EosApiService {
     return takeAction(actions)
   }
 
-  static async eraseEos(_id) {
+  static async eraseEos(key) {
 
     let networkUserObj = await db.table('settings').get('application')
     let currentUserId = networkUserObj.currentUserId
@@ -258,7 +258,7 @@ class EosApiService {
       }],
       data: {
         username: currentUserId,
-        key: _id
+        key: key
       }
     }]
     return takeAction(actions)
@@ -331,13 +331,13 @@ class EosApiService {
 
     for await (const updatedObj of updatedObjectsArr) {
       if (updatedObj.action === 'created' || updatedObj.action === 'updated') {
-        const document = await db.state.get(updatedObj._id)
+        const document = await db.state.get(updatedObj.key)
         await this.upsertDocument(document)
-        await db.updatedObjects.delete(updatedObj._id)
+        await db.updatedObjects.delete(updatedObj.key)
       }
       else if (updatedObj.action === 'deleted') {
-        await this.eraseEos(updatedObj._id)
-        await db.updatedObjects.delete(updatedObj._id)
+        await this.eraseEos(updatedObj.key)
+        await db.updatedObjects.delete(updatedObj.key)
       }
     }
 
@@ -350,11 +350,11 @@ class EosApiService {
     for await (const updatedObj of updatedObjectsArr) {
       // Set causedBy in UpdatedObects so that The Dexie observer knows we caused this update, not the user
       // The observer will respond by deleteing this record rather then putting a new one
-      await db.updatedObjects.update(updatedObj._id, { causedBy: 'cancelChanges' })
-      const document = await this.getDocumentByKey(updatedObj._id)
+      await db.updatedObjects.update(updatedObj.key, { causedBy: 'cancelChanges' })
+      const document = await this.getDocumentByKey(updatedObj.key)
       // EOS is leading. Do whatever it says.
       if (document) await db.state.put(document)
-      else await db.state.delete(updatedObj._id)
+      else await db.state.delete(updatedObj.key)
     }
 
   }

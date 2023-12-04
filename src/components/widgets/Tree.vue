@@ -39,7 +39,7 @@ const loadNode = async (node, resolve) => {
       // Get the queryObj
       const queryObj = await db.state.get(viewObj.queryId);
 
-      watch(useArgoQuery(queryObj, { _id: selectedObjId.value }),
+      watch(useArgoQuery(queryObj, { key: selectedObjId.value }),
         resultArr => node.store.setData(resultArr)
       );
 
@@ -50,7 +50,7 @@ const loadNode = async (node, resolve) => {
       if (node.data.treeVars.subQueryIds) {
         watch(useArgoQuery(node.data.treeVars.subQueryIds, node.data),
           resultArr => {
-            node.store.updateChildren(node.data._id, resultArr);
+            node.store.updateChildren(node.data.key, resultArr);
           });
       }
       resolve([]);
@@ -92,7 +92,7 @@ const onCtrlPaste = async () => {
   if (currentObj.classId) currentObj.name = "[New Object]";
   else currentObj.title = "[New Class]";
   currentObj.description = "<p>[New Description]</p>";
-  delete currentObj._id;
+  delete currentObj.key;
   const newObjId = await db.state.add(currentObj);
 
   const copiedNode = treeEl.value.getNode(copiedNodeId);
@@ -112,7 +112,7 @@ const onCtrlCut = async () => {
 
   if (currentNode.data.treeVars.selector === "Context Object") {
     const idToRemove = currentKey;
-    const parentId = currentNode.parent.data._id;
+    const parentId = currentNode.parent.data.key;
     const path = currentNode.data.treeVars.idsArrayPath.path;
     await cutFromParentIdsArray(idToRemove, parentId, path);
   }
@@ -136,7 +136,7 @@ const onDelete = async () => {
   if (messageBox === "confirm") {
     if (currentNode.data.treeVars.selector === "Context Object") {
       const idToRemove = currentKey;
-      const parentId = currentNode.parent.data._id;
+      const parentId = currentNode.parent.data.key;
       const path = currentNode.data.treeVars.idsArrayPath.path;
       await cutFromParentIdsArray(idToRemove, parentId, path);
     }
@@ -176,7 +176,7 @@ const addToParentIdsArray = async (
 
   // update the parentObj ids array with the longer array
   jp.value(parentObj, valuePath, newIdsArr);
-  db.state.update(parentObj._id, parentObj);
+  db.state.update(parentObj.key, parentObj);
 };
 
 const cutFromParentIdsArray = async (
@@ -199,7 +199,7 @@ const cutFromParentIdsArray = async (
 
   // update the parentObj ids array with the longer array
   jp.value(parentObj, valuePath, newIdsArr);
-  db.state.update(parentObj._id, parentObj);
+  db.state.update(parentObj.key, parentObj);
 };
 const options = {
   items: [
@@ -247,7 +247,7 @@ const onContextMenu = (evt, node) => {
 let draggingNodeParentId: string = "";
 const handleDragStart = (node, evt) => {
   // we have to capture the draggingNode parent here because it disapears lateron
-  draggingNodeParentId = node.parent.data._id;
+  draggingNodeParentId = node.parent.data.key;
 };
 const handleDragEnter = (draggingNode, dropNode, evt) => {
   //console.log("tree drag enter: ", dropNode.label);
@@ -263,26 +263,26 @@ const handleDragEnd = async (draggingNode, dropNode, dropType, evt) => {
 };
 const handleDrop = async (draggingNode, dropNode, dropType, evt) => {
   if (draggingNode.data.treeVars.selector === "Context Object") {
-    const idToRemove = draggingNode.data._id;
+    const idToRemove = draggingNode.data.key;
     const parentId = draggingNodeParentId;
     const path = dropNode.data.treeVars.idsArrayPath.path;
     await cutFromParentIdsArray(idToRemove, parentId, path);
 
     if (dropType === "inner") {
-      const idToAdd = draggingNode.data._id;
-      const parentId = dropNode.data._id;
+      const idToAdd = draggingNode.data.key;
+      const parentId = dropNode.data.key;
       addToParentIdsArray(idToAdd, parentId, path);
     } else {
       // dropType before and after have a different parentId and need a dropNodeId
-      const idToAdd = draggingNode.data._id;
-      const parentId = dropNode.parent.data._id;
-      const dropNodeId = dropNode.data._id;
+      const idToAdd = draggingNode.data.key;
+      const parentId = dropNode.parent.data.key;
+      const dropNodeId = dropNode.data.key;
       addToParentIdsArray(idToAdd, parentId, path, dropType, dropNodeId);
     }
   } else if (draggingNodeObj.data.treeVars.selector === "Where Clause") {
-    const newParentId = dropNode.data._id;
+    const newParentId = dropNode.data.key;
 
-    const draggingNodeObj = await db.state.get(draggingNode.data._id);
+    const draggingNodeObj = await db.state.get(draggingNode.data.key);
 
     // update the foreign key
     const whereObj = draggingNodeObj.data.treeVars.whereObj;
@@ -290,7 +290,7 @@ const handleDrop = async (draggingNode, dropNode, dropType, evt) => {
       const value = whereObj[key];
       if (value === "$fk") draggingNodeObj[key] = newParentId;
     }
-    await db.state.update(draggingNodeObj._id, draggingNodeObj);
+    await db.state.update(draggingNodeObj.key, draggingNodeObj);
   }
 };
 const allowDrop = (draggingNode, dropNode, type) => {
@@ -327,7 +327,7 @@ onMounted(() => {
 
 <template>
   <el-tree ref="treeEl" highlight-current :expand-on-click-node="false" :props="defaultProps" :load="loadNode" lazy
-    node-key="_id" :default-expanded-keys="expandedNodes" @node-click="(nodeData) => updateNextLevelHash(hashLevel, nodeData._id, nodeData.treeVars.pageId)
+    node-key="key" :default-expanded-keys="expandedNodes" @node-click="(nodeData) => updateNextLevelHash(hashLevel, nodeData.key, nodeData.treeVars.pageId)
       " @keyup.ctrl.c="onCtrlCopy" @keyup.ctrl.v="onCtrlPaste" @keyup.ctrl.x="onCtrlCut" @keyup.delete="onDelete"
     @node-contextmenu="onContextMenu" @node-expand="handleNodeExpandColapse" @node-collapse="handleNodeExpandColapse"
     draggable @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave"
