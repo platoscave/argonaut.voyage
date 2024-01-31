@@ -21,8 +21,8 @@ import String from "./controls/String.vue";
 import SubForm from "./controls/SubForm.vue";
 
 const props = defineProps({
-  hashLevel: Number,
-  widgetObj: Object,
+    hashLevel: Number,
+    widgetObj: Object,
 });
 // interface Props {
 //   hashLevel: number;
@@ -42,176 +42,203 @@ const dataArr = reactive([]);
 const viewObj = reactive({});
 
 interface IDataObj {
-  key: string;
-  classId: string;
+    key: string;
+    classId: string;
 }
 
 interface IViewObj {
-  key: string;
-  classId: string;
+    key: string;
+    classId: string;
 }
 getMaterializedView(props.widgetObj.viewId).then((view) => {
-  Object.assign(viewObj, view);
+    Object.assign(viewObj, view);
 
-  const resArr = useArgoQuery(view.queryId, {
-    key: selectedObjId.value,
-  });
-  watch(resArr, (arr: any[]) => {
-    dataArr.length = 0;
-    arr.forEach((item) => dataArr.push(item));
-  });
+    const resArr = useArgoQuery(view.queryId, {
+        key: selectedObjId.value,
+    });
+    watch(resArr, (arr: any[]) => {
+        dataArr.length = 0;
+        arr.forEach((item) => dataArr.push(item));
+    });
 });
 
 const onInput = async (updatedDataObj) => {
-  /*
-  try {
-
-    const stringified = JSON.stringify(updatedDataObj)
-    if (stringified === this.oldValue) return
-    this.oldValue = stringified
-
-    const valid = await this.$refs["schemaForm"].validate();
-    console.log('valid', valid);
-    db.state.update(updatedDataObj.key, updatedDataObj);
-
-  } catch (err) {
-    this.valid = false;
-    this.$message({ showClose: true, message: err.reason.message, type: "error" })
-  }
-  */
+    /*
+    try {
+  
+      const stringified = JSON.stringify(updatedDataObj)
+      if (stringified === this.oldValue) return
+      this.oldValue = stringified
+  
+      const valid = await this.$refs["schemaForm"].validate();
+      console.log('valid', valid);
+      db.state.update(updatedDataObj.key, updatedDataObj);
+  
+    } catch (err) {
+      this.valid = false;
+      this.$message({ showClose: true, message: err.reason.message, type: "error" })
+    }
+    */
 };
 
 const onEditButton = () => {
-  if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";
-  else if (formMode.value === "Readonly Full")
-    //this.formMode = "Edit Permitted";
-    formMode.value = "Edit Full";
-  else if (formMode.value === "Edit Permitted") formMode.value = "Edit Full";
-  else formMode.value = "Readonly Dense";
+    if (formMode.value === "Readonly Dense") formMode.value = "Readonly Full";
+    else if (formMode.value === "Readonly Full")
+        //this.formMode = "Edit Permitted";
+        formMode.value = "Edit Full";
+    else if (formMode.value === "Edit Permitted") formMode.value = "Edit Full";
+    else formMode.value = "Readonly Dense";
 };
 
 const notReadonlyDenseAndEmpty = (formMode: string, dataObj: object[], type: string) => {
-  if (
-    formMode === "Readonly Dense" &&
-    (!dataObj || // modelValue is empty
-      (type === "array" && !dataObj.length) || // modelValue is an array and is empty
-      (type === "object" && !Object.keys(dataObj).length)) // modelValue is an object and is empty
-  )
-    return false;
-  return true;
+    if (
+        formMode === "Readonly Dense" &&
+        (!dataObj || // modelValue is empty
+            (type === "array" && !dataObj.length) || // modelValue is an array and is empty
+            (type === "object" && !Object.keys(dataObj).length)) // modelValue is an object and is empty
+    )
+        return false;
+    return true;
 };
 
 const sortFunc = (type: string, a: any, b: any) => {
-  if (type === "string") {
-    if (a.toUpperCase() < b.toUpperCase()) return -1;
-    if (a.toUpperCase() > b.toUpperCase()) return 1;
+    if (type === "string") {
+        if (a.toUpperCase() < b.toUpperCase()) return -1;
+        if (a.toUpperCase() > b.toUpperCase()) return 1;
+        return 0;
+    } else if (type === "number") {
+        const toFloat = (num) => parseFloat(num.replace(".", "").replace(",", "."));
+        return toFloat(a) - toFloat(b);
+    }
     return 0;
-  } else if (type === "number") {
-    const toFloat = (num) => parseFloat(num.replace(".", "").replace(",", "."));
-    return toFloat(a) - toFloat(b);
-  }
-  return 0;
 };
 
 const headerDragend = (newWidth, oldWidth, column) => {
-  saveColumWidth(pageId.value, column.property, newWidth);
+    saveColumWidth(pageId.value, column.property, newWidth);
 };
 
 const dynamicComp = [
-  { name: "ElDatePicker", comp: ElDatePicker },
-  { name: "Html", comp: Html },
-  { name: "Image", comp: Image },
-  { name: "Json", comp: Json },
-  { name: "NestedObject", comp: NestedObject },
-  { name: "Number", comp: Number },
-  { name: "ObjectsArray", comp: ObjectsArray },
-  { name: "SelectArrayQuery", comp: SelectArrayQuery },
-  { name: "SelectStringEnum", comp: SelectStringEnum },
-  { name: "SelectStringQuery", comp: SelectStringQuery },
-  { name: "String", comp: String },
-  { name: "SubForm", comp: SubForm },
-  { name: "TableArray", comp: TableArray },
+    { name: "ElDatePicker", comp: ElDatePicker },
+    { name: "Html", comp: Html },
+    { name: "Image", comp: Image },
+    { name: "Json", comp: Json },
+    { name: "NestedObject", comp: NestedObject },
+    { name: "Number", comp: Number },
+    { name: "ObjectsArray", comp: ObjectsArray },
+    { name: "SelectArrayQuery", comp: SelectArrayQuery },
+    { name: "SelectStringEnum", comp: SelectStringEnum },
+    { name: "SelectStringQuery", comp: SelectStringQuery },
+    { name: "String", comp: String },
+    { name: "SubForm", comp: SubForm },
+    { name: "TableArray", comp: TableArray },
 ];
 interface IProperty {
-  type: string;
-  contentMediaType: string;
-  argoQuery: object;
-  enum: string[];
-  format: string;
-  properties: object;
-  items: {
     type: string;
-    properties: object;
+    contentMediaType: string;
     argoQuery: object;
-  };
-  displayAs: string;
+    enum: string[];
+    format: string;
+    properties: object;
+    items: {
+        type: string;
+        properties: object;
+        argoQuery: object;
+    };
+    displayAs: string;
 }
 const getComponent = (property: IProperty) => {
-  // Determin the control type
-  const getControlName = () => {
+    // Determin the control type
+    const getControlName = () => {
 
-    switch (property.type) {
-      case "string":
-        const mediaType = property.contentMediaType
-        if (mediaType) {
-          if (mediaType === "text/html") return "Html";
-          if (mediaType.startsWith("image/")) return "Image";
-          return "Json";
+        switch (property.type) {
+            case "string":
+                const mediaType = property.contentMediaType
+                if (mediaType) {
+                    if (mediaType === "text/html") return "Html";
+                    if (mediaType.startsWith("image/")) return "Image";
+                    return "Json";
+                }
+                if (property.argoQuery) return "SelectStringQuery";
+                if (property.enum) return "SelectStringEnum";
+                if (property.format === "date-time") return "DateTime";
+                return "String";
+            case "number": return "Number";
+            case "integer": return "Number";
+            case "boolean": return "ElCheckbox";
+            case "object": if (property.properties) return "NestedObject";
+            case "array":
+                // objects
+                if (property.items.type === "object" && property.items.properties) {
+                    if (property.displayAs === "Table") return "TableArray"; // objects in a table
+                    return "ObjectsArray"; // objects in a subform
+                }
+                // multi select
+                else if (property.items.type === "string") {
+                    if (property.items.argoQuery) return "SelectArrayQuery";
+                    return "Json";
+                }
         }
-        if (property.argoQuery) return "SelectStringQuery";
-        if (property.enum) return "SelectStringEnum";
-        if (property.format === "date-time") return "DateTime";
-        return "String";
-      case "number": return "Number";
-      case "integer": return "Number";
-      case "boolean": return "ElCheckbox";
-      case "object": if (property.properties) return "NestedObject";
-      case "array":
-        // objects
-        if (property.items.type === "object" && property.items.properties) {
-          if (property.displayAs === "Table") return "TableArray"; // objects in a table
-          return "ObjectsArray"; // objects in a subform
-        }
-        // multi select
-        else if (property.items.type === "string") {
-          if (property.items.argoQuery) return "SelectArrayQuery";
-          return "Json";
-        }
-    }
-    return "Json";
+        return "Json";
 
-  };
+    };
 
-  const nameComp = dynamicComp.find((item) => item.name === getControlName());
-  if (!nameComp) console.error(`controlName not declared: ${getControlName()}`);
-  return nameComp.comp;
+    const nameComp = dynamicComp.find((item) => item.name === getControlName());
+    if (!nameComp) console.error(`controlName not declared: ${getControlName()}`);
+    return nameComp.comp;
 };
 </script>
 
 <template>
-  <!-- table-layout="auto" -->
-  <el-table v-if="dataArr && viewObj" class="ar-table" ref="tableEl" :data="dataArr" highlight-current-row border
-    @current-change="(currentRow) =>
-        updateNextLevelHash(hashLevel, currentRow.key, currentRow.treeVars.nodesPageId)
-      " @header-dragend="headerDragend">
-    <!--  -->
-    <el-table-column v-for="(property, propertyName) in viewObj.properties" :key="propertyName" :property="propertyName"
-      :width="columWidths[propertyName]" :label="property.title"
-      :sortable="property.type !== 'object' && property.type !== 'array'"
-      :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])" resizable>
-      <!-- Header with tooltip. -->
-      <template #header>
-        <span>{{ property.title + " " }}</span>
-        <el-tooltip v-if="property.description" effect="light" :content="property.description" raw-content>
-          <svg class="icon" height="1em" width="1em" color="blue">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-info'"></use>
-          </svg>
-        </el-tooltip>
-      </template>
+    <!-- table-layout="auto" -->
+    <el-table
+        v-if="dataArr && viewObj"
+        class="ar-table"
+        ref="tableEl"
+        :data="dataArr"
+        highlight-current-row
+        border
+        @current-change="(currentRow) =>
+            updateNextLevelHash(hashLevel, currentRow.key, currentRow.treeVars.nodesPageId)
+            "
+        @header-dragend="headerDragend"
+    >
+        <!--  -->
+        <el-table-column
+            v-for="(property, propertyName) in viewObj.properties"
+            :key="propertyName"
+            :property="propertyName"
+            :width="columWidths[propertyName]"
+            :label="property.title"
+            :sortable="property.type !== 'object' && property.type !== 'array'"
+            :sort-method="(a, b) => sortFunc(property.type, a[propertyName], b[propertyName])"
+            resizable
+        >
+            <!-- Header with tooltip. -->
+            <template #header>
+                <span>{{ property.title + " " }}</span>
+                <el-tooltip
+                    v-if="property.description"
+                    effect="light"
+                    :content="property.description"
+                    raw-content
+                >
+                    <svg
+                        class="icon"
+                        height="1em"
+                        width="1em"
+                        color="blue"
+                    >
+                        <use
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            :xlink:href="'toolbar-symbols.svg#el-icon-info'"
+                        ></use>
+                    </svg>
+                </el-tooltip>
+            </template>
 
-      <!-- The control -->
-      <template #default="scope">
-        <!-- 
+            <!-- The control -->
+            <template #default="scope">
+                <!-- 
           ar-control-selector is a functional component that that replaces itself with a control component
           depending on property type. It also performs some magic on certain property.attrs
           - readonly is used by standard input elements to disable input and by css to remove blue border
@@ -221,39 +248,46 @@ const getComponent = (property: IProperty) => {
           - We use the v-model pattern to send/recieve data to/from child components. 
             Below, we watch for changes to modelValue and emit input events accordingly.
           -->
-        <component :is="getComponent(property)" class="ar-control" v-model="scope.row[propertyName]" :property="property"
-          :readonly="formMode.startsWith('Readonly')" :required="false" :hash-level="hashLevel" :form-mode="formMode">
-        </component>
-      </template>
-    </el-table-column>
-  </el-table>
+                <component
+                    :is="getComponent(property)"
+                    class="ar-control"
+                    v-model="scope.row[propertyName]"
+                    :property="property"
+                    :readonly="formMode.startsWith('Readonly')"
+                    :required="false"
+                    :hash-level="hashLevel"
+                    :form-mode="formMode"
+                >
+                </component>
+            </template>
+        </el-table-column>
+    </el-table>
 </template>
 <style scoped>
 .ar-json-schema-form {
-  max-width: 750px;
+    max-width: 750px;
 }
 
 .icon {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 /* Item bottom margin */
 .el-form-item {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .ar-table>>>.el-table__cell {
-  padding: 4px;
-  border-bottom: unset;
+    padding: 4px;
+    border-bottom: unset;
 }
 
 .ar-table>>>.cell {
-  padding: unset;
-  word-break: unset;
-  /* line-height: 23px; */
+    padding: unset;
+    word-break: unset;
+    /* line-height: 23px; */
 }
 
 .ar-table>>>th .cell {
-  padding: 10px;
-}
-</style>
+    padding: 10px;
+}</style>

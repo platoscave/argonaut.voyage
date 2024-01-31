@@ -148,7 +148,7 @@ const getComponent = (property: IProperty) => {
     switch (property.type) {
       case "string":
         const mediaType = property.contentMediaType
-        if(mediaType) {
+        if (mediaType) {
           if (mediaType === "text/html") return "Html";
           if (mediaType.startsWith("image/")) return "Image";
           return "Json";
@@ -162,15 +162,17 @@ const getComponent = (property: IProperty) => {
       case "boolean": return "ElCheckbox";
       case "object": if (property.properties) return "NestedObject";
       case "array":
-        // objects
-        if (property.items.type === "object" && property.items.properties) {
-          if (property.displayAs === "Table") return "TableArray"; // objects in a table
-          return "ObjectsArray"; // objects in a subform
-        }
-        // multi select
-        else if (property.items.type === "string") {
-          if (property.items.argoQuery) return "SelectArrayQuery";
-          return "Json";
+        if (property.items) {
+          // objects
+          if (property.items.type === "object" && property.items.properties) {
+            if (property.displayAs === "Table") return "TableArray"; // objects in a table
+            return "ObjectsArray"; // objects in a subform
+          }
+          // multi select
+          else if (property.items.type === "string") {
+            if (property.items.argoQuery) return "SelectArrayQuery";
+            return "Json";
+          }
         }
     }
     return "Json";
@@ -178,6 +180,7 @@ const getComponent = (property: IProperty) => {
   };
 
   const nameComp = dynamicComp.find((item) => item.name === getControlName());
+
   if (!nameComp) console.error(`controlName not declared: ${getControlName()}`);
   return nameComp.comp;
 };
@@ -186,38 +189,19 @@ const getComponent = (property: IProperty) => {
 <template>
   <!-- Validation rules are provided by a Computed 
   :model and :rules are needed for validation rules. Do not mess with them! You will regret it-->
-  <el-form
-    ref="formEl"
-    :model="modelValue"
-    :rules="validationRules"
-    labelWidth="100px"
-    labelPosition="left"
-    :show-message="formMode.startsWith('Edit')"
-  >
+  <el-form ref="formEl" :model="modelValue" :rules="validationRules" labelWidth="100px" labelPosition="left"
+    :show-message="formMode.startsWith('Edit')">
     <div v-for="(property, propertyName) in properties" :key="propertyName">
       <!-- Skip form item if formMode is Readonly Dense and modelValue is empty -->
       <!-- :prop is needed for validation rules. Do not mess with it! -->
-      <el-form-item
-        class="ar-form-item"
-        v-if="
-          notReadonlyDenseAndEmpty(formMode, modelValue[propertyName], property.type)
-        "
-        :prop="propertyName"
-      >
+      <el-form-item class="ar-form-item" v-if="notReadonlyDenseAndEmpty(formMode, modelValue[propertyName], property.type)
+        " :prop="propertyName">
         <!-- Label with tooltip. -->
         <template #label>
           <span>{{ property.title + " " }}</span>
-          <el-tooltip
-            v-if="property.description"
-            effect="light"
-            :content="property.description"
-            raw-content
-          >
+          <el-tooltip v-if="property.description" effect="light" :content="property.description" raw-content>
             <svg class="icon" height="1em" width="1em" color="blue">
-              <use
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                :xlink:href="'toolbar-symbols.svg#el-icon-info'"
-              ></use>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'toolbar-symbols.svg#el-icon-info'"></use>
             </svg>
           </el-tooltip>
         </template>
@@ -232,16 +216,9 @@ const getComponent = (property: IProperty) => {
             - We use the v-model pattern to send/recieve data to/from child components. 
               Below, we watch for changes to modelValue and emit input events accordingly.
            -->
-        <component
-          :is="getComponent(property)"
-          class="ar-control"
-          v-model="modelValue[propertyName]"
-          :property="property"
-          :readonly="formMode.startsWith('Readonly')"
-          :required="requiredArr.includes(propertyName)"
-          :hash-level="hashLevel"
-          :form-mode="formMode"
-        ></component>
+        <component :is="getComponent(property)" class="ar-control" v-model="modelValue[propertyName]" :property="property"
+          :readonly="formMode.startsWith('Readonly')" :required="requiredArr.includes(propertyName)"
+          :hash-level="hashLevel" :form-mode="formMode"></component>
       </el-form-item>
     </div>
   </el-form>
@@ -251,9 +228,11 @@ const getComponent = (property: IProperty) => {
 .ar-json-schema-form {
   max-width: 750px;
 }
+
 .icon {
   margin-left: 5px;
 }
+
 /* Item bottom margin */
 .el-form-item {
   margin-bottom: 8px;
@@ -268,6 +247,7 @@ const getComponent = (property: IProperty) => {
 .el-form-item.is-error .el-textarea__inner:focus {
   border-color: #f56c6c88;
 }
+
 .el-form-item.is-success .el-input__inner,
 .el-form-item.is-success .el-input__inner:focus,
 .el-form-item.is-success .el-textarea__inner,

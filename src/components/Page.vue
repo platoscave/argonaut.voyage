@@ -26,7 +26,7 @@ import Tree from "~/components/widgets/Tree.vue";
 import Validate from "~/components/widgets/simpleJson/Validate.vue";
 
 const props = defineProps({
-  hashLevel: Number,
+  hashLevel: { Number, default: 0 },
 });
 
 const { selectedObjId, pageId, selectedTab } = useHashDissect(props.hashLevel);
@@ -48,7 +48,7 @@ interface IPage {
   }[];
 }
 
-const pageObj = useLiveQuery<IPage>(() => db.state.get(pageId.value), [pageId]);
+const pageObj = useLiveQuery<IPage>(() => db.table('state').get(pageId.value), [pageId]);
 
 //watch(pageObj, (pageObj) => console.log("pageObj", pageObj));
 
@@ -69,15 +69,14 @@ const dynamicComp = [
   { name: "Validate", comp: Validate },
 ];
 const getComponent = (widgetName: string = "") => {
-  console.log('widgetName', widgetName)
   const nameComp = dynamicComp.find((item) => item.name === widgetName);
-  if (!nameComp) console.error(`widgetName not declared: ${widgetName}`);
+  if (!nameComp) throw(`widgetName not declared: ${widgetName}`);
   return nameComp.comp;
 };
 
-const onTabChange = (evt) => {
-  console.log("evt", evt);
-  console.log("evt", pageObj.value.tabs[parseInt(evt)].pageId);
+const onTabChange = (evt: any) => {
+  //console.log("evt", evt);
+  //console.log("evt", pageObj.value.tabs[parseInt(evt)].pageId);
 
   updateHashWithSelectedTab(props.hashLevel, evt);
   const nextlevelPageId = pageObj.value.tabs[parseInt(evt)].pageId;
@@ -99,7 +98,6 @@ const onTabChange = (evt) => {
             <!-- Create a widget depending on display type -->
             <!-- If there is only one widget, then give it the full height -->
             <!-- Remove the spaces from widgetType to get widgetName -->
-            <h1>{{ widget.widgetType }}</h1>
             <component :is="getComponent(widget.widgetType)" :class="{ 'ar-full-height': pageObj.tabs[0].widgets.length }"
               :hash-level="hashLevel" :widget-obj="widget">
             </component>

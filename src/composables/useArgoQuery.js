@@ -215,6 +215,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
         // If there is an idsArrayPath use it to get an array of ids
         if (queryObj.idsArrayPath) {
 
+
           // apply jsonPath to selector results to get an array of ids
           if (!queryObj.idsArrayPath.path || !queryObj.idsArrayPath.indexName) throw new Error('Ids Array Path must have a idsArrayPath and indexName')
           const idsArr = JSONPath({ path: queryObj.idsArrayPath.path, json: items });
@@ -239,6 +240,13 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
             whereClause[queryObj.idsArrayPath.indexName] = id
             return liveQuery(() => db.state.where(whereClause).toArray())
           })
+
+          if (items[0] === '5ucwmdby4wox') {
+            console.log('TRACE PATH')
+            console.log(items)
+            console.log(queryRes)
+            debugger
+          }
 
 
           // Concatenate all of the observable arrays into a single observable array

@@ -13,10 +13,5 @@ const props = defineProps({
     @input="$emit('update:modelValue', $event)"
   
   -->
-  <el-input
-    v-else
-    autosize
-    v-model="modelValue"
-    @change="$emit('update:modelValue', $event)"
-  ></el-input>
+  <el-input v-else autosize v-model="modelValue" @change="$emit('update:modelValue', $event)"></el-input>
 </template>

@@ -115,7 +115,7 @@ onMounted(async () => {
   window.addEventListener('unhandledrejection', err => {
     ElMessage({
       showClose: true,
-      message: err.message,
+      message: err.message ? err.message : err,
       type: "error",
       duration: 5000,
     });

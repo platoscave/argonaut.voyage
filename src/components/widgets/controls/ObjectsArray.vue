@@ -64,9 +64,11 @@ const props = defineProps({
   border-style: none;
   position: relative;
 }
+
 .ar-subform-background:not(:last-child) {
   margin-bottom: 10px;
 }
+
 /* Icons */
 .el-icon-close {
   height: 1em;
@@ -80,6 +82,7 @@ const props = defineProps({
   z-index: 20;
   border-radius: 50%;
 }
+
 .el-icon-plus {
   height: 1em;
   width: 1em;
@@ -89,7 +92,7 @@ const props = defineProps({
   z-index: 20;
   border-radius: 50%;
 }
+
 .not-readonly:hover {
   cursor: pointer;
-}
-</style>
+}</style>
