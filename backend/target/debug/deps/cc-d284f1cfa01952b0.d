@@ -1,0 +1,11 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libcc-d284f1cfa01952b0.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/mod.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/find_tools.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/command_helpers.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/tool.rs
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libcc-d284f1cfa01952b0.rlib: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/mod.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/find_tools.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/command_helpers.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/tool.rs
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/cc-d284f1cfa01952b0.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/mod.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/find_tools.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/command_helpers.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/tool.rs
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/mod.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/windows/find_tools.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/command_helpers.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cc-1.0.89/src/tool.rs:

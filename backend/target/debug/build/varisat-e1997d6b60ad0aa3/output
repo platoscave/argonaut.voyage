@@ -1,0 +1,4 @@
+rerun-if-env-changed=VARISAT_HAVE_DRAT_TRIM
+cargo:warning=drat-trim proof checker not found, some tests will be disabled: No such file or directory (os error 2)
+rerun-if-env-changed=VARISAT_HAVE_RATE
+cargo:warning=rate proof checker not found, some tests will be disabled: No such file or directory (os error 2)

@@ -1,0 +1,11 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libsec1-f01d319fec2afc5b.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/point.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/parameters.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/private_key.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/traits.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/../README.md
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/sec1-f01d319fec2afc5b.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/point.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/parameters.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/private_key.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/traits.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/../README.md
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/point.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/error.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/parameters.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/private_key.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/traits.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sec1-0.7.3/src/../README.md:

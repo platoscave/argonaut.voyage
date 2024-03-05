@@ -1,0 +1,10 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libsubprocess-abee8fba40d4bc0b.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/builder.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/communicate.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/popen.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/posix.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/os_common.rs
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/subprocess-abee8fba40d4bc0b.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/builder.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/communicate.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/popen.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/posix.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/os_common.rs
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/builder.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/communicate.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/popen.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/posix.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subprocess-0.2.9/src/os_common.rs:

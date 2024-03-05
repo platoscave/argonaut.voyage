@@ -1,0 +1,10 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libbitcoin_private-f9fcb5cf68c2ad79.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/mod.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/buf_encoder.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/display.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/macros.rs
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/bitcoin_private-f9fcb5cf68c2ad79.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/mod.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/buf_encoder.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/display.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/macros.rs
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/error.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/mod.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/buf_encoder.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/hex/display.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitcoin-private-0.1.0/src/macros.rs:

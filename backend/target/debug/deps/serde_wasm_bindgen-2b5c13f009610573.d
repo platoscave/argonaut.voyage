@@ -1,0 +1,9 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/libserde_wasm_bindgen-2b5c13f009610573.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/de.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/ser.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/../README.md
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/serde_wasm_bindgen-2b5c13f009610573.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/de.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/error.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/ser.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/../README.md
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/de.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/error.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/ser.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-wasm-bindgen-0.6.5/src/../README.md:

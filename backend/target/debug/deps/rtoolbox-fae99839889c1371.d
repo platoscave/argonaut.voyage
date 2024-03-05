@@ -1,0 +1,10 @@
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/librtoolbox-fae99839889c1371.rmeta: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/atty.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/fix_line_issues.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/print_tty.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_string.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_vec.rs
+
+/home/platoscave/git/argonaut.voyage/backend/argonaut/target/debug/deps/rtoolbox-fae99839889c1371.d: /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/lib.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/atty.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/fix_line_issues.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/print_tty.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_string.rs /home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_vec.rs
+
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/lib.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/atty.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/fix_line_issues.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/print_tty.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_string.rs:
+/home/platoscave/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rtoolbox-0.0.2/src/safe_vec.rs:
