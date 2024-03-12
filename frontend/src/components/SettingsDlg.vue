@@ -43,18 +43,18 @@ const saveToStatic = async () => {
 }
 
 const addTestAccounts = async () => {
-  //EosServices.addTestAccounts(this.$message);
+  //PsibaseServices.addTestAccounts(this.$message);
 };
 
-const staticToEos = async () => { };
+const staticToPsibase = async () => { };
 
-const cacheToEos = async () => {
-  //EosServices.cacheToEos(this.$message);
+const cacheToPsibase = async () => {
+  //PsibaseServices.cacheToPsibase(this.$message);
 };
 
-const eraseAllEos = async () => {
+const eraseAllPsibase = async () => {
   try {
-    ElMessage.success("EOS documents table erased");
+    ElMessage.success("Psibase documents table erased");
   } catch (err) {
     ElMessage({
       showClose: true,
@@ -66,7 +66,7 @@ const eraseAllEos = async () => {
   }
 };
 
-const testEos = async () => {
+const testPsibase = async () => {
   try {
     ElMessage.success("Test function called");
   } catch (err) {
@@ -169,28 +169,6 @@ const testQuery = async () => {
   // }
 };
 
-const generatecpp = async () => {
-  try {
-    const data = await GenerateCpp.GenerateCpp("gzthjuyjca4s");
-    const csv_mime_type = "text/cpp";
-    const blob = new Blob([data], { type: csv_mime_type });
-    const anchor = document.createElement("a");
-    anchor.setAttribute("download", "argonautvoya.cpp");
-    const url = URL.createObjectURL(blob);
-    anchor.setAttribute("href", url);
-    anchor.click();
-    URL.revokeObjectURL(url);
-    ElMessage.success("Cpp Generated");
-  } catch (err) {
-    ElMessage({
-      showClose: true,
-      message: err.message,
-      type: "error",
-      duration: 5000,
-    });
-    console.error(err);
-  }
-};
 </script>
 
 <template>
@@ -214,30 +192,30 @@ const generatecpp = async () => {
 
     <ElRow>
       <ElButton type="primary" :dark="isDark" plain @click="addTestAccounts">
-        Add Tests Accounts to EOS
+        Add Tests Accounts to Psibase
       </ElButton>
     </ElRow>
 
     <ElRow>
-      <ElButton type="primary" :dark="isDark" plain @click="staticToEos">
-        From Static to EOS
+      <ElButton type="primary" :dark="isDark" plain @click="staticToPsibase">
+        From Static to Psibase
       </ElButton>
     </ElRow>
 
     <ElRow>
-      <ElButton type="primary" :dark="isDark" plain @click="cacheToEos">
-        From Cache to EOS
+      <ElButton type="primary" :dark="isDark" plain @click="cacheToPsibase">
+        From Cache to Psibase
       </ElButton>
     </ElRow>
 
     <ElRow>
-      <ElButton type="primary" :dark="isDark" plain @click="eraseAllEos">
-        Erase Documents Table in EOS
+      <ElButton type="primary" :dark="isDark" plain @click="eraseAllPsibase">
+        Erase Documents Table in Psibase
       </ElButton>
     </ElRow>
 
     <ElRow>
-      <ElButton type="primary" :dark="isDark" plain @click="testEos">Call Test Function</ElButton>
+      <ElButton type="primary" :dark="isDark" plain @click="testPsibase">Call Test Function</ElButton>
     </ElRow>
 
     <ElRow>
@@ -254,9 +232,6 @@ const generatecpp = async () => {
       <ElButton type="primary" :dark="isDark" plain @click="testQuery">Test Query</ElButton>
     </ElRow>
 
-    <ElRow>
-      <ElButton type="primary" :dark="isDark" plain @click="generatecpp">Generate Cpp</ElButton>
-    </ElRow>
   </ElDialog>
 </template>
 

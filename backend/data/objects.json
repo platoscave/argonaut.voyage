@@ -1,0 +1,17 @@
+[
+    {
+        "key": "tllcmvjazmz2",
+        "name": "Root Class Query",
+        "classId": "q234ooehrk5v",
+        "ownerId": "argonautvoya",
+        "selector": "Where Clause",
+        "subQueryIds": [
+            "2jfs4is4icct",
+            "x1lrv2xdq2tu"
+        ],
+        "where": {
+            "key": "gzthjuyjca4s"
+        }
+    }
+]
+Ww0KICAgIHsNCiAgICAgICAgImtleSI6ICJ0bGxjbXZqYXptejIiLA0KICAgICAgICAibmFtZSI6ICJSb290IENsYXNzIFF1ZXJ5IiwNCiAgICAgICAgImNsYXNzSWQiOiAicTIzNG9vZWhyazV2IiwNCiAgICAgICAgIm93bmVySWQiOiAiYXJnb25hdXR2b3lhIiwNCiAgICAgICAgInNlbGVjdG9yIjogIldoZXJlIENsYXVzZSIsDQogICAgICAgICJzdWJRdWVyeUlkcyI6IFsNCiAgICAgICAgICAgICIyamZzNGlzNGljY3QiLA0KICAgICAgICAgICAgIngxbHJ2MnhkcTJ0dSINCiAgICAgICAgXSwNCiAgICAgICAgIndoZXJlIjogew0KICAgICAgICAgICAgImtleSI6ICJnenRoanV5amNhNHMiDQogICAgICAgIH0NCiAgICB9DQpd

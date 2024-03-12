@@ -6,6 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-graphql = "4.0.1"
+base64 = "0.22.0"
+json = "0.12.4"
 psibase = "0.6.0"
 regex = "1.10.3"
 serde = { version = "1.0.197", features = ["derive"] }
