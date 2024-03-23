@@ -1,125 +1,113 @@
-#[allow(non_snake_case)]
+#![allow(non_snake_case)]
+#![allow(dead_code, unused_variables)]
+mod classes;
+mod next_step;
+mod objects;
+
 #[psibase::service]
 mod service {
     use async_graphql::connection::Connection;
     use async_graphql::*;
-    use base64::prelude::*;
-    use json::*;
-    use psibase::*;
+    //use json::*;
+    use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
 
-    // Same as before
-    #[table(name = "ObjectsTable", index = 0)]
+    #[table(name = "ClassesTable", index = 0)]
     #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
-    pub struct Objects {
+    pub struct ClassRow {
         #[primary_key]
-        key: AccountNumber,
-        class_id: AccountNumber,
-        content: String,
+        pub key: AccountNumber,
+        pub superclass_id: AccountNumber,
+        pub content: String,
     }
-
-    impl Objects {
+    // impl ClassRow {
+    //     #[primary_key]
+    //     fn get_primary_key(&self) -> String {
+    //         self.key.to_owned()
+    //     }
+    // }
+    impl ClassRow {
         #[secondary_key(1)]
-        fn by_class_id(&self) -> (AccountNumber, AccountNumber) {
-            (self.class_id, self.key)
+        fn by_superclass_id(&self) -> (AccountNumber, AccountNumber) {
+            (self.superclass_id.to_owned(), self.key.to_owned())
         }
     }
 
-    #[action]
-    fn add(a: i32, b: i32) -> i32 {
-        println!("a {} b {}", a, b);
-        a + b
+    #[table(name = "ObjectsTable", index = 1)]
+    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
+    pub struct ObjectRow {
+        #[primary_key]
+        pub key: AccountNumber,
+        pub class_id: AccountNumber,
+        pub content: String,
     }
 
+    impl ObjectRow {
+        #[secondary_key(1)]
+        fn by_class_id(&self) -> (AccountNumber, AccountNumber) {
+            (self.class_id.to_owned(), self.key.to_owned())
+        }
+    }
     #[action]
-    pub fn upsert(objects_base64: String) -> u64 {
-        // base64 to array
-        let objects_bytes = BASE64_STANDARD
-            .decode(&objects_base64)
-            .expect("Unable to decode objects_arr_str");
+    pub fn upsert(payload: String) -> u64 {
+        //psibase::check();
+        let name1 = AccountNumber::from_exact("gzthjuyjcaas");
+        match name1 {
+            Ok(account) => println!("String {}", account),
+            Err(why) => println!("Error {}", why)
+        }
 
-        // array to string
-        let objects_arr_str =
-            String::from_utf8(objects_bytes).expect("Our bytes should be valid utf8");
-        println!("String {}", objects_arr_str);
+        //println!("String {}", payload);
 
         // string to json Value
-        let objects_arr: Value =
-            serde_json::from_str(&objects_arr_str).expect("Unable to parse objects_arr");
+        let json_arr_val: Value =
+            serde_json::from_str(&payload).expect("Unable to parse objects_arr");
 
         // get objects array
-        let objects = objects_arr
+        let json_arr_vec = json_arr_val
             .as_array()
             .expect("Expected an array of objects");
 
         // For each object
-        for object_json in objects {
-            // Get key
-            let key = object_json["key"].as_str().expect("Unable to parse key");
-            println!("Key is {}", key);
+        for json_object in json_arr_vec {
+            //println!("String {}", json_object);
 
-            // Validate classId
-            let class_id = object_json["classId"]
-                .as_str()
-                .expect("Unable to parse classId");
-            // lookup classId
-            println!("class_id is {}", class_id);
-
-            // Validate assocs, array of assocs
-
-            // for (key, value) in object_json.as_object().expect("Unable to parse object") {
-            //     let last_two = {
-            //         let split_pos = key.char_indices().nth_back(1).unwrap().0;
-            //         &key[split_pos..]
-            //     };
-            //     println!("Id {:?}", last_two);
-            //     if last_two == "Id" {
-            //         if let Some(object_id) = value.as_str().expect("Unable to parse object_id") {
-            //             println!("Matched {:?}!", object_id);
-            //             // lookup object_id
-            //         }
-            //     }
-            // }
-
-            // Get the compiled validator by classId
-
-            // Validate object by validator
-
-            // Write json
-            let objects_table = ObjectsTable::new();
-            objects_table
-                .put(&Objects {
-                    key: key.into(),
-                    class_id: class_id.into(),
-                    content: object_json.to_string(),
-                })
-                .unwrap();
+            // If the object has a classId, its an object, otherwise its a class
+            if json_object["classId"].is_string() {
+                crate::objects::upsert_object(json_object);
+            } else {
+                crate::classes::upsert_class(json_object);
+            }
         }
-        300
-    }
-
-    pub fn check_objectmodel(objectId: &str) {
-        // look for orphan objects (look out for loops)
-    }
-
-    pub fn remove_all() {
-        //
-    }
-
-    pub fn remove_object(key: &str) {
-        //
+        200
     }
     struct Query;
     #[Object]
     impl Query {
+        async fn classes(
+            &self,
+            first: Option<i32>,
+            last: Option<i32>,
+            before: Option<String>,
+            after: Option<String>,
+        ) -> async_graphql::Result<Connection<RawKey, ClassRow>> {
+            TableQuery::new(ClassesTable::new().get_index_pk())
+                .first(first)
+                .last(last)
+                .before(before)
+                .after(after)
+                .query()
+                .await
+        }
+
         async fn objects(
             &self,
             first: Option<i32>,
             last: Option<i32>,
             before: Option<String>,
             after: Option<String>,
-        ) -> async_graphql::Result<Connection<RawKey, Objects>> {
+        ) -> async_graphql::Result<Connection<RawKey, ObjectRow>> {
             TableQuery::new(ObjectsTable::new().get_index_pk())
                 .first(first)
                 .last(last)
@@ -129,15 +117,15 @@ mod service {
                 .await
         }
 
-        async fn objectsByFrom(
+        async fn objectsByClassId(
             &self,
-            from: AccountNumber,
+            classId: AccountNumber,
             first: Option<i32>,
             last: Option<i32>,
             before: Option<String>,
             after: Option<String>,
-        ) -> async_graphql::Result<Connection<RawKey, Objects>> {
-            TableQuery::subindex::<u64>(ObjectsTable::new().get_index_by_class_id(), &from)
+        ) -> async_graphql::Result<Connection<RawKey, ObjectRow>> {
+            TableQuery::subindex::<u64>(ObjectsTable::new().get_index_by_class_id(), &classId)
                 .first(first)
                 .last(last)
                 .before(before)

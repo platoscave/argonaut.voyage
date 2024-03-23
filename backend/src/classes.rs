@@ -1,64 +1,75 @@
 #![allow(non_snake_case)]
-use jsonschema::{Draft, JSONSchema};
+#![allow(dead_code, unused_variables)]
+use crate::service::{ClassRow, ClassesTable};
+//use jsonschema::{Draft, JSONSchema};
+use psibase::Table;
+use psibase::{AccountNumber, *};
 use serde_json::Value;
 
-pub fn upsert_classes(classes_arr: Value) {
-    let classes = classes_arr
-        .as_array()
-        .expect("Expected an array of class objects");
-    for schema_json in classes {
-        upsert_class(schema_json);
-    }
-}
+pub fn upsert_class(schema_val: &Value) {
+    // Get key
+    let key_str = schema_val["key"].as_str().unwrap();
+    let key: AccountNumber = AccountNumber::from_exact(key_str).unwrap();
+    println!("Key is {}", key_str);
 
-pub fn upsert_class(schema_json: &Value) {
-    let key = schema_json["key"].as_str().expect("Unable to parse key");
-
-    // validate superclassId, except for root class
-    if key != "gzthjuyjca4s" {
-        let superclassId = schema_json["superclassId"]
-            .as_str()
-            .expect("Unable to parse superclassId");
-        // get superclassId
+    // Validate superclassId
+    let mut superclass_id: AccountNumber = AccountNumber::from(0);
+    if key_str != "spiderman" {
+        let superclass_id_str = schema_val["superclassId"].as_str().expect("Unable to parse superclassId");
+        superclass_id = AccountNumber::from_exact(superclass_id_str).unwrap();
+        // lookup classId
     }
+
+    println!("superclass_id number is {}", superclass_id);
 
     // validate assocs, array of assocs
-    for (_, value) in schema_json["properties"]
-        .as_object()
-        .expect("Unable to parse property")
-    {
-        if let Some(classId) = value["argoQuery"]["where"]["classId"].as_str() {
-            println!("Matched {:?}!", classId);
-            // lookup classid
-        }
-        if let Some(classId) = value["items"]["argoQuery"]["where"]["classId"].as_str() {
-            println!("Matched {:?}!", classId);
-            // lookup classid
-        }
-    }
+    // for (_, value) in schema_val["properties"]
+    //     .as_object()
+    //     .expect("Unable to parse property")
+    // {
+    //     if let Some(classId) = value["argoQuery"]["where"]["classId"].as_str() {
+    //         println!("Matched {:?}!", classId);
+    //         // lookup classid
+    //     }
+    //     if let Some(classId) = value["items"]["argoQuery"]["where"]["classId"].as_str() {
+    //         println!("Matched {:?}!", classId);
+    //         // lookup classid
+    //     }
+    // }
 
     // write json
 
-    generate_validators(schema_json)
+    //let validator = get_validator(schema_val);
+    get_argoquery_paths(schema_val);
+
+    // Write json
+    let new_record = ClassRow {
+        key,
+        superclass_id,
+        content: schema_val.to_string(),
+    };
+    ClassesTable::new().put(&new_record).unwrap();
 }
 
-pub fn generate_validators(schema_json: &Value) {
-    // get class json
-    //merge_ancestor_classes(key);
+//fn get_validator(schema_val: &Value) -> JSONSchema {
+// get class json
+//get_merged_ancestors(key);
 
-    // compile validator
-    let compiled_schema = JSONSchema::options()
-        .with_draft(Draft::Draft7)
-        .compile(&schema_json)
-        .expect("A valid schema_json");
+// compile validator
+// JSONSchema::options()
+//     .with_draft(Draft::Draft7)
+//     .compile(&schema_val)
+//     .expect("A valid schema_val")
 
-    // store validator
-    // get child_classes
-    // forEach of the child_classes
-    //     generate_validators(key)
-}
+// store validator
+// get child_classes
+// forEach of the child_classes
+//     generate_validators(key)
+//}
 
-pub fn merge_ancestor_classes(key: &str) {
+fn get_argoquery_paths(schema_val: &Value) {}
+
+fn get_merged_ancestors(key: &str) {
     //
 }
 
@@ -66,10 +77,10 @@ pub fn check_classmodel(key: &str) {
     // look for orphan classes (look out for loops)
 }
 
-pub fn remove_all_classes() {
+pub fn erase_all_classes() {
     //
-}
-
-pub fn remove_class(key: &str) {
-    //
+    //ClassesTable::new().get_index(idx)
+    //for i in ClassesTable::new(). {
+    //println!("> {}", i);
+    //}
 }

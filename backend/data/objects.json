@@ -14,4 +14,7 @@
         }
     }
 ]
+
+[\r\n    {\r\n        \"key\": \"brucewayne\",\r\n        \"name\": \"Root Class Query\",\r\n        \"classId\": \"anthonystark\",\r\n        \"ownerId\": \"argonautvoya\",\r\n        \"selector\": \"Where Clause\",\r\n        \"subQueryIds\": [\r\n            \"2jfs4is4icct\",\r\n            \"x1lrv2xdq2tu\"\r\n        ],\r\n        \"where\": {\r\n            \"key\": \"gzthjuyjca4s\"\r\n        }\r\n    }\r\n]
+
 Ww0KICAgIHsNCiAgICAgICAgImtleSI6ICJ0bGxjbXZqYXptejIiLA0KICAgICAgICAibmFtZSI6ICJSb290IENsYXNzIFF1ZXJ5IiwNCiAgICAgICAgImNsYXNzSWQiOiAicTIzNG9vZWhyazV2IiwNCiAgICAgICAgIm93bmVySWQiOiAiYXJnb25hdXR2b3lhIiwNCiAgICAgICAgInNlbGVjdG9yIjogIldoZXJlIENsYXVzZSIsDQogICAgICAgICJzdWJRdWVyeUlkcyI6IFsNCiAgICAgICAgICAgICIyamZzNGlzNGljY3QiLA0KICAgICAgICAgICAgIngxbHJ2MnhkcTJ0dSINCiAgICAgICAgXSwNCiAgICAgICAgIndoZXJlIjogew0KICAgICAgICAgICAgImtleSI6ICJnenRoanV5amNhNHMiDQogICAgICAgIH0NCiAgICB9DQpd
