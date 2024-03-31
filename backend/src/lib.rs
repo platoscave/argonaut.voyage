@@ -3,6 +3,7 @@
 mod classes;
 mod next_step;
 mod objects;
+//mod utils;
 
 #[psibase::service]
 mod service {
@@ -12,6 +13,7 @@ mod service {
     use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
+    //crate::utils::ArgoKey;
 
     #[table(name = "ClassesTable", index = 0)]
     #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
@@ -26,6 +28,7 @@ mod service {
     //     fn get_primary_key(&self) -> String {
     //         self.key.to_owned()
     //     }
+
     // }
     impl ClassRow {
         #[secondary_key(1)]
@@ -42,7 +45,12 @@ mod service {
         pub class_id: AccountNumber,
         pub content: String,
     }
-
+    // impl ObjectRow {
+    //     #[primary_key]
+    //     fn get_primary_key(&self) -> String {
+    //         self.key.to_owned()
+    //     }
+    // }
     impl ObjectRow {
         #[secondary_key(1)]
         fn by_class_id(&self) -> (AccountNumber, AccountNumber) {
@@ -50,24 +58,27 @@ mod service {
         }
     }
     #[action]
-    pub fn upsert(payload: String) -> u64 {
-        //psibase::check();
-        let name1 = AccountNumber::from_exact("gzthjuyjcaas");
-        match name1 {
-            Ok(account) => println!("String {}", account),
-            Err(why) => println!("Error {}", why)
-        }
+    pub fn upsert(payload: String) {
+        //println!("payload {:#?}", payload);
 
-        //println!("String {}", payload);
+        // String to json Value
+        let res = serde_json::from_str(&payload);
+        check(
+            res.is_ok(),
+            &format!("\nUnable to parse payload:\n{:#?}", res),
+        );
+        let payload_val: Value = res.unwrap();
 
-        // string to json Value
-        let json_arr_val: Value =
-            serde_json::from_str(&payload).expect("Unable to parse objects_arr");
-
-        // get objects array
-        let json_arr_vec = json_arr_val
-            .as_array()
-            .expect("Expected an array of objects");
+        // Get objects array
+        let res = payload_val.as_array();
+        check(
+            res.is_some(),
+            &format!(
+                "\nExpected an array of json objects. \nGot: {:#?}",
+                payload_val
+            ),
+        );
+        let json_arr_vec = res.unwrap();
 
         // For each object
         for json_object in json_arr_vec {
@@ -80,7 +91,6 @@ mod service {
                 crate::classes::upsert_class(json_object);
             }
         }
-        200
     }
     struct Query;
     #[Object]
@@ -190,4 +200,20 @@ mod service {
 
     // serve_simple_ui::<Wrapper>(&request)
     //}
+    use rand::prelude::*;
+    use rand_chacha::rand_core::SeedableRng;
+    #[action]
+    fn randomKey(seed: u64) {
+        let number = 300;
+        let mut rng = SmallRng::seed_from_u64(seed);
+        for num in 0..number {
+            let value: u64 = rng.gen();
+            let name = AccountNumber::new(value);
+            if name.to_string().len() > 7 {
+                if !name.to_string().contains("-") {
+                    println!("\"{}\",", name);
+                }
+            }
+        }
+    }
 }

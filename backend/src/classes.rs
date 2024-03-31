@@ -3,24 +3,45 @@
 use crate::service::{ClassRow, ClassesTable};
 //use jsonschema::{Draft, JSONSchema};
 use psibase::Table;
-use psibase::{AccountNumber, *};
+use psibase::*;
 use serde_json::Value;
 
 pub fn upsert_class(schema_val: &Value) {
-    // Get key
-    let key_str = schema_val["key"].as_str().unwrap();
-    let key: AccountNumber = AccountNumber::from_exact(key_str).unwrap();
-    println!("Key is {}", key_str);
+    // Get the key
+    let res = schema_val["key"].as_str();
+    check(
+        res.is_some(),
+        &format!("\nUnable to parse key\nGot: {:#?}", schema_val),
+    );
+    let key_str = res.unwrap();
+    let res = AccountNumber::from_exact(&key_str);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
+    );
+    let key = res.unwrap();
 
-    // Validate superclassId
-    let mut superclass_id: AccountNumber = AccountNumber::from(0);
-    if key_str != "spiderman" {
-        let superclass_id_str = schema_val["superclassId"].as_str().expect("Unable to parse superclassId");
-        superclass_id = AccountNumber::from_exact(superclass_id_str).unwrap();
-        // lookup classId
+    // Get superclassId
+    let superclass_id_str = schema_val["superclassId"].as_str().unwrap_or_default();
+    let res = AccountNumber::from_exact(&superclass_id_str);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid account name: {:#?}\nsuperclass_id: {}\nkey: {}", res, superclass_id_str, key_str),
+    );
+    let superclass_id = res.unwrap();
+    // Validate superclassId. Exception: root class
+    if key != AccountNumber::from_exact("spiderman").unwrap() {
+        let row_opt = ClassesTable::new().get_index_pk().get(&superclass_id);
+        check(
+            row_opt.is_some(),
+            &format!(
+                "\nUnable to get superclassId: {}.\nkey: {}",
+                superclass_id, key
+            ),
+        );
     }
 
-    println!("superclass_id number is {}", superclass_id);
+    //println!("superclass_id number is {}", superclass_id);
 
     // validate assocs, array of assocs
     // for (_, value) in schema_val["properties"]
@@ -43,12 +64,16 @@ pub fn upsert_class(schema_val: &Value) {
     get_argoquery_paths(schema_val);
 
     // Write json
-    let new_record = ClassRow {
+    let new_row = ClassRow {
         key,
         superclass_id,
         content: schema_val.to_string(),
     };
-    ClassesTable::new().put(&new_record).unwrap();
+    let res = ClassesTable::new().put(&new_row);
+    check(
+        res.is_ok(),
+        &format!("\nUnable to put class row: {:#?}\nkey: {}", res, key),
+    );
 }
 
 //fn get_validator(schema_val: &Value) -> JSONSchema {

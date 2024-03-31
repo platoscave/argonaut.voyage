@@ -9,6 +9,9 @@ edition = "2021"
 async-graphql = "4.0.1"
 json = "0.12.4"
 psibase = "0.6.0"
+rand = { version = "0.8.5", features = ["small_rng"] }
+rand_chacha = "0.3.1"
+
 regex = "1.10.3"
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.114"

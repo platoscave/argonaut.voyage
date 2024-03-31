@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
-use crate::service::{ObjectRow, ObjectsTable};
+use crate::service::{ObjectRow, ObjectsTable, ClassesTable};
 use psibase::Table;
 use psibase::{AccountNumber, *};
 
@@ -8,15 +8,39 @@ use psibase::{AccountNumber, *};
 use serde_json::Value;
 
 pub fn upsert_object(object_val: &Value) {
-    // Get key
-    let key_str = object_val["key"].as_str().unwrap();
-    let key: AccountNumber = AccountNumber::from_exact(key_str).unwrap();
-    //println!("Key is {}", key_str);
+    // Get the key
+    let res = object_val["key"].as_str();
+    check(
+        res.is_some(),
+        &format!("\nUnable to parse key\nGot: {:#?}", object_val),
+    );
+    let key_str = res.unwrap();
+    let res = AccountNumber::from_exact(&key_str);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
+    );
+    let key = res.unwrap();
 
+    // Get classId
+    let res = object_val["classId"].as_str();
+    check(
+        res.is_some(),
+        &format!("\nUnable to parse classId.\nGot: {:#?}", object_val),
+    );
+    let class_id_str = res.unwrap();
+    let res = AccountNumber::from_exact(&class_id_str);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid account name: {:#?}\nclass_id_str: {}\nkey: {}", res, class_id_str, key_str),
+    );
+    let class_id = res.unwrap();
     // Validate classId
-    let class_id_str = object_val["classId"].as_str().unwrap();
-    let class_id: AccountNumber = AccountNumber::from_exact(class_id_str).unwrap();
-    // lookup classId
+    let row_opt = ClassesTable::new().get_index_pk().get(&class_id);
+    check(
+        row_opt.is_some(),
+        &format!("\nUnable to get classId: {}.\nkey: {}", class_id, key),
+    );
 
     println!("class_id number is {}", class_id);
 
@@ -41,13 +65,16 @@ pub fn upsert_object(object_val: &Value) {
     // Validate object by validator
 
     // Write json
-    let objects_table = ObjectsTable::new();
-    let new_record = ObjectRow {
+    let new_row = ObjectRow {
         key,
         class_id,
         content: object_val.to_string(),
     };
-    ObjectsTable::new().put(&new_record).unwrap();
+    let res = ObjectsTable::new().put(&new_row);
+    check(
+        res.is_ok(),
+        &format!("Unable to put object row: {:#?}\nkey: {}", res, key),
+    );
 }
 
 pub fn check_objectmodel(objectId: &str) {

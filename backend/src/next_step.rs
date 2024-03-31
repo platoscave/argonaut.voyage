@@ -14,4 +14,5 @@ pub fn next_step(agreement_id: &str, updated_props: &Value) {
     // validate object by validator
     // validate any assocs / array of assocs
     // write the current_object Value with key, indexes
+    // Update agreement.stepId
 }
