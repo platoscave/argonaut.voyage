@@ -22,6 +22,13 @@ mod service {
         pub key: AccountNumber,
         pub superclass_id: AccountNumber,
         pub content: String,
+        pub argoquery_paths: Vec<ArgoqueryPath>,
+    }
+
+    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
+    pub struct ArgoqueryPath {
+        pub path: Vec<String>,
+        pub class_id: AccountNumber,
     }
     // impl ClassRow {
     //     #[primary_key]
@@ -200,19 +207,63 @@ mod service {
 
     // serve_simple_ui::<Wrapper>(&request)
     //}
+    #[action]
+    pub fn validateQueries() {
+        crate::classes::validate_argoqueries()
+    }
+
+    #[action]
+    fn eraseAll() {
+        crate::objects::erase_all_objects();
+        crate::classes::erase_all_classes();
+    }
+
     use rand::prelude::*;
     use rand_chacha::rand_core::SeedableRng;
     #[action]
     fn randomKey(seed: u64) {
-        let number = 300;
+        /*
         let mut rng = SmallRng::seed_from_u64(seed);
-        for num in 0..number {
+                let mut count = 1;
+        while count < 250 {
             let value: u64 = rng.gen();
             let name = AccountNumber::new(value);
             if name.to_string().len() > 7 {
                 if !name.to_string().contains("-") {
-                    println!("\"{}\",", name);
+                    let res = AccountNumber::from_exact(&name.to_string());
+                    if let Ok(class_id) = res {
+                        println!("-{},", name);
+                        count += 1;
+                    }
                 }
+            }
+        }
+        */
+        let newKeys = vec![
+            "platoscave",
+            "demouser-01",
+            "demouser-02",
+            "demouser-03",
+            "demouser-04",
+            "demouser-05",
+            "demouser-06",
+            "demouser-07",
+            "demouser-08",
+            "demouser-09",
+            "demouser-10",
+            "argonaut",
+            "bikeshop",
+            "clinic",
+            "clinic-desk",
+            "clinic-consult",
+            "bikeshop-desk",
+            "bikeshop-shop",
+        ];
+        let newKeys_iter = newKeys.iter();
+        for name in newKeys_iter {
+            let res = AccountNumber::from_exact(&name.to_string());
+            if let Err(_) = res {
+                println!("{},", name);
             }
         }
     }

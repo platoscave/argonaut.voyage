@@ -1,55 +1,1800 @@
 [
-    {
-        "key": "gzthjuyjca4s",
-        "title": "Process Universe",
-        "description": "<p>The root of all classes and objects</p>",
+  {
+    "key": "universe",
+    "title": "Process Universe",
+    "description": "<p>The root of all classes and objects</p>",
+    "properties": {
+      "key": {
+        "description": "<p>Base32 identifier.</p>",
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "title": "key",
+        "type": "string"
+      },
+      "name": {
+        "placeholder": "Provide a name",
+        "maxLength": 1000,
+        "minLength": 0,
+        "title": "Name",
+        "type": "string"
+      },
+      "classId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "universe"
+          },
+          "sortBy": "title"
+        },
+        "title": "Class",
+        "type": "string"
+      },
+      "description": {
+        "placholder": "Add a description",
+        "maxLength": 10000,
+        "contentMediaType": "text/html",
+        "minLength": 0,
+        "title": "Description",
+        "type": "string"
+      },
+      "icon": {
+        "maxLength": 2000,
+        "contentMediaType": "image/svg+xml",
+        "minLength": 0,
+        "title": "Icon",
+        "type": "string"
+      }
+    },
+    "required": [
+      "key",
+      "classId"
+    ],
+    "type": "object",
+    "classIcon": "ProcessUniverse.svg"
+  },
+  {
+    "key": "agreements",
+    "title": "Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "universe",
+    "properties": {
+      "startDate": {
+        "title": "Request Date",
+        "type": "string"
+      },
+      "expirationDate": {
+        "title": "Expiration Date",
+        "type": "string"
+      },
+      "amount": {
+        "title": "Amount",
+        "type": "number"
+      },
+      "currency": {
+        "title": "Currency",
+        "type": "string"
+      },
+      "consumerId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "accounts"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Consumer",
+        "type": "string"
+      },
+      "providerId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "accounts"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Provider",
+        "type": "string"
+      },
+      "assetId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "assets"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Asset",
+        "type": "string"
+      },
+      "propositionId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "processes"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Agreememt Process",
+        "type": "string"
+      },
+      "currentStepId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "steps"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Step",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "purchase-agree",
+    "title": "Purchase Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "agreements",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Purchase Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "rental-agree",
+    "title": "Rental Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "agreements",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Rental Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      },
+      "unitOfTime": {
+        "enum": [
+          "Half Day",
+          "Day",
+          "Week",
+          "Month",
+          "Year"
+        ],
+        "title": "Duration",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "service-agree",
+    "title": "Service Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "agreements",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Service Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "message-agree",
+    "title": "Message Agreements",
+    "description": "<p>Contracts between accounts about resources</p>",
+    "classIcon": "Agreements.svg",
+    "superClassId": "agreements",
+    "properties": {
+      "recardianContract": {
+        "const": "<div><h1>Message Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "title": "Recardian Contract",
+        "contentMediaType": "text/html",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "accounts",
+    "title": "Accounts",
+    "superClassId": "universe",
+    "ownerId": "argonaut",
+    "properties": {
+      "pageId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "pages"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Page",
+        "type": "string"
+      },
+      "subParagraphIds": {
+        "items": {
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "paragraphs"
+            },
+            "idsArrayPath": {
+              "path": "$[*].key",
+              "indexName": "classId"
+            }
+          },
+          "title": "Sub Ducument",
+          "type": "string"
+        },
+        "title": "First Paragraphs",
+        "type": "array"
+      },
+      "account_name": {
+        "maxLength": 12,
+        "minLength": 12,
+        "title": "Account Name",
+        "type": "string"
+      },
+      "head_block_num": {
+        "title": "Head Block Number",
+        "type": "number"
+      },
+      "head_block_time": {
+        "format": "date-time",
+        "title": "Head Block Time",
+        "type": "string"
+      },
+      "privileged": {
+        "title": "Privileged",
+        "type": "boolean"
+      },
+      "last_code_update": {
+        "format": "date-time",
+        "title": "Last Code Update",
+        "type": "string"
+      },
+      "created": {
+        "format": "date-time",
+        "title": "Created",
+        "type": "string"
+      },
+      "ram_quota": {
+        "title": "Ram Quota",
+        "type": "number"
+      },
+      "net_weight": {
+        "title": "Net Weight",
+        "type": "number"
+      },
+      "cpu_weight": {
+        "title": "Cpu Weight",
+        "type": "number"
+      },
+      "net_limit": {
         "properties": {
-            "key": {
-                "description": "<p>Base32 identifier.</p>",
-                "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                "title": "key",
-                "type": "string"
+          "used": {
+            "title": "Used",
+            "type": "number"
+          },
+          "available": {
+            "title": "Available",
+            "type": "number"
+          },
+          "max": {
+            "title": "Maximum",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "cpu_limit": {
+        "properties": {
+          "used": {
+            "title": "Used",
+            "type": "number"
+          },
+          "available": {
+            "title": "Available",
+            "type": "number"
+          },
+          "max": {
+            "title": "Maximum",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "ram_usage": {
+        "title": "Ram Usage",
+        "type": "number"
+      },
+      "permissions": {
+        "items": {
+          "properties": {
+            "perm_name": {
+              "maxLength": 12,
+              "minLength": 1,
+              "title": "Permission Name",
+              "type": "string"
             },
-            "name": {
-                "placeholder": "Provide a name",
-                "maxLength": 1000,
-                "minLength": 0,
-                "title": "Name",
-                "type": "string"
+            "parent": {
+              "maxLength": 12,
+              "minLength": 1,
+              "title": "Parent Permission",
+              "type": "string"
             },
-            "classId": {
-                "pattern": "[.abcdefghijklmnopqrstuvwxyz12345]{12}",
-                "argoQuery": {
-                    "selector": "Subclasses",
-                    "where": {
-                        "classId": "gzthjuyjca4s"
-                    },
-                    "sortBy": "title"
+            "required_auth": {
+              "properties": {
+                "threshold": {
+                  "title": "Threshold",
+                  "type": "number"
                 },
-                "title": "Class",
-                "type": "string"
+                "keys": {
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "maxLength": 44,
+                        "minLength": 0,
+                        "title": "Key",
+                        "type": "string"
+                      },
+                      "weight": {
+                        "title": "Weight",
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "title": "Keys",
+                  "type": "array"
+                },
+                "accounts": {
+                  "items": {
+                    "properties": {
+                      "permission": {
+                        "properties": {
+                          "actor": {
+                            "maxLength": 12,
+                            "minLength": 0,
+                            "title": "Actor",
+                            "type": "string"
+                          },
+                          "permission": {
+                            "maxLength": 12,
+                            "minLength": 0,
+                            "title": "Permission",
+                            "type": "string"
+                          }
+                        },
+                        "title": "Permission",
+                        "type": "object"
+                      },
+                      "weight": {
+                        "title": "Weight",
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "title": "Accounts",
+                  "type": "array"
+                },
+                "waits": {
+                  "items": {
+                    "properties": {
+                      "wait_sec": {
+                        "title": "Wait Seconds",
+                        "type": "string"
+                      },
+                      "weight": {
+                        "title": "Weight",
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "title": "Waits",
+                  "type": "array"
+                }
+              },
+              "title": "Required Authorization",
+              "additionalProperties": false,
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "title": "Permissions",
+        "type": "array"
+      },
+      "total_resources": {
+        "properties": {
+          "owner": {
+            "title": "Owner",
+            "type": "string"
+          },
+          "net_weigh": {
+            "title": "Net Weight",
+            "type": "string"
+          },
+          "cpu_weight": {
+            "title": "CPU Weight",
+            "type": "string"
+          },
+          "ram_bytes": {
+            "title": "Ram Bytes",
+            "type": "number"
+          }
+        },
+        "title": "Total Resources",
+        "type": "object"
+      },
+      "self_delegated_bandwidth": {
+        "properties": {
+          "from": {
+            "title": "From",
+            "type": "string"
+          },
+          "to": {
+            "title": "To",
+            "type": "string"
+          },
+          "cpu_weight": {
+            "title": "CPU Weight",
+            "type": "string"
+          },
+          "cpu_weigh": {
+            "title": "CPU Weight",
+            "type": "string"
+          }
+        },
+        "title": "Self Delegated Bandwidth",
+        "type": "object"
+      },
+      "refund_request": {
+        "title": "Refund Request",
+        "type": "string"
+      },
+      "voter_info": {
+        "title": "Voter Info",
+        "properties": {
+          "owner": {
+            "title": "Owner",
+            "type": "string"
+          },
+          "proxy": {
+            "title": "Proxy",
+            "type": "string"
+          },
+          "producer": {
+            "title": "Producer",
+            "type": "array"
+          },
+          "staked": {
+            "title": "Staked",
+            "type": "number"
+          },
+          "last_vote_weight": {
+            "title": "Last Vote Weight",
+            "type": "string"
+          },
+          "proxied_vote_weight": {
+            "title": "Proxied Vote Weight",
+            "type": "string"
+          },
+          "is_proxy": {
+            "title": "Is Proxy",
+            "type": "number"
+          },
+          "flags1": {
+            "title": "Flags 1",
+            "type": "number"
+          },
+          "reserved2": {
+            "title": "Reserved 2",
+            "type": "number"
+          },
+          "reserved3": {
+            "title": "Reserved 3",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "query": "get_account_info",
+    "type": "object",
+    "classIcon": "Accounts.svg"
+  },
+  {
+    "key": "resources",
+    "title": "Resources",
+    "description": "<p>Things owned by users/organizations</p>",
+    "superClassId": "universe",
+    "properties": {
+      "ownerId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "accounts"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Owner",
+        "type": "string"
+      }
+    },
+    "required": [
+      "ownerId"
+    ],
+    "type": "object"
+  },
+  {
+    "key": "repair-prop",
+    "title": "Repair Proposition",
+    "description": "<p>Repair Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "purchase-prop",
+    "title": "Purchase Proposition",
+    "description": "<p>Purchase Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "rental-prop",
+    "title": "Rental Proposition",
+    "description": "<p>Rental Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "messaging-prop",
+    "title": "Messaging Proposition",
+    "description": "<p>Messaging Agreements between owners</p>",
+    "superClassId": "propositions",
+    "properties": {
+      "classification": {
+        "enum": [
+          "Question",
+          "Defect",
+          "Enhancement"
+        ],
+        "title": "Classification",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "member-prop",
+    "title": "Membership Proposition",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "features",
+    "title": "Features",
+    "classIcon": "Features.svg",
+    "superClassId": "off-sheet",
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "key": "org-units",
+    "title": "Organizational Units",
+    "description": "<p>Organizational units owned by organizations</p>",
+    "classIcon": "OrganizationalUnits.svg",
+    "superClassId": "accounts",
+    "type": "object"
+  },
+  {
+    "key": "users",
+    "title": "Users",
+    "description": "<p>Users own resourses</p>",
+    "classIcon": "Users.svg",
+    "superClassId": "accounts",
+    "type": "object"
+  },
+  {
+    "key": "organizations",
+    "title": "Organizations",
+    "description": "<p>Organizations owned by users/organizations</p>",
+    "superClassId": "accounts",
+    "properties": {
+      "description": {
+        "title": "What",
+        "placeholder": "<p>[What do you do that is different?]</p>"
+      },
+      "how": {
+        "placeholder": "<p>[How do you achive your goal?]</p>",
+        "maxLength": 10000,
+        "contentMediaType": "text/html",
+        "minLength": 0,
+        "title": "How",
+        "type": "string"
+      },
+      "why": {
+        "placeholder": "<p>[Vision]</p>",
+        "maxLength": 10000,
+        "contentMediaType": "text/html",
+        "minLength": 0,
+        "title": "Why",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "balance-sheet",
+    "title": "Balance Sheet",
+    "description": "<p>Balance sheet owned by users/organizations</p>",
+    "classIcon": "BalanceSheet.svg",
+    "superClassId": "resources",
+    "properties": {
+      "value": {
+        "title": "Value",
+        "type": "number"
+      },
+      "currency": {
+        "enum": [
+          "EUR",
+          "USD"
+        ],
+        "title": "Currency",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "off-sheet",
+    "title": "Off Balance Sheet",
+    "description": "<p>Other things owned by users/organizations</p>",
+    "superClassId": "resources",
+    "type": "object"
+  },
+  {
+    "key": "non-profit",
+    "title": "Non-Profit",
+    "description": "<p>Non-profit organizations</p>",
+    "superClassId": "organizations",
+    "type": "object"
+  },
+  {
+    "key": "goverment",
+    "title": "Goverment",
+    "description": "<p>Goverment</p>",
+    "superClassId": "organizations",
+    "type": "object"
+  },
+  {
+    "key": "commercial",
+    "title": "Commercial",
+    "description": "<p>Commercial organizations</p>",
+    "superClassId": "organizations",
+    "type": "object"
+  },
+  {
+    "key": "assets",
+    "title": "Assets",
+    "description": "<p>Assets owned by users/organizations</p>",
+    "superClassId": "balance-sheet",
+    "type": "object"
+  },
+  {
+    "key": "liabil-equity",
+    "title": "Liabilities and Stockholder's Equity",
+    "description": "<p>Liabilities owned by users/organizations</p>",
+    "superClassId": "balance-sheet",
+    "type": "object"
+  },
+  {
+    "key": "steps",
+    "title": "Steps",
+    "description": "<p>Steps</p>",
+    "classIcon": "Steps.svg",
+    "superClassId": "off-sheet",
+    "type": "object"
+  },
+  {
+    "key": "processes",
+    "title": "Processes",
+    "description": "<p>Processes</p>",
+    "classIcon": "Processes.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "returnActions": {
+        "title": "Return Actions",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "firstStepId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "open"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "First Step",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "sub-processes",
+    "title": "Sub-Processes",
+    "description": "<p>Processes</p>",
+    "classIcon": "Processes.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "returnActions": {
+        "title": "Return Actions",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "firstStepId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "open"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "First Step",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "propositions",
+    "title": "Propositions",
+    "description": "<p>Proposition</p>",
+    "classIcon": "Propositions.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "startDate": {
+        "title": "Start Date",
+        "type": "string",
+        "format": "date-time"
+      },
+      "endDate": {
+        "title": "End Date",
+        "type": "string",
+        "format": "date-time"
+      },
+      "processId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "processes"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Process",
+        "type": "string"
+      },
+      "assetIds": {
+        "title": "Assets",
+        "items": {
+          "pattern": "[a-z][a-z0-9-]{0,17}",
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "assets"
+            },
+            "idsArrayPath": {
+              "path": "$[*].key",
+              "indexName": "classId"
+            }
+          },
+          "title": "Deligate to Process",
+          "type": "string"
+        },
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "pages",
+    "title": "Pages",
+    "description": "<p>Describes the Tab-Widget-View Reference structure</p>",
+    "classIcon": "Layouts.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "layout": {
+        "enum": [
+          "Page",
+          "Master Detail",
+          "Studio"
+        ],
+        "title": "Layout",
+        "type": "string"
+      },
+      "divider": {
+        "enum": [
+          "Vertical",
+          "Horizontal"
+        ],
+        "title": "Divider",
+        "type": "string"
+      },
+      "model": {
+        "enum": [
+          "Mind Palace ",
+          "Class Model",
+          "Process Model"
+        ],
+        "title": "Model",
+        "type": "string"
+      },
+      "tabs": {
+        "description": "",
+        "additionalItems": true,
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "placeholder": "Provide a name",
+              "maxLength": 1000,
+              "title": "Tab Name",
+              "type": "string"
             },
             "description": {
-                "placholder": "Add a description",
-                "maxLength": 10000,
-                "contentMediaType": "text/html",
-                "minLength": 0,
-                "title": "Description",
-                "type": "string"
+              "placholder": "Add a description",
+              "maxLength": 10000,
+              "contentMediaType": "text/html",
+              "title": "Description",
+              "type": "string"
+            },
+            "pageId": {
+              "pattern": "[a-z][a-z0-9-]{0,17}",
+              "argoQuery": {
+                "selector": "Subclasses",
+                "where": {
+                  "classId": "pages"
+                },
+                "idsArrayPath": {
+                  "path": "$[*].key",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
+              },
+              "title": "Page",
+              "type": "string"
+            },
+            "widgets": {
+              "additionalItems": true,
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "placeholder": "Provide a name",
+                    "maxLength": 1000,
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "description": {
+                    "placholder": "Add a description",
+                    "maxLength": 10000,
+                    "contentMediaType": "text/html",
+                    "title": "Description",
+                    "type": "string"
+                  },
+                  "widgetType": {
+                    "default": "Schema Form",
+                    "enum": [
+                      "Balance Sheet",
+                      "Calendar",
+                      "Cash Flows",
+                      "Class Model",
+                      "Document",
+                      "Income Statement",
+                      "HTML Page",
+                      "Materialized View",
+                      "Class Schema Form",
+                      "Navigation Menu",
+                      "Page Editor",
+                      "Process Model",
+                      "Raw",
+                      "Schema Form",
+                      "Schema Table",
+                      "Tree",
+                      "Validate"
+                    ],
+                    "title": "Display Type",
+                    "type": "string"
+                  },
+                  "pageId": {
+                    "pattern": "[a-z][a-z0-9-]{0,17}",
+                    "argoQuery": {
+                      "selector": "Subclasses",
+                      "where": {
+                        "classId": "pages"
+                      },
+                      "idsArrayPath": {
+                        "path": "$[*].key",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
+                    },
+                    "title": "Page",
+                    "type": "string"
+                  },
+                  "viewId": {
+                    "pattern": "[a-z][a-z0-9-]{0,17}",
+                    "argoQuery": {
+                      "selector": "Subclasses",
+                      "where": {
+                        "classId": "views"
+                      },
+                      "idsArrayPath": {
+                        "path": "$[*].key",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
+                    },
+                    "title": "View",
+                    "type": "string"
+                  },
+                  "menuId": {
+                    "pattern": "[a-z][a-z0-9-]{0,17}",
+                    "argoQuery": {
+                      "selector": "Subclasses",
+                      "where": {
+                        "classId": "menus"
+                      },
+                      "idsArrayPath": {
+                        "path": "$[*].key",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
+                    },
+                    "title": "Menu",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "title": "Widgets",
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "title": "Tabs",
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "views",
+    "title": "Views",
+    "description": "<p>Views are important. They determine who gets to see/update what.</p><p>These are some of the things we do with queries</p><ul><li>Retrieve a set of children</li><li>Provide an icon for the tree node based on queryName</li><li>Determine popup menu/toolbar/buttons options: add/delete/associate/disassociate/copy/deepcopy for the tree node/table row based on queryName</li><li>Determine when buttons are hidden/disabled based on authorization, selected subDoc, mutually exclusive properties</li><li>Provide filtering for tables/trees</li><li>Determine drop allowed for DnD, which associations/disassociation</li><li>Find tree path based on given node for tree expand: reverse navigation</li></ul><p>&nbsp;</p>",
+    "classIcon": "Views.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "queryId": {
+        "title": "Initial Query",
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "queries"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "type": "string"
+      },
+      "baseClassId": {
+        "title": "Base Class",
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "universe"
+          },
+          "sortBy": "title"
+        },
+        "type": "string"
+      },
+      "required": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Required",
+        "type": "array"
+      },
+      "properties": {
+        "title": "Properties",
+        "type": "object"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "queries",
+    "title": "Queries",
+    "description": "<p>Queries used by views</p>",
+    "classIcon": "Queries.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "selector": {
+        "enum": [
+          "Where Clause",
+          "Context Object",
+          "Subclasses",
+          "Owned Accounts"
+        ],
+        "title": "Selector",
+        "type": "string"
+      },
+      "where": {
+        "title": "Where Index Equals",
+        "type": "object"
+      },
+      "idsArrayPath": {
+        "title": "Ids Array Path",
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string",
+            "attrs": {
+              "type": "textarea",
+              "autosize": true
+            }
+          },
+          "indexName": {
+            "title": "Index Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "filter": {
+        "title": "Filter",
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string",
+            "attrs": {
+              "type": "textarea",
+              "autosize": true
+            }
+          },
+          "equals": {
+            "title": "Equals",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "sortBy": {
+        "title": "Sort By",
+        "type": "string"
+      },
+      "subQueryIds": {
+        "items": {
+          "pattern": "[a-z][a-z0-9-]{0,17}",
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "queries"
+            },
+            "idsArrayPath": {
+              "path": "$[*].key",
+              "indexName": "classId"
+            },
+            "sortBy": "name"
+          },
+          "type": "string"
+        },
+        "title": "Sub-Queries",
+        "type": "array"
+      },
+      "pageId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "pages"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Nodes Page",
+        "type": "string"
+      },
+      "nodesIcon": {
+        "maxLength": 2000,
+        "contentEncoding": "utf8",
+        "contentMediaType": "image/svg+xml",
+        "minLength": 0,
+        "title": "Nodes Icon",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "paragraphs",
+    "title": "Paragraphs",
+    "description": "<p>Ordinary HTML pages</p>",
+    "classIcon": "Paragraphs.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "subParagraphIds": {
+        "items": {
+          "argoQuery": {
+            "selector": "Subclasses",
+            "where": {
+              "classId": "paragraphs"
+            },
+            "idsArrayPath": {
+              "path": "$[*].key",
+              "indexName": "classId"
+            }
+          },
+          "title": "Sub Ducument",
+          "type": "string"
+        },
+        "title": "Sub Paragraphs",
+        "type": "array"
+      }
+    },
+    "pageId": "mm4nurerors",
+    "type": "object"
+  },
+  {
+    "key": "menus",
+    "title": "Menus",
+    "description": "<p>Custom Menus/p>",
+    "classIcon": "Menus.svg",
+    "superClassId": "off-sheet",
+    "properties": {
+      "menuArr": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "placeholder": "Provide a name",
+              "maxLength": 1000,
+              "title": "Name",
+              "type": "string"
+            },
+            "pageId": {
+              "pattern": "[a-z][a-z0-9-]{0,17}",
+              "argoQuery": {
+                "selector": "Subclasses",
+                "where": {
+                  "classId": "pages"
+                },
+                "idsArrayPath": {
+                  "path": "$[*].key",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
+              },
+              "title": "Page",
+              "type": "string"
+            },
+            "nextLevelSelectedObjId": {
+              "pattern": "[a-z][a-z0-9-]{0,17}",
+              "argoQuery": {
+                "selector": "Subclasses",
+                "where": {
+                  "classId": "accounts"
+                },
+                "idsArrayPath": {
+                  "path": "$[*].key",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
+              },
+              "title": "Next Level Selected ObjectId",
+              "type": "string"
             },
             "icon": {
-                "maxLength": 2000,
-                "contentMediaType": "image/svg+xml",
-                "minLength": 0,
-                "title": "Icon",
-                "type": "string"
+              "maxLength": 2000,
+              "contentEncoding": "utf8",
+              "contentMediaType": "image/svg+xml",
+              "minLength": 0,
+              "title": "Icon",
+              "type": "string"
+            },
+            "menuArr": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "placeholder": "Provide a name",
+                    "maxLength": 1000,
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "pageId": {
+                    "pattern": "[a-z][a-z0-9-]{0,17}",
+                    "argoQuery": {
+                      "selector": "Subclasses",
+                      "where": {
+                        "classId": "pages"
+                      },
+                      "idsArrayPath": {
+                        "path": "$[*].key",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
+                    },
+                    "title": "Page",
+                    "type": "string"
+                  },
+                  "nextLevelSelectedObjId": {
+                    "pattern": "[a-z][a-z0-9-]{0,17}",
+                    "argoQuery": {
+                      "selector": "Subclasses",
+                      "where": {
+                        "classId": "accounts"
+                      },
+                      "idsArrayPath": {
+                        "path": "$[*].key",
+                        "indexName": "classId"
+                      },
+                      "sortBy": "name"
+                    },
+                    "title": "Next Level Selected ObjectId",
+                    "type": "string"
+                  },
+                  "icon": {
+                    "maxLength": 2000,
+                    "contentEncoding": "utf8",
+                    "contentMediaType": "image/svg+xml",
+                    "minLength": 0,
+                    "title": "Icon",
+                    "type": "string"
+                  },
+                  "menuArr": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "placeholder": "Provide a name",
+                          "maxLength": 1000,
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "pageId": {
+                          "pattern": "[a-z][a-z0-9-]{0,17}",
+                          "argoQuery": {
+                            "selector": "Subclasses",
+                            "where": {
+                              "classId": "pages"
+                            },
+                            "idsArrayPath": {
+                              "path": "$[*].key",
+                              "indexName": "classId"
+                            },
+                            "sortBy": "name"
+                          },
+                          "title": "Page",
+                          "type": "string"
+                        },
+                        "nextLevelSelectedObjId": {
+                          "pattern": "[a-z][a-z0-9-]{0,17}",
+                          "argoQuery": {
+                            "selector": "Subclasses",
+                            "where": {
+                              "classId": "accounts"
+                            },
+                            "idsArrayPath": {
+                              "path": "$[*].key",
+                              "indexName": "classId"
+                            },
+                            "sortBy": "name"
+                          },
+                          "title": "Next Level Selected ObjectId",
+                          "type": "string"
+                        },
+                        "icon": {
+                          "maxLength": 2000,
+                          "contentEncoding": "utf8",
+                          "contentMediaType": "image/svg+xml",
+                          "minLength": 0,
+                          "title": "Icon",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "title": "Menu Items",
+                    "additionalItems": true,
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "title": "Menu Items",
+              "additionalItems": true,
+              "type": "array"
             }
+          },
+          "type": "object"
         },
-        "required": [
-            "key",
-            "classId"
-        ],
-        "type": "object",
-        "classIcon": "ProcessUniverse.svg"
-    }
+        "title": "Menu Items",
+        "additionalItems": true,
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "intang-assets",
+    "title": "Intangible Assets",
+    "description": "<p>Intangible Assets owned by users/organizations</p>",
+    "superClassId": "assets",
+    "type": "object"
+  },
+  {
+    "key": "investments",
+    "title": "Investments",
+    "description": "<p>Investments owned by users/organizations</p>",
+    "superClassId": "assets",
+    "type": "object"
+  },
+  {
+    "key": "property",
+    "title": "Property, Plant and Equipment",
+    "description": "<p>Property, Plant and Equipment owned by users/organizations</p>",
+    "superClassId": "assets",
+    "type": "object"
+  },
+  {
+    "key": "current-assets",
+    "title": "Current Assets",
+    "description": "<p>Current Assets owned by users/organizations</p>",
+    "superClassId": "assets",
+    "type": "object"
+  },
+  {
+    "key": "stock-equity",
+    "title": "Stockholder's Equity",
+    "description": "<p>Stockholder's Equity owned by users/organizations</p>",
+    "superClassId": "liabil-equity",
+    "type": "object"
+  },
+  {
+    "key": "liabilities",
+    "title": "Liabilities",
+    "description": "<p>Liabilities owned by users/organizations</p>",
+    "superClassId": "liabil-equity",
+    "type": "object"
+  },
+  {
+    "key": "open",
+    "title": "Open",
+    "description": "<p>Open</p>",
+    "classIcon": "Open.svg",
+    "superClassId": "steps",
+    "properties": {
+      "nextStepIds": {
+        "items": {
+          "properties": {
+            "action": {
+              "maxLength": 100,
+              "title": "Action",
+              "type": "string"
+            },
+            "stepId": {
+              "pattern": "[a-z][a-z0-9-]{0,17}",
+              "argoQuery": {
+                "selector": "Subclasses",
+                "where": {
+                  "classId": "steps"
+                },
+                "idsArrayPath": {
+                  "path": "$[*].key",
+                  "indexName": "classId"
+                },
+                "sortBy": "name"
+              },
+              "title": "Step",
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "type": "object"
+        },
+        "title": "Next Steps",
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "closed",
+    "title": "Closed",
+    "description": "<p>Closed</p>",
+    "classIcon": "Closed.svg",
+    "superClassId": "steps",
+    "type": "object"
+  },
+  {
+    "key": "goodwill",
+    "title": "Goodwill",
+    "description": "<p>Goodwill owned by users/organizations</p>",
+    "superClassId": "intang-assets",
+    "type": "object"
+  },
+  {
+    "key": "trade-names",
+    "title": "Trade Names",
+    "description": "<p>Trade Names owned by users/organizations</p>",
+    "superClassId": "intang-assets",
+    "type": "object"
+  },
+  {
+    "key": "equipment",
+    "title": "Equipment",
+    "description": "<p>Equipment owned by users/organizations</p>",
+    "superClassId": "property",
+    "type": "object"
+  },
+  {
+    "key": "land",
+    "title": "Land",
+    "description": "<p>Land owned by users/organizations</p>",
+    "superClassId": "property",
+    "type": "object"
+  },
+  {
+    "key": "accum-depreca",
+    "title": "Less: Accum Deprecation",
+    "description": "<p>Less: Accum Deprecation owned by users/organizations</p>",
+    "superClassId": "property",
+    "type": "object"
+  },
+  {
+    "key": "land-improve",
+    "title": "Land Improvements",
+    "description": "<p>Land Improvements owned by users/organizations</p>",
+    "superClassId": "property",
+    "type": "object"
+  },
+  {
+    "key": "buildings",
+    "title": "Buildings",
+    "description": "<p>Buildings owned by users/organizations</p>",
+    "superClassId": "property",
+    "type": "object"
+  },
+  {
+    "key": "petty-cash",
+    "title": "Petty Cash",
+    "description": "<p>Petty Cash owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "type": "object"
+  },
+  {
+    "key": "temp-invest",
+    "title": "Temporary Investments",
+    "description": "<p>Temporary Investments owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "type": "object"
+  },
+  {
+    "key": "prepaid-insure",
+    "title": "Prepaid Insurance",
+    "description": "<p>Prepaid Insurance owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "type": "object"
+  },
+  {
+    "key": "inventory",
+    "title": "Inventory",
+    "description": "<p>Inventory owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "key": "for-sale",
+    "title": "For Sale",
+    "superClassId": "inventory",
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "key": "for-rent",
+    "title": "For Rent",
+    "superClassId": "inventory",
+    "properties": {},
+    "type": "object"
+  },
+  {
+    "key": "accounts-rec",
+    "title": "Accounts Receivible -net",
+    "description": "<p>Accounts Receivible -net owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "type": "object"
+  },
+  {
+    "key": "supplies",
+    "title": "Supplies",
+    "description": "<p>Supplies owned by users/organizations</p>",
+    "superClassId": "current-assets",
+    "type": "object"
+  },
+  {
+    "key": "ret-earnings",
+    "title": "Retained Earnings",
+    "description": "<p>Retained Earnings owned by users/organizations</p>",
+    "superClassId": "stock-equity",
+    "type": "object"
+  },
+  {
+    "key": "other-income",
+    "title": "Accum Other Comprehensive Income",
+    "description": "<p>Accum Other Comprehensive Income owned by users/organizations</p>",
+    "superClassId": "stock-equity",
+    "type": "object"
+  },
+  {
+    "key": "treasury-stock",
+    "title": "Less: Treasury Stock",
+    "description": "<p>Less: Treasury Stock owned by users/organizations</p>",
+    "superClassId": "stock-equity",
+    "type": "object"
+  },
+  {
+    "key": "common-stock",
+    "title": "Common Stock",
+    "description": "<p>Common Stock owned by users/organizations</p>",
+    "superClassId": "stock-equity",
+    "type": "object"
+  },
+  {
+    "key": "long-libilities",
+    "title": "Long-Term Libilities",
+    "description": "<p>Long-Term Libilities owned by users/organizations</p>",
+    "superClassId": "liabilities",
+    "type": "object"
+  },
+  {
+    "key": "current-liabil",
+    "title": "Current Libilities",
+    "description": "<p>Current Libilities owned by users/organizations</p>",
+    "superClassId": "liabilities",
+    "type": "object"
+  },
+  {
+    "key": "user-input",
+    "title": "User Input",
+    "description": "<p>User Input</p>",
+    "classIcon": "User Input.svg",
+    "superClassId": "open",
+    "type": "object"
+  },
+  {
+    "key": "execute",
+    "title": "Execute",
+    "description": "<p>Execute</p>",
+    "classIcon": "Execute.svg",
+    "superClassId": "open",
+    "properties": {
+      "execute": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Execute",
+        "type": "array"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "delegate",
+    "title": "Delegate",
+    "description": "<p>Delegate</p>",
+    "classIcon": "Delegate.svg",
+    "superClassId": "open",
+    "properties": {
+      "deligateProcessId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "processes"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Deligate to Process",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "taxes-payable",
+    "title": "Taxes Payable",
+    "description": "<p>Taxes Payable owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "accounts-pay",
+    "title": "Accounts Payable",
+    "description": "<p>Accounts Payable owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "wages-payable",
+    "title": "Wages Payable",
+    "description": "<p>Wages Payable owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "waranty-liabil",
+    "title": "Waranty Liability",
+    "description": "<p>Waranty Liability owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "notes-payable",
+    "title": "Notes Payable",
+    "description": "<p>Notes Payable owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "intrest-payable",
+    "title": "Intrest Payable",
+    "description": "<p>Intrest Payable owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "unearned-rev",
+    "title": "Unearned Revenues",
+    "description": "<p>Unearned Revenues owned by users/organizations</p>",
+    "superClassId": "current-liabil",
+    "type": "object"
+  },
+  {
+    "key": "bonds-payable",
+    "title": "Bonds Payable",
+    "description": "<p>Bonds Payable owned by users/organizations</p>",
+    "superClassId": "long-libilities",
+    "type": "object"
+  },
+  {
+    "key": "notes-payable",
+    "title": "Notes Payable",
+    "description": "<p>Notes Payable owned by users/organizations</p>",
+    "superClassId": "long-libilities",
+    "type": "object"
+  },
+  {
+    "key": "provider",
+    "title": "Provider",
+    "description": "<p>Provider</p>",
+    "classIcon": "Provider.svg",
+    "superClassId": "user-input",
+    "properties": {
+      "authorizedOrgUnitId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Subclasses",
+          "where": {
+            "classId": "org-units"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Authorized Organizational Unit",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "consumer",
+    "title": "Consumer",
+    "description": "<p>Consumer</p>",
+    "classIcon": "Consumer.svg",
+    "superClassId": "user-input",
+    "type": "object"
+  }
 ]

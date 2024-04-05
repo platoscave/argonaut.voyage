@@ -1,0 +1,306 @@
+[
+  {
+    "oldKey": "gzthjuyjca4s",
+    "newKey": "process-universe"
+  },
+  {
+    "oldKey": "i1gjptcb2skq",
+    "newKey": "agreements"
+  },
+  {
+    "oldKey": "p1vramillhm1",
+    "newKey": "purchase-agreements"
+  },
+  {
+    "oldKey": "4gurdxv3hm2t",
+    "newKey": "rental-agreements"
+  },
+  {
+    "oldKey": "ds2mgusokbft",
+    "newKey": "service-agreements"
+  },
+  {
+    "oldKey": "51dciakn1jff",
+    "newKey": "message-agreements"
+  },
+  {
+    "oldKey": "ikjyhlqewxs3",
+    "newKey": "accounts"
+  },
+  {
+    "oldKey": "ync5iiwvtsf3",
+    "newKey": "resources"
+  },
+  {
+    "oldKey": "pbfmtbxfvqrw",
+    "newKey": "repair-proposition"
+  },
+  {
+    "oldKey": "hhg2u2zptnfo",
+    "newKey": "purchase-proposition"
+  },
+  {
+    "oldKey": "uhir12cjxgzb",
+    "newKey": "rental-proposition"
+  },
+  {
+    "oldKey": "w3mzeetidb5n",
+    "newKey": "messaging-proposition"
+  },
+  {
+    "oldKey": "ynpbcptu1i4q",
+    "newKey": "membership-proposition"
+  },
+  {
+    "oldKey": "re1ihrfyl3zf",
+    "newKey": "features"
+  },
+  {
+    "oldKey": "dasprps1lrwf",
+    "newKey": "organizational-units"
+  },
+  {
+    "oldKey": "hdt3hmnsaghk",
+    "newKey": "users"
+  },
+  {
+    "oldKey": "pae2bfbrab5n",
+    "newKey": "organizations"
+  },
+  {
+    "oldKey": "5jdnjqxsqmgn",
+    "newKey": "balance-sheet"
+  },
+  {
+    "oldKey": "nrioirgelhpi",
+    "newKey": "off-balance-sheet"
+  },
+  {
+    "oldKey": "be1ub1vtofjo",
+    "newKey": "non-profit"
+  },
+  {
+    "oldKey": "t5punszz4lhv",
+    "newKey": "goverment"
+  },
+  {
+    "oldKey": "zx5ffzoa5euy",
+    "newKey": "commercial"
+  },
+  {
+    "oldKey": "3ihg3mjdbqzv",
+    "newKey": "assets"
+  },
+  {
+    "oldKey": "sgefdtu1bttq",
+    "newKey": "liabilities-and-stockholder's-equity"
+  },
+  {
+    "oldKey": "dlpwvptczyeb",
+    "newKey": "steps"
+  },
+  {
+    "oldKey": "dwl1kwhalwj4",
+    "newKey": "processes"
+  },
+  {
+    "oldKey": "p1yfotmftly4",
+    "newKey": "sub-processes"
+  },
+  {
+    "oldKey": "2jrkeqdvvmom",
+    "newKey": "propositions"
+  },
+  {
+    "oldKey": "pejdgrwd5qso",
+    "newKey": "pages"
+  },
+  {
+    "oldKey": "pylvseoljret",
+    "newKey": "views"
+  },
+  {
+    "oldKey": "q234ooehrk5v",
+    "newKey": "queries"
+  },
+  {
+    "oldKey": "siutzqsj5dgc",
+    "newKey": "paragraphs"
+  },
+  {
+    "oldKey": "inbumnx4vx5w",
+    "newKey": "menus"
+  },
+  {
+    "oldKey": "3st1rw53qugx",
+    "newKey": "intangible-assets"
+  },
+  {
+    "oldKey": "wrkevvx2cvzs",
+    "newKey": "investments"
+  },
+  {
+    "oldKey": "xpra3jnokvas",
+    "newKey": "property,-plant-and-equipment"
+  },
+  {
+    "oldKey": "zbi1e31jzb1u",
+    "newKey": "current-assets"
+  },
+  {
+    "oldKey": "4r2rhlh4gvqw",
+    "newKey": "stockholder's-equity"
+  },
+  {
+    "oldKey": "u4prbnlw4emq",
+    "newKey": "liabilities"
+  },
+  {
+    "oldKey": "1jrqyjoabx1a",
+    "newKey": "open"
+  },
+  {
+    "oldKey": "s41na42wsxez",
+    "newKey": "closed"
+  },
+  {
+    "oldKey": "bmsvo1ebgpxx",
+    "newKey": "goodwill"
+  },
+  {
+    "oldKey": "hm1nlusa3c51",
+    "newKey": "trade-names"
+  },
+  {
+    "oldKey": "1jexzlqdnhsu",
+    "newKey": "equipment"
+  },
+  {
+    "oldKey": "1rj2pxp22h2x",
+    "newKey": "land"
+  },
+  {
+    "oldKey": "ft2ai3uocmxq",
+    "newKey": "less:-accum-deprecation"
+  },
+  {
+    "oldKey": "txvkztvvgdgx",
+    "newKey": "land-improvements"
+  },
+  {
+    "oldKey": "wgf2tigutjme",
+    "newKey": "buildings"
+  },
+  {
+    "oldKey": "cgwdxsoekxr3",
+    "newKey": "petty-cash"
+  },
+  {
+    "oldKey": "emssafohapp3",
+    "newKey": "temporary-investments"
+  },
+  {
+    "oldKey": "my142mxokill",
+    "newKey": "prepaid-insurance"
+  },
+  {
+    "oldKey": "nlmgc3dmrwxs",
+    "newKey": "inventory"
+  },
+  {
+    "oldKey": "m2tw4qg14ux4",
+    "newKey": "for-sale"
+  },
+  {
+    "oldKey": "alhgnacqbj1z",
+    "newKey": "for-rent"
+  },
+  {
+    "oldKey": "qhybqzojgu3c",
+    "newKey": "accounts-receivible--net"
+  },
+  {
+    "oldKey": "x4i32i5xdwnb",
+    "newKey": "supplies"
+  },
+  {
+    "oldKey": "1bqgan41c55z",
+    "newKey": "retained-earnings"
+  },
+  {
+    "oldKey": "2ldk2a2lqo35",
+    "newKey": "accum-other-comprehensive-income"
+  },
+  {
+    "oldKey": "5ke5dozqwj34",
+    "newKey": "less:-treasury-stock"
+  },
+  {
+    "oldKey": "zob5kwxrv2y4",
+    "newKey": "common-stock"
+  },
+  {
+    "oldKey": "thrjrlfgcjrt",
+    "newKey": "long-term-libilities"
+  },
+  {
+    "oldKey": "yiajzp3bwqsc",
+    "newKey": "current-libilities"
+  },
+  {
+    "oldKey": "ahp433id2bo3",
+    "newKey": "user-input"
+  },
+  {
+    "oldKey": "dqja423wlzrb",
+    "newKey": "execute"
+  },
+  {
+    "oldKey": "jotxozcetpx2",
+    "newKey": "delegate"
+  },
+  {
+    "oldKey": "44y5au13dck2",
+    "newKey": "taxes-payable"
+  },
+  {
+    "oldKey": "fk1smvoky3xg",
+    "newKey": "accounts-payable"
+  },
+  {
+    "oldKey": "htl3fqiec35p",
+    "newKey": "wages-payable"
+  },
+  {
+    "oldKey": "i5nl5d1sqfta",
+    "newKey": "waranty-liability"
+  },
+  {
+    "oldKey": "jxduzc4ntt5a",
+    "newKey": "notes-payable"
+  },
+  {
+    "oldKey": "ng4q2edt4hxu",
+    "newKey": "intrest-payable"
+  },
+  {
+    "oldKey": "reywu3lshttg",
+    "newKey": "unearned-revenues"
+  },
+  {
+    "oldKey": "wjowivkwwidy",
+    "newKey": "bonds-payable"
+  },
+  {
+    "oldKey": "wza5ek5naftn",
+    "newKey": "notes-payable"
+  },
+  {
+    "oldKey": "cq4bjkzqc2qp",
+    "newKey": "provider"
+  },
+  {
+    "oldKey": "xsaq3l5hncb2",
+    "newKey": "consumer"
+  }
+]

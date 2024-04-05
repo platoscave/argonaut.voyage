@@ -1,0 +1,55 @@
+[
+    {
+        "key": "topugeureworenol",
+        "title": "Process Universe",
+        "description": "<p>The root of all classes and objects</p>",
+        "properties": {
+            "key": {
+                "description": "<p>Base32 identifier.</p>",
+                "pattern": "[a-z][a-z0-9-]{0,17}",
+                "title": "key",
+                "type": "string"
+            },
+            "name": {
+                "placeholder": "Provide a name",
+                "maxLength": 1000,
+                "minLength": 0,
+                "title": "Name",
+                "type": "string"
+            },
+            "classId": {
+                "pattern": "[a-z][a-z0-9-]{0,17}",
+                "argoQuery": {
+                    "selector": "Subclasses",
+                    "where": {
+                        "classId": "topugeureworenol"
+                    },
+                    "sortBy": "title"
+                },
+                "title": "Class",
+                "type": "string"
+            },
+            "description": {
+                "placholder": "Add a description",
+                "maxLength": 10000,
+                "contentMediaType": "text/html",
+                "minLength": 0,
+                "title": "Description",
+                "type": "string"
+            },
+            "icon": {
+                "maxLength": 2000,
+                "contentMediaType": "image/svg+xml",
+                "minLength": 0,
+                "title": "Icon",
+                "type": "string"
+            }
+        },
+        "required": [
+            "key",
+            "classId"
+        ],
+        "type": "object",
+        "classIcon": "ProcessUniverse.svg"
+    }
+]

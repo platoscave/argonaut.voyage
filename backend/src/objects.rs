@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
-use crate::service::{ObjectRow, ObjectsTable, ClassesTable};
+use crate::service::{ClassesTable, ObjectRow, ObjectsTable};
 use psibase::Table;
 use psibase::{AccountNumber, *};
 
@@ -32,7 +32,10 @@ pub fn upsert_object(object_val: &Value) {
     let res = AccountNumber::from_exact(&class_id_str);
     check(
         res.is_ok(),
-        &format!("\nInvalid account name: {:#?}\nclass_id_str: {}\nkey: {}", res, class_id_str, key_str),
+        &format!(
+            "\nInvalid account name: {:#?}\nclass_id_str: {}\nkey: {}",
+            res, class_id_str, key_str
+        ),
     );
     let class_id = res.unwrap();
     // Validate classId
@@ -73,7 +76,7 @@ pub fn upsert_object(object_val: &Value) {
     let res = ObjectsTable::new().put(&new_row);
     check(
         res.is_ok(),
-        &format!("Unable to put object row: {:#?}\nkey: {}", res, key),
+        &format!("\nUnable to put object row: {:#?}\nkey: {}", res, key),
     );
 }
 
@@ -83,6 +86,8 @@ pub fn check_objectmodel(objectId: &str) {
 
 pub fn erase_all_objects() {
     let objects_table = ObjectsTable::new();
-    //objects_table
-    //objects_table.erase(&key);
+    let idx = objects_table.get_index_pk();
+    for row in idx.iter() {
+        objects_table.erase(&row.key);
+    }
 }
