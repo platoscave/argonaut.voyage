@@ -13,7 +13,7 @@ mod service {
     use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
-    //crate::utils::ArgoKey;
+    //use std::sync::Arc;
 
     #[table(name = "ClassesTable", index = 0)]
     #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
@@ -22,21 +22,16 @@ mod service {
         pub key: AccountNumber,
         pub superclass_id: AccountNumber,
         pub content: String,
+        //pub schema: Arc<Value>,
         pub argoquery_paths: Vec<ArgoqueryPath>,
     }
 
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
+    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Clone)]
     pub struct ArgoqueryPath {
         pub path: Vec<String>,
         pub class_id: AccountNumber,
     }
-    // impl ClassRow {
-    //     #[primary_key]
-    //     fn get_primary_key(&self) -> String {
-    //         self.key.to_owned()
-    //     }
 
-    // }
     impl ClassRow {
         #[secondary_key(1)]
         fn by_superclass_id(&self) -> (AccountNumber, AccountNumber) {
@@ -52,12 +47,7 @@ mod service {
         pub class_id: AccountNumber,
         pub content: String,
     }
-    // impl ObjectRow {
-    //     #[primary_key]
-    //     fn get_primary_key(&self) -> String {
-    //         self.key.to_owned()
-    //     }
-    // }
+
     impl ObjectRow {
         #[secondary_key(1)]
         fn by_class_id(&self) -> (AccountNumber, AccountNumber) {
