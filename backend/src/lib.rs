@@ -16,7 +16,7 @@ mod service {
     //use std::sync::Arc;
 
     #[table(name = "ClassesTable", index = 0)]
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
+    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Debug)]
     pub struct ClassRow {
         #[primary_key]
         pub key: AccountNumber,
@@ -26,7 +26,7 @@ mod service {
         pub argoquery_paths: Vec<ArgoqueryPath>,
     }
 
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Clone)]
+    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Debug, Clone)]
     pub struct ArgoqueryPath {
         pub path: Vec<String>,
         pub class_id: AccountNumber,
@@ -198,8 +198,8 @@ mod service {
     // serve_simple_ui::<Wrapper>(&request)
     //}
     #[action]
-    pub fn validateQueries() {
-        crate::classes::validate_argoqueries()
+    pub fn validators() {
+        crate::classes::generate_validators()
     }
 
     #[action]

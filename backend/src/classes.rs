@@ -27,68 +27,50 @@ pub fn upsert_class(schema_val: &Value) {
         );
     }
 
-    // let prefix: &mut Vec<String> = &mut vec![];
-    // let argoquery_paths = &mut vec![];
-    // get_argoquery_paths(&schema_val, argoquery_paths, prefix);
-
-    let argoquery_paths = get_argoquery_paths(&schema_val);
-
-    let merged_properties = get_merged_ancestors(&key);
-    println!("merged_properties: {:#?}", merged_properties.as_str());
-
-    //let argoquery_paths = vec![];
-    // Write json
-    let new_row = ClassRow {
+    // Write class row
+    let row = ClassRow {
         key,
         superclass_id,
         content: schema_val.to_string(),
-        argoquery_paths: argoquery_paths.to_vec(),
+        argoquery_paths: vec![],
     };
-    let res = ClassesTable::new().put(&new_row);
+    let res = ClassesTable::new().put(&row);
     check(
         res.is_ok(),
-        &format!("\nUnable to put class row: {:#?}\nkey: {}", res, key),
+        &format!("\nUnable to put class row: {:#?}\nrow: {:#?}", res, row),
     );
 }
 
-// fn get_validator(schema_val: &Value) -> JSONSchema {
-//     // get class json
-//     let merged_properties = get_merged_ancestors(schema_val);
+pub fn generate_validators() {
+    let idx = ClassesTable::new().get_index_pk();
+    for mut row in idx.iter() {
+        // String to json Value
+        let res = serde_json::from_str(&row.content);
+        check(
+            res.is_ok(),
+            &format!("\nUnable to parse class:\n{:#?}", res),
+        );
+        let class_val: Value = res.unwrap();
 
-//     // Compile validator
-//     let res = JSONSchema::options()
-//         .with_draft(Draft::Draft7)
-//         .compile(&merged_properties);
-//     check(
-//         res.is_ok(),
-//         &format!(
-//             "\nUnable to compile schema: {:#?}\nGot: {:#?}",
-//             res, merged_properties
-//         ),
-//     );
-//     res.unwrap()
-// }
+        let merged_properties = get_merged_ancestors(&class_val);
+        println!("merged_properties: {:#?}", merged_properties.as_str());
+        //row.argoquery_paths = get_argoquery_paths(&merged_properties);
+        get_validator(&merged_properties);
 
-fn get_merged_ancestors(key: &AccountNumber) -> Value {
-    // Get the class by key
-    let row_opt = ClassesTable::new().get_index_pk().get(&key);
-    check(
-        row_opt.is_some(),
-        &format!("\nUnable to get class: {}", key,),
-    );
-    let row = row_opt.unwrap();
-    let content_str = row.content;
+        // Write class row
+        let res = ClassesTable::new().put(&row);
+        check(
+            res.is_ok(),
+            &format!("\nUnable to put class row: {:#?}\nrow: {:#?}", res, row),
+        );
+    }
+}
 
-    // Content to json Value
-    let res = serde_json::from_str(&content_str);
-    check(
-        res.is_ok(),
-        &format!("\nUnable to parse payload:\n{:#?}", res),
-    );
-    let class_val: Value = res.unwrap();
-
+fn get_merged_ancestors(class_val: &Value) -> Value {
+    // Get the key as account number
+    let key = accountnumber_from_val(class_val, "key");
     // If we are at the root: universe, return a clone of our properties
-    if row.key == AccountNumber::from_exact("universe").unwrap() {
+    if key == AccountNumber::from_exact("universe").unwrap() {
         return class_val["properties"].clone();
     }
     // else
@@ -101,8 +83,27 @@ fn get_merged_ancestors(key: &AccountNumber) -> Value {
     );
     let our_properties_obj = res.unwrap();
 
+    // Get the superClassId as account number
+    let super_class_id = accountnumber_from_val(class_val, "superClassId");
+
+    // Get the super class by superClassId
+    let row_opt = ClassesTable::new().get_index_pk().get(&super_class_id);
+    check(
+        row_opt.is_some(),
+        &format!("\nUnable to get class: {}", key,),
+    );
+    let row = row_opt.unwrap();
+
+    // Content to json Value
+    let res = serde_json::from_str(&row.content);
+    check(
+        res.is_ok(),
+        &format!("\nUnable to parse payload:\n{:#?}", res),
+    );
+    let superclass_val: Value = res.unwrap();
+
     // Get super class properties
-    let mut super_properties_val = get_merged_ancestors(&row.superclass_id);
+    let mut super_properties_val = get_merged_ancestors(&superclass_val);
     let res = super_properties_val.as_object_mut();
     check(
         res.is_some(),
@@ -119,124 +120,6 @@ fn get_merged_ancestors(key: &AccountNumber) -> Value {
     super_properties_val
 }
 
-fn accountnumber_from_val(val: &Value, prop_name: &str) -> AccountNumber {
-    // Get the key str
-    let res = val[prop_name].as_str();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse {}\nGot: {:#?}", prop_name, val),
-    );
-    let key_str = res.unwrap();
-
-    // Translate key to AccountNumber
-    let res = AccountNumber::from_exact(&key_str);
-    check(
-        res.is_ok(),
-        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
-    );
-    res.unwrap()
-}
-
-pub fn validate_argoqueries() {
-    let idx = ClassesTable::new().get_index_pk();
-    for row in idx.iter() {
-        // String to json Value
-        let res = serde_json::from_str(&row.content);
-        check(
-            res.is_ok(),
-            &format!("\nUnable to parse class:\n{:#?}", res),
-        );
-        let object_val: Value = res.unwrap();
-        //let mut argoPaths: ArgoPaths = ArgoPaths { path: (), class_id: () };
-        let prefix: &mut Vec<String> = &mut vec![];
-
-        //let argoquery_paths = &mut vec![];
-
-        //get_argoquery_paths(&object_val, argoquery_paths, prefix);
-    }
-}
-/*
-fn get_argoquery_paths(
-    object_val: &Value,
-    argoquery_paths: &mut Vec<ArgoqueryPath>,
-    prefix: &mut Vec<String>,
-) {
-    //let mut argoquery_paths = Vec::new();
-
-    // Get the properties (required)
-    let res = object_val["properties"].as_object();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse properties\nGot:: {:#?}", object_val),
-    );
-    let properties_val = res.unwrap();
-
-    // For each property
-    for (prop_name, property_val) in properties_val {
-        prefix.push(prop_name.to_owned());
-        // Get the type (required)
-        let res = &property_val["type"].as_str();
-
-        check(
-            res.is_some(),
-            &format!("\nUnable to parse type\nGot: {:#?}", properties_val),
-        );
-        let type_str = res.unwrap();
-
-        // Possibly a foreign key
-        if type_str == "string" {
-            let res = validate_argoquery(property_val);
-            if let Some(class_id) = res {
-                let argoPath = ArgoqueryPath {
-                    path: prefix.to_vec(),
-                    class_id,
-                };
-                argoquery_paths.push(argoPath);
-            }
-        }
-        // Possibly an array of foreign keys
-        else if type_str == "array" {
-            let items_val = &property_val["items"];
-
-            //let items_val = items_opt.unwrap();
-            // Get the items type
-            let res = items_val["type"].as_str();
-            check(
-                res.is_some(),
-                &format!("\nUnable to parse type\nGot: {:#?}", items_val),
-            );
-            let type_str = res.unwrap();
-
-            // Possibly a foreign key
-            if type_str == "string" {
-                let res = validate_argoquery(items_val);
-                if let Some(class_id) = res {
-                    let argoPath = ArgoqueryPath {
-                        path: prefix.to_vec(),
-                        class_id,
-                    };
-                    argoquery_paths.push(argoPath);
-                }
-            }
-            // An object that possibly contains properties that conatain foreign keys
-            else if type_str == "object" {
-                get_argoquery_paths(items_val, argoquery_paths, prefix);
-            }
-        }
-        // An object that possibly contains properties that conatain foreign keys
-        else if type_str == "object" {
-            get_argoquery_paths(property_val, argoquery_paths, prefix);
-            // let paths_iter = res_argoquery_paths.iter();
-            // for path_class in paths_iter {
-            //     path_class.path.insert(0, prop_name.to_owned());
-            // }
-            //argpquery_paths.path.
-        }
-        prefix.pop();
-    }
-    //&mut argoquery_paths
-}
-*/
 fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
     // This might solve our problems
     // feat: Custom keyword validation
@@ -263,7 +146,7 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
 
         // Possibly a foreign key
         if type_str == "string" {
-            let res = validate_argoquery(property_val);
+            let res = get_argoquery_class_id(property_val);
             if let Some(class_id) = res {
                 let argoPath = ArgoqueryPath {
                     path: vec![prop_name.to_owned()],
@@ -287,7 +170,7 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
 
             // Possibly a foreign key
             if type_str == "string" {
-                let res = validate_argoquery(items_val);
+                let res = get_argoquery_class_id(items_val);
                 if let Some(class_id) = res {
                     let argoPath = ArgoqueryPath {
                         path: vec![prop_name.to_owned()],
@@ -298,7 +181,11 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
             }
             // An object that possibly contains properties that conatain foreign keys
             else if type_str == "object" {
-                //get_argoquery_paths(items_val, argoquery_paths, prefix);
+                let res_argoquery_paths = get_argoquery_paths(items_val);
+                for mut argoPath in res_argoquery_paths.into_iter() {
+                    argoPath.path.insert(0, prop_name.to_owned());
+                    argoquery_paths.push(argoPath);
+                }
             }
         }
         // An object that possibly contains properties that conatain foreign keys
@@ -308,15 +195,13 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
                 argoPath.path.insert(0, prop_name.to_owned());
                 argoquery_paths.push(argoPath);
             }
-            //argpquery_paths.path.
         }
-        //prefix.pop();
     }
     argoquery_paths
 }
 
 // Take the property, see if it has an argoQuey, validate it, lookup classid
-fn validate_argoquery(property_val: &Value) -> Option<AccountNumber> {
+fn get_argoquery_class_id(property_val: &Value) -> Option<AccountNumber> {
     //println!("val: {:#?}", property_val);
     // If there is an argoQuery (optional)
     if let Some(argoQuery_val) = property_val["argoQuery"].as_object() {
@@ -369,8 +254,44 @@ fn validate_argoquery(property_val: &Value) -> Option<AccountNumber> {
     None
 }
 
+fn get_validator(schema_val: &Value) {
+    //     // get class json
+    //     let merged_properties = get_merged_ancestors(schema_val);
+
+    //     // Compile validator
+    //     let res = JSONSchema::options()
+    //         .with_draft(Draft::Draft7)
+    //         .compile(&merged_properties);
+    //     check(
+    //         res.is_ok(),
+    //         &format!(
+    //             "\nUnable to compile schema: {:#?}\nGot: {:#?}",
+    //             res, merged_properties
+    //         ),
+    //     );
+    //     res.unwrap()
+}
+
 pub fn check_classmodel(key: &str) {
     // look for orphan classes (look out for loops)
+}
+
+fn accountnumber_from_val(val: &Value, prop_name: &str) -> AccountNumber {
+    // Get the key str
+    let res = val[prop_name].as_str();
+    check(
+        res.is_some(),
+        &format!("\nUnable to parse {}\nGot: {:#?}", prop_name, val),
+    );
+    let key_str = res.unwrap();
+
+    // Translate key to AccountNumber
+    let res = AccountNumber::from_exact(&key_str);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
+    );
+    res.unwrap()
 }
 
 pub fn erase_all_classes() {
