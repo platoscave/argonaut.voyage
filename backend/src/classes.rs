@@ -52,10 +52,10 @@ pub fn generate_validators() {
         );
         let class_val: Value = res.unwrap();
 
-        let merged_properties = get_merged_ancestors(&class_val);
-        println!("merged_properties: {:#?}", merged_properties.as_str());
-        //row.argoquery_paths = get_argoquery_paths(&merged_properties);
-        get_validator(&merged_properties);
+        let merged_ancestors = get_merged_ancestors(&class_val);
+        println!("merged_ancestors: \n{:#?}", merged_ancestors);
+        //row.argoquery_paths = get_argoquery_paths(&merged_ancestors);
+        get_validator(&merged_ancestors);
 
         // Write class row
         let res = ClassesTable::new().put(&row);
@@ -67,8 +67,11 @@ pub fn generate_validators() {
 }
 
 fn get_merged_ancestors(class_val: &Value) -> Value {
+    //**** our class ****/
+
     // Get the key as account number
     let key = accountnumber_from_val(class_val, "key");
+
     // If we are at the root: universe, return a clone of our properties
     if key == AccountNumber::from_exact("universe").unwrap() {
         return class_val["properties"].clone();
@@ -83,10 +86,12 @@ fn get_merged_ancestors(class_val: &Value) -> Value {
     );
     let our_properties_obj = res.unwrap();
 
+    //**** super class ****/
+
     // Get the superClassId as account number
     let super_class_id = accountnumber_from_val(class_val, "superClassId");
 
-    // Get the super class by superClassId
+    // Read the super class by superClassId
     let row_opt = ClassesTable::new().get_index_pk().get(&super_class_id);
     check(
         row_opt.is_some(),
