@@ -7,6 +7,7 @@ use psibase::Table;
 use psibase::*;
 use serde_json::Map;
 use serde_json::Value;
+use serde_json::Value::Null;
 
 pub fn upsert_class(schema_val: &Value) {
     // Get the key as account number
@@ -44,17 +45,10 @@ pub fn upsert_class(schema_val: &Value) {
 pub fn generate_validators() {
     let idx = ClassesTable::new().get_index_pk();
     for mut row in idx.iter() {
-        // String to json Value
-        let res = serde_json::from_str(&row.content);
-        check(
-            res.is_ok(),
-            &format!("\nUnable to parse class:\n{:#?}", res),
-        );
-        let class_val: Value = res.unwrap();
-
-        let merged_ancestors = get_merged_ancestors(&class_val);
-        println!("merged_ancestors: \n{:#?}", merged_ancestors);
-        //row.argoquery_paths = get_argoquery_paths(&merged_ancestors);
+        // Get merged ancestors by key
+        let merged_ancestors = get_merged_ancestors(row.key);
+        //println!("merged_ancestors: \n{:#?}", merged_ancestors);
+        row.argoquery_paths = get_argoquery_paths(&merged_ancestors);
         get_validator(&merged_ancestors);
 
         // Write class row
@@ -65,37 +59,20 @@ pub fn generate_validators() {
         );
     }
 }
-
-fn get_merged_ancestors(class_val: &Value) -> Value {
-    //**** our class ****/
-
+pub fn generate_validator() {
     // Get the key as account number
-    let key = accountnumber_from_val(class_val, "key");
-
-    // If we are at the root: universe, return a clone of our properties
-    if key == AccountNumber::from_exact("universe").unwrap() {
-        return class_val["properties"].clone();
-    }
-    // else
-
-    // Get our class properties
-    let res = class_val["properties"].as_object();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse class properties:\n{:#?}", res),
-    );
-    let our_properties_obj = res.unwrap();
-
-    //**** super class ****/
-
-    // Get the superClassId as account number
-    let super_class_id = accountnumber_from_val(class_val, "superClassId");
-
-    // Read the super class by superClassId
-    let row_opt = ClassesTable::new().get_index_pk().get(&super_class_id);
+    let key = AccountNumber::from_exact("resources").unwrap();
+    // Get merged ancestors by key
+    let merged_ancestors = get_merged_ancestors(key);
+    println!("merged_ancestors: \n{:#?}", merged_ancestors);
+}
+fn get_merged_ancestors(class_id: AccountNumber) -> Value {
+    //**** our class ****/
+    // Read the class by class_id
+    let row_opt = ClassesTable::new().get_index_pk().get(&class_id);
     check(
         row_opt.is_some(),
-        &format!("\nUnable to get class: {}", key,),
+        &format!("\nUnable to get class: {}", class_id,),
     );
     let row = row_opt.unwrap();
 
@@ -103,26 +80,44 @@ fn get_merged_ancestors(class_val: &Value) -> Value {
     let res = serde_json::from_str(&row.content);
     check(
         res.is_ok(),
-        &format!("\nUnable to parse payload:\n{:#?}", res),
+        &format!("\nUnable to parse payload: {:#?}\n{:#?}", res, row.content),
     );
-    let superclass_val: Value = res.unwrap();
+    let mut class_val: Value = res.unwrap();
 
-    // Get super class properties
-    let mut super_properties_val = get_merged_ancestors(&superclass_val);
-    let res = super_properties_val.as_object_mut();
+    // If we are at the root: universe, return a clone of our properties
+    if class_id == AccountNumber::from_exact("universe").unwrap() {
+        return class_val;
+    }
+    // else
+
+    // Get our class properties
+    let res = class_val["properties"].as_object_mut();
+    // If our class has no properties, return the merged super class
+    if let None = res {
+        // Get merged super class by calling ourselves
+        return get_merged_ancestors(row.superclass_id);
+    }
+    // else
+    let our_properties_obj:&mut Map<String, Value> = res.unwrap();
+
+    //**** super class ****/
+    // Get merged super class by calling ourselves
+    let super_class_val = get_merged_ancestors(row.superclass_id);
+    let res = super_class_val["properties"].as_object();
     check(
         res.is_some(),
         &format!("\nUnable to parse superclass properties:\n{:#?}", res),
     );
-    let super_properties_obj: &mut Map<String, Value> = res.unwrap();
+    let super_properties_obj  = res.unwrap();
 
-    //super_properties_obj.append(our_properties_val);
+    //**** merge super class properties into ours****/
+    //super_properties_obj.append(our_properties_obj);
 
-    for (key, value) in our_properties_obj.into_iter() {
-        super_properties_obj.insert(key.to_string(), value.clone());
+    for (key, value) in super_properties_obj.into_iter() {
+        our_properties_obj.insert(key.to_string(), value.clone());
     }
 
-    super_properties_val
+    class_val
 }
 
 fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {

@@ -579,59 +579,6 @@
     "type": "object"
   },
   {
-    "key": "repair-prop",
-    "title": "Repair Proposition",
-    "description": "<p>Repair Agreements between owners</p>",
-    "superClassId": "propositions",
-    "type": "object"
-  },
-  {
-    "key": "purchase-prop",
-    "title": "Purchase Proposition",
-    "description": "<p>Purchase Agreements between owners</p>",
-    "superClassId": "propositions",
-    "type": "object"
-  },
-  {
-    "key": "rental-prop",
-    "title": "Rental Proposition",
-    "description": "<p>Rental Agreements between owners</p>",
-    "superClassId": "propositions",
-    "type": "object"
-  },
-  {
-    "key": "messaging-prop",
-    "title": "Messaging Proposition",
-    "description": "<p>Messaging Agreements between owners</p>",
-    "superClassId": "propositions",
-    "properties": {
-      "classification": {
-        "enum": [
-          "Question",
-          "Defect",
-          "Enhancement"
-        ],
-        "title": "Classification",
-        "type": "string"
-      }
-    },
-    "type": "object"
-  },
-  {
-    "key": "member-prop",
-    "title": "Membership Proposition",
-    "superClassId": "propositions",
-    "type": "object"
-  },
-  {
-    "key": "features",
-    "title": "Features",
-    "classIcon": "Features.svg",
-    "superClassId": "off-sheet",
-    "properties": {},
-    "type": "object"
-  },
-  {
     "key": "org-units",
     "title": "Organizational Units",
     "description": "<p>Organizational units owned by organizations</p>",
@@ -703,6 +650,14 @@
     "title": "Off Balance Sheet",
     "description": "<p>Other things owned by users/organizations</p>",
     "superClassId": "resources",
+    "type": "object"
+  },
+  {
+    "key": "features",
+    "title": "Features",
+    "classIcon": "Features.svg",
+    "superClassId": "off-sheet",
+    "properties": {},
     "type": "object"
   },
   {
@@ -867,6 +822,51 @@
         "type": "array"
       }
     },
+    "type": "object"
+  },
+  {
+    "key": "repair-prop",
+    "title": "Repair Proposition",
+    "description": "<p>Repair Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "purchase-prop",
+    "title": "Purchase Proposition",
+    "description": "<p>Purchase Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "rental-prop",
+    "title": "Rental Proposition",
+    "description": "<p>Rental Agreements between owners</p>",
+    "superClassId": "propositions",
+    "type": "object"
+  },
+  {
+    "key": "messaging-prop",
+    "title": "Messaging Proposition",
+    "description": "<p>Messaging Agreements between owners</p>",
+    "superClassId": "propositions",
+    "properties": {
+      "classification": {
+        "enum": [
+          "Question",
+          "Defect",
+          "Enhancement"
+        ],
+        "title": "Classification",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  {
+    "key": "member-prop",
+    "title": "Membership Proposition",
+    "superClassId": "propositions",
     "type": "object"
   },
   {
