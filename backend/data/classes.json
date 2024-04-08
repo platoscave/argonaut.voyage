@@ -1085,6 +1085,7 @@
         "type": "array"
       },
       "properties": {
+        "properties": {},
         "title": "Properties",
         "type": "object"
       }

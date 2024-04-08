@@ -98,7 +98,7 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
         return get_merged_ancestors(row.superclass_id);
     }
     // else
-    let our_properties_obj:&mut Map<String, Value> = res.unwrap();
+    let our_properties_obj: &mut Map<String, Value> = res.unwrap();
 
     //**** super class ****/
     // Get merged super class by calling ourselves
@@ -108,7 +108,7 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
         res.is_some(),
         &format!("\nUnable to parse superclass properties:\n{:#?}", res),
     );
-    let super_properties_obj  = res.unwrap();
+    let super_properties_obj = res.unwrap();
 
     //**** merge super class properties into ours****/
     //super_properties_obj.append(our_properties_obj);
@@ -127,50 +127,20 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
 
     // Get the properties (required)
     let res = object_val["properties"].as_object();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse properties\nGot:: {:#?}", object_val),
-    );
+    if let None = res {
+        return vec![];
+    }
     let properties_val = res.unwrap();
 
     let mut argoquery_paths = vec![];
     // For each property
     for (prop_name, property_val) in properties_val {
         // Get the type (required)
-        let res = &property_val["type"].as_str();
-        check(
-            res.is_some(),
-            &format!("\nUnable to parse type\nGot: {:#?}", properties_val),
-        );
-        let type_str = res.unwrap();
-
-        // Possibly a foreign key
-        if type_str == "string" {
-            let res = get_argoquery_class_id(property_val);
-            if let Some(class_id) = res {
-                let argoPath = ArgoqueryPath {
-                    path: vec![prop_name.to_owned()],
-                    class_id,
-                };
-                argoquery_paths.push(argoPath);
-            }
-        }
-        // Possibly an array of foreign keys
-        else if type_str == "array" {
-            let items_val = &property_val["items"];
-
-            //let items_val = items_opt.unwrap();
-            // Get the items type
-            let res = items_val["type"].as_str();
-            check(
-                res.is_some(),
-                &format!("\nUnable to parse type\nGot: {:#?}", items_val),
-            );
-            let type_str = res.unwrap();
-
+        let res = property_val["type"].as_str();
+        if let Some(type_str) = res {
             // Possibly a foreign key
             if type_str == "string" {
-                let res = get_argoquery_class_id(items_val);
+                let res = get_argoquery_class_id(property_val);
                 if let Some(class_id) = res {
                     let argoPath = ArgoqueryPath {
                         path: vec![prop_name.to_owned()],
@@ -179,21 +149,42 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
                     argoquery_paths.push(argoPath);
                 }
             }
+            // Possibly an array of foreign keys
+            else if type_str == "array" {
+                let items_val = &property_val["items"];
+
+                //let items_val = items_opt.unwrap();
+                // Get the items type
+                let res = items_val["type"].as_str();
+                if let Some(type_str) = res {
+                    // Possibly a foreign key
+                    if type_str == "string" {
+                        let res = get_argoquery_class_id(items_val);
+                        if let Some(class_id) = res {
+                            let argoPath = ArgoqueryPath {
+                                path: vec![prop_name.to_owned()],
+                                class_id,
+                            };
+                            argoquery_paths.push(argoPath);
+                        }
+                    }
+                    // An object that possibly contains properties that conatain foreign keys
+                    else if type_str == "object" {
+                        let res_argoquery_paths = get_argoquery_paths(items_val);
+                        for mut argoPath in res_argoquery_paths.into_iter() {
+                            argoPath.path.insert(0, prop_name.to_owned());
+                            argoquery_paths.push(argoPath);
+                        }
+                    }
+                }
+            }
             // An object that possibly contains properties that conatain foreign keys
             else if type_str == "object" {
-                let res_argoquery_paths = get_argoquery_paths(items_val);
+                let res_argoquery_paths = get_argoquery_paths(property_val);
                 for mut argoPath in res_argoquery_paths.into_iter() {
                     argoPath.path.insert(0, prop_name.to_owned());
                     argoquery_paths.push(argoPath);
                 }
-            }
-        }
-        // An object that possibly contains properties that conatain foreign keys
-        else if type_str == "object" {
-            let res_argoquery_paths = get_argoquery_paths(property_val);
-            for mut argoPath in res_argoquery_paths.into_iter() {
-                argoPath.path.insert(0, prop_name.to_owned());
-                argoquery_paths.push(argoPath);
             }
         }
     }
