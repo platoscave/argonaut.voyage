@@ -1,31 +1,24 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
 use crate::service::{ArgoqueryPath, ClassRow, ClassesTable};
-//use jsonschema::{Draft, JSONSchema};
+use crate::utils::*;
+use jsonschema::{Draft, JSONSchema};
 //use jsonschema::{CustomKeywordDefinition, ErrorIterator, JSONSchema, paths::JSONPointer};
-use psibase::Table;
-use psibase::*;
-use serde_json::Map;
-use serde_json::Value;
-use serde_json::Value::Null;
+use psibase::{Table, AccountNumber, check};
+use serde_json::{Map, Value};
 
 pub fn upsert_class(schema_val: &Value) {
-    // Get the key as account number
-    let key = accountnumber_from_val(schema_val, "key");
+    // get the key as account number
+    let key = accountnumber_from_value(schema_val, "key");
 
-    // Get superClassId as account number
+    // default superclass_id
     let mut superclass_id = AccountNumber::from(0);
+    // if not at the root
     if key != AccountNumber::from_exact("universe").unwrap() {
-        superclass_id = accountnumber_from_val(schema_val, "superClassId");
-        // Validate superClassId
-        let row_opt = ClassesTable::new().get_index_pk().get(&superclass_id);
-        check(
-            row_opt.is_some(),
-            &format!(
-                "\nUnable to get superClassId: {}.\nkey: {}",
-                superclass_id, key
-            ),
-        );
+        // get superClassId as account number
+        superclass_id = accountnumber_from_value(schema_val, "superClassId");
+        // validate superClassId
+        get_class_row_by_key(&superclass_id);
     }
 
     // Write class row
@@ -45,7 +38,7 @@ pub fn upsert_class(schema_val: &Value) {
 pub fn generate_validators() {
     let idx = ClassesTable::new().get_index_pk();
     for mut row in idx.iter() {
-        // Get merged ancestors by key
+        // get merged ancestors
         let merged_ancestors = get_merged_ancestors(row.key);
         //println!("merged_ancestors: \n{:#?}", merged_ancestors);
         row.argoquery_paths = get_argoquery_paths(&merged_ancestors);
@@ -66,21 +59,17 @@ pub fn generate_validator() {
     let merged_ancestors = get_merged_ancestors(key);
     println!("merged_ancestors: \n{:#?}", merged_ancestors);
 }
+
 fn get_merged_ancestors(class_id: AccountNumber) -> Value {
     //**** our class ****/
     // Read the class by class_id
-    let row_opt = ClassesTable::new().get_index_pk().get(&class_id);
-    check(
-        row_opt.is_some(),
-        &format!("\nUnable to get class: {}", class_id,),
-    );
-    let row = row_opt.unwrap();
+    let row = get_class_row_by_key(&class_id);
 
     // Content to json Value
     let res = serde_json::from_str(&row.content);
     check(
         res.is_ok(),
-        &format!("\nUnable to parse payload: {:#?}\n{:#?}", res, row.content),
+        &format!("\nUnable to parse content: {:#?}\n{:#?}", res, row.content),
     );
     let mut class_val: Value = res.unwrap();
 
@@ -90,7 +79,7 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
     }
     // else
 
-    // Get our class properties
+    // Get our class properties (optional)
     let res = class_val["properties"].as_object_mut();
     // If our class has no properties, return the merged super class
     if let None = res {
@@ -103,6 +92,8 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
     //**** super class ****/
     // Get merged super class by calling ourselves
     let super_class_val = get_merged_ancestors(row.superclass_id);
+
+    // Get super class properties (required)
     let res = super_class_val["properties"].as_object();
     check(
         res.is_some(),
@@ -110,7 +101,7 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
     );
     let super_properties_obj = res.unwrap();
 
-    //**** merge super class properties into ours****/
+    //**** merge super class properties into ours ****/
     //super_properties_obj.append(our_properties_obj);
 
     for (key, value) in super_properties_obj.into_iter() {
@@ -121,11 +112,11 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
 }
 
 fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
-    // This might solve our problems
+    // This might solve all our problems
     // feat: Custom keyword validation
     // https://github.com/Stranger6667/jsonschema-rs/pull/394
 
-    // Get the properties (required)
+    // Get the properties (optional)
     let res = object_val["properties"].as_object();
     if let None = res {
         return vec![];
@@ -135,7 +126,7 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
     let mut argoquery_paths = vec![];
     // For each property
     for (prop_name, property_val) in properties_val {
-        // Get the type (required)
+        // Get the type (optional)
         let res = property_val["type"].as_str();
         if let Some(type_str) = res {
             // Possibly a foreign key
@@ -153,7 +144,6 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
             else if type_str == "array" {
                 let items_val = &property_val["items"];
 
-                //let items_val = items_opt.unwrap();
                 // Get the items type
                 let res = items_val["type"].as_str();
                 if let Some(type_str) = res {
@@ -195,29 +185,29 @@ fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
 fn get_argoquery_class_id(property_val: &Value) -> Option<AccountNumber> {
     //println!("val: {:#?}", property_val);
     // If there is an argoQuery (optional)
-    if let Some(argoQuery_val) = property_val["argoQuery"].as_object() {
+    if let Some(argoQuery_obj) = property_val["argoQuery"].as_object() {
         // Get the selector (required)
-        let res = argoQuery_val["selector"].as_str();
+        let res = argoQuery_obj["selector"].as_str();
         check(
             res.is_some(),
-            &format!("\nUnable to parse selector\nGot:: {:#?}", argoQuery_val),
+            &format!("\nUnable to parse selector\nGot: {:#?}", argoQuery_obj),
         );
         let selector_str = res.unwrap();
 
         if selector_str == "Subclasses" {
             // Get the where obj (required)
-            let res = argoQuery_val["where"].as_object();
+            let res = argoQuery_obj["where"].as_object();
             check(
                 res.is_some(),
-                &format!("\nUnable to parse where clause\nGot:: {:#?}", argoQuery_val),
+                &format!("\nUnable to parse where clause\nGot: {:#?}", argoQuery_obj),
             );
-            let where_val = res.unwrap();
+            let where_obj = res.unwrap();
 
             // Get the classId (required)
-            let res = where_val["classId"].as_str();
+            let res = where_obj["classId"].as_str();
             check(
                 res.is_some(),
-                &format!("\nUnable to parse classId\nGot:: {:#?}", where_val),
+                &format!("\nUnable to parse classId\nGot: {:#?}", where_obj),
             );
             let class_id_str = res.unwrap();
 
@@ -231,12 +221,9 @@ fn get_argoquery_class_id(property_val: &Value) -> Option<AccountNumber> {
             );
             let class_id = res.unwrap();
 
-            //Lookup the classId
-            // let row_opt = ClassesTable::new().get_index_pk().get(&class_id);
-            // check(
-            //     row_opt.is_some(),
-            //     &format!("\nUnable to get classId in argoquery: {}", class_id),
-            // );
+            // Validate classId
+            get_class_row_by_key(&class_id);
+
             return Some(class_id);
         }
         // } else if selector_str == "Where Clause" {
@@ -245,44 +232,32 @@ fn get_argoquery_class_id(property_val: &Value) -> Option<AccountNumber> {
     None
 }
 
-fn get_validator(schema_val: &Value) {
-    //     // get class json
-    //     let merged_properties = get_merged_ancestors(schema_val);
+fn get_validator(merged_properties: &Value) {
+    // let schema = json!({"maxLength": 5});
+    // let compiled = JSONSchema::compile(&schema);
+    // check(
+    //     compiled.is_ok(),
+    //     &format!(
+    //         "\nUnable to compile schema: {:#?}\nGot: {:#?}",
+    //         compiled, merged_properties
+    //     ),
+    // );
 
-    //     // Compile validator
-    //     let res = JSONSchema::options()
-    //         .with_draft(Draft::Draft7)
-    //         .compile(&merged_properties);
-    //     check(
-    //         res.is_ok(),
-    //         &format!(
-    //             "\nUnable to compile schema: {:#?}\nGot: {:#?}",
-    //             res, merged_properties
-    //         ),
-    //     );
-    //     res.unwrap()
+    // Compile validator
+    // let res = JSONSchema::options().compile(&merged_properties);
+    //.with_draft(Draft::Draft7)
+    // check(
+    //     res.is_ok(),
+    //     &format!(
+    //         "\nUnable to compile schema: {:#?}\nGot: {:#?}",
+    //         res, merged_properties
+    //     ),
+    // );
+    // res.unwrap()
 }
 
 pub fn check_classmodel(key: &str) {
     // look for orphan classes (look out for loops)
-}
-
-fn accountnumber_from_val(val: &Value, prop_name: &str) -> AccountNumber {
-    // Get the key str
-    let res = val[prop_name].as_str();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse {}\nGot: {:#?}", prop_name, val),
-    );
-    let key_str = res.unwrap();
-
-    // Translate key to AccountNumber
-    let res = AccountNumber::from_exact(&key_str);
-    check(
-        res.is_ok(),
-        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
-    );
-    res.unwrap()
 }
 
 pub fn erase_all_classes() {

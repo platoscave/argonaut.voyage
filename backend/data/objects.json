@@ -141,7 +141,7 @@
     }
   },
   {
-    "key": "demouser-01",
+    "key": "demo-user-01",
     "name": "Mom",
     "classId": "users",
     "icon": "Mom.jpg",
@@ -179,7 +179,7 @@
     ]
   },
   {
-    "key": "demouser-02",
+    "key": "demo-user-02",
     "name": "Pop",
     "classId": "users",
     "icon": "Pop.jpg",
@@ -217,7 +217,7 @@
     ]
   },
   {
-    "key": "demouser-03",
+    "key": "demo-user-03",
     "name": "Assistant",
     "classId": "users",
     "icon": "Assistant.jpg",
@@ -255,7 +255,7 @@
     ]
   },
   {
-    "key": "demouser-04",
+    "key": "demo-user-04",
     "name": "Receptionist One",
     "classId": "users",
     "icon": "ReceptionistOne.jpg",
@@ -293,7 +293,7 @@
     ]
   },
   {
-    "key": "demouser-05",
+    "key": "demo-user-05",
     "name": "Nurse One",
     "classId": "users",
     "icon": "NurseOne.jpg",
@@ -331,7 +331,7 @@
     ]
   },
   {
-    "key": "demouser-06",
+    "key": "demo-user-06",
     "name": "Nurse Two",
     "classId": "users",
     "icon": "NurseTwo.jpg",
@@ -369,7 +369,7 @@
     ]
   },
   {
-    "key": "demouser-07",
+    "key": "demo-user-07",
     "name": "Physician One",
     "classId": "users",
     "icon": "PhysicianOne.jpg",
@@ -407,7 +407,7 @@
     ]
   },
   {
-    "key": "demouser-08",
+    "key": "demo-user-08",
     "name": "Physician Two",
     "classId": "users",
     "icon": "PhysicianTwo.jpg",
@@ -445,7 +445,7 @@
     ]
   },
   {
-    "key": "demouser-09",
+    "key": "demo-user-09",
     "name": "Consumer One",
     "classId": "users",
     "icon": "ConsumerOne.jpg",
@@ -483,7 +483,7 @@
     ]
   },
   {
-    "key": "demouser-10",
+    "key": "demo-user-10",
     "name": "Consumer Two",
     "classId": "users",
     "icon": "ConsumerTwo.jpg",
@@ -691,7 +691,7 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser-04",
+                "actor": "demo-user-04",
                 "permission": "active"
               },
               "weight": 1
@@ -735,28 +735,28 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser-06",
+                "actor": "demo-user-06",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-10",
+                "actor": "demo-user-10",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-05",
+                "actor": "demo-user-05",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-06",
+                "actor": "demo-user-06",
                 "permission": "active"
               },
               "weight": 1
@@ -846,14 +846,14 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser-01",
+                "actor": "demo-user-01",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-02",
+                "actor": "demo-user-02",
                 "permission": "active"
               },
               "weight": 1
@@ -898,21 +898,21 @@
           "accounts": [
             {
               "permission": {
-                "actor": "demouser-01",
+                "actor": "demo-user-01",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-02",
+                "actor": "demo-user-02",
                 "permission": "active"
               },
               "weight": 1
             },
             {
               "permission": {
-                "actor": "demouser-03",
+                "actor": "demo-user-03",
                 "permission": "active"
               },
               "weight": 1
@@ -1259,7 +1259,7 @@
         "action": "unhappy"
       }
     ],
-    "ownerId": "demouser-08"
+    "ownerId": "demo-user-08"
   },
   {
     "key": "tchbowledac",
@@ -1365,7 +1365,7 @@
         "action": "unhappy"
       }
     ],
-    "ownerId": "demouser-08"
+    "ownerId": "demo-user-08"
   },
   {
     "key": "ja13daleo",
@@ -2756,7 +2756,7 @@
     "currency": "EUR",
     "startDate": "2021-05-10",
     "expirationDate": "2025-05-10",
-    "consumerId": "demouser-09",
+    "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "stapomerna",
     "propositionId": "coutrcules",
@@ -2771,7 +2771,7 @@
     "unitOfTime": "Day",
     "startDate": "2021-05-10",
     "expirationDate": "2025-05-10",
-    "consumerId": "demouser-09",
+    "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "blkdghf1",
     "propositionId": "teantoux",
@@ -2785,7 +2785,7 @@
     "currency": "EUR",
     "startDate": "2021-05-10",
     "expirationDate": "2025-05-10",
-    "consumerId": "demouser-09",
+    "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "",
     "propositionId": "emcanrnewamy",
@@ -2798,7 +2798,7 @@
     "classId": "message-agree",
     "startDate": "2021-05-10",
     "expirationDate": "2025-05-10",
-    "consumerId": "demouser-09",
+    "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "",
     "propositionId": "spalastsensynen",

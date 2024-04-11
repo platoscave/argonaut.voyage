@@ -3,7 +3,7 @@
 mod classes;
 mod next_step;
 mod objects;
-//mod utils;
+mod utils;
 
 #[psibase::service]
 mod service {
@@ -248,6 +248,21 @@ mod service {
             "clinic-consult",
             "bikeshop-desk",
             "bikeshop-shop",
+            "argonaut-serve",
+            "argonaut-found",
+            //"argonaut-voya",
+            "argonaut-org",
+            "demo-user-01",
+            "demo-user-02",
+            "demo-user-03",
+            "demo-user-04",
+            "demo-user-05",
+            "demo-user-06",
+            "demo-user-07",
+            "demo-user-08",
+            "demo-user-09",
+            "demo-user-10",
+
         ];
         let newKeys_iter = newKeys.iter();
         for name in newKeys_iter {

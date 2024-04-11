@@ -1,69 +1,24 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
-use crate::service::{ClassesTable, ObjectRow, ObjectsTable};
+use crate::service::{ ObjectRow, ObjectsTable};
+use crate::utils::*;
 use psibase::Table;
-use psibase::{AccountNumber, *};
-
-//use AccountNumber::FromStr;
+use psibase::check;
 use serde_json::Value;
 
 pub fn upsert_object(object_val: &Value) {
-    // Get the key
-    let res = object_val["key"].as_str();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse key\nGot: {:#?}", object_val),
-    );
-    let key_str = res.unwrap();
-    let res = AccountNumber::from_exact(&key_str);
-    check(
-        res.is_ok(),
-        &format!("\nInvalid account name: {:#?}\nkey: {}", res, key_str),
-    );
-    let key = res.unwrap();
+    // get the key as account number
+    let key = accountnumber_from_value(object_val, "key");
 
-    // Get classId
-    let res = object_val["classId"].as_str();
-    check(
-        res.is_some(),
-        &format!("\nUnable to parse classId.\nGot: {:#?}", object_val),
-    );
-    let class_id_str = res.unwrap();
-    let res = AccountNumber::from_exact(&class_id_str);
-    check(
-        res.is_ok(),
-        &format!(
-            "\nInvalid account name: {:#?}\nclass_id_str: {}\nkey: {}",
-            res, class_id_str, key_str
-        ),
-    );
-    let class_id = res.unwrap();
-    // Validate classId
-    let row_opt = ClassesTable::new().get_index_pk().get(&class_id);
-    check(
-        row_opt.is_some(),
-        &format!("\nUnable to get classId: {}.\nkey: {}", class_id, key),
-    );
+    // get the classId as account number
+    let class_id = accountnumber_from_value(object_val, "classId");
 
-    println!("class_id number is {}", class_id);
+    // validate classId
+    let class_row = get_class_row_by_key(&class_id);
 
-    //Validate assocs, array of assocs
+    // println!("class_id number is {}", class_id);
 
-    // for (key, value) in object_val.as_object().expect("Unable to parse object") {
-    //     let last_two = {
-    //         let split_pos = key.char_indices().nth_back(1).unwrap().0;
-    //         &key[split_pos..]
-    //     };
-    //     println!("Id {:?}", last_two);
-    //     if last_two == "Id" {
-    //         if let Some(object_id) = value.as_str().expect("Unable to parse object_id") {
-    //             println!("Matched {:?}!", object_id);
-    //             // lookup object_id
-    //         }
-    //     }
-    // }
-
-    // Get the compiled validator by classId
+    // Validate assocs, array of assocs
 
     // Validate object by validator
 
