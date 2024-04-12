@@ -22,7 +22,7 @@ mod service {
         pub key: AccountNumber,
         pub superclass_id: AccountNumber,
         pub content: String,
-        //pub schema: Arc<Value>,
+        //pub schema: Arc<serde_json::Value>,
         pub argoquery_paths: Vec<ArgoqueryPath>,
     }
 
@@ -100,7 +100,6 @@ mod service {
                 .take(n as usize)
                 .collect()
         }
-
         // Get the first n objects
         async fn getObjects(&self, n: u32) -> Vec<ObjectRow> {
             ObjectsTable::new()
@@ -109,7 +108,6 @@ mod service {
                 .take(n as usize)
                 .collect()
         }
-
         /*
         async fn classes(
             &self,
@@ -158,10 +156,8 @@ mod service {
                 .after(after)
                 .query()
                 .await
-        }
-        */
+                */
     }
-
     #[action]
     fn serveSys(request: HttpRequest) -> Option<HttpReply> {
         None.or_else(|| serve_simple_ui::<Wrapper>(&request))
@@ -171,6 +167,7 @@ mod service {
     /*
     #[action]
     fn serveSys(request: HttpRequest) -> Option<HttpReply> {
+    }
     let message_table = ObjectsTable::new();
 
     let re = regex::Regex::new("^/messages/([a-z]+)/([a-z]+)/([0-9]+)/([0-9]+)$").unwrap();
@@ -215,10 +212,10 @@ mod service {
             });
         }
     }
-
     serve_simple_ui::<Wrapper>(&request)
     }
     */
+
     #[action]
     pub fn validators() {
         crate::classes::generate_validators()
@@ -235,7 +232,7 @@ mod service {
     #[action]
     fn randomKey(seed: u64) {
         let mut rng = SmallRng::seed_from_u64(seed);
-        let mut count = 1;
+                let mut count = 1;
         while count < 50 {
             let value: u64 = rng.gen();
             let name = AccountNumber::new(value);
@@ -243,27 +240,18 @@ mod service {
                 if !name.to_string().contains("-") {
                     let res = AccountNumber::from_exact(&name.to_string());
                     if let Ok(class_id) = res {
-                        println!("-{},", name);
+                        println!("{},", name);
                         count += 1;
                     }
                 }
             }
         }
-        /*
-
+        /* 
         let newKeys = vec![
             "platoscave",
-            "demouser-01",
-            "demouser-02",
-            "demouser-03",
-            "demouser-04",
-            "demouser-05",
-            "demouser-06",
-            "demouser-07",
-            "demouser-08",
-            "demouser-09",
-            "demouser-10",
             "argonaut",
+            "argonaut-voy",
+            //"argonaut-voyag",
             "bikeshop",
             "clinic",
             "clinic-desk",
@@ -289,10 +277,9 @@ mod service {
         for name in newKeys_iter {
             let res = AccountNumber::from_exact(&name.to_string());
             if let Err(_) = res {
-                println!("{},", name);
+                println!("failed {},", name);
             }
         }
         */
-
     }
 }
