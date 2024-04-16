@@ -1,6 +1,7 @@
 import { ref, reactive, toRefs, onUnmounted, watch, unref } from 'vue'
 import { db } from "~/services/dexieServices";
-import { liveQuery } from "dexie";
+import Dexie, { liveQuery } from "dexie";
+import * as Rx from "rxjs";
 //import { useSubscription } from '@vueuse/rxjs'
 import { defer, of, from, combineLatest, tap, forkJoin, catchError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators'
@@ -10,6 +11,17 @@ import { JSONPath } from "jsonpath-plus"
 export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, options) {
 
   const executeQuery = (queryObj$) => {
+
+    // Hack until they fix: https://github.com/dexie/Dexie.js/issues/1187
+    const dexieToRx = (dexieObservable) => {
+      return new Rx.Observable(observer => {
+        const subscription = dexieObservable.subscribe({
+          next: value => observer.next(value),
+          error: error => observer.error(error)
+        });
+        return () => subscription.unsubscribe();
+      });
+    }
 
     const resolve$Vars = (whereClause, contextObj) => {
       let retObj = {}
@@ -197,12 +209,11 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
 
       } else { // Where Clause
 
-        // execute the where clause
-        const queryRes$ = liveQuery(() => {
+        slectorResult$ = dexieToRx(liveQuery(() => {
           const collection = db.state.where(resolvedWhere)
           return filterSortCollection(collection, queryObj)
-        })
-        slectorResult$ = from(queryRes$)
+        }))
+
 
       }
 
@@ -319,7 +330,7 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
   });
 
   watch(deps, (changedDeps) => {
-    //console.log('deps changed', changedDeps)
+    console.log('deps changed', changedDeps)
     subscription.unsubscribe();
     subscription = observable.subscribe({
       next: (val) => {
@@ -329,7 +340,8 @@ export default function useArgoQuery(idsArrayOrObj, contextObj = null, deps, opt
     });
   });
 
-  // TODO find a solution
+  // TODO find a solution.
+  // See: https://github.com/vuejs/apollo/pull/1262/commits/de2af6843b95e6e554896d4cdbf3bdbd8954f0ce
   // onUnmounted(() => {
   //     subscription.unsubscribe();
   // });

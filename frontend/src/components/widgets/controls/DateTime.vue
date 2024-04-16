@@ -12,17 +12,22 @@ const localeDate = computed(() => {
   const date = (new Date(props.modelValue)).toLocaleDateString(locale, options);
   return date
 });
+let strValue = props.modelValue
+
 </script>
 
 <template>
-  <div v-if="readonly" class="ar-lightgrey-background">
+  <div
+    v-if="readonly"
+    class="ar-lightgrey-background"
+  >
     {{ localeDate }}
   </div>
   <!-- TODO small -->
   <ElDatePicker
     v-else
     autosize
-    v-model="modelValue"
+    v-model="strValue"
     @change="$emit('update:modelValue', $event)"
   ></ElDatePicker>
 </template>

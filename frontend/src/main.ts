@@ -1,5 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+// Apollo
+import { DefaultApolloClient } from '@vue/apollo-composable'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 // context menu
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import '~/styles/vue3-context-menu-dark.css'
@@ -11,6 +14,8 @@ import json from 'highlight.js/lib/languages/json'
 import css from 'highlight.js/lib/languages/css'
 import xml from 'highlight.js/lib/languages/xml'
 import cpp from 'highlight.js/lib/languages/cpp'
+
+
 
 // register lowlight syntaxes
 lowlight.registerLanguage('javascript', javascript)
@@ -37,8 +42,18 @@ import "element-plus/theme-chalk/src/tooltip.scss"
 import "element-plus/theme-chalk/src/message-box.scss"
 import "element-plus/theme-chalk/src/calendar.scss" // Doesn't work! Why?
 
-const app = createApp(App);
 
+const httpLink = createHttpLink({
+    uri: 'http://argonaut.psibase.127.0.0.1.sslip.io:8080/graphql'
+})
+const cache = new InMemoryCache()
+const apolloClient = new ApolloClient({
+    link: httpLink,
+    cache,
+})
+
+const app = createApp(App);
+app.provide(DefaultApolloClient, apolloClient)
 // app.use(ElementPlus);
 app.mount("#app")
 // context menu

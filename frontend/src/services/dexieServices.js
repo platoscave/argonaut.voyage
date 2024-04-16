@@ -4,6 +4,8 @@ import 'dexie-observable'; // Not rxjs observable. This is used to monitor chang
 
 Dexie.debug = true
 export const db = new Dexie('argonautdb');
+
+
 db.version(1).stores({
   state: 'key, classId, superClassId, ownerId, [classId+ownerId]', // Primary key and indexed props
   updatedObjects: 'key, timestamp',

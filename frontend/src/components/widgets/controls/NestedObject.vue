@@ -8,6 +8,7 @@ const props = defineProps({
   readonly: { type: Boolean, default: true },
   formMode: { type: String, default: "Readonly Dense" },
 })
+let objValue = props.modelValue
 
 const highlightedCode = computed(() => {
 
@@ -17,7 +18,7 @@ const highlightedCode = computed(() => {
 <template>
   <SubForm
     class="ar-subform-background"
-    v-model="modelValue"
+    v-model="objValue"
     :properties="property.properties"
     :requiredArr="property.required"
     :form-mode="formMode"
