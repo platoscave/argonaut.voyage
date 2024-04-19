@@ -3,13 +3,13 @@
 ## Start the blockchain in a Docker container:
 
 First command prompt
-```command
+```bash
 docker pull ghcr.io/gofractally/psibase:v0.8.0-pre
 
 docker run --rm -p 8080:8080 -p 3000:3000 -p 9090:9090 ghcr.io/gofractally/psinode:v0.8.0-pre
 ```
 Second command prompt
-```command
+```bash
 psibase boot -p prod
 ```
 Try:
@@ -23,7 +23,7 @@ Try:
 If you dont have rustup installed follow the [rustup installation instructions](https://rustup.rs/). 
 
 Run 
-```command
+```bash
 rustup update
 rustup target add wasm32-wasi
 cargo install cargo-psibase
@@ -31,7 +31,7 @@ cargo install cargo-psibase
 ```
 
 Make sure you're in `argonaut.voyage/backend`. Then run 
-```command
+```bash
 cargo psibase deploy -ip
 ```
 
