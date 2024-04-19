@@ -12,12 +12,13 @@ Second command prompt
 ```command
 psibase boot -p prod
 ```
+Try:
+- [Featured Applets](http://psibase.127.0.0.1.sslip.io:8080/)
+- [Admin Pannel](http://localhost:8080/#Dashboard) (dead link)
+- [Graphana](http://localhost:3000/grafana/d/psinode-dashboard/psinode-dashboards?orgId=1&refresh=5s) (dead link)
 
-[Admin Pannel](http://localhost:8080/#Dashboard)
-[Graphana](http://localhost:3000/grafana/d/psinode-dashboard/psinode-dashboards?orgId=1&refresh=5s) (dead link)
-[Featured Applets](http://psibase.127.0.0.1.sslip.io:8080/)
 
-## Buid and deploy the app
+## Build and deploy the app
 
 If you dont have rustup installed follow the [rustup installation instructions](https://rustup.rs/). 
 
