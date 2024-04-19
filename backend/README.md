@@ -30,7 +30,7 @@ cargo install cargo-psibase
 
 ```
 
-Make sure you're in `argounaut.voyage/backend`. Then run 
+Make sure you're in `argonaut.voyage/backend`. Then run 
 ```command
 cargo psibase deploy -ip
 ```
