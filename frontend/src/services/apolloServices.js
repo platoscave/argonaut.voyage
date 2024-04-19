@@ -2,10 +2,10 @@
 // Apollo
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import { computed, watch } from 'vue'
 import {
     provideApolloClient,
-    useQuery,
-    useResult, } from "@vue/apollo-composable";
+    useQuery} from "@vue/apollo-composable";
 
 import gql from 'graphql-tag'
 
@@ -35,11 +35,13 @@ class ApolloServices {
             }
         `)
 
-debugger
-        let users = useResult(result, [], data => data.users)
+        let classes = computed(result, [], data => data.classes)
 
+        console.log(classes)
 
-
+        watch(result, value => {
+            console.log(value)
+        })
         // const query = provideApolloClient(apolloClient)(() => useQuery(gql`
         //     query {
         //         getClasses (n: 10) {

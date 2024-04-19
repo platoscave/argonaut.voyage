@@ -3,7 +3,7 @@ import { db } from "~/services/dexieServices";
 import Dexie, { liveQuery } from "dexie";
 import * as Rx from "rxjs";
 //import { useSubscription } from '@vueuse/rxjs'
-import { defer, of, from, combineLatest, tap, forkJoin, catchError } from 'rxjs';
+import { defer, of, from, combineLatest,  forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators'
 import { JSONPath } from "jsonpath-plus"
 
