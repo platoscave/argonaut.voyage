@@ -1,7 +1,13 @@
-use serde_json::Value;
+use crate::service::{ArgoqueryPath, ClassRow, ClassesTable};
+use crate::utils::*;
+use jsonschema::{Draft, JSONSchema};
+use psibase::{Table, AccountNumber, check};
+use serde_json::{Map, Value};
+use psibase::services::events::Wrapper;
 
-pub fn next_step(agreement_id: &str, updated_props: &Value) {
-    let key = updated_props["key"].as_str().expect("Unable to parse key");
+pub fn next_step(agreementId: &str, updatedProps: &str) {
+
+    // Wrapper::emit().history().add(a, b, res);
 
     // get the agreement by agreementId
     // verify that the current user is authorized for a unit that is responsible for agreement.stepId
@@ -15,4 +21,22 @@ pub fn next_step(agreement_id: &str, updated_props: &Value) {
     // validate any assocs / array of assocs
     // write the current_object Value with key, indexes
     // Update agreement.stepId
+
+/*
+    // agreement_id to AccountNumber
+    let res = AccountNumber::from_exact(&agreementId);
+    check(
+        res.is_ok(),
+        &format!("\nInvalid agreement_id: {:#?}\nkey: {}", res, agreementId),
+    );
+    let agreement_id: AccountNumber = res.unwrap();
+
+    // payload to serde Value
+    let res = serde_json::from_str(&updatedProps);
+    check(
+        res.is_ok(),
+        &format!("\nUnable to parse payload:\n{:#?}", res),
+    );
+    let updated_props: Value = res.unwrap();
+*/
 }

@@ -1,13 +1,14 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
 mod classes;
+mod http_request;
 mod next_step;
 mod objects;
 mod utils;
 
 #[psibase::service]
 mod service {
-    use async_graphql::connection::Connection;
+    //use async_graphql::connection::Connection;
     use async_graphql::*;
     //use json::*;
     use psibase::{AccountNumber, *};
@@ -16,7 +17,7 @@ mod service {
     //use std::sync::Arc;
 
     #[table(name = "ClassesTable", index = 0)]
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Debug)]
+    #[derive(Fracpack, Serialize, Deserialize, SimpleObject, Debug)]
     pub struct ClassRow {
         #[primary_key]
         pub key: AccountNumber,
@@ -26,7 +27,7 @@ mod service {
         pub argoquery_paths: Vec<ArgoqueryPath>,
     }
 
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject, Debug, Clone)]
+    #[derive(Fracpack, Serialize, Deserialize, SimpleObject, Debug, Clone)]
     pub struct ArgoqueryPath {
         pub path: Vec<String>,
         pub class_id: AccountNumber,
@@ -40,7 +41,7 @@ mod service {
     }
 
     #[table(name = "ObjectsTable", index = 1)]
-    #[derive(Fracpack, Reflect, Serialize, Deserialize, SimpleObject)]
+    #[derive(Fracpack, Serialize, Deserialize, SimpleObject)]
     pub struct ObjectRow {
         #[primary_key]
         pub key: AccountNumber,
@@ -54,11 +55,24 @@ mod service {
             (self.class_id.to_owned(), self.key.to_owned())
         }
     }
+
+    #[action]
+    pub fn nextstep(agreementId: String, updatedProps: String) {
+        // crate::next_step::next_step(&agreementId, &updatedProps);
+
+        Wrapper::emit()
+            .history()
+            .newstep(agreementId, updatedProps);
+    }
+
+    #[event(history)]
+    pub fn newstep(agreementId: String, updatedProps: String) {}
+
     #[action]
     pub fn upsert(payload: String) {
         //println!("payload {:#?}", payload);
 
-        // String to json Value
+        // payload to serde Value
         let res = serde_json::from_str(&payload);
         check(
             res.is_ok(),
@@ -66,18 +80,18 @@ mod service {
         );
         let payload_val: Value = res.unwrap();
 
-        // Get objects array
+        // Get the top level array of classes or objects
         let res = payload_val.as_array();
         check(
             res.is_some(),
             &format!(
-                "\nExpected an array of json objects. \nGot: {:#?}",
+                "\nExpected an array of objects or classes. \nGot: {:#?}",
                 payload_val
             ),
         );
         let json_arr_vec = res.unwrap();
 
-        // For each object
+        // For each class/object
         for json_object in json_arr_vec {
             //println!("String {}", json_object);
 
@@ -88,7 +102,13 @@ mod service {
                 crate::classes::upsert_class(json_object);
             }
         }
+
+        Wrapper::emit().history().upserted(payload);
     }
+
+    #[event(history)]
+    pub fn upserted(payload: String) {}
+
     struct Query;
     #[Object]
     impl Query {
@@ -110,6 +130,9 @@ mod service {
                 .collect()
         }
 
+        async fn event(&self, id: u64) -> Result<event_structs::HistoryEvents, anyhow::Error> {
+            get_event(id)
+        }
         /*
         async fn classes(
             &self,
@@ -126,99 +149,17 @@ mod service {
                 .query()
                 .await
         }
-
-        async fn objects(
-            &self,
-            first: Option<i32>,
-            last: Option<i32>,
-            before: Option<String>,
-            after: Option<String>,
-        ) -> async_graphql::Result<Connection<RawKey, ObjectRow>> {
-            TableQuery::new(ObjectsTable::new().get_index_pk())
-                .first(first)
-                .last(last)
-                .before(before)
-                .after(after)
-                .query()
-                .await
-        }
-
-        async fn objectsByClassId(
-            &self,
-            classId: AccountNumber,
-            first: Option<i32>,
-            last: Option<i32>,
-            before: Option<String>,
-            after: Option<String>,
-        ) -> async_graphql::Result<Connection<RawKey, ObjectRow>> {
-            TableQuery::subindex::<u64>(ObjectsTable::new().get_index_by_class_id(), &classId)
-                .first(first)
-                .last(last)
-                .before(before)
-                .after(after)
-                .query()
-                .await
-        }
         */
     }
 
     #[action]
     fn serveSys(request: HttpRequest) -> Option<HttpReply> {
-        None.or_else(|| serve_simple_ui::<Wrapper>(&request))
+        None.or_else(|| crate::http_request::serve_rest_api(&request))
+            .or_else(|| serve_simple_ui::<Wrapper>(&request))
             .or_else(|| serve_graphql(&request, Query))
             .or_else(|| serve_graphiql(&request))
     }
-    /*
-    #[action]
-    fn serveSys(request: HttpRequest) -> Option<HttpReply> {
-    let message_table = ObjectsTable::new();
 
-    let re = regex::Regex::new("^/messages/([a-z]+)/([a-z]+)/([0-9]+)/([0-9]+)$").unwrap();
-    if let Some(captures) = re.captures(&request.target) {
-        let index_name = &captures[1];
-        let account: AccountNumber = captures[2].parse().unwrap();
-        let begin: u64 = captures[3].parse().unwrap();
-        let end: u64 = captures[4].parse().unwrap();
-
-        // /messages/from/user/begin/end
-        if index_name == "from" {
-            // We named our secondary key "by_from"
-            let index = message_table.get_index_by_from();
-
-            return Some(HttpReply {
-                contentType: "application/json".into(),
-                body: serde_json::to_vec(
-                    &index
-                        .range((account, begin)..(account, end))
-                        .collect::<Vec<_>>(),
-                )
-                .unwrap()
-                .into(),
-                headers: vec![],
-            });
-        }
-
-        // /messages/to/user/begin/end
-        if index_name == "to" {
-            let index = message_table.get_index_by_to();
-
-            return Some(HttpReply {
-                contentType: "application/json".into(),
-                body: serde_json::to_vec(
-                    &index
-                        .range((account, begin)..(account, end))
-                        .collect::<Vec<_>>(),
-                )
-                .unwrap()
-                .into(),
-                headers: vec![],
-            });
-        }
-    }
-
-    serve_simple_ui::<Wrapper>(&request)
-    }
-    */
     #[action]
     pub fn validators() {
         crate::classes::generate_validators()
@@ -293,6 +234,5 @@ mod service {
             }
         }
         */
-
     }
 }

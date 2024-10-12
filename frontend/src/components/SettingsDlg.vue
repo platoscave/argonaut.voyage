@@ -10,7 +10,7 @@ import { ElMessage } from "element-plus";
 import { toggleDark } from "~/composables";
 import jp from "jsonpath";
 import { ifError } from "assert";
-//import ApolloServices from "~/services/apolloServices";
+import PsibaseApiService from "~/services/psibaseServices";
 import { liveQuery } from "dexie";
 
 
@@ -33,8 +33,15 @@ const reloadFromStatic = async () => {
     }
 };
 
-const psibaseToCache = async () => {
-    let res = await apolloServices.psibaseToCache();
+const staticToPsibase = () => {
+    let res = PsibaseApiService.staticToPsibase();
+};
+
+const psibaseToCache = () => {
+    let res = apolloServices.psibaseToCache();
+};
+const testApollo = () => {
+    let res = apolloServices.testApollo();
 };
 
 const saveToStatic = async () => {
@@ -54,13 +61,13 @@ const saveToStatic = async () => {
 }
 
 const addTestAccounts = async () => {
-    //psibaseServices.addTestAccounts(this.$message);
+    //PsibaseApiService.addTestAccounts(this.$message);
 };
 
 
 
 const cacheToPsibase = async () => {
-    //psibaseServices.cacheToPsibase(this.$message);
+    //PsibaseApiService.cacheToPsibase(this.$message);
 };
 
 const eraseAllPsibase = async () => {
@@ -253,6 +260,18 @@ const testQuery = async () => {
                 Add Tests Accounts to Psibase
             </ElButton>
         </ElRow>
+        <p></p>
+
+        <ElRow>
+            <ElButton
+                type="primary"
+                :dark="isDark"
+                plain
+                @click="staticToPsibase"
+            >
+                From Static to Psibase
+            </ElButton>
+        </ElRow>
 
         <ElRow>
             <ElButton
@@ -262,6 +281,18 @@ const testQuery = async () => {
                 @click="psibaseToCache"
             >
                 From Psibase to Cache
+            </ElButton>
+        </ElRow>
+
+
+        <ElRow>
+            <ElButton
+                type="primary"
+                :dark="isDark"
+                plain
+                @click="testApollo"
+            >
+                Test Apollo
             </ElButton>
         </ElRow>
 
@@ -330,6 +361,6 @@ const testQuery = async () => {
 
 <style scoped>
 .el-row {
-    margin-top: 4px;
+    margin-top: 10px;
 }
 </style>

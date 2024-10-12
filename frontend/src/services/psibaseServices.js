@@ -1,25 +1,17 @@
 /* eslint-disable no-console */
 import { db } from "../services/dexieServices";
 import { getClassSchema } from "~/lib/argoUtils"
-import {
-  Api,
-  JsonRpc,
-  RpcError
-} from 'psibasejs'
-import {
-  JsSignatureProvider
-} from 'psibasejs/dist/psibasejs-jssig'
+// Use these if your script is NOT hosted by psinode:
+import { getTaposForHeadBlock, signAndPushTransaction } from "http://psibase.127.0.0.1.sslip.io:8080/common/common-lib.js";
 import testAccounts from '../config/testaccounts.js'
 import networks from '../config/networks.js'
-import BigNumber from "../../node_modules/big.js"
-import {
-  encodeName,
-  decodeName
-} from '../lib/format.js'
+//import BigNumber from "../../node_modules/big.js"
+// import {
+//   encodeName,
+//   decodeName
+// } from '../lib/format.js'
 
 
-
-// See https://psibaseio.github.io/psibasejs/latest/how-to-guides/index
 
 
 //////////////////////////////////////////////////////////
@@ -32,40 +24,83 @@ async function takeAction(actions) {
 
   let networkUserObj = await db.table('settings').get('application')
   const network = networkUserObj.currentNetwork;
-  const rpc = new JsonRpc(networks[network].endpoint);
+  //const rpc = new JsonRpc(networks[network].endpoint);
+  const baseUrl = networks[network].endpoint;
+  //const baseUrl = '';
 
 
   const actor = networkUserObj.currentUserId;
   const privateKey = testAccounts[actor].privateKey
-  const signatureProvider = new JsSignatureProvider([privateKey])
+  // const signatureProvider = new JsSignatureProvider([privateKey])
 
-  const api = new Api({
-    rpc,
-    signatureProvider,
-    textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
-  })
+  // const api = new Api({
+  //   rpc,
+  //   signatureProvider,
+  //   textDecoder: new TextDecoder(),
+  //   textEncoder: new TextEncoder()
+  // })
 
   // Main call to blockchain after setting action, account_name and data
   try {
-    const resultWithConfig = await api.transact({
+    const transaction = {
+      tapos: {
+        ...await getTaposForHeadBlock(baseUrl),
+        // expire after 10 seconds
+        expiration: new Date(Date.now() + 10000),
+      },
       actions: actions
-    }, {
-      blocksBehind: 3,
-      expireSeconds: 30
-    })
+      // actions: [
+      //   {
+      //     sender: "sue",          // account requesting action
+      //     service: "example",     // service executing action
+      //     method: "add",          // method to execute
+      //     data: {                 // arguments to method
+      //       "a": 0,
+      //       "b": 0
+      //     }
+      //   }
+      // ],
+    };
+    const privateKeys = [
+    ////  'PVT_K1_2bfGi9rYsXQSXXTvJbDAPhHLQUojjaNLomdm3cEJ1XTzMqUt3V',
+    ];
 
-    return resultWithConfig
+    // Don't forget the await!
+    const trace = await signAndPushTransaction(baseUrl, transaction, privateKeys, false);
 
+    console.log("Transaction executed");
+    console.log("\ntrace:", JSON.stringify(trace, null, 4));
+
+    return trace
   } catch (err) {
-    if (err instanceof RpcError) {
-      console.log('actions in error', actions)
+    console.log("Caught exception:", err.message);
+    if (err.trace) {
+      console.log(JSON.stringify(err.trace, null, 4));
       throw 'Psibase Transaction Failed:\n' + err.json.error.details[0].message
-    }
-    else {
-      throw err
-    }
+    } else throw err
   }
+
+
+
+  // try {
+  //   const resultWithConfig = await api.transact({
+  //     actions: actions
+  //   }, {
+  //     blocksBehind: 3,
+  //     expireSeconds: 30
+  //   })
+
+  //   return resultWithConfig
+
+  // } catch (err) {
+  //   if (err instanceof RpcError) {
+  //     console.log('actions in error', actions)
+  //     throw 'Psibase Transaction Failed:\n' + err.json.error.details[0].message
+  //   }
+  //   else {
+  //     throw err
+  //   }
+  // }
 }
 
 class PsibaseApiService {
@@ -103,11 +138,19 @@ class PsibaseApiService {
 
 
   static async staticToPsibase($message) {
-    const response = await fetch("argonautdb.json");
-    const argonautArr = await response.json();
-    this.sendUpsertBatches(argonautArr, $message)
+    const response = await fetch("data/classes.json");
+    const classesArr = await response.json();
+    //this.sendUpsertBatches(argonautArr, $message)
+    const actions = [
+      {
+        sender: "argonaut",          // account requesting action
+        service: "argonaut",     // service executing action
+        method: "upsert",          // method to execute
+        data: JSON.stringify(classesArr) 
+      }
+    ]
+    await takeAction(actions)
 
-    //this.upsertDocument(argonautArr[0])
   }
 
   static async sendUpsertBatches(argonautArr, $message) {

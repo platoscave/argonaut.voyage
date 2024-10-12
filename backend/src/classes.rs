@@ -2,7 +2,7 @@
 #![allow(dead_code, unused_variables)]
 use crate::service::{ArgoqueryPath, ClassRow, ClassesTable};
 use crate::utils::*;
-use jsonschema::{Draft, JSONSchema};
+//use jsonschema::{Draft, JSONSchema};
 //use jsonschema::{CustomKeywordDefinition, ErrorIterator, JSONSchema, paths::JSONPointer};
 use psibase::{Table, AccountNumber, check};
 use serde_json::{Map, Value};

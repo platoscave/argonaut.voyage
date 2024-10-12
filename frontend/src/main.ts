@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 // Apollo
-import { DefaultApolloClient } from '@vue/apollo-composable'
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+//import { DefaultApolloClient } from '@vue/apollo-composable'
+//import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 // context menu
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import '~/styles/vue3-context-menu-dark.css'
@@ -43,17 +43,17 @@ import "element-plus/theme-chalk/src/message-box.scss"
 import "element-plus/theme-chalk/src/calendar.scss" // Doesn't work! Why?
 
 
-const httpLink = createHttpLink({
-    uri: 'http://argonaut.psibase.127.0.0.1.sslip.io:8080/graphql'
-})
-const cache = new InMemoryCache()
-const apolloClient = new ApolloClient({
-    link: httpLink,
-    cache,
-})
+// const httpLink = createHttpLink({
+//     uri: 'http://argonaut.psibase.127.0.0.1.sslip.io:8080/graphql'
+// })
+// const cache = new InMemoryCache()
+// const apolloClient = new ApolloClient({
+//     link: httpLink,
+//     cache,
+// })
 
 const app = createApp(App);
-app.provide(DefaultApolloClient, apolloClient)
+//app.provide(DefaultApolloClient, apolloClient)
 // app.use(ElementPlus);
 app.mount("#app")
 // context menu
