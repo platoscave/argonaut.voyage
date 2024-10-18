@@ -7,14 +7,10 @@ edition = "2021"
 
 [dependencies]
 async-graphql = "7.0.11"
-#async-graphql = "4.0.1"
-#json = "0.12.4"
-#jsonschema = { version = "=0.15.1", default-features = false, features = ["structopt"]}
-jsonschema = { version = "0.17.0", default-features = false, features = ["resolve-file"]}
+jsonschema = { version = "0.23.0", default-features = false }
 psibase = "0.13.0"
 rand = { version = "0.8.5", features = ["small_rng"] }
 rand_chacha = "0.3.1"
 regex = "1.10.3"
-#reqwest = "0.12.3"
 serde = { version = "1.0.197", features = ["derive"] }
-serde_json = "1.0.114"
+serde_json = "1.0.129"

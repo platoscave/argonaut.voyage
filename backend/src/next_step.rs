@@ -1,4 +1,4 @@
-use crate::service::{ArgoqueryPath, ClassRow, ClassesTable};
+use crate::service::{ClassRow, ClassesTable};
 use crate::utils::*;
 use jsonschema::{Draft, JSONSchema};
 use psibase::{Table, AccountNumber, check};

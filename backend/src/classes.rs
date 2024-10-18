@@ -1,19 +1,20 @@
 #![allow(non_snake_case)]
 #![allow(dead_code, unused_variables)]
-use crate::service::{ArgoqueryPath, ClassRow, ClassesTable};
+use crate::service::{ClassRow, ClassesTable};
 use crate::utils::*;
-//use jsonschema::{Draft, JSONSchema};
+use jsonschema::{Draft, Validator};
+use std::fmt::Write;
+
 //use jsonschema::{CustomKeywordDefinition, ErrorIterator, JSONSchema, paths::JSONPointer};
-use psibase::{Table, AccountNumber, check};
-use serde_json::{Map, Value};
+use psibase::{check, AccountNumber, Table};
+use serde_json::{json, Map, Value};
 
 pub fn upsert_class(schema_val: &Value) {
     // get the key as account number
     let key = accountnumber_from_value(schema_val, "key");
 
-    // default superclass_id
-    let mut superclass_id = AccountNumber::from(0);
-    // if not at the root
+    let mut superclass_id = AccountNumber::from(0); // default superclass_id
+                                                    // if not at the root
     if key != AccountNumber::from_exact("universe").unwrap() {
         // get superClassId as account number
         superclass_id = accountnumber_from_value(schema_val, "superClassId");
@@ -26,7 +27,7 @@ pub fn upsert_class(schema_val: &Value) {
         key,
         superclass_id,
         content: schema_val.to_string(),
-        argoquery_paths: vec![],
+        validator: vec![],
     };
     let res = ClassesTable::new().put(&row);
     check(
@@ -38,11 +39,10 @@ pub fn upsert_class(schema_val: &Value) {
 pub fn generate_validators() {
     let idx = ClassesTable::new().get_index_pk();
     for mut row in idx.iter() {
-        // get merged ancestors
-        let merged_ancestors = get_merged_ancestors(row.key);
+        let validator: Validator = generate_validator(row.key);
         //println!("merged_ancestors: \n{:#?}", merged_ancestors);
-        row.argoquery_paths = get_argoquery_paths(&merged_ancestors);
-        get_validator(&merged_ancestors);
+        //row.validator = validator;
+        //l= get_validator(&merged_ancestors);
 
         // Write class row
         let res = ClassesTable::new().put(&row);
@@ -52,12 +52,23 @@ pub fn generate_validators() {
         );
     }
 }
-pub fn generate_validator() {
-    // Get the key as account number
-    let key = AccountNumber::from_exact("resources").unwrap();
-    // Get merged ancestors by key
-    let merged_ancestors = get_merged_ancestors(key);
-    println!("merged_ancestors: \n{:#?}", merged_ancestors);
+pub fn generate_validator(class_id: AccountNumber) -> Validator {
+    let merged_ancestors = get_merged_ancestors(class_id);
+    //println!("merged_ancestors: \n{:#?}", merged_ancestors);
+
+    let res = Validator::options()
+        .with_draft(Draft::Draft7)
+        //.with_keyword("argoQuery", argo_query_validator_factory);
+        .build(&merged_ancestors);
+    check(
+        res.is_ok(),
+        &format!(
+            "\nUnable to build schema: {:#?}\nMerged ancestors: \n{:#?}",
+            res,
+            serde_json::to_value(merged_ancestors).unwrap()
+        ),
+    );
+    res.unwrap()
 }
 
 fn get_merged_ancestors(class_id: AccountNumber) -> Value {
@@ -110,7 +121,7 @@ fn get_merged_ancestors(class_id: AccountNumber) -> Value {
 
     class_val
 }
-
+/*
 fn get_argoquery_paths(object_val: &Value) -> Vec<ArgoqueryPath> {
     // This might solve all our problems
     // feat: Custom keyword validation
@@ -231,29 +242,29 @@ fn get_argoquery_class_id(property_val: &Value) -> Option<AccountNumber> {
     }
     None
 }
+*/
+pub fn test_validator() {
+    let schema = json!({"maxLength": 5});
+    let res = Validator::options().build(&schema);
 
-fn get_validator(merged_properties: &Value) {
-    // let schema = json!({"maxLength": 5});
-    // let compiled = JSONSchema::compile(&schema);
-    // check(
-    //     compiled.is_ok(),
-    //     &format!(
-    //         "\nUnable to compile schema: {:#?}\nGot: {:#?}",
-    //         compiled, merged_properties
-    //     ),
-    // );
+    check(
+        res.is_ok(),
+        &format!("\nUnable to compile schema:\nRes: {:#?}", res),
+    );
+    let validator = res.unwrap();
+    let instance = json!("AAAAAAAAA");
+    let res = validator.validate(&instance);
 
-    // Compile validator
-    // let res = JSONSchema::options().compile(&merged_properties);
-    //.with_draft(Draft::Draft7)
-    // check(
-    //     res.is_ok(),
-    //     &format!(
-    //         "\nUnable to compile schema: {:#?}\nGot: {:#?}",
-    //         res, merged_properties
-    //     ),
-    // );
-    // res.unwrap()
+    if let Err(errors) = res {
+        let mut message: String = "".to_string();
+        for error in errors {
+            write!(message, "\nError: {}", error).unwrap();
+            write!(message, "\nLocation: {}", error.instance_path).unwrap();
+        }
+        check(false, &format!("\nInvalid json: {}", message));
+    }
+    println!("Valid");
+
 }
 
 pub fn check_classmodel(key: &str) {

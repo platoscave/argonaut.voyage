@@ -15,6 +15,7 @@ mod service {
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
     //use std::sync::Arc;
+    //use jsonschema::Validator;
 
     #[table(name = "ClassesTable", index = 0)]
     #[derive(Fracpack, Serialize, Deserialize, SimpleObject, Debug)]
@@ -24,13 +25,7 @@ mod service {
         pub superclass_id: AccountNumber,
         pub content: String,
         //pub schema: Arc<Value>,
-        pub argoquery_paths: Vec<ArgoqueryPath>,
-    }
-
-    #[derive(Fracpack, Serialize, Deserialize, SimpleObject, Debug, Clone)]
-    pub struct ArgoqueryPath {
-        pub path: Vec<String>,
-        pub class_id: AccountNumber,
+        pub validator: Vec<u8>,
     }
 
     impl ClassRow {
@@ -55,14 +50,16 @@ mod service {
             (self.class_id.to_owned(), self.key.to_owned())
         }
     }
+    #[action]
+    pub fn testvalidator() {
+        crate::classes::generate_validators();
+    }
 
     #[action]
     pub fn nextstep(agreementId: String, updatedProps: String) {
         // crate::next_step::next_step(&agreementId, &updatedProps);
 
-        Wrapper::emit()
-            .history()
-            .newstep(agreementId, updatedProps);
+        Wrapper::emit().history().newstep(agreementId, updatedProps);
     }
 
     #[event(history)]
