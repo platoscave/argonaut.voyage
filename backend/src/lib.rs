@@ -1,5 +1,4 @@
 #![allow(non_snake_case)]
-#![allow(dead_code, unused_variables)]
 mod classes;
 mod http_request;
 mod next_step;
@@ -8,14 +7,10 @@ mod utils;
 
 #[psibase::service]
 mod service {
-    //use async_graphql::connection::Connection;
     use async_graphql::*;
-    //use json::*;
     use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
-    //use std::sync::Arc;
-    //use jsonschema::Validator;
 
     #[table(name = "ClassesTable", index = 0)]
     #[derive(Fracpack, Serialize, Deserialize, SimpleObject, Debug)]
@@ -23,9 +18,8 @@ mod service {
         #[primary_key]
         pub key: AccountNumber,
         pub superclass_id: AccountNumber,
-        pub content: String,
-        //pub schema: Arc<Value>,
-        pub validator: Vec<u8>,
+        pub class_str: String,
+        pub merged_ancestors_str: String,
     }
 
     impl ClassRow {
@@ -41,7 +35,7 @@ mod service {
         #[primary_key]
         pub key: AccountNumber,
         pub class_id: AccountNumber,
-        pub content: String,
+        pub object_str: String,
     }
 
     impl ObjectRow {
@@ -51,19 +45,47 @@ mod service {
         }
     }
     #[action]
-    pub fn testvalidator() {
-        crate::classes::generate_validators();
+    pub fn test() {
+        //crate::classes::generate_validators();
+        use fracpack::{Pack, Result, SchemaBuilder, Unpack, UnpackOwned};
+        let parsed = json::parse(
+            r#"
+                {
+                    "code": 200,
+                    "success": true,
+                    "payload": {
+                        "features": [
+                            "awesome",
+                            "easyAPI",
+                            "lowLearningCurve"
+                        ]
+                    }
+                }
+                "#,
+        )
+        .unwrap();
+        println!("parsed {:#?}", parsed);
+
+        let mut bytes: Vec<u8> = Vec::new();
+        //parsed.pack(&mut bytes);
+
+        // let row = ClassRow {
+        //     key: AccountNumber::from_exact("universe").unwrap(),
+        //     superclass_id: AccountNumber::from_exact("universe").unwrap(),
+        //     content: "AAA".to_string(),
+        //     validator: bytes,
+        // };
     }
 
     #[action]
     pub fn nextstep(agreementId: String, updatedProps: String) {
         // crate::next_step::next_step(&agreementId, &updatedProps);
 
-        Wrapper::emit().history().newstep(agreementId, updatedProps);
+        Wrapper::emit().history().step(agreementId, updatedProps);
     }
 
     #[event(history)]
-    pub fn newstep(agreementId: String, updatedProps: String) {}
+    pub fn step(agreementId: String, updatedProps: String) {}
 
     #[action]
     pub fn upsert(payload: String) {
@@ -94,8 +116,11 @@ mod service {
 
             // If the object has a classId, its an object, otherwise its a class
             if json_object["classId"].is_string() {
+                println!("Object");
+
                 crate::objects::upsert_object(json_object);
             } else {
+                println!("Class");
                 crate::classes::upsert_class(json_object);
             }
         }
@@ -158,11 +183,6 @@ mod service {
     }
 
     #[action]
-    pub fn validators() {
-        crate::classes::generate_validators()
-    }
-
-    #[action]
     fn eraseAll() {
         crate::objects::erase_all_objects();
         crate::classes::erase_all_classes();
@@ -180,7 +200,7 @@ mod service {
             if name.to_string().len() > 7 {
                 if !name.to_string().contains("-") {
                     let res = AccountNumber::from_exact(&name.to_string());
-                    if let Ok(class_id) = res {
+                    if let Ok(_) = res {
                         println!("-{},", name);
                         count += 1;
                     }

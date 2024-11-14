@@ -22,7 +22,26 @@ pub fn serve_rest_api(request: &HttpRequest) -> Option<HttpReply> {
                 .get_index_pk()
                 .iter()
                 .take(n as usize)
-                .map(|row| serde_json::from_str(&row.content).unwrap())
+                .map(|row| serde_json::from_str(&row.class_str).unwrap())
+                .collect();
+
+            return Some(HttpReply {
+                status: 200,
+                contentType: "application/json".into(),
+                body: serde_json::to_vec(&content_arr).unwrap().into(),
+                headers: vec![],
+            });
+        }
+
+        // /merged/10
+        if table_name == "merged" {
+            let n: u64 = captures[2].parse().unwrap();
+
+            let content_arr: Vec<Value> = ClassesTable::new()
+                .get_index_pk()
+                .iter()
+                .take(n as usize)
+                .map(|row| serde_json::from_str(&row.merged_ancestors_str).unwrap())
                 .collect();
 
             return Some(HttpReply {
@@ -38,14 +57,14 @@ pub fn serve_rest_api(request: &HttpRequest) -> Option<HttpReply> {
             let table_name = &captures[1];
             //println!("captures {:#?}", captures);
 
-            if table_name == "classes" {
+            if table_name == "objects" {
                 let n: u64 = captures[2].parse().unwrap();
 
                 let content_arr: Vec<Value> = ObjectsTable::new()
                     .get_index_pk()
                     .iter()
                     .take(n as usize)
-                    .map(|row| serde_json::from_str(&row.content).unwrap())
+                    .map(|row| serde_json::from_str(&row.object_str).unwrap())
                     .collect();
 
                 return Some(HttpReply {

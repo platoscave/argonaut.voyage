@@ -1,9 +1,10 @@
+#![allow(unused_imports)]
 use crate::service::{ClassRow, ClassesTable};
 use crate::utils::*;
 use jsonschema::{Draft, JSONSchema};
-use psibase::{Table, AccountNumber, check};
-use serde_json::{Map, Value};
 use psibase::services::events::Wrapper;
+use psibase::{check, AccountNumber, Table};
+use serde_json::{Map, Value};
 
 pub fn next_step(agreementId: &str, updatedProps: &str) {
 
@@ -22,21 +23,21 @@ pub fn next_step(agreementId: &str, updatedProps: &str) {
     // write the current_object Value with key, indexes
     // Update agreement.stepId
 
-/*
-    // agreement_id to AccountNumber
-    let res = AccountNumber::from_exact(&agreementId);
-    check(
-        res.is_ok(),
-        &format!("\nInvalid agreement_id: {:#?}\nkey: {}", res, agreementId),
-    );
-    let agreement_id: AccountNumber = res.unwrap();
+    /*
+        // agreement_id to AccountNumber
+        let res = AccountNumber::from_exact(&agreementId);
+        check(
+            res.is_ok(),
+            &format!("\nInvalid agreement_id: {:#?}\nkey: {}", res, agreementId),
+        );
+        let agreement_id: AccountNumber = res.unwrap();
 
-    // payload to serde Value
-    let res = serde_json::from_str(&updatedProps);
-    check(
-        res.is_ok(),
-        &format!("\nUnable to parse payload:\n{:#?}", res),
-    );
-    let updated_props: Value = res.unwrap();
-*/
+        // payload to serde Value
+        let res = serde_json::from_str(&updatedProps);
+        check(
+            res.is_ok(),
+            &format!("\nUnable to parse payload:\n{:#?}", res),
+        );
+        let updated_props: Value = res.unwrap();
+    */
 }

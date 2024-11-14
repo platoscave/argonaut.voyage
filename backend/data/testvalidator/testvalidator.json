@@ -1,0 +1,63 @@
+[
+    {
+        "key": "universe",
+        "title": "Process Universe",
+        "properties": {
+            "key": {
+                "description": "<p>Base32 identifier.</p>",
+                "pattern": "[a-z][a-z0-9-]{0,17}",
+                "title": "key",
+                "type": "string"
+            },
+            "name": {
+                "maxLength": 1000,
+                "minLength": 0,
+                "title": "Name",
+                "type": "string"
+            }
+        },
+        "required": [
+            "key"
+        ],
+        "type": "object"
+    },
+    {
+        "key": "agreements",
+        "title": "Agreements",
+        "superClassId": "universe",
+        "properties": {
+            "age": {
+                "maximum": 65,
+                "minimum": 18,
+                "type": "number"
+            }
+        },
+        "required": [
+            "age"
+        ],
+        "type": "object"
+    },
+    {
+        "key": "purchase-agree",
+        "superClassId": "agreements",
+        "title": "Purchase Agreements",
+        "type": "object"
+    },
+    {
+        "key": "spalastsensynen",
+        "name": "Message Proposition",
+        "classId": "universe"
+    },
+    {
+        "key": "coutrcules",
+        "name": "Purchase Proposition",
+        "classId": "agreements",
+        "age": 20
+    },
+    {
+        "key": "teantoux",
+        "name": "Rental Proposition",
+        "classId": "agreements",
+        "age": 70
+    }
+]

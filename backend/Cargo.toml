@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 async-graphql = "7.0.11"
+json = "0.12.4"
 jsonschema = { version = "0.23.0", default-features = false }
 psibase = "0.13.0"
 rand = { version = "0.8.5", features = ["small_rng"] }
