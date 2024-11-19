@@ -30,6 +30,14 @@
                 "maximum": 65,
                 "minimum": 18,
                 "type": "number"
+            },
+            "owner": {
+                "argoQuery": {
+                    "selector": "Subclasses",
+                    "where": {
+                        "classId": "purchase-agree"
+                    }
+                }
             }
         },
         "required": [
@@ -39,25 +47,27 @@
     },
     {
         "key": "purchase-agree",
-        "superClassId": "agreements",
+        "superClassId": "universe",
         "title": "Purchase Agreements",
         "type": "object"
     },
     {
         "key": "spalastsensynen",
         "name": "Message Proposition",
-        "classId": "universe"
+        "classId": "purchase-agree"
     },
     {
         "key": "coutrcules",
         "name": "Purchase Proposition",
         "classId": "agreements",
-        "age": 20
+        "age": 20,
+        "owner": "spalastsensynen"
     },
     {
         "key": "teantoux",
         "name": "Rental Proposition",
         "classId": "agreements",
-        "age": 70
+        "age": 70,
+        "owner": "spalastsensynen"
     }
 ]

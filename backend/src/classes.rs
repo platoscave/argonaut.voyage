@@ -109,9 +109,6 @@ fn add_merged_ancestors(class_val: &mut Value) {
 
 }
 
-pub fn check_classmodel(key: &str) {
-    // look for orphan classes (look out for loops)
-}
 
 pub fn erase_all_classes() {
     let objects_table = ClassesTable::new();

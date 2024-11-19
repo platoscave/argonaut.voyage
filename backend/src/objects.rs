@@ -1,5 +1,6 @@
 use crate::service::{ObjectRow, ObjectsTable};
 use crate::utils::*;
+use crate::argoquery_validator::argo_query_validator_factory;
 use jsonschema::{Draft, Validator};
 use psibase::check;
 use psibase::Table;
@@ -34,31 +35,25 @@ pub fn upsert_object(object_val: &Value) {
 }
 
 pub fn validate_object(object_val: &Value, merged_ancestors_val: &Value) {
+
     let res = Validator::options()
         .with_draft(Draft::Draft7)
-        //.with_keyword("argoQuery", argo_query_validator_factory);
+        .with_keyword("argoQuery", argo_query_validator_factory)
         .build(merged_ancestors_val);
-    check(
-        res.is_ok(),
-        &format!(
-            "\nUnable to build schema: {:#?}\nMerged ancestors: \n{:#?}",
-            res,
-            serde_json::to_value(merged_ancestors_val).unwrap()
-        ),
-    );
-    let validator = res.unwrap();
 
-    let result = validator.validate(&object_val); //.basic()
-
-    if let Err(errors) = result {
+    if let Ok(validator) = res {
+        
         let mut message: String = String::new();
-        for error in errors {
-            message += &format!(
-                "\nObject invalid: {:#?}\nLocation: {:#?}",
-                error, error.instance_path
-            )
+        for error in validator.iter_errors(&object_val) {
+            message += &format!("{:#?}", error);
         }
-        check(false, &message);
+        check(
+            message.is_empty(),
+            &format!("\nInvalid object:\n{:#?}", message),
+        );
+
+    } else if let Err(error) = res {
+        check(false, &format!("\nInvalid schema:\n{:#?}", error));
     }
 }
 

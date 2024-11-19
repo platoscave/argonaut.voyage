@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 use crate::service::{ClassRow, ClassesTable};
 use crate::utils::*;
-use jsonschema::{Draft, JSONSchema};
+use jsonschema::{Draft, Validator};
 use psibase::services::events::Wrapper;
 use psibase::{check, AccountNumber, Table};
 use serde_json::{Map, Value};

@@ -4,6 +4,7 @@ mod http_request;
 mod next_step;
 mod objects;
 mod utils;
+mod argoquery_validator;
 
 #[psibase::service]
 mod service {
@@ -46,35 +47,7 @@ mod service {
     }
     #[action]
     pub fn test() {
-        //crate::classes::generate_validators();
-        use fracpack::{Pack, Result, SchemaBuilder, Unpack, UnpackOwned};
-        let parsed = json::parse(
-            r#"
-                {
-                    "code": 200,
-                    "success": true,
-                    "payload": {
-                        "features": [
-                            "awesome",
-                            "easyAPI",
-                            "lowLearningCurve"
-                        ]
-                    }
-                }
-                "#,
-        )
-        .unwrap();
-        println!("parsed {:#?}", parsed);
 
-        let mut bytes: Vec<u8> = Vec::new();
-        //parsed.pack(&mut bytes);
-
-        // let row = ClassRow {
-        //     key: AccountNumber::from_exact("universe").unwrap(),
-        //     superclass_id: AccountNumber::from_exact("universe").unwrap(),
-        //     content: "AAA".to_string(),
-        //     validator: bytes,
-        // };
     }
 
     #[action]

@@ -1,7 +1,6 @@
 #![allow(non_snake_case)]
 use crate::service::{ClassRow, ClassesTable};
 use psibase::*;
-use serde_json::Map;
 use serde_json::Value;
 
 pub fn accountnumber_from_value(val: &Value, prop_name: &str) -> AccountNumber {
