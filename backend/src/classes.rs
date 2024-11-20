@@ -7,12 +7,13 @@ pub fn upsert_class(class_val: &Value) {
     // get the key as account number
     let key = accountnumber_from_value(class_val, "key");
 
-    let superclass_id = AccountNumber::from(0); // default superclass_id is 0
+    let mut superclass_id = AccountNumber::from(0); // default superclass_id is 0
 
     let mut merged_ancestors = class_val.clone(); // default is our Value
 
     // if not at the root
     if key != AccountNumber::from_exact("universe").unwrap() {
+        superclass_id = accountnumber_from_value(class_val, "superClassId");
         add_merged_ancestors(&mut merged_ancestors);
     }
 
@@ -91,10 +92,7 @@ fn add_merged_ancestors(class_val: &mut Value) {
         // Get our class required value
         // if none exists, add a new one
         if !our_class_obj.contains_key("required") {
-            our_class_obj.insert(
-                "required".to_string(),
-                Value::Array(Vec::new()),
-            );
+            our_class_obj.insert("required".to_string(), Value::Array(Vec::new()));
         }
 
         let our_req_val: &mut serde_json::Value = our_class_obj.get_mut("required").unwrap();
@@ -104,11 +102,8 @@ fn add_merged_ancestors(class_val: &mut Value) {
         for value in super_req_arr.into_iter() {
             our_req_arr.push(value.to_owned());
         }
-
     }
-
 }
-
 
 pub fn erase_all_classes() {
     let objects_table = ClassesTable::new();

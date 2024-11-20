@@ -17,9 +17,13 @@ impl Keyword for ArgoQueryValidator {
         instance: &'instance Value,
         location: &LazyLocation,
     ) -> Result<(), ValidationError<'instance>> {
-        println!("instance:\n{:#?}", instance);
-        println!("classId: {:?}", &self.class_id_ac);
+        write_console(&format!("instance:\n{:#?}", instance));
+        write_console(&format!("instance:\n{:#?}", instance));
+        write_console(&format!("classId: {:?}", &self.class_id_ac));
 
+        if self.class_id_ac == AccountNumber::from(0) {
+            return Ok(());
+        }
         // The instance must be a string
         let assoc_opt = instance.as_str();
         if let Some(assoc_str) = assoc_opt {
@@ -36,7 +40,7 @@ impl Keyword for ArgoQueryValidator {
                             Location::new(),
                             location.into(),
                             instance,
-                            &format!("The associated object is not of type: {:#?}, as required by the argoQuery",self.class_id_ac)
+                            &format!("The associated object is not of type: {}, as required by the argoQuery",self.class_id_ac.to_string())
                         ))
                     }
                 } else {
@@ -71,6 +75,8 @@ impl Keyword for ArgoQueryValidator {
 }
 
 fn is_a(class_id: AccountNumber, sought_class_id: AccountNumber) -> bool {
+    //write_console(&format!("class_id: {:?}, sought_class_id: {:?}", class_id.to_string(), sought_class_id.to_string());
+
     if class_id == sought_class_id {
         true
     } else if class_id == AccountNumber::from_exact("universe").unwrap() {
@@ -80,7 +86,10 @@ fn is_a(class_id: AccountNumber, sought_class_id: AccountNumber) -> bool {
         if let Some(row) = row_opt {
             is_a(row.superclass_id, sought_class_id)
         } else {
-            check(false, &format!("\nCannot find class:\n{:#?}", class_id));
+            check(
+                false,
+                &format!("\nCannot find class: {:#?}", class_id.to_string()),
+            );
             false
         }
     }
@@ -92,7 +101,7 @@ pub fn argo_query_validator_factory<'a>(
     value: &'a Value,
     path: Location,
 ) -> Result<Box<dyn Keyword>, ValidationError<'a>> {
-    println!("argoQuery schema:\n{:#?}", value);
+    write_console(&format!("argoQuery schema:\n{:#?}", value));
     /*
     Validate the schema:
     - An argoQuery must have selector

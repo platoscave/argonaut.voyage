@@ -2,7 +2,7 @@ use crate::service::{ObjectRow, ObjectsTable};
 use crate::utils::*;
 use crate::argoquery_validator::argo_query_validator_factory;
 use jsonschema::{Draft, Validator};
-use psibase::check;
+use psibase::{check, abort_message};
 use psibase::Table;
 use serde_json::Value;
 
@@ -42,18 +42,18 @@ pub fn validate_object(object_val: &Value, merged_ancestors_val: &Value) {
         .build(merged_ancestors_val);
 
     if let Ok(validator) = res {
-        
+
         let mut message: String = String::new();
         for error in validator.iter_errors(&object_val) {
-            message += &format!("{:#?}", error);
+            message += &format!("{:#?}\n", error);
         }
         check(
             message.is_empty(),
-            &format!("\nInvalid object:\n{:#?}", message),
+            &format!("\nInvalid object:\n{:#?}\n{}", object_val, message)
         );
 
     } else if let Err(error) = res {
-        check(false, &format!("\nInvalid schema:\n{:#?}", error));
+        abort_message(&format!("\nInvalid schema:\n{:#?}", error));
     }
 }
 

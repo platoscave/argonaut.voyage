@@ -2,10 +2,10 @@
   {
     "key": "universe",
     "title": "Process Universe",
-    "description": "<p>The root of all classes and objects</p>",
+    "description": "The root of all classes and objects",
     "properties": {
       "key": {
-        "description": "<p>Base32 identifier.</p>",
+        "description": "Base32 identifier.",
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "title": "key",
         "type": "string"
@@ -50,12 +50,14 @@
       "classId"
     ],
     "type": "object",
+    "additionalProperties": false,
+    "additionalProperties": false,
     "classIcon": "ProcessUniverse.svg"
   },
   {
     "key": "agreements",
     "title": "Agreements",
-    "description": "<p>Contracts between accounts about resources</p>",
+    "description": "Contracts between accounts about resources",
     "classIcon": "Agreements.svg",
     "superClassId": "universe",
     "properties": {
@@ -156,33 +158,35 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "purchase-agree",
     "title": "Purchase Agreements",
-    "description": "<p>Contracts between accounts about resources</p>",
+    "description": "Contracts between accounts about resources",
     "classIcon": "Agreements.svg",
     "superClassId": "agreements",
     "properties": {
       "recardianContract": {
-        "const": "<div><h1>Purchase Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "const": "Purchase Agreement'${locationStr}${providerId}.smaraspaled'${providerName} promises to deliver '${locationStr}${assestId}.smaraspaled'${assetName} to '${locationStr}${consumerId}.smaraspaled'${consumerName} by ${expirationDate} for the amount of ${amount} ${currency}Proposition: '${locationStr}${propositionId}.smaraspaled'${propositionName}  Process: '${locationStr}${processId}.smaraspaled'${processName}  Current Step: '${locationStr}${currentStepId}.smaraspaled'${currentStepName}  ",
         "title": "Recardian Contract",
         "contentMediaType": "text/html",
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "rental-agree",
     "title": "Rental Agreements",
-    "description": "<p>Contracts between accounts about resources</p>",
+    "description": "Contracts between accounts about resources",
     "classIcon": "Agreements.svg",
     "superClassId": "agreements",
     "properties": {
       "recardianContract": {
-        "const": "<div><h1>Rental Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "const": "Rental Agreement'${locationStr}${providerId}.smaraspaled'${providerName} promises to deliver '${locationStr}${assestId}.smaraspaled'${assetName} to '${locationStr}${consumerId}.smaraspaled'${consumerName} by ${expirationDate} for the amount of ${amount} ${currency}Proposition: '${locationStr}${propositionId}.smaraspaled'${propositionName}  Process: '${locationStr}${processId}.smaraspaled'${processName}  Current Step: '${locationStr}${currentStepId}.smaraspaled'${currentStepName}  ",
         "title": "Recardian Contract",
         "contentMediaType": "text/html",
         "type": "string"
@@ -199,39 +203,42 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "service-agree",
     "title": "Service Agreements",
-    "description": "<p>Contracts between accounts about resources</p>",
+    "description": "Contracts between accounts about resources",
     "classIcon": "Agreements.svg",
     "superClassId": "agreements",
     "properties": {
       "recardianContract": {
-        "const": "<div><h1>Service Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "const": "Service Agreement'${locationStr}${providerId}.smaraspaled'${providerName} promises to deliver '${locationStr}${assestId}.smaraspaled'${assetName} to '${locationStr}${consumerId}.smaraspaled'${consumerName} by ${expirationDate} for the amount of ${amount} ${currency}Proposition: '${locationStr}${propositionId}.smaraspaled'${propositionName}  Process: '${locationStr}${processId}.smaraspaled'${processName}  Current Step: '${locationStr}${currentStepId}.smaraspaled'${currentStepName}  ",
         "title": "Recardian Contract",
         "contentMediaType": "text/html",
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "message-agree",
     "title": "Message Agreements",
-    "description": "<p>Contracts between accounts about resources</p>",
+    "description": "Contracts between accounts about resources",
     "classIcon": "Agreements.svg",
     "superClassId": "agreements",
     "properties": {
       "recardianContract": {
-        "const": "<div><h1>Message Agreement</h1><p><a href='${locationStr}${providerId}.smaraspaled'>${providerName}</a> promises to deliver <a href='${locationStr}${assestId}.smaraspaled'>${assetName}</a> to <a href='${locationStr}${consumerId}.smaraspaled'>${consumerName}</a> by ${expirationDate} for the amount of ${amount} ${currency}</p><ul><li>Proposition: <a href='${locationStr}${propositionId}.smaraspaled'>${propositionName}</a>  </li><li>Process: <a href='${locationStr}${processId}.smaraspaled'>${processName}</a>  </li><li>Current Step: <a href='${locationStr}${currentStepId}.smaraspaled'>${currentStepName}</a>  </li></ul></div>",
+        "const": "Message Agreement'${locationStr}${providerId}.smaraspaled'${providerName} promises to deliver '${locationStr}${assestId}.smaraspaled'${assetName} to '${locationStr}${consumerId}.smaraspaled'${consumerName} by ${expirationDate} for the amount of ${amount} ${currency}Proposition: '${locationStr}${propositionId}.smaraspaled'${propositionName}  Process: '${locationStr}${processId}.smaraspaled'${processName}  Current Step: '${locationStr}${currentStepId}.smaraspaled'${currentStepName}  ",
         "title": "Recardian Contract",
         "contentMediaType": "text/html",
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "accounts",
@@ -329,7 +336,8 @@
             "type": "number"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "cpu_limit": {
         "properties": {
@@ -346,7 +354,8 @@
             "type": "number"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "ram_usage": {
         "title": "Ram Usage",
@@ -387,7 +396,8 @@
                         "type": "number"
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   },
                   "title": "Keys",
                   "type": "array"
@@ -411,14 +421,16 @@
                           }
                         },
                         "title": "Permission",
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": false
                       },
                       "weight": {
                         "title": "Weight",
                         "type": "number"
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   },
                   "title": "Accounts",
                   "type": "array"
@@ -435,18 +447,20 @@
                         "type": "number"
                       }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false
                   },
                   "title": "Waits",
                   "type": "array"
                 }
               },
               "title": "Required Authorization",
-              "additionalProperties": false,
-              "type": "object"
+              "type": "object",
+              "additionalProperties": false
             }
           },
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false
         },
         "title": "Permissions",
         "type": "array"
@@ -471,7 +485,8 @@
           }
         },
         "title": "Total Resources",
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "self_delegated_bandwidth": {
         "properties": {
@@ -493,7 +508,8 @@
           }
         },
         "title": "Self Delegated Bandwidth",
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "refund_request": {
         "title": "Refund Request",
@@ -543,17 +559,19 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       }
     },
     "query": "get_account_info",
     "type": "object",
+    "additionalProperties": false,
     "classIcon": "Accounts.svg"
   },
   {
     "key": "resources",
     "title": "Resources",
-    "description": "<p>Things owned by users/organizations</p>",
+    "description": "Things owned by users/organizations",
     "superClassId": "universe",
     "properties": {
       "ownerId": {
@@ -576,36 +594,39 @@
     "required": [
       "ownerId"
     ],
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "org-units",
     "title": "Organizational Units",
-    "description": "<p>Organizational units owned by organizations</p>",
+    "description": "Organizational units owned by organizations",
     "classIcon": "OrganizationalUnits.svg",
     "superClassId": "accounts",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "users",
     "title": "Users",
-    "description": "<p>Users own resourses</p>",
+    "description": "Users own resourses",
     "classIcon": "Users.svg",
     "superClassId": "accounts",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "organizations",
     "title": "Organizations",
-    "description": "<p>Organizations owned by users/organizations</p>",
+    "description": "Organizations owned by users/organizations",
     "superClassId": "accounts",
     "properties": {
       "description": {
         "title": "What",
-        "placeholder": "<p>[What do you do that is different?]</p>"
+        "placeholder": "[What do you do that is different?]"
       },
       "how": {
-        "placeholder": "<p>[How do you achive your goal?]</p>",
+        "placeholder": "[How do you achive your goal?]",
         "maxLength": 10000,
         "contentMediaType": "text/html",
         "minLength": 0,
@@ -613,7 +634,7 @@
         "type": "string"
       },
       "why": {
-        "placeholder": "<p>[Vision]</p>",
+        "placeholder": "[Vision]",
         "maxLength": 10000,
         "contentMediaType": "text/html",
         "minLength": 0,
@@ -621,12 +642,13 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "balance-sheet",
     "title": "Balance Sheet",
-    "description": "<p>Balance sheet owned by users/organizations</p>",
+    "description": "Balance sheet owned by users/organizations",
     "classIcon": "BalanceSheet.svg",
     "superClassId": "resources",
     "properties": {
@@ -643,14 +665,16 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "off-sheet",
     "title": "Off Balance Sheet",
-    "description": "<p>Other things owned by users/organizations</p>",
+    "description": "Other things owned by users/organizations",
     "superClassId": "resources",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "features",
@@ -658,55 +682,62 @@
     "classIcon": "Features.svg",
     "superClassId": "off-sheet",
     "properties": {},
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "non-profit",
     "title": "Non-Profit",
-    "description": "<p>Non-profit organizations</p>",
+    "description": "Non-profit organizations",
     "superClassId": "organizations",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "goverment",
     "title": "Goverment",
-    "description": "<p>Goverment</p>",
+    "description": "Goverment",
     "superClassId": "organizations",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "commercial",
     "title": "Commercial",
-    "description": "<p>Commercial organizations</p>",
+    "description": "Commercial organizations",
     "superClassId": "organizations",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "assets",
     "title": "Assets",
-    "description": "<p>Assets owned by users/organizations</p>",
+    "description": "Assets owned by users/organizations",
     "superClassId": "balance-sheet",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "liabil-equity",
     "title": "Liabilities and Stockholder's Equity",
-    "description": "<p>Liabilities owned by users/organizations</p>",
+    "description": "Liabilities owned by users/organizations",
     "superClassId": "balance-sheet",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "steps",
     "title": "Steps",
-    "description": "<p>Steps</p>",
+    "description": "Steps",
     "classIcon": "Steps.svg",
     "superClassId": "off-sheet",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "processes",
     "title": "Processes",
-    "description": "<p>Processes</p>",
+    "description": "Processes",
     "classIcon": "Processes.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -734,12 +765,13 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "sub-processes",
     "title": "Sub-Processes",
-    "description": "<p>Processes</p>",
+    "description": "Processes",
     "classIcon": "Processes.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -767,12 +799,13 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "propositions",
     "title": "Propositions",
-    "description": "<p>Proposition</p>",
+    "description": "Proposition",
     "classIcon": "Propositions.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -822,33 +855,37 @@
         "type": "array"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "repair-prop",
     "title": "Repair Proposition",
-    "description": "<p>Repair Agreements between owners</p>",
+    "description": "Repair Agreements between owners",
     "superClassId": "propositions",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "purchase-prop",
     "title": "Purchase Proposition",
-    "description": "<p>Purchase Agreements between owners</p>",
+    "description": "Purchase Agreements between owners",
     "superClassId": "propositions",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "rental-prop",
     "title": "Rental Proposition",
-    "description": "<p>Rental Agreements between owners</p>",
+    "description": "Rental Agreements between owners",
     "superClassId": "propositions",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "messaging-prop",
     "title": "Messaging Proposition",
-    "description": "<p>Messaging Agreements between owners</p>",
+    "description": "Messaging Agreements between owners",
     "superClassId": "propositions",
     "properties": {
       "classification": {
@@ -861,18 +898,20 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "member-prop",
     "title": "Membership Proposition",
     "superClassId": "propositions",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "pages",
     "title": "Pages",
-    "description": "<p>Describes the Tab-Widget-View Reference structure</p>",
+    "description": "Describes the Tab-Widget-View Reference structure",
     "classIcon": "Layouts.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -906,7 +945,6 @@
         "description": "",
         "additionalItems": true,
         "items": {
-          "additionalProperties": false,
           "properties": {
             "name": {
               "placeholder": "Provide a name",
@@ -940,7 +978,6 @@
             "widgets": {
               "additionalItems": true,
               "items": {
-                "additionalProperties": false,
                 "properties": {
                   "name": {
                     "placeholder": "Provide a name",
@@ -1028,24 +1065,27 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "title": "Widgets",
               "type": "array"
             }
           },
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false
         },
         "title": "Tabs",
         "type": "array"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "views",
     "title": "Views",
-    "description": "<p>Views are important. They determine who gets to see/update what.</p><p>These are some of the things we do with queries</p><ul><li>Retrieve a set of children</li><li>Provide an icon for the tree node based on queryName</li><li>Determine popup menu/toolbar/buttons options: add/delete/associate/disassociate/copy/deepcopy for the tree node/table row based on queryName</li><li>Determine when buttons are hidden/disabled based on authorization, selected subDoc, mutually exclusive properties</li><li>Provide filtering for tables/trees</li><li>Determine drop allowed for DnD, which associations/disassociation</li><li>Find tree path based on given node for tree expand: reverse navigation</li></ul><p>&nbsp;</p>",
+    "description": "Views are important. They determine who gets to see/update what.These are some of the things we do with queriesRetrieve a set of childrenProvide an icon for the tree node based on queryNameDetermine popup menu/toolbar/buttons options: add/delete/associate/disassociate/copy/deepcopy for the tree node/table row based on queryNameDetermine when buttons are hidden/disabled based on authorization, selected subDoc, mutually exclusive propertiesProvide filtering for tables/treesDetermine drop allowed for DnD, which associations/disassociationFind tree path based on given node for tree expand: reverse navigation&nbsp;",
     "classIcon": "Views.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -1087,15 +1127,17 @@
       "properties": {
         "properties": {},
         "title": "Properties",
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "queries",
     "title": "Queries",
-    "description": "<p>Queries used by views</p>",
+    "description": "Queries used by views",
     "classIcon": "Queries.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -1111,7 +1153,8 @@
       },
       "where": {
         "title": "Where Index Equals",
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "idsArrayPath": {
         "title": "Ids Array Path",
@@ -1129,7 +1172,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "filter": {
         "title": "Filter",
@@ -1147,7 +1191,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "sortBy": {
         "title": "Sort By",
@@ -1197,12 +1242,13 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "paragraphs",
     "title": "Paragraphs",
-    "description": "<p>Ordinary HTML pages</p>",
+    "description": "Ordinary HTML pages",
     "classIcon": "Paragraphs.svg",
     "superClassId": "off-sheet",
     "properties": {
@@ -1226,18 +1272,18 @@
       }
     },
     "pageId": "mm4nurerors",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "menus",
     "title": "Menus",
-    "description": "<p>Custom Menus/p>",
+    "description": "Custom Menus",
     "classIcon": "Menus.svg",
     "superClassId": "off-sheet",
     "properties": {
       "menuArr": {
         "items": {
-          "additionalProperties": false,
           "properties": {
             "name": {
               "placeholder": "Provide a name",
@@ -1287,7 +1333,6 @@
             },
             "menuArr": {
               "items": {
-                "additionalProperties": false,
                 "properties": {
                   "name": {
                     "placeholder": "Provide a name",
@@ -1337,7 +1382,6 @@
                   },
                   "menuArr": {
                     "items": {
-                      "additionalProperties": false,
                       "properties": {
                         "name": {
                           "placeholder": "Provide a name",
@@ -1386,75 +1430,85 @@
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": false
                     },
                     "title": "Menu Items",
                     "additionalItems": true,
                     "type": "array"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               },
               "title": "Menu Items",
               "additionalItems": true,
               "type": "array"
             }
           },
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false
         },
         "title": "Menu Items",
         "additionalItems": true,
         "type": "array"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "intang-assets",
     "title": "Intangible Assets",
-    "description": "<p>Intangible Assets owned by users/organizations</p>",
+    "description": "Intangible Assets owned by users/organizations",
     "superClassId": "assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "investments",
     "title": "Investments",
-    "description": "<p>Investments owned by users/organizations</p>",
+    "description": "Investments owned by users/organizations",
     "superClassId": "assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "property",
     "title": "Property, Plant and Equipment",
-    "description": "<p>Property, Plant and Equipment owned by users/organizations</p>",
+    "description": "Property, Plant and Equipment owned by users/organizations",
     "superClassId": "assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "current-assets",
     "title": "Current Assets",
-    "description": "<p>Current Assets owned by users/organizations</p>",
+    "description": "Current Assets owned by users/organizations",
     "superClassId": "assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "stock-equity",
     "title": "Stockholder's Equity",
-    "description": "<p>Stockholder's Equity owned by users/organizations</p>",
+    "description": "Stockholder's Equity owned by users/organizations",
     "superClassId": "liabil-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "liabilities",
     "title": "Liabilities",
-    "description": "<p>Liabilities owned by users/organizations</p>",
+    "description": "Liabilities owned by users/organizations",
     "superClassId": "liabil-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "open",
     "title": "Open",
-    "description": "<p>Open</p>",
+    "description": "Open",
     "classIcon": "Open.svg",
     "superClassId": "steps",
     "properties": {
@@ -1486,182 +1540,207 @@
           "required": [
             "action"
           ],
-          "type": "object"
+          "type": "object",
+          "additionalProperties": false
         },
         "title": "Next Steps",
         "type": "array"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "closed",
     "title": "Closed",
-    "description": "<p>Closed</p>",
+    "description": "Closed",
     "classIcon": "Closed.svg",
     "superClassId": "steps",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "goodwill",
     "title": "Goodwill",
-    "description": "<p>Goodwill owned by users/organizations</p>",
+    "description": "Goodwill owned by users/organizations",
     "superClassId": "intang-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "trade-names",
     "title": "Trade Names",
-    "description": "<p>Trade Names owned by users/organizations</p>",
+    "description": "Trade Names owned by users/organizations",
     "superClassId": "intang-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "equipment",
     "title": "Equipment",
-    "description": "<p>Equipment owned by users/organizations</p>",
+    "description": "Equipment owned by users/organizations",
     "superClassId": "property",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "land",
     "title": "Land",
-    "description": "<p>Land owned by users/organizations</p>",
+    "description": "Land owned by users/organizations",
     "superClassId": "property",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "accum-depreca",
     "title": "Less: Accum Deprecation",
-    "description": "<p>Less: Accum Deprecation owned by users/organizations</p>",
+    "description": "Less: Accum Deprecation owned by users/organizations",
     "superClassId": "property",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "land-improve",
     "title": "Land Improvements",
-    "description": "<p>Land Improvements owned by users/organizations</p>",
+    "description": "Land Improvements owned by users/organizations",
     "superClassId": "property",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "buildings",
     "title": "Buildings",
-    "description": "<p>Buildings owned by users/organizations</p>",
+    "description": "Buildings owned by users/organizations",
     "superClassId": "property",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "petty-cash",
     "title": "Petty Cash",
-    "description": "<p>Petty Cash owned by users/organizations</p>",
+    "description": "Petty Cash owned by users/organizations",
     "superClassId": "current-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "temp-invest",
     "title": "Temporary Investments",
-    "description": "<p>Temporary Investments owned by users/organizations</p>",
+    "description": "Temporary Investments owned by users/organizations",
     "superClassId": "current-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "prepaid-insure",
     "title": "Prepaid Insurance",
-    "description": "<p>Prepaid Insurance owned by users/organizations</p>",
+    "description": "Prepaid Insurance owned by users/organizations",
     "superClassId": "current-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "inventory",
     "title": "Inventory",
-    "description": "<p>Inventory owned by users/organizations</p>",
+    "description": "Inventory owned by users/organizations",
     "superClassId": "current-assets",
     "properties": {},
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "for-sale",
     "title": "For Sale",
     "superClassId": "inventory",
     "properties": {},
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "for-rent",
     "title": "For Rent",
     "superClassId": "inventory",
     "properties": {},
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "accounts-rec",
     "title": "Accounts Receivible -net",
-    "description": "<p>Accounts Receivible -net owned by users/organizations</p>",
+    "description": "Accounts Receivible -net owned by users/organizations",
     "superClassId": "current-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "supplies",
     "title": "Supplies",
-    "description": "<p>Supplies owned by users/organizations</p>",
+    "description": "Supplies owned by users/organizations",
     "superClassId": "current-assets",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "ret-earnings",
     "title": "Retained Earnings",
-    "description": "<p>Retained Earnings owned by users/organizations</p>",
+    "description": "Retained Earnings owned by users/organizations",
     "superClassId": "stock-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "other-income",
     "title": "Accum Other Comprehensive Income",
-    "description": "<p>Accum Other Comprehensive Income owned by users/organizations</p>",
+    "description": "Accum Other Comprehensive Income owned by users/organizations",
     "superClassId": "stock-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "treasury-stock",
     "title": "Less: Treasury Stock",
-    "description": "<p>Less: Treasury Stock owned by users/organizations</p>",
+    "description": "Less: Treasury Stock owned by users/organizations",
     "superClassId": "stock-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "common-stock",
     "title": "Common Stock",
-    "description": "<p>Common Stock owned by users/organizations</p>",
+    "description": "Common Stock owned by users/organizations",
     "superClassId": "stock-equity",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "long-libilities",
     "title": "Long-Term Libilities",
-    "description": "<p>Long-Term Libilities owned by users/organizations</p>",
+    "description": "Long-Term Libilities owned by users/organizations",
     "superClassId": "liabilities",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "current-liabil",
     "title": "Current Libilities",
-    "description": "<p>Current Libilities owned by users/organizations</p>",
+    "description": "Current Libilities owned by users/organizations",
     "superClassId": "liabilities",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "user-input",
     "title": "User Input",
-    "description": "<p>User Input</p>",
+    "description": "User Input",
     "classIcon": "User Input.svg",
     "superClassId": "open",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "execute",
     "title": "Execute",
-    "description": "<p>Execute</p>",
+    "description": "Execute",
     "classIcon": "Execute.svg",
     "superClassId": "open",
     "properties": {
@@ -1673,12 +1752,13 @@
         "type": "array"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "delegate",
     "title": "Delegate",
-    "description": "<p>Delegate</p>",
+    "description": "Delegate",
     "classIcon": "Delegate.svg",
     "superClassId": "open",
     "properties": {
@@ -1699,75 +1779,85 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "taxes-payable",
     "title": "Taxes Payable",
-    "description": "<p>Taxes Payable owned by users/organizations</p>",
+    "description": "Taxes Payable owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "accounts-pay",
     "title": "Accounts Payable",
-    "description": "<p>Accounts Payable owned by users/organizations</p>",
+    "description": "Accounts Payable owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "wages-payable",
     "title": "Wages Payable",
-    "description": "<p>Wages Payable owned by users/organizations</p>",
+    "description": "Wages Payable owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "waranty-liabil",
     "title": "Waranty Liability",
-    "description": "<p>Waranty Liability owned by users/organizations</p>",
+    "description": "Waranty Liability owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "notes-payable",
     "title": "Notes Payable",
-    "description": "<p>Notes Payable owned by users/organizations</p>",
+    "description": "Notes Payable owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "intrest-payable",
     "title": "Intrest Payable",
-    "description": "<p>Intrest Payable owned by users/organizations</p>",
+    "description": "Intrest Payable owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "unearned-rev",
     "title": "Unearned Revenues",
-    "description": "<p>Unearned Revenues owned by users/organizations</p>",
+    "description": "Unearned Revenues owned by users/organizations",
     "superClassId": "current-liabil",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "bonds-payable",
     "title": "Bonds Payable",
-    "description": "<p>Bonds Payable owned by users/organizations</p>",
+    "description": "Bonds Payable owned by users/organizations",
     "superClassId": "long-libilities",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "notes-payable",
     "title": "Notes Payable",
-    "description": "<p>Notes Payable owned by users/organizations</p>",
+    "description": "Notes Payable owned by users/organizations",
     "superClassId": "long-libilities",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "provider",
     "title": "Provider",
-    "description": "<p>Provider</p>",
+    "description": "Provider",
     "classIcon": "Provider.svg",
     "superClassId": "user-input",
     "properties": {
@@ -1788,14 +1878,16 @@
         "type": "string"
       }
     },
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   },
   {
     "key": "consumer",
     "title": "Consumer",
-    "description": "<p>Consumer</p>",
+    "description": "Consumer",
     "classIcon": "Consumer.svg",
     "superClassId": "user-input",
-    "type": "object"
+    "type": "object",
+    "additionalProperties": false
   }
 ]

@@ -2,7 +2,7 @@
   {
     "key": "spalastsensynen",
     "name": "Message Proposition",
-    "description": "<p>Message Proposition</p>",
+    "description": "Message Proposition",
     "classId": "purchase-prop",
     "ownerId": "bikeshop",
     "startDate": "2019-08-10T14:49:54.500",
@@ -13,7 +13,7 @@
   {
     "key": "coutrcules",
     "name": "Purchase Proposition",
-    "description": "<p>Purchase Proposition</p>",
+    "description": "Purchase Proposition",
     "classId": "purchase-prop",
     "ownerId": "bikeshop",
     "startDate": "2019-08-10T14:49:54.500",
@@ -29,7 +29,7 @@
   {
     "key": "teantoux",
     "name": "Rental Proposition",
-    "description": "<p>Rental Proposition</p>",
+    "description": "Rental Proposition",
     "classId": "rental-prop",
     "ownerId": "bikeshop",
     "startDate": "2019-08-10T14:49:54.500",
@@ -45,7 +45,7 @@
   {
     "key": "emcanrnewamy",
     "name": "Repair Proposition",
-    "description": "<p>Repair Proposition</p>",
+    "description": "Repair Proposition",
     "classId": "repair-prop",
     "ownerId": "bikeshop",
     "startDate": "2019-08-10T14:49:54.500",
@@ -927,7 +927,7 @@
   {
     "key": "manainoshs",
     "name": "Bicycle Shop Messaging",
-    "description": "<p>Messaging Request Process</p>",
+    "description": "Messaging Request Process",
     "classId": "processes",
     "returnActions": [
       "happy",
@@ -939,7 +939,7 @@
   {
     "key": "cheldanecibem",
     "name": "Bicycle Shop Purchase Process",
-    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "description": "Bicycle Shop Purchase Process",
     "classId": "sub-processes",
     "returnActions": [
       "happy",
@@ -951,7 +951,7 @@
   {
     "key": "maynexperg",
     "name": "Argonaut Purchase Process",
-    "description": "<p>Purchase</p>",
+    "description": "Purchase",
     "classId": "processes",
     "returnActions": [
       "happy",
@@ -964,7 +964,7 @@
   {
     "key": "thl00068",
     "name": "Argonaut Rental Process",
-    "description": "<p>Purchase</p>",
+    "description": "Purchase",
     "classId": "processes",
     "returnActions": [
       "happy",
@@ -977,7 +977,7 @@
   {
     "key": "wocherr9",
     "name": "Validate",
-    "description": "<p>Validate</p>",
+    "description": "Validate",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -998,7 +998,7 @@
   {
     "key": "gelmerer9",
     "name": "Perform",
-    "description": "<p>Perform</p>",
+    "description": "Perform",
     "classId": "delegate",
     "nextStepIds": [
       {
@@ -1016,7 +1016,7 @@
   {
     "key": "stssenee9cer",
     "name": "Acceptance",
-    "description": "<p>Acceptance</p>",
+    "description": "Acceptance",
     "classId": "consumer",
     "nextStepIds": [
       {
@@ -1033,7 +1033,7 @@
   {
     "key": "uniigroodeco7",
     "name": "Transact",
-    "description": "<p>Transact</p>",
+    "description": "Transact",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1049,7 +1049,7 @@
   {
     "key": "heberghren",
     "name": "Rollback",
-    "description": "<p>Rollback</p>",
+    "description": "Rollback",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1064,7 +1064,7 @@
   {
     "key": "heicaqure98",
     "name": "Argonaut Service Process",
-    "description": "<p>Purchase</p>",
+    "description": "Purchase",
     "classId": "processes",
     "returnActions": [
       "happy",
@@ -1077,7 +1077,7 @@
   {
     "key": "ndelionat5",
     "name": "Validate",
-    "description": "<p>Validate</p>",
+    "description": "Validate",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1098,7 +1098,7 @@
   {
     "key": "lesatime23",
     "name": "Perform",
-    "description": "<p>Perform</p>",
+    "description": "Perform",
     "classId": "delegate",
     "nextStepIds": [
       {
@@ -1116,7 +1116,7 @@
   {
     "key": "jmdoro3mace",
     "name": "Acceptance",
-    "description": "<p>Acceptance</p>",
+    "description": "Acceptance",
     "classId": "consumer",
     "nextStepIds": [
       {
@@ -1133,7 +1133,7 @@
   {
     "key": "forthhsbedly",
     "name": "Transact",
-    "description": "<p>Transact</p>",
+    "description": "Transact",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1149,7 +1149,7 @@
   {
     "key": "dafermmoverife",
     "name": "Rollback",
-    "description": "<p>Rollback</p>",
+    "description": "Rollback",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1164,21 +1164,21 @@
   {
     "key": "tgiouraykamus",
     "name": "Success",
-    "description": "<p>Success</p>",
+    "description": "Success",
     "classId": "closed",
     "ownerId": "argonaut"
   },
   {
     "key": "s4farfrk986",
     "name": "Failed",
-    "description": "<p>Failed</p>",
+    "description": "Failed",
     "classId": "closed",
     "ownerId": "bikeshop"
   },
   {
     "key": "latiprine",
     "name": "Validate",
-    "description": "<p>Validate</p>",
+    "description": "Validate",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1199,7 +1199,7 @@
   {
     "key": "sthowg12319",
     "name": "Rollback",
-    "description": "<p>Rollback</p>",
+    "description": "Rollback",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1214,7 +1214,7 @@
   {
     "key": "bouranhuneprit",
     "name": "Transact",
-    "description": "<p>Transact</p>",
+    "description": "Transact",
     "classId": "execute",
     "nextStepIds": [
       {
@@ -1230,7 +1230,7 @@
   {
     "key": "mdilizibonx",
     "name": "Perform",
-    "description": "<p>Perform</p>",
+    "description": "Perform",
     "classId": "delegate",
     "nextStepIds": [
       {
@@ -1248,7 +1248,7 @@
   {
     "key": "truym12428",
     "name": "Question",
-    "description": "<p>Question</p>",
+    "description": "Question",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1264,7 +1264,7 @@
   {
     "key": "tchbowledac",
     "name": "Expedite",
-    "description": "<p>Expedite</p>",
+    "description": "Expedite",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1277,7 +1277,7 @@
   {
     "key": "usrsisquk115",
     "name": "Bicycle Shop Repair Process",
-    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "description": "Bicycle Shop Purchase Process",
     "classId": "sub-processes",
     "returnActions": [
       "happy",
@@ -1289,7 +1289,7 @@
   {
     "key": "jondcobavon",
     "name": "Order Pick",
-    "description": "<p>Order Pick</p>",
+    "description": "Order Pick",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1303,7 +1303,7 @@
   {
     "key": "bealisod",
     "name": "Expedite",
-    "description": "<p>Expedite</p>",
+    "description": "Expedite",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1316,7 +1316,7 @@
   {
     "key": "makherkargs",
     "name": "Bicycle Shop Rental Process",
-    "description": "<p>Bicycle Shop Purchase Process</p>",
+    "description": "Bicycle Shop Purchase Process",
     "classId": "sub-processes",
     "returnActions": [
       "happy",
@@ -1328,7 +1328,7 @@
   {
     "key": "mmorliverara",
     "name": "Order Pick",
-    "description": "<p>Order Pick</p>",
+    "description": "Order Pick",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1342,7 +1342,7 @@
   {
     "key": "hthel20044237",
     "name": "Expedite",
-    "description": "<p>Expedite</p>",
+    "description": "Expedite",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1355,7 +1355,7 @@
   {
     "key": "ppqusiapangee",
     "name": "Answer",
-    "description": "<p>Answer</p>",
+    "description": "Answer",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1370,7 +1370,7 @@
   {
     "key": "ja13daleo",
     "name": "Order Pick",
-    "description": "<p>Order Pick</p>",
+    "description": "Order Pick",
     "classId": "provider",
     "nextStepIds": [
       {
@@ -1384,7 +1384,7 @@
   {
     "key": "ghasllosheyanouir",
     "name": "Acceptance",
-    "description": "<p>Acceptance</p>",
+    "description": "Acceptance",
     "classId": "consumer",
     "nextStepIds": [
       {
@@ -1401,7 +1401,7 @@
   {
     "key": "rin339998",
     "name": "Initialize",
-    "description": "<p>Initialize</p>",
+    "description": "Initialize",
     "classId": "open",
     "ownerId": "argonaut"
   },
@@ -1578,7 +1578,7 @@
   {
     "key": "chinammphakalaw",
     "name": "Class Details Page",
-    "description": "<p>Do not remove. This is not an orphan.</p>",
+    "description": "Do not remove. This is not an orphan.",
     "classId": "pages",
     "layout": "Page",
     "ownerId": "argonaut",
@@ -1605,7 +1605,7 @@
   {
     "key": "smaraspaled",
     "name": "Merged Ancestors Page",
-    "description": "<p>Do not remove. This is not an orphan.</p>",
+    "description": "Do not remove. This is not an orphan.",
     "classId": "pages",
     "layout": "Page",
     "ownerId": "argonaut",
@@ -1981,7 +1981,7 @@
   {
     "key": "fothpokarth",
     "name": "Process Umiverse Tree View",
-    "description": "<p>Descibes the class model hierarchy, including a children array</p>",
+    "description": "Descibes the class model hierarchy, including a children array",
     "classId": "views",
     "ownerId": "argonaut",
     "queryId": "eaigrate",
@@ -2681,7 +2681,7 @@
     "name": "Argonaut",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Home</p>",
+    "description": "Home",
     "subParagraphIds": [
       "tpitmandj2300",
       "sjoadgo1199",
@@ -2693,7 +2693,7 @@
     "name": "What",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents one</p>",
+    "description": "Contents one",
     "subParagraphIds": []
   },
   {
@@ -2701,7 +2701,7 @@
     "name": "How",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents two</p>",
+    "description": "Contents two",
     "subParagraphIds": []
   },
   {
@@ -2709,7 +2709,7 @@
     "name": "Why",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents three</p>",
+    "description": "Contents three",
     "subParagraphIds": []
   },
   {
@@ -2717,7 +2717,7 @@
     "name": "Bicyle Shop Document",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Home</p>",
+    "description": "Home",
     "subParagraphIds": [
       "nghivigog",
       "decalers",
@@ -2729,7 +2729,7 @@
     "name": "What",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents one</p>",
+    "description": "Contents one",
     "subParagraphIds": []
   },
   {
@@ -2737,7 +2737,7 @@
     "name": "How",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents two</p>",
+    "description": "Contents two",
     "subParagraphIds": []
   },
   {
@@ -2745,7 +2745,7 @@
     "name": "Why",
     "classId": "paragraphs",
     "ownerId": "argonaut",
-    "description": "<p>Contents three</p>",
+    "description": "Contents three",
     "subParagraphIds": []
   },
   {
@@ -2794,7 +2794,7 @@
   {
     "key": "peserabakl",
     "name": "Let's meetup at the wattering hole",
-    "description": "<p>Do you have time for a get-together? </p>",
+    "description": "Do you have time for a get-together? ",
     "classId": "message-agree",
     "startDate": "2021-05-10",
     "expirationDate": "2025-05-10",

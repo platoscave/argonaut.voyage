@@ -12,7 +12,7 @@ pub fn serve_rest_api(request: &HttpRequest) -> Option<HttpReply> {
     let re = regex::Regex::new("^/([a-z]+)/([0-9]+)$").unwrap();
     if let Some(captures) = re.captures(&request.target) {
         let table_name = &captures[1];
-        //println!("captures {:#?}", captures);
+        //write_console(&format!("captures {:#?}", captures));
 
         // /classes/10
         if table_name == "classes" {
@@ -55,7 +55,7 @@ pub fn serve_rest_api(request: &HttpRequest) -> Option<HttpReply> {
         // /objects/10
         if table_name == "objects" {
             let table_name = &captures[1];
-            //println!("captures {:#?}", captures);
+            //write_console(&format!("captures {:#?}", captures));
 
             if table_name == "objects" {
                 let n: u64 = captures[2].parse().unwrap();
