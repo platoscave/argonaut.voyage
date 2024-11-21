@@ -89,11 +89,8 @@ mod service {
 
             // If the object has a classId, its an object, otherwise its a class
             if json_object["classId"].is_string() {
-                println!("Object");
-
                 crate::objects::upsert_object(json_object);
             } else {
-                println!("Class");
                 crate::classes::upsert_class(json_object);
             }
         }

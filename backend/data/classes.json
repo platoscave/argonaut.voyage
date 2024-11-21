@@ -80,7 +80,7 @@
       "consumerId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "accounts"
           },
@@ -96,7 +96,7 @@
       "providerId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "accounts"
           },
@@ -112,7 +112,7 @@
       "assetId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "assets"
           },
@@ -128,7 +128,7 @@
       "propositionId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "processes"
           },
@@ -144,7 +144,7 @@
       "currentStepId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "steps"
           },
@@ -249,7 +249,7 @@
       "pageId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "pages"
           },
@@ -265,7 +265,7 @@
       "subParagraphIds": {
         "items": {
           "argoQuery": {
-            "selector": "Subclasses",
+            "selector": "Insatnces Of",
             "where": {
               "classId": "paragraphs"
             },
@@ -279,288 +279,6 @@
         },
         "title": "First Paragraphs",
         "type": "array"
-      },
-      "account_name": {
-        "maxLength": 12,
-        "minLength": 12,
-        "title": "Account Name",
-        "type": "string"
-      },
-      "head_block_num": {
-        "title": "Head Block Number",
-        "type": "number"
-      },
-      "head_block_time": {
-        "format": "date-time",
-        "title": "Head Block Time",
-        "type": "string"
-      },
-      "privileged": {
-        "title": "Privileged",
-        "type": "boolean"
-      },
-      "last_code_update": {
-        "format": "date-time",
-        "title": "Last Code Update",
-        "type": "string"
-      },
-      "created": {
-        "format": "date-time",
-        "title": "Created",
-        "type": "string"
-      },
-      "ram_quota": {
-        "title": "Ram Quota",
-        "type": "number"
-      },
-      "net_weight": {
-        "title": "Net Weight",
-        "type": "number"
-      },
-      "cpu_weight": {
-        "title": "Cpu Weight",
-        "type": "number"
-      },
-      "net_limit": {
-        "properties": {
-          "used": {
-            "title": "Used",
-            "type": "number"
-          },
-          "available": {
-            "title": "Available",
-            "type": "number"
-          },
-          "max": {
-            "title": "Maximum",
-            "type": "number"
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
-      },
-      "cpu_limit": {
-        "properties": {
-          "used": {
-            "title": "Used",
-            "type": "number"
-          },
-          "available": {
-            "title": "Available",
-            "type": "number"
-          },
-          "max": {
-            "title": "Maximum",
-            "type": "number"
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
-      },
-      "ram_usage": {
-        "title": "Ram Usage",
-        "type": "number"
-      },
-      "permissions": {
-        "items": {
-          "properties": {
-            "perm_name": {
-              "maxLength": 12,
-              "minLength": 1,
-              "title": "Permission Name",
-              "type": "string"
-            },
-            "parent": {
-              "maxLength": 12,
-              "minLength": 1,
-              "title": "Parent Permission",
-              "type": "string"
-            },
-            "required_auth": {
-              "properties": {
-                "threshold": {
-                  "title": "Threshold",
-                  "type": "number"
-                },
-                "keys": {
-                  "items": {
-                    "properties": {
-                      "key": {
-                        "maxLength": 44,
-                        "minLength": 0,
-                        "title": "Key",
-                        "type": "string"
-                      },
-                      "weight": {
-                        "title": "Weight",
-                        "type": "number"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "title": "Keys",
-                  "type": "array"
-                },
-                "accounts": {
-                  "items": {
-                    "properties": {
-                      "permission": {
-                        "properties": {
-                          "actor": {
-                            "maxLength": 12,
-                            "minLength": 0,
-                            "title": "Actor",
-                            "type": "string"
-                          },
-                          "permission": {
-                            "maxLength": 12,
-                            "minLength": 0,
-                            "title": "Permission",
-                            "type": "string"
-                          }
-                        },
-                        "title": "Permission",
-                        "type": "object",
-                        "additionalProperties": false
-                      },
-                      "weight": {
-                        "title": "Weight",
-                        "type": "number"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "title": "Accounts",
-                  "type": "array"
-                },
-                "waits": {
-                  "items": {
-                    "properties": {
-                      "wait_sec": {
-                        "title": "Wait Seconds",
-                        "type": "string"
-                      },
-                      "weight": {
-                        "title": "Weight",
-                        "type": "number"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "title": "Waits",
-                  "type": "array"
-                }
-              },
-              "title": "Required Authorization",
-              "type": "object",
-              "additionalProperties": false
-            }
-          },
-          "type": "object",
-          "additionalProperties": false
-        },
-        "title": "Permissions",
-        "type": "array"
-      },
-      "total_resources": {
-        "properties": {
-          "owner": {
-            "title": "Owner",
-            "type": "string"
-          },
-          "net_weigh": {
-            "title": "Net Weight",
-            "type": "string"
-          },
-          "cpu_weight": {
-            "title": "CPU Weight",
-            "type": "string"
-          },
-          "ram_bytes": {
-            "title": "Ram Bytes",
-            "type": "number"
-          }
-        },
-        "title": "Total Resources",
-        "type": "object",
-        "additionalProperties": false
-      },
-      "self_delegated_bandwidth": {
-        "properties": {
-          "from": {
-            "title": "From",
-            "type": "string"
-          },
-          "to": {
-            "title": "To",
-            "type": "string"
-          },
-          "cpu_weight": {
-            "title": "CPU Weight",
-            "type": "string"
-          },
-          "cpu_weigh": {
-            "title": "CPU Weight",
-            "type": "string"
-          }
-        },
-        "title": "Self Delegated Bandwidth",
-        "type": "object",
-        "additionalProperties": false
-      },
-      "refund_request": {
-        "title": "Refund Request",
-        "type": "string"
-      },
-      "voter_info": {
-        "title": "Voter Info",
-        "properties": {
-          "owner": {
-            "title": "Owner",
-            "type": "string"
-          },
-          "proxy": {
-            "title": "Proxy",
-            "type": "string"
-          },
-          "producer": {
-            "title": "Producer",
-            "type": "array"
-          },
-          "staked": {
-            "title": "Staked",
-            "type": "number"
-          },
-          "last_vote_weight": {
-            "title": "Last Vote Weight",
-            "type": "string"
-          },
-          "proxied_vote_weight": {
-            "title": "Proxied Vote Weight",
-            "type": "string"
-          },
-          "is_proxy": {
-            "title": "Is Proxy",
-            "type": "number"
-          },
-          "flags1": {
-            "title": "Flags 1",
-            "type": "number"
-          },
-          "reserved2": {
-            "title": "Reserved 2",
-            "type": "number"
-          },
-          "reserved3": {
-            "title": "Reserved 3",
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
       }
     },
     "query": "get_account_info",
@@ -577,7 +295,7 @@
       "ownerId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "accounts"
           },
@@ -600,9 +318,17 @@
   {
     "key": "org-units",
     "title": "Organizational Units",
-    "description": "Organizational units owned by organizations",
+    "description": "NEEDS FIXING Organizational units owned by organizations",
     "classIcon": "OrganizationalUnits.svg",
     "superClassId": "accounts",
+    "properties": {
+      "ownerId": {
+        "type": "string"
+      },
+      "parentOrgId": {
+        "type": "string"
+      }
+    },
     "type": "object",
     "additionalProperties": false
   },
@@ -751,7 +477,7 @@
       "firstStepId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "open"
           },
@@ -785,7 +511,7 @@
       "firstStepId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "open"
           },
@@ -822,7 +548,7 @@
       "processId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "processes"
           },
@@ -835,12 +561,28 @@
         "title": "Process",
         "type": "string"
       },
+      "subprocessId": {
+        "pattern": "[a-z][a-z0-9-]{0,17}",
+        "argoQuery": {
+          "selector": "Insatnces Of",
+          "where": {
+            "classId": "sub-processes"
+          },
+          "idsArrayPath": {
+            "path": "$[*].key",
+            "indexName": "classId"
+          },
+          "sortBy": "name"
+        },
+        "title": "Subrocess",
+        "type": "string"
+      },
       "assetIds": {
         "title": "Assets",
         "items": {
           "pattern": "[a-z][a-z0-9-]{0,17}",
           "argoQuery": {
-            "selector": "Subclasses",
+            "selector": "Insatnces Of",
             "where": {
               "classId": "assets"
             },
@@ -962,7 +704,7 @@
             "pageId": {
               "pattern": "[a-z][a-z0-9-]{0,17}",
               "argoQuery": {
-                "selector": "Subclasses",
+                "selector": "Insatnces Of",
                 "where": {
                   "classId": "pages"
                 },
@@ -1019,7 +761,7 @@
                   "pageId": {
                     "pattern": "[a-z][a-z0-9-]{0,17}",
                     "argoQuery": {
-                      "selector": "Subclasses",
+                      "selector": "Insatnces Of",
                       "where": {
                         "classId": "pages"
                       },
@@ -1035,7 +777,7 @@
                   "viewId": {
                     "pattern": "[a-z][a-z0-9-]{0,17}",
                     "argoQuery": {
-                      "selector": "Subclasses",
+                      "selector": "Insatnces Of",
                       "where": {
                         "classId": "views"
                       },
@@ -1051,7 +793,7 @@
                   "menuId": {
                     "pattern": "[a-z][a-z0-9-]{0,17}",
                     "argoQuery": {
-                      "selector": "Subclasses",
+                      "selector": "Insatnces Of",
                       "where": {
                         "classId": "menus"
                       },
@@ -1093,7 +835,7 @@
         "title": "Initial Query",
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "queries"
           },
@@ -1127,8 +869,19 @@
       "properties": {
         "properties": {},
         "title": "Properties",
-        "type": "object",
-        "additionalProperties": false
+        "type": "object"
+      },
+      "nodesPageId": {
+        "description": "FIX what should the argoQuery be?",
+        "type": "string"
+      },
+      "type": {
+        "description": "FIX what do we need this for?",
+        "type": "string"
+      },
+      "query": {
+        "description": "FIX what do we need this for?",
+        "type": "string"
       }
     },
     "type": "object",
@@ -1146,15 +899,14 @@
           "Where Clause",
           "Context Object",
           "Subclasses",
-          "Owned Accounts"
+          "Insatnces Of"
         ],
         "title": "Selector",
         "type": "string"
       },
       "where": {
         "title": "Where Index Equals",
-        "type": "object",
-        "additionalProperties": false
+        "type": "object"
       },
       "idsArrayPath": {
         "title": "Ids Array Path",
@@ -1202,7 +954,7 @@
         "items": {
           "pattern": "[a-z][a-z0-9-]{0,17}",
           "argoQuery": {
-            "selector": "Subclasses",
+            "selector": "Insatnces Of",
             "where": {
               "classId": "queries"
             },
@@ -1220,7 +972,7 @@
       "pageId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "pages"
           },
@@ -1255,7 +1007,7 @@
       "subParagraphIds": {
         "items": {
           "argoQuery": {
-            "selector": "Subclasses",
+            "selector": "Insatnces Of",
             "where": {
               "classId": "paragraphs"
             },
@@ -1294,7 +1046,7 @@
             "pageId": {
               "pattern": "[a-z][a-z0-9-]{0,17}",
               "argoQuery": {
-                "selector": "Subclasses",
+                "selector": "Insatnces Of",
                 "where": {
                   "classId": "pages"
                 },
@@ -1310,7 +1062,7 @@
             "nextLevelSelectedObjId": {
               "pattern": "[a-z][a-z0-9-]{0,17}",
               "argoQuery": {
-                "selector": "Subclasses",
+                "selector": "Insatnces Of",
                 "where": {
                   "classId": "accounts"
                 },
@@ -1343,7 +1095,7 @@
                   "pageId": {
                     "pattern": "[a-z][a-z0-9-]{0,17}",
                     "argoQuery": {
-                      "selector": "Subclasses",
+                      "selector": "Insatnces Of",
                       "where": {
                         "classId": "pages"
                       },
@@ -1359,7 +1111,7 @@
                   "nextLevelSelectedObjId": {
                     "pattern": "[a-z][a-z0-9-]{0,17}",
                     "argoQuery": {
-                      "selector": "Subclasses",
+                      "selector": "Insatnces Of",
                       "where": {
                         "classId": "accounts"
                       },
@@ -1392,7 +1144,7 @@
                         "pageId": {
                           "pattern": "[a-z][a-z0-9-]{0,17}",
                           "argoQuery": {
-                            "selector": "Subclasses",
+                            "selector": "Insatnces Of",
                             "where": {
                               "classId": "pages"
                             },
@@ -1408,7 +1160,7 @@
                         "nextLevelSelectedObjId": {
                           "pattern": "[a-z][a-z0-9-]{0,17}",
                           "argoQuery": {
-                            "selector": "Subclasses",
+                            "selector": "Insatnces Of",
                             "where": {
                               "classId": "accounts"
                             },
@@ -1523,7 +1275,7 @@
             "stepId": {
               "pattern": "[a-z][a-z0-9-]{0,17}",
               "argoQuery": {
-                "selector": "Subclasses",
+                "selector": "Insatnces Of",
                 "where": {
                   "classId": "steps"
                 },
@@ -1765,7 +1517,7 @@
       "deligateProcessId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "processes"
           },
@@ -1864,7 +1616,7 @@
       "authorizedOrgUnitId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
-          "selector": "Subclasses",
+          "selector": "Insatnces Of",
           "where": {
             "classId": "org-units"
           },

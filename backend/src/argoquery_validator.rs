@@ -8,6 +8,7 @@ use serde_json::{Map, Value};
 
 // Step 1: Implement the Keyword trait
 struct ArgoQueryValidator {
+    selector_str: String,
     class_id_ac: AccountNumber,
 }
 
@@ -17,7 +18,6 @@ impl Keyword for ArgoQueryValidator {
         instance: &'instance Value,
         location: &LazyLocation,
     ) -> Result<(), ValidationError<'instance>> {
-        write_console(&format!("instance:\n{:#?}", instance));
         write_console(&format!("instance:\n{:#?}", instance));
         write_console(&format!("classId: {:?}", &self.class_id_ac));
 
@@ -30,26 +30,52 @@ impl Keyword for ArgoQueryValidator {
             // The classId must be a valid AccounNumber
             let ac_res = AccountNumber::from_exact(&assoc_str);
             if let Ok(assoc_ac) = ac_res {
-                // The associated object must exist
-                let object_opt = ObjectsTable::new().get_index_pk().get(&assoc_ac);
-                if let Some(object) = object_opt {
-                    if is_a(object.class_id, self.class_id_ac) {
-                        Ok(())
-                    } else {
-                        Err(ValidationError::custom(
+                if self.selector_str == "Instance Of" {
+                    // The associated object must exist
+                    let object_opt = ObjectsTable::new().get_index_pk().get(&assoc_ac);
+                    if let Some(object) = object_opt {
+                        if is_a(object.class_id, self.class_id_ac) {
+                            Ok(())
+                        } else {
+                            Err(ValidationError::custom(
                             Location::new(),
                             location.into(),
                             instance,
                             &format!("The associated object is not of type: {}, as required by the argoQuery",self.class_id_ac.to_string())
                         ))
+                        }
+                    } else {
+                        Err(ValidationError::custom(
+                            Location::new(),
+                            location.into(),
+                            instance,
+                            "The associated object cannot be found",
+                        ))
+                    }
+                } else if self.selector_str == "Subclasses" {
+                    // The associated class must exist
+                    let class_opt = ClassesTable::new().get_index_pk().get(&assoc_ac);
+                    if let Some(class) = class_opt {
+                        if is_a(class.key, self.class_id_ac) {
+                            Ok(())
+                        } else {
+                            Err(ValidationError::custom(
+                            Location::new(),
+                            location.into(),
+                            instance,
+                            &format!("The associated class is not a subclass of: {}, as required by the argoQuery",self.class_id_ac.to_string())
+                        ))
+                        }
+                    } else {
+                        Err(ValidationError::custom(
+                            Location::new(),
+                            location.into(),
+                            instance,
+                            "The associated class cannot be found",
+                        ))
                     }
                 } else {
-                    Err(ValidationError::custom(
-                        Location::new(),
-                        location.into(),
-                        instance,
-                        "The associated object cannot be found",
-                    ))
+                    Ok(())
                 }
             } else {
                 Err(ValidationError::custom(
@@ -105,7 +131,7 @@ pub fn argo_query_validator_factory<'a>(
     /*
     Validate the schema:
     - An argoQuery must have selector
-    - If selector is Where Clause or Subclasses, there must be a where clause
+    - If selector is Insatnces Of or Subclasses, there must be a where clause
     - The index name must be classId (for now),
     - The classId must be a valid AccounNumber
     - The class must exist
@@ -115,7 +141,7 @@ pub fn argo_query_validator_factory<'a>(
     let selector_opt = value["selector"].as_str();
     if let Some(selector_str) = selector_opt {
         // If selector is Where Clause or Subclasses, there must be a where clause
-        if selector_str == "Where Clause" || selector_str == "Subclasses" {
+        if selector_str == "Insatnces Of" || selector_str == "Subclasses" {
             let where_opt = value["where"].as_object();
             if let Some(where_obj) = where_opt {
                 // The index name must be classId (for now)
@@ -131,7 +157,8 @@ pub fn argo_query_validator_factory<'a>(
                             if let Some(_) = row_opt {
                                 // We pass the classId to ArgoQueryValidator
                                 let res = Box::new(ArgoQueryValidator {
-                                    class_id_ac: class_id_ac,
+                                    selector_str: selector_str.to_owned(),
+                                    class_id_ac,
                                 });
                                 Ok(res)
                             } else {
@@ -177,6 +204,7 @@ pub fn argo_query_validator_factory<'a>(
         } else {
             // selector is Context Object. Dont do anything
             let res = Box::new(ArgoQueryValidator {
+                selector_str: selector_str.to_owned(),
                 class_id_ac: AccountNumber::from(0),
             });
             Ok(res)

@@ -5,8 +5,8 @@
     "description": "Message Proposition",
     "classId": "purchase-prop",
     "ownerId": "bikeshop",
-    "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2025-08-10T14:49:54.500",
+    "startDate": "2019-08-10T14:49:54+00:00",
+    "endDate": "2025-08-10T14:49:54+00:00",
     "processId": "manainoshs",
     "assetIds": []
   },
@@ -16,8 +16,8 @@
     "description": "Purchase Proposition",
     "classId": "purchase-prop",
     "ownerId": "bikeshop",
-    "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2025-08-10T14:49:54.500",
+    "startDate": "2019-08-10T14:49:54+00:00",
+    "endDate": "2025-08-10T14:49:54+00:00",
     "processId": "maynexperg",
     "subprocessId": "cheldanecibem",
     "assetIds": [
@@ -32,8 +32,8 @@
     "description": "Rental Proposition",
     "classId": "rental-prop",
     "ownerId": "bikeshop",
-    "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2025-08-10T14:49:54.500",
+    "startDate": "2019-08-10T14:49:54+00:00",
+    "endDate": "2025-08-10T14:49:54+00:00",
     "processId": "thl00068",
     "subprocessId": "makherkargs",
     "assetIds": [
@@ -48,8 +48,8 @@
     "description": "Repair Proposition",
     "classId": "repair-prop",
     "ownerId": "bikeshop",
-    "startDate": "2019-08-10T14:49:54.500",
-    "endDate": "2025-08-10T14:49:54.500",
+    "startDate": "2019-08-10T14:49:54+00:00",
+    "endDate": "2025-08-10T14:49:54+00:00",
     "processId": "heicaqure98",
     "subprocessId": "usrsisquk115",
     "assetIds": []
@@ -58,467 +58,68 @@
     "key": "platoscave",
     "name": "platoscave",
     "icon": "platoscave.png",
-    "classId": "users",
-    "account_name": "platoscave",
-    "head_block_num": 73306938,
-    "head_block_time": "2019-08-10T14:49:54.500",
-    "privileged": false,
-    "last_code_update": "1970-01-01T00:00:00.000",
-    "created": "2018-06-17T11:58:51.500",
-    "core_liquid_balance": "1.9920 EOS",
-    "ram_quota": 5378,
-    "net_weight": 21000,
-    "cpu_weight": 21000,
-    "net_limit": {
-      "used": 145,
-      "available": 1888827,
-      "max": 1888972
-    },
-    "cpu_limit": {
-      "used": 275,
-      "available": 337191,
-      "max": 337466
-    },
-    "ram_usage": 3822,
-    "permissions": [
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7iDk4oo8MKkhMPAtNf2ut6mYrHJor2qQ6eK5trcxBjJXmv6Mwe",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ],
-    "total_resources": {
-      "owner": "platoscave",
-      "net_weight": "2.1000 EOS",
-      "cpu_weight": "2.1000 EOS",
-      "ram_bytes": 3978
-    },
-    "self_delegated_bandwidth": {
-      "from": "platoscave",
-      "to": "platoscave",
-      "net_weight": "2.0000 EOS",
-      "cpu_weight": "2.0000 EOS"
-    },
-    "refund_request": null,
-    "voter_info": {
-      "owner": "platoscave",
-      "proxy": "",
-      "producers": [
-        "cypherglasss"
-      ],
-      "staked": 40000,
-      "last_vote_weight": "27745957383.52319717407226562",
-      "proxied_vote_weight": "0.00000000000000000",
-      "is_proxy": 0,
-      "flags1": 0,
-      "reserved2": 0,
-      "reserved3": "0 "
-    }
+    "classId": "users"
+
   },
   {
     "key": "demo-user-01",
     "name": "Mom",
     "classId": "users",
-    "icon": "Mom.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8fzzEVMqCdj8izdXPnVzyBjJFqGK3mahR36v8x54eofraHxgW7",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "Mom.jpg"
   },
   {
     "key": "demo-user-02",
     "name": "Pop",
     "classId": "users",
-    "icon": "Pop.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7AfgnCaRAFQFWSYe6AD4jz5Gk1gy5VHzoSuFNHCq8BbMgzQDg1",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "Pop.jpg"
   },
   {
     "key": "demo-user-03",
     "name": "Assistant",
     "classId": "users",
-    "icon": "Assistant.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS6pwMQ7cShSSdoyVHecfeNE5hxJE6wiRsCxSoDNVm9Hc52VSajt",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "Assistant.jpg"
   },
   {
     "key": "demo-user-04",
     "name": "Receptionist One",
     "classId": "users",
-    "icon": "ReceptionistOne.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8DjnakK6hF8Ba36W7QiMfQX1K57tvUgLgUhPJGPMU8vUNMeHUT",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "ReceptionistOne.jpg"
   },
   {
     "key": "demo-user-05",
     "name": "Nurse One",
     "classId": "users",
-    "icon": "NurseOne.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8T6e9S3FvQr3K44sSXVRarnrJNesCSggKDiJ9GXsGRzid3oS6o",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "NurseOne.jpg"
   },
   {
     "key": "demo-user-06",
     "name": "Nurse Two",
     "classId": "users",
-    "icon": "NurseTwo.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS4tynHhgMi13X1CPxZReTyQQhegkbZCimtmEEkET4nmX2TnNPG3",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "NurseTwo.jpg"
   },
   {
     "key": "demo-user-07",
     "name": "Physician One",
     "classId": "users",
-    "icon": "PhysicianOne.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS7bgCwFMJ3tu67YEeUg4za6AqjaLpgN1G8XYPMtekgQnmgePAyp",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "PhysicianOne.jpg"
   },
   {
     "key": "demo-user-08",
     "name": "Physician Two",
     "classId": "users",
-    "icon": "PhysicianTwo.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS8PmiVUbxdap1gcmQhCSpisBc2KL382nqXdywa7pE6pVhKGRngu",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "PhysicianTwo.jpg"
   },
   {
     "key": "demo-user-09",
     "name": "Consumer One",
     "classId": "users",
-    "icon": "ConsumerOne.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS5RjvwHAxcz22REydgm5RND4PgRivU9Sg3Sn133P9ci9GD3opnC",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "ConsumerOne.jpg"
   },
   {
     "key": "demo-user-10",
     "name": "Consumer Two",
     "classId": "users",
-    "icon": "ConsumerTwo.jpg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "keys": [
-            {
-              "key": "EOS55M49ULWoE5kY8EN27fU3RhCwvEBA2HPKd9YSC7ttRHWTr4W1s",
-              "weight": 1
-            }
-          ],
-          "accounts": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "ConsumerTwo.jpg"
   },
   {
     "key": "argonaut",
@@ -527,44 +128,6 @@
     "icon": "Argonaut.svg",
     "subParagraphIds": [
       "s1ialanewor"
-    ],
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "platoscave",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "platoscave",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
     ]
   },
   {
@@ -574,44 +137,6 @@
     "icon": "DEMOBicycleShop.svg",
     "subParagraphIds": [
       "paybundumagipi"
-    ],
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "argonaut",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "argonaut",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
     ]
   },
   {
@@ -619,310 +144,40 @@
     "name": "DEMO Clinic",
     "description": "",
     "classId": "non-profit",
-    "icon": "DEMOClinic.svg",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "argonaut",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "argonaut",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "icon": "DEMOClinic.svg"
   },
   {
     "key": "clinic-desk",
     "name": "Clinic Reception",
     "classId": "org-units",
-    "ownerId": "clinic",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "clinic",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "demo-user-04",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "ownerId": "clinic"
   },
   {
     "key": "clinic-consult",
     "name": "Clinic Consulting Room",
     "classId": "org-units",
-    "ownerId": "clinic",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "clinic",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "demo-user-06",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-10",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-05",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-06",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "ownerId": "clinic"
   },
   {
     "key": "withbap400",
     "name": "Messaging",
     "description": "",
     "classId": "org-units",
-    "ownerId": "argonaut",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "argonaut",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "platoscave",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "ownerId": "argonaut"
   },
   {
     "key": "bikeshop-desk",
     "name": "Shop Front Desk",
     "classId": "org-units",
     "icon": "ShopFrontDesk.svg",
-    "parentOrgId": "bikeshop",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "bikeshop",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "demo-user-01",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-02",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "parentOrgId": "bikeshop"
   },
   {
     "key": "bikeshop-shop",
     "name": "Shop Workshop",
     "classId": "org-units",
     "icon": "ShopWorkshop.svg",
-    "parentOrgId": "bikeshop",
-    "permissions": [
-      {
-        "perm_name": "owner",
-        "parent": "",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "bikeshop",
-                "permission": "owner"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      },
-      {
-        "perm_name": "active",
-        "parent": "owner",
-        "required_auth": {
-          "threshold": 1,
-          "accounts": [
-            {
-              "permission": {
-                "actor": "demo-user-01",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-02",
-                "permission": "active"
-              },
-              "weight": 1
-            },
-            {
-              "permission": {
-                "actor": "demo-user-03",
-                "permission": "active"
-              },
-              "weight": 1
-            }
-          ],
-          "keys": [],
-          "waits": []
-        }
-      }
-    ]
+    "parentOrgId": "bikeshop"
   },
   {
     "key": "manainoshs",
@@ -1708,8 +963,7 @@
         "widgets": [
           {
             "widgetType": "Schema Table",
-            "name": "Members Table",
-            "XviewId": ""
+            "name": "Members Table"
           }
         ]
       }
@@ -2759,7 +2013,7 @@
     "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "stapomerna",
-    "propositionId": "coutrcules",
+    "propositionId": "",
     "currentStepId": "latiprine"
   },
   {
@@ -2801,7 +2055,7 @@
     "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "",
-    "propositionId": "spalastsensynen",
+    "propositionId": "write_console(&format!(",
     "currentStepId": "truym12428"
   },
   {
