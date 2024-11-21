@@ -896,10 +896,11 @@
     "properties": {
       "selector": {
         "enum": [
-          "Where Clause",
           "Context Object",
+          "Insatnces Of",
+          "Owned Accounts",
           "Subclasses",
-          "Insatnces Of"
+          "Where Clause"
         ],
         "title": "Selector",
         "type": "string"
@@ -969,7 +970,7 @@
         "title": "Sub-Queries",
         "type": "array"
       },
-      "pageId": {
+      "nodesPageId": {
         "pattern": "[a-z][a-z0-9-]{0,17}",
         "argoQuery": {
           "selector": "Insatnces Of",
