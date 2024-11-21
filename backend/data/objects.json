@@ -1775,7 +1775,6 @@
       {
         "name": "Modeling",
         "icon": "menu-modeling",
-        "pageId": "",
         "menuArr": [
           {
             "name": "Process Universe",
@@ -1878,41 +1877,35 @@
                 "pageId": "baitlothh079"
               },
               {
-                "name": "Comprehensive Income",
-                "pageId": ""
+                "name": "Comprehensive Income"
               },
               {
                 "name": "Balance Sheet",
                 "pageId": "thilarto"
               },
               {
-                "name": "Stockholders' Equity",
-                "pageId": ""
+                "name": "Stockholders' Equity"
               },
               {
                 "name": "Cash Flows",
                 "pageId": "psvoigizy"
               },
               {
-                "name": "Notes to Financial Statements",
-                "pageId": ""
+                "name": "Notes to Financial Statements"
               }
             ]
           },
           {
-            "name": "Managerial",
-            "pageId": ""
+            "name": "Managerial"
           },
           {
-            "name": "Income Taxes",
-            "pageId": ""
+            "name": "Income Taxes"
           }
         ]
       },
       {
         "name": "Modeling",
         "icon": "Modeling.svg",
-        "pageId": "",
         "menuArr": [
           {
             "name": "Process Universe Model",
@@ -2013,7 +2006,6 @@
     "consumerId": "demo-user-09",
     "providerId": "bikeshop",
     "assetId": "stapomerna",
-    "propositionId": "",
     "currentStepId": "latiprine"
   },
   {
@@ -2041,7 +2033,6 @@
     "expirationDate": "2025-05-10",
     "consumerId": "demo-user-09",
     "providerId": "bikeshop",
-    "assetId": "",
     "propositionId": "emcanrnewamy",
     "currentStepId": "jondcobavon"
   },
@@ -2054,54 +2045,59 @@
     "expirationDate": "2025-05-10",
     "consumerId": "demo-user-09",
     "providerId": "bikeshop",
-    "assetId": "",
-    "propositionId": "write_console(&format!(",
+    "propositionId": "spalastsensynen",
     "currentStepId": "truym12428"
   },
   {
     "key": "stapomerna",
-    "title": "Blue Bike For Sale",
+    "name": "Blue Bike For Sale",
     "classId": "inventory",
+    "ownerId": "bikeshop",
     "icon": "BlueBike.svg",
     "value": 120.23,
     "currency": "EUR"
   },
   {
     "key": "iggusthracang",
-    "title": "Red Bike For Sale",
+    "name": "Red Bike For Sale",
     "classId": "inventory",
+    "ownerId": "bikeshop",
     "icon": "RedBike.svg",
     "value": 130.25,
     "currency": "EUR"
   },
   {
     "key": "spallllinve",
-    "title": "Green Bike For Sale",
+    "name": "Green Bike For Sale",
     "classId": "inventory",
+    "ownerId": "bikeshop",
     "icon": "GreenBike.svg",
     "value": 150.89,
     "currency": "EUR"
   },
   {
     "key": "blkdghf1",
-    "title": "Blue Bike For Rent",
+    "name": "Blue Bike For Rent",
     "classId": "for-sale",
+    "ownerId": "bikeshop",
     "icon": "BlueBike.svg",
     "value": 120.23,
     "currency": "EUR"
   },
   {
     "key": "vears14fourma",
-    "title": "Red Bike For Rent",
+    "name": "Red Bike For Rent",
     "classId": "for-sale",
+    "ownerId": "bikeshop",
     "icon": "RedBike.svg",
     "value": 130.56,
     "currency": "EUR"
   },
   {
     "key": "gtyurarthe",
-    "title": "Green Bike For Rent",
+    "name": "Green Bike For Rent",
     "classId": "for-sale",
+    "ownerId": "bikeshop",
     "icon": "GreenBike.svg",
     "value": 150.89,
     "currency": "EUR"

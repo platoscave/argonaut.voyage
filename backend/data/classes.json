@@ -318,14 +318,16 @@
   {
     "key": "org-units",
     "title": "Organizational Units",
-    "description": "NEEDS FIXING Organizational units owned by organizations",
+    "description": "Organizational units owned by organizations",
     "classIcon": "OrganizationalUnits.svg",
     "superClassId": "accounts",
     "properties": {
       "ownerId": {
+        "description": "FIXME Organizational units owned by organizations?",
         "type": "string"
       },
       "parentOrgId": {
+        "description": "FIXME Add argoQuery",
         "type": "string"
       }
     },
@@ -872,15 +874,15 @@
         "type": "object"
       },
       "nodesPageId": {
-        "description": "FIX what should the argoQuery be?",
+        "description": "FIXME what should the argoQuery be?",
         "type": "string"
       },
       "type": {
-        "description": "FIX what do we need this for?",
+        "description": "FIXME what do we need this for?",
         "type": "string"
       },
       "query": {
-        "description": "FIX what do we need this for?",
+        "description": "FIXME what do we need this for?",
         "type": "string"
       }
     },
@@ -1197,6 +1199,10 @@
               "title": "Menu Items",
               "additionalItems": true,
               "type": "array"
+            },
+            "argoQuery": {
+              "description": "FIXME describe the argoQuery",
+              "type": "object"
             }
           },
           "type": "object",
