@@ -55,7 +55,7 @@ const loadNode = async (node, resolve) => {
       }
       resolve([]);
     }
-  } catch (err) {
+  } catch (err: any) {
     ElMessage({
       showClose: true,
       message: err.message,

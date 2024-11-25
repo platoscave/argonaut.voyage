@@ -308,7 +308,7 @@ onMounted(async () => {
     drawUnitToUserConnectors(rootOrgObj3d);
 
     loadingText();
-  } catch (err) {
+  } catch (err: any) {
     loadingText("");
     loadingText("Error :-(");
     ElMessage({

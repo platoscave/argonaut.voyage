@@ -1,13 +1,14 @@
 #![allow(non_snake_case)]
+mod argoquery_validator;
 mod classes;
 mod http_request;
 mod next_step;
 mod objects;
 mod utils;
-mod argoquery_validator;
 
 #[psibase::service]
 mod service {
+    use async_graphql::connection::Connection;
     use async_graphql::*;
     use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
@@ -46,19 +47,19 @@ mod service {
         }
     }
     #[action]
-    pub fn test() {
-
-    }
+    pub fn test() {}
 
     #[action]
     pub fn nextstep(agreementId: String, updatedProps: String) {
         // crate::next_step::next_step(&agreementId, &updatedProps);
 
-        Wrapper::emit().history().step(agreementId, updatedProps);
+        Wrapper::emit()
+            .history()
+            .nextstep(agreementId, updatedProps);
     }
 
     #[event(history)]
-    pub fn step(agreementId: String, updatedProps: String) {}
+    pub fn nextstep(agreementId: String, updatedProps: String) {}
 
     #[action]
     pub fn upsert(payload: String) {
@@ -95,16 +96,16 @@ mod service {
             }
         }
 
-        Wrapper::emit().history().upserted(payload);
+        Wrapper::emit().history().upsert(payload);
     }
 
     #[event(history)]
-    pub fn upserted(payload: String) {}
+    pub fn upsert(payload: String) {}
 
     struct Query;
     #[Object]
     impl Query {
-        // Get the first n classes
+        // get the first n classes
         async fn getClasses(&self, n: u32) -> Vec<ClassRow> {
             ClassesTable::new()
                 .get_index_pk()
@@ -113,7 +114,7 @@ mod service {
                 .collect()
         }
 
-        // Get the first n objects
+        // get the first n objects
         async fn getObjects(&self, n: u32) -> Vec<ObjectRow> {
             ObjectsTable::new()
                 .get_index_pk()
@@ -122,26 +123,76 @@ mod service {
                 .collect()
         }
 
+        // objectByKey(key)
+        async fn objectByKey(&self, key: AccountNumber) -> ObjectRow {
+            ObjectsTable::new().get_index_pk().get(&key).unwrap()
+        }
+
+        // classByKey(key)
+        async fn classByKey(&self, key: AccountNumber) -> ClassRow {
+            ClassesTable::new().get_index_pk().get(&key).unwrap()
+        }
+
+        // objectsByClassId(classId)
+        async fn objectsByClassId(&self, classId: AccountNumber) -> Vec<ObjectRow> {
+            let index = ObjectsTable::new().get_index_by_class_id();
+            index.iter().filter(|row| row.class_id == classId).collect()
+        }
+
+        // classesBySuperclassId(superclassId)
+        async fn classesBySuperclassId(&self, superclassId: AccountNumber) -> Vec<ClassRow> {
+            let index = ClassesTable::new().get_index_by_superclass_id();
+            index
+                .iter()
+                .filter(|row| row.superclass_id == superclassId)
+                .collect()
+        }
+
+        // instancesByClassId(classId, [ownerIds])
+        async fn instancesByClassId(&self, classId: AccountNumber) -> Vec<ObjectRow> {
+            // result array
+            let mut res_vec = Vec::new();
+            // recursivly collect subclasses into the result array
+            collect_subclasses(classId, &mut res_vec);
+            // extract classIds
+            let class_ids_vec: Vec<AccountNumber> = res_vec.iter().map(|row| row.key).collect();
+            // collect objects that have a class_id contained in class_ids_vec
+            let index = ObjectsTable::new().get_index_by_class_id();
+            index.iter().filter(|row| class_ids_vec.contains(&row.class_id)).collect()
+        }
+
+        // subclassesByClassId(classId)
+        async fn subclassesByClassId(&self, classId: AccountNumber) -> Vec<ClassRow> {
+            // result array
+            let mut res_vec = Vec::new();
+            // recursivly collect subclasses into the result array
+            collect_subclasses(classId, &mut res_vec);
+            // return it
+            res_vec
+        }
+
+        // byQueryIds([queryIds])
+
         async fn event(&self, id: u64) -> Result<event_structs::HistoryEvents, anyhow::Error> {
             get_event(id)
         }
-        /*
-        async fn classes(
-            &self,
-            first: Option<i32>,
-            last: Option<i32>,
-            before: Option<String>,
-            after: Option<String>,
-        ) -> async_graphql::Result<Connection<RawKey, ClassRow>> {
-            TableQuery::new(ClassesTable::new().get_index_pk())
-                .first(first)
-                .last(last)
-                .before(before)
-                .after(after)
-                .query()
-                .await
+    }
+
+    // recusive helper to collect subclasses
+    fn collect_subclasses(class_id: AccountNumber, res_vec: &mut Vec<ClassRow>) {
+        // get the class and add it to the result array
+        res_vec.push(ClassesTable::new().get_index_pk().get(&class_id).unwrap());
+
+        let index = ClassesTable::new().get_index_by_superclass_id();
+        // collect all the classes that have us as superclass_id
+        let subclasses: Vec<ClassRow> = index
+            .iter()
+            .filter(|row| row.superclass_id == class_id)
+            .collect();
+        // for each of the subclasses, call ourselves
+        for subclass in subclasses {
+            collect_subclasses(subclass.key, res_vec)
         }
-        */
     }
 
     #[action]
@@ -161,7 +212,7 @@ mod service {
     use rand::prelude::*;
     use rand_chacha::rand_core::SeedableRng;
     #[action]
-    fn randomKey(seed: u64) {
+    fn randomKeys(seed: u64) {
         let mut rng = SmallRng::seed_from_u64(seed);
         let mut count = 1;
         while count < 50 {

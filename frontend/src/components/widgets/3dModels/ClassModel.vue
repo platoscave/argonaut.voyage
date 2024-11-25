@@ -76,7 +76,7 @@ onMounted(async () => {
   try {
     await drawClasses();
     loadingText();
-  } catch (err) {
+  } catch (err: any) {
     loadingText();
     ElMessage({
       showClose: true,

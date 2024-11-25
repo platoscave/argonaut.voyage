@@ -49,7 +49,7 @@ const updateCurrentUser = async (currentUserId: string) => {
 const saveChanges = async () => {
   try {
     ElMessage.success("Updates sent to EOS")
-  } catch (err) {
+  } catch (err: any) {
     ElMessage({
       showClose: true,
       message: err.message,
@@ -64,7 +64,7 @@ const cancelChanges = async () => {
   try {
     //await EosServices.cancelChanges();
     ElMessage.success("Changes Undone")
-  } catch (err) {
+  } catch (err: any) {
     ElMessage({
       showClose: true,
       message: err.message,
@@ -86,7 +86,7 @@ onMounted(async () => {
       await db.reloadFromStatic()
       location.reload();
       ElMessage.success("Static File Loaded and Imported");
-    } catch (err) {
+    } catch (err: any) {
       ElMessage({
         showClose: true,
         message: err.message,

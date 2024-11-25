@@ -22,7 +22,7 @@ const reloadFromStatic = async () => {
         await db.reloadFromStatic()
         location.reload();
         ElMessage.success("Static File Loaded and Imported");
-    } catch (err) {
+    } catch (err: any) {
         ElMessage({
             showClose: true,
             message: err.message,
@@ -32,6 +32,35 @@ const reloadFromStatic = async () => {
         console.error(err);
     }
 };
+
+const reloadFromPsibase = async () => {
+    try {
+        const classesUrl = "http://argonaut.psibase.127.0.0.1.sslip.io:8080/classes/1000";
+        let response = await fetch(classesUrl);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const classes = await response.json();
+
+        const objectsUrl = "http://argonaut.psibase.127.0.0.1.sslip.io:8080/xobjects/1000";
+        response = await fetch(objectsUrl);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const objects = await response.json();
+
+        let total = Object.assign(classes, objects)
+        console.log(total);
+    } catch (err: any) {
+        ElMessage({
+            showClose: true,
+            message: err.message,
+            type: "error",
+            duration: 5000,
+        });
+        console.error(err);
+    }
+}
 
 const staticToPsibase = () => {
     let res = PsibaseApiService.staticToPsibase();
@@ -73,7 +102,7 @@ const cacheToPsibase = async () => {
 const eraseAllPsibase = async () => {
     try {
         ElMessage.success("Psibase documents table erased");
-    } catch (err) {
+    } catch (err: any) {
         ElMessage({
             showClose: true,
             message: err.message,
@@ -87,7 +116,7 @@ const eraseAllPsibase = async () => {
 const testPsibase = async () => {
     try {
         ElMessage.success("Test function called");
-    } catch (err) {
+    } catch (err: any) {
         ElMessage({
             showClose: true,
             message: err.message,
@@ -236,6 +265,17 @@ const testQuery = async () => {
                 @click="reloadFromStatic"
             >
                 Poputate Cache From Static
+            </ElButton>
+        </ElRow> 
+
+        <ElRow>
+            <ElButton
+                type="primary"
+                :dark="isDark"
+                plain
+                @click="reloadFromPsibase"
+            >
+                Poputate Cache From Psibase
             </ElButton>
         </ElRow>
 
