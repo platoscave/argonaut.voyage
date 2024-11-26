@@ -123,33 +123,38 @@ mod service {
                 .collect()
         }
 
-        // objectByKey(key)
-        async fn objectByKey(&self, key: AccountNumber) -> ObjectRow {
-            ObjectsTable::new().get_index_pk().get(&key).unwrap()
+
+
+
+
+
+        // object(objectId)
+        async fn object(&self, objectId: AccountNumber) -> ObjectRow {
+            ObjectsTable::new().get_index_pk().get(&objectId).unwrap()
         }
 
-        // classByKey(key)
-        async fn classByKey(&self, key: AccountNumber) -> ClassRow {
-            ClassesTable::new().get_index_pk().get(&key).unwrap()
+        // class(classId)
+        async fn class(&self, classId: AccountNumber) -> ClassRow {
+            ClassesTable::new().get_index_pk().get(&classId).unwrap()
         }
 
-        // objectsByClassId(classId)
-        async fn objectsByClassId(&self, classId: AccountNumber) -> Vec<ObjectRow> {
+        // objectsOf(classId)
+        async fn objectsOf(&self, classId: AccountNumber) -> Vec<ObjectRow> {
             let index = ObjectsTable::new().get_index_by_class_id();
             index.iter().filter(|row| row.class_id == classId).collect()
         }
 
-        // classesBySuperclassId(superclassId)
-        async fn classesBySuperclassId(&self, superclassId: AccountNumber) -> Vec<ClassRow> {
+        // subclassesOf(classId)
+        async fn subclassesOf(&self, classId: AccountNumber) -> Vec<ClassRow> {
             let index = ClassesTable::new().get_index_by_superclass_id();
             index
                 .iter()
-                .filter(|row| row.superclass_id == superclassId)
+                .filter(|row| row.superclass_id == classId)
                 .collect()
         }
 
-        // instancesByClassId(classId, [ownerIds])
-        async fn instancesByClassId(&self, classId: AccountNumber) -> Vec<ObjectRow> {
+        // instancesOf(classId, [ownerIds])
+        async fn instancesOf(&self, classId: AccountNumber) -> Vec<ObjectRow> {
             // result array
             let mut res_vec = Vec::new();
             // recursivly collect subclasses into the result array
@@ -161,8 +166,8 @@ mod service {
             index.iter().filter(|row| class_ids_vec.contains(&row.class_id)).collect()
         }
 
-        // subclassesByClassId(classId)
-        async fn subclassesByClassId(&self, classId: AccountNumber) -> Vec<ClassRow> {
+        // descendantsOf(classId)
+        async fn descendantsOf(&self, classId: AccountNumber) -> Vec<ClassRow> {
             // result array
             let mut res_vec = Vec::new();
             // recursivly collect subclasses into the result array
