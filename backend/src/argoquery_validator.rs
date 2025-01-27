@@ -90,7 +90,7 @@ impl Keyword for ArgoQueryValidator {
                 Location::new(),
                 location.into(),
                 instance,
-                "The association must be a string",
+                "The association id must be a string",
             ))
         }
     }

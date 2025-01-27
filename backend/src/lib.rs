@@ -8,7 +8,7 @@ mod utils;
 
 #[psibase::service]
 mod service {
-    use async_graphql::connection::Connection;
+    // use async_graphql::connection::Connection;
     use async_graphql::*;
     use psibase::{AccountNumber, *};
     use serde::{Deserialize, Serialize};
@@ -105,7 +105,9 @@ mod service {
     struct Query;
     #[Object]
     impl Query {
-        // get the first n classes
+        /// Classes
+        ///
+        /// Get the first n classes
         async fn getClasses(&self, n: u32) -> Vec<ClassRow> {
             ClassesTable::new()
                 .get_index_pk()
@@ -114,7 +116,9 @@ mod service {
                 .collect()
         }
 
-        // get the first n objects
+        /// Objects
+        ///
+        /// Get the first n objects
         async fn getObjects(&self, n: u32) -> Vec<ObjectRow> {
             ObjectsTable::new()
                 .get_index_pk()
@@ -123,29 +127,35 @@ mod service {
                 .collect()
         }
 
-
-
-
-
-
-        // object(objectId)
-        async fn object(&self, objectId: AccountNumber) -> ObjectRow {
-            ObjectsTable::new().get_index_pk().get(&objectId).unwrap()
+        /// Object
+        ///
+        /// Get an object by it's id
+        async fn objectById(&self, objectId: AccountNumber) -> Option<ObjectRow> {
+            ObjectsTable::new().get_index_pk().get(&objectId)
         }
 
-        // class(classId)
-        async fn class(&self, classId: AccountNumber) -> ClassRow {
-            ClassesTable::new().get_index_pk().get(&classId).unwrap()
+        /// Class
+        ///
+        /// Get a class by it's id
+        async fn classById(&self, classId: AccountNumber) -> Option<ClassRow> {
+            ClassesTable::new().get_index_pk().get(&classId)
         }
 
-        // objectsOf(classId)
-        async fn objectsOf(&self, classId: AccountNumber) -> Vec<ObjectRow> {
+        /// Objects
+        ///
+        /// Get objects by their classId
+        /// TODO array of accountNumbers
+        async fn objectsByClassId(&self, classId: AccountNumber) -> Vec<ObjectRow> {
             let index = ObjectsTable::new().get_index_by_class_id();
+            // TODO should be using range
+            //&index.range((classId, 0)..(classId, 99)).collect::<Vec<ObjectRow>>();
             index.iter().filter(|row| row.class_id == classId).collect()
         }
 
-        // subclassesOf(classId)
-        async fn subclassesOf(&self, classId: AccountNumber) -> Vec<ClassRow> {
+        /// Classes
+        ///
+        /// Get classes by their superclassId
+        async fn classesBySuperclassId(&self, classId: AccountNumber) -> Vec<ClassRow> {
             let index = ClassesTable::new().get_index_by_superclass_id();
             index
                 .iter()
@@ -153,7 +163,9 @@ mod service {
                 .collect()
         }
 
-        // instancesOf(classId, [ownerIds])
+        /// Objects
+        ///
+        /// Get objects of type classId or one of it's descendants
         async fn instancesOf(&self, classId: AccountNumber) -> Vec<ObjectRow> {
             // result array
             let mut res_vec = Vec::new();
@@ -163,10 +175,15 @@ mod service {
             let class_ids_vec: Vec<AccountNumber> = res_vec.iter().map(|row| row.key).collect();
             // collect objects that have a class_id contained in class_ids_vec
             let index = ObjectsTable::new().get_index_by_class_id();
-            index.iter().filter(|row| class_ids_vec.contains(&row.class_id)).collect()
+            index
+                .iter()
+                .filter(|row| class_ids_vec.contains(&row.class_id))
+                .collect()
         }
 
-        // descendantsOf(classId)
+        /// Classes
+        ///
+        /// Get the class and all of it's descendants
         async fn descendantsOf(&self, classId: AccountNumber) -> Vec<ClassRow> {
             // result array
             let mut res_vec = Vec::new();
@@ -176,7 +193,24 @@ mod service {
             res_vec
         }
 
+        // TODO get anscetors
+
         // byQueryIds([queryIds])
+
+        /// Account name
+        ///
+        /// Generate valid account name, to be used as id.
+        /// The name will be at least 8 chars long and it will not contain a dash
+        /// Provide a random u64 seed, eg current time.
+        async fn validAccName(&self, mut seed: u64) -> AccountNumber {
+            loop {
+                let name = AccountNumber::new(seed);
+                if name.to_string().len() > 7 && !name.to_string().contains("-") {
+                    break name;
+                }
+                seed += 1;
+            }
+        }
 
         async fn event(&self, id: u64) -> Result<event_structs::HistoryEvents, anyhow::Error> {
             get_event(id)

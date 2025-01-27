@@ -9,7 +9,7 @@ edition = "2021"
 async-graphql = "7.0.11"
 json = "0.12.4"
 jsonschema = { version = "0.26.1", default-features = false }
-psibase = "0.13.0"
+psibase = "0.14.0"
 rand = { version = "0.8.5", features = ["small_rng"] }
 rand_chacha = "0.3.1"
 regex = "1.11.1"
